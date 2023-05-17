@@ -1,16 +1,35 @@
-# Project
+# Fluent UI contribution packages
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+This repository hosts packages that are published under the `@fluentui-contrib/` scope. Contributor packages
+are extensions of [Fluent UI](https://github.com/microsoft/fluentui). There are many reasons to create contributor
+packages some of which are:
 
-As the maintainer of this project, please make a few updates:
+* UI controls that are more specific than general primitives of a design system
+* Extensions of existing Fluent UI controls with more extra features
+* Incubator for upcoming Fluent UI core controls
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+## Contract
+
+Contribution packages enable Fluent UI contributors and other Microsoft partners
+use Fluent UI to create rich experiences that build on the design system, without
+the requirements of the design system getting in the way. We give the initiative
+to contributors to ship their packages with an API and support structure that makes
+sense to them.
+
+There are however a few housekeeping requirements that we impose on contribution packages:
+
+* README authoring - please author the README.md file for your package to be helpful to users
+* Documentation - each package should have documentation examples powered by Storybook
+* Issues - be a responsible maintainer and address user issues for your package
+
+Other than the basic housekeeping requirements, the contribution package sandbox for developers
+to build on. The Fluent UI team is happy to work with contributors if they need help and
+guidance.
 
 ## Contributing
+
+Please read the [CONTRIBUTING.md file](./CONTRIBUTING.md) for instructions on how to onboard to the repository and
+run basic tasks.
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us

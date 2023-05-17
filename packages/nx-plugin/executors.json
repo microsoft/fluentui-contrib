@@ -1,0 +1,14 @@
+{
+  "executors": {
+    "build": {
+      "implementation": "./src/executors/build/executor",
+      "schema": "./src/executors/build/schema.json",
+      "description": "build executor"
+    },
+    "type-check": {
+      "implementation": "./src/executors/type-check/executor",
+      "schema": "./src/executors/type-check/schema.json",
+      "description": "type-check executor"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "generators": {
+    "library": {
+      "factory": "./src/generators/library/generator",
+      "schema": "./src/generators/library/schema.json",
+      "description": "library generator"
+    },
+    "configure-storybook": {
+      "factory": "./src/generators/configure-storybook/generator",
+      "schema": "./src/generators/configure-storybook/schema.json",
+      "description": "configure-storybook generator"
+    },
+    "component": {
+      "factory": "./src/generators/component/generator",
+      "schema": "./src/generators/component/schema.json",
+      "description": "component generator"
+    }
+  }
+}
