@@ -9,6 +9,10 @@
     "test": "nx affected --target=test",
     "type-check": "nx affected --target=type-check"
   },
+  "repository": {
+    "url": "https://github.com/microsoft/fluentui-contrib",
+    "type": "git"
+  },
   "private": true,
   "dependencies": {
     "@nx/devkit": "16.1.4",
