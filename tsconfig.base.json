@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@fluentui-contrib/chat": ["packages/chat/src/index.ts"],
       "@fluentui-contrib/nx-plugin": ["packages/nx-plugin/src/index.ts"]
     }
   },
