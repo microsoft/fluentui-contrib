@@ -24,7 +24,6 @@ node -v
 v16.0.0
 ```
 
-
 This repo runs with Yarn v1, please install make sure to install it, since all other steps will assume
 that you have this dependency installed.
 
@@ -67,16 +66,34 @@ yarn nx generator component <name> <componentName>
 yarn nx storybook <name>
 ```
 
+### Contract
+
+Contribution packages enable Fluent UI contributors and other Microsoft partners
+use Fluent UI to create rich experiences that build on the design system, without
+the requirements of the design system getting in the way. We give the initiative
+to contributors to ship their packages with an API and support structure that makes
+sense to them.
+
+There are however a few housekeeping requirements that we impose on contribution packages:
+
+- README authoring - please author the README.md file for your package to be helpful to users
+- Documentation - each package should have documentation examples powered by Storybook
+- Issues - be a responsible maintainer and address user issues for your package
+
+Other than the basic housekeeping requirements, the contribution package sandbox for developers
+to build on. The Fluent UI team is happy to work with contributors if they need help and
+guidance.
+
 ## Common commands
 
 This repository runs as a [NX integrated monorepo](https://nx.dev/tutorials/integrated-repo-tutorial). We have configured common commands
 across all packages that is the baseline to be able to:
 
-* develop
-* test
-* document
-* build
-* publish
+- develop
+- test
+- document
+- build
+- publish
 
 all packages in the repo. All commands can be run from the root of the monorepo for any package. There should be no need to move
 around package folders to run commands.
@@ -112,6 +129,3 @@ Checks typescript usage and generates type files in the `dist/` folder in the mo
 ```sh
 yarn nx type-check <name>
 ```
-
-
-
