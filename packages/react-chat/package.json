@@ -1,4 +1,7 @@
 {
   "name": "@fluentui-contrib/react-chat",
-  "version": "0.1.1"
+  "version": "0.1.1",
+  "peerDependencies": {
+    "@fluentui/react-components": ">=9.20.0 <10.0.0"
+  }
 }
