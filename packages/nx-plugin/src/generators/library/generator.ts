@@ -51,6 +51,8 @@ export default async function (
   tree.delete(path.join(paths.src, 'lib'));
 
   updateJson(tree, paths.packageJson, (packageJson) => {
+    packageJson.type = undefined;
+
     packageJson.peerDependencies ??= {
       '@fluentui/react-components': '^9.0.0',
       '@types/react': '>=16.8.0 <19.0.0',

@@ -44,11 +44,6 @@ function copyReadme(paths: PackagePaths) {
 
 function copyPackageJson(paths: PackagePaths) {
   const packageJson = readJsonFile(paths.packageJson);
-  packageJson.types = './src/index.d.ts';
-  packageJson.main = './lib-commonjs/index.js';
-  packageJson.main = './lib/index.js';
-  packageJson.sideEffects = false;
-  packageJson.license = 'MIT';
   Object.assign(packageJson, {
     types: './src/index.d.ts',
     main: './lib-commonjs/index.js',
@@ -58,6 +53,15 @@ function copyPackageJson(paths: PackagePaths) {
     repository: {
       type: 'git',
       url: 'https://github.com/microsoft/fluentui-contrib',
+    },
+    exports: {
+      '.': {
+        types: './dist/index.d.ts',
+        node: './lib-commonjs/index.js',
+        import: './lib/index.js',
+        require: './lib-commonjs/index.js',
+      },
+      './package.json': './package.json',
     },
   });
   writeJsonFile(path.resolve(paths.dist, 'package.json'), packageJson);
