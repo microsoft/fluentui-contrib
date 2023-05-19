@@ -3,9 +3,9 @@
 This repository hosts packages that are published under the `@fluentui-contrib/` scope. Contributor packages
 are extensions of [Fluent UI](https://github.com/microsoft/fluentui).
 
-| Controls                                                                      | version | docs | NPM                    |
-| ----------------------------------------------------------------------------- | ------- | ---- | ---------------------- |
-| [Chat](https://github.com/microsoft/fluentui-contrib/tree/main/packages/chat) | TBD     | TBD  | @fluentui-contrib/chat |
+| Controls | README                                                                                             | NPM                                                                                                                                                       |
+| -------- | -------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Chat     | [README.md](https://github.com/microsoft/fluentui-contrib/blob/main/packages/react-chat/README.md) | [![npm version](https://img.shields.io/npm/v/@fluentui-contrib/react-chat?style=flat-square)](https://www.npmjs.com/package/@fluentui-contrib/react-chat) |
 
 ## [Contributing](./Contributing.md)
 
