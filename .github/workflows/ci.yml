@@ -21,7 +21,7 @@ jobs:
           cache: 'yarn'
           node-version: '16'
 
-      - run: yarn install --immutable
+      - run: yarn install --frozen-lockfile
       - run: yarn check-dependencies
 
       - run: yarn nx affected --target=lint --parallel --max-parallel=3
