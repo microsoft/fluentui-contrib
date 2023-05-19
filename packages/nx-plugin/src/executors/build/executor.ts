@@ -56,7 +56,6 @@ function copyPackageJson(paths: PackagePaths) {
       url: 'https://github.com/microsoft/fluentui-contrib',
     },
     dependencies: {
-      tslib: '^2.3.0',
       '@swc/helpers': '~0.5.1',
       ...packageJson.dependencies,
     },
