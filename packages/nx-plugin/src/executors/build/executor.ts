@@ -56,9 +56,17 @@ function copyPackageJson(paths: PackagePaths) {
       url: 'https://github.com/microsoft/fluentui-contrib',
     },
     dependencies: {
-      ...packageJson.dependencies,
       tslib: '^2.3.0',
       '@swc/helpers': '~0.5.1',
+      ...packageJson.dependencies,
+    },
+    peerDependencies: {
+      '@fluentui/react-components': '>=9.0.0 <10.0.0',
+      '@types/react': '>=16.8.0 <19.0.0',
+      '@types/react-dom': '>=16.8.0 <19.0.0',
+      react: '>=16.8.0 <19.0.0',
+      'react-dom': '>=16.8.0 <19.0.0',
+      ...packageJson.peerDependencies,
     },
     exports: {
       '.': {
