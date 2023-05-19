@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-chat",
   "entries": [
     {
+      "date": "Fri, 19 May 2023 11:02:29 GMT",
+      "tag": "@fluentui-contrib/react-chat_v0.1.2",
+      "version": "0.1.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "lingfangao@hotmail.com",
+            "package": "@fluentui-contrib/react-chat",
+            "commit": "e9a799b6c1905e0002ded1cee9ee2ceb09c1ea1e",
+            "comment": "fix: Add swc helper as depedency"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 19 May 2023 09:03:54 GMT",
       "tag": "@fluentui-contrib/react-chat_v0.1.1",
       "version": "0.1.1",
