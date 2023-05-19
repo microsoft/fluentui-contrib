@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-chat",
   "entries": [
     {
+      "date": "Fri, 19 May 2023 09:03:54 GMT",
+      "tag": "@fluentui-contrib/react-chat_v0.1.1",
+      "version": "0.1.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "lingfangao@hotmail.com",
+            "package": "@fluentui-contrib/react-chat",
+            "commit": "e2c3452033910d04656a058396972299dcdc909e",
+            "comment": "fix: Export components props"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 19 May 2023 08:42:14 GMT",
       "tag": "@fluentui-contrib/react-chat_v0.1.0",
       "version": "0.1.0",

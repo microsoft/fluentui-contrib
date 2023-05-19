@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: Export components props",
-  "packageName": "@fluentui-contrib/react-chat",
-  "email": "lingfangao@hotmail.com",
-  "dependentChangeType": "patch"
-}
