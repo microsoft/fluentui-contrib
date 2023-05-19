@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "feat: Initial release of react-chat",
-  "packageName": "@fluentui-contrib/react-chat",
-  "email": "lingfangao@hotmail.com",
-  "dependentChangeType": "patch"
-}
