@@ -2,10 +2,6 @@
   "name": "@fluentui-contrib/react-chat",
   "version": "0.1.1",
   "peerDependencies": {
-    "@fluentui/react-components": ">=9.0.0 <10.0.0",
-    "@types/react": ">=16.8.0 <19.0.0",
-    "@types/react-dom": ">=16.8.0 <19.0.0",
-    "react": ">=16.8.0 <19.0.0",
-    "react-dom": ">=16.8.0 <19.0.0"
+    "@fluentui/react-components": ">=9.20.0 <10.0.0"
   }
 }
