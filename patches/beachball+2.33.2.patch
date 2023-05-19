@@ -1,0 +1,27 @@
+diff --git a/node_modules/beachball/lib/packageManager/packagePublish.js b/node_modules/beachball/lib/packageManager/packagePublish.js
+index cf6dc8d..ac1e7af 100644
+--- a/node_modules/beachball/lib/packageManager/packagePublish.js
++++ b/node_modules/beachball/lib/packageManager/packagePublish.js
+@@ -10,6 +10,10 @@ function packagePublish(packageInfo, options) {
+     const { registry, token, authType, access, timeout } = options;
+     const packageOptions = packageInfo.combinedOptions;
+     const packagePath = path_1.default.dirname(packageInfo.packageJsonPath);
++
++    const packageDir = require('path').relative(packageInfo.combinedOptions.path, packagePath);
++    const artifactsPath = require('path').resolve(packageInfo.combinedOptions.path, 'dist', packageDir);
++
+     const args = [
+         'publish',
+         '--registry',
+@@ -24,8 +28,9 @@ function packagePublish(packageInfo, options) {
+         args.push('--access');
+         args.push(access);
+     }
++    console.log(`publish cwd ${artifactsPath}`)
+     console.log(`publish command: ${args.join(' ')}`);
+-    return npm_1.npmAsync(args, { cwd: packagePath, timeout, all: true });
++    return npm_1.npmAsync(args, { cwd: artifactsPath, timeout, all: true });
+ }
+ exports.packagePublish = packagePublish;
+ //# sourceMappingURL=packagePublish.js.map
+\ No newline at end of file

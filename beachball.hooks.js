@@ -1,3 +1,7 @@
+// @ts-check
+
+const childProcess = require('child_process');
+
 /**
  * @param {String} command
  *
