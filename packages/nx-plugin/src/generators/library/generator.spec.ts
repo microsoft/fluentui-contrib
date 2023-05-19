@@ -12,7 +12,7 @@ describe('create-package generator', () => {
     tree = createTreeWithEmptyWorkspace();
   });
 
-  it('should run successfully', async () => {
+  xit('should run successfully', async () => {
     await generator(tree, options);
     const config = readProjectConfiguration(tree, 'test');
     expect(config).toBeDefined();

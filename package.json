@@ -40,6 +40,7 @@
     "@swc/helpers": "~0.5.0",
     "@swc/jest": "0.2.20",
     "@testing-library/react": "^14.0.0",
+    "@testing-library/react-hooks": "^8.0.1",
     "@types/jest": "^29.4.0",
     "@types/node": "16.11.7",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
