@@ -52,6 +52,7 @@ export default async function (
 
   updateJson(tree, paths.packageJson, (packageJson) => {
     packageJson.type = undefined;
+    packageJson.private = true;
 
     packageJson.peerDependencies ??= {
       '@fluentui/react-components': '^9.0.0',
