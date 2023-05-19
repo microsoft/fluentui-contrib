@@ -46,6 +46,7 @@ function copyPackageJson(paths: PackagePaths) {
   const packageJson = readJsonFile(paths.packageJson);
   Object.assign(packageJson, {
     types: './src/index.d.ts',
+    typings: './src/index.d.ts',
     main: './lib-commonjs/index.js',
     module: './lib/index.js',
     sideEffects: false,
@@ -53,6 +54,11 @@ function copyPackageJson(paths: PackagePaths) {
     repository: {
       type: 'git',
       url: 'https://github.com/microsoft/fluentui-contrib',
+    },
+    dependencies: {
+      ...packageJson.dependencies,
+      tslib: '^2.3.0',
+      '@swc/helpers': '~0.5.1',
     },
     exports: {
       '.': {
