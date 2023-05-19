@@ -8,7 +8,8 @@
     "check-dependencies": "syncpack list-mismatches --types prod,peer",
     "lint": "nx affected --target=lint",
     "test": "nx affected --target=test",
-    "type-check": "nx affected --target=type-check"
+    "type-check": "nx affected --target=type-check",
+    "postinstall": "patch-package"
   },
   "repository": {
     "url": "https://github.com/microsoft/fluentui-contrib",
