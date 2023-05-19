@@ -12,10 +12,7 @@ import { libraryGenerator } from '@nx/js';
 import { LibraryGeneratorSchema } from './schema';
 import { getPackagePaths, npmScope } from '../../utils';
 
-export default async function (
-  tree: Tree,
-  options: LibraryGeneratorSchema
-) {
+export default async function (tree: Tree, options: LibraryGeneratorSchema) {
   const { name } = options;
   await libraryGenerator(tree, {
     name,
@@ -43,7 +40,7 @@ export default async function (
 
   targets['type-check'] = {
     executor: '@fluentui-contrib/nx-plugin:type-check',
-  }
+  };
 
   updateProjectConfiguration(tree, name, newProject);
 
@@ -55,7 +52,7 @@ export default async function (
     packageJson.private = true;
 
     packageJson.peerDependencies ??= {
-      '@fluentui/react-components': '^9.0.0',
+      '@fluentui/react-components': '>=9.0.0 <10.0.0',
       '@types/react': '>=16.8.0 <19.0.0',
       '@types/react-dom': '>=16.8.0 <19.0.0',
       react: '>=16.8.0 <19.0.0',
@@ -84,11 +81,11 @@ export default async function (
       target: 'es2019',
     };
 
-    swcrc['$schema']= 'https://json.schemastore.org/swcrc';
+    swcrc['$schema'] = 'https://json.schemastore.org/swcrc';
     return swcrc;
   });
 
-  await generateFiles(tree, path.join(__dirname, 'files'), paths.root, options)
+  await generateFiles(tree, path.join(__dirname, 'files'), paths.root, options);
 
   await formatFiles(tree);
 }
