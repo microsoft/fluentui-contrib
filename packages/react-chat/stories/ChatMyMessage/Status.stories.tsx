@@ -4,7 +4,7 @@ import { Chat, ChatMyMessage } from '@fluentui-contrib/react-chat';
 export const Status = () => {
   return (
     <Chat>
-      <ChatMyMessage status="failed">Feiled message</ChatMyMessage>
+      <ChatMyMessage status="failed">Failed message</ChatMyMessage>
       <ChatMyMessage status="sending">Sending message</ChatMyMessage>
       <ChatMyMessage status="received">Received message</ChatMyMessage>
       <ChatMyMessage status="read">Read message</ChatMyMessage>
