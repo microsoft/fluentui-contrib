@@ -51,7 +51,7 @@
       "executor": "@nx/storybook:build",
       "outputs": ["{options.outputDir}"],
       "options": {
-        "outputDir": "dist/storybook/chat",
+        "outputDir": "dist/storybook/react-chat",
         "configDir": "packages/react-chat/.storybook"
       },
       "configurations": {
