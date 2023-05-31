@@ -31,7 +31,7 @@ const useChatMyMessageClasses = makeStyles({
       "body    status"
       "actions .     "
     `,
-    gridTemplateColumns: 'auto 8px',
+    gridTemplateColumns: 'auto 16px',
 
     paddingTop: '16px',
   },
