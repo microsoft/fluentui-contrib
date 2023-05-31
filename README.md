@@ -3,9 +3,9 @@
 This repository hosts packages that are published under the `@fluentui-contrib/` scope. Contributor packages
 are extensions of [Fluent UI](https://github.com/microsoft/fluentui).
 
-| Controls | README                                                                                             | NPM                                                                                                                                                       |
-| -------- | -------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Chat     | [README.md](https://github.com/microsoft/fluentui-contrib/blob/main/packages/react-chat/README.md) | [![npm version](https://img.shields.io/npm/v/@fluentui-contrib/react-chat?style=flat-square)](https://www.npmjs.com/package/@fluentui-contrib/react-chat) |
+| Controls | README                                                                                             | Docs                                                                 | NPM                                                                                                                                                       |
+|----------|----------------------------------------------------------------------------------------------------|----------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Chat     | [README.md](https://github.com/microsoft/fluentui-contrib/blob/main/packages/react-chat/README.md) | [Storybook](https://microsoft.github.io/fluentui-contrib/react-chat) | [![npm version](https://img.shields.io/npm/v/@fluentui-contrib/react-chat?style=flat-square)](https://www.npmjs.com/package/@fluentui-contrib/react-chat) |
 
 ## [Contributing](./Contributing.md)
 
