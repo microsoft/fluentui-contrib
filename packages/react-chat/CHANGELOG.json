@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-chat",
   "entries": [
     {
+      "date": "Thu, 01 Jun 2023 16:04:31 GMT",
+      "tag": "@fluentui-contrib/react-chat_v0.1.3",
+      "version": "0.1.3",
+      "comments": {
+        "patch": [
+          {
+            "author": "lingfangao@hotmail.com",
+            "package": "@fluentui-contrib/react-chat",
+            "commit": "12e79c1329380dda00eef70a2f6e5a5b000bc8e7",
+            "comment": "fix: ChatMyMessage should not be truncated"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 19 May 2023 11:02:29 GMT",
       "tag": "@fluentui-contrib/react-chat_v0.1.2",
       "version": "0.1.2",
