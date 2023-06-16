@@ -12,11 +12,11 @@ const SUPPORTS_CONSTRUCTABLE_STYLESHEETS: boolean = (() => {
   }
 })();
 
-type ExtendedCSSStyleSheet = CSSStyleSheet & {
+export type ExtendedCSSStyleSheet = CSSStyleSheet & {
   bucketName: StyleBucketName;
   metadata: Record<string, unknown>;
 };
-type GriffelShadowDOMRenderer = GriffelRenderer & {
+export type GriffelShadowDOMRenderer = GriffelRenderer & {
   adoptedStyleSheets: ExtendedCSSStyleSheet[];
 };
 
@@ -27,7 +27,7 @@ const styleBucketOrderingMap = styleBucketOrdering.reduce((acc, cur, j) => {
   return acc;
 }, {} as Record<StyleBucketName, number>);
 
-function findInsertionPoint(
+export function findInsertionPoint(
   renderer: GriffelShadowDOMRenderer,
   styleSheet: ExtendedCSSStyleSheet
 ): ExtendedCSSStyleSheet | null {
@@ -52,21 +52,12 @@ function findInsertionPoint(
     }
   }
 
-  const length = styleSheets.length;
-  let index = length - 1;
-
-  while (index >= 0) {
-    const styleElement = styleSheets[index];
+  for (let l = styleSheets.length, i = l - 1; i >= 0; i--) {
+    const styleElement = styleSheets[i];
 
     if (comparer(styleElement) > 0) {
       return styleElement;
     }
-
-    index--;
-  }
-
-  if (length > 0) {
-    return styleSheets[0];
   }
 
   return null;
@@ -98,13 +89,13 @@ function getCSSStyleSheetForBucket(
   return cssSheetsCache[styleSheetKey];
 }
 
-function insertBefore<T extends CSSStyleSheet | ExtendedCSSStyleSheet>(
+function insertAfter<T extends CSSStyleSheet | ExtendedCSSStyleSheet>(
   arr: T[],
   sheetToInsert: T,
   targetSheet: T | null
 ): T[] {
   if (targetSheet === null) {
-    return [...arr, sheetToInsert];
+    return [sheetToInsert, ...arr];
   }
 
   const index = arr.indexOf(targetSheet);
@@ -147,12 +138,12 @@ export function createShadowDOMRenderer(shadowRoot: ShadowRoot) {
             (styleSheet) => {
               const targetStyleSheet = findInsertionPoint(renderer, styleSheet);
 
-              renderer.adoptedStyleSheets = insertBefore(
+              renderer.adoptedStyleSheets = insertAfter(
                 renderer.adoptedStyleSheets,
                 styleSheet,
                 targetStyleSheet
               );
-              shadowRoot.adoptedStyleSheets = insertBefore(
+              shadowRoot.adoptedStyleSheets = insertAfter(
                 shadowRoot.adoptedStyleSheets,
                 styleSheet,
                 targetStyleSheet

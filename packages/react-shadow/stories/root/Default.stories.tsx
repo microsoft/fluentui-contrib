@@ -41,7 +41,10 @@ const ComponentSet: React.FC = () => {
     <div className={classes.root}>
       <div className={classes.container}>
         <Avatar name="Ashley McCarthy" />
+
         <Button>Hello world!</Button>
+        <Button appearance="primary">Hello world!</Button>
+        <Button appearance="subtle">Hello world!</Button>
       </div>
 
       <div className={classes.container}>
