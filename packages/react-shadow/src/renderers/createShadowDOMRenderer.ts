@@ -28,9 +28,7 @@ const styleBucketOrderingMap = styleBucketOrdering.reduce((acc, cur, j) => {
 }, {} as Record<StyleBucketName, number>);
 
 function findInsertionPoint(
-  shadowRoot: ShadowRoot,
   renderer: GriffelShadowDOMRenderer,
-
   styleSheet: ExtendedCSSStyleSheet
 ): ExtendedCSSStyleSheet | null {
   let styleSheets = renderer.adoptedStyleSheets;
@@ -76,8 +74,6 @@ function findInsertionPoint(
 
 function getCSSStyleSheetForBucket(
   cssSheetsCache: Record<string, ExtendedCSSStyleSheet>,
-
-  root: ShadowRoot,
 
   bucketName: StyleBucketName,
   metadata: Record<string, unknown> = {},
@@ -144,18 +140,12 @@ export function createShadowDOMRenderer(shadowRoot: ShadowRoot) {
           );
           const sheet = getCSSStyleSheetForBucket(
             cssSheetsCache,
-            shadowRoot,
 
             styleBucketName,
             metadata,
 
             (styleSheet) => {
-              const targetStyleSheet = findInsertionPoint(
-                shadowRoot,
-                renderer,
-
-                styleSheet
-              );
+              const targetStyleSheet = findInsertionPoint(renderer, styleSheet);
 
               renderer.adoptedStyleSheets = insertBefore(
                 renderer.adoptedStyleSheets,
