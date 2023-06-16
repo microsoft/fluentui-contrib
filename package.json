@@ -56,6 +56,7 @@
     "prettier": "^2.6.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "semver": "^7.5.2",
     "syncpack": "^9.8.6",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",

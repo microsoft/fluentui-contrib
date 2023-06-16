@@ -11,6 +11,7 @@ import * as path from 'path';
 import { libraryGenerator } from '@nx/js';
 import { LibraryGeneratorSchema } from './schema';
 import { getPackagePaths, npmScope } from '../../utils';
+import { findInstalledReactComponentsVersion } from './findInstalledReactComponentsVersion';
 
 export default async function (tree: Tree, options: LibraryGeneratorSchema) {
   const { name } = options;
@@ -46,13 +47,14 @@ export default async function (tree: Tree, options: LibraryGeneratorSchema) {
 
   const paths = getPackagePaths(workspaceRoot, projectRoot);
   tree.delete(path.join(paths.src, 'lib'));
+  const reactComponentsVersion = await findInstalledReactComponentsVersion();
 
   updateJson(tree, paths.packageJson, (packageJson) => {
     packageJson.type = undefined;
     packageJson.private = true;
 
     packageJson.peerDependencies ??= {
-      '@fluentui/react-components': '>=9.0.0 <10.0.0',
+      '@fluentui/react-components': `>=${reactComponentsVersion} <10.0.0`,
       '@types/react': '>=16.8.0 <19.0.0',
       '@types/react-dom': '>=16.8.0 <19.0.0',
       react: '>=16.8.0 <19.0.0',
@@ -60,29 +62,6 @@ export default async function (tree: Tree, options: LibraryGeneratorSchema) {
     };
 
     return packageJson;
-  });
-
-  updateJson(tree, paths.swcrc, (swcrc) => {
-    swcrc.jsc = {
-      ...swcrc.jsc,
-      parser: {
-        syntax: 'typescript',
-        tsx: true,
-        decorators: false,
-        dynamicImport: false,
-      },
-      externalHelpers: true,
-      transform: {
-        react: {
-          runtime: 'classic',
-          useSpread: true,
-        },
-      },
-      target: 'es2019',
-    };
-
-    swcrc['$schema'] = 'https://json.schemastore.org/swcrc';
-    return swcrc;
   });
 
   await generateFiles(tree, path.join(__dirname, 'files'), paths.root, options);
