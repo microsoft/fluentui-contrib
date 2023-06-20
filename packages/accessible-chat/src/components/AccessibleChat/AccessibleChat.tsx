@@ -15,9 +15,9 @@ import { useStyles } from './AccessibleChat.styles';
 
 const ChatMessageContent = ({ id, children, ...rest }) => (
   <div
-  {...rest}
-  id={id}
-  tabIndex={0}
+    {...rest}
+    id={id}
+    tabIndex={0}
   >{children}</div>
 );
 
@@ -27,9 +27,9 @@ interface User {
 }
 
 interface ExtendedChatMessageProps {
-user?;
-contentId;
-children;
+  user?;
+  contentId;
+  children;
 }
 const ExtendedChatMessage: React.FC<ExtendedChatMessageProps> = ({ user, contentId, children, ...rest }) => {
   const handleMessageKeyDown = (event) => {
@@ -40,23 +40,23 @@ const ExtendedChatMessage: React.FC<ExtendedChatMessageProps> = ({ user, content
 
   return (
     <>
-    {!user ? (
-      <ChatMyMessage
-      {...rest}
-      onKeyDown={handleMessageKeyDown}
-      >
-        <ChatMessageContent id={contentId}>{children}</ChatMessageContent>
+      {!user ? (
+        <ChatMyMessage
+          {...rest}
+          onKeyDown={handleMessageKeyDown}
+        >
+          <ChatMessageContent id={contentId}>{children}</ChatMessageContent>
         </ChatMyMessage>
-    ) : (
-      <ChatMessage
-      {...rest}
-      avatar={<Avatar name={user.name} badge={{ status: user.status }} />}
-      onKeyDown={handleMessageKeyDown}
-      >
-      <ChatMessageContent id={contentId}>{children}</ChatMessageContent>
-      </ChatMessage>
+      ) : (
+        <ChatMessage
+          {...rest}
+          avatar={<Avatar name={user.name} badge={{ status: user.status }} />}
+          onKeyDown={handleMessageKeyDown}
+        >
+          <ChatMessageContent id={contentId}>{children}</ChatMessageContent>
+        </ChatMessage>
       )}
-      </>
+    </>
   );
 };
 
