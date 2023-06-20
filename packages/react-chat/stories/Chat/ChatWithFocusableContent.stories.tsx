@@ -1,9 +1,7 @@
 import * as React from 'react';
 
 import {
-  mergeClasses,
   Avatar,
-  PresenceBadgeStatus,
 } from '@fluentui/react-components';
 import {
   Chat,
@@ -16,6 +14,7 @@ const ChatMessageContent = ({ id, children, ...rest }) => (
     {...rest}
     id={id}
     tabIndex={0}
+    aria-readingmode="true"
   >{children}</div>
 );
 
