@@ -58,12 +58,12 @@ const ExtendedChatMessage: React.FC<ExtendedChatMessageProps> = ({ user, content
   );
 };
 
-export const AccessibleChat: React.FC = () => {
+export const ChatWithFocusableContent: React.FC = () => {
   const user1: User = { name: 'Ashley McCarthy', status: 'available' };
 
   return (
     <div>
-      <h1>Accessible chat</h1>
+      <h1>Chat with focusable content</h1>
       <button> start here</button>
 
       <Chat>
