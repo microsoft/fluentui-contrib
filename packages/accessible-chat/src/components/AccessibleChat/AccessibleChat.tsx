@@ -13,8 +13,9 @@ import {
 
 import { useStyles } from './AccessibleChat.styles';
 
-const ChatMessageContent = ({ id, children }) => (
+const ChatMessageContent = ({ id, children, ...rest }) => (
   <div
+  {...rest}
   role="none"
   id={id}
   tabIndex={0}
@@ -22,8 +23,8 @@ const ChatMessageContent = ({ id, children }) => (
 );
 
 interface User {
-  name: string;
-  status: PresenceBadgeStatus;
+  name;
+  status;
 }
 
 interface ExtendedChatMessageProps {
@@ -31,7 +32,7 @@ user?;
 contentId;
 children;
 }
-const ExtendedChatMessage: React.FC<ExtendedChatMessageProps> = ({ user, contentId, children, ...props }) => {
+const ExtendedChatMessage: React.FC<ExtendedChatMessageProps> = ({ user, contentId, children, ...rest }) => {
   const handleMessageKeyDown = (event) => {
     if (event.ctrlKey && event.key === 'Enter') {
       document.getElementById(contentId).focus();
@@ -42,12 +43,14 @@ const ExtendedChatMessage: React.FC<ExtendedChatMessageProps> = ({ user, content
     <>
     {!user ? (
       <ChatMyMessage
+      {...rest}
       onKeyDown={handleMessageKeyDown}
       >
         <ChatMessageContent id={contentId}>{children}</ChatMessageContent>
         </ChatMyMessage>
     ) : (
       <ChatMessage
+      {...rest}
       avatar={<Avatar name={user.name} badge={{ status: user.status }} />}
       onKeyDown={handleMessageKeyDown}
       >
