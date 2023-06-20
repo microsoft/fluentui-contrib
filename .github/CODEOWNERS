@@ -1,3 +1,31 @@
+#### Packages
 packages/react-chat/ @microsoft/teams-prg
 packages/react-shadow/ @microsoft/teams-prg
 packages/nx-plugin/ @microsoft/teams-prg
+
+#### Build/Infra
+/.github/ @microsoft/teams-prg
+/tsconfig.base.json @microsoft/teams-prg
+/yarn.lock @microsoft/teams-prg
+/beachball.config.js @microsoft/teams-prg
+/beachball.hooks.js @microsoft/teams-prg
+/babel.config.json @microsoft/teams-prg
+/jest.config.ts @microsoft/teams-prg
+/jest.preset.js @microsoft/teams-prg
+/nx.json @microsoft/teams-prg
+/.gitignore @microsoft/teams-prg
+/.prettierignore @microsoft/teams-prg
+/.prettierrc @microsoft/teams-prg
+/.editorconfig @microsoft/teams-prg
+/.eslintignore @microsoft/teams-prg
+/.eslintrc.json @microsoft/teams-prg
+/.yarnrc @microsoft/teams-prg
+/.yarn/ @microsoft/teams-prg
+
+#### License and READMEs
+/LICENSE @microsoft/teams-prg
+/README.md @microsoft/teams-prg
+/CONTRIBUTING.md @microsoft/teams-prg
+/CODE_OF_CONDUCT.md @microsoft/teams-prg
+/SECURITY.md @microsoft/teams-prg
+/SUPPORT.md @microsoft/teams-prg
