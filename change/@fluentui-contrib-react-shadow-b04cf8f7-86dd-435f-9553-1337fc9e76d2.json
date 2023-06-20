@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "feat: introduce @fluentui-contrib/react-shadow",
+  "packageName": "@fluentui-contrib/react-shadow",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "patch"
+}
