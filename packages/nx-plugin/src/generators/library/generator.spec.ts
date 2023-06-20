@@ -43,7 +43,7 @@ describe('create-package generator', () => {
   it('should add build target', async () => {
     await generator(tree, options);
     const config = readProjectConfiguration(tree, 'test');
-    expect(config.targets.build).toMatchInlineSnapshot(`
+    expect(config.targets?.build).toMatchInlineSnapshot(`
       {
         "executor": "@fluentui-contrib/nx-plugin:build",
       }
@@ -53,7 +53,7 @@ describe('create-package generator', () => {
   it('should type-check target', async () => {
     await generator(tree, options);
     const config = readProjectConfiguration(tree, 'test');
-    expect(config.targets['type-check']).toMatchInlineSnapshot(`
+    expect(config.targets?.['type-check']).toMatchInlineSnapshot(`
       {
         "executor": "@fluentui-contrib/nx-plugin:type-check",
       }
