@@ -11,8 +11,6 @@ import {
   ChatMyMessage,
 } from '@fluentui-contrib/react-chat';
 
-import { useStyles } from './AccessibleChat.styles';
-
 const ChatMessageContent = ({ id, children, ...rest }) => (
   <div
     {...rest}
@@ -61,12 +59,10 @@ const ExtendedChatMessage: React.FC<ExtendedChatMessageProps> = ({ user, content
 };
 
 export const AccessibleChat: React.FC = () => {
-  const styles = useStyles();
-
   const user1: User = { name: 'Ashley McCarthy', status: 'available' };
 
   return (
-    <div className={mergeClasses(styles.root)}>
+    <div>
       <h1>Accessible chat</h1>
       <button> start here</button>
 
