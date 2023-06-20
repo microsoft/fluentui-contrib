@@ -16,7 +16,6 @@ import { useStyles } from './AccessibleChat.styles';
 const ChatMessageContent = ({ id, children, ...rest }) => (
   <div
   {...rest}
-  role="none"
   id={id}
   tabIndex={0}
   >{children}</div>
