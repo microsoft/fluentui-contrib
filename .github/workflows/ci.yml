@@ -29,3 +29,7 @@ jobs:
       - run: yarn nx affected --target=test --parallel --max-parallel=2
       - run: yarn nx affected --target=lint --parallel --max-parallel=3
       - run: yarn nx format:check --base origin/main
+
+
+
+
