@@ -129,3 +129,11 @@ Checks typescript usage and generates type files in the `dist/` folder in the mo
 ```sh
 yarn nx type-check <name>
 ```
+
+### format
+
+Formats the code with prettier
+
+```sh
+yarn nx format
+```

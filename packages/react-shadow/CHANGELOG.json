@@ -1,0 +1,20 @@
+{
+  "name": "@fluentui-contrib/react-shadow",
+  "entries": [
+    {
+      "date": "Tue, 20 Jun 2023 12:38:42 GMT",
+      "tag": "@fluentui-contrib/react-shadow_v0.0.2",
+      "version": "0.0.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "@fluentui-contrib/react-shadow",
+            "commit": "2e576e236f9deedb6ae28a79fac70a2166b5336c",
+            "comment": "feat: introduce @fluentui-contrib/react-shadow"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -13,13 +13,15 @@
     "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
+    "strict": true,
     "baseUrl": ".",
     "paths": {
       "@fluentui-contrib/accessible-chat": [
         "packages/accessible-chat/src/index.ts"
       ],
       "@fluentui-contrib/nx-plugin": ["packages/nx-plugin/src/index.ts"],
-      "@fluentui-contrib/react-chat": ["packages/react-chat/src/index.ts"]
+      "@fluentui-contrib/react-chat": ["packages/react-chat/src/index.ts"],
+      "@fluentui-contrib/react-shadow": ["packages/react-shadow/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
