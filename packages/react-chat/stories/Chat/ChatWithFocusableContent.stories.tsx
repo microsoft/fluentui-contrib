@@ -1,57 +1,51 @@
 import * as React from 'react';
-
 import {
   Avatar,
+  useFluent,
+  PresenceBadgeStatus,
 } from '@fluentui/react-components';
-import {
-  Chat,
-  ChatMessage,
-  ChatMyMessage,
-} from '@fluentui-contrib/react-chat';
-
-const ChatMessageContent = ({ id, children, ...rest }) => (
-  <div
-    {...rest}
-    id={id}
-    tabIndex={0}
-    aria-readingmode="true"
-  >{children}</div>
-);
+import { Chat, ChatMessage, ChatMyMessage } from '@fluentui-contrib/react-chat';
 
 interface User {
-  name;
-  status;
+  name: string;
+  status: PresenceBadgeStatus;
 }
 
-interface ExtendedChatMessageProps {
-  user?;
-  contentId;
-  children;
+interface CustomChatMessageProps {
+  user?: User;
+  contentId: string;
+  children: React.ReactNode;
 }
-const ExtendedChatMessage: React.FC<ExtendedChatMessageProps> = ({ user, contentId, children, ...rest }) => {
-  const handleMessageKeyDown = (event) => {
+
+const ChatMessageContent: React.FC<React.HTMLAttributes<HTMLDivElement>> = (
+  props
+) => <div {...props} aria-readingmode="true" />;
+
+const CustomChatMessage: React.FC<CustomChatMessageProps> = ({
+  user,
+  contentId,
+  children,
+}) => {
+  const { targetDocument } = useFluent();
+  const handleMessageKeyDown = (event: React.KeyboardEvent) => {
     if (event.ctrlKey && event.key === 'Enter') {
-      document.getElementById(contentId).focus();
+      targetDocument?.getElementById(contentId)?.focus();
     }
   };
 
   return (
     <>
-      {!user ? (
-        <ChatMyMessage
-          {...rest}
-          onKeyDown={handleMessageKeyDown}
-        >
-          <ChatMessageContent id={contentId}>{children}</ChatMessageContent>
-        </ChatMyMessage>
-      ) : (
+      {user ? (
         <ChatMessage
-          {...rest}
           avatar={<Avatar name={user.name} badge={{ status: user.status }} />}
           onKeyDown={handleMessageKeyDown}
         >
           <ChatMessageContent id={contentId}>{children}</ChatMessageContent>
         </ChatMessage>
+      ) : (
+        <ChatMyMessage onKeyDown={handleMessageKeyDown}>
+          <ChatMessageContent id={contentId}>{children}</ChatMessageContent>
+        </ChatMyMessage>
       )}
     </>
   );
@@ -66,13 +60,18 @@ export const ChatWithFocusableContent: React.FC = () => {
       <button> start here</button>
 
       <Chat>
-        <ExtendedChatMessage user={user1} contentId="message1-content">Hello I am Ashley</ExtendedChatMessage>
-        <ExtendedChatMessage contentId="message2-content">Nice to meet you!</ExtendedChatMessage>
-        <ExtendedChatMessage user={user1} contentId="message3-content">
-          This is <a href="#">my homepage</a>. Some text goes here to demonstrate reading of longer runsof texts. Now follows <a href="#">another link</a> which is also a dummy link.
-        </ExtendedChatMessage>
+        <CustomChatMessage user={user1} contentId="message1-content">
+          Hello I am Ashley
+        </CustomChatMessage>
+        <CustomChatMessage contentId="message2-content">
+          Nice to meet you!
+        </CustomChatMessage>
+        <CustomChatMessage user={user1} contentId="message3-content">
+          This is <a href="#">my homepage</a>. Some text goes here to
+          demonstrate reading of longer runs of texts. Now follows{' '}
+          <a href="#">another link</a> which is also a dummy link.
+        </CustomChatMessage>
       </Chat>
-
     </div>
   );
 };
