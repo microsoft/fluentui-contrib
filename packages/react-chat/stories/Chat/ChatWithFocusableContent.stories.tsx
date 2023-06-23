@@ -19,7 +19,7 @@ interface CustomChatMessageProps {
 
 const ChatMessageContent: React.FC<React.HTMLAttributes<HTMLDivElement>> = (
   props
-) => <div {...props} aria-readingmode="true" />;
+) => <div {...props} role="document" tabIndex={0} />;
 
 const CustomChatMessage: React.FC<CustomChatMessageProps> = ({
   user,
@@ -59,7 +59,7 @@ export const ChatWithFocusableContent: React.FC = () => {
       <h1>Chat with focusable content</h1>
       <button> start here</button>
 
-      <Chat>
+      <Chat role="application">
         <CustomChatMessage user={user1} contentId="message1-content">
           Hello I am Ashley
         </CustomChatMessage>
