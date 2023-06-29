@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
   Avatar,
+  Link,
   useFluent,
   PresenceBadgeStatus,
 } from '@fluentui/react-components';
@@ -19,7 +20,7 @@ interface CustomChatMessageProps {
 
 const ChatMessageContent: React.FC<React.HTMLAttributes<HTMLDivElement>> = (
   props
-) => <div {...props} role="document" tabIndex={0} />;
+) => <div {...props} role="none" tabIndex={0} />;
 
 const CustomChatMessage: React.FC<CustomChatMessageProps> = ({
   user,
@@ -51,6 +52,13 @@ const CustomChatMessage: React.FC<CustomChatMessageProps> = ({
   );
 };
 
+interface  ChatLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+children: React.ReactNode;
+}
+
+const ChatLink: React.FC<ChatLinkProps> = ({ children, ...props } ) => 
+<Link {...props} aria-label={`Link ${children?.toString()}`} />;
+
 export const ChatWithFocusableContent: React.FC = () => {
   const user1: User = { name: 'Ashley McCarthy', status: 'available' };
 
@@ -67,7 +75,7 @@ export const ChatWithFocusableContent: React.FC = () => {
           Nice to meet you!
         </CustomChatMessage>
         <CustomChatMessage user={user1} contentId="message3-content">
-          This is <a href="#">my homepage</a>. Some text goes here to
+          This is <ChatLink href="#">my homepage</ChatLink>. Some text goes here to
           demonstrate reading of longer runs of texts. Now follows{' '}
           <a href="#">another link</a> which is also a dummy link.
         </CustomChatMessage>
