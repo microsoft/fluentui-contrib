@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
   Avatar,
+  Button,
   useId,
   Link,
   useFluent,
@@ -13,25 +14,48 @@ import {
   ChatMyMessageProps,
   ChatMyMessage,
 } from '@fluentui-contrib/react-chat';
+import {
+  EmojiSmileSlightRegular,
+  Question20Regular,
+} from '@fluentui/react-icons';
 
 interface User {
   name: string;
   status: PresenceBadgeStatus;
 }
 
-type CustomChatMessageProps = ChatMessageProps & ChatMyMessageProps & {
-  user?: User;
-  customTimestamp?: string;
-  customDetails?: string;
-  children: React.ReactNode;
-}
-
 const ChatMessageContent: React.FC<React.HTMLAttributes<HTMLDivElement>> = (
   props
 ) => <div {...props} role="none" tabIndex={0} />;
 
+interface ReactionsProps {
+id: string;
+}
+const Message1Reactions: React.FC<ReactionsProps> = ({ id }) => {
+  return (
+    <Button
+    id={id}
+      icon={{
+        children: <EmojiSmileSlightRegular fontSize={16} />,
+      }}
+      appearance="subtle"
+      aria-label="Smile"
+    >
+      1
+    </Button>
+  );
+};
+
+type CustomChatMessageProps = ChatMessageProps & ChatMyMessageProps & {
+  user?: User;
+  CustomReactions?: React.FC<ReactionsProps>;
+  customTimestamp?: string;
+  customDetails?: string;
+  children: React.ReactNode;
+};
 const CustomChatMessage: React.FC<CustomChatMessageProps> = ({
   user,
+  CustomReactions,
   customTimestamp,
   customDetails,
   children,
@@ -39,10 +63,12 @@ const CustomChatMessage: React.FC<CustomChatMessageProps> = ({
 }) => {
   const messageId = useId('message');
   const contentId = `${messageId}-content`;
+  const reactionsId = `${messageId}-reactions`;
   const timestampId = `${messageId}-timestamp`;
   const detailsId = `${messageId}-details`;
 
   const customProps = {
+    reactions: CustomReactions? <CustomReactions id={reactionsId} /> : undefined,
     timestamp: customTimestamp ? {
       children: customTimestamp,
       id: timestampId,
@@ -51,7 +77,7 @@ const CustomChatMessage: React.FC<CustomChatMessageProps> = ({
       children: customDetails,
       id: detailsId,
     } : undefined,
-    'aria-labelledby': `${contentId} ${timestampId} ${detailsId}`,
+    'aria-labelledby': `${contentId} ${reactionsId} ${timestampId} ${detailsId}`,
   };
 
   const { targetDocument } = useFluent();
@@ -104,6 +130,7 @@ export const ChatWithFocusableContent: React.FC = () => {
       <Chat role="application">
         <CustomChatMessage
         user={user1}
+        CustomReactions={Message1Reactions}
         customTimestamp="June 20, 2023 9:35 AM."
         >
           Hello I am Ashley
