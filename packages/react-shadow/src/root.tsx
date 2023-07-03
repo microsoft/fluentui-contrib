@@ -1,9 +1,8 @@
 import { RendererProvider } from '@fluentui/react-components';
+import { createShadowDOMRenderer } from '@griffel/shadow-dom';
 import * as React from 'react';
-
-import { createProxy } from './createProxy';
-import type { Root } from './createProxy';
-import { createShadowDOMRenderer } from './renderers/createShadowDOMRenderer';
+import { createProxy } from 'react-shadow';
+import type { Root } from 'react-shadow';
 
 const ReactComponentsWrapper: React.FC<{
   children: React.ReactNode;

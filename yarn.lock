@@ -1970,15 +1970,15 @@
   dependencies:
     "@swc/helpers" "^0.4.14"
 
-"@griffel/core@^1.11.0", "@griffel/core@^1.9.0":
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/@griffel/core/-/core-1.11.0.tgz#42e6e2128624d6c53817a4cfd326003a5c437eab"
-  integrity sha512-3jlrsJVbNC0avRMfNGWmbklptmtH5s63Gt/xa0zY6+Oa3kU/StNAu+d0LqLChb5egwXrisQIeC+tzzJ+YozGjg==
+"@griffel/core@^1.11.0", "@griffel/core@^1.12.2", "@griffel/core@^1.9.0":
+  version "1.12.2"
+  resolved "https://registry.yarnpkg.com/@griffel/core/-/core-1.12.2.tgz#c556f6d703444e63853eaaebcd90047098199f25"
+  integrity sha512-+bvOWh0cCtB0S92a5VD4C00DBjx8qB+5ZBTb4WTj9ZhUP10wVLjLaoLdBPw7vdqnnaT1VzLZV4e9ye8OQjHKLA==
   dependencies:
     "@emotion/hash" "^0.9.0"
     csstype "^3.1.2"
     rtl-css-js "^1.16.1"
-    stylis "^4.0.13"
+    stylis "^4.2.0"
     tslib "^2.1.0"
 
 "@griffel/react@^1.0.0", "@griffel/react@^1.5.2":
@@ -1987,6 +1987,14 @@
   integrity sha512-b9/LkkuO512O268jqRpJPso9ROng/kqh81YSTJUL13tT4qPZQnvrdiwoP7ZeqXbG0zzZHLZ3tWUZrCDOl549OQ==
   dependencies:
     "@griffel/core" "^1.11.0"
+    tslib "^2.1.0"
+
+"@griffel/shadow-dom@~0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@griffel/shadow-dom/-/shadow-dom-0.1.0.tgz#51eef007aac46b988b188408ab189325c0c3c67b"
+  integrity sha512-jnbHxwC7+Fq8ljJAccUZYgGnPSRiZlCu3cK7aW6CZPr2eaM92mNJxceXDsRBKHPII0z0XxsQ/+pVi+kVXP5/MA==
+  dependencies:
+    "@griffel/core" "^1.12.2"
     tslib "^2.1.0"
 
 "@humanwhocodes/config-array@^0.9.2":
@@ -9701,10 +9709,10 @@ react-refresh@^0.11.0:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.11.0.tgz#77198b944733f0f1f1a90e791de4541f9f074046"
   integrity sha512-F27qZr8uUqwhWZboondsPx8tnC3Ct3SxZA3V5WyEvujRyyNv0VYPhoBg1gZ8/MV5tubQp76Trw8lTv9hzRBa+A==
 
-react-shadow@^20.2.0:
-  version "20.2.0"
-  resolved "https://registry.yarnpkg.com/react-shadow/-/react-shadow-20.2.0.tgz#9fd1e27db6c30ad0fa023a7dcf74aae93e07a6ee"
-  integrity sha512-K4rC5vM/9bxRRD9dH0FcjUj/Pxf4DPIIh5K7+dH542IVrPG30uXJCzWmZBDYyIYUktcIrlA4l+RlCKc4wTmOXw==
+react-shadow@^20.3.0:
+  version "20.3.0"
+  resolved "https://registry.yarnpkg.com/react-shadow/-/react-shadow-20.3.0.tgz#38708c9775214ddae17315f3b065859cd077b228"
+  integrity sha512-oWi4W+FE6Puz+7+psL5l90wD9tu+OI1x+Uf1C2Y+O9J1AZzfaWVBbAQjvrDk/Sn8Nh0owCGSD0eemcr1ErtGzw==
   dependencies:
     humps "^2.0.1"
 
@@ -10560,10 +10568,10 @@ stylehacks@^5.1.1:
     browserslist "^4.21.4"
     postcss-selector-parser "^6.0.4"
 
-stylis@^4.0.13:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/stylis/-/stylis-4.2.0.tgz#79daee0208964c8fe695a42fcffcac633a211a51"
-  integrity sha512-Orov6g6BB1sDfYgzWfTHDOxamtX1bE/zo104Dh9e6fqJ3PooipYyfJ0pUmrZO2wAvO8YbEyeFrkV91XTsGMSrw==
+stylis@^4.2.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/stylis/-/stylis-4.3.0.tgz#abe305a669fc3d8777e10eefcfc73ad861c5588c"
+  integrity sha512-E87pIogpwUsUwXw7dNyU4QDjdgVMy52m+XEOPEKUn161cCzWjjhPSQhByfd1CcNvrOLnXQ6OnnZDwnJrz/Z4YQ==
 
 stylus-loader@^7.1.0:
   version "7.1.0"
