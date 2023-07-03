@@ -1,5 +1,6 @@
 #### Packages
 packages/react-chat/ @microsoft/teams-prg
+packages/react-data-grid-react-window/ @microsoft/teams-prg
 packages/react-shadow/ @microsoft/teams-prg
 packages/nx-plugin/ @microsoft/teams-prg
 

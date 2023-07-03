@@ -58,6 +58,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-shadow": "^20.3.0",
+    "react-window": "^1.8.9",
     "semver": "^7.5.2",
     "syncpack": "^9.8.6",
     "ts-jest": "^29.1.0",
