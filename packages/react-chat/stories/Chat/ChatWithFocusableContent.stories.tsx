@@ -16,7 +16,6 @@ import {
 } from '@fluentui-contrib/react-chat';
 import {
   EmojiSmileSlightRegular,
-  Question20Regular,
 } from '@fluentui/react-icons';
 
 interface User {
@@ -39,7 +38,7 @@ const Message1Reactions: React.FC<ReactionsProps> = ({ id }) => {
         children: <EmojiSmileSlightRegular fontSize={16} />,
       }}
       appearance="subtle"
-      aria-label="Smile"
+      aria-label="1 Smile reaction."
     >
       1
     </Button>
