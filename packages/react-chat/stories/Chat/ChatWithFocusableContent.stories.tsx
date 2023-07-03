@@ -1,20 +1,28 @@
 import * as React from 'react';
 import {
   Avatar,
+  useId,
   Link,
   useFluent,
   PresenceBadgeStatus,
 } from '@fluentui/react-components';
-import { Chat, ChatMessage, ChatMyMessage } from '@fluentui-contrib/react-chat';
+import {
+  Chat,
+  ChatMessage,
+  ChatMessageProps,
+  ChatMyMessageProps,
+  ChatMyMessage,
+} from '@fluentui-contrib/react-chat';
 
 interface User {
   name: string;
   status: PresenceBadgeStatus;
 }
 
-interface CustomChatMessageProps {
+type CustomChatMessageProps = ChatMessageProps & ChatMyMessageProps & {
   user?: User;
-  contentId: string;
+  customTimestamp?: string;
+  customDetails?: string;
   children: React.ReactNode;
 }
 
@@ -24,9 +32,28 @@ const ChatMessageContent: React.FC<React.HTMLAttributes<HTMLDivElement>> = (
 
 const CustomChatMessage: React.FC<CustomChatMessageProps> = ({
   user,
-  contentId,
+  customTimestamp,
+  customDetails,
   children,
+  ...props
 }) => {
+  const messageId = useId('message');
+  const contentId = `${messageId}-content`;
+  const timestampId = `${messageId}-timestamp`;
+  const detailsId = `${messageId}-details`;
+
+  const customProps = {
+    timestamp: customTimestamp ? {
+      children: customTimestamp,
+      id: timestampId,
+    } : undefined,
+    details: customDetails? {
+      children: customDetails,
+      id: detailsId,
+    } : undefined,
+    'aria-labelledby': `${contentId} ${timestampId} ${detailsId}`,
+  };
+
   const { targetDocument } = useFluent();
   const handleMessageKeyDown = (event: React.KeyboardEvent) => {
     if (event.ctrlKey && event.key === 'Enter') {
@@ -40,11 +67,18 @@ const CustomChatMessage: React.FC<CustomChatMessageProps> = ({
         <ChatMessage
           avatar={<Avatar name={user.name} badge={{ status: user.status }} />}
           onKeyDown={handleMessageKeyDown}
+          {...customProps}
+          {...props}
         >
           <ChatMessageContent id={contentId}>{children}</ChatMessageContent>
         </ChatMessage>
       ) : (
-        <ChatMyMessage onKeyDown={handleMessageKeyDown}>
+        <ChatMyMessage
+        onKeyDown={handleMessageKeyDown}
+        {...customProps}
+        {...props}
+        // {...props}
+        >
           <ChatMessageContent id={contentId}>{children}</ChatMessageContent>
         </ChatMyMessage>
       )}
@@ -68,13 +102,22 @@ export const ChatWithFocusableContent: React.FC = () => {
       <button> start here</button>
 
       <Chat role="application">
-        <CustomChatMessage user={user1} contentId="message1-content">
+        <CustomChatMessage
+        user={user1}
+        customTimestamp="June 20, 2023 9:35 AM."
+        >
           Hello I am Ashley
         </CustomChatMessage>
-        <CustomChatMessage contentId="message2-content">
+        <CustomChatMessage
+        customTimestamp="Today at 3:10 PM."
+        customDetails="Edited"
+        >
           Nice to meet you!
         </CustomChatMessage>
-        <CustomChatMessage user={user1} contentId="message3-content">
+        <CustomChatMessage
+        user={user1}
+        customTimestamp="Today at 5:22 PM."
+        >
           This is <ChatLink href="#">my homepage</ChatLink>. Some text goes here to
           demonstrate reading of longer runs of texts. Now follows{' '}
           <a href="#">another link</a> which is also a dummy link.
