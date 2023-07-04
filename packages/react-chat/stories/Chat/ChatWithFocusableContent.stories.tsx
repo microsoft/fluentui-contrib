@@ -2,6 +2,10 @@ import * as React from 'react';
 import {
   Avatar,
   Button,
+  Popover,
+  PopoverProps,
+  PopoverSurface,
+  PopoverTrigger,
   useId,
   Link,
   useFluent,
@@ -14,9 +18,12 @@ import {
   ChatMyMessageProps,
   ChatMyMessage,
 } from '@fluentui-contrib/react-chat';
+
 import {
   EmojiSmileSlightRegular,
 } from '@fluentui/react-icons';
+
+import { useTabsterAttributes } from '@fluentui/react-tabster';
 
 interface User {
   name: string;
@@ -46,6 +53,7 @@ const Message1Reactions: React.FC<ReactionsProps> = ({ id }) => {
 };
 
 type CustomChatMessageProps = ChatMessageProps & ChatMyMessageProps & {
+  id: string;
   user?: User;
   CustomReactions?: React.FC<ReactionsProps>;
   customTimestamp?: string;
@@ -53,6 +61,7 @@ type CustomChatMessageProps = ChatMessageProps & ChatMyMessageProps & {
   children: React.ReactNode;
 };
 const CustomChatMessage: React.FC<CustomChatMessageProps> = ({
+  id,
   user,
   CustomReactions,
   customTimestamp,
@@ -60,54 +69,64 @@ const CustomChatMessage: React.FC<CustomChatMessageProps> = ({
   children,
   ...props
 }) => {
+  const [popoverOpen, setPopoverOpen] = React.useState(false);
   const messageId = useId('message');
   const contentId = `${messageId}-content`;
   const reactionsId = `${messageId}-reactions`;
   const timestampId = `${messageId}-timestamp`;
   const detailsId = `${messageId}-details`;
-
-  const customProps = {
-    reactions: CustomReactions? <CustomReactions id={reactionsId} /> : undefined,
-    timestamp: customTimestamp ? {
-      children: customTimestamp,
-      id: timestampId,
-    } : undefined,
-    details: customDetails? {
-      children: customDetails,
-      id: detailsId,
-    } : undefined,
-    'aria-labelledby': `${contentId} ${reactionsId} ${timestampId} ${detailsId}`,
-  };
+  const ChatMessageType = user ? ChatMessage : ChatMyMessage;
+  
+  const handlePopoverOpenChange: PopoverProps['onOpenChange'] = (event, { open }) =>
+  setPopoverOpen(open);
 
   const { targetDocument } = useFluent();
-  const handleMessageKeyDown = (event: React.KeyboardEvent) => {
+  const handleChatMessageKeyDown = (event: React.KeyboardEvent) => {
     if (event.ctrlKey && event.key === 'Enter') {
       targetDocument?.getElementById(contentId)?.focus();
     }
   };
 
+  const handleChatMessageFocus = React.useCallback(() =>
+  setPopoverOpen(true),
+  []);
+
+  const modalizerAttributes = useTabsterAttributes({
+    modalizer: {
+      id,
+      isOthersAccessible: true,
+      isAlwaysAccessible: true,
+      isTrapped: true,
+    },
+  });
+
   return (
-    <>
-      {user ? (
-        <ChatMessage
-          avatar={<Avatar name={user.name} badge={{ status: user.status }} />}
-          onKeyDown={handleMessageKeyDown}
-          {...customProps}
+    <Popover
+    openOnHover
+    open={popoverOpen}
+    onOpenChange={handlePopoverOpenChange}
+    unstable_disableAutoFocus // prevent popover focus within popoverSurface on open
+  >
+    <PopoverTrigger>
+        <ChatMessageType
+          avatar={user ? <Avatar name={user.name} badge={{ status: user.status }} /> : undefined}
+          reactions={CustomReactions? <CustomReactions id={reactionsId} /> : undefined}
+          timestamp={customTimestamp ? {children: customTimestamp, id: timestampId} : undefined}
+          details={customDetails? {children: customDetails, id: detailsId} : undefined}
+          onKeyDown={handleChatMessageKeyDown}
+          onFocus={handleChatMessageFocus}
+          aria-labelledby={`${contentId} ${reactionsId} ${timestampId} ${detailsId}`}
           {...props}
+          {...modalizerAttributes}
         >
           <ChatMessageContent id={contentId}>{children}</ChatMessageContent>
-        </ChatMessage>
-      ) : (
-        <ChatMyMessage
-        onKeyDown={handleMessageKeyDown}
-        {...customProps}
-        {...props}
-        // {...props}
-        >
-          <ChatMessageContent id={contentId}>{children}</ChatMessageContent>
-        </ChatMyMessage>
-      )}
-    </>
+        </ChatMessageType>
+      </PopoverTrigger>
+      <PopoverSurface {...modalizerAttributes}>
+        <button>like</button>
+        <button>heart</button>
+      </PopoverSurface>
+    </Popover>
   );
 };
 
@@ -128,6 +147,7 @@ export const ChatWithFocusableContent: React.FC = () => {
 
       <Chat role="application">
         <CustomChatMessage
+        id={'message1'}
         user={user1}
         CustomReactions={Message1Reactions}
         customTimestamp="June 20, 2023 9:35 AM."
@@ -135,12 +155,14 @@ export const ChatWithFocusableContent: React.FC = () => {
           Hello I am Ashley
         </CustomChatMessage>
         <CustomChatMessage
+        id={'message2'}
         customTimestamp="Today at 3:10 PM."
         customDetails="Edited"
         >
           Nice to meet you!
         </CustomChatMessage>
         <CustomChatMessage
+        id={'message3'}
         user={user1}
         customTimestamp="Today at 5:22 PM."
         >
