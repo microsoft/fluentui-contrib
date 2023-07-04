@@ -29,9 +29,8 @@ interface User {
   status: PresenceBadgeStatus;
 }
 
-const ChatMessageContent: React.FC<React.HTMLAttributes<HTMLDivElement>> = (
-  props
-) => <div {...props} role="none" tabIndex={0} />;
+const ChatMessageContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>((props, ref) =>
+<div ref={ref} {...props} role="none" tabIndex={0} />);
 
 interface ReactionsProps {
 id: string;
