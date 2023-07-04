@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { Meta } from '@storybook/react';
 import { ChatMyMessage } from '@fluentui-contrib/react-chat';
 export { Default } from './Default.stories';

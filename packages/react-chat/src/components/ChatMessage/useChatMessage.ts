@@ -2,7 +2,7 @@ import * as React from 'react';
 import {
   getPartitionedNativeProps,
   resolveShorthand,
-} from '@fluentui/react-utilities';
+} from '@fluentui/react-components';
 import type { ChatMessageProps, ChatMessageState } from './ChatMessage.types';
 import { getDecorationIcon } from '../utils/getDecorationIcon';
 import { useChatMessageFocusableGroup } from '../utils/useChatMessageFocusableGroup';

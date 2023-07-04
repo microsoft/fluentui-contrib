@@ -1,4 +1,4 @@
-import { useFocusableGroup } from '@fluentui/react-tabster';
+import { useFocusableGroup } from '@fluentui/react-components';
 import { ChatMessageState } from '../ChatMessage/ChatMessage.types';
 import { ChatMyMessageState } from '../ChatMyMessage/ChatMyMessage.types';
 

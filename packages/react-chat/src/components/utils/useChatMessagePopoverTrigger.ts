@@ -1,11 +1,10 @@
 import * as React from 'react';
-
-import { usePopoverContext_unstable } from '@fluentui/react-components';
 import {
-  mergeCallbacks,
-  useEventCallback,
+  usePopoverContext_unstable,
   useMergedRefs,
-} from '@fluentui/react-utilities';
+} from '@fluentui/react-components';
+import { useEventCallback } from './useEventCallback';
+import { mergeCallbacks } from './mergeCallbacks';
 import { ChatMessageState } from '../ChatMessage/ChatMessage.types';
 import { ChatMyMessageState } from '../ChatMyMessage/ChatMyMessage.types';
 
