@@ -1406,10 +1406,10 @@
     "@griffel/react" "^1.5.7"
     "@swc/helpers" "^0.4.14"
 
-"@fluentui/react-components@^9.25.0":
-  version "9.25.0"
-  resolved "https://registry.yarnpkg.com/@fluentui/react-components/-/react-components-9.25.0.tgz#238fbebd81ab145c3ca9221da8cb75b200dc70fc"
-  integrity sha512-uHwVgU3g83jQ2P7E7NWdARQZ1mRXG7SC3fCszlWxHXBKKoWjjwozJHrb8tZc7YWOYJ3oErKrcPcrlh/ZKTAGNA==
+"@fluentui/react-components@^9.25.1":
+  version "9.25.1"
+  resolved "https://registry.yarnpkg.com/@fluentui/react-components/-/react-components-9.25.1.tgz#c150ce38b8f499872bbf33783f733efd52c907c2"
+  integrity sha512-encMr8NFMxYH6ja+BV7pVEl1LWfoEUQcvZJP4jkw06NyOjKMQh8Q3Ys7L1dFaa7rJsOyqaSkr7ZQFu7nidBHiw==
   dependencies:
     "@fluentui/react-accordion" "^9.1.22"
     "@fluentui/react-alert" "9.0.0-beta.57"
@@ -1450,7 +1450,7 @@
     "@fluentui/react-text" "^9.3.16"
     "@fluentui/react-textarea" "^9.3.20"
     "@fluentui/react-theme" "^9.1.9"
-    "@fluentui/react-toast" "^9.0.1"
+    "@fluentui/react-toast" "^9.0.2"
     "@fluentui/react-toolbar" "^9.1.23"
     "@fluentui/react-tooltip" "^9.2.22"
     "@fluentui/react-tree" "9.0.0-beta.24"
@@ -1909,10 +1909,10 @@
     "@fluentui/tokens" "1.0.0-alpha.6"
     "@swc/helpers" "^0.4.14"
 
-"@fluentui/react-toast@^9.0.1":
-  version "9.0.1"
-  resolved "https://registry.yarnpkg.com/@fluentui/react-toast/-/react-toast-9.0.1.tgz#b0e7d07b19b57641e4d8d0b507bb79005357c33e"
-  integrity sha512-S1OtVQ2gxiCOjV2zx7G5jkpsfQtGaEHB8d5fnwl2vKj8bp33z/sUBxg54axjromyn92q8KP+XjiT9e5a5wyKyg==
+"@fluentui/react-toast@^9.0.2":
+  version "9.0.2"
+  resolved "https://registry.yarnpkg.com/@fluentui/react-toast/-/react-toast-9.0.2.tgz#c6dbeb0156384dfd3a2690ed1a07a91c2a922222"
+  integrity sha512-2KCz72s1sGSFo+ORaNY360kPIsxIWaY/ZDnl8zh+m5VWZSvMx0lQBllqJJgFAy6zxmWEIVZp1O1gXu5OrezxJw==
   dependencies:
     "@fluentui/react-aria" "^9.3.26"
     "@fluentui/react-icons" "^2.0.203"
