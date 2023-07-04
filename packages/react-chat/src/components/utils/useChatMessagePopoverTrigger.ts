@@ -3,7 +3,7 @@ import {
   usePopoverContext_unstable,
   useMergedRefs,
 } from '@fluentui/react-components';
-import { useEventCallback } from './useEventCallback';
+import { useEventCallback } from '@fluentui/react-utilities';
 import { mergeCallbacks } from './mergeCallbacks';
 import { ChatMessageState } from '../ChatMessage/ChatMessage.types';
 import { ChatMyMessageState } from '../ChatMyMessage/ChatMyMessage.types';
