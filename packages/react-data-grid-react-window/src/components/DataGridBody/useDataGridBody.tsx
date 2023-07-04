@@ -5,10 +5,10 @@ import type {
 } from './DataGridBody.types';
 import {
   useDataGridBody_unstable as useDataGridBodyBase_unstable,
-  RowRenderFunction,
   TableRowData,
   TableRowIdContextProvider,
-} from '@fluentui/react-table';
+} from '@fluentui/react-components';
+import type { RowRenderFunction } from '@fluentui/react-table';
 import { TableRowIndexContextProvider } from '../../contexts/rowIndexContext';
 
 /**

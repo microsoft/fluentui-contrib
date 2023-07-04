@@ -1,6 +1,9 @@
 import * as React from 'react';
-import type { DataGridRowProps, DataGridRowState } from '@fluentui/react-table';
-import { useDataGridRow_unstable as useBaseState } from '@fluentui/react-table';
+import type {
+  DataGridRowProps,
+  DataGridRowState,
+} from '@fluentui/react-components';
+import { useDataGridRow_unstable as useBaseState } from '@fluentui/react-components';
 import { useTableRowIndexContext } from '../../contexts/rowIndexContext';
 
 /**

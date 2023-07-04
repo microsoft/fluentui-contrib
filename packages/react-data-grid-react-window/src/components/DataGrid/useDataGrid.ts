@@ -1,11 +1,12 @@
 import * as React from 'react';
 import {
+  useDataGrid_unstable as useBaseState,
   DataGridProps,
   DataGridState,
-  TABLE_SELECTION_CELL_WIDTH,
-} from '@fluentui/react-table';
-import { useDataGrid_unstable as useBaseState } from '@fluentui/react-table';
+} from '@fluentui/react-components';
 import { useFluent, useScrollbarWidth } from '@fluentui/react-components';
+
+const TABLE_SELECTION_CELL_WIDTH = 44;
 
 /**
  * Create the state required to render DataGrid.

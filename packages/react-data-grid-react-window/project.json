@@ -15,7 +15,10 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/react-data-grid-react-window/**/*.ts"]
+        "lintFilePatterns": [
+          "packages/react-data-grid-react-window/**/*.ts",
+          "packages/react-data-grid-react-window/**/*.tsx"
+        ]
       }
     },
     "test": {

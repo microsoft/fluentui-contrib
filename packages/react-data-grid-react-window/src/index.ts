@@ -7,7 +7,7 @@ export {
   DataGridHeader,
   DataGridHeaderCell,
   DataGridSelectionCell,
-} from '@fluentui/react-table';
+} from '@fluentui/react-components';
 
 export type {
   DataGridCellProps,
@@ -16,6 +16,6 @@ export type {
   DataGridSelectionCellProps,
   DataGridRowProps,
   DataGridProps,
-} from '@fluentui/react-table';
+} from '@fluentui/react-components';
 
 export type { DataGridBodyProps, RowRenderer } from './components/DataGridBody';

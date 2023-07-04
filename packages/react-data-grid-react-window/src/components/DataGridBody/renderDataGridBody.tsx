@@ -2,7 +2,7 @@
 /** @jsx createElement */
 
 import { createElement } from '@fluentui/react-jsx-runtime';
-import { getSlotsNext } from '@fluentui/react-utilities';
+import { getSlotsNext } from '@fluentui/react-components';
 import type {
   DataGridBodyState,
   DataGridBodySlots,

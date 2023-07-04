@@ -1,11 +1,11 @@
 {
   "name": "@fluentui-contrib/react-data-grid-react-window",
   "version": "0.0.1",
+  "dependencies": {
+    "react-window": "^1.8.5"
+  },
   "peerDependencies": {
     "@fluentui/react-components": ">=9.20.0 <10.0.0",
-    "@types/react": ">=16.8.0 <19.0.0",
-    "@types/react-dom": ">=16.8.0 <19.0.0",
-    "react": ">=16.8.0 <19.0.0",
-    "react-dom": ">=16.8.0 <19.0.0"
+    "react": ">=16.8.0 <19.0.0"
   }
 }

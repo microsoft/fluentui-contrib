@@ -2,10 +2,10 @@ import * as React from 'react';
 import {
   useDataGridRowStyles_unstable,
   renderDataGridRow_unstable,
-} from '@fluentui/react-table';
+  DataGridRowProps,
+} from '@fluentui/react-components';
+import type { ForwardRefComponent } from '@fluentui/react-components';
 import { useDataGridRow_unstable } from './useDataGridRow.styles';
-import type { DataGridRowProps } from '@fluentui/react-table';
-import type { ForwardRefComponent } from '@fluentui/react-utilities';
 
 /**
  * DataGridRow component
