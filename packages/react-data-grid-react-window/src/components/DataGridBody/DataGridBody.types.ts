@@ -9,12 +9,18 @@ import { ListChildComponentProps } from 'react-window';
 
 export type DataGridBodySlots = DataGridBodySlotsBase;
 
-export type RowRenderer<TItem = unknown> = (row: TableRowData<TItem>, style: React.CSSProperties) => React.ReactNode;
+export type RowRenderer<TItem = unknown> = (
+  row: TableRowData<TItem>,
+  style: React.CSSProperties
+) => React.ReactNode;
 
 /**
  * DataGridBody Props
  */
-export type DataGridBodyProps<TItem = unknown> = Omit<DataGridBodyPropsBase, 'children'> & {
+export type DataGridBodyProps<TItem = unknown> = Omit<
+  DataGridBodyPropsBase,
+  'children'
+> & {
   /**
    * The size of each row
    */

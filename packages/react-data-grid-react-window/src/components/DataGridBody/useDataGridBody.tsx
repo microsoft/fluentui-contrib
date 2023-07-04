@@ -1,5 +1,8 @@
 import * as React from 'react';
-import type { DataGridBodyProps, DataGridBodyState } from './DataGridBody.types';
+import type {
+  DataGridBodyProps,
+  DataGridBodyState,
+} from './DataGridBody.types';
 import {
   useDataGridBody_unstable as useDataGridBodyBase_unstable,
   RowRenderFunction,
@@ -17,23 +20,37 @@ import { TableRowIndexContextProvider } from '../../contexts/rowIndexContext';
  * @param props - props from this instance of DataGridBody
  * @param ref - reference to root HTMLElement of DataGridBody
  */
-export const useDataGridBody_unstable = (props: DataGridBodyProps, ref: React.Ref<HTMLElement>): DataGridBodyState => {
-  const { height, itemSize, width = '100%', ariaRowIndexStart = 2, children } = props;
+export const useDataGridBody_unstable = (
+  props: DataGridBodyProps,
+  ref: React.Ref<HTMLElement>
+): DataGridBodyState => {
+  const {
+    height,
+    itemSize,
+    width = '100%',
+    ariaRowIndexStart = 2,
+    children,
+  } = props;
 
   // cast the row render function to work with unknown args
   const renderRowWithUnknown = children as RowRenderFunction;
-  const baseState = useDataGridBodyBase_unstable({ ...props, children: renderRowWithUnknown }, ref);
+  const baseState = useDataGridBodyBase_unstable(
+    { ...props, children: renderRowWithUnknown },
+    ref
+  );
 
   const virtualizedRow: DataGridBodyState['virtualizedRow'] = React.useCallback(
     ({ data, index, style }) => {
       const row: TableRowData<unknown> = data[index];
       return (
         <TableRowIndexContextProvider value={ariaRowIndexStart + index}>
-          <TableRowIdContextProvider value={row.rowId}>{children(row, style)}</TableRowIdContextProvider>
+          <TableRowIdContextProvider value={row.rowId}>
+            {children(row, style)}
+          </TableRowIdContextProvider>
         </TableRowIndexContextProvider>
       );
     },
-    [ariaRowIndexStart, children],
+    [ariaRowIndexStart, children]
   );
 
   return {

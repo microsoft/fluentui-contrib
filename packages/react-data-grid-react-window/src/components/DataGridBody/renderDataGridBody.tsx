@@ -3,7 +3,10 @@
 
 import { createElement } from '@fluentui/react-jsx-runtime';
 import { getSlotsNext } from '@fluentui/react-utilities';
-import type { DataGridBodyState, DataGridBodySlots } from './DataGridBody.types';
+import type {
+  DataGridBodyState,
+  DataGridBodySlots,
+} from './DataGridBody.types';
 import { FixedSizeList as List } from 'react-window';
 
 /**

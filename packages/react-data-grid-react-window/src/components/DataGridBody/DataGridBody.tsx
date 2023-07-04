@@ -9,11 +9,14 @@ import type { DataGridBodyProps } from './DataGridBody.types';
  * DataGridBody component
  */
 export const DataGridBody: ForwardRefComponent<DataGridBodyProps> &
-  (<TItem>(props: DataGridBodyProps<TItem>) => JSX.Element) = React.forwardRef((props, ref) => {
-  const state = useDataGridBody_unstable(props, ref);
+  (<TItem>(props: DataGridBodyProps<TItem>) => JSX.Element) = React.forwardRef(
+  (props, ref) => {
+    const state = useDataGridBody_unstable(props, ref);
 
-  useDataGridBodyStyles_unstable(state);
-  return renderDataGridBody_unstable(state);
-}) as ForwardRefComponent<DataGridBodyProps> & (<TItem>(props: DataGridBodyProps<TItem>) => JSX.Element);
+    useDataGridBodyStyles_unstable(state);
+    return renderDataGridBody_unstable(state);
+  }
+) as ForwardRefComponent<DataGridBodyProps> &
+  (<TItem>(props: DataGridBodyProps<TItem>) => JSX.Element);
 
 DataGridBody.displayName = 'DataGridBody';

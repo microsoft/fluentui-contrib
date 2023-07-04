@@ -12,7 +12,10 @@ import { useTableRowIndexContext } from '../../contexts/rowIndexContext';
  * @param props - props from this instance of DataGridRow
  * @param ref - reference to root HTMLElement of DataGridRow
  */
-export const useDataGridRow_unstable = (props: DataGridRowProps, ref: React.Ref<HTMLElement>): DataGridRowState => {
+export const useDataGridRow_unstable = (
+  props: DataGridRowProps,
+  ref: React.Ref<HTMLElement>
+): DataGridRowState => {
   const rowIndex = useTableRowIndexContext();
   return useBaseState({ ...props, 'aria-rowindex': rowIndex }, ref);
 };
