@@ -1,10 +1,10 @@
+import * as React from 'react';
 import {
   AlertUrgentFilled,
   ImportantFilled,
   MentionFilled,
   PeopleFilled,
 } from '@fluentui/react-icons';
-import * as React from 'react';
 
 export const getDecorationIcon = (
   decoration?: 'important' | 'urgent' | 'mention' | 'mentionEveryone'
