@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: Add all dependencies to package.json",
+  "packageName": "@fluentui-contrib/react-chat",
+  "email": "lingfan.gao@microsoft.com",
+  "dependentChangeType": "patch"
+}

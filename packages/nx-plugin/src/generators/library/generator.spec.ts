@@ -59,4 +59,23 @@ describe('create-package generator', () => {
       }
     `);
   });
+
+  it('should update lint configuration', async () => {
+    await generator(tree, options);
+    const config = readProjectConfiguration(tree, 'test');
+    expect(config.targets?.lint).toMatchInlineSnapshot(`
+      {
+        "executor": "@nx/linter:eslint",
+        "options": {
+          "lintFilePatterns": [
+            "test/**/*.ts",
+            "test/**/*.tsx",
+          ],
+        },
+        "outputs": [
+          "{options.outputFile}",
+        ],
+      }
+    `);
+  });
 });

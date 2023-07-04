@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { getSlots } from '@fluentui/react-utilities';
+import { getSlots } from '@fluentui/react-components';
 import type { ChatMessageState, ChatMessageSlots } from './ChatMessage.types';
 
 /**
