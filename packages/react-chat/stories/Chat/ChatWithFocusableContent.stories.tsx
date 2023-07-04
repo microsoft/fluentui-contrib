@@ -31,7 +31,7 @@ interface User {
 }
 
 const ChatMessageContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>((props, ref) =>
-<div ref={ref} {...props} role="none" tabIndex={0} />);
+<div ref={ref} {...props} role="document" tabIndex={0} />);
 
 interface ReactionsProps {
 id: string;
