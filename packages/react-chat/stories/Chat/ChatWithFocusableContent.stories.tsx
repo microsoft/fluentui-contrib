@@ -8,7 +8,6 @@ import {
   PopoverTrigger,
   useId,
   Link,
-  useFluent,
   PresenceBadgeStatus,
 } from '@fluentui/react-components';
 import {
@@ -78,6 +77,7 @@ const CustomChatMessage: React.FC<CustomChatMessageProps> = ({
   const ChatMessageType = user ? ChatMessage : ChatMyMessage;
 
   const messageRef = React.useRef<HTMLDivElement>(null);
+  const messageContentRef = React.useRef<HTMLDivElement>(null);
   const firstButtonInPopoverRef = React.useRef<HTMLButtonElement>(null);
   const isPopoverOpenFromKeyDown = React.useRef<boolean>(false);
 
@@ -91,13 +91,14 @@ const CustomChatMessage: React.FC<CustomChatMessageProps> = ({
   const handlePopoverOpenChange: PopoverProps['onOpenChange'] = (event, { open }) =>
   setPopoverOpen(open);
 
-  const { targetDocument } = useFluent();
   const handleChatMessageKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter' && event.target === messageRef.current) {
+    if (event.key === 'Enter') {
+      if (event.ctrlKey) {
+        messageContentRef.current?.focus();
+        // targetDocument?.getElementById(contentId)?.focus();
+      }else if (event.target === messageRef.current) {
       isPopoverOpenFromKeyDown.current = true;
     }
-    if (event.ctrlKey && event.key === 'Enter') {
-      targetDocument?.getElementById(contentId)?.focus();
     }
   };
 
@@ -136,7 +137,7 @@ const CustomChatMessage: React.FC<CustomChatMessageProps> = ({
           aria-expanded={undefined}
           {...props}
         >
-          <ChatMessageContent id={contentId}>{children}</ChatMessageContent>
+          <ChatMessageContent ref={messageContentRef} id={contentId}>{children}</ChatMessageContent>
         </ChatMessageType>
       </PopoverTrigger>
       <PopoverSurface
