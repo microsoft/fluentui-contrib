@@ -53,7 +53,6 @@ const Message1Reactions: React.FC<ReactionsProps> = ({ id }) => {
 };
 
 type CustomChatMessageProps = ChatMessageProps & ChatMyMessageProps & {
-  id: string;
   user?: User;
   CustomReactions?: React.FC<ReactionsProps>;
   customTimestamp?: string;
@@ -61,7 +60,6 @@ type CustomChatMessageProps = ChatMessageProps & ChatMyMessageProps & {
   children: React.ReactNode;
 };
 const CustomChatMessage: React.FC<CustomChatMessageProps> = ({
-  id,
   user,
   CustomReactions,
   customTimestamp,
@@ -70,33 +68,48 @@ const CustomChatMessage: React.FC<CustomChatMessageProps> = ({
   ...props
 }) => {
   const [popoverOpen, setPopoverOpen] = React.useState(false);
+
   const messageId = useId('message');
   const contentId = `${messageId}-content`;
   const reactionsId = `${messageId}-reactions`;
   const timestampId = `${messageId}-timestamp`;
   const detailsId = `${messageId}-details`;
+  const popoverSurfaceId = `${messageId}-popover-surface`;
   const ChatMessageType = user ? ChatMessage : ChatMyMessage;
-  
+
+  const messageRef = React.useRef<HTMLDivElement>(null);
+  const firstButtonInPopoverRef = React.useRef<HTMLButtonElement>(null);
+  const isPopoverOpenFromKeyDown = React.useRef<boolean>(false);
+
+  React.useEffect(() => {
+    if (popoverOpen && isPopoverOpenFromKeyDown.current) {
+      isPopoverOpenFromKeyDown.current = false;
+      firstButtonInPopoverRef.current?.focus();
+    }
+  }, [popoverOpen]);
+
   const handlePopoverOpenChange: PopoverProps['onOpenChange'] = (event, { open }) =>
   setPopoverOpen(open);
 
   const { targetDocument } = useFluent();
   const handleChatMessageKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter' && event.target === messageRef.current) {
+      isPopoverOpenFromKeyDown.current = true;
+    }
     if (event.ctrlKey && event.key === 'Enter') {
       targetDocument?.getElementById(contentId)?.focus();
     }
   };
 
-  const handleChatMessageFocus = React.useCallback(() =>
-  setPopoverOpen(true),
-  []);
-
   const modalizerAttributes = useTabsterAttributes({
     modalizer: {
-      id,
+      id: messageId,
       isOthersAccessible: true,
       isAlwaysAccessible: true,
       isTrapped: true,
+    },
+    focusable: {
+      ignoreKeydown: { Enter: true },
     },
   });
 
@@ -109,22 +122,29 @@ const CustomChatMessage: React.FC<CustomChatMessageProps> = ({
   >
     <PopoverTrigger>
         <ChatMessageType
+        {...modalizerAttributes}
+        ref={messageRef}
+      
+        role="group"
           avatar={user ? <Avatar name={user.name} badge={{ status: user.status }} /> : undefined}
           reactions={CustomReactions? <CustomReactions id={reactionsId} /> : undefined}
           timestamp={customTimestamp ? {children: customTimestamp, id: timestampId} : undefined}
           details={customDetails? {children: customDetails, id: detailsId} : undefined}
           onKeyDown={handleChatMessageKeyDown}
-          onFocus={handleChatMessageFocus}
+          {...(popoverOpen && { 'aria-owns': popoverSurfaceId })}
           aria-labelledby={`${contentId} ${reactionsId} ${timestampId} ${detailsId}`}
+          aria-expanded={undefined}
           {...props}
-          {...modalizerAttributes}
         >
           <ChatMessageContent id={contentId}>{children}</ChatMessageContent>
         </ChatMessageType>
       </PopoverTrigger>
-      <PopoverSurface {...modalizerAttributes}>
-        <button>like</button>
-        <button>heart</button>
+      <PopoverSurface
+      {...modalizerAttributes}
+      id={popoverSurfaceId}
+      >
+        <Button ref={firstButtonInPopoverRef}>like</Button>
+        <Button>heart</Button>
       </PopoverSurface>
     </Popover>
   );
@@ -143,11 +163,10 @@ export const ChatWithFocusableContent: React.FC = () => {
   return (
     <div>
       <h1>Chat with focusable content</h1>
-      <button> start here</button>
+      <button>Before chat</button>
 
       <Chat role="application">
         <CustomChatMessage
-        id={'message1'}
         user={user1}
         CustomReactions={Message1Reactions}
         customTimestamp="June 20, 2023 9:35 AM."
@@ -155,14 +174,12 @@ export const ChatWithFocusableContent: React.FC = () => {
           Hello I am Ashley
         </CustomChatMessage>
         <CustomChatMessage
-        id={'message2'}
         customTimestamp="Today at 3:10 PM."
         customDetails="Edited"
         >
           Nice to meet you!
         </CustomChatMessage>
         <CustomChatMessage
-        id={'message3'}
         user={user1}
         customTimestamp="Today at 5:22 PM."
         >
