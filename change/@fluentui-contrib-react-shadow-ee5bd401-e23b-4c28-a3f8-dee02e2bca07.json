@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: render portals under shadow root",
-  "packageName": "@fluentui-contrib/react-shadow",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}

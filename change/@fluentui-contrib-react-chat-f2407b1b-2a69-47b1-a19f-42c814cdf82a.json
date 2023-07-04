@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "chore: update required version of @fluentui/react-components",
-  "packageName": "@fluentui-contrib/react-chat",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}
