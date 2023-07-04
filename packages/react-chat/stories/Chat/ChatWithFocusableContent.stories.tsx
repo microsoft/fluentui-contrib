@@ -2,12 +2,13 @@ import * as React from 'react';
 import {
   Avatar,
   Button,
+  Link,
   Popover,
   PopoverProps,
   PopoverSurface,
   PopoverTrigger,
+  Toolbar,
   useId,
-  Link,
   PresenceBadgeStatus,
 } from '@fluentui/react-components';
 import {
@@ -43,6 +44,7 @@ const Message1Reactions: React.FC<ReactionsProps> = ({ id }) => {
         children: <EmojiSmileSlightRegular fontSize={16} />,
       }}
       appearance="subtle"
+      tabIndex={-1}
       aria-label="1 Smile reaction."
     >
       1
@@ -143,8 +145,17 @@ const CustomChatMessage: React.FC<CustomChatMessageProps> = ({
       {...modalizerAttributes}
       id={popoverSurfaceId}
       >
-        <Button ref={firstButtonInPopoverRef}>like</Button>
-        <Button>heart</Button>
+        <Toolbar>
+        <Button ref={firstButtonInPopoverRef}>Like</Button>
+        <Button>Heart</Button>
+        <Button>Laugh</Button>
+        <Button>Surprised</Button>
+        <Button aria-expanded="false">More reactions</Button>
+        </Toolbar>
+        <Toolbar>
+          <Button>Reply</Button>
+          <Button>More options...</Button>
+        </Toolbar>
       </PopoverSurface>
     </Popover>
   );
