@@ -31,6 +31,7 @@ export default async function (tree: Tree, options: LibraryGeneratorSchema) {
   }
 
   const { root: projectRoot, targets } = newProject;
+  const paths = getPackagePaths(workspaceRoot, projectRoot);
   if (!targets) {
     return;
   }
@@ -43,9 +44,11 @@ export default async function (tree: Tree, options: LibraryGeneratorSchema) {
     executor: '@fluentui-contrib/nx-plugin:type-check',
   };
 
-  updateProjectConfiguration(tree, name, newProject);
+  targets.lint.options = {
+    lintFilePatterns: [`${projectRoot}/**/*.ts`, `${projectRoot}/**/*.tsx`],
+  };
 
-  const paths = getPackagePaths(workspaceRoot, projectRoot);
+  updateProjectConfiguration(tree, name, newProject);
   tree.delete(path.join(paths.src, 'lib'));
   const reactComponentsVersion = await findInstalledReactComponentsVersion();
 
