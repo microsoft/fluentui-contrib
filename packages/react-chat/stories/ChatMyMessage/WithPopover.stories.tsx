@@ -22,11 +22,6 @@ const ChatMyMessageWithPopover = (
     { open }
   ) => setPopoverOpen(open);
 
-  const handleChatMessageFocus = React.useCallback(
-    () => setPopoverOpen(true),
-    []
-  );
-
   const modalizerAttributes = useTabsterAttributes({
     modalizer: {
       id: props.id,
@@ -34,7 +29,27 @@ const ChatMyMessageWithPopover = (
       isAlwaysAccessible: true,
       isTrapped: true,
     },
+    focusable: {
+      ignoreKeydown: { Enter: true },
+    },
   });
+
+  const messageRef = React.useRef<HTMLDivElement>(null);
+  const firstButtonInPopoverRef = React.useRef<HTMLButtonElement>(null);
+  const isPopoverOpenFromKeyDown = React.useRef<boolean>(false);
+  const handleChatMessageKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && e.target === messageRef.current) {
+      isPopoverOpenFromKeyDown.current = true;
+    }
+  };
+  React.useEffect(() => {
+    if (popoverOpen && isPopoverOpenFromKeyDown.current) {
+      isPopoverOpenFromKeyDown.current = false;
+      firstButtonInPopoverRef.current?.focus();
+    }
+  }, [popoverOpen]);
+
+  const popoverSurfaceId = `${props.id}-popover-surface`;
 
   return (
     <Popover
@@ -45,13 +60,17 @@ const ChatMyMessageWithPopover = (
     >
       <PopoverTrigger>
         <ChatMyMessage
-          onFocus={handleChatMessageFocus}
           {...props}
           {...modalizerAttributes}
+          role="group"
+          aria-expanded={undefined}
+          onKeyDown={handleChatMessageKeyDown}
+          ref={messageRef}
+          {...(popoverOpen && { 'aria-owns': popoverSurfaceId })}
         />
       </PopoverTrigger>
-      <PopoverSurface {...modalizerAttributes}>
-        <button>like</button>
+      <PopoverSurface {...modalizerAttributes} id={popoverSurfaceId}>
+        <button ref={firstButtonInPopoverRef}>like</button>
         <button>heart</button>
       </PopoverSurface>
     </Popover>
