@@ -1,4 +1,7 @@
-import { RendererProvider } from '@fluentui/react-components';
+import {
+  RendererProvider,
+  PortalMountNodeProvider,
+} from '@fluentui/react-components';
 import { createShadowDOMRenderer } from '@griffel/shadow-dom';
 import * as React from 'react';
 import { createProxy } from 'react-shadow';
@@ -38,12 +41,7 @@ const ReactComponentsWrapper: React.FC<{
 
   return (
     <RendererProvider renderer={renderer}>
-      {/* TODO: FluentProvider should accept ShadowRoot as targetDocument*/}
-      {/*<Provider_unstable*/}
-      {/*  value={{ dir: 'ltr', targetDocument: root as unknown as Document }}*/}
-      {/*>*/}
-      {children}
-      {/*</Provider_unstable>*/}
+      <PortalMountNodeProvider value={root}>{children}</PortalMountNodeProvider>
     </RendererProvider>
   );
 };
