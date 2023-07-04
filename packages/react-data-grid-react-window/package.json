@@ -2,6 +2,7 @@
   "name": "@fluentui-contrib/react-data-grid-react-window",
   "version": "0.0.1",
   "dependencies": {
+    "@fluentui/react-jsx-runtime": "^9.0.0-alpha.10",
     "react-window": "^1.8.5"
   },
   "peerDependencies": {
