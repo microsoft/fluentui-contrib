@@ -15,7 +15,10 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/react-chat/**/*.ts"]
+        "lintFilePatterns": [
+          "packages/react-chat/**/*.ts",
+          "packages/react-chat/**/*.tsx"
+        ]
       }
     },
     "test": {
