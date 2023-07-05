@@ -35,12 +35,14 @@ export default async function runExecutor(
   copySync(root, tmpDir);
   const paths = getPackagePaths(tmpDir, '.', true);
 
+  copyYarnBinary(paths, workspaceRoot);
+
   configureTsConfig(paths, workspaceRoot);
 
   configurePackageJson(paths, workspaceRoot);
 
   try {
-    const yarnCmd = 'npx yarn@1 --silent';
+    const yarnCmd = 'yarn';
     console.log('Run', yarnCmd);
     execSync(yarnCmd, { stdio: 'inherit', cwd: paths.root });
 
@@ -81,6 +83,10 @@ function shouldRun(workspaceRoot: string) {
   const packageJson = readJsonFile(paths.packageJson);
 
   return !!packageJson.peerDependencies;
+}
+
+function copyYarnBinary(paths: PackagePaths, workspaceRoot: string) {
+  copySync(path.join(workspaceRoot, '.yarn'), path.join(paths.root, '.yarn'));
 }
 
 function configureTsConfig(paths: PackagePaths, workspaceRoot: string) {
