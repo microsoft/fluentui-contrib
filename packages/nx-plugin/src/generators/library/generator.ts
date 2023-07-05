@@ -44,6 +44,10 @@ export default async function (tree: Tree, options: LibraryGeneratorSchema) {
     executor: '@fluentui-contrib/nx-plugin:type-check',
   };
 
+  targets['verify-deps'] = {
+    executor: '@fluentui-contrib/nx-plugin:verify-deps',
+  };
+
   targets.lint.options = {
     lintFilePatterns: [`${projectRoot}/**/*.ts`, `${projectRoot}/**/*.tsx`],
   };
@@ -58,10 +62,7 @@ export default async function (tree: Tree, options: LibraryGeneratorSchema) {
 
     packageJson.peerDependencies ??= {
       '@fluentui/react-components': `>=${reactComponentsVersion} <10.0.0`,
-      '@types/react': '>=16.8.0 <19.0.0',
-      '@types/react-dom': '>=16.8.0 <19.0.0',
       react: '>=16.8.0 <19.0.0',
-      'react-dom': '>=16.8.0 <19.0.0',
     };
 
     return packageJson;

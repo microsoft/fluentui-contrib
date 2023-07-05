@@ -12,19 +12,37 @@ export interface PackagePaths {
   esm: string;
   commonjs: string;
   tsconfigLib: string;
+  tsconfig: string;
 }
 
 export function getPackagePaths(
   workspaceRoot: string,
-  rootPath: string
+  rootPath: string,
+  absolute?: boolean
 ): PackagePaths {
+  if (absolute) {
+    return {
+      root: path.join(workspaceRoot, rootPath),
+      main: path.join(workspaceRoot, rootPath, 'src', 'index.ts'),
+      src: path.join(workspaceRoot, rootPath, 'src'),
+      packageJson: path.join(workspaceRoot, rootPath, 'package.json'),
+      readme: path.join(workspaceRoot, rootPath, 'README.md'),
+      swcrc: path.join(workspaceRoot, rootPath, '.swcrc'),
+      tsconfig: path.join(workspaceRoot, rootPath, 'tsconfig.json'),
+      tsconfigLib: path.join(workspaceRoot, rootPath, 'tsconfig.lib.json'),
+      dist: path.join(workspaceRoot, 'dist', rootPath),
+      esm: path.join(workspaceRoot, 'dist', rootPath, 'lib'),
+      commonjs: path.join(workspaceRoot, 'dist', rootPath, 'lib-commonjs'),
+    };
+  }
   return {
-    root: rootPath,
+    root: path.join(rootPath),
     main: path.join(rootPath, 'src', 'index.ts'),
     src: path.join(rootPath, 'src'),
     packageJson: path.join(rootPath, 'package.json'),
     readme: path.join(rootPath, 'README.md'),
     swcrc: path.join(rootPath, '.swcrc'),
+    tsconfig: path.join(rootPath, 'tsconfig.json'),
     tsconfigLib: path.join(rootPath, 'tsconfig.lib.json'),
     dist: path.join(workspaceRoot, 'dist', rootPath),
     esm: path.join(workspaceRoot, 'dist', rootPath, 'lib'),

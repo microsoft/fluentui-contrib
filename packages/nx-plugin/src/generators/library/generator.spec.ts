@@ -35,7 +35,6 @@ describe('create-package generator', () => {
         "@types/react": ">=16.8.0 <19.0.0",
         "@types/react-dom": ">=16.8.0 <19.0.0",
         "react": ">=16.8.0 <19.0.0",
-        "react-dom": ">=16.8.0 <19.0.0",
       }
     `);
   });
@@ -56,6 +55,16 @@ describe('create-package generator', () => {
     expect(config.targets?.['type-check']).toMatchInlineSnapshot(`
       {
         "executor": "@fluentui-contrib/nx-plugin:type-check",
+      }
+    `);
+  });
+
+  it('should verify-deps target', async () => {
+    await generator(tree, options);
+    const config = readProjectConfiguration(tree, 'test');
+    expect(config.targets?.['verify-deps']).toMatchInlineSnapshot(`
+      {
+        "executor": "@fluentui-contrib/nx-plugin:verify-deps",
       }
     `);
   });

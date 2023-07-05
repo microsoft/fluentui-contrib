@@ -37,6 +37,9 @@
     },
     "type-check": {
       "executor": "@fluentui-contrib/nx-plugin:type-check"
+    },
+    "verify-deps": {
+      "executor": "@fluentui-contrib/nx-plugin:verify-deps"
     }
   },
   "tags": []
