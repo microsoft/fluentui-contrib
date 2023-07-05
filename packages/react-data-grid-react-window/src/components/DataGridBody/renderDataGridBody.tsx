@@ -1,7 +1,4 @@
-/** @jsxRuntime classic */
-/** @jsx createElement */
-
-import { createElement } from '@fluentui/react-jsx-runtime';
+import * as React from 'react';
 import { getSlots } from '@fluentui/react-components';
 import type {
   DataGridBodyState,
