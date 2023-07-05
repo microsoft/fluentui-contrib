@@ -41,7 +41,6 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          cache: 'yarn'
           node-version: '16'
 
       - run: yarn install --frozen-lockfile
