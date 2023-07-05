@@ -116,9 +116,18 @@ function configurePackageJson(paths: PackagePaths, workspaceRoot: string) {
 
   // Copy all types dependencies - they are not that big and there's not many of them (yet)
   const rootPkgJson = readJsonFile(path.join(workspaceRoot, 'package.json'));
+<<<<<<< HEAD
   if (!pkgJson.dependencies['@types/react']) {
     pkgJson.dependencies['@types/react'] =
       rootPkgJson.devDependencies['@types/react'];
+=======
+  const rootDevDeps = Object.entries(rootPkgJson.devDependencies ?? {});
+  pkgJson.devDependencies ??= {};
+  for (const [depName, version] of rootDevDeps) {
+    if (depName.startsWith('@types/')) {
+      pkgJson.devDependencies[depName] = version;
+    }
+>>>>>>> 34edbd4 (fix)
   }
 
   writeJsonFile(paths.packageJson, pkgJson);
