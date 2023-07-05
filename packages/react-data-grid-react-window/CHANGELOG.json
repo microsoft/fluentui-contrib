@@ -1,0 +1,20 @@
+{
+  "name": "@fluentui-contrib/react-data-grid-react-window",
+  "entries": [
+    {
+      "date": "Wed, 05 Jul 2023 20:20:40 GMT",
+      "tag": "@fluentui-contrib/react-data-grid-react-window_v1.0.0",
+      "version": "1.0.0",
+      "comments": {
+        "major": [
+          {
+            "author": "lingfan.gao@microsoft.com",
+            "package": "@fluentui-contrib/react-data-grid-react-window",
+            "commit": "a1061cdbe508ba7aeb3557ce0ae3e22e837a54cb",
+            "comment": "feat: Implement DataGrid virtualized by react-window"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -2,6 +2,29 @@
   "name": "@fluentui-contrib/react-chat",
   "entries": [
     {
+      "date": "Wed, 05 Jul 2023 20:20:40 GMT",
+      "tag": "@fluentui-contrib/react-chat_v0.1.5",
+      "version": "0.1.5",
+      "comments": {
+        "none": [
+          {
+            "author": "lingfan.gao@microsoft.com",
+            "package": "@fluentui-contrib/react-chat",
+            "commit": "beb2f7e06505072c5f442fcf907a1c992fd85bbb",
+            "comment": "chore: Remove node types in tsconfig.lib.json by default"
+          }
+        ],
+        "patch": [
+          {
+            "author": "lingfan.gao@microsoft.com",
+            "package": "@fluentui-contrib/react-chat",
+            "commit": "7ff9f568e93f903a17b7bf861b2fa114ac144da5",
+            "comment": "fix: Add all dependencies to package.json"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 04 Jul 2023 11:46:49 GMT",
       "tag": "@fluentui-contrib/react-chat_v0.1.4",
       "version": "0.1.4",

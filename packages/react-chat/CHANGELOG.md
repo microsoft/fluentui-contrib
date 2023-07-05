@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-chat
 
-This log was last generated on Tue, 04 Jul 2023 11:46:49 GMT and should not be manually modified.
+This log was last generated on Wed, 05 Jul 2023 20:20:40 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.1.5
+
+Wed, 05 Jul 2023 20:20:40 GMT
+
+### Patches
+
+- fix: Add all dependencies to package.json (lingfan.gao@microsoft.com)
 
 ## 0.1.4
 

@@ -1,7 +1,0 @@
-{
-  "type": "none",
-  "comment": "chore: Remove node types in tsconfig.lib.json by default",
-  "packageName": "@fluentui-contrib/react-chat",
-  "email": "lingfan.gao@microsoft.com",
-  "dependentChangeType": "none"
-}

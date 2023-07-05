@@ -1,7 +1,0 @@
-{
-  "type": "major",
-  "comment": "feat: Implement DataGrid virtualized by react-window",
-  "packageName": "@fluentui-contrib/react-data-grid-react-window",
-  "email": "lingfan.gao@microsoft.com",
-  "dependentChangeType": "patch"
-}
