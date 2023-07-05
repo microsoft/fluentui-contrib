@@ -9,6 +9,11 @@
       "implementation": "./src/executors/type-check/executor",
       "schema": "./src/executors/type-check/schema.json",
       "description": "type-check executor"
+    },
+    "verify-deps": {
+      "implementation": "./src/executors/verify-deps/executor",
+      "schema": "./src/executors/verify-deps/schema.json",
+      "description": "verify-deps executor"
     }
   }
 }

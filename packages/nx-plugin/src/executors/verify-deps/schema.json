@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "version": 2,
+  "title": "VerifyDeps executor",
+  "description": "Copies the package to a tmp directory and verify that typescript builds it correctly with minimum peer dependency versions",
+  "type": "object",
+  "properties": {
+    "cleanup": {
+      "type": "boolean",
+      "description": "Whether to cleanup the tmp directory where the package was tested",
+      "default": true,
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      }
+    }
+  },
+  "required": []
+}
