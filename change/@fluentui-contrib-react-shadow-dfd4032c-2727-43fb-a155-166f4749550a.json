@@ -1,0 +1,7 @@
+{
+  "type": "none",
+  "comment": "chore: Remove node types in tsconfig.lib.json by default",
+  "packageName": "@fluentui-contrib/react-shadow",
+  "email": "lingfan.gao@microsoft.com",
+  "dependentChangeType": "none"
+}
