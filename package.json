@@ -32,7 +32,6 @@
     "@nx/storybook": "16.1.4",
     "@nx/webpack": "16.1.4",
     "@nx/workspace": "16.1.4",
-    "@storybook/addon-essentials": "7.0.12",
     "@storybook/core-common": "^7.0.9",
     "@storybook/core-server": "7.0.12",
     "@storybook/react-webpack5": "7.0.12",
@@ -66,5 +65,7 @@
     "tslib": "^2.3.0",
     "typescript": "~5.0.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@storybook/addon-storysource": "^7.0.26"
+  }
 }
