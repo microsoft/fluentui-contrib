@@ -101,7 +101,7 @@ function configurePackageJson(paths: PackagePaths, workspaceRoot: string) {
   const rootDevDeps = Object.entries(rootPkgJson.devDependencies ?? {});
   pkgJson.devDependencies ??= {};
   for (const [depName, version] of rootDevDeps) {
-    if (depName.startsWith('@types')) {
+    if (depName.startsWith('@types/')) {
       pkgJson.devDependencies[depName] = version;
     }
   }
