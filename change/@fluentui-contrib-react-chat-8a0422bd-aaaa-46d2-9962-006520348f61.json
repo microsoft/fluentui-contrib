@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "feat: downgrade to es2019",
+  "packageName": "@fluentui-contrib/react-chat",
+  "email": "lingfan.gao@microsoft.com",
+  "dependentChangeType": "patch"
+}
