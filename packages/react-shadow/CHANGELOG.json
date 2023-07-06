@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-shadow",
   "entries": [
     {
+      "date": "Thu, 06 Jul 2023 12:03:40 GMT",
+      "tag": "@fluentui-contrib/react-shadow_v0.0.4",
+      "version": "0.0.4",
+      "comments": {
+        "patch": [
+          {
+            "author": "lingfan.gao@microsoft.com",
+            "package": "@fluentui-contrib/react-shadow",
+            "commit": "13fd3f08be7dd64cfc4d8496fcd87b46f3bc1fc4",
+            "comment": "feat: downgrade to es2019"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 05 Jul 2023 20:20:40 GMT",
       "tag": "@fluentui-contrib/react-shadow_v0.0.3",
       "version": "0.0.3",
