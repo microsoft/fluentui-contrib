@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "Align peer dependencies with the original package to enable strict package managers know upfront the dependencies",
+  "packageName": "@fluentui-contrib/react-data-grid-react-window",
+  "email": "mushierc@gmail.com",
+  "dependentChangeType": "patch"
+}
