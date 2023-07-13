@@ -172,8 +172,9 @@ export const ChatWithFocusableContent: React.FC = () => {
   const user1: User = { name: 'Ashley McCarthy', status: 'available' };
 
   return (
-    <div role="application">
+    <>
       <h1>Chat with focusable content</h1>
+    <div role="application">
       <button>Before chat</button>
 
       <Chat>
@@ -200,5 +201,6 @@ export const ChatWithFocusableContent: React.FC = () => {
         </CustomChatMessage>
       </Chat>
     </div>
+    </>
   );
 };
