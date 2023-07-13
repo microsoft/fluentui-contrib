@@ -31,7 +31,7 @@ describe('create-package generator', () => {
     const pkgJson = readJson(tree, paths.packageJson);
     expect(pkgJson.peerDependencies).toMatchInlineSnapshot(`
       {
-        "@fluentui/react-components": ">=9.20.0 <10.0.0",
+        "@fluentui/react-components": ">=9.25.1 <10.0.0",
         "@types/react": ">=16.8.0 <19.0.0",
         "@types/react-dom": ">=16.8.0 <19.0.0",
         "react": ">=16.8.0 <19.0.0",
@@ -56,6 +56,25 @@ describe('create-package generator', () => {
     expect(config.targets?.['type-check']).toMatchInlineSnapshot(`
       {
         "executor": "@fluentui-contrib/nx-plugin:type-check",
+      }
+    `);
+  });
+
+  it('should update lint configuration', async () => {
+    await generator(tree, options);
+    const config = readProjectConfiguration(tree, 'test');
+    expect(config.targets?.lint).toMatchInlineSnapshot(`
+      {
+        "executor": "@nx/linter:eslint",
+        "options": {
+          "lintFilePatterns": [
+            "test/**/*.ts",
+            "test/**/*.tsx",
+          ],
+        },
+        "outputs": [
+          "{options.outputFile}",
+        ],
       }
     `);
   });

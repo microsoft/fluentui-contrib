@@ -12,6 +12,7 @@ module.exports = {
     '**/jest.config.js',
     '**/project.json',
     '**/README.md',
+    '**/.storybook/**',
   ],
   hooks: require('./beachball.hooks'),
 };

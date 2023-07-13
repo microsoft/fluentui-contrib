@@ -4,7 +4,6 @@ import { runTypeCheck, printDiagnostics } from '@nx/js';
 import { TypeCheckExecutorSchema } from './schema';
 import { getPackagePaths } from '../../utils';
 
-
 export default async function runExecutor(
   options: TypeCheckExecutorSchema,
   context: ExecutorContext
@@ -23,8 +22,9 @@ export default async function runExecutor(
     return;
   }
 
+  console.log(path.join(workspaceRoot, 'dist'));
   // Move to separate exector - don't use NX default
-  const  { errors } = await runTypeCheck({
+  const { errors } = await runTypeCheck({
     mode: 'emitDeclarationOnly',
     outDir: path.join(workspaceRoot, 'dist'),
     tsConfigPath: paths.tsconfigLib,
@@ -37,7 +37,7 @@ export default async function runExecutor(
     printDiagnostics(errors);
     return {
       success: false,
-    }
+    };
   }
 
   return {

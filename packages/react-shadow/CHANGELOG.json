@@ -2,6 +2,65 @@
   "name": "@fluentui-contrib/react-shadow",
   "entries": [
     {
+      "date": "Thu, 06 Jul 2023 12:03:40 GMT",
+      "tag": "@fluentui-contrib/react-shadow_v0.0.4",
+      "version": "0.0.4",
+      "comments": {
+        "patch": [
+          {
+            "author": "lingfan.gao@microsoft.com",
+            "package": "@fluentui-contrib/react-shadow",
+            "commit": "13fd3f08be7dd64cfc4d8496fcd87b46f3bc1fc4",
+            "comment": "feat: downgrade to es2019"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Wed, 05 Jul 2023 20:20:40 GMT",
+      "tag": "@fluentui-contrib/react-shadow_v0.0.3",
+      "version": "0.0.3",
+      "comments": {
+        "none": [
+          {
+            "author": "lingfan.gao@microsoft.com",
+            "package": "@fluentui-contrib/react-shadow",
+            "commit": "beb2f7e06505072c5f442fcf907a1c992fd85bbb",
+            "comment": "chore: Remove node types in tsconfig.lib.json by default"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Tue, 04 Jul 2023 11:46:49 GMT",
+      "tag": "@fluentui-contrib/react-shadow_v0.0.3",
+      "version": "0.0.3",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "@fluentui-contrib/react-shadow",
+            "commit": "da59860a27f3575ad50c9666fc6ef3ea93a0c3dc",
+            "comment": "chore: use a renderer from Griffel"
+          },
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "@fluentui-contrib/react-shadow",
+            "commit": "2fa9324eee06e32c629c27c6653a2f08d76a429f",
+            "comment": "fix: render portals under shadow root"
+          }
+        ],
+        "none": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "@fluentui-contrib/react-shadow",
+            "commit": "82e6af159e0a2220a485734aad3a22533cd32023",
+            "comment": "version bump"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 20 Jun 2023 12:38:42 GMT",
       "tag": "@fluentui-contrib/react-shadow_v0.0.2",
       "version": "0.0.2",

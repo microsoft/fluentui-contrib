@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "chore: use a renderer from Griffel",
-  "packageName": "@fluentui-contrib/react-shadow",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}
