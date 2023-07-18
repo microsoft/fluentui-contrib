@@ -31,7 +31,9 @@ interface User {
 }
 
 const ChatMessageContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>((props, ref) =>
-<div ref={ref} {...props} role="document" tabIndex={0} />);
+<div role="application" aria-roledescription="Message">
+<div ref={ref} {...props} role="document" tabIndex={0} />
+</div>);
 
 interface ReactionsProps {
 id: string;
@@ -174,7 +176,7 @@ export const ChatWithFocusableContent: React.FC = () => {
   return (
     <>
       <h1>Chat with focusable content</h1>
-    <div role="application">
+    <div>
       <button>Before chat</button>
 
       <Chat>
