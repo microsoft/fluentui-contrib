@@ -183,7 +183,7 @@ export const ChatWithFocusableContent: React.FC = () => {
         CustomReactions={Message1Reactions}
         customTimestamp="June 20, 2023 9:35 AM."
         >
-          Hello I am Ashley
+          Hello I am Ashley. This is a long message content which we would like to read in the document screen reader mode. NVDA already implements some support for the automatic switching of the mode when an element with the "document" role or its descendant is focused, and when it is contained within an element with the "application" role, but is stil not yet at the stage we would be satisfied with. Therefore, we hope to achieve the desired behavior first with JAWS. Once implemented, this will significantly ease the reading of long messages or even enable text selection. This will also solve the issue with JAWS which trims long messages.
         </CustomChatMessage>
         <CustomChatMessage
         customTimestamp="Today at 3:10 PM."
@@ -195,8 +195,8 @@ export const ChatWithFocusableContent: React.FC = () => {
         user={user1}
         customTimestamp="Today at 5:22 PM."
         >
-          This is <ChatLink href="#">my homepage</ChatLink>. Some text goes here to
-          demonstrate reading of longer runs of texts. Now follows{' '}
+          This is <ChatLink href="https://www.microsoft.com">my homepage</ChatLink>. Some text goes here to
+          further demonstrate reading of longer runs of texts. To make an example of an interactive element within a message, now follows{' '}
           <a href="#">another link</a> which is also a dummy link.
         </CustomChatMessage>
       </Chat>
