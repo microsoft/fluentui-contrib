@@ -31,7 +31,7 @@ interface User {
 }
 
 const ChatMessageContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>((props, ref) =>
-<div role="application" aria-roledescription="Message">
+<div>
 <div ref={ref} {...props} role="document" tabIndex={0} />
 </div>);
 
@@ -176,7 +176,8 @@ export const ChatWithFocusableContent: React.FC = () => {
   return (
     <>
       <h1>Chat with focusable content</h1>
-    <div>
+    <div role="application">
+
       <button>Before chat</button>
 
       <Chat>
@@ -185,7 +186,7 @@ export const ChatWithFocusableContent: React.FC = () => {
         CustomReactions={Message1Reactions}
         customTimestamp="June 20, 2023 9:35 AM."
         >
-          Hello I am Ashley. This is a long message content which we would like to read in the document screen reader mode. NVDA already implements some support for the automatic switching of the mode when an element with the "document" role or its descendant is focused, and when it is contained within an element with the "application" role, but is stil not yet at the stage we would be satisfied with. Therefore, we hope to achieve the desired behavior first with JAWS. Once implemented, this will significantly ease the reading of long messages or even enable text selection. This will also solve the issue with JAWS which trims long messages.
+          Hello I am Ashley. This is an examplary long message content which we would like to read in the document screen reader mode. NVDA already implements sufficient support for the automatic switching of the screen reader mode when an element with the "document" role or its descendant is focused or when explicitly enabled by the user, and when it is contained within an element with the "application" role. However, JAWS does not yet behave as we would expect to, therefore, we hope to achieve the desired behavior also with JAWS. Once implemented, this will significantly ease the reading of long messages or even enable convenient text selection. This will also solve the issue with JAWS which trims long messages to a certain character limit.
         </CustomChatMessage>
         <CustomChatMessage
         customTimestamp="Today at 3:10 PM."
