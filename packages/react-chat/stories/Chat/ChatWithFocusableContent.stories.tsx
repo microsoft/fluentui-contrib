@@ -168,7 +168,7 @@ children: React.ReactNode;
 }
 
 const ChatLink: React.FC<ChatLinkProps> = ({ children, ...props } ) => 
-<Link {...props} aria-label={`Link ${children?.toString()}`} />;
+<Link {...props} aria-label={`Link ${children?.toString()}`}>{children}</Link>;
 
 export const ChatWithFocusableContent: React.FC = () => {
   const user1: User = { name: 'Ashley McCarthy', status: 'available' };
