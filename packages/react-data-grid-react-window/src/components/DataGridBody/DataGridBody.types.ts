@@ -11,7 +11,11 @@ export type DataGridBodySlots = DataGridBodySlotsBase;
 
 export type RowRenderer<TItem = unknown> = (
   row: TableRowData<TItem>,
-  style: React.CSSProperties
+  style: React.CSSProperties,
+  /**
+   * The index of each row
+   */
+  index: number,
 ) => React.ReactNode;
 
 /**
