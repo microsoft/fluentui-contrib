@@ -15,7 +15,7 @@ export type RowRenderer<TItem = unknown> = (
   /**
    * The index of each row
    */
-  index: number,
+  index: number
 ) => React.ReactNode;
 
 /**
