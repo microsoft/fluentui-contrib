@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "Added index in DataGridBody RowRenderer",
-  "packageName": "@fluentui-contrib/react-data-grid-react-window",
-  "email": "email not defined",
-  "dependentChangeType": "patch"
-}

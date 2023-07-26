@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-data-grid-react-window",
   "entries": [
     {
+      "date": "Wed, 26 Jul 2023 17:16:16 GMT",
+      "tag": "@fluentui-contrib/react-data-grid-react-window_v1.0.2",
+      "version": "1.0.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "email not defined",
+            "package": "@fluentui-contrib/react-data-grid-react-window",
+            "commit": "3ccaea995f945bbabc4bc227645c42f7a769a528",
+            "comment": "Added index in DataGridBody RowRenderer"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 06 Jul 2023 12:03:40 GMT",
       "tag": "@fluentui-contrib/react-data-grid-react-window_v1.0.1",
       "version": "1.0.1",
