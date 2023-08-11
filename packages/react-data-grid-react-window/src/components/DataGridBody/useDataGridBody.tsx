@@ -30,6 +30,7 @@ export const useDataGridBody_unstable = (
     width = '100%',
     ariaRowIndexStart = 2,
     children,
+    listProps,
   } = props;
 
   // cast the row render function to work with unknown args
@@ -60,5 +61,6 @@ export const useDataGridBody_unstable = (
     virtualizedRow,
     width,
     ariaRowIndexStart,
+    listProps,
   };
 };
