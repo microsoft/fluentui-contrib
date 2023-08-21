@@ -24,6 +24,7 @@ import {
   MenuList,
   MenuPopover,
   Button,
+  makeStyles,
 } from '@fluentui/react-components';
 import {
   DataGridBody,
@@ -34,6 +35,7 @@ import {
   DataGridHeaderCell,
   RowRenderer,
 } from '@fluentui-contrib/react-data-grid-react-window';
+import AutoSizer from 'react-virtualized-auto-sizer';
 
 type FileCell = {
   label: string;
@@ -198,45 +200,80 @@ const renderRow: RowRenderer<Item> = ({ item, rowId }, style) => (
   </DataGridRow>
 );
 
-export const VirtualizedDataGrid = () => {
+const getStylesForReactWindowOverrides = makeStyles({
+  header: {
+    paddingRight: 'var(--scrollbar-width, 4px)',
+    height: 'var(--header-height)',
+  },
+  list: {
+    scrollbarGutter: 'stable',
+  },
+  grid: {
+    height: '100%',
+  },
+});
+
+export const ReactWindowOverrides = () => {
+  const HEADER_HEIGHT = 33;
   const { targetDocument } = useFluent();
   const scrollbarWidth = useScrollbarWidth({ targetDocument });
+  const styles = getStylesForReactWindowOverrides();
 
   return (
     <DataGrid
-      items={items}
+      items={items.slice(0, 8)}
       columns={columns}
       focusMode="cell"
       sortable
       selectionMode="multiselect"
+      className={styles.grid}
+      style={
+        {
+          '--scrollbar-width': `${scrollbarWidth}px`,
+          '--header-height': `${HEADER_HEIGHT}px`,
+        } as React.CSSProperties
+      }
     >
-      <DataGridHeader style={{ paddingRight: scrollbarWidth }}>
+      <DataGridHeader className={styles.header}>
         <DataGridRow>
           {({ renderHeaderCell }) => (
             <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>
           )}
         </DataGridRow>
       </DataGridHeader>
-      <DataGridBody<Item> itemSize={50} height={400}>
-        {renderRow}
-      </DataGridBody>
+      <AutoSizer disableWidth>
+        {({ height }) => (
+          <DataGridBody<Item>
+            itemSize={50}
+            height={height - HEADER_HEIGHT}
+            listProps={{
+              className: styles.list,
+            }}
+          >
+            {renderRow}
+          </DataGridBody>
+        )}
+      </AutoSizer>
     </DataGrid>
   );
 };
 
-VirtualizedDataGrid.parameters = {
+ReactWindowOverrides.decorators = [
+  (Story: () => JSX.Element) => (
+    <div style={{ height: '100vh' }}>
+      <Story />
+    </div>
+  ),
+];
+
+ReactWindowOverrides.parameters = {
   docs: {
     description: {
       story: [
-        'Virtualizating the DataGrid component involves recomposing components to use a virtualized container.',
-        'This is already done in the extension package `@fluentui/react-data-grid-react-window` which provides',
-        'extended DataGrid components that are powered',
-        'by [react-window](https://react-window.vercel.app/#/examples/list/fixed-size).',
-        '',
-        'The example below shows how to use this extension package to virtualize the DataGrid component.',
-        '',
-        '> ⚠️ Make sure to memoize the row render function to avoid excessive unmouting/mounting of components.',
-        'react-window will [create components based on this renderer](https://react-window.vercel.app/#/api/FixedSizeList)',
+        'As VirtualizedDataGrid relies on [FixedListSIze](https://react-window.vercel.app/#/examples/list/fixed-size),',
+        'you may want to pass some props directly to it. One use case could be to add additional styling to the list itself',
+        'In this example we make sure to keep header aligned with row content no matter if list scrollbar is visible or not.',
+        'Resize window vertically to see this in action.',
       ].join('\n'),
     },
   },
