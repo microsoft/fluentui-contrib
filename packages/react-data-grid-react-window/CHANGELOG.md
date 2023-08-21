@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-data-grid-react-window
 
-This log was last generated on Wed, 26 Jul 2023 17:16:16 GMT and should not be manually modified.
+This log was last generated on Mon, 21 Aug 2023 18:45:26 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 1.1.0
+
+Mon, 21 Aug 2023 18:45:26 GMT
+
+### Minor changes
+
+- feat: add capability to override FixelListSize props (sjwilczynski@gmail.com)
 
 ## 1.0.2
 

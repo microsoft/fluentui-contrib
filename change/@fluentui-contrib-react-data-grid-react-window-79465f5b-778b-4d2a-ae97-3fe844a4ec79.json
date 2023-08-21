@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "feat: add capability to override FixelListSize props",
-  "packageName": "@fluentui-contrib/react-data-grid-react-window",
-  "email": "sjwilczynski@gmail.com",
-  "dependentChangeType": "patch"
-}

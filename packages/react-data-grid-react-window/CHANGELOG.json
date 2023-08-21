@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-data-grid-react-window",
   "entries": [
     {
+      "date": "Mon, 21 Aug 2023 18:45:26 GMT",
+      "tag": "@fluentui-contrib/react-data-grid-react-window_v1.1.0",
+      "version": "1.1.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "sjwilczynski@gmail.com",
+            "package": "@fluentui-contrib/react-data-grid-react-window",
+            "commit": "fb1c3702c27d9e30f30dd8f37e3a69b97bd56f6c",
+            "comment": "feat: add capability to override FixelListSize props"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 26 Jul 2023 17:16:16 GMT",
       "tag": "@fluentui-contrib/react-data-grid-react-window_v1.0.2",
       "version": "1.0.2",
