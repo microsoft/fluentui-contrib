@@ -5,7 +5,7 @@ import type {
   DataGridBodySlots as DataGridBodySlotsBase,
   DataGridBodyState as DataGridBodyStateBase,
 } from '@fluentui/react-components';
-import { ListChildComponentProps } from 'react-window';
+import { FixedSizeListProps, ListChildComponentProps } from 'react-window';
 
 export type DataGridBodySlots = DataGridBodySlotsBase;
 
@@ -49,6 +49,14 @@ export type DataGridBodyProps<TItem = unknown> = Omit<
    * @default 2
    */
   ariaRowIndexStart?: number;
+
+  /**
+   * Optional props to pass through to the FixedSizeList component from react-window
+   *
+   * @see https://react-window.vercel.app/#/api/FixedSizeList
+   */
+
+  listProps?: Partial<FixedSizeListProps>;
 };
 
 /**
@@ -58,4 +66,6 @@ export type DataGridBodyState = Omit<DataGridBodyStateBase, 'renderRow'> &
   Pick<DataGridBodyProps, 'itemSize' | 'height'> &
   Pick<Required<DataGridBodyProps>, 'width' | 'ariaRowIndexStart'> & {
     virtualizedRow: (props: ListChildComponentProps) => React.ReactElement;
+  } & {
+    listProps?: Partial<FixedSizeListProps>;
   };
