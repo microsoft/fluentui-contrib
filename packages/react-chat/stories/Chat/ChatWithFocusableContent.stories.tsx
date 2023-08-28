@@ -128,7 +128,7 @@ const CustomChatMessage: React.FC<CustomChatMessageProps> = ({
         <ChatMessageType
         {...modalizerAttributes}
         ref={messageRef}
-      
+
         role="group"
           avatar={user ? <Avatar name={user.name} badge={{ status: user.status }} /> : undefined}
           reactions={CustomReactions? <CustomReactions id={reactionsId} /> : undefined}
@@ -164,11 +164,12 @@ const CustomChatMessage: React.FC<CustomChatMessageProps> = ({
 };
 
 interface  ChatLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+  srLabel:string;
 children: React.ReactNode;
 }
 
-const ChatLink: React.FC<ChatLinkProps> = ({ children, ...props } ) => 
-<Link {...props} aria-label={`Link ${children?.toString()}`}>{children}</Link>;
+const ChatLink: React.FC<ChatLinkProps> = ({ srLabel, children, ...props } ) =>
+<Link {...props} aria-label={`Link ${srLabel}`}>{children}</Link>;
 
 export const ChatWithFocusableContent: React.FC = () => {
   const user1: User = { name: 'Ashley McCarthy', status: 'available' };
@@ -198,9 +199,9 @@ export const ChatWithFocusableContent: React.FC = () => {
         user={user1}
         customTimestamp="Today at 5:22 PM."
         >
-          This is <ChatLink href="https://www.microsoft.com">my homepage</ChatLink>. Some text goes here to
-          further demonstrate reading of longer runs of texts. To make an example of an interactive element within a message, now follows{' '}
-          <a href="#">another link</a> which is also a dummy link.
+          This is <ChatLink href="https://www.microsoft.com" srLabel="my homepage">my homepage</ChatLink>. Some text goes here to
+          further demonstrate reading of longer runs of texts. To make an example of another interactive element within a message, now follows{' '}
+          <ChatLink href="#" srLabel="another link">another link</ChatLink> which is also a dummy link.
         </CustomChatMessage>
       </Chat>
     </div>
