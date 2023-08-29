@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { getSlots } from '@fluentui/react-components';
+import { getSlots, useFluent } from '@fluentui/react-components';
 import type {
   DataGridBodyState,
   DataGridBodySlots,
@@ -11,6 +11,7 @@ import { FixedSizeList as List } from 'react-window';
  */
 export const renderDataGridBody_unstable = (state: DataGridBodyState) => {
   const { slots, slotProps } = getSlots<DataGridBodySlots>(state);
+  const { dir } = useFluent();
 
   return (
     <slots.root {...slotProps.root}>
@@ -20,6 +21,7 @@ export const renderDataGridBody_unstable = (state: DataGridBodyState) => {
         itemData={state.rows}
         height={state.height}
         itemCount={state.rows.length}
+        direction={dir}
         {...state.listProps}
       >
         {state.virtualizedRow}
