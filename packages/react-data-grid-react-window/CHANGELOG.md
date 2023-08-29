@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-data-grid-react-window
 
-This log was last generated on Mon, 21 Aug 2023 18:45:26 GMT and should not be manually modified.
+This log was last generated on Tue, 29 Aug 2023 11:32:35 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 1.1.1
+
+Tue, 29 Aug 2023 11:32:35 GMT
+
+### Patches
+
+- fix RTL direction for virtualized DataGridBody (dragoshomner@microsoft.com)
 
 ## 1.1.0
 

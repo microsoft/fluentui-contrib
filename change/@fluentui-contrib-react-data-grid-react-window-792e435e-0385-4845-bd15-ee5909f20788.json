@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix RTL direction for virtualized DataGridBody",
-  "packageName": "@fluentui-contrib/react-data-grid-react-window",
-  "email": "dragoshomner@microsoft.com",
-  "dependentChangeType": "patch"
-}
