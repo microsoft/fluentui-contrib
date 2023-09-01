@@ -24,6 +24,9 @@
       "@fluentui-contrib/react-data-grid-react-window": [
         "packages/react-data-grid-react-window/src/index.ts"
       ],
+      "@fluentui-contrib/react-headless-provider": [
+        "packages/react-headless-provider/src/index.ts"
+      ],
       "@fluentui-contrib/react-shadow": ["packages/react-shadow/src/index.ts"]
     }
   },
