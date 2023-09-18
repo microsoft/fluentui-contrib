@@ -1,11 +1,39 @@
-# react-headless-provider
+# @fluentui/react-headless-provider
 
-This library was generated with [Nx](https://nx.dev).
+A package that provides a headless provider, a replacement in some cases for `FluentProvider` from `@fluentui/react-components`.
 
-## Building
+`HeadlessFluentProvider` does not render additional any DOM elements, only applies React Contexts needed for components from `@fluentui/react-components` to render properly.
 
-Run `nx build react-headless-provider` to build the library.
+Following features work:
 
-## Running unit tests
+- rendering into different documents i.e. `targetDocument` prop
+- `customStyleHooks_unstable` & `overrides_unstable` props
 
-Run `nx test react-headless-provider` to execute the unit tests via [Jest](https://jestjs.io).
+Following features don't work:
+
+- scoped theming, in this scenario theming should be configured globally or separately
+- scoped "dir", in this scenario text direction should be configured globally or separately
+- polyfill for `:focus-visible` (`useFocusVisible()` from `@fluentui/react-tabster`) should be initialized separately
+
+Designed to be used with [`createCSSRuleFromTheme()`](https://github.com/microsoft/fluentui/pull/29052), see for context [microsoft/fluentui#21290](https://github.com/microsoft/fluentui/issues/21290).
+
+## Install
+
+```sh
+yarn add @fluentui-contrib/react-headless-provider
+# or
+npm install @fluentui-contrib/react-headless-provider
+```
+
+## Usage
+
+```tsx
+import * as React from 'react';
+import { HeadlessFluentProvider } from '@fluentui-contrib/react-headless-provider';
+
+export function RootContainer(props) {
+  const { targetDocument } = props;
+
+  return <HeadlessFluentProvider targetDocument={targetDocument}>{/* children */}</HeadlessFluentProvider>;
+}
+```
