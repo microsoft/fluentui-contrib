@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { DataGrid, DataGridBody, CellRenderer, DataGridRow } from '@fluentui-contrib/react-data-grid-react-window-grid';
+import { DataGrid, DataGridBody, CellRenderer, DataGridHeaderRow } from '@fluentui-contrib/react-data-grid-react-window-grid';
 import { Meta } from '@storybook/react';
 import {CalendarClock16Regular } from '@fluentui/react-icons';
 import { DataGridCell, makeStyles, DataGridHeader, DataGridHeaderCell, TableCellLayout, TableColumnDefinition, createTableColumn, shorthands, tokens, useTableFeatures, useTableSelection, useTableSort, TableColumnId, TableColumnSizingOptions } from '@fluentui/react-components';
+import { GridOnScrollProps } from 'react-window';
 
 export default {
     component: DataGrid,
@@ -36,6 +37,7 @@ const useStyles = makeStyles({
     tableHeader: {
         position: 'relative',
         ...shorthands.overflow('hidden'),
+        width: '1000px',
     },
     headerCell: {
         whiteSpace: 'nowrap',
@@ -44,6 +46,8 @@ const useStyles = makeStyles({
         width: '80px'
     }
 });
+
+const columnWidthConstant = 120;
 
 function getColumnDefinitions(
     columns: string[]
@@ -108,24 +112,8 @@ export const VirtualizedDataGrid: React.FunctionComponent = () => {
     const bodyContainer: React.Ref<HTMLDivElement> = React.useRef(null);
 
     const scrollToLeft = (scrollLeft: number) => {
-        headerContainer && (headerContainer?.current as HTMLElement).scrollTo({ left: scrollLeft});
-        const bodyChildren = bodyContainer && bodyContainer?.current?.children;
-        if( bodyChildren) {
-            (Array.from(bodyChildren)[0] as HTMLElement).scrollTo({ left: scrollLeft });
-        }
+        (headerContainer && (headerContainer?.current as HTMLElement).firstChild?.firstChild as HTMLElement)?.scrollTo({ left: scrollLeft});
     };
-
-    // bundle scroll bar horizontal of the child List component of DataGridBody: to make both header and body scroll horizontally
-    React.useEffect(() => {
-        const bodyChildren = bodyContainer && bodyContainer?.current?.children;
-        if( bodyChildren) {
-            const handleScroll = (event) => {
-                scrollToLeft((Array.from(bodyChildren)[0] as HTMLElement).scrollLeft);
-            };
-
-            (Array.from(bodyChildren)[0] as HTMLElement).addEventListener('scroll', handleScroll);
-        }
-    }, []);
 
     return (
             <DataGrid focusMode='cell' noNativeElements
@@ -137,29 +125,34 @@ export const VirtualizedDataGrid: React.FunctionComponent = () => {
                 columns={columns}
                 size={'medium'}
             >
-              <div role='grid' className={styles.tableHeader} ref={headerContainer}>
-                  <DataGridHeader>
-                        <DataGridRow<TableUIData>>
-                            {({ columnId, renderHeaderCell }, tableFeaturesState) => {
+                  <DataGridHeader ref={headerContainer} className={styles.tableHeader}>
+                        <DataGridHeaderRow<TableUIData> itemSize={columnWidthConstant} height={42} width={20000}>
+                            {({ columnId, renderHeaderCell }, style) => {
                                 return (
                                     <DataGridHeaderCell
                                         className={styles.headerCell}
                                         as="div"
+                                        style={style}
                                     >
                                         {renderHeaderCell()}
                                     </DataGridHeaderCell>
                                 );
                             }}
-                        </DataGridRow>
+                        </DataGridHeaderRow>
                     </DataGridHeader>
-              </div>
-
                     <DataGridBody<TableUIData>
                         itemSize={24}
                         height={500}
                         width={1000}
-                        columnWidth={100}
+                        columnWidth={columnWidthConstant}
                         ref={bodyContainer}
+                        gridProps={{
+                            onScroll: (props: GridOnScrollProps) => {
+                                if(props.horizontalScrollDirection) {
+                                    scrollToLeft(props.scrollLeft)
+                                }
+                            }
+                        }}
                     >
                         {cellRenderer}
                     </DataGridBody>

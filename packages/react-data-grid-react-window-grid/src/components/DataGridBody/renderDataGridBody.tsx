@@ -22,6 +22,7 @@ export const renderDataGridBody_unstable = (state: DataGridBodyState) => {
         height={state.height}
         itemData={state.rows}
         rowCount={state.rows.length}
+        {...state.gridProps}
       >
         {state.virtualizedCell}
       </Grid>

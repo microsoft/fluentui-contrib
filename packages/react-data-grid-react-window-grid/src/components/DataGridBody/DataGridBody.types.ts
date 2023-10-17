@@ -8,7 +8,7 @@ import type {
   DataGridContextValue,
   TableColumnDefinition,
 } from '@fluentui/react-components';
-import { GridChildComponentProps } from 'react-window';
+import { FixedSizeGridProps, GridChildComponentProps } from 'react-window';
 
 export type DataGridBodySlots = DataGridBodySlotsBase;
 
@@ -63,6 +63,14 @@ export type DataGridBodyProps<TItem = unknown> = Omit<
    * @default 2
    */
   ariaRowIndexStart?: number;
+
+    /**
+     * Optional props to pass through to the FixedSizeGrid component from react-window
+     *
+     * @see https://react-window.vercel.app/#/api/FixedSizeGrid
+     */
+
+    gridProps?: Partial<FixedSizeGridProps>;
 };
 
 /**
@@ -73,4 +81,6 @@ export type DataGridBodyState = Omit<DataGridBodyStateBase, 'renderRow'> &
     Pick<DataGridContextValue, 'columns'> &
     Pick<Required<DataGridBodyProps>, 'width' | 'ariaRowIndexStart'> & {
       virtualizedCell: (props: GridChildComponentProps) => React.ReactElement;
-};
+} & {
+  gridProps?: Partial<FixedSizeGridProps>;
+};;

@@ -1,6 +1,6 @@
 export { DataGridBody } from './components/DataGridBody';
 export { DataGrid } from './components/DataGrid';
-export { DataGridRow } from './components/DataGridRow';
+export { DataGridHeaderRow } from './components/DataGridHeaderRow';
 
 export {
   DataGridCell,
