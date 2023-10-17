@@ -2,7 +2,7 @@ import * as React from 'react';
 import { DataGrid, DataGridBody, CellRenderer, DataGridHeaderRow } from '@fluentui-contrib/react-data-grid-react-window-grid';
 import { Meta } from '@storybook/react';
 import {CalendarClock16Regular } from '@fluentui/react-icons';
-import { DataGridCell, makeStyles, DataGridHeader, DataGridHeaderCell, TableCellLayout, TableColumnDefinition, createTableColumn, shorthands, tokens, useTableFeatures, useTableSelection, useTableSort, TableColumnId, TableColumnSizingOptions } from '@fluentui/react-components';
+import { DataGridCell, makeStyles, DataGridHeader, DataGridHeaderCell, TableCellLayout, TableColumnDefinition, createTableColumn, tokens } from '@fluentui/react-components';
 import { GridOnScrollProps } from 'react-window';
 
 export default {
@@ -36,7 +36,6 @@ const useStyles = makeStyles({
     },
     tableHeader: {
         position: 'relative',
-        ...shorthands.overflow('hidden'),
         width: '1000px',
     },
     headerCell: {
@@ -95,67 +94,60 @@ export const VirtualizedDataGrid: React.FunctionComponent = () => {
     const columns = getColumnDefinitions([...new Array(50)].map((v, index) => `Column ${index}`));
     const items = generateTableArrays(1000, 50);
     const styles = useStyles();
-    const columnResizingOptions: TableColumnSizingOptions = {};
-    [...new Array(50)].map((v, index) => {
-            columnResizingOptions[`column${index}`] = { idealWidth: 80, minWidth: 0 };
-        });
 
     const cellRenderer: CellRenderer<TableUIData> = ({ item, rowId}, style, index, column) => {
         item['index'] = index + 1;
         return (
-                  <DataGridCell style={style}
-                  >{column.renderCell(item)}</DataGridCell>
+            <DataGridCell style={style}>
+                {column.renderCell(item)}
+            </DataGridCell>
         );
     };
 
     const headerContainer: React.Ref<HTMLDivElement> = React.useRef(null);
-    const bodyContainer: React.Ref<HTMLDivElement> = React.useRef(null);
 
     const scrollToLeft = (scrollLeft: number) => {
-        (headerContainer && (headerContainer?.current as HTMLElement).firstChild?.firstChild as HTMLElement)?.scrollTo({ left: scrollLeft});
+        (headerContainer && (headerContainer?.current as HTMLElement).firstChild as HTMLElement)?.scrollTo({ left: scrollLeft});
     };
 
     return (
             <DataGrid focusMode='cell' noNativeElements
-                resizableColumns
-                columnSizingOptions={columnResizingOptions}
                 sortable
                 style={{minWidth: 'unset'}}
                 items={items}
                 columns={columns}
                 size={'medium'}
             >
-                  <DataGridHeader ref={headerContainer} className={styles.tableHeader}>
-                        <DataGridHeaderRow<TableUIData> itemSize={columnWidthConstant} height={42} width={20000}>
-                            {({ columnId, renderHeaderCell }, style) => {
-                                return (
-                                    <DataGridHeaderCell
-                                        className={styles.headerCell}
-                                        as="div"
-                                        style={style}
-                                    >
-                                        {renderHeaderCell()}
-                                    </DataGridHeaderCell>
-                                );
-                            }}
-                        </DataGridHeaderRow>
-                    </DataGridHeader>
-                    <DataGridBody<TableUIData>
-                        itemSize={24}
-                        height={500}
-                        width={1000}
-                        columnWidth={columnWidthConstant}
-                        ref={bodyContainer}
-                        gridProps={{
-                            onScroll: (props: GridOnScrollProps) => {
-                                if(props.horizontalScrollDirection) {
-                                    scrollToLeft(props.scrollLeft)
-                                }
-                            }
+                <DataGridHeader className={styles.tableHeader}>
+                    <DataGridHeaderRow<TableUIData> ref={headerContainer} itemSize={columnWidthConstant} height={42} width={20000}>
+                        {({ columnId, renderHeaderCell }, style) => {
+                            return (
+                                <DataGridHeaderCell
+                                    className={styles.headerCell}
+                                    as="div"
+                                    style={style}
+                                >
+                                    {renderHeaderCell()}
+                                </DataGridHeaderCell>
+                            );
                         }}
-                    >
-                        {cellRenderer}
-                    </DataGridBody>
+                    </DataGridHeaderRow>
+                </DataGridHeader>
+                <DataGridBody<TableUIData>
+                    itemSize={24}
+                    height={500}
+                    width={1000}
+                    columnWidth={columnWidthConstant}
+                    gridProps={{
+                        onScroll: (props: GridOnScrollProps) => {
+                            if(props.horizontalScrollDirection) {
+                                scrollToLeft(props.scrollLeft)
+                            }
+                        }
+                    }}
+                >
+                    {cellRenderer}
+                </DataGridBody>
 
 
             </DataGrid>

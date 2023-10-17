@@ -16,27 +16,22 @@ export const renderDataGridHeaderRow_unstable = (state: DataGridHeaderRowState) 
 
   return (
     <slots.root {...slotProps.root}>
-      {slots.selectionCell && <slots.selectionCell {...slotProps.selectionCell} />}
-      {
-        <List
-          itemSize={state.itemSize}
-          width={state.width}
-          itemData={state.columnDefs}
-          height={state.height}
-          itemCount={state.columnDefs.length}
-          direction={dir}
-          layout={layout}
-          {...state.listProps}
-          style={{overflowX: 'hidden'}}
-        >
-          {state.virtualizedCell}
-        </List>
-      }
-      {/* {state.columnDefs.map(columnDef => (
-        <ColumnIdContextProvider value={columnDef.columnId} key={columnDef.columnId}>
-          {state.renderCell(columnDef, state.dataGridContextValue)}
-        </ColumnIdContextProvider>
-      ))} */}
+        {slots.selectionCell && <slots.selectionCell {...slotProps.selectionCell} />}
+        {
+            <List
+                itemSize={state.itemSize}
+                width={state.width}
+                itemData={state.columnDefs}
+                height={state.height}
+                itemCount={state.columnDefs.length}
+                direction={dir}
+                layout={layout}
+                {...state.listProps}
+                style={{overflowX: 'hidden'}}
+                >
+                {state.virtualizedCell}
+            </List>
+        }
     </slots.root>
   );
 };

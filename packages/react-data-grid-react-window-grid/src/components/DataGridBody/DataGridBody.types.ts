@@ -4,7 +4,6 @@ import type {
   DataGridBodyProps as DataGridBodyPropsBase,
   DataGridBodySlots as DataGridBodySlotsBase,
   DataGridBodyState as DataGridBodyStateBase,
-  TableColumnId,
   DataGridContextValue,
   TableColumnDefinition,
 } from '@fluentui/react-components';
