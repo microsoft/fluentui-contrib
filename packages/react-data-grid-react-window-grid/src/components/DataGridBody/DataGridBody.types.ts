@@ -18,7 +18,11 @@ export type CellRenderer<TItem = unknown> = (
   /**
    * The index of each row
    */
-  index: number,
+  rowIndex: number,
+  /**
+   * The index of each column
+   */
+  columnIndex: number,
 ) => React.ReactNode;
 /**
  * DataGridBody Props

@@ -53,7 +53,7 @@ export const useDataGridBody_unstable = (
         // <TableRowIndexContextProvider value={ariaRowIndexStart + rowIndex}>
           <TableRowIdContextProvider value={row.rowId}>
             <ColumnIdContextProvider value={columnDef.columnId} key={columnDef.columnId}>
-            {children(row, columnDef, style, rowIndex)}
+            {children(row, columnDef, style, rowIndex, columnIndex)}
             </ColumnIdContextProvider>
           </TableRowIdContextProvider>
         // </TableRowIndexContextProvider>

@@ -76,9 +76,9 @@ export const VirtualizedDataGrid: React.FunctionComponent = () => {
     const items = generateTableArrays(1000, 50);
     const styles = useStyles();
 
-    const cellRenderer: CellRenderer<TableUIData> = ({ item, rowId}, column, style, index) => {
+    const cellRenderer: CellRenderer<TableUIData> = ({ item, rowId}, column, style, rowIndex, columnIndex) => {
         return (
-            <DataGridCell style={{...style, boxSizing: 'border-box'}}>
+            <DataGridCell style={{...style, boxSizing: 'border-box'}} aria-rowindex={2 + rowIndex} aria-colindex={columnIndex}>
                 {column.renderCell(item)}
             </DataGridCell>
         );
