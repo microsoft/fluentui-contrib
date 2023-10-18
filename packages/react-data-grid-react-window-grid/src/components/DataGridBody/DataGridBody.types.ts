@@ -38,7 +38,7 @@ export type DataGridBodyProps<TItem = unknown> = Omit<
   /**
    * The size of each row, rowHeight
    */
-  itemSize: number;
+  rowHeight: number;
   /**
    * The width per column
    */
@@ -76,7 +76,7 @@ export type DataGridBodyProps<TItem = unknown> = Omit<
  * State used in rendering DataGridBody
  */
 export type DataGridBodyState = Omit<DataGridBodyStateBase, 'renderRow'> &
-    Pick<DataGridBodyProps, 'itemSize' | 'height' | 'columnWidth'> &
+    Pick<DataGridBodyProps, 'rowHeight' | 'height' | 'columnWidth'> &
     Pick<DataGridContextValue, 'columns'> &
     Pick<Required<DataGridBodyProps>, 'width' | 'ariaRowIndexStart'> & {
       virtualizedCell: (props: GridChildComponentProps) => React.ReactElement;

@@ -23,26 +23,12 @@ type ColumnIdPrefix = `column${number}`;
 type TableUIData = { index: number } & Record<ColumnIdPrefix, string>;
 
 const useStyles = makeStyles({
-    tableRow: { // remove extra style on row in fluentui
-        userSelect: 'none',
-        ':hover': {
-            backgroundColor: tokens.colorSubtleBackground,
-            color: tokens.colorNeutralForeground1Hover,
-        },
-        ':active': { // Pressed
-            backgroundColor: tokens.colorSubtleBackground,
-            color: tokens.colorNeutralForeground1Pressed,
-        },
-    },
     tableHeader: {
         position: 'relative',
         width: '1000px',
     },
     headerCell: {
         whiteSpace: 'nowrap',
-        display: 'flex',
-        userSelect: 'none',
-        width: '80px'
     }
 });
 
@@ -98,7 +84,7 @@ export const VirtualizedDataGrid: React.FunctionComponent = () => {
     const cellRenderer: CellRenderer<TableUIData> = ({ item, rowId}, style, index, column) => {
         item['index'] = index + 1;
         return (
-            <DataGridCell style={style}>
+            <DataGridCell style={{...style, boxSizing: 'border-box'}}>
                 {column.renderCell(item)}
             </DataGridCell>
         );
@@ -134,7 +120,7 @@ export const VirtualizedDataGrid: React.FunctionComponent = () => {
                     </DataGridHeaderRow>
                 </DataGridHeader>
                 <DataGridBody<TableUIData>
-                    itemSize={24}
+                    rowHeight={44}
                     height={500}
                     width={1000}
                     columnWidth={columnWidthConstant}

@@ -1,13 +1,14 @@
-import { DataGridRow, DataGridRowProps, DataGridRowState, TableColumnDefinition } from "@fluentui/react-components";
+import { DataGridContextValue, DataGridRowProps, DataGridRowState, TableColumnDefinition } from "@fluentui/react-components";
 import { FixedSizeListProps, ListChildComponentProps } from "react-window";
 
 export type CellRenderer<TItem = unknown> = (
   column: TableColumnDefinition<TItem>,
   style: React.CSSProperties,
+  dataGridContextValue: DataGridContextValue,
   /**
    * The index of each row
    */
-  index: number
+  index: number,
 ) => React.ReactNode;
 
 export type DataGridHeaderRowProps<TItem = unknown> = Omit<

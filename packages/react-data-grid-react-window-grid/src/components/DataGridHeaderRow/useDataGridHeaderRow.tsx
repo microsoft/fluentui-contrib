@@ -37,7 +37,7 @@ export const useDataGridHeaderRow_unstable = (
       const column: TableColumnDefinition<unknown> = data[index];
       return (
           <ColumnIdContextProvider value={column.columnId}>
-            {children(column, style, index)}
+            {children(column, style, baseState.dataGridContextValue, index)}
           </ColumnIdContextProvider>
       );
     },

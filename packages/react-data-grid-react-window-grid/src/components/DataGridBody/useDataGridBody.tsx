@@ -27,7 +27,7 @@ export const useDataGridBody_unstable = (
 ): DataGridBodyState => {
   const {
     height,
-    itemSize,
+    rowHeight,
     columnWidth,
     width,
     ariaRowIndexStart = 2,
@@ -64,7 +64,7 @@ export const useDataGridBody_unstable = (
 
   return {
     ...baseState,
-    itemSize,
+    rowHeight,
     height,
     columnWidth,
     columns,
