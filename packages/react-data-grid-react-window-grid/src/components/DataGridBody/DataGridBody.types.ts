@@ -11,22 +11,14 @@ import { FixedSizeGridProps, GridChildComponentProps } from 'react-window';
 
 export type DataGridBodySlots = DataGridBodySlotsBase;
 
-export type RowRenderer<TItem = unknown> = (
-  row: TableRowData<TItem>,
-  style: React.CSSProperties,
-  /**
-   * The index of each row
-   */
-  index: number
-) => React.ReactNode;
 export type CellRenderer<TItem = unknown> = (
   row: TableRowData<TItem>,
+  column: TableColumnDefinition<TItem>,
   style: React.CSSProperties,
   /**
    * The index of each row
    */
   index: number,
-  column: TableColumnDefinition<TItem>,
 ) => React.ReactNode;
 /**
  * DataGridBody Props
@@ -63,13 +55,12 @@ export type DataGridBodyProps<TItem = unknown> = Omit<
    */
   ariaRowIndexStart?: number;
 
-    /**
-     * Optional props to pass through to the FixedSizeGrid component from react-window
-     *
-     * @see https://react-window.vercel.app/#/api/FixedSizeGrid
-     */
-
-    gridProps?: Partial<FixedSizeGridProps>;
+  /**
+   * Optional props to pass through to the FixedSizeGrid component from react-window
+   *
+   * @see https://react-window.vercel.app/#/api/FixedSizeGrid
+   */
+  gridProps?: Partial<FixedSizeGridProps>;
 };
 
 /**

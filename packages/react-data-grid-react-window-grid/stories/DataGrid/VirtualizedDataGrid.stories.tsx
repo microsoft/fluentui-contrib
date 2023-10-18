@@ -15,12 +15,7 @@ export default {
  */
 type ColumnIdPrefix = `column${number}`;
 
-/**
- * The data structure for the table preview UI. Both DetailsList and DataGrid requires an array of
- * objects to present the table data. It is a record with column id as key and string as value.
- * index field is required by data grid to render the index column.
- */
-type TableUIData = { index: number } & Record<ColumnIdPrefix, string>;
+type TableUIData = Record<ColumnIdPrefix, string>;
 
 const useStyles = makeStyles({
     tableHeader: {
@@ -81,8 +76,7 @@ export const VirtualizedDataGrid: React.FunctionComponent = () => {
     const items = generateTableArrays(1000, 50);
     const styles = useStyles();
 
-    const cellRenderer: CellRenderer<TableUIData> = ({ item, rowId}, style, index, column) => {
-        item['index'] = index + 1;
+    const cellRenderer: CellRenderer<TableUIData> = ({ item, rowId}, column, style, index) => {
         return (
             <DataGridCell style={{...style, boxSizing: 'border-box'}}>
                 {column.renderCell(item)}
@@ -97,9 +91,10 @@ export const VirtualizedDataGrid: React.FunctionComponent = () => {
     };
 
     return (
-            <DataGrid focusMode='cell' noNativeElements
+            <DataGrid
+                focusMode='cell'
+                noNativeElements
                 sortable
-                style={{minWidth: 'unset'}}
                 items={items}
                 columns={columns}
                 size={'medium'}

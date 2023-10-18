@@ -7,7 +7,7 @@ import { FixedSizeList as List } from 'react-window';
 import { DataGridHeaderRowState } from './DataGridHeaderRow.types';
 
 /**
- * Render the final JSX of DataGridRow
+ * Render the final JSX of DataGridHeaderRow
  */
 export const renderDataGridHeaderRow_unstable = (state: DataGridHeaderRowState) => {
   const { slots, slotProps } = getSlots<DataGridRowSlots>(state);
@@ -27,7 +27,7 @@ export const renderDataGridHeaderRow_unstable = (state: DataGridHeaderRowState) 
                 direction={dir}
                 layout={layout}
                 {...state.listProps}
-                style={{overflowX: 'hidden'}}
+                style={{overflow: 'hidden'}}
                 >
                 {state.virtualizedCell}
             </List>
