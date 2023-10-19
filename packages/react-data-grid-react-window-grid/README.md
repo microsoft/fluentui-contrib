@@ -1,11 +1,18 @@
 # react-data-grid-react-window-grid
 
-This library was generated with [Nx](https://nx.dev).
+A variant of the Fluent UI [DataGrid](https://react.fluentui.dev/?path=/docs/components-datagrid--default) that is
+virtualized using [react-window](https://react-window.vercel.app/#/examples/grid/fixed-size).
 
 ## Building
 
 Run `nx build react-data-grid-react-window-grid` to build the library.
 
-## Running unit tests
+## Try it out
 
-Run `nx test react-data-grid-react-window-grid` to execute the unit tests via [Jest](https://jestjs.io).
+```sh
+yarn add @fluentui-contrib/react-data-grid-react-window-grid
+
+npm install @fluentui-contrib/react-data-grid-react-window-grid
+```
+
+For a full usage example please take a look at [The documentation sample](https://github.com/microsoft/fluentui-contrib/blob/main/packages/react-data-grid-react-window-grid/stories/DataGrid/VirtualizedDataGrid.stories.tsx).
