@@ -18,5 +18,7 @@ export type {
   DataGridProps,
 } from '@fluentui/react-components';
 
-export type { DataGridBodyProps, CellRenderer } from './components/DataGridBody';
-
+export type {
+  DataGridBodyProps,
+  CellRenderer,
+} from './components/DataGridBody';

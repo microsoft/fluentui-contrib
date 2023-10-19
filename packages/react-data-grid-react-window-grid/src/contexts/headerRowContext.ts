@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { DataGridHeaderRowState } from '../components/DataGridHeaderRow';
 
-const headerRowContext: React.Context<HeaderRowContextValue> = React.createContext<HeaderRowContextValue | undefined>(undefined) as React.Context<HeaderRowContextValue>;
+const headerRowContext: React.Context<HeaderRowContextValue> =
+  React.createContext<HeaderRowContextValue | undefined>(
+    undefined
+  ) as React.Context<HeaderRowContextValue>;
 
 export type HeaderRowContextValue = Pick<DataGridHeaderRowState, 'listRef'>;
 

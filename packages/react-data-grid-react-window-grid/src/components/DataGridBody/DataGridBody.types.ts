@@ -22,7 +22,7 @@ export type CellRenderer<TItem = unknown> = (
   /**
    * The index of each column
    */
-  columnIndex: number,
+  columnIndex: number
 ) => React.ReactNode;
 /**
  * DataGridBody Props
@@ -71,10 +71,10 @@ export type DataGridBodyProps<TItem = unknown> = Omit<
  * State used in rendering DataGridBody
  */
 export type DataGridBodyState = Omit<DataGridBodyStateBase, 'renderRow'> &
-    Pick<DataGridBodyProps, 'rowHeight' | 'height' | 'columnWidth'> &
-    Pick<DataGridContextValue, 'columns'> &
-    Pick<Required<DataGridBodyProps>, 'width' | 'ariaRowIndexStart'> & {
-      virtualizedCell: (props: GridChildComponentProps) => React.ReactElement;
-} & {
-  gridProps?: Partial<FixedSizeGridProps>;
-};;
+  Pick<DataGridBodyProps, 'rowHeight' | 'height' | 'columnWidth'> &
+  Pick<DataGridContextValue, 'columns'> &
+  Pick<Required<DataGridBodyProps>, 'width' | 'ariaRowIndexStart'> & {
+    virtualizedCell: (props: GridChildComponentProps) => React.ReactElement;
+  } & {
+    gridProps?: Partial<FixedSizeGridProps>;
+  };

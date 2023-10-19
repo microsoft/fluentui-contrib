@@ -5,7 +5,10 @@ import {
   useDataGridRow_unstable,
 } from '@fluentui/react-components';
 import type { CellRenderFunction } from '@fluentui/react-table';
-import { DataGridHeaderRowProps, DataGridHeaderRowState } from './DataGridHeaderRow.types';
+import {
+  DataGridHeaderRowProps,
+  DataGridHeaderRowState,
+} from './DataGridHeaderRow.types';
 /**
  * Create the state required to render DataGridHeaderRow.
  *
@@ -33,17 +36,18 @@ export const useDataGridHeaderRow_unstable = (
     ref
   );
 
-  const virtualizedCell: DataGridHeaderRowState['virtualizedCell'] = React.useCallback(
-    ({ data, index, style }) => {
-      const column: TableColumnDefinition<unknown> = data[index];
-      return (
+  const virtualizedCell: DataGridHeaderRowState['virtualizedCell'] =
+    React.useCallback(
+      ({ data, index, style }) => {
+        const column: TableColumnDefinition<unknown> = data[index];
+        return (
           <ColumnIdContextProvider value={column.columnId}>
             {children(column, style, baseState.dataGridContextValue, index)}
           </ColumnIdContextProvider>
-      );
-    },
-    [ariaColumnIndexStart, children]
-  );
+        );
+      },
+      [ariaColumnIndexStart, children]
+    );
 
   const virtualizedListRef = React.useRef<HTMLDivElement | null>(null);
 

@@ -12,7 +12,10 @@ import {
 } from '@fluentui/react-components';
 import type { TableColumnDefinition } from '@fluentui/react-components';
 import { GridOnScrollProps } from 'react-window';
-import { HeaderRowContextValue, useHeaderRowContext } from '../../contexts/headerRowContext';
+import {
+  HeaderRowContextValue,
+  useHeaderRowContext,
+} from '../../contexts/headerRowContext';
 
 /**
  * Create the state required to render DataGridBody.
@@ -44,24 +47,29 @@ export const useDataGridBody_unstable = (
     ref
   );
 
-  const columns: TableColumnDefinition<any>[] = useDataGridContext_unstable(cxt => cxt.columns);
+  const columns: TableColumnDefinition<any>[] = useDataGridContext_unstable(
+    (cxt) => cxt.columns
+  );
   const headerRow: HeaderRowContextValue = useHeaderRowContext();
 
-  const virtualizedCell: DataGridBodyState['virtualizedCell'] = React.useCallback(
-    ({ columnIndex, rowIndex, data, style }) => {
-
-      const row: TableRowData<unknown> = data[rowIndex];
-      const columnDef = columns[columnIndex];
-      return (
+  const virtualizedCell: DataGridBodyState['virtualizedCell'] =
+    React.useCallback(
+      ({ columnIndex, rowIndex, data, style }) => {
+        const row: TableRowData<unknown> = data[rowIndex];
+        const columnDef = columns[columnIndex];
+        return (
           <TableRowIdContextProvider value={row.rowId}>
-            <ColumnIdContextProvider value={columnDef.columnId} key={columnDef.columnId}>
-            {children(row, columnDef, style, rowIndex, columnIndex)}
+            <ColumnIdContextProvider
+              value={columnDef.columnId}
+              key={columnDef.columnId}
+            >
+              {children(row, columnDef, style, rowIndex, columnIndex)}
             </ColumnIdContextProvider>
           </TableRowIdContextProvider>
-      );
-    },
-    [ariaRowIndexStart, children]
-  );
+        );
+      },
+      [ariaRowIndexStart, children]
+    );
 
   return {
     ...baseState,
@@ -74,11 +82,16 @@ export const useDataGridBody_unstable = (
     ariaRowIndexStart,
     gridProps: {
       onScroll: (props: GridOnScrollProps) => {
-        if(props.horizontalScrollDirection && headerRow && headerRow.listRef && headerRow.listRef.current) {
-            headerRow.listRef.current?.scrollTo({ left: props.scrollLeft});
+        if (
+          props.horizontalScrollDirection &&
+          headerRow &&
+          headerRow.listRef &&
+          headerRow.listRef.current
+        ) {
+          headerRow.listRef.current?.scrollTo({ left: props.scrollLeft });
         }
       },
-      ...gridProps
-    }
+      ...gridProps,
+    },
   };
 };
