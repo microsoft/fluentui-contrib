@@ -1,4 +1,4 @@
-# @fluentui-contrib/react-chat
+# @fluentui-contrib/react-data-grid-react-window
 
 A variant of the Fluent UI [DataGrid](https://react.fluentui.dev/?path=/docs/components-datagrid--default) that is
 virtualized using [react-window](https://react-window.vercel.app/#/examples/list/fixed-size).
