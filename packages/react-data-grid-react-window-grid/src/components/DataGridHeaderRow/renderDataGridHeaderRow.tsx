@@ -1,7 +1,3 @@
-/** @jsxRuntime classic */
-/** @jsx createElement */
-
-import { createElement } from '@fluentui/react-jsx-runtime';
 import {
   type DataGridRowSlots,
   useFluent,
