@@ -11,6 +11,8 @@ import {
   ColumnIdContextProvider,
 } from '@fluentui/react-components';
 import type { TableColumnDefinition } from '@fluentui/react-components';
+import { GridOnScrollProps } from 'react-window';
+import { HeaderRowContextValue, useHeaderRowContext } from '../../contexts/headerRowContext';
 
 /**
  * Create the state required to render DataGridBody.
@@ -43,6 +45,7 @@ export const useDataGridBody_unstable = (
   );
 
   const columns: TableColumnDefinition<any>[] = useDataGridContext_unstable(cxt => cxt.columns);
+  const headerRow: HeaderRowContextValue = useHeaderRowContext();
 
   const virtualizedCell: DataGridBodyState['virtualizedCell'] = React.useCallback(
     ({ columnIndex, rowIndex, data, style }) => {
@@ -50,13 +53,11 @@ export const useDataGridBody_unstable = (
       const row: TableRowData<unknown> = data[rowIndex];
       const columnDef = columns[columnIndex];
       return (
-        // <TableRowIndexContextProvider value={ariaRowIndexStart + rowIndex}>
           <TableRowIdContextProvider value={row.rowId}>
             <ColumnIdContextProvider value={columnDef.columnId} key={columnDef.columnId}>
             {children(row, columnDef, style, rowIndex, columnIndex)}
             </ColumnIdContextProvider>
           </TableRowIdContextProvider>
-        // </TableRowIndexContextProvider>
       );
     },
     [ariaRowIndexStart, children]
@@ -71,6 +72,13 @@ export const useDataGridBody_unstable = (
     virtualizedCell,
     width,
     ariaRowIndexStart,
-    gridProps
+    gridProps: {
+      onScroll: (props: GridOnScrollProps) => {
+        if(props.horizontalScrollDirection && headerRow && headerRow.listRef && headerRow.listRef.current) {
+            headerRow.listRef.current?.scrollTo({ left: props.scrollLeft});
+        }
+      },
+      ...gridProps
+    }
   };
 };

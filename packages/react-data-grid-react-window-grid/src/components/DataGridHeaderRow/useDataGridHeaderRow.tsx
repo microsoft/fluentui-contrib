@@ -22,7 +22,8 @@ export const useDataGridHeaderRow_unstable = (
     width,
     ariaColumnIndexStart = 2,
     children,
-    listProps
+    listProps,
+    listRef,
   } = props;
 
   // cast the row render function to work with unknown args
@@ -44,6 +45,8 @@ export const useDataGridHeaderRow_unstable = (
     [ariaColumnIndexStart, children]
   );
 
+  const virtualizedListRef = React.useRef<HTMLDivElement | null>(null);
+
   return {
     ...baseState,
     itemSize,
@@ -52,5 +55,6 @@ export const useDataGridHeaderRow_unstable = (
     width,
     ariaColumnIndexStart,
     listProps,
+    listRef: listRef ?? virtualizedListRef,
   };
 };

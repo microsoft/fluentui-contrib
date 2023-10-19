@@ -2,7 +2,7 @@
 /** @jsx createElement */
 
 import { createElement } from '@fluentui/react-jsx-runtime';
-import { ColumnIdContextProvider, type DataGridRowSlots, useFluent, getSlots } from '@fluentui/react-components';
+import { type DataGridRowSlots, useFluent, getSlots } from '@fluentui/react-components';
 import { FixedSizeList as List } from 'react-window';
 import { DataGridHeaderRowState } from './DataGridHeaderRow.types';
 
@@ -19,6 +19,7 @@ export const renderDataGridHeaderRow_unstable = (state: DataGridHeaderRowState) 
         {slots.selectionCell && <slots.selectionCell {...slotProps.selectionCell} />}
         {
             <List
+                outerRef={state.listRef}
                 itemSize={state.itemSize}
                 width={state.width}
                 itemData={state.columnDefs}
@@ -28,7 +29,7 @@ export const renderDataGridHeaderRow_unstable = (state: DataGridHeaderRowState) 
                 layout={layout}
                 {...state.listProps}
                 style={{overflow: 'hidden'}}
-                >
+            >
                 {state.virtualizedCell}
             </List>
         }

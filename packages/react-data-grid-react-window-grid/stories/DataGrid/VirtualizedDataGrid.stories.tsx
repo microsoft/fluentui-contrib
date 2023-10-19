@@ -3,7 +3,7 @@ import { DataGrid, DataGridBody, CellRenderer, DataGridHeaderRow } from '@fluent
 import { Meta } from '@storybook/react';
 import {CalendarClock16Regular } from '@fluentui/react-icons';
 import { DataGridCell, makeStyles, DataGridHeader, DataGridHeaderCell, TableCellLayout, TableColumnDefinition, createTableColumn, tokens } from '@fluentui/react-components';
-import { GridOnScrollProps } from 'react-window';
+import { RowHeaderContextProvider, useHeaderRowContext } from '../../src/contexts/headerRowContext';
 
 export default {
     component: DataGrid,
@@ -86,11 +86,8 @@ export const VirtualizedDataGrid: React.FunctionComponent = () => {
 
     const headerContainer: React.Ref<HTMLDivElement> = React.useRef(null);
 
-    const scrollToLeft = (scrollLeft: number) => {
-        (headerContainer && (headerContainer?.current as HTMLElement).firstChild as HTMLElement)?.scrollTo({ left: scrollLeft});
-    };
-
     return (
+        <RowHeaderContextProvider value={{ listRef: headerContainer }}>
             <DataGrid
                 focusMode='cell'
                 noNativeElements
@@ -100,7 +97,7 @@ export const VirtualizedDataGrid: React.FunctionComponent = () => {
                 size={'medium'}
             >
                 <DataGridHeader className={styles.tableHeader}>
-                    <DataGridHeaderRow<TableUIData> ref={headerContainer} itemSize={columnWidthConstant} height={42} width={20000}>
+                    <DataGridHeaderRow<TableUIData> listRef={headerContainer} itemSize={columnWidthConstant} height={42} width={20000}>
                         {({ columnId, renderHeaderCell }, style) => {
                             return (
                                 <DataGridHeaderCell
@@ -119,18 +116,11 @@ export const VirtualizedDataGrid: React.FunctionComponent = () => {
                     height={500}
                     width={1000}
                     columnWidth={columnWidthConstant}
-                    gridProps={{
-                        onScroll: (props: GridOnScrollProps) => {
-                            if(props.horizontalScrollDirection) {
-                                scrollToLeft(props.scrollLeft)
-                            }
-                        }
-                    }}
                 >
                     {cellRenderer}
                 </DataGridBody>
-
-
             </DataGrid>
+        </RowHeaderContextProvider>
+
     );
 };

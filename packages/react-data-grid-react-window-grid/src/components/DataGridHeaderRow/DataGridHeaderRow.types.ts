@@ -46,6 +46,14 @@ export type DataGridHeaderRowProps<TItem = unknown> = Omit<
      */
 
     listProps?: Partial<FixedSizeListProps>;
+    /**
+     * Ref of the virtualized list container ref, this is used for sticky header horizontal scroll bar with body scroll bar, and usage is we should
+     * add RowHeaderContextProvider outside of <DataGrid>:
+     * <RowHeaderContextProvider value={{ listRef: headerContainer }}>
+     *    <DataGrid />
+     * </RowHeaderContextProvider>
+     */
+    listRef?: React.MutableRefObject<HTMLDivElement | null>;
 };
 
 /**
@@ -56,4 +64,8 @@ export type DataGridHeaderRowState = Omit<DataGridRowState, 'renderCell'> &
     virtualizedCell: (props: ListChildComponentProps) => React.ReactElement;
 } & {
     listProps?: Partial<FixedSizeListProps>;
+    /**
+     * Ref of the virtualized list container ref
+     */
+    listRef: React.MutableRefObject<HTMLDivElement | null>;
 };
