@@ -4,6 +4,7 @@ import {
   DataGridBody,
   CellRenderer,
   DataGridHeaderRow,
+  RowHeaderContextProvider
 } from '@fluentui-contrib/react-data-grid-react-window-grid';
 import { Meta } from '@storybook/react';
 import { CalendarClock16Regular } from '@fluentui/react-icons';
@@ -15,12 +16,7 @@ import {
   TableCellLayout,
   TableColumnDefinition,
   createTableColumn,
-  tokens,
 } from '@fluentui/react-components';
-import {
-  RowHeaderContextProvider,
-  useHeaderRowContext,
-} from '../../src/contexts/headerRowContext';
 
 export default {
   component: DataGrid,
