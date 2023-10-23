@@ -1,4 +1,5 @@
 import type { Document, AtRule, Root, Container, Rule } from 'postcss';
+
 export function isAtRule(container: { type: string }): container is AtRule {
   return container?.type === 'atrule';
 }

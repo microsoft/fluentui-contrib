@@ -73,4 +73,25 @@ describe('combinator-depth', () => {
       `"Failed to parse selector .foo .[object Object] (@fluentui-contrib/combinator-depth)"`
     );
   });
+
+  it.each([false, 'a', '%'])(
+    'should throw an error if not configured with an %s',
+    (allowedDepth) => {
+      const promise = stylelint.lint({
+        code: `.foo .[object Object] { color: red; }`,
+        config: {
+          pluginFunctions: {
+            [rule.ruleName]: rule,
+          },
+          rules: {
+            [rule.ruleName]: [allowedDepth],
+          },
+        },
+      });
+
+      expect(promise).rejects.toMatchInlineSnapshot(
+        `[Error: @fluentui-contrib/stylelint-plugin: combinator-depth rule needs a number as configuration]`
+      );
+    }
+  );
 });

@@ -1,4 +1,4 @@
-import { Rule, RuleMessages, RuleBase } from 'stylelint';
+import type { Rule, RuleMessages, RuleBase } from 'stylelint';
 import { getDocUrl } from './get-doc-url';
 import { normalizeRuleName } from './normalize-rule-name';
 

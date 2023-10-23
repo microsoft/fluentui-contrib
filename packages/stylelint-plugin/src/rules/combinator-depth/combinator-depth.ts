@@ -27,7 +27,9 @@ export default createRule({
     );
 
     if (!validOptions) {
-      return;
+      throw new Error(
+        '@fluentui-contrib/stylelint-plugin: combinator-depth rule needs a number as configuration'
+      );
     }
 
     const { selectorToRule, selectors } = extractAllSelectors(postcssRoot);
@@ -47,12 +49,9 @@ export default createRule({
         continue;
       }
       tokenizedSelector.reverse();
-      let combinatorCount = 0;
-      for (const token of tokenizedSelector) {
-        if (token.type === 'combinator') {
-          combinatorCount++;
-        }
-      }
+      const combinatorCount = tokenizedSelector.filter(
+        (token) => token.type === 'combinator'
+      ).length;
 
       if (combinatorCount > allowedDepth) {
         stylelint.utils.report({

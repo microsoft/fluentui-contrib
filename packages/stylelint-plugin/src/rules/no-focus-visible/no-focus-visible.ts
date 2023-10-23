@@ -1,5 +1,4 @@
 import * as stylelint from 'stylelint';
-import * as parsel from 'parsel-js';
 import { extractAllSelectors } from '../../postcss-utils';
 import { createRule } from '../../create-rule';
 import { normalizeRuleName } from '../../normalize-rule-name';
@@ -29,26 +28,7 @@ export default createRule({
     const { selectorToRule, selectors } = extractAllSelectors(postcssRoot);
 
     for (const selector of selectors) {
-      let tokenizedSelector = [];
-      try {
-        tokenizedSelector = parsel.tokenize(selector);
-      } catch {
-        stylelint.utils.report({
-          ruleName,
-          message: messages.parseError,
-          messageArgs: [selector],
-          result: postcssResult,
-          node: selectorToRule[selector],
-        });
-
-        continue;
-      }
-
-      if (
-        tokenizedSelector.some((token) =>
-          token.content.includes(':focus-visible')
-        )
-      ) {
+      if (selector.includes(':focus-visible')) {
         stylelint.utils.report({
           ruleName,
           message: messages.focusVisible(selector),
@@ -56,9 +36,7 @@ export default createRule({
           result: postcssResult,
           node: selectorToRule[selector],
         });
-      } else if (
-        tokenizedSelector.some((token) => token.content.includes(':focus'))
-      ) {
+      } else if (selector.includes(':focus')) {
         stylelint.utils.report({
           ruleName,
           message: messages.focus(selector),

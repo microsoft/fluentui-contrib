@@ -11,7 +11,7 @@ import { makeStyles, Button, buttonClassNames } from '@fluentui/react-components
 
 const useStyles = makeStyles({
   root: {
-    [`.${buttonClassNames.root}`]: {
+    [`& .${buttonClassNames.root}`]: {
       color: 'red',
     },
   },
