@@ -1,7 +1,8 @@
 import * as stylelint from 'stylelint';
-import * as combinatorDepth from './combinator-depth';
+import combinatorDepth from './rules/combinator-depth/combinator-depth';
+import noFocusVisible from './rules/no-focus-visible/no-focus-visible';
 
-module.exports = stylelint.createPlugin(
-  combinatorDepth.ruleName,
-  combinatorDepth.ruleFunction
-);
+export default [
+  stylelint.createPlugin(combinatorDepth.ruleName, combinatorDepth),
+  stylelint.createPlugin(noFocusVisible.ruleName, noFocusVisible),
+];

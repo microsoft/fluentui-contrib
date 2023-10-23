@@ -1,10 +1,10 @@
-import type { Rule } from 'stylelint';
-import type * as PostCSS from 'postcss';
 import * as stylelint from 'stylelint';
 import * as parsel from 'parsel-js';
-import { isAtRule, isDocument } from './utils';
+import { extractAllSelectors } from '../../postcss-utils';
+import { createRule } from '../../create-rule';
+import { normalizeRuleName } from '../../normalize-rule-name';
 
-export const ruleName = 'test-plugin/combinator-depth';
+export const ruleName = normalizeRuleName('combinator-depth');
 
 const messages = stylelint.utils.ruleMessages(ruleName, {
   failed: (selector: string, depth: number, allowedDepth: number) =>
@@ -13,12 +13,10 @@ const messages = stylelint.utils.ruleMessages(ruleName, {
   parseError: (selector: string) => `Failed to parse selector ${selector}`,
 });
 
-const meta = {
-  url: 'https://github.com/foo-org/stylelint-foo/blob/main/src/rules/foo-bar/README.md',
-};
-
-export const ruleFunction: Rule =
-  (allowedDepth) => (postcssRoot, postcssResult) => {
+export default createRule({
+  messages,
+  ruleName,
+  ruleFunction: (allowedDepth) => (postcssRoot, postcssResult) => {
     const validOptions = stylelint.utils.validateOptions(
       postcssResult,
       ruleName,
@@ -32,25 +30,7 @@ export const ruleFunction: Rule =
       return;
     }
 
-    const selectors: string[] = [];
-    const selectorToRule: Record<string, PostCSS.Rule> = {};
-    postcssRoot.walkRules((rule) => {
-      let cur: PostCSS.Container | PostCSS.Document | undefined = rule.parent;
-      while (cur && !isDocument(cur)) {
-        if (isAtRule(cur) && cur.name.includes('keyframes')) {
-          return;
-        }
-
-        cur = cur.parent;
-      }
-
-      const splitSelectors = rule.selector.split(',');
-      for (const selector of splitSelectors) {
-        selectorToRule[selector] = rule;
-      }
-      selectors.push(...splitSelectors);
-    });
-
+    const { selectorToRule, selectors } = extractAllSelectors(postcssRoot);
     for (const selector of selectors) {
       let tokenizedSelector = [];
       try {
@@ -84,8 +64,5 @@ export const ruleFunction: Rule =
         });
       }
     }
-  };
-
-ruleFunction.ruleName = ruleName;
-ruleFunction.messages = messages;
-ruleFunction.meta = meta;
+  },
+});

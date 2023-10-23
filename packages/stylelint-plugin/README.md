@@ -1,11 +1,27 @@
 # stylelint-plugin
 
-This library was generated with [Nx](https://nx.dev).
+This stylelint plugin contains rules that are (first and foremost) applicable to Fluent UI. These rules
+can also be used with projects that do not use Fluent UI or [Griffel](https://griffel.js.org/), but support
+is not guaranteed.
 
-## Building
+## Install
 
-Run `nx build stylelint-plugin` to build the library.
+```sh
+yarn add @fluentui-contrib/stylelint-plugin
 
-## Running unit tests
+npm install @fluentui-contrib/stylelint-plugin
+```
 
-Run `nx test stylelint-plugin` to execute the unit tests via [Jest](https://jestjs.io).
+## Configuration
+
+```js
+// .stylelintrc.js
+
+module.exports = {
+  plugins: ['@fluentui-contrib/stylelint-plugin'],
+  rules: {
+    '@fluentui-contrib/combinator-depth': [0],
+  },
+  defaultSeverity: 'error',
+};
+```
