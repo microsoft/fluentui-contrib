@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "feat: Implement stylelint plugin",
-  "packageName": "@fluentui-contrib/stylelint-plugin",
-  "email": "lingfan.gao@microsoft.com",
-  "dependentChangeType": "patch"
-}

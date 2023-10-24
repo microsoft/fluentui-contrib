@@ -1,0 +1,20 @@
+{
+  "name": "@fluentui-contrib/stylelint-plugin",
+  "entries": [
+    {
+      "date": "Tue, 24 Oct 2023 07:46:06 GMT",
+      "tag": "@fluentui-contrib/stylelint-plugin_v0.1.0",
+      "version": "0.1.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "lingfan.gao@microsoft.com",
+            "package": "@fluentui-contrib/stylelint-plugin",
+            "commit": "9495bf8b23756ae1ad9ebcaf8e897c1c8f067c69",
+            "comment": "feat: Implement stylelint plugin"
+          }
+        ]
+      }
+    }
+  ]
+}
