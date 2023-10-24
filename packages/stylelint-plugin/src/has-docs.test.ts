@@ -39,5 +39,6 @@ describe('All rules', () => {
 function isNormalizedPlugin(
   plugin: Plugin
 ): plugin is { ruleName: string; rule: Rule } {
+  // eslint-disable-next-line no-prototype-builtins
   return !plugin.hasOwnProperty('default');
 }
