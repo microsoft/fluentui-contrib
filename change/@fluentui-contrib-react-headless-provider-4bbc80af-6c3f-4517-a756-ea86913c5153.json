@@ -1,7 +1,0 @@
-{
-  "type": "major",
-  "comment": "chore: publish @fluentui-contrib/react-headless-provider",
-  "packageName": "@fluentui-contrib/react-headless-provider",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}

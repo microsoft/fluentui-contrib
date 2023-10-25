@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/stylelint-plugin",
   "entries": [
     {
+      "date": "Wed, 25 Oct 2023 09:11:36 GMT",
+      "tag": "@fluentui-contrib/stylelint-plugin_v0.1.1",
+      "version": "0.1.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "@fluentui-contrib/stylelint-plugin",
+            "commit": "9e73ce7bdb23f135aa39e4db42f4eba5a5176933",
+            "comment": "fix: fix \"exports.types\" field"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 24 Oct 2023 07:46:06 GMT",
       "tag": "@fluentui-contrib/stylelint-plugin_v0.1.0",
       "version": "0.1.0",
