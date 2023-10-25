@@ -68,7 +68,7 @@ function copyPackageJson(paths: PackagePaths) {
     },
     exports: {
       '.': {
-        types: './dist/index.d.ts',
+        types: './src/index.d.ts',
         node: './lib-commonjs/index.js',
         import: './lib/index.js',
         require: './lib-commonjs/index.js',

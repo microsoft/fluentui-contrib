@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: fix \"exports.types\" field",
+  "packageName": "@fluentui-contrib/react-chat",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "patch"
+}
