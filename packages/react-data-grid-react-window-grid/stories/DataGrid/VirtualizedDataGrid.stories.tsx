@@ -128,7 +128,7 @@ export const VirtualizedDataGrid: React.FunctionComponent = () => {
             height={42}
             width={20000}
           >
-            {({ columnId, renderHeaderCell }, style) => {
+            {({ renderHeaderCell }, style) => {
               return (
                 <DataGridHeaderCell
                   className={styles.headerCell}
