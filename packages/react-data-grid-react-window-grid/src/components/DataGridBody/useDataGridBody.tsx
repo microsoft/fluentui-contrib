@@ -88,7 +88,7 @@ export const useDataGridBody_unstable = (
           headerRow.listRef &&
           headerRow.listRef.current
         ) {
-          headerRow.listRef.current?.scrollTo({ left: props.scrollLeft });
+          headerRow.listRef.current.scrollTo({ left: props.scrollLeft });
         }
       },
       ...gridProps,
