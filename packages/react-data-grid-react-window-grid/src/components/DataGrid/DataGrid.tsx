@@ -6,7 +6,6 @@ import {
   useDataGridContextValues_unstable,
   DataGridProps,
 } from '@fluentui/react-components';
-import type { ForwardRefComponent } from '@fluentui/react-utilities';
 
 export const DataGrid = React.forwardRef<HTMLDivElement, DataGridProps>(
   (props, ref) => {
