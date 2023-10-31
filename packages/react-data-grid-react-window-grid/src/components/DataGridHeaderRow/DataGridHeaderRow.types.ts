@@ -67,11 +67,10 @@ export type DataGridHeaderRowProps<TItem = unknown> = Omit<
 export type DataGridHeaderRowState = Omit<DataGridRowState, 'renderCell'> &
   Pick<
     DataGridHeaderRowProps,
-    'itemSize' | 'height' | 'width' | 'ariaColumnIndexStart'
+    'itemSize' | 'height' | 'width' | 'ariaColumnIndexStart' | 'listProps'
   > & {
     virtualizedCell: (props: ListChildComponentProps) => React.ReactElement;
   } & {
-    listProps?: Partial<FixedSizeListProps>;
     /**
      * Ref of the virtualized list container ref
      */

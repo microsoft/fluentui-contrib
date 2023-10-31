@@ -84,9 +84,7 @@ export const useDataGridBody_unstable = (
       onScroll: (props: GridOnScrollProps) => {
         if (
           props.horizontalScrollDirection &&
-          headerRow &&
-          headerRow.listRef &&
-          headerRow.listRef.current
+          headerRow?.listRef.current
         ) {
           headerRow.listRef.current.scrollTo({ left: props.scrollLeft });
         }
