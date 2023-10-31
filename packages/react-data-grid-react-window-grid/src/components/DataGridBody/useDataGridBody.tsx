@@ -16,7 +16,10 @@ import {
   HeaderRowContextValue,
   useHeaderRowContext,
 } from '../../contexts/headerRowContext';
-import { TableIndexContextProvider, ariaColumnIndexStart } from '../../contexts/indexContext';
+import {
+  TableIndexContextProvider,
+  ariaColumnIndexStart,
+} from '../../contexts/indexContext';
 
 /**
  * Create the state required to render DataGridBody.
@@ -59,7 +62,12 @@ export const useDataGridBody_unstable = (
         const row: TableRowData<unknown> = data[rowIndex];
         const columnDef = columns[columnIndex];
         return (
-          <TableIndexContextProvider value={{ rowIndex: ariaRowIndexStart + rowIndex, columnIndex: ariaColumnIndexStart + columnIndex }}>
+          <TableIndexContextProvider
+            value={{
+              rowIndex: ariaRowIndexStart + rowIndex,
+              columnIndex: ariaColumnIndexStart + columnIndex,
+            }}
+          >
             <TableRowIdContextProvider value={row.rowId}>
               <ColumnIdContextProvider
                 value={columnDef.columnId}
@@ -85,10 +93,7 @@ export const useDataGridBody_unstable = (
     ariaRowIndexStart,
     gridProps: {
       onScroll: (props: GridOnScrollProps) => {
-        if (
-          props.horizontalScrollDirection &&
-          headerRow?.listRef.current
-        ) {
+        if (props.horizontalScrollDirection && headerRow?.listRef.current) {
           headerRow.listRef.current.scrollTo({ left: props.scrollLeft });
         }
       },

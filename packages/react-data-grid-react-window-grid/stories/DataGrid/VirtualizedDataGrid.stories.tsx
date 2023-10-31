@@ -84,15 +84,9 @@ const generateTableArrays = (rowCount: number, columnCount: number) => {
   return result;
 };
 
-const cellRenderer: CellRenderer<TableUIData> = (
-  { item },
-  column,
-  style
-) => {
+const cellRenderer: CellRenderer<TableUIData> = ({ item }, column, style) => {
   return (
-    <DataGridCell
-      style={{ ...style, boxSizing: 'border-box' }}
-    >
+    <DataGridCell style={{ ...style, boxSizing: 'border-box' }}>
       {column.renderCell(item)}
     </DataGridCell>
   );

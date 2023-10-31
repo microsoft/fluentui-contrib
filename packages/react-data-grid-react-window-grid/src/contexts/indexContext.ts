@@ -1,21 +1,23 @@
 import * as React from 'react';
 
-const indexContext = React.createContext<IndexContextValue | undefined>(undefined);
+const indexContext = React.createContext<IndexContextValue | undefined>(
+  undefined
+);
 
 export type IndexContextValue = {
   /**
    * The index of each row
    */
-  rowIndex: number | undefined,
+  rowIndex: number | undefined;
   /**
    * The index of each column
    */
-  columnIndex: number | undefined
+  columnIndex: number | undefined;
 };
 
 export const tableIndexContextDefaultValue: IndexContextValue = {
   rowIndex: undefined,
-  columnIndex: undefined
+  columnIndex: undefined,
 };
 
 export const ariaColumnIndexStart = 1;

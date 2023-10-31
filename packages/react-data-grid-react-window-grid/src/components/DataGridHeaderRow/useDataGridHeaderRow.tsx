@@ -19,14 +19,7 @@ export const useDataGridHeaderRow_unstable = (
   props: DataGridHeaderRowProps,
   ref: React.Ref<HTMLElement>
 ): DataGridHeaderRowState => {
-  const {
-    height,
-    itemSize,
-    width,
-    children,
-    listProps,
-    listRef,
-  } = props;
+  const { height, itemSize, width, children, listProps, listRef } = props;
 
   // cast the row render function to work with unknown args
   const renderRowWithUnknown = children as unknown as CellRenderFunction;
