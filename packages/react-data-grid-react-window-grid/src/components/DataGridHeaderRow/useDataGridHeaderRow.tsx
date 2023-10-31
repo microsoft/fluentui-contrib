@@ -23,7 +23,6 @@ export const useDataGridHeaderRow_unstable = (
     height,
     itemSize,
     width,
-    ariaColumnIndexStart = 2,
     children,
     listProps,
     listRef,
@@ -32,7 +31,7 @@ export const useDataGridHeaderRow_unstable = (
   // cast the row render function to work with unknown args
   const renderRowWithUnknown = children as unknown as CellRenderFunction;
   const baseState = useDataGridRow_unstable(
-    { ...props, children: renderRowWithUnknown },
+    { ...props, children: renderRowWithUnknown, 'aria-rowindex': 1 },
     ref
   );
 
@@ -46,7 +45,7 @@ export const useDataGridHeaderRow_unstable = (
           </ColumnIdContextProvider>
         );
       },
-      [ariaColumnIndexStart, children]
+      [children]
     );
 
   const virtualizedListRef = React.useRef<HTMLDivElement | null>(null);
@@ -57,7 +56,6 @@ export const useDataGridHeaderRow_unstable = (
     height,
     virtualizedCell,
     width,
-    ariaColumnIndexStart,
     listProps,
     listRef: listRef ?? virtualizedListRef,
   };

@@ -33,16 +33,9 @@ export type DataGridHeaderRowProps<TItem = unknown> = Omit<
    */
   width: number;
   /**
-   * Children render function for rows
+   * Children render function for cell
    */
   children: CellRenderer<TItem>;
-  /**
-   * All virtualized rows must have the [aria-rowindex](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-rowindex)
-   * attribute for correct screen reader navigation. The default start index is 2 since we assume that there is only
-   * one row in the header. If this is not the case, the start index can be reconfigured through this prop.
-   * @default 2
-   */
-  ariaColumnIndexStart?: number;
 
   /**
    * Optional props to pass through to the FixedSizeList component from react-window
@@ -67,7 +60,7 @@ export type DataGridHeaderRowProps<TItem = unknown> = Omit<
 export type DataGridHeaderRowState = Omit<DataGridRowState, 'renderCell'> &
   Pick<
     DataGridHeaderRowProps,
-    'itemSize' | 'height' | 'width' | 'ariaColumnIndexStart' | 'listProps'
+    'itemSize' | 'height' | 'width' | 'listProps'
   > & {
     virtualizedCell: (props: ListChildComponentProps) => React.ReactElement;
   } & {

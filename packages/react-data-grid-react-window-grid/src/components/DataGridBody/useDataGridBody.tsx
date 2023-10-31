@@ -16,6 +16,7 @@ import {
   HeaderRowContextValue,
   useHeaderRowContext,
 } from '../../contexts/headerRowContext';
+import { TableIndexContextProvider, ariaColumnIndexStart } from '../../contexts/indexContext';
 
 /**
  * Create the state required to render DataGridBody.
@@ -58,14 +59,16 @@ export const useDataGridBody_unstable = (
         const row: TableRowData<unknown> = data[rowIndex];
         const columnDef = columns[columnIndex];
         return (
-          <TableRowIdContextProvider value={row.rowId}>
-            <ColumnIdContextProvider
-              value={columnDef.columnId}
-              key={columnDef.columnId}
-            >
-              {children(row, columnDef, style, rowIndex, columnIndex)}
-            </ColumnIdContextProvider>
-          </TableRowIdContextProvider>
+          <TableIndexContextProvider value={{ rowIndex: ariaRowIndexStart + rowIndex, columnIndex: ariaColumnIndexStart + columnIndex }}>
+            <TableRowIdContextProvider value={row.rowId}>
+              <ColumnIdContextProvider
+                value={columnDef.columnId}
+                key={columnDef.columnId}
+              >
+                {children(row, columnDef, style, rowIndex, columnIndex)}
+              </ColumnIdContextProvider>
+            </TableRowIdContextProvider>
+          </TableIndexContextProvider>
         );
       },
       [ariaRowIndexStart, children]

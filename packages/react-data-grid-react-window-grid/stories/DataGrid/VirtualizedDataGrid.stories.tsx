@@ -2,6 +2,7 @@ import * as React from 'react';
 import {
   DataGrid,
   DataGridBody,
+  DataGridCell,
   CellRenderer,
   DataGridHeaderRow,
   RowHeaderContextProvider,
@@ -9,7 +10,6 @@ import {
 import { Meta } from '@storybook/react';
 import { CalendarClock16Regular } from '@fluentui/react-icons';
 import {
-  DataGridCell,
   makeStyles,
   DataGridHeader,
   DataGridHeaderCell,
@@ -87,15 +87,11 @@ const generateTableArrays = (rowCount: number, columnCount: number) => {
 const cellRenderer: CellRenderer<TableUIData> = (
   { item },
   column,
-  style,
-  rowIndex,
-  columnIndex
+  style
 ) => {
   return (
     <DataGridCell
       style={{ ...style, boxSizing: 'border-box' }}
-      aria-rowindex={2 + rowIndex}
-      aria-colindex={columnIndex}
     >
       {column.renderCell(item)}
     </DataGridCell>
@@ -128,12 +124,13 @@ export const VirtualizedDataGrid: React.FunctionComponent = () => {
             height={42}
             width={20000}
           >
-            {({ renderHeaderCell }, style) => {
+            {({ renderHeaderCell }, style, context, index) => {
               return (
                 <DataGridHeaderCell
                   className={styles.headerCell}
                   as="div"
                   style={style}
+                  aria-colindex={1 + index}
                 >
                   {renderHeaderCell()}
                 </DataGridHeaderCell>
