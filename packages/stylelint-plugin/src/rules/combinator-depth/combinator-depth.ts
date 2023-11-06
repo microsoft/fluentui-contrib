@@ -48,10 +48,17 @@ export default createRule({
 
         continue;
       }
-      tokenizedSelector.reverse();
       const combinatorCount = tokenizedSelector.filter(
         (token) => token.type === 'combinator'
       ).length;
+
+      if (
+        tokenizedSelector[1].type === 'pseudo-class' &&
+        [':hover', ':active'].includes(tokenizedSelector[1].content) &&
+        combinatorCount <= allowedDepth + 1
+      ) {
+        continue;
+      }
 
       if (combinatorCount > allowedDepth) {
         stylelint.utils.report({

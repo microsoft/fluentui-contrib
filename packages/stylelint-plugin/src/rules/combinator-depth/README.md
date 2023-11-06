@@ -49,3 +49,37 @@ export function Component() {
   );
 }
 ```
+
+```tsx
+import { makeStyles, Button, buttonClassNames } from '@fluentui/react-components';
+import { SendRegular } from '@fluentui/react-icons';
+
+const useStyles = makeStyles({
+  showIcon: {
+    // ✅ certain pseudo classes do not count toward allowed depth
+    ':hover': {
+      [`& .${buttonClassNames.icon}`]
+      opacity: 1,
+    }
+
+    ':active': {
+      [`& .${buttonClassNames.icon}`]
+      opacity: 1,
+    }
+  },
+
+  hiddenIcon: {
+    opacity: 0,
+  }
+});
+
+export function Component() {
+  const styles = useStyles();
+
+  return (
+    <div>
+      <Button className={styles.root} icon={{ children: <SendRegular />, className: styles.hiddenIcon }}>Foo</Button>
+    </div>
+  );
+}
+```
