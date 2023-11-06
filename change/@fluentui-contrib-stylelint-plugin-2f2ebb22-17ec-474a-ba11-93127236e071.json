@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "feat: :hover and :active pseudoclasses should not count to combinator depth",
+  "packageName": "@fluentui-contrib/stylelint-plugin",
+  "email": "lingfan.gao@microsoft.com",
+  "dependentChangeType": "patch"
+}
