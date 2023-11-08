@@ -75,7 +75,7 @@ function getColumnDefinitions(
 const generateTableArrays = (rowCount: number, columnCount: number) => {
   const result: TableUIData[] = [];
   for (let i = 0; i < rowCount; i += 1) {
-    const row: any = {};
+    const row: TableUIData = {};
     for (let j = 0; j < columnCount; j++) {
       row[`column${j}`] = `r${i} c${j}`;
     }

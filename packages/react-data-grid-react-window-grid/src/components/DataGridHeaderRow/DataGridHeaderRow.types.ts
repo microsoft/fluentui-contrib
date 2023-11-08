@@ -6,7 +6,7 @@ import {
 } from '@fluentui/react-components';
 import { FixedSizeListProps, ListChildComponentProps } from 'react-window';
 
-export type CellRenderer<TItem = unknown> = (
+export type HeaderCellRenderer<TItem = unknown> = (
   column: TableColumnDefinition<TItem>,
   style: React.CSSProperties,
   dataGridContextValue: DataGridContextValue,
@@ -35,7 +35,7 @@ export type DataGridHeaderRowProps<TItem = unknown> = Omit<
   /**
    * Children render function for cell
    */
-  children: CellRenderer<TItem>;
+  children: HeaderCellRenderer<TItem>;
 
   /**
    * Optional props to pass through to the FixedSizeList component from react-window

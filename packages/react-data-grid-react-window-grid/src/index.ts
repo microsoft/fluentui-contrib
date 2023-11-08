@@ -23,3 +23,8 @@ export type {
   DataGridBodyProps,
   CellRenderer,
 } from './components/DataGridBody';
+
+export type {
+  DataGridHeaderRowProps,
+  HeaderCellRenderer,
+} from './components/DataGridHeaderRow';
