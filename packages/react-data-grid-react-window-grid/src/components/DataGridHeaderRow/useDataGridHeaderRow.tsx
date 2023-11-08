@@ -21,10 +21,9 @@ export const useDataGridHeaderRow_unstable = (
 ): DataGridHeaderRowState => {
   const { height, itemSize, width, children, listProps, listRef } = props;
 
-  // cast the row render function to work with unknown args
-  const renderRowWithUnknown = children as unknown as CellRenderFunction;
+  // the base children render function is no longer in used, while virtualizedCell is used
   const baseState = useDataGridRow_unstable(
-    { ...props, children: renderRowWithUnknown, 'aria-rowindex': 1 },
+    { ...props, children: () => null, 'aria-rowindex': 1 },
     ref
   );
 

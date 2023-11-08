@@ -43,11 +43,9 @@ export const useDataGridBody_unstable = (
     children,
     gridProps,
   } = props;
-
-  // cast the row render function to work with unknown args
-  const renderRowWithUnknown = children as any;
+  // children render in base class is not in use, so passing null
   const baseState = useDataGridBodyBase_unstable(
-    { ...props, children: renderRowWithUnknown },
+    { ...props, children: () => null },
     ref
   );
 
