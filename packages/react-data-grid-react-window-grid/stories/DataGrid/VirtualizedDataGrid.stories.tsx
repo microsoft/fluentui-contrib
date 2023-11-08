@@ -40,7 +40,7 @@ const useStyles = makeStyles({
   },
 });
 
-const columnWidthConstant = 120;
+const COLUMN_WIDTH= 120;
 
 function getColumnDefinitions(
   columns: string[]
