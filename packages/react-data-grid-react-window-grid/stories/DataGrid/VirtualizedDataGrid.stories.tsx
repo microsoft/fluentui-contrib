@@ -5,7 +5,6 @@ import {
   DataGridCell,
   CellRenderer,
   DataGridHeaderRow,
-  RowHeaderContextProvider,
 } from '@fluentui-contrib/react-data-grid-react-window-grid';
 import { Meta } from '@storybook/react';
 import { CalendarClock16Regular } from '@fluentui/react-icons';
@@ -99,48 +98,43 @@ export const VirtualizedDataGrid: React.FunctionComponent = () => {
   const items = generateTableArrays(1000, 50);
   const styles = useStyles();
 
-  const headerContainer: React.Ref<HTMLDivElement> = React.useRef(null);
-
   return (
-    <RowHeaderContextProvider value={{ listRef: headerContainer }}>
-      <DataGrid
-        focusMode="cell"
-        noNativeElements
-        sortable
-        items={items}
-        columns={columns}
-        size={'medium'}
-      >
-        <DataGridHeader className={styles.tableHeader}>
-          <DataGridHeaderRow<TableUIData>
-            listRef={headerContainer}
-            itemSize={COLUMN_WIDTH}
-            height={42}
-            width={20000}
-          >
-            {({ renderHeaderCell }, style, context, index) => {
-              return (
-                <DataGridHeaderCell
-                  className={styles.headerCell}
-                  as="div"
-                  style={style}
-                  aria-colindex={1 + index}
-                >
-                  {renderHeaderCell()}
-                </DataGridHeaderCell>
-              );
-            }}
-          </DataGridHeaderRow>
-        </DataGridHeader>
-        <DataGridBody<TableUIData>
-          rowHeight={44}
-          height={500}
-          width={1000}
-          columnWidth={COLUMN_WIDTH}
+    <DataGrid
+      focusMode="cell"
+      noNativeElements
+      sortable
+      items={items}
+      columns={columns}
+      size={'medium'}
+    >
+      <DataGridHeader className={styles.tableHeader}>
+        <DataGridHeaderRow<TableUIData>
+          itemSize={COLUMN_WIDTH}
+          height={42}
+          width={20000}
         >
-          {cellRenderer}
-        </DataGridBody>
-      </DataGrid>
-    </RowHeaderContextProvider>
+          {({ renderHeaderCell }, style, context, index) => {
+            return (
+              <DataGridHeaderCell
+                className={styles.headerCell}
+                as="div"
+                style={style}
+                aria-colindex={1 + index}
+              >
+                {renderHeaderCell()}
+              </DataGridHeaderCell>
+            );
+          }}
+        </DataGridHeaderRow>
+      </DataGridHeader>
+      <DataGridBody<TableUIData>
+        rowHeight={44}
+        height={500}
+        width={1000}
+        columnWidth={COLUMN_WIDTH}
+      >
+        {cellRenderer}
+      </DataGridBody>
+    </DataGrid>
   );
 };

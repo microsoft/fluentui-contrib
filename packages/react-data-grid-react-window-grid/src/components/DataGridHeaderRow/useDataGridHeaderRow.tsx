@@ -4,11 +4,11 @@ import {
   TableColumnDefinition,
   useDataGridRow_unstable,
 } from '@fluentui/react-components';
-import type { CellRenderFunction } from '@fluentui/react-table';
 import {
   DataGridHeaderRowProps,
   DataGridHeaderRowState,
 } from './DataGridHeaderRow.types';
+import { useHeaderListRefContext } from '../../contexts/headerListRefContext';
 /**
  * Create the state required to render DataGridHeaderRow.
  *
@@ -19,8 +19,8 @@ export const useDataGridHeaderRow_unstable = (
   props: DataGridHeaderRowProps,
   ref: React.Ref<HTMLElement>
 ): DataGridHeaderRowState => {
-  const { height, itemSize, width, children, listProps, listRef } = props;
-
+  const { height, itemSize, width, children, listProps } = props;
+  const listRef = useHeaderListRefContext()
   // the base children render function is no longer in used, while virtualizedCell is used
   const baseState = useDataGridRow_unstable(
     { ...props, children: () => null, 'aria-rowindex': 1 },

@@ -12,10 +12,7 @@ import {
 } from '@fluentui/react-components';
 import type { TableColumnDefinition } from '@fluentui/react-components';
 import { GridOnScrollProps } from 'react-window';
-import {
-  HeaderRowContextValue,
-  useHeaderRowContext,
-} from '../../contexts/headerRowContext';
+import { useHeaderListRefContext } from '../../contexts/headerListRefContext';
 import {
   TableIndexContextProvider,
   ariaColumnIndexStart,
@@ -52,7 +49,7 @@ export const useDataGridBody_unstable = (
   const columns: TableColumnDefinition<any>[] = useDataGridContext_unstable(
     (cxt) => cxt.columns
   );
-  const headerRow: HeaderRowContextValue = useHeaderRowContext();
+  const headerRow: React.MutableRefObject<HTMLDivElement | null> = useHeaderListRefContext();
 
   const virtualizedCell: DataGridBodyState['virtualizedCell'] =
     React.useCallback(
@@ -91,8 +88,8 @@ export const useDataGridBody_unstable = (
     ariaRowIndexStart,
     gridProps: {
       onScroll: (props: GridOnScrollProps) => {
-        if (props.horizontalScrollDirection && headerRow?.listRef.current) {
-          headerRow.listRef.current.scrollTo({ left: props.scrollLeft });
+        if (props.horizontalScrollDirection && headerRow?.current) {
+          headerRow.current.scrollTo({ left: props.scrollLeft });
         }
       },
       ...gridProps,

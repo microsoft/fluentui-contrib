@@ -2,7 +2,6 @@ export { DataGridBody } from './components/DataGridBody';
 export { DataGrid } from './components/DataGrid';
 export { DataGridCell } from './components/DataGridCell';
 export { DataGridHeaderRow } from './components/DataGridHeaderRow';
-export { RowHeaderContextProvider } from './contexts/headerRowContext';
 
 export {
   DataGridHeader,
