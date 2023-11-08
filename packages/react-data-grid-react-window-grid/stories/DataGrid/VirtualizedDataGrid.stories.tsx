@@ -114,7 +114,7 @@ export const VirtualizedDataGrid: React.FunctionComponent = () => {
         <DataGridHeader className={styles.tableHeader}>
           <DataGridHeaderRow<TableUIData>
             listRef={headerContainer}
-            itemSize={columnWidthConstant}
+            itemSize={COLUMN_WIDTH}
             height={42}
             width={20000}
           >
@@ -136,7 +136,7 @@ export const VirtualizedDataGrid: React.FunctionComponent = () => {
           rowHeight={44}
           height={500}
           width={1000}
-          columnWidth={columnWidthConstant}
+          columnWidth={COLUMN_WIDTH}
         >
           {cellRenderer}
         </DataGridBody>
