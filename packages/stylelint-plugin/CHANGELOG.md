@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/stylelint-plugin
 
-This log was last generated on Wed, 25 Oct 2023 09:11:36 GMT and should not be manually modified.
+This log was last generated on Thu, 09 Nov 2023 13:33:19 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.2.0
+
+Thu, 09 Nov 2023 13:33:19 GMT
+
+### Minor changes
+
+- feat: :hover and :active pseudoclasses should not count to combinator depth (lingfan.gao@microsoft.com)
 
 ## 0.1.1
 
