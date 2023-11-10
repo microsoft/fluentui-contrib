@@ -48,7 +48,7 @@ export const useDataGridBody_unstable = (
     ref
   );
 
-  const columns: TableColumnDefinition<any>[] = useDataGridContext_unstable(
+  const columns: TableColumnDefinition<unknown>[] = useDataGridContext_unstable(
     (cxt) => cxt.columns
   );
   const headerListRef = useHeaderListRefContext();

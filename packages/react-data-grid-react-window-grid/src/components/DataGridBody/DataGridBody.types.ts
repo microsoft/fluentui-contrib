@@ -74,7 +74,7 @@ export type DataGridBodyState = Omit<DataGridBodyStateBase, 'renderRow'> &
   Pick<DataGridBodyProps, 'rowHeight' | 'height' | 'columnWidth'> &
   Pick<DataGridContextValue, 'columns'> &
   Pick<Required<DataGridBodyProps>, 'width' | 'ariaRowIndexStart'> & {
-    virtualizedCell: (props: GridChildComponentProps) => React.ReactElement;
+    virtualizedCell: (props: GridChildComponentProps<TableRowData<unknown>[]>) => React.ReactElement;
   } & {
     gridProps?: Partial<FixedSizeGridProps>;
 

@@ -5,9 +5,7 @@ import {
   DataGridHeaderCellState,
   useDataGridContext_unstable,
 } from '@fluentui/react-components';
-import { useFluent, useScrollbarWidth } from '@fluentui/react-components';
-
-const TABLE_SELECTION_CELL_WIDTH = 44;
+import { ariaColumnIndexStart, useColumnIndexContext } from '../../contexts/columnIndexContext';
 
 /**
  * Create the state required to render DataGrid.
@@ -23,9 +21,10 @@ export const useDataGridHeaderCell_unstable = (
   ref: React.Ref<HTMLElement>
 ): DataGridHeaderCellState => {
   const columns = useDataGridContext_unstable(ctx => ctx.columns);
+  const colIndex = useColumnIndexContext();
 
   return useBaseState(
-    { ...props, 'aria-colcount': columns.length },
+    { ...props, 'aria-colcount': columns.length, 'aria-colindex': colIndex },
     ref
   );
 };

@@ -11,6 +11,7 @@ import {
 import { useHeaderListRefContext } from '../../contexts/headerListRefContext';
 import { ListOnScrollProps } from 'react-window';
 import { useBodyRefContext } from '../../contexts/bodyRefContext';
+import { ColumnIndexContextProvider, ariaColumnIndexStart } from '../../contexts/columnIndexContext';
 /**
  * Create the state required to render DataGridHeaderRow.
  *
@@ -35,9 +36,11 @@ export const useDataGridHeaderRow_unstable = (
       ({ data, index, style }) => {
         const column: TableColumnDefinition<unknown> = data[index];
         return (
-          <ColumnIdContextProvider value={column.columnId}>
-            {children(column, style, baseState.dataGridContextValue, index)}
-          </ColumnIdContextProvider>
+          <ColumnIndexContextProvider value={ariaColumnIndexStart + index}>
+            <ColumnIdContextProvider value={column.columnId}>
+              {children(column, style, baseState.dataGridContextValue, index)}
+            </ColumnIdContextProvider>
+          </ColumnIndexContextProvider>
         );
       },
       [children]

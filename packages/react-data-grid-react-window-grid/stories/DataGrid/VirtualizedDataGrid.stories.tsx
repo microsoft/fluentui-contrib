@@ -100,7 +100,6 @@ export const VirtualizedDataGrid: React.FunctionComponent = () => {
 
   return (
     <DataGrid
-      focusMode="cell"
       noNativeElements
       sortable
       items={items}
