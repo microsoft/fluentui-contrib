@@ -15,6 +15,7 @@ export const renderDataGridBody_unstable = (state: DataGridBodyState) => {
   return (
     <slots.root {...slotProps.root}>
       <Grid
+        ref={state.gridRef}
         rowHeight={state.rowHeight}
         columnCount={state.columns.length}
         columnWidth={state.columnWidth}

@@ -24,7 +24,7 @@ export const renderDataGridHeaderRow_unstable = (
       )}
       {
         <List
-          outerRef={state.listRef}
+          ref={state.listRef}
           itemSize={state.itemSize}
           width={state.width}
           itemData={state.columnDefs}
@@ -34,6 +34,7 @@ export const renderDataGridHeaderRow_unstable = (
           layout={layout}
           {...state.listProps}
           style={{ overflow: 'hidden' }}
+          onScroll={state.onScroll}
         >
           {state.virtualizedCell}
         </List>

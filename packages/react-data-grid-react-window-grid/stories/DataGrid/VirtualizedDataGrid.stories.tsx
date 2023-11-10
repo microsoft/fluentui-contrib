@@ -5,13 +5,13 @@ import {
   DataGridCell,
   CellRenderer,
   DataGridHeaderRow,
+  DataGridHeaderCell,
 } from '@fluentui-contrib/react-data-grid-react-window-grid';
 import { Meta } from '@storybook/react';
 import { CalendarClock16Regular } from '@fluentui/react-icons';
 import {
   makeStyles,
   DataGridHeader,
-  DataGridHeaderCell,
   TableCellLayout,
   TableColumnDefinition,
   createTableColumn,
@@ -113,13 +113,12 @@ export const VirtualizedDataGrid: React.FunctionComponent = () => {
           height={42}
           width={20000}
         >
-          {({ renderHeaderCell }, style, context, index) => {
+          {({ renderHeaderCell }, style) => {
             return (
               <DataGridHeaderCell
                 className={styles.headerCell}
                 as="div"
                 style={style}
-                aria-colindex={1 + index}
               >
                 {renderHeaderCell()}
               </DataGridHeaderCell>

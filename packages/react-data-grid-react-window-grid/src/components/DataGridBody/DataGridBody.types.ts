@@ -7,7 +7,7 @@ import type {
   DataGridContextValue,
   TableColumnDefinition,
 } from '@fluentui/react-components';
-import { FixedSizeGridProps, GridChildComponentProps } from 'react-window';
+import { FixedSizeGrid, FixedSizeGridProps, GridChildComponentProps } from 'react-window';
 
 export type DataGridBodySlots = DataGridBodySlotsBase;
 
@@ -77,4 +77,9 @@ export type DataGridBodyState = Omit<DataGridBodyStateBase, 'renderRow'> &
     virtualizedCell: (props: GridChildComponentProps) => React.ReactElement;
   } & {
     gridProps?: Partial<FixedSizeGridProps>;
+
+    /**
+     * Ref of the virtualized list container ref
+     */
+    gridRef: React.RefObject<FixedSizeGrid>;
   };

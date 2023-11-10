@@ -17,6 +17,7 @@ import {
   TableIndexContextProvider,
   ariaColumnIndexStart,
 } from '../../contexts/indexContext';
+import { useBodyRefContext } from '../../contexts/bodyRefContext';
 
 /**
  * Create the state required to render DataGridBody.
@@ -49,7 +50,8 @@ export const useDataGridBody_unstable = (
   const columns: TableColumnDefinition<any>[] = useDataGridContext_unstable(
     (cxt) => cxt.columns
   );
-  const headerRow: React.MutableRefObject<HTMLDivElement | null> = useHeaderListRefContext();
+  const headerListRef = useHeaderListRefContext();
+  const bodyRef = useBodyRefContext();
 
   const virtualizedCell: DataGridBodyState['virtualizedCell'] =
     React.useCallback(
@@ -77,6 +79,12 @@ export const useDataGridBody_unstable = (
       [ariaRowIndexStart, children]
     );
 
+  const onScroll = React.useCallback((scrollProps: GridOnScrollProps) => {
+    if (scrollProps.horizontalScrollDirection && headerListRef?.current && scrollProps.scrollUpdateWasRequested === false) {
+      headerListRef.current.scrollTo(scrollProps.scrollLeft);
+    }
+  }, [headerListRef])
+
   return {
     ...baseState,
     rowHeight,
@@ -86,12 +94,9 @@ export const useDataGridBody_unstable = (
     virtualizedCell,
     width,
     ariaRowIndexStart,
+    gridRef: bodyRef,
     gridProps: {
-      onScroll: (props: GridOnScrollProps) => {
-        if (props.horizontalScrollDirection && headerRow?.current) {
-          headerRow.current.scrollTo({ left: props.scrollLeft });
-        }
-      },
+      onScroll,
       ...gridProps,
     },
   };

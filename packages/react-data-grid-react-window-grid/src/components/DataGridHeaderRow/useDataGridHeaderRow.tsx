@@ -9,6 +9,8 @@ import {
   DataGridHeaderRowState,
 } from './DataGridHeaderRow.types';
 import { useHeaderListRefContext } from '../../contexts/headerListRefContext';
+import { ListOnScrollProps } from 'react-window';
+import { useBodyRefContext } from '../../contexts/bodyRefContext';
 /**
  * Create the state required to render DataGridHeaderRow.
  *
@@ -20,7 +22,8 @@ export const useDataGridHeaderRow_unstable = (
   ref: React.Ref<HTMLElement>
 ): DataGridHeaderRowState => {
   const { height, itemSize, width, children, listProps } = props;
-  const listRef = useHeaderListRefContext()
+  const listRef = useHeaderListRefContext();
+  const bodyRef = useBodyRefContext();
   // the base children render function is no longer in used, while virtualizedCell is used
   const baseState = useDataGridRow_unstable(
     { ...props, children: () => null, 'aria-rowindex': 1 },
@@ -40,7 +43,11 @@ export const useDataGridHeaderRow_unstable = (
       [children]
     );
 
-  const virtualizedListRef = React.useRef<HTMLDivElement | null>(null);
+  const onScroll = React.useCallback((scrollProps: ListOnScrollProps) => {
+    if (scrollProps.scrollDirection && bodyRef?.current && scrollProps.scrollUpdateWasRequested === false) {
+      bodyRef.current.scrollTo({ scrollLeft: scrollProps.scrollOffset});
+    }
+  }, [bodyRef]);
 
   return {
     ...baseState,
@@ -49,6 +56,7 @@ export const useDataGridHeaderRow_unstable = (
     virtualizedCell,
     width,
     listProps,
-    listRef: listRef ?? virtualizedListRef,
+    listRef: listRef,
+    onScroll
   };
 };
