@@ -14,10 +14,11 @@ import type { TableColumnDefinition } from '@fluentui/react-components';
 import { GridOnScrollProps } from 'react-window';
 import { useHeaderListRefContext } from '../../contexts/headerListRefContext';
 import {
-  TableIndexContextProvider,
+  ColumnIndexContextProvider,
   ariaColumnIndexStart,
-} from '../../contexts/indexContext';
+} from '../../contexts/columnIndexContext';
 import { useBodyRefContext } from '../../contexts/bodyRefContext';
+import { RowIndexContextProvider } from '../../contexts/rowIndexContext';
 
 /**
  * Create the state required to render DataGridBody.
@@ -59,21 +60,18 @@ export const useDataGridBody_unstable = (
         const row: TableRowData<unknown> = data[rowIndex];
         const columnDef = columns[columnIndex];
         return (
-          <TableIndexContextProvider
-            value={{
-              rowIndex: ariaRowIndexStart + rowIndex,
-              columnIndex: ariaColumnIndexStart + columnIndex,
-            }}
-          >
-            <TableRowIdContextProvider value={row.rowId}>
-              <ColumnIdContextProvider
-                value={columnDef.columnId}
-                key={columnDef.columnId}
-              >
-                {children(row, columnDef, style, rowIndex, columnIndex)}
-              </ColumnIdContextProvider>
-            </TableRowIdContextProvider>
-          </TableIndexContextProvider>
+          <ColumnIndexContextProvider value={ariaColumnIndexStart + columnIndex}>
+            <RowIndexContextProvider value={ariaRowIndexStart + rowIndex}>
+              <TableRowIdContextProvider value={row.rowId}>
+                <ColumnIdContextProvider
+                  value={columnDef.columnId}
+                  key={columnDef.columnId}
+                >
+                  {children(row, columnDef, style, rowIndex, columnIndex)}
+                </ColumnIdContextProvider>
+              </TableRowIdContextProvider>
+            </RowIndexContextProvider>
+          </ColumnIndexContextProvider>
         );
       },
       [ariaRowIndexStart, children]

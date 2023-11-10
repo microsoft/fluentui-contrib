@@ -4,7 +4,8 @@ import type {
   DataGridCellState,
 } from '@fluentui/react-components';
 import { useDataGridCell_unstable as useBaseState } from '@fluentui/react-components';
-import { useTableIndexContext } from '../../contexts/indexContext';
+import { useColumnIndexContext } from '../../contexts/columnIndexContext';
+import { useRowIndexContext } from '../../contexts/rowIndexContext';
 
 /**
  * Create the state required to render DataGridCell.
@@ -19,12 +20,13 @@ export const useDataGridCell_unstable = (
   props: DataGridCellProps,
   ref: React.Ref<HTMLElement>
 ): DataGridCellState => {
-  const index = useTableIndexContext();
+  const colIndex = useColumnIndexContext();
+  const rowIndex = useRowIndexContext();
   return useBaseState(
     {
       ...props,
-      'aria-rowindex': index.rowIndex,
-      'aria-colindex': index.columnIndex,
+      'aria-rowindex': rowIndex,
+      'aria-colindex': colIndex,
     },
     ref
   );
