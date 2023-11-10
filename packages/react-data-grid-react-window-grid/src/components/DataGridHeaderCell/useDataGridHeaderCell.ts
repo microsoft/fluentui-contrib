@@ -5,16 +5,16 @@ import {
   DataGridHeaderCellState,
   useDataGridContext_unstable,
 } from '@fluentui/react-components';
-import { ariaColumnIndexStart, useColumnIndexContext } from '../../contexts/columnIndexContext';
+import { useColumnIndexContext } from '../../contexts/columnIndexContext';
 
 /**
- * Create the state required to render DataGrid.
+ * Create the state required to render DataGridHeaderCell.
  *
- * The returned state can be modified with hooks such as useDataGridStyles_unstable,
- * before being passed to renderDataGrid_unstable.
+ * The returned state can be modified with hooks such as useDataGridHeaderCellStyles_unstable,
+ * before being passed to renderDataGridHeaderCell_unstable.
  *
- * @param props - props from this instance of DataGrid
- * @param ref - reference to root HTMLElement of DataGrid
+ * @param props - props from this instance of DataGridHeaderCell
+ * @param ref - reference to root HTMLElement of DataGridHeaderCell
  */
 export const useDataGridHeaderCell_unstable = (
   props: DataGridHeaderCellProps,
