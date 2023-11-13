@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-data-grid-react-window
 
-This log was last generated on Tue, 29 Aug 2023 11:32:35 GMT and should not be manually modified.
+This log was last generated on Wed, 25 Oct 2023 09:11:36 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 1.1.2
+
+Wed, 25 Oct 2023 09:11:36 GMT
+
+### Patches
+
+- fix: fix "exports.types" field (olfedias@microsoft.com)
 
 ## 1.1.1
 

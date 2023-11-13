@@ -1,0 +1,50 @@
+{
+  "name": "@fluentui-contrib/stylelint-plugin",
+  "entries": [
+    {
+      "date": "Thu, 09 Nov 2023 13:33:19 GMT",
+      "tag": "@fluentui-contrib/stylelint-plugin_v0.2.0",
+      "version": "0.2.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "lingfan.gao@microsoft.com",
+            "package": "@fluentui-contrib/stylelint-plugin",
+            "commit": "88327b4ea52f372aaa62c9493557be94037359d5",
+            "comment": "feat: :hover and :active pseudoclasses should not count to combinator depth"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Wed, 25 Oct 2023 09:11:36 GMT",
+      "tag": "@fluentui-contrib/stylelint-plugin_v0.1.1",
+      "version": "0.1.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "@fluentui-contrib/stylelint-plugin",
+            "commit": "9e73ce7bdb23f135aa39e4db42f4eba5a5176933",
+            "comment": "fix: fix \"exports.types\" field"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Tue, 24 Oct 2023 07:46:06 GMT",
+      "tag": "@fluentui-contrib/stylelint-plugin_v0.1.0",
+      "version": "0.1.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "lingfan.gao@microsoft.com",
+            "package": "@fluentui-contrib/stylelint-plugin",
+            "commit": "9495bf8b23756ae1ad9ebcaf8e897c1c8f067c69",
+            "comment": "feat: Implement stylelint plugin"
+          }
+        ]
+      }
+    }
+  ]
+}

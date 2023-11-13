@@ -1,0 +1,20 @@
+{
+  "name": "@fluentui-contrib/react-headless-provider",
+  "entries": [
+    {
+      "date": "Wed, 25 Oct 2023 09:11:36 GMT",
+      "tag": "@fluentui-contrib/react-headless-provider_v1.0.0",
+      "version": "1.0.0",
+      "comments": {
+        "major": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "@fluentui-contrib/react-headless-provider",
+            "commit": "47836dec304dc99afb4977dd3d5a64f706e5eef0",
+            "comment": "chore: publish @fluentui-contrib/react-headless-provider"
+          }
+        ]
+      }
+    }
+  ]
+}

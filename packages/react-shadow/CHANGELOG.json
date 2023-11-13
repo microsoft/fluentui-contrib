@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-shadow",
   "entries": [
     {
+      "date": "Wed, 25 Oct 2023 09:11:36 GMT",
+      "tag": "@fluentui-contrib/react-shadow_v0.0.5",
+      "version": "0.0.5",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "@fluentui-contrib/react-shadow",
+            "commit": "9e73ce7bdb23f135aa39e4db42f4eba5a5176933",
+            "comment": "fix: fix \"exports.types\" field"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 06 Jul 2023 12:03:40 GMT",
       "tag": "@fluentui-contrib/react-shadow_v0.0.4",
       "version": "0.0.4",

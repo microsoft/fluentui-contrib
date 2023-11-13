@@ -1,0 +1,13 @@
+{
+  "name": "@fluentui-contrib/stylelint-plugin",
+  "version": "0.2.0",
+  "dependencies": {
+    "parsel-js": "^1.1.2"
+  },
+  "keywords": [
+    "stylelint-plugin"
+  ],
+  "peerDependencies": {
+    "stylelint": ">=14.0.0 <16.0.0"
+  }
+}

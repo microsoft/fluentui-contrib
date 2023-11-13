@@ -1,0 +1,20 @@
+{
+  "dependencyTypes": [
+    "prod",
+    "peer"
+  ],
+  "versionGroups": [
+    {
+      "packages": [
+        "**"
+      ],
+      "dependencies": [
+        "@fluentui/react-components"
+      ],
+      "dependencyTypes": [
+        "peer"
+      ],
+      "isIgnored": true
+    }
+  ]
+}
