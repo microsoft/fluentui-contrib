@@ -5,7 +5,7 @@
   "scripts": {
     "build": "nx affected --target=build",
     "change": "beachball change",
-    "check-dependencies": "syncpack list-mismatches --types prod,peer",
+    "check-dependencies": "syncpack list-mismatches",
     "lint": "nx affected --target=lint",
     "test": "nx affected --target=test",
     "type-check": "nx affected --target=type-check",
