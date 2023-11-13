@@ -29,3 +29,9 @@ jobs:
       - run: yarn nx affected --target=test --parallel --max-parallel=2
       - run: yarn nx affected --target=lint --parallel --max-parallel=3
       - run: yarn nx format:check --base origin/main
+      - name: 'Deduplicate yarn.lock'
+        run: npx yarn-deduplicate
+      - name: 'Check for unstaged changes'
+        run: |
+          git status --porcelain
+          git diff-index --quiet HEAD -- || exit 1
