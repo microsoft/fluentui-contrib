@@ -20,10 +20,10 @@ export const DataGrid = React.forwardRef<HTMLDivElement, DataGridProps>(
     return (
       <HeaderListRefContextProvider value={headerRef}>
         <BodyRefContextProvider value={bodyRef}>
-        {renderDataGrid_unstable(
-          state,
-          useDataGridContextValues_unstable(state)
-        )}
+          {renderDataGrid_unstable(
+            state,
+            useDataGridContextValues_unstable(state)
+          )}
         </BodyRefContextProvider>
       </HeaderListRefContextProvider>
     );

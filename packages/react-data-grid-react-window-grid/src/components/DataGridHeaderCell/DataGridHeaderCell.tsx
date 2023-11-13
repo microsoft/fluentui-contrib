@@ -6,13 +6,15 @@ import {
   renderDataGridHeaderCell_unstable,
 } from '@fluentui/react-components';
 
-export const DataGridHeaderCell = React.forwardRef<HTMLDivElement, DataGridHeaderCellProps>(
-  (props, ref) => {
-    const state = useDataGridHeaderCell_unstable(props, ref);
+export const DataGridHeaderCell = React.forwardRef<
+  HTMLDivElement,
+  DataGridHeaderCellProps
+>((props, ref) => {
+  const state = useDataGridHeaderCell_unstable(props, ref);
 
-    useDataGridHeaderCellStyles_unstable(state);
+  useDataGridHeaderCellStyles_unstable(state);
 
-    return renderDataGridHeaderCell_unstable(state);
+  return renderDataGridHeaderCell_unstable(state);
 });
 
 DataGridHeaderCell.displayName = 'DataGridHeaderCell';

@@ -11,7 +11,10 @@ import {
 import { useHeaderListRefContext } from '../../contexts/headerListRefContext';
 import { ListOnScrollProps } from 'react-window';
 import { useBodyRefContext } from '../../contexts/bodyRefContext';
-import { ColumnIndexContextProvider, ariaColumnIndexStart } from '../../contexts/columnIndexContext';
+import {
+  ColumnIndexContextProvider,
+  ariaColumnIndexStart,
+} from '../../contexts/columnIndexContext';
 /**
  * Create the state required to render DataGridHeaderRow.
  *
@@ -46,11 +49,18 @@ export const useDataGridHeaderRow_unstable = (
       [children]
     );
 
-  const onScroll = React.useCallback((scrollProps: ListOnScrollProps) => {
-    if (scrollProps.scrollDirection && bodyRef?.current && scrollProps.scrollUpdateWasRequested === false) {
-      bodyRef.current.scrollTo({ scrollLeft: scrollProps.scrollOffset});
-    }
-  }, [bodyRef]);
+  const onScroll = React.useCallback(
+    (scrollProps: ListOnScrollProps) => {
+      if (
+        scrollProps.scrollDirection &&
+        bodyRef?.current &&
+        scrollProps.scrollUpdateWasRequested === false
+      ) {
+        bodyRef.current.scrollTo({ scrollLeft: scrollProps.scrollOffset });
+      }
+    },
+    [bodyRef]
+  );
 
   return {
     ...baseState,
@@ -60,6 +70,6 @@ export const useDataGridHeaderRow_unstable = (
     width,
     listProps,
     listRef: listRef,
-    onScroll
+    onScroll,
   };
 };

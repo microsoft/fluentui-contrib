@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-const columnIndexContext = React.createContext<number | undefined>(
-  undefined
-);
+const columnIndexContext = React.createContext<number | undefined>(undefined);
 
 export const columnIndexContextDefaultValue: number | undefined = undefined;
 

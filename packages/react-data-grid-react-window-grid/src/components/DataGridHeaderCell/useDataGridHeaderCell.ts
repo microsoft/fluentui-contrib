@@ -20,7 +20,7 @@ export const useDataGridHeaderCell_unstable = (
   props: DataGridHeaderCellProps,
   ref: React.Ref<HTMLElement>
 ): DataGridHeaderCellState => {
-  const columns = useDataGridContext_unstable(ctx => ctx.columns);
+  const columns = useDataGridContext_unstable((ctx) => ctx.columns);
   const colIndex = useColumnIndexContext();
 
   return useBaseState(

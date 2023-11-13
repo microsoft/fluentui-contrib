@@ -60,7 +60,9 @@ export const useDataGridBody_unstable = (
         const row: TableRowData<unknown> = data[rowIndex];
         const columnDef = columns[columnIndex];
         return (
-          <ColumnIndexContextProvider value={ariaColumnIndexStart + columnIndex}>
+          <ColumnIndexContextProvider
+            value={ariaColumnIndexStart + columnIndex}
+          >
             <RowIndexContextProvider value={ariaRowIndexStart + rowIndex}>
               <TableRowIdContextProvider value={row.rowId}>
                 <ColumnIdContextProvider
@@ -77,11 +79,18 @@ export const useDataGridBody_unstable = (
       [ariaRowIndexStart, children]
     );
 
-  const onScroll = React.useCallback((scrollProps: GridOnScrollProps) => {
-    if (scrollProps.horizontalScrollDirection && headerListRef?.current && scrollProps.scrollUpdateWasRequested === false) {
-      headerListRef.current.scrollTo(scrollProps.scrollLeft);
-    }
-  }, [headerListRef])
+  const onScroll = React.useCallback(
+    (scrollProps: GridOnScrollProps) => {
+      if (
+        scrollProps.horizontalScrollDirection &&
+        headerListRef?.current &&
+        scrollProps.scrollUpdateWasRequested === false
+      ) {
+        headerListRef.current.scrollTo(scrollProps.scrollLeft);
+      }
+    },
+    [headerListRef]
+  );
 
   return {
     ...baseState,

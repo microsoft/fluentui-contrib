@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-const rowIndexContext = React.createContext<number | undefined>(
-  undefined
-);
+const rowIndexContext = React.createContext<number | undefined>(undefined);
 
 export const rowIndexContextDefaultValue: number | undefined = undefined;
 

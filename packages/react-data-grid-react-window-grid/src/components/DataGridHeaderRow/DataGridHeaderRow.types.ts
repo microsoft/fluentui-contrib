@@ -4,7 +4,12 @@ import {
   DataGridRowState,
   TableColumnDefinition,
 } from '@fluentui/react-components';
-import { FixedSizeList, FixedSizeListProps, ListChildComponentProps, ListProps } from 'react-window';
+import {
+  FixedSizeList,
+  FixedSizeListProps,
+  ListChildComponentProps,
+  ListProps,
+} from 'react-window';
 
 export type HeaderCellRenderer<TItem = unknown> = (
   column: TableColumnDefinition<TItem>,
@@ -54,9 +59,11 @@ export type DataGridHeaderRowState = Omit<DataGridRowState, 'renderCell'> &
     DataGridHeaderRowProps,
     'itemSize' | 'height' | 'width' | 'listProps'
   > & {
-    virtualizedCell: (props: ListChildComponentProps<TableColumnDefinition<unknown>[]>) => React.ReactElement;
+    virtualizedCell: (
+      props: ListChildComponentProps<TableColumnDefinition<unknown>[]>
+    ) => React.ReactElement;
     /**
      * Ref of the virtualized list container ref
      */
-    listRef: React.RefObject<FixedSizeList<any>>
+    listRef: React.RefObject<FixedSizeList<any>>;
   } & Pick<ListProps, 'onScroll'>;

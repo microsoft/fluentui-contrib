@@ -7,7 +7,11 @@ import type {
   DataGridContextValue,
   TableColumnDefinition,
 } from '@fluentui/react-components';
-import { FixedSizeGrid, FixedSizeGridProps, GridChildComponentProps } from 'react-window';
+import {
+  FixedSizeGrid,
+  FixedSizeGridProps,
+  GridChildComponentProps,
+} from 'react-window';
 
 export type DataGridBodySlots = DataGridBodySlotsBase;
 
@@ -74,7 +78,9 @@ export type DataGridBodyState = Omit<DataGridBodyStateBase, 'renderRow'> &
   Pick<DataGridBodyProps, 'rowHeight' | 'height' | 'columnWidth'> &
   Pick<DataGridContextValue, 'columns'> &
   Pick<Required<DataGridBodyProps>, 'width' | 'ariaRowIndexStart'> & {
-    virtualizedCell: (props: GridChildComponentProps<TableRowData<unknown>[]>) => React.ReactElement;
+    virtualizedCell: (
+      props: GridChildComponentProps<TableRowData<unknown>[]>
+    ) => React.ReactElement;
   } & {
     gridProps?: Partial<FixedSizeGridProps>;
 
