@@ -1,0 +1,20 @@
+{
+  "name": "@fluentui-contrib/react-data-grid-react-window-grid",
+  "entries": [
+    {
+      "date": "Tue, 14 Nov 2023 09:13:19 GMT",
+      "tag": "@fluentui-contrib/react-data-grid-react-window-grid_v1.0.0",
+      "version": "1.0.0",
+      "comments": {
+        "major": [
+          {
+            "author": "fengqi@microsoft.com",
+            "package": "@fluentui-contrib/react-data-grid-react-window-grid",
+            "commit": "d09ba00b9d05b942bd01e937d7ac17cc4af42e1e",
+            "comment": "First release on @fluentui-contrib/react-data-grid-react-window-grid"
+          }
+        ]
+      }
+    }
+  ]
+}
