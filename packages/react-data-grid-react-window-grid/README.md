@@ -25,4 +25,5 @@ yarn add @fluentui-contrib/react-data-grid-react-window-grid
 npm install @fluentui-contrib/react-data-grid-react-window-grid
 ```
 
-For a full usage example please take a look at [The documentation sample](https://github.com/microsoft/fluentui-contrib/blob/main/packages/react-data-grid-react-window-grid/stories/DataGrid/VirtualizedDataGrid.stories.tsx).
+For a full usage example please take a look at [the documentation sample](https://github.com/microsoft/fluentui-contrib/blob/main/packages/react-data-grid-react-window-grid/stories/DataGrid/VirtualizedDataGrid.stories.tsx), and
+[Storybook](https://microsoft.github.io/fluentui-contrib/react-data-grid-react-window-grid/?path=/story/datagrid--virtualized-data-grid).
