@@ -1,7 +1,8 @@
 import * as React from 'react';
 import {
-  useFluent,
   renderFluentProvider_unstable,
+  slot,
+  useFluent,
   useFluentProviderContextValues_unstable,
 } from '@fluentui/react-components';
 import type {
@@ -65,7 +66,7 @@ function useHeadlessFluentProviderState(
     // In headless mode, we don't render any elements
 
     components: { root: React.Fragment },
-    root: { children },
+    root: slot.always({ children }, { elementType: React.Fragment }),
 
     // Styling is ignored in headless mode
 

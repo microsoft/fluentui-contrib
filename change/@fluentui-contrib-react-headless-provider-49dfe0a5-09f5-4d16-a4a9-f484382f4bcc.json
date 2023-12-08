@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: use functions required by JSX pragma",
+  "packageName": "@fluentui-contrib/react-headless-provider",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "patch"
+}
