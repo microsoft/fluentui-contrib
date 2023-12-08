@@ -1,6 +1,6 @@
 {
   "name": "@fluentui-contrib/react-headless-provider",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "peerDependencies": {
     "@fluentui/react-shared-contexts": ">=9.7.2 <10.0.0",
     "@fluentui/react-components": ">=9.25.1 <10.0.0",

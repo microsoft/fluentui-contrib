@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-headless-provider",
   "entries": [
     {
+      "date": "Fri, 08 Dec 2023 14:05:58 GMT",
+      "tag": "@fluentui-contrib/react-headless-provider_v1.0.1",
+      "version": "1.0.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "@fluentui-contrib/react-headless-provider",
+            "commit": "8cfda75eba9ec93357ce4a3f93d69bf2026877c4",
+            "comment": "fix: use functions required by JSX pragma"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 25 Oct 2023 09:11:36 GMT",
       "tag": "@fluentui-contrib/react-headless-provider_v1.0.0",
       "version": "1.0.0",
