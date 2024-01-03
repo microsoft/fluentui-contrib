@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "feat: add \"insertion point\" API to `react-shadow`",
+  "packageName": "@fluentui-contrib/react-shadow",
+  "email": "seanmonahan@microsoft.com",
+  "dependentChangeType": "patch"
+}
