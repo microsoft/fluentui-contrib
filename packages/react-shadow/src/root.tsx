@@ -31,9 +31,7 @@ const ReactComponentsWrapper: React.FC<{
 export const root: Root = createProxy(
   {},
   '@fluentui/react-components',
-  ({ children, root, insertionPoint }) => (
-    <ReactComponentsWrapper root={root} insertionPoint={insertionPoint}>
-      {children}
-    </ReactComponentsWrapper>
+  ({ children, root }) => (
+    <ReactComponentsWrapper root={root}>{children}</ReactComponentsWrapper>
   )
 );
