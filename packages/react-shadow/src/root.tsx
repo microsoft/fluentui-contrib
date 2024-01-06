@@ -5,21 +5,20 @@ import {
 import { createShadowDOMRenderer } from '@griffel/shadow-dom';
 import * as React from 'react';
 import { createProxy } from 'react-shadow';
-import {
-  REACT_SHADOW_INSERTION_BUCKET_NAME,
-  SUPPORTS_MODIFYING_ADOPTED_STYLESHEETS,
-} from './constants';
 import type { Root } from 'react-shadow';
-import type { GriffelShadowDOMRenderer } from '@griffel/shadow-dom';
-
-// Hack to get this type that is not directly exported at the moment.
-type ExtendedCSSStyleSheet = GriffelShadowDOMRenderer['adoptedStyleSheets'][0];
+import type { ExtendedCSSStyleSheet } from '@griffel/shadow-dom';
+import { getInsertionPointSheet } from './util';
 
 const ReactComponentsWrapper: React.FC<{
   children: React.ReactNode;
   root: ShadowRoot;
 }> = ({ children, root }) => {
-  const renderer = React.useMemo(() => createShadowDOMRenderer(root), [root]);
+  const renderer = React.useMemo(() => {
+    const insertionPoint = getInsertionPointSheet(
+      root.adoptedStyleSheets as ExtendedCSSStyleSheet[]
+    );
+    return createShadowDOMRenderer(root, { insertionPoint });
+  }, [root]);
 
   return (
     <RendererProvider renderer={renderer}>
