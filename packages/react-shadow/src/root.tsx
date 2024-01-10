@@ -13,32 +13,6 @@ const ReactComponentsWrapper: React.FC<{
 }> = ({ children, root }) => {
   const renderer = React.useMemo(() => createShadowDOMRenderer(root), [root]);
 
-  // TODO: explain this
-  React.useLayoutEffect(() => {
-    if (renderer.adoptedStyleSheets && renderer.adoptedStyleSheets.length > 0) {
-      if (
-        root.adoptedStyleSheets.find(
-          (styleSheet) => styleSheet === renderer.adoptedStyleSheets[0]
-        )
-      ) {
-        return;
-      }
-
-      root.adoptedStyleSheets = [
-        ...root.adoptedStyleSheets,
-        ...renderer.adoptedStyleSheets,
-      ];
-    }
-  }, [renderer.adoptedStyleSheets, root.adoptedStyleSheets]);
-
-  // TODO: polyfill does not work with ShadowRoot
-  // React.useLayoutEffect(() => {
-  //   applyFocusVisiblePolyfill(
-  //     root.host as HTMLElement,
-  //     root.ownerDocument.defaultView!
-  //   );
-  // }, [root]);
-
   return (
     <RendererProvider renderer={renderer}>
       <PortalMountNodeProvider value={root}>{children}</PortalMountNodeProvider>
