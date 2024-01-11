@@ -16,7 +16,7 @@ const ReactComponentsWrapper: React.FC<{
   const renderer = React.useMemo(() => {
     const insertionPoint = getInsertionPointSheet(
       root.adoptedStyleSheets as ExtendedCSSStyleSheet[]
-    );
+    ) as CSSStyleSheet;
     return createShadowDOMRenderer(root, { insertionPoint });
   }, [root]);
 
