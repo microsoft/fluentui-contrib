@@ -31,6 +31,9 @@
         "packages/react-headless-provider/src/index.ts"
       ],
       "@fluentui-contrib/react-shadow": ["packages/react-shadow/src/index.ts"],
+      "@fluentui-contrib/react-tree-grid": [
+        "packages/react-tree-grid/src/index.ts"
+      ],
       "@fluentui-contrib/stylelint-plugin": [
         "packages/stylelint-plugin/src/index.ts"
       ]
