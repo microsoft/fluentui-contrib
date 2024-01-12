@@ -21,7 +21,7 @@ export type UseMouseHandlerParams = {
 };
 
 export function useMouseHandler(params: UseMouseHandlerParams) {
-  const { targetDocument } = useFluent();
+  const { targetDocument, dir } = useFluent();
   const globalWin = targetDocument?.defaultView;
 
   const startCoords = React.useRef({ clientX: 0, clientY: 0 });
@@ -45,10 +45,10 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
 
       switch (growDirection) {
         case 'right':
-          newValue += deltaCoords[0];
+          newValue += deltaCoords[0] * (dir === 'rtl' ? -1 : 1);
           break;
         case 'left':
-          newValue -= deltaCoords[0];
+          newValue -= deltaCoords[0] * (dir === 'rtl' ? -1 : 1);
           break;
         case 'up':
           newValue -= deltaCoords[1];

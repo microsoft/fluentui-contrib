@@ -103,7 +103,7 @@ const Component = (props: ComponentProps) => {
         >
           <button onClick={() => setMaxValue(200)}>Set max 200</button>
           <Handle
-            position="right"
+            position="end"
             ref={navHandleRef}
             onDoubleClick={resetToInitial}
           />
@@ -122,7 +122,7 @@ const Component = (props: ComponentProps) => {
           style={{ gridArea: 'side' }}
           ref={sideElementRef}
         >
-          <Handle position="left" ref={sideHandleRef} />
+          <Handle position="start" ref={sideHandleRef} />
         </div>
       </div>
     </div>

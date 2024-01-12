@@ -1,13 +1,15 @@
+import { useFluent } from '@fluentui/react-components';
 import * as React from 'react';
 
 type HandleProps = {
-  position: 'left' | 'right' | 'top' | 'bottom';
+  position: 'start' | 'end' | 'top' | 'bottom';
   onDoubleClick?: () => void;
 };
 
 export const Handle = React.forwardRef<HTMLDivElement, HandleProps>(
   (props, ref) => {
     const { position, ...rest } = props;
+    const { dir } = useFluent();
 
     const handleClick: React.MouseEventHandler = React.useCallback((event) => {
       if (event.detail === 2) {
@@ -15,10 +17,19 @@ export const Handle = React.forwardRef<HTMLDivElement, HandleProps>(
       }
     }, []);
 
+    const positioningAttr =
+      dir === 'ltr'
+        ? position === 'start'
+          ? 'left'
+          : 'right'
+        : position === 'start'
+        ? 'right'
+        : 'left';
+
     const positioningProps =
-      position === 'left' || position === 'right'
+      position === 'start' || position === 'end'
         ? {
-            ...(position === 'right' ? { right: '-12px' } : { left: '-12px' }),
+            [positioningAttr]: '-12px',
             top: '50%',
             transform: 'translateY(-50%)',
             width: '8px',

@@ -1,6 +1,7 @@
 import { useEventCallback } from '@fluentui/react-utilities';
 import * as React from 'react';
 import { GrowDirection } from '../types';
+import { useFluent } from '@fluentui/react-components';
 
 export type UseKeyboardHandlerOptions = {
   onValueChange: (value: number) => void;
@@ -15,6 +16,8 @@ function add(a: number, b: number) {
 function subtract(a: number, b: number) {
   return a - b;
 }
+
+const DEFAULT_STEP = 20;
 
 const operations: Record<
   string,
@@ -40,6 +43,7 @@ const operations: Record<
 
 export const useKeyboardHandler = (options: UseKeyboardHandlerOptions) => {
   const { elementRef, onValueChange, growDirection } = options;
+  const { dir } = useFluent();
 
   const onKeyDown = useEventCallback((event: KeyboardEvent) => {
     const key =
@@ -51,7 +55,10 @@ export const useKeyboardHandler = (options: UseKeyboardHandlerOptions) => {
 
     if (event.key) {
       newValue =
-        operations[growDirection]?.[event.key]?.(newValue, 20) ?? newValue;
+        operations[growDirection]?.[event.key]?.(
+          newValue,
+          DEFAULT_STEP * (dir === 'rtl' && key === 'width' ? -1 : 1)
+        ) ?? newValue;
     }
 
     onValueChange(Math.round(newValue));
