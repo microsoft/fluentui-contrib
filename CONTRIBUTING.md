@@ -37,7 +37,7 @@ Start by [forking the repo](https://github.com/microsoft/fluentui-contrib). Then
 install dependencies.
 
 ```sh
-git clone git clone git@github.com:<your-user>/fluentui-contrib.git
+git clone git@github.com:<your-user>/fluentui-contrib.git
 cd fluentui-contrib
 yarn
 ```
@@ -52,7 +52,7 @@ git remote add upstream git@github.com:microsoft/fluentui-contrib.git
 
 You can create a new package by running the following commands.
 
-> `<name>` refers to the name of a folder within the `packages/` folers. The
+> `<name>` refers to the name of a folder within the `packages/` folder. The
 > final published package will have the form of `@fluentui-contrib/<name>`
 > For example for `react-chat` 👇👇
 >
