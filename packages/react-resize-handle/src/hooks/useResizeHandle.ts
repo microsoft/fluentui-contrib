@@ -46,8 +46,14 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
       tabIndex: 0,
       role: 'separator',
       'aria-valuemin': minValue,
-      'aria-valuemax': maxValue,
+      ...(maxValue < Number.MAX_SAFE_INTEGER
+        ? { 'aria-valuemax': maxValue }
+        : {}),
       'aria-valuetext': getValueText(currentValue.current),
+      'aria-orientation':
+        growDirection === 'right' || growDirection === 'left'
+          ? 'vertical'
+          : 'horizontal',
     };
 
     Object.entries(handleAttributes).forEach(([key, value]) => {
@@ -140,7 +146,6 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
     (node) => {
       if (node) {
         elementRef.current = node;
-        // We just got the node, measure it and set the value
         if (currentValue.current === UNMEASURED) {
           currentValue.current = elementDimension(node, growDirection);
         }
