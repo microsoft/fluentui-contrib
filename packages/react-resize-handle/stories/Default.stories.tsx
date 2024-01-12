@@ -1,53 +1,25 @@
 import * as React from 'react';
 import { useResizeHandle } from '@fluentui-contrib/react-resize-handle';
 import { makeResetStyles, useMergedRefs } from '@fluentui/react-components';
+import { Handle } from './Handle';
 
 const NAV_INITIAL_WIDTH = 80;
-const SIDE_INITIAL_WIDTH = 70;
-
-const Handle = React.forwardRef<
-  HTMLDivElement,
-  { position: 'left' | 'right'; onDoubleClick?: () => void }
->((props, ref) => {
-  const { position, ...rest } = props;
-
-  const handleClick: React.MouseEventHandler = React.useCallback((event) => {
-    if (event.detail === 2) {
-      props.onDoubleClick?.();
-    }
-  }, []);
-
-  return (
-    <div
-      {...rest}
-      ref={ref}
-      onClick={handleClick}
-      style={{
-        position: 'absolute',
-        ...(position === 'right' ? { right: '-12px' } : { left: '-12px' }),
-        top: '50%',
-        transform: 'translateY(-50%)',
-        width: '8px',
-        height: '100px',
-        borderRadius: '4px',
-        backgroundColor: 'gray',
-        cursor: 'ew-resize',
-      }}
-    />
-  );
-});
 
 const usePageStyles = makeResetStyles({
   height: '100vh',
 });
 
 const useMainWrapperStyles = makeResetStyles({
+  '--nav-size': `${NAV_INITIAL_WIDTH}px`,
+  '--side-size': '120px',
+  '--footer-size': '10%',
   display: 'grid',
   width: '100%',
   height: '100%',
   gap: '16px',
-  gridTemplate:
-    '"nav sub-nav main side" minmax(0, 1fr) / clamp(30px, var(--nav-size), 40%)  150px 1fr var(--side-size)',
+  gridTemplate: `"nav sub-nav main side" minmax(0, 1fr)
+  "nav sub-nav main-footer side" clamp(5%, var(--footer-size), 30%)
+  / clamp(60px, var(--nav-size), 40%)  150px 1fr var(--side-size)`,
 });
 
 const useMainBoxStyles = makeResetStyles({
@@ -78,7 +50,6 @@ const Component = (props: ComponentProps) => {
   } = useResizeHandle({
     variableName: '--nav-size',
     growDirection: 'right',
-    initialValue: NAV_INITIAL_WIDTH,
     minValue: 60,
     maxValue: maxValue,
     onChange: (value: number) => {
@@ -99,12 +70,24 @@ const Component = (props: ComponentProps) => {
   } = useResizeHandle({
     variableName: '--side-size',
     growDirection: 'left',
-    initialValue: SIDE_INITIAL_WIDTH,
     minValue: 30,
     maxValue: 200,
   });
 
-  const wrapperRef = useMergedRefs(navWrapperRef, sideWrapperRef);
+  const {
+    handleRef: footerHandleRef,
+    wrapperRef: footerWrapperRef,
+    elementRef: footerElementRef,
+  } = useResizeHandle({
+    variableName: '--footer-size',
+    growDirection: 'up',
+  });
+
+  const wrapperRef = useMergedRefs(
+    navWrapperRef,
+    sideWrapperRef,
+    footerWrapperRef
+  );
 
   const resetToInitial = () => {
     setLeftColumnSize(NAV_INITIAL_WIDTH);
@@ -129,6 +112,13 @@ const Component = (props: ComponentProps) => {
         <div className={boxStyles} style={{ gridArea: 'main' }} />
         <div
           className={boxStyles}
+          style={{ gridArea: 'main-footer' }}
+          ref={footerElementRef}
+        >
+          <Handle position="top" ref={footerHandleRef} />
+        </div>
+        <div
+          className={boxStyles}
           style={{ gridArea: 'side' }}
           ref={sideElementRef}
         >
@@ -141,7 +131,6 @@ const Component = (props: ComponentProps) => {
 
 export const Default = {
   render: (args) => {
-    console.log('args', args);
     return <Component {...args} />;
   },
   argTypes: {

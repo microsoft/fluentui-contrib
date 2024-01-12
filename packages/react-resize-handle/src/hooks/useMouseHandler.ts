@@ -7,12 +7,14 @@ import {
   useEventCallback,
 } from '@fluentui/react-utilities';
 import * as React from 'react';
+import { GrowDirection } from '../types';
+import { elementDimension } from '../utils';
 
 export type UseMouseHandlerParams = {
   onDown?: (event: NativeTouchOrMouseEvent) => void;
   onMove?: (event: NativeTouchOrMouseEvent) => void;
   elementRef: React.RefObject<HTMLElement>;
-  growDirection: 'right' | 'left' | 'top' | 'bottom';
+  growDirection: GrowDirection;
   onValueChange: (value: number) => void;
   onDragEnd?: (e: NativeTouchOrMouseEvent) => void;
   onDragStart?: (e: NativeTouchOrMouseEvent) => void;
@@ -48,10 +50,10 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
         case 'left':
           newValue -= deltaCoords[0];
           break;
-        case 'top':
+        case 'up':
           newValue -= deltaCoords[1];
           break;
-        case 'bottom':
+        case 'down':
           newValue += deltaCoords[1];
           break;
       }
@@ -96,8 +98,7 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
 
   const onPointerDown = useEventCallback((event: NativeTouchOrMouseEvent) => {
     startCoords.current = getEventClientCoords(event);
-    initialValue.current =
-      elementRef?.current?.getBoundingClientRect().width || 0;
+    initialValue.current = elementDimension(elementRef.current, growDirection);
 
     if (event.defaultPrevented) {
       return;

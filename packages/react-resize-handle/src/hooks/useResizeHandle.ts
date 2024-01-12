@@ -1,16 +1,16 @@
 import * as React from 'react';
 import { useKeyboardHandler } from './useKeyboardHandler';
 import { useMouseHandler } from './useMouseHandler';
-import { clamp } from '../utils';
+import { clamp, elementDimension } from '../utils';
 import {
   NativeTouchOrMouseEvent,
   useEventCallback,
 } from '@fluentui/react-utilities';
+import { GrowDirection, UNMEASURED } from '../types';
 
 export type UseResizeHandleParams = {
-  growDirection: 'right' | 'left' | 'top' | 'bottom';
+  growDirection: GrowDirection;
   variableName: string;
-  initialValue: number;
   minValue?: number;
   maxValue?: number;
   onChange?: (value: number) => void;
@@ -22,7 +22,6 @@ export type UseResizeHandleParams = {
 export const useResizeHandle = (params: UseResizeHandleParams) => {
   const {
     growDirection,
-    initialValue,
     variableName,
     minValue = 0,
     maxValue = Number.MAX_SAFE_INTEGER,
@@ -36,7 +35,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
   const wrapperRef = React.useRef<HTMLElement | null>(null);
   const elementRef = React.useRef<HTMLElement | null>(null);
 
-  const currentValue = React.useRef(initialValue);
+  const currentValue = React.useRef(UNMEASURED);
 
   const updateDomElements = React.useCallback(() => {
     wrapperRef.current?.style.setProperty(
@@ -72,7 +71,6 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
       const newValue = clamp(value, minValue, maxValue);
       if (newValue !== currentValue.current) {
         currentValue.current = newValue;
-        console.log('DDD');
         updateDomElements();
       }
     },
@@ -138,9 +136,23 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
     [updateDomElements]
   );
 
+  const setElementRef: React.RefCallback<HTMLElement> = React.useCallback(
+    (node) => {
+      if (node) {
+        elementRef.current = node;
+        // We just got the node, measure it and set the value
+        if (currentValue.current === UNMEASURED) {
+          currentValue.current = elementDimension(node, growDirection);
+        }
+        updateDomElements();
+      }
+    },
+    [updateDomElements]
+  );
+
   return {
     setValue,
-    elementRef,
+    elementRef: setElementRef,
     handleRef: setHandleRef,
     wrapperRef: setWrapperRef,
   };

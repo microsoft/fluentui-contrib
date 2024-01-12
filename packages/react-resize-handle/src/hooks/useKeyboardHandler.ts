@@ -1,10 +1,11 @@
 import { useEventCallback } from '@fluentui/react-utilities';
 import * as React from 'react';
+import { GrowDirection } from '../types';
 
 export type UseKeyboardHandlerOptions = {
   onValueChange: (value: number) => void;
   elementRef: React.RefObject<HTMLElement>;
-  growDirection: 'right' | 'left' | 'top' | 'bottom';
+  growDirection: GrowDirection;
 };
 
 function add(a: number, b: number) {
@@ -27,11 +28,11 @@ const operations: Record<
     ArrowRight: subtract,
     ArrowLeft: add,
   },
-  top: {
+  up: {
     ArrowUp: add,
     ArrowDown: subtract,
   },
-  bottom: {
+  down: {
     ArrowUp: subtract,
     ArrowDown: add,
   },
