@@ -4,6 +4,7 @@ const config: StorybookConfig = {
   stories: ['../stories/**/index.stories.@(js|jsx|ts|tsx|mdx)'],
   addons: [
     '@nx/react/plugins/storybook',
+    '@storybook/addon-actions',
     {
       name: '@storybook/addon-storysource',
       options: {
