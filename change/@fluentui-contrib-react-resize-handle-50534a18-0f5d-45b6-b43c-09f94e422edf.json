@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "Introduce react-resize-handle",
+  "packageName": "@fluentui-contrib/react-resize-handle",
+  "email": "jirivyhnalek@microsoft.com",
+  "dependentChangeType": "patch"
+}
