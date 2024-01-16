@@ -1,1 +1,1 @@
-export {};
+export { useResizeHandle } from './hooks/useResizeHandle';
