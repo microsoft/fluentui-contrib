@@ -1,7 +1,7 @@
-import { useEventCallback } from '@fluentui/react-utilities';
+import { useEventCallback, useFluent } from '@fluentui/react-components';
 import * as React from 'react';
 import { GrowDirection, SupportedKeys } from '../types';
-import { useFluent } from '@fluentui/react-components';
+import { elementDimension } from '../utils/index';
 
 export type UseKeyboardHandlerOptions = {
   onValueChange: (value: number) => void;
@@ -15,11 +15,11 @@ const multipliers: Record<
   GrowDirection,
   Partial<Record<SupportedKeys, number>>
 > = {
-  right: {
+  end: {
     ArrowRight: 1,
     ArrowLeft: -1,
   },
-  left: {
+  start: {
     ArrowRight: -1,
     ArrowLeft: 1,
   },
@@ -33,23 +33,29 @@ const multipliers: Record<
   },
 };
 
+function isSupportedKey(
+  growDirection: GrowDirection,
+  key: string
+): key is SupportedKeys {
+  return (
+    Object.prototype.hasOwnProperty.call(multipliers, growDirection) &&
+    Object.prototype.hasOwnProperty.call(multipliers[growDirection], key)
+  );
+}
+
 export const useKeyboardHandler = (options: UseKeyboardHandlerOptions) => {
   const { elementRef, onValueChange, growDirection } = options;
   const { dir } = useFluent();
 
   const onKeyDown = useEventCallback((event: KeyboardEvent) => {
-    const key =
-      growDirection === 'right' || growDirection === 'left'
-        ? 'width'
-        : 'height';
+    let newValue = elementDimension(elementRef.current, growDirection);
 
-    let newValue = elementRef.current?.getBoundingClientRect()[key] || 0;
+    if (isSupportedKey(growDirection, event.key)) {
+      const multiplier = multipliers[growDirection][event.key] ?? 1;
+      const directionMultiplier =
+        dir === 'rtl' && ['start', 'end'].includes(growDirection) ? -1 : 1;
 
-    if (event.key && multipliers[growDirection]?.[event.key as SupportedKeys]) {
-      newValue += ((multipliers[growDirection]?.[event.key as SupportedKeys] ||
-        1) *
-        DEFAULT_STEP *
-        (dir === 'rtl' && key === 'width' ? -1 : 1)) as number;
+      newValue += multiplier * DEFAULT_STEP * directionMultiplier;
     }
 
     onValueChange(Math.round(newValue));

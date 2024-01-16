@@ -1,10 +1,9 @@
-import { useFluent_unstable as useFluent } from '@fluentui/react-shared-contexts';
+import { useFluent, useEventCallback } from '@fluentui/react-components';
 import {
   getEventClientCoords,
   NativeTouchOrMouseEvent,
   isMouseEvent,
   isTouchEvent,
-  useEventCallback,
 } from '@fluentui/react-utilities';
 import * as React from 'react';
 import { GrowDirection } from '../types';
@@ -22,32 +21,30 @@ export type UseMouseHandlerParams = {
 
 export function useMouseHandler(params: UseMouseHandlerParams) {
   const { targetDocument, dir } = useFluent();
-  const globalWin = targetDocument?.defaultView;
+  const targetWindow = targetDocument?.defaultView;
 
-  const startCoords = React.useRef({ clientX: 0, clientY: 0 });
+  const dragStartOriginCoords = React.useRef({ clientX: 0, clientY: 0 });
   const { growDirection, onValueChange, elementRef } = params;
 
-  const key =
-    growDirection === 'right' || growDirection === 'left' ? 'width' : 'height';
-  const initialValue = React.useRef(
-    elementRef.current?.getBoundingClientRect()[key] || 0
+  const initialElementSize = React.useRef(
+    elementDimension(elementRef.current, growDirection)
   );
 
   const recalculatePosition = useEventCallback(
     (event: NativeTouchOrMouseEvent) => {
       const { clientX, clientY } = getEventClientCoords(event);
       const deltaCoords = [
-        clientX - startCoords.current.clientX,
-        clientY - startCoords.current.clientY,
+        clientX - dragStartOriginCoords.current.clientX,
+        clientY - dragStartOriginCoords.current.clientY,
       ];
 
-      let newValue = initialValue.current;
+      let newValue = initialElementSize.current;
 
       switch (growDirection) {
-        case 'right':
+        case 'end':
           newValue += deltaCoords[0] * (dir === 'rtl' ? -1 : 1);
           break;
-        case 'left':
+        case 'start':
           newValue -= deltaCoords[0] * (dir === 'rtl' ? -1 : 1);
           break;
         case 'up':
@@ -64,9 +61,7 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
       // and the element size is controlled by something else (minmax, clamp, max, min css functions etc.)
       // In this case, we need to update the value to the actual element size so that the css var and a11y props
       // reflect the reality.
-      const elSize = Math.round(
-        elementRef.current?.getBoundingClientRect()[key] || 0
-      );
+      const elSize = elementDimension(elementRef.current, growDirection);
       if (elSize !== newValue) {
         onValueChange(elSize);
       }
@@ -74,12 +69,7 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
   );
 
   const onDrag = useEventCallback((event: NativeTouchOrMouseEvent) => {
-    //Using requestAnimationFrame improves performance on slower CPUs
-    if (typeof globalWin?.requestAnimationFrame === 'function') {
-      requestAnimationFrame(() => recalculatePosition(event));
-    } else {
-      recalculatePosition(event);
-    }
+    targetWindow?.requestAnimationFrame(() => recalculatePosition(event));
   });
 
   const onDragEnd = useEventCallback((event: NativeTouchOrMouseEvent) => {
@@ -97,8 +87,11 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
   });
 
   const onPointerDown = useEventCallback((event: NativeTouchOrMouseEvent) => {
-    startCoords.current = getEventClientCoords(event);
-    initialValue.current = elementDimension(elementRef.current, growDirection);
+    dragStartOriginCoords.current = getEventClientCoords(event);
+    initialElementSize.current = elementDimension(
+      elementRef.current,
+      growDirection
+    );
 
     if (event.defaultPrevented) {
       return;

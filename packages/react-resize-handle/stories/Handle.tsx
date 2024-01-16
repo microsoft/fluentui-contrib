@@ -11,11 +11,11 @@ export const Handle = React.forwardRef<HTMLDivElement, HandleProps>(
     const { position, ...rest } = props;
     const { dir } = useFluent();
 
-    const handleClick: React.MouseEventHandler = React.useCallback((event) => {
+    const handleClick = (event: React.MouseEvent) => {
       if (event.detail === 2) {
         props.onDoubleClick?.();
       }
-    }, []);
+    };
 
     const positioningAttr =
       dir === 'ltr'

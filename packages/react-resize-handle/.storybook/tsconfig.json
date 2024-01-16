@@ -7,8 +7,7 @@
   "files": [
     "../../../node_modules/@nx/react/typings/styled-jsx.d.ts",
     "../../../node_modules/@nx/react/typings/cssmodule.d.ts",
-    "../../../node_modules/@nx/react/typings/image.d.ts",
-    "../stories/Handle.tsx"
+    "../../../node_modules/@nx/react/typings/image.d.ts"
   ],
   "exclude": [
     "../**/*.spec.ts",

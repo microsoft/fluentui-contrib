@@ -1,4 +1,4 @@
-export type GrowDirection = 'right' | 'left' | 'up' | 'down';
+export type GrowDirection = 'end' | 'start' | 'up' | 'down';
 export type SupportedKeys =
   | 'ArrowRight'
   | 'ArrowLeft'
