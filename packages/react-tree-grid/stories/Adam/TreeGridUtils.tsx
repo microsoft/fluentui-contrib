@@ -1,4 +1,6 @@
-export const useSrNarration = (targetDocument: Document | undefined) => {
+import * as React from 'react';
+
+export const useSrNarration = (targetDocument: HTMLDocument | undefined) => {
   return (message: string, priority = 'polite') => {
     if (!targetDocument) {
       return;
