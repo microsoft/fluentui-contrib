@@ -27,6 +27,9 @@
       "@fluentui-contrib/react-data-grid-react-window-grid": [
         "packages/react-data-grid-react-window-grid/src/index.ts"
       ],
+      "@fluentui-contrib/react-draggable-dialog": [
+        "packages/react-draggable-dialog/src/index.ts"
+      ],
       "@fluentui-contrib/react-headless-provider": [
         "packages/react-headless-provider/src/index.ts"
       ],
