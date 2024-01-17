@@ -1,63 +1,134 @@
 import * as React from 'react';
 import {
+  UpcomingMeeting,
+  RecentCategory,
+  RecentMeetings,
+} from './AccessibleMeetBase';
+import {
   getNearestGridCellAncestorOrSelf,
   getNearestRowAncestor,
-  getFirstCellChild,
-  focusNextOrPrevRow,
 } from './TreeGridUtils';
-import { useAdamTableInteractive2Navigation } from './useAdamTableInteractive2Navigation';
-import { useFocusableGroup } from '@fluentui/react-tabster';
-import { useFluent_unstable } from '@fluentui/react-shared-contexts';
 
+import {
+  Table,
+  TableBody,
+  TableRow,
+  Button,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  MenuPopover,
+  MenuTrigger,
+  useFluent,
+} from '@fluentui/react-components';
+import { useAdamTableCompositeNavigation } from './useAdamTableCompositeNavigation';
 import {
   TreeGrid,
   TreeGridCell,
   TreeGridRow,
 } from '@fluentui-contrib/react-tree-grid';
-import { Button, Field, Input } from '@fluentui/react-components';
 
-export type RecentCategory = {
-  id: string;
-  title: string;
-  expanded: boolean;
-  columns: string[];
+interface UpcomingMeetingsGridActiveOnlyEntireRowNarrationRendererProps {
+  threeUpcomingMeetings: UpcomingMeeting[];
+}
+export const UpcomingMeetingsGridActiveOnlyEntireRowNarrationRenderer: React.FC<
+  UpcomingMeetingsGridActiveOnlyEntireRowNarrationRendererProps
+> = ({ threeUpcomingMeetings }) => {
+  const { tableRowTabsterAttribute, tableTabsterAttribute, onTableKeyDown } =
+    useAdamTableCompositeNavigation();
+
+  const threeUpcomingMeetingsItems = React.useMemo(
+    () =>
+      threeUpcomingMeetings.map((meeting) => ({
+        title: meeting.titleWithDateAndTime,
+      })),
+    [threeUpcomingMeetings]
+  );
+
+  const handleGridKeyDown = React.useCallback(
+    (event: React.KeyboardEvent) => {
+      const isModifierDown =
+        event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
+      if (!isModifierDown) {
+        const target = event.target as HTMLElement;
+        const gridCell = getNearestGridCellAncestorOrSelf(target);
+        if (gridCell) {
+          if (event.key === 'ArrowLeft') {
+            const row = getNearestRowAncestor(gridCell);
+            row.focus();
+          }
+        }
+      }
+      onTableKeyDown(event);
+    },
+    [onTableKeyDown]
+  );
+
+  return (
+    <Table
+      role="grid"
+      noNativeElements
+      onKeyDown={handleGridKeyDown}
+      aria-label="Upcoming meetings"
+      {...tableTabsterAttribute}
+    >
+      <TableBody>
+        {threeUpcomingMeetingsItems.map((meeting, index) => (
+          <TableRow key={index} tabIndex={0} {...tableRowTabsterAttribute}>
+            <TreeGridCell role="rowheader">{meeting.title}</TreeGridCell>
+            <TreeGridCell role="gridcell">
+              <Button>View details</Button>
+            </TreeGridCell>
+            <TreeGridCell role="gridcell">
+              <Menu>
+                <MenuTrigger disableButtonEnhancement>
+                  <MenuButton>RSVP</MenuButton>
+                </MenuTrigger>
+                <MenuPopover>
+                  <MenuList>
+                    <MenuItem>Respond to occurrence</MenuItem>
+                    <MenuItem>Respond to series</MenuItem>
+                  </MenuList>
+                </MenuPopover>
+              </Menu>
+            </TreeGridCell>
+            <TreeGridCell role="gridcell">
+              <Button>Chat with participants</Button>
+            </TreeGridCell>
+            <TreeGridCell role="gridcell">
+              <Menu>
+                <MenuTrigger disableButtonEnhancement>
+                  <MenuButton>More options</MenuButton>
+                </MenuTrigger>
+                <MenuPopover>
+                  <MenuList>
+                    <MenuItem>View meeting details</MenuItem>
+                    <MenuItem>Copy meeting link</MenuItem>
+                  </MenuList>
+                </MenuPopover>
+              </Menu>
+            </TreeGridCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  );
 };
 
-export type RecentMeetings = Record<
-  string,
-  {
-    id: string;
-    title: string;
-    titleWithTime: string;
-    properties?: MeetingProperty[];
-    tasksCount?: number;
-    revealed: boolean;
-  }[]
->;
-
-export type MeetingProperty =
-  | 'includingContent'
-  | 'transcript'
-  | 'recorded'
-  | 'mentionsOfYou'
-  | 'missed';
-
-interface TreeGridWithEnterInputsRendererProps {
+interface RecentMeetingsGridActiveOnlyEntireRowNarrationRendererProps {
   recentCategories: RecentCategory[];
   recentMeetings: RecentMeetings;
 }
-export const TreeGridWithEnterInputsRenderer: React.FC<
-  TreeGridWithEnterInputsRendererProps
+export const RecentMeetingsTreeGridActiveOnlyEntireRowNarrationRenderer: React.FC<
+  RecentMeetingsGridActiveOnlyEntireRowNarrationRendererProps
 > = ({ recentCategories, recentMeetings }) => {
-  const { targetDocument } = useFluent_unstable();
+  const { targetDocument } = useFluent();
   const [recentCategoriesState, setRecentCategoryState] =
     React.useState(recentCategories);
 
   const { tableTabsterAttribute, tableRowTabsterAttribute, onTableKeyDown } =
-    useAdamTableInteractive2Navigation();
-  const focusableGroupAttribute = useFocusableGroup({
-    tabBehavior: 'limited-trap-focus',
-  });
+    useAdamTableCompositeNavigation();
 
   const getCategoryById = React.useCallback(
     (id: string) => {
@@ -97,27 +168,15 @@ export const TreeGridWithEnterInputsRenderer: React.FC<
         const target = event.target as HTMLElement;
         const gridCell = getNearestGridCellAncestorOrSelf(target);
         if (gridCell) {
-          const row = getNearestRowAncestor(gridCell);
-          const isFirstCellChild = gridCell === getFirstCellChild(row);
-          if (event.key === 'ArrowLeft' && isFirstCellChild) {
+          if (event.key === 'ArrowLeft') {
+            const row = getNearestRowAncestor(gridCell);
             row.focus();
-          } else if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-            callTabsterKeyboardHandler = false;
-            if (
-              (target.tagName !== 'INPUT' ||
-                target.getAttribute('type') !== 'text') &&
-              target.role !== 'textbox'
-            ) {
-              focusNextOrPrevRow(row, event);
-            }
           }
         } else if (target.role === 'row') {
           const selectedRowId = target.id;
           const category = getCategoryById(selectedRowId);
           const level = target.getAttribute('aria-level');
-          if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-            focusNextOrPrevRow(target, event);
-          } else if (
+          if (
             event.key === 'ArrowRight' &&
             level === '1' &&
             category &&
@@ -144,9 +203,9 @@ export const TreeGridWithEnterInputsRenderer: React.FC<
             categoryRowToFocus.focus();
           }
         }
-        if (callTabsterKeyboardHandler) {
-          onTableKeyDown(event);
-        }
+      }
+      if (callTabsterKeyboardHandler) {
+        onTableKeyDown(event);
       }
     },
     [
@@ -167,8 +226,8 @@ export const TreeGridWithEnterInputsRenderer: React.FC<
       onKeyDown={handleTreeGridKeyDown}
       {...tableTabsterAttribute}
     >
-      {recentCategories.map((category, index) => (
-        <React.Fragment key={index}>
+      {recentCategories.map((category) => (
+        <>
           <TreeGridRow
             role="row"
             id={category.id}
@@ -181,7 +240,7 @@ export const TreeGridWithEnterInputsRenderer: React.FC<
             <TreeGridCell role="rowheader">{category.title}</TreeGridCell>
             <TreeGridCell
               role="gridcell"
-              aria-colspan={category.columns.length + 3}
+              aria-colspan={category.columns.length + 2}
             >
               <Button>Header action</Button>
             </TreeGridCell>
@@ -202,18 +261,8 @@ export const TreeGridWithEnterInputsRenderer: React.FC<
                 <TreeGridCell role="gridcell">
                   <Button>Chat with participants</Button>
                 </TreeGridCell>
-                <TreeGridCell
-                  role="gridcell"
-                  tabIndex={0}
-                  {...focusableGroupAttribute}
-                >
-                  <Field label="Type here">
-                    <Input />
-                  </Field>
-                </TreeGridCell>
                 <TreeGridCell role="gridcell">
                   <Button>View recap</Button>
-                  <Button>Another</Button>
                 </TreeGridCell>
                 {category.columns.includes('includingContent') && (
                   <TreeGridCell role="gridcell">
@@ -238,7 +287,7 @@ export const TreeGridWithEnterInputsRenderer: React.FC<
                 )}
               </TreeGridRow>
             ))}
-        </React.Fragment>
+        </>
       ))}
     </TreeGrid>
   );

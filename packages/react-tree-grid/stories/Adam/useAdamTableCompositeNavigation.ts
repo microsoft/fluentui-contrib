@@ -16,7 +16,7 @@ import {
 } from '@fluentui/react-tabster';
 import { isHTMLElement } from '@fluentui/react-utilities';
 
-export function useAdamTableInteractive2Navigation(): {
+export function useAdamTableCompositeNavigation(): {
   onTableKeyDown: React.KeyboardEventHandler;
   tableTabsterAttribute: TabsterDOMAttribute;
   tableRowTabsterAttribute: TabsterDOMAttribute;
@@ -31,7 +31,7 @@ export function useAdamTableInteractive2Navigation(): {
   });
   const groupperAttr = useFocusableGroup({
     tabBehavior: 'limited-trap-focus',
-    ignoreDefaultKeydown: { ArrowDown: true, ArrowUp: true },
+    ignoreDefaultKeydown: { Enter: true },
   });
   const { findFirstFocusable } = useFocusFinders();
   const { targetDocument } = useFluent();
