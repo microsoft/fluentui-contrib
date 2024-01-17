@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-shadow",
   "entries": [
     {
+      "date": "Wed, 17 Jan 2024 11:24:54 GMT",
+      "tag": "@fluentui-contrib/react-shadow_v0.0.6",
+      "version": "0.0.6",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "@fluentui-contrib/react-shadow",
+            "commit": "1517cb9fc241bdd27eb0ecd2473da48b4e5d7b27",
+            "comment": "fix: remove sync logic"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 25 Oct 2023 09:11:36 GMT",
       "tag": "@fluentui-contrib/react-shadow_v0.0.5",
       "version": "0.0.5",

@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-shadow
 
-This log was last generated on Wed, 25 Oct 2023 09:11:36 GMT and should not be manually modified.
+This log was last generated on Wed, 17 Jan 2024 11:24:54 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.0.6
+
+Wed, 17 Jan 2024 11:24:54 GMT
+
+### Patches
+
+- fix: remove sync logic (olfedias@microsoft.com)
 
 ## 0.0.5
 
