@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "peerDependencies": {
-    "@fluentui/react-components": ">=9.35.1 < 10.0.0",
+    "@fluentui/react-components": ">=9.44.4 < 10.0.0",
     "@fluentui/react-shared-contexts": ">=9.7.2 <10.0.0",
     "@fluentui/keyboard-keys": ">=9.0.6 < 10.0.0",
     "@fluentui/react-tabster": ">=9.14.0 < 10.0.0",
