@@ -33,34 +33,40 @@ export const DraggableDialogSurface: React.FC<DraggableDialogSurfaceProps> = ({
       return;
     }
 
+    const resetStyles = {
+      margin: 0,
+      transition: 'none',
+    };
+
     if (ref.current) {
       const baseStyles = {
+        ...resetStyles,
         top: `calc(50% + ${y}px)`,
         left: `calc(50% + ${x}px)`,
-        margin: 0,
         marginTop: -Math.ceil(ref.current.clientHeight / 2),
         marginLeft: -Math.ceil(ref.current.clientWidth / 2),
-        transition: 'none',
       };
 
       if (isDragging) {
+        /* Styles for when the dialog is being dragged */
         return {
           ...baseStyles,
           transform: CSS.Translate.toString(transform),
         };
       }
 
+      /* Styles for the final position of the dialog */
       return baseStyles;
     }
 
+    /* Styles to restore a previously dragged dialog */
     return {
+      ...resetStyles,
       top: '50%',
       left: '50%',
-      margin: 0,
       marginTop: y,
       marginLeft: x,
       transform: `translate3D(-50%, -50%, 0)`,
-      transition: 'none',
     };
   }, [transform, x, y, hasBeenDragged, isDragging]);
 
