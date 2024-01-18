@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           cache: 'yarn'
-          node-version: '16'
+          node-version: '18'
 
       - run: yarn install --frozen-lockfile
       - run: yarn check-dependencies
@@ -50,7 +50,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           cache: 'yarn'
-          node-version: '16'
+          node-version: '18'
 
       - run: yarn install --frozen-lockfile
       - run: yarn nx affected --target=build-storybook --parallel --max-parallel=3
