@@ -4,6 +4,10 @@ import { DraggableDialog } from './DraggableDialog';
 
 describe('DraggableDialog', () => {
   it('should render', () => {
-    render(<DraggableDialog />);
+    render(
+      <DraggableDialog open>
+        <div>Content</div>
+      </DraggableDialog>
+    );
   });
 });
