@@ -48,18 +48,18 @@ export const DraggableDialogSurface: React.FC<DraggableDialogSurfaceProps> = ({
       };
 
       if (isDragging) {
-        /* Styles for when the dialog is being dragged */
+        /* When the dialog is being dragged */
         return {
           ...baseStyles,
           transform: CSS.Translate.toString(transform),
         };
       }
 
-      /* Styles for the final position of the dialog */
+      /* The final position of the dialog */
       return baseStyles;
     }
 
-    /* Styles to restore a previously dragged dialog */
+    /* Restore a previously dragged dialog */
     return {
       ...resetStyles,
       top: '50%',
