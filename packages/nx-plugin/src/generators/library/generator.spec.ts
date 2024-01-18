@@ -9,13 +9,15 @@ import {
 import generator from './generator';
 import { LibraryGeneratorSchema } from './schema';
 import { getPackagePaths } from '../../utils';
+import { createCodeowners } from '../../utils-testing';
 
 describe('create-package generator', () => {
   let tree: Tree;
-  const options: LibraryGeneratorSchema = { name: 'test' };
+  const options: LibraryGeneratorSchema = { name: 'test', owner: 'person' };
 
   beforeEach(() => {
     tree = createTreeWithEmptyWorkspace();
+    createCodeowners(tree);
   });
 
   it('should run successfully', async () => {

@@ -12,9 +12,10 @@ import { libraryGenerator } from '@nx/js';
 import { LibraryGeneratorSchema } from './schema';
 import { getPackagePaths, npmScope } from '../../utils';
 import { findInstalledReactComponentsVersion } from './findInstalledReactComponentsVersion';
+import { addCodeowner } from '../add-codeowners';
 
 export default async function (tree: Tree, options: LibraryGeneratorSchema) {
-  const { name } = options;
+  const { name, owner } = options;
   await libraryGenerator(tree, {
     name,
     publishable: true,
@@ -48,6 +49,10 @@ export default async function (tree: Tree, options: LibraryGeneratorSchema) {
     lintFilePatterns: [`${projectRoot}/**/*.ts`, `${projectRoot}/**/*.tsx`],
   };
 
+  addCodeowner(tree, {
+    path: projectRoot,
+    owner,
+  });
   updateProjectConfiguration(tree, name, newProject);
   tree.delete(path.join(paths.src, 'lib'));
   const reactComponentsVersion = await findInstalledReactComponentsVersion();
