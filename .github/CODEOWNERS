@@ -2,32 +2,32 @@
 packages/react-chat/ @microsoft/teams-prg
 packages/react-data-grid-react-window/ @microsoft/teams-prg
 packages/react-shadow/ @microsoft/teams-prg
-packages/nx-plugin/ @microsoft/teams-prg
+packages/nx-plugin/ @microsoft/teams-prg @microsoft/fluentui-react-build
 packages/react-data-grid-react-window-grid/ @microsoft/ms-fabric
 packages/react-draggable-dialog/ @microsoft/cxe-prg @marcosmoura
 
 #### Build/Infra
-/.github/ @microsoft/teams-prg
-/tsconfig.base.json @microsoft/teams-prg
-/yarn.lock @microsoft/teams-prg
-/beachball.config.js @microsoft/teams-prg
-/beachball.hooks.js @microsoft/teams-prg
-/babel.config.json @microsoft/teams-prg
-/jest.config.ts @microsoft/teams-prg
-/jest.preset.js @microsoft/teams-prg
-/nx.json @microsoft/teams-prg
-/.gitignore @microsoft/teams-prg
-/.prettierignore @microsoft/teams-prg
-/.prettierrc @microsoft/teams-prg
-/.editorconfig @microsoft/teams-prg
-/.eslintignore @microsoft/teams-prg
-/.eslintrc.json @microsoft/teams-prg
-/.yarnrc @microsoft/teams-prg
-/.yarn/ @microsoft/teams-prg
+/.github/ @microsoft/teams-prg @microsoft/fluentui-react-build
+/tsconfig.base.json @microsoft/teams-prg @microsoft/fluentui-react-build
+/yarn.lock @microsoft/teams-prg @microsoft/fluentui-react-build
+/beachball.config.js @microsoft/teams-prg @microsoft/fluentui-react-build
+/beachball.hooks.js @microsoft/teams-prg @microsoft/fluentui-react-build
+/babel.config.json @microsoft/teams-prg @microsoft/fluentui-react-build
+/jest.config.ts @microsoft/teams-prg @microsoft/fluentui-react-build
+/jest.preset.js @microsoft/teams-prg @microsoft/fluentui-react-build
+/nx.json @microsoft/teams-prg @microsoft/fluentui-react-build
+/.gitignore @microsoft/teams-prg @microsoft/fluentui-react-build
+/.prettierignore @microsoft/teams-prg @microsoft/fluentui-react-build
+/.prettierrc @microsoft/teams-prg @microsoft/fluentui-react-build
+/.editorconfig @microsoft/teams-prg @microsoft/fluentui-react-build
+/.eslintignore @microsoft/teams-prg @microsoft/fluentui-react-build
+/.eslintrc.json @microsoft/teams-prg @microsoft/fluentui-react-build
+/.yarnrc @microsoft/teams-prg @microsoft/fluentui-react-build
+/.yarn/ @microsoft/teams-prg @microsoft/fluentui-react-build
 
 #### License and READMEs
 /LICENSE @microsoft/teams-prg
-/README.md @microsoft/teams-prg
+/README.md @microsoft/teams-prg @microsoft/fluentui-react-build
 /CONTRIBUTING.md @microsoft/teams-prg
 /CODE_OF_CONDUCT.md @microsoft/teams-prg
 /SECURITY.md @microsoft/teams-prg
