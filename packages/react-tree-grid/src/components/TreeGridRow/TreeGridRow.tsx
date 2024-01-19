@@ -1,25 +1,34 @@
 import * as React from 'react';
 import {
   mergeClasses,
-  useTableRowStyles_unstable,
-  useTableRow_unstable,
-  TableRowState,
+  useArrowNavigationGroup,
+  useFocusableGroup,
 } from '@fluentui/react-components';
-
-export type TreeGridRowProps = JSX.IntrinsicElements['div'];
+import { useTreeGridRowStyles } from './useTreeGridRowStyles.styles';
+import { TreeGridRowProps } from './TreeGridRow.types';
+import { useMergedTabsterAttributes_unstable } from '@fluentui/react-tabster';
 
 export const TreeGridRow = React.forwardRef(
   (props: TreeGridRowProps, ref: React.ForwardedRef<HTMLDivElement>) => {
-    const tableRowState: TableRowState = {
-      ...useTableRow_unstable({ as: 'div' }, ref),
-      noNativeElements: true,
-    };
-    useTableRowStyles_unstable(tableRowState);
+    const styles = useTreeGridRowStyles();
+    const tabsterAttributes = useMergedTabsterAttributes_unstable(
+      useArrowNavigationGroup({
+        axis: 'horizontal',
+        memorizeCurrent: true,
+      }),
+      useFocusableGroup({
+        tabBehavior: 'limited-trap-focus',
+        ignoreDefaultKeydown: { Enter: true },
+      })
+    );
     return (
       <div
         ref={ref}
+        role="row"
+        tabIndex={0}
         {...props}
-        className={mergeClasses(tableRowState.root.className, props.className)}
+        className={mergeClasses(styles, props.className)}
+        {...tabsterAttributes}
       />
     );
   }
