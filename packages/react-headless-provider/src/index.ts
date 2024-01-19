@@ -1,2 +1,2 @@
-export * from './components/HeadlessFluentProvider';
+export { HeadlessFluentProvider } from './components/HeadlessFluentProvider';
 export {};
