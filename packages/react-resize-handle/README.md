@@ -91,8 +91,4 @@ You can also use `minValue` and `maxValue` options if your layout is strictly pi
 
 ### Example
 
-**For a complete example please see the [included storybook](./stories/Default.stories.tsx).**
-
-Run the storybook in this repo with this command:
-
-`yarn nx storybook react-resize-handle`
+**For a complete example please see the [included storybook](https://microsoft.github.io/fluentui-contrib/react-resize-handle).**
