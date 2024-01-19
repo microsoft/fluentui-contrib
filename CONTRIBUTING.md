@@ -16,12 +16,12 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additio
 
 ### Prerequisites
 
-Make sure you have at least Node.js v16:
+Make sure you have at least Node.js v18:
 
 ```sh
 node -v
 
-v16.0.0
+v18.0.0
 ```
 
 This repo runs with Yarn v1, please install make sure to install it, since all other steps will assume

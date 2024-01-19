@@ -5,6 +5,7 @@ packages/react-shadow/ @microsoft/teams-prg
 packages/nx-plugin/ @microsoft/teams-prg @microsoft/fluentui-react-build
 packages/react-data-grid-react-window-grid/ @microsoft/ms-fabric
 packages/react-draggable-dialog/ @microsoft/cxe-prg @marcosmoura
+# <%= NX-CODEOWNER-PLACEHOLDER %>
 
 #### Build/Infra
 /.github/ @microsoft/fluentui-react-build
