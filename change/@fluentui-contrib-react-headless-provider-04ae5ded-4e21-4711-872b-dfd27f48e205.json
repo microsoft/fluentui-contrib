@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: apply public api expansion autofix on packages violating this rule",
+  "packageName": "@fluentui-contrib/react-headless-provider",
+  "email": "hochelmartin@gmail.com",
+  "dependentChangeType": "patch"
+}
