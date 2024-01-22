@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react';
 import { TreeGrid } from '@fluentui-contrib/react-tree-grid';
 
-export { AdamsTreeGridActiveOnlyEntireRowNarration } from './AdamsTreeGridActiveOnlyEntireRowNarration.stories';
+export { Default } from './Default.stories';
 
 const meta: Meta<typeof TreeGrid> = {
   title: 'TreeGrid',

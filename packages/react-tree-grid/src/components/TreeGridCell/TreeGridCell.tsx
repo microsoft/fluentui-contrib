@@ -1,25 +1,21 @@
 import * as React from 'react';
-import {
-  mergeClasses,
-  useTableCell_unstable,
-  TableCellState,
-  useTableCellStyles_unstable,
-} from '@fluentui/react-components';
+import { mergeClasses } from '@fluentui/react-components';
+import { useTreeGridCellStyles } from './useTreeGridCellStyles.styles';
 
-export type TreeGridCellProps = JSX.IntrinsicElements['div'];
+export type TreeGridCellProps = Omit<JSX.IntrinsicElements['div'], 'header'> & {
+  header?: boolean;
+};
 
 export const TreeGridCell = React.forwardRef(
   (props: TreeGridCellProps, ref: React.ForwardedRef<HTMLDivElement>) => {
-    const tableCellState: TableCellState = {
-      ...useTableCell_unstable({ as: 'div' }, ref),
-      noNativeElements: true,
-    };
-    useTableCellStyles_unstable(tableCellState);
+    const styles = useTreeGridCellStyles();
+    const { header, className, ...rest } = props;
     return (
       <div
         ref={ref}
-        {...props}
-        className={mergeClasses(tableCellState.root.className, props.className)}
+        role={header ? 'rowheader' : 'gridcell'}
+        {...rest}
+        className={mergeClasses(styles, className)}
       />
     );
   }

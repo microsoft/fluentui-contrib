@@ -1,20 +1,18 @@
 import * as React from 'react';
-import { makeResetStyles, mergeClasses } from '@fluentui/react-components';
-
-export type TreeGridProps = JSX.IntrinsicElements['div'];
-
-const useStyles = makeResetStyles({
-  display: 'block',
-});
+import { mergeClasses } from '@fluentui/react-components';
+import { useTreeGridStyles } from './useTreeGridStyles.styles';
+import { TreeGridProps } from './TreeGrid.types';
+import { useNavigation } from '../../hooks/useNavigation';
 
 export const TreeGrid = React.forwardRef(
   (props: TreeGridProps, ref: React.ForwardedRef<HTMLDivElement>) => {
-    const styles = useStyles();
     return (
       <div
         ref={ref}
+        role="treegrid"
         {...props}
-        className={mergeClasses(styles, props.className)}
+        className={mergeClasses(useTreeGridStyles(), props.className)}
+        {...useNavigation(props)}
       />
     );
   }
