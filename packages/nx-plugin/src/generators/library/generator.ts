@@ -72,7 +72,7 @@ export default async function (tree: Tree, options: LibraryGeneratorSchema) {
     return packageJson;
   });
 
-  await generateFiles(tree, path.join(__dirname, 'files'), paths.root, options);
+  generateFiles(tree, path.join(__dirname, 'files'), paths.root, options);
 
   await formatFiles(tree);
 }
