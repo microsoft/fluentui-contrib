@@ -6,12 +6,13 @@
   "properties": {
     "name": {
       "type": "string",
-      "description": "",
+      "description": "Project for which to generate Storybook configuration.",
       "$default": {
         "$source": "argv",
         "index": 0
       },
-      "x-prompt": "What name would you like to use?"
+      "x-prompt": "For which project do you want to generate Storybook configuration?",
+      "x-dropdown": "projects"
     }
   },
   "required": ["name"]
