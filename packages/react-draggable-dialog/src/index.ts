@@ -1,2 +1,2 @@
-export * from './components/DraggableDialog';
+export { DraggableDialog } from './components/DraggableDialog';
 export {};
