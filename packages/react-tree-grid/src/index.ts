@@ -5,4 +5,3 @@ export { TreeGridRow } from './components/TreeGridRow';
 export type { TreeGridRowGroupProps } from './components/TreeGridRowGroup';
 export { TreeGridRowGroup } from './components/TreeGridRowGroup';
 export { TreeGrid } from './components/TreeGrid';
-export { useTreeGridOpenRows } from './hooks/useTreeGridControl';
