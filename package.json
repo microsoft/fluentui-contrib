@@ -9,7 +9,8 @@
     "lint": "nx affected --target=lint",
     "test": "nx affected --target=test",
     "type-check": "nx affected --target=type-check",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "dedupe": "npx yarn-deduplicate --strategy fewer"
   },
   "repository": {
     "url": "https://github.com/microsoft/fluentui-contrib",
