@@ -1,7 +1,7 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nx", "import"],
+  "plugins": ["@nx", "import", "@rnx-kit"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -19,6 +19,12 @@
       ],
       "rules": {
         "import/no-extraneous-dependencies": ["error"]
+      }
+    },
+    {
+      "files": ["src/index.[jt]s"],
+      "rules": {
+        "@rnx-kit/no-export-all": "error"
       }
     },
     {

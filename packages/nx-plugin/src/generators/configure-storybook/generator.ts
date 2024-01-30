@@ -1,9 +1,4 @@
-import {
-  getProjects,
-  formatFiles,
-  generateFiles,
-  Tree,
-} from '@nx/devkit';
+import { getProjects, formatFiles, generateFiles, Tree } from '@nx/devkit';
 import { configurationGenerator } from '@nx/storybook';
 import * as path from 'path';
 import { ConfigureStorybookGeneratorSchema } from './schema';
@@ -20,7 +15,7 @@ export default async function (
   }
 
   const { root: projectRoot } = project;
-  configurationGenerator(tree, {
+  await configurationGenerator(tree, {
     name,
     configureCypress: false,
     uiFramework: '@storybook/react-webpack5',

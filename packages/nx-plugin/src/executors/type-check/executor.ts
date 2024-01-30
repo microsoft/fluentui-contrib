@@ -34,7 +34,7 @@ export default async function runExecutor(
   });
 
   if (errors?.length) {
-    printDiagnostics(errors);
+    await printDiagnostics(errors);
     return {
       success: false,
     };

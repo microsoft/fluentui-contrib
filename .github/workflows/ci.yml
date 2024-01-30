@@ -22,6 +22,10 @@ jobs:
           node-version: '18'
 
       - run: yarn install --frozen-lockfile
+
+      - name: 'Check duplicates in yarn.lock'
+        run: yarn run dedupe --list --fail
+
       - run: yarn check-dependencies
 
       - run: yarn nx affected --target=type-check --parallel --max-parallel=3
@@ -30,8 +34,7 @@ jobs:
       - run: yarn nx affected --target=test --parallel --max-parallel=2
       - run: yarn nx affected --target=lint --parallel --max-parallel=3
       - run: yarn nx format:check --base origin/main
-      - name: 'Deduplicate yarn.lock'
-        run: npx yarn-deduplicate
+
       - name: 'Check for unstaged changes'
         run: |
           git status --porcelain
