@@ -36,22 +36,6 @@ export type DraggableDialogProps = DialogProps & {
   margin?: DraggableMargin;
 
   /**
-   * The initial position of the draggable dialog.
-   * @default { x: 0, y: 0 }
-   */
-  position?: {
-    /**
-     * A initial x coordinate of the draggable dialog.
-     */
-    x?: number;
-
-    /**
-     * A initial y coordinate of the draggable dialog.
-     */
-    y?: number;
-  };
-
-  /**
    * Text to be announced by screen readers when the dialog is dragged.
    */
   announcements?: {

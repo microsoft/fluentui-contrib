@@ -16,23 +16,16 @@ import { DraggableDialogProps } from './DraggableDialog.types';
 import { getParsedDraggableMargin, restrictToMarginModifier } from './utils';
 
 export const DraggableDialog: React.FC<DraggableDialogProps> = (props) => {
-  const {
-    margin,
-    keepInViewport,
-    id,
-    announcements,
-    position: defaultPosition,
-  } = {
+  const { margin, keepInViewport, id, announcements } = {
     id: useId('draggable-dialog-'),
     keepInViewport: true,
     ...props,
-    position: { x: 0, y: 0, ...props.position },
     margin: getParsedDraggableMargin(props.margin),
   };
 
   const [isDragging, setIsDragging] = React.useState(false);
   const [hasBeenDragged, setHasBeenDragged] = React.useState(false);
-  const [position, setPosition] = React.useState(defaultPosition);
+  const [position, setPosition] = React.useState({ x: 0, y: 0 });
 
   const mouseSensor = useSensor(MouseSensor);
   const pointerSensor = useSensor(PointerSensor);

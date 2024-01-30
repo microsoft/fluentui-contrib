@@ -1,16 +1,6 @@
 import * as React from 'react';
 
-export type DraggableDialogContextValue = {
-  id: string;
-  isDragging: boolean;
-  hasBeenDragged: boolean;
-  position: {
-    x: number;
-    y: number;
-  };
-};
-
-export const draggableDialogContextDefaultValue = {
+const draggableDialogContextDefaultValue = {
   id: '',
   isDragging: false,
   hasBeenDragged: false,
@@ -19,6 +9,9 @@ export const draggableDialogContextDefaultValue = {
     y: 0,
   },
 };
+
+export type DraggableDialogContextValue =
+  typeof draggableDialogContextDefaultValue;
 
 const draggableDialogContext = React.createContext<DraggableDialogContextValue>(
   draggableDialogContextDefaultValue
