@@ -1,3 +1,3 @@
-export * from './components/DraggableDialogHandle';
-export * from './components/DraggableDialogSurface';
-export * from './components/DraggableDialog';
+export { DraggableDialogHandle } from './components/DraggableDialogHandle';
+export { DraggableDialogSurface } from './components/DraggableDialogSurface';
+export { DraggableDialog } from './components/DraggableDialog';
