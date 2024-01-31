@@ -1,0 +1,7 @@
+{
+  "type": "none",
+  "comment": "Removing private flag from the pierce-dom package.",
+  "packageName": "@fluentui-contrib/pierce-dom",
+  "email": "marata@microsoft.com",
+  "dependentChangeType": "none"
+}
