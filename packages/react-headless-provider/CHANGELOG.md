@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-headless-provider
 
-This log was last generated on Fri, 08 Dec 2023 14:05:58 GMT and should not be manually modified.
+This log was last generated on Wed, 31 Jan 2024 14:50:03 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 1.0.2
+
+Wed, 31 Jan 2024 14:50:03 GMT
+
+### Patches
+
+- fix: apply public api expansion autofix on packages violating this rule (hochelmartin@gmail.com)
 
 ## 1.0.1
 
