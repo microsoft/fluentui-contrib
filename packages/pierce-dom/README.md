@@ -21,3 +21,36 @@ This can be worked around by inspecting [ShadowRoot.activeElement](https://devel
 ## Limitations
 
 `pierce-dom` only supports open shadow roots. Closed shadow roots are ignored.
+
+Slots support is not implemented yet.
+
+## Using with FluentUI React keyboarg navigation
+
+```sh
+yarn add @fluentui-contrib/pierce-dom
+
+npm install @fluentui-contrib/pierce-dom
+```
+
+```tsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { FluentProvider } from '@fluentui/react-components';
+import { useShadowDOMSupport } from '@fluentui-contrib/pierce-dom';
+
+import App from './App';
+
+const ShadowDOMSupport = () => {
+  // This hook must be called before the app starts rendering the UI.
+  useShadowDOMSupport();
+  return null;
+};
+
+ReactDOM.render(
+  <FluentProvider>
+    <ShadowDOMSupport />
+    <App />
+  </FluentProvider>,
+  document.getElementById('root')
+);
+```
