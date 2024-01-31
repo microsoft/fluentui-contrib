@@ -35,15 +35,16 @@ export const restrictToMarginModifier: RestrictToMarginModifier =
     });
   };
 
+const defaultMargin = {
+  top: 0,
+  end: 0,
+  bottom: 0,
+  start: 0,
+};
+
 export const getParsedDraggableMargin = (
   margin: DraggableMargin | undefined
 ): Required<DraggableMarginViewport> => {
-  const defaultMargin = {
-    top: 0,
-    end: 0,
-    bottom: 0,
-    start: 0,
-  };
 
   if (!margin) {
     return defaultMargin;
