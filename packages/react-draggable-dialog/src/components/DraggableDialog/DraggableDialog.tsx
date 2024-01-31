@@ -57,7 +57,7 @@ export const DraggableDialog: React.FC<DraggableDialogProps> = (props) => {
 
   const accessibilityProps = React.useMemo(() => {
     if (!announcements) {
-      return;
+      return undefined;
     }
 
     return {
