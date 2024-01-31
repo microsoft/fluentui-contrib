@@ -6,5 +6,5 @@ export type DraggableDialogHandleProps = React.HTMLAttributes<HTMLElement> & {
    * Only one child is allowed.
    * @required
    */
-  children: JSX.Element;
+  children: React.ReactElement;
 };
