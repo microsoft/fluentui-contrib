@@ -1,0 +1,20 @@
+{
+  "name": "@fluentui-contrib/pierce-dom",
+  "entries": [
+    {
+      "date": "Wed, 31 Jan 2024 18:58:41 GMT",
+      "tag": "@fluentui-contrib/pierce-dom_v0.0.1",
+      "version": "0.0.1",
+      "comments": {
+        "none": [
+          {
+            "author": "marata@microsoft.com",
+            "package": "@fluentui-contrib/pierce-dom",
+            "commit": "288cd6378c2aceff94317d05bfd56280aaca9e2e",
+            "comment": "Removing private flag from the pierce-dom package."
+          }
+        ]
+      }
+    }
+  ]
+}
