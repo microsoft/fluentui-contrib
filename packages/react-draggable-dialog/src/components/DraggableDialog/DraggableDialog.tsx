@@ -51,28 +51,28 @@ export const DraggableDialog: React.FC<DraggableDialogProps> = (props) => {
     setIsDragging(true);
   }, []);
 
-  const restrictToMargin = React.useMemo(() => {
-    return restrictToMarginModifier({ margin, keepInViewport });
+  const modifiers = React.useMemo(() => {
+    return [restrictToMarginModifier({ margin, keepInViewport })];
   }, [margin, keepInViewport]);
 
-  const dndAnnouncements = React.useMemo(() => {
+  const accessibilityProps = React.useMemo(() => {
     if (!announcements) {
       return;
     }
 
     return {
-      onDragStart: () => announcements.start,
-      onDragEnd: () => announcements.end,
+      announcements: {
+        onDragStart: () => announcements.start,
+        onDragEnd: () => announcements.end,
+      },
     };
   }, [announcements]);
 
   return (
     <DndContext
       sensors={sensors}
-      modifiers={[restrictToMargin]}
-      accessibility={{
-        announcements: dndAnnouncements,
-      }}
+      modifiers={modifiers}
+      accessibility={accessibilityProps}
       onDragStart={onDragStart}
       onDragEnd={onDragEnd}
     >
