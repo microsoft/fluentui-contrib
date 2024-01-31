@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "Bumping pierce-dom.",
-  "packageName": "@fluentui-contrib/pierce-dom",
-  "email": "marata@microsoft.com",
-  "dependentChangeType": "patch"
-}
