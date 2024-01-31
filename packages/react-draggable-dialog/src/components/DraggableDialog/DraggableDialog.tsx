@@ -8,6 +8,7 @@ import {
   useSensors,
   DragEndEvent,
   PointerSensor,
+  Announcements,
 } from '@dnd-kit/core';
 import { Dialog, useId } from '@fluentui/react-components';
 
@@ -60,15 +61,18 @@ export const DraggableDialog: React.FC<DraggableDialogProps> = (props) => {
       return undefined;
     }
 
+    const announcementsProps: Partial<Announcements> = {}
+
+    if (announcements.start) {
+      announcementsProps.onDragStart = () => announcements.start;
+    }
+
+    if (announcements.end) {
+      announcementsProps.onDragEnd = () => announcements.end;
+    }
+
     return {
-      announcements: {
-        ...(announcements.start && {
-          onDragStart: () => announcements.start,
-        }),
-        ...(announcements.end && {
-          onDragEnd: () => announcements.end,
-        }),
-      },
+      announcements: announcementsProps,
     };
   }, [announcements]);
 
