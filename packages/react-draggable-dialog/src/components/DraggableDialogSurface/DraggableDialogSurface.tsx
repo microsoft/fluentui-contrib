@@ -9,7 +9,7 @@ import {
 
 import { DraggableDialogSurfaceProps } from './DraggableDialogSurface.types';
 import { useStyles } from './DraggableDialogSurface.styles';
-import { useDraggableDialog } from '../../hooks/useDraggableDialog';
+import { useDraggableDialogState } from '../../contexts/DraggableDialogContext';
 
 export const DraggableDialogSurface: React.FC<DraggableDialogSurfaceProps> = ({
   children,
@@ -22,7 +22,7 @@ export const DraggableDialogSurface: React.FC<DraggableDialogSurfaceProps> = ({
     hasBeenDragged,
     isDragging,
     position: { x, y },
-  } = useDraggableDialog();
+  } = useDraggableDialogState();
   const { setNodeRef, transform } = useDraggable({
     id,
   });
