@@ -57,18 +57,20 @@ export const DraggableDialog: React.FC<DraggableDialogProps> = (props) => {
   }, [margin, keepInViewport]);
 
   const accessibilityProps = React.useMemo(() => {
-    if (!announcements) {
+    const { start, end } = announcements || {};
+
+    if (!announcements || (!start && !end)) {
       return undefined;
     }
 
     const announcementsProps: Partial<Announcements> = {}
 
-    if (announcements.start) {
-      announcementsProps.onDragStart = () => announcements.start;
+    if (start) {
+      announcementsProps.onDragStart = () => start;
     }
 
-    if (announcements.end) {
-      announcementsProps.onDragEnd = () => announcements.end;
+    if (end) {
+      announcementsProps.onDragEnd = () => end;
     }
 
     return {
