@@ -33,7 +33,7 @@ describe('create-package generator', () => {
     const pkgJson = readJson(tree, paths.packageJson);
     expect(pkgJson.peerDependencies).toMatchInlineSnapshot(`
       {
-        "@fluentui/react-components": ">=9.45.0 <10.0.0",
+        "@fluentui/react-components": ">=9.46.3 <10.0.0",
         "@types/react": ">=16.8.0 <19.0.0",
         "@types/react-dom": ">=16.8.0 <19.0.0",
         "react": ">=16.8.0 <19.0.0",
