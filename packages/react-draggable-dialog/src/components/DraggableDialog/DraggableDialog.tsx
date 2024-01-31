@@ -39,6 +39,16 @@ export const DraggableDialog: React.FC<DraggableDialogProps> = (props) => {
     keyboardSensor
   );
 
+  const contextValue = React.useMemo(
+    () => ({
+      isDragging,
+      hasBeenDragged,
+      position,
+      id,
+    }),
+    [isDragging, hasBeenDragged, position, id]
+  );
+
   const onDragEnd = React.useCallback((event: DragEndEvent) => {
     setPosition(({ x, y }) => ({
       x: x + event.delta.x,
@@ -63,7 +73,7 @@ export const DraggableDialog: React.FC<DraggableDialogProps> = (props) => {
       return undefined;
     }
 
-    const announcementsProps: Partial<Announcements> = {}
+    const announcementsProps: Partial<Announcements> = {};
 
     if (start) {
       announcementsProps.onDragStart = () => start;
@@ -86,14 +96,7 @@ export const DraggableDialog: React.FC<DraggableDialogProps> = (props) => {
       onDragStart={onDragStart}
       onDragEnd={onDragEnd}
     >
-      <DraggableDialogContextProvider
-        value={{
-          id,
-          hasBeenDragged,
-          position,
-          isDragging,
-        }}
-      >
+      <DraggableDialogContextProvider value={contextValue}>
         <Dialog {...props} />
       </DraggableDialogContextProvider>
     </DndContext>
