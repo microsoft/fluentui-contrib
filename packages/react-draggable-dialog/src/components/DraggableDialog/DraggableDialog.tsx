@@ -62,8 +62,12 @@ export const DraggableDialog: React.FC<DraggableDialogProps> = (props) => {
 
     return {
       announcements: {
-        onDragStart: () => announcements.start,
-        onDragEnd: () => announcements.end,
+        ...(announcements.start && {
+          onDragStart: () => announcements.start,
+        }),
+        ...(announcements.end && {
+          onDragEnd: () => announcements.end,
+        }),
       },
     };
   }, [announcements]);
