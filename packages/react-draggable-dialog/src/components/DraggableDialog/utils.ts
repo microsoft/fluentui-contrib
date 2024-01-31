@@ -45,7 +45,6 @@ const defaultMargin = {
 export const getParsedDraggableMargin = (
   margin: DraggableMargin | undefined
 ): Required<DraggableMarginViewport> => {
-
   if (!margin) {
     return defaultMargin;
   }
