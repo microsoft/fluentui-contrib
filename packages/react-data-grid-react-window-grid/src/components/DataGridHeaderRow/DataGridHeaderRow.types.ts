@@ -65,5 +65,6 @@ export type DataGridHeaderRowState = Omit<DataGridRowState, 'renderCell'> &
     /**
      * Ref of the virtualized list container ref
      */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     listRef: React.RefObject<FixedSizeList<any>>;
   } & Pick<ListProps, 'onScroll'>;

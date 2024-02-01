@@ -1,0 +1,7 @@
+{
+  "type": "none",
+  "comment": "chore: nx migrate to v17.3",
+  "packageName": "@fluentui-contrib/react-data-grid-react-window",
+  "email": "bernardo.sunderhus@gmail.com",
+  "dependentChangeType": "none"
+}

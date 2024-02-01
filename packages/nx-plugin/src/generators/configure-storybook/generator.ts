@@ -16,7 +16,7 @@ export default async function (
 
   const { root: projectRoot } = project;
   await configurationGenerator(tree, {
-    name,
+    project: name,
     configureCypress: false,
     uiFramework: '@storybook/react-webpack5',
     tsConfiguration: true,
