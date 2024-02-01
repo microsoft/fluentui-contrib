@@ -67,16 +67,13 @@ describe('create-package generator', () => {
     const config = readProjectConfiguration(tree, 'test');
     expect(config.targets?.lint).toMatchInlineSnapshot(`
       {
-        "executor": "@nx/linter:eslint",
+        "executor": "@nx/eslint:lint",
         "options": {
           "lintFilePatterns": [
             "test/**/*.ts",
             "test/**/*.tsx",
           ],
         },
-        "outputs": [
-          "{options.outputFile}",
-        ],
       }
     `);
   });
