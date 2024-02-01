@@ -67,6 +67,9 @@ yarn nx generate library <name>
 # Configures storybook for the package
 yarn nx generate configure-storybook <name>
 
+# Configures playwright browser testing for the package
+yarn nx generate playwright-component-configuration <name>
+
 # Scaffolds a new component with sample implementation and example documentation
 yarn nx generate component <name> <componentName>
 
