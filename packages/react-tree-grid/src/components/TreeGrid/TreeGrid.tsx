@@ -22,6 +22,7 @@ import {
   ArrowLeft,
   ArrowDown,
   ArrowUp,
+  Enter,
 } from '@fluentui/keyboard-keys';
 
 export const TreeGrid = React.forwardRef(
@@ -60,11 +61,43 @@ export const TreeGrid = React.forwardRef(
           }
           return;
         }
-        // TreeGridCell
         const row = event.target.closest<HTMLDivElement>('[role=row]');
         if (!row) {
           return;
         }
+        // TreeGridInteraction
+        if (event.target.role === 'group') {
+          switch (event.key) {
+            case Enter: {
+              findFirstFocusable(event.target)?.focus();
+              return;
+            }
+            case ArrowDown: {
+              if (isHTMLElement(row.nextElementSibling)) {
+                row.nextElementSibling.focus();
+              }
+              return;
+            }
+            case ArrowUp: {
+              if (isHTMLElement(row.previousElementSibling)) {
+                row.previousElementSibling.focus();
+              }
+              return;
+            }
+            case ArrowLeft: {
+              row.focus();
+              return;
+            }
+          }
+          return;
+        }
+        const wrapper = event.target.closest<HTMLDivElement>(
+          '[role=row],[role=group],[role=rowheader],[role=gridcell]'
+        );
+        if (wrapper?.role === 'group') {
+          return;
+        }
+        // TreeGridCell
         switch (event.key) {
           case ArrowDown: {
             if (isHTMLElement(row.nextElementSibling)) {

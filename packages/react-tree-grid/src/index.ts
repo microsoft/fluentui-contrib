@@ -15,3 +15,6 @@ export {
   useTreeGridRowContext,
 } from './contexts/TreeGridRowContext';
 export type { TreeGridRowContextValue } from './contexts/TreeGridRowContext';
+
+export { TreeGridInteraction } from './components/TreeGridInteraction';
+export type { TreeGridInteractionProps } from './components/TreeGridInteraction';
