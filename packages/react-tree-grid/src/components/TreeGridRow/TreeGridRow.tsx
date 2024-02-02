@@ -1,6 +1,14 @@
+/** @jsxRuntime classic */
+/** @jsx createElement */
+/** @jsxFrag Fragment */
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { createElement, Fragment } from '@fluentui/react-jsx-runtime';
 import * as React from 'react';
 import {
+  getIntrinsicElementProps,
   mergeClasses,
+  slot,
   useArrowNavigationGroup,
   useEventCallback,
   useFocusableGroup,
@@ -10,12 +18,15 @@ import { TreeGridRowProps } from './TreeGridRow.types';
 import { useMergedTabsterAttributes_unstable } from '@fluentui/react-tabster';
 import { isHTMLElement } from '@fluentui/react-utilities';
 import { ArrowLeft, ArrowRight, Enter } from '@fluentui/keyboard-keys';
-import { useTreeGridRowGroupContext } from '../TreeGridRowGroup/TreeGridRowGroup';
+import {
+  TreeGridRowProvider,
+  useTreeGridRowContextValue,
+} from '../../contexts/TreeGridRowContext';
 
 export const TreeGridRow = React.forwardRef(
   (props: TreeGridRowProps, ref: React.ForwardedRef<HTMLDivElement>) => {
-    const { groupOwner = false, className, ...rest } = props;
-    const { level, open, requestOpenChange } = useTreeGridRowGroupContext();
+    const context = useTreeGridRowContextValue(props);
+    const { open, requestOpenChange, level } = context;
     const styles = useTreeGridRowStyles();
     const tabsterAttributes = useMergedTabsterAttributes_unstable(
       useArrowNavigationGroup({
@@ -65,23 +76,36 @@ export const TreeGridRow = React.forwardRef(
         requestOpenChange({ open: !open, event, type: 'click' });
       }
     );
-    if (!open && !groupOwner) return null;
-    return (
-      <div
-        ref={ref}
-        role="row"
-        tabIndex={0}
-        aria-level={level + 1}
-        {...rest}
-        className={mergeClasses(styles, className)}
-        {...tabsterAttributes}
-        {...(groupOwner && {
+    const Subtree = slot.optional(props.subtree === true ? {} : props.subtree, {
+      elementType: React.Fragment,
+    });
+    const Root = slot.always(
+      getIntrinsicElementProps('div', {
+        ref,
+        role: 'row',
+        tabIndex: 0,
+        'aria-level': level,
+        ...props,
+        className: mergeClasses(styles, props.className),
+        ...tabsterAttributes,
+        ...(Subtree && {
           onKeyDown: handleKeyDown,
           onClick: handleClick,
           'aria-expanded': open,
           'aria-level': level,
-        })}
-      />
+        }),
+      }),
+      { elementType: 'div' }
+    );
+    return (
+      <>
+        <Root />
+        {open && Subtree && (
+          <TreeGridRowProvider value={context}>
+            <Subtree />
+          </TreeGridRowProvider>
+        )}
+      </>
     );
   }
 );
