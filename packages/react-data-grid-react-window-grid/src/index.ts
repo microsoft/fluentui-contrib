@@ -1,5 +1,9 @@
 export { DataGridBody } from './components/DataGridBody';
-export { DataGrid } from './components/DataGrid';
+export {
+  DataGrid,
+  useDataGrid_unstable,
+  renderDataGrid_unstable,
+} from './components/DataGrid';
 export { DataGridCell } from './components/DataGridCell';
 export { DataGridHeaderCell } from './components/DataGridHeaderCell';
 export { DataGridHeaderRow } from './components/DataGridHeaderRow';
