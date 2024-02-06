@@ -2,6 +2,29 @@
   "name": "@fluentui-contrib/react-data-grid-react-window-grid",
   "entries": [
     {
+      "date": "Tue, 06 Feb 2024 09:15:09 GMT",
+      "tag": "@fluentui-contrib/react-data-grid-react-window-grid_v1.1.0",
+      "version": "1.1.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "fengqi@microsoft.com",
+            "package": "@fluentui-contrib/react-data-grid-react-window-grid",
+            "commit": "d4ce02503efb23d95d149422c906e0ddadf2a7cb",
+            "comment": "expose renderDataGrid and useDataGrid"
+          }
+        ],
+        "none": [
+          {
+            "author": "bernardo.sunderhus@gmail.com",
+            "package": "@fluentui-contrib/react-data-grid-react-window-grid",
+            "commit": "e1afa1694054d776bc4c3cb79a5f21754711c22c",
+            "comment": "chore: nx migrate to v17.3"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 14 Nov 2023 09:13:19 GMT",
       "tag": "@fluentui-contrib/react-data-grid-react-window-grid_v1.0.0",
       "version": "1.0.0",

@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/pierce-dom",
   "entries": [
     {
+      "date": "Tue, 06 Feb 2024 09:15:09 GMT",
+      "tag": "@fluentui-contrib/pierce-dom_v0.1.0",
+      "version": "0.1.0",
+      "comments": {
+        "none": [
+          {
+            "author": "bernardo.sunderhus@gmail.com",
+            "package": "@fluentui-contrib/pierce-dom",
+            "commit": "e1afa1694054d776bc4c3cb79a5f21754711c22c",
+            "comment": "chore: nx migrate to v17.3"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 31 Jan 2024 23:19:33 GMT",
       "tag": "@fluentui-contrib/pierce-dom_v0.1.0",
       "version": "0.1.0",

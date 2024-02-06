@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-resize-handle",
   "entries": [
     {
+      "date": "Tue, 06 Feb 2024 09:15:09 GMT",
+      "tag": "@fluentui-contrib/react-resize-handle_v0.2.1",
+      "version": "0.2.1",
+      "comments": {
+        "none": [
+          {
+            "author": "bernardo.sunderhus@gmail.com",
+            "package": "@fluentui-contrib/react-resize-handle",
+            "commit": "e1afa1694054d776bc4c3cb79a5f21754711c22c",
+            "comment": "chore: nx migrate to v17.3"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 31 Jan 2024 14:50:03 GMT",
       "tag": "@fluentui-contrib/react-resize-handle_v0.2.1",
       "version": "0.2.1",

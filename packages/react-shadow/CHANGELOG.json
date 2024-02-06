@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-shadow",
   "entries": [
     {
+      "date": "Tue, 06 Feb 2024 09:15:09 GMT",
+      "tag": "@fluentui-contrib/react-shadow_v0.0.6",
+      "version": "0.0.6",
+      "comments": {
+        "none": [
+          {
+            "author": "bernardo.sunderhus@gmail.com",
+            "package": "@fluentui-contrib/react-shadow",
+            "commit": "e1afa1694054d776bc4c3cb79a5f21754711c22c",
+            "comment": "chore: nx migrate to v17.3"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 17 Jan 2024 11:24:54 GMT",
       "tag": "@fluentui-contrib/react-shadow_v0.0.6",
       "version": "0.0.6",

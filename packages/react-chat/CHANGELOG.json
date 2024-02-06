@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-chat",
   "entries": [
     {
+      "date": "Tue, 06 Feb 2024 09:15:09 GMT",
+      "tag": "@fluentui-contrib/react-chat_v0.1.7",
+      "version": "0.1.7",
+      "comments": {
+        "none": [
+          {
+            "author": "bernardo.sunderhus@gmail.com",
+            "package": "@fluentui-contrib/react-chat",
+            "commit": "e1afa1694054d776bc4c3cb79a5f21754711c22c",
+            "comment": "chore: nx migrate to v17.3"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 25 Oct 2023 09:11:36 GMT",
       "tag": "@fluentui-contrib/react-chat_v0.1.7",
       "version": "0.1.7",
