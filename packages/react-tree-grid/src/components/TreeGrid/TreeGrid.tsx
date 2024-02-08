@@ -1,6 +1,14 @@
+/** @jsxRuntime classic */
+/** @jsx createElement */
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { createElement } from '@fluentui/react-jsx-runtime';
+
 import * as React from 'react';
 import {
+  getIntrinsicElementProps,
   mergeClasses,
+  slot,
   useArrowNavigationGroup,
   useEventCallback,
   useFocusFinders,
@@ -77,15 +85,17 @@ export const TreeGrid = React.forwardRef(
         }
       }
     );
-    return (
-      <div
-        ref={ref}
-        role="treegrid"
-        {...props}
-        onKeyDown={handleKeyDown}
-        className={mergeClasses(useTreeGridStyles(), props.className)}
-        {...tabsterAttributes}
-      />
+    const Root = slot.always(
+      getIntrinsicElementProps('div', {
+        ref,
+        role: 'treegrid',
+        ...props,
+        className: mergeClasses(useTreeGridStyles(), props.className),
+        ...tabsterAttributes,
+        onKeyDown: handleKeyDown,
+      }),
+      { elementType: 'div' }
     );
+    return <Root />;
   }
 );
