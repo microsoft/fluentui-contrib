@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "version": 2,
+  "title": "Playwright component test executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "testingType": {
+      "type": "string",
+      "description": "Specify the type of tests to execute.",
+      "enum": ["component", "e2e"],
+      "default": "component"
+    }
+  },
+  "required": []
+}

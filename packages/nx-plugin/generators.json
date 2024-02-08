@@ -10,6 +10,16 @@
       "schema": "./src/generators/configure-storybook/schema.json",
       "description": "configure-storybook generator"
     },
+    "playwright-component-configuration": {
+      "factory": "./src/generators/playwright-component-configuration/generator",
+      "schema": "./src/generators/playwright-component-configuration/schema.json",
+      "description": "playwright-component-configuration generator"
+    },
+    "component-playwright-spec": {
+      "factory": "./src/generators/component-playwright-spec/generator",
+      "schema": "./src/generators/component-playwright-spec/schema.json",
+      "description": "component-playwright-spec generator"
+    },
     "component": {
       "factory": "./src/generators/component/generator",
       "schema": "./src/generators/component/schema.json",

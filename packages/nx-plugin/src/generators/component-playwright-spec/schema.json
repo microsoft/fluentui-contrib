@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "ComponentSpecPlaywright",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Project for which to generate Playwright configuration.",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "For which project do you want to generate Playwright configuration?",
+      "x-dropdown": "projects"
+    },
+    "componentName": {
+      "type": "string",
+      "description": "",
+      "$default": {
+        "$source": "argv",
+        "index": 1
+      },
+      "x-prompt": "What is the component name?"
+    }
+  },
+  "required": ["name", "componentName"]
+}

@@ -40,3 +40,8 @@ Thumbs.db
 
 # nx
 .nx/cache
+
+# playwright
+**/test-results/
+**/playwright-report/
+**/playwright/.cache/
