@@ -65,8 +65,9 @@
     },
     "component-test": {
       "executor": "@fluentui-contrib/nx-plugin:playwright",
+      "outputs": ["{workspaceRoot}/dist/.playwright/packages/react-tree-grid"],
       "options": {
-        "testingType": "component"
+        "config": "packages/react-tree-grid/playwright.config.ts"
       }
     }
   },
