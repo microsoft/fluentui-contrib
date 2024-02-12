@@ -41,7 +41,7 @@
     },
     "component-test": {
       "cache": true,
-      "inputs": ["default", "^production",  "{projectRoot}/playwright.config.ts"]
+      "inputs": ["default", "^production", "{projectRoot}/playwright.config.ts"]
     }
   },
   "namedInputs": {
