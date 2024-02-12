@@ -25,7 +25,7 @@ describe('playwright-component-configuration generator', () => {
     await libraryGenerator(tree, { name: 'hello', owner: '@MrWick' });
   });
 
-  it.only('should generate playwright config for component testing', async () => {
+  it('should generate playwright config for component testing', async () => {
     await generator(tree, options);
     const config = readProjectConfiguration(tree, 'hello');
 
@@ -40,8 +40,6 @@ describe('playwright-component-configuration generator', () => {
     expect(
       tree.exists(joinPathFragments(config.root, 'playwright.config.ts'))
     ).toBe(true);
-
-    console.log(config.targets);
 
     expect(config.targets?.['component-test']).toMatchInlineSnapshot(`
       {
