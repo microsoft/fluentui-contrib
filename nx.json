@@ -38,6 +38,10 @@
     },
     "type-check": {
       "dependsOn": ["^type-check"]
+    },
+    "component-test": {
+      "cache": true,
+      "inputs": ["default", "^production", "{projectRoot}/playwright.config.ts"]
     }
   },
   "namedInputs": {
