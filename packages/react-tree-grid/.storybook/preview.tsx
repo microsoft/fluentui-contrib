@@ -8,7 +8,13 @@ const preview: Preview = {
   decorators: [
     (Story) => (
       <FluentProvider theme={webLightTheme}>
-        <Story />
+        {/*
+          TreeGrid must be wrapped around role="application",
+          to avoid some errors on JAWS
+        */}
+        <div role="application">
+          <Story />
+        </div>
       </FluentProvider>
     ),
   ],
