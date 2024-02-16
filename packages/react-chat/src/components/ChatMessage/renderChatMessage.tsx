@@ -1,36 +1,37 @@
-import * as React from 'react';
-import { getSlots } from '@fluentui/react-components';
+/** @jsxRuntime classic */
+/** @jsx createElement */
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { createElement } from '@fluentui/react-jsx-runtime';
+
+import { assertSlots } from '@fluentui/react-components';
 import type { ChatMessageState, ChatMessageSlots } from './ChatMessage.types';
 
 /**
  * Render the final JSX of ChatMessage
  */
 export const renderChatMessage_unstable = (state: ChatMessageState) => {
-  const { slots, slotProps } = getSlots<ChatMessageSlots>(state);
+  assertSlots<ChatMessageSlots>(state);
 
   return (
-    <slots.root {...slotProps.root}>
-      {slots.avatar && <slots.avatar {...slotProps.avatar} />}
+    <state.root>
+      {state.avatar && <state.avatar />}
 
-      <slots.body {...slotProps.body}>
+      <state.body>
         <div className={state.nameLineClassName}>
-          {slots.author && <slots.author {...slotProps.author} />}
-          {slots.timestamp && <slots.timestamp {...slotProps.timestamp} />}
-          {slots.details && <slots.details {...slotProps.details} />}
+          {state.author && <state.author />}
+          {state.timestamp && <state.timestamp />}
+          {state.details && <state.details />}
         </div>
 
-        {slots.decorationLabel && (
-          <slots.decorationLabel {...slotProps.decorationLabel} />
-        )}
+        {state.decorationLabel && <state.decorationLabel />}
 
-        {slotProps.body.children}
+        {state.body.children}
 
-        {slots.decorationIcon && (
-          <slots.decorationIcon {...slotProps.decorationIcon} />
-        )}
+        {state.decorationIcon && <state.decorationIcon />}
 
-        {slots.reactions && <slots.reactions {...slotProps.reactions} />}
-      </slots.body>
-    </slots.root>
+        {state.reactions && <state.reactions />}
+      </state.body>
+    </state.root>
   );
 };
