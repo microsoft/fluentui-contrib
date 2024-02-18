@@ -4,7 +4,7 @@ import {
   useFluent,
   getSlots,
 } from '@fluentui/react-components';
-import { FixedSizeList as List } from 'react-window';
+import { VariableSizeList as List } from 'react-window';
 import { DataGridHeaderRowState } from './DataGridHeaderRow.types';
 
 /**
