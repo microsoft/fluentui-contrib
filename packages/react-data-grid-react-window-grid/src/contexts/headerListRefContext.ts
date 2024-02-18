@@ -1,14 +1,18 @@
 import * as React from 'react';
-import { FixedSizeList } from 'react-window';
+import { VariableSizeList } from 'react-window';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const headerListRefContext: React.Context<React.RefObject<FixedSizeList<any>>> =
+const headerListRefContext: React.Context<
+  React.RefObject<VariableSizeList<any>>
+> =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  React.createContext<React.RefObject<FixedSizeList<any>>>({ current: null });
+  React.createContext<React.RefObject<VariableSizeList<any>>>({
+    current: null,
+  });
 
 export const headerListRefContextDefaultValue: React.RefObject<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  FixedSizeList<any>
+  VariableSizeList<any>
 > = { current: null };
 
 export const useHeaderListRefContext = () =>

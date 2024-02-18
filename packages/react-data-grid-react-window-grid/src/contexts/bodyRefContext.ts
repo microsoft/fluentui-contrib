@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { FixedSizeGrid } from 'react-window';
+import { VariableSizeGrid } from 'react-window';
 
 const bodyRefContext: React.Context<
-  React.MutableRefObject<FixedSizeGrid | null>
-> = React.createContext<React.MutableRefObject<FixedSizeGrid | null>>({
+  React.MutableRefObject<VariableSizeGrid | null>
+> = React.createContext<React.MutableRefObject<VariableSizeGrid | null>>({
   current: null,
 });
 
-export const bodyRefContextDefaultValue: React.MutableRefObject<FixedSizeGrid | null> =
+export const bodyRefContextDefaultValue: React.MutableRefObject<VariableSizeGrid | null> =
   { current: null };
 
 export const useBodyRefContext = () =>

@@ -1,7 +1,7 @@
 # react-data-grid-react-window-grid
 
 A variant of the Fluent UI [DataGrid](https://react.fluentui.dev/?path=/docs/components-datagrid--default) that is
-virtualized 2 dimentionally using [react-window](https://react-window.vercel.app/#/examples/grid/fixed-size).
+virtualized 2 dimentionally using [react-window](https://react-window.vercel.app/#/examples/grid/variable-size).
 
 ## Building
 
@@ -10,8 +10,8 @@ Run `nx build react-data-grid-react-window-grid` to build the library.
 ## What is different from `react-data-grid-react-window`?
 
 - `react-data-grid-react-window` support vertical virtualization using FixedSizeList in react-window
-- `react-data-grid-react-window-grid` support 2 dimentional virtualization (including both horizontal and vertical) using FixedSizeGrid in react-window.
-- `react-data-grid-react-window-grid` has a virtualized header as well using FixedSizeList in react-window
+- `react-data-grid-react-window-grid` support 2 dimentional virtualization (including both horizontal and vertical) using VariableSizeGrid in react-window.
+- `react-data-grid-react-window-grid` has a virtualized header as well using VariableSizeList in react-window
 
 ## `DataGridHeaderRow`
 

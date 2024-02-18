@@ -8,8 +8,8 @@ import type {
   TableColumnDefinition,
 } from '@fluentui/react-components';
 import {
-  FixedSizeGrid,
-  FixedSizeGridProps,
+  VariableSizeGrid,
+  VariableSizeGridProps,
   GridChildComponentProps,
 } from 'react-window';
 
@@ -36,13 +36,13 @@ export type DataGridBodyProps<TItem = unknown> = Omit<
   'children'
 > & {
   /**
-   * The size of each row, rowHeight
+   * Returns the height of the specified row.
    */
-  rowHeight: number;
+  rowHeight: (index: number) => number;
   /**
-   * The width per column
+   * Returns the width of the specified column.
    */
-  columnWidth: number;
+  columnWidth: (index: number) => number;
   /**
    * The height of the virtualized container
    */
@@ -64,11 +64,11 @@ export type DataGridBodyProps<TItem = unknown> = Omit<
   ariaRowIndexStart?: number;
 
   /**
-   * Optional props to pass through to the FixedSizeGrid component from react-window
+   * Optional props to pass through to the VariableSizeGridProps component from react-window
    *
-   * @see https://react-window.vercel.app/#/api/FixedSizeGrid
+   * @see https://react-window.vercel.app/#/api/VariableSizeGrid
    */
-  gridProps?: Partial<FixedSizeGridProps>;
+  gridProps?: Partial<VariableSizeGridProps>;
 };
 
 /**
@@ -82,10 +82,10 @@ export type DataGridBodyState = Omit<DataGridBodyStateBase, 'renderRow'> &
       props: GridChildComponentProps<TableRowData<unknown>[]>
     ) => React.ReactElement;
   } & {
-    gridProps?: Partial<FixedSizeGridProps>;
+    gridProps?: Partial<VariableSizeGridProps>;
 
     /**
      * Ref of the virtualized list container ref
      */
-    gridRef: React.RefObject<FixedSizeGrid>;
+    gridRef: React.RefObject<VariableSizeGrid>;
   };

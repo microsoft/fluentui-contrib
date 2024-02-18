@@ -4,7 +4,7 @@ import type {
   DataGridBodyState,
   DataGridBodySlots,
 } from './DataGridBody.types';
-import { FixedSizeGrid as Grid } from 'react-window';
+import { VariableSizeGrid as Grid } from 'react-window';
 
 /**
  * Render the final JSX of DataGridVirtualizedBody
