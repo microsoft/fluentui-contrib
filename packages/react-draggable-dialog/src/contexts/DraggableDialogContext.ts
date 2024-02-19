@@ -25,6 +25,4 @@ export const useDraggableDialogContext = () => {
   );
 };
 
-export const useDraggableDialogState = () => useDraggableDialogContext();
-
 export const DraggableDialogContextProvider = draggableDialogContext.Provider;

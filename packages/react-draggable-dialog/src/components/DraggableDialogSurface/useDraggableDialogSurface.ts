@@ -4,7 +4,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { useMergedRefs } from '@fluentui/react-components';
 
 import { assertDialogParent } from '../../utils/assertDialogParent';
-import { useDraggableDialogState } from '../../contexts/DraggableDialogContext';
+import { useDraggableDialogContext } from '../../contexts/DraggableDialogContext';
 import { DraggableDialogSurfaceState } from './DraggableDialogSurface.types';
 
 /**
@@ -18,7 +18,7 @@ export const useDraggableDialogSurface = (): DraggableDialogSurfaceState => {
     hasBeenDragged,
     isDragging,
     position: { x, y },
-  } = useDraggableDialogState();
+  } = useDraggableDialogContext();
   const { setNodeRef, transform } = useDraggable({
     id,
   });
