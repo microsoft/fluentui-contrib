@@ -4,10 +4,13 @@ import { DraggableDialog } from './DraggableDialog';
 
 describe('DraggableDialog', () => {
   it('should render', () => {
-    render(
-      <DraggableDialog open>
-        <div>Content</div>
+    const text = 'Context';
+    const { getByText } = render(
+      <DraggableDialog>
+        <div>{text}</div>
       </DraggableDialog>
     );
+
+    expect(() => getByText(text)).toBeTruthy();
   });
 });

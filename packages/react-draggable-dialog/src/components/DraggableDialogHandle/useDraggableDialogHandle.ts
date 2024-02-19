@@ -1,5 +1,6 @@
 import { useDraggable } from '@dnd-kit/core';
 
+import { assertDialogParent } from '../../utils/assertDialogParent';
 import { useDraggableDialogState } from '../../contexts/DraggableDialogContext';
 import { DraggableDialogHandleState } from './DraggableDialogHandle.types';
 
@@ -11,6 +12,8 @@ export const useDraggableDialogHandle = (): DraggableDialogHandleState => {
   const { setActivatorNodeRef, attributes, listeners } = useDraggable({
     id,
   });
+
+  assertDialogParent(hasDialogParent, 'DraggableDialogHandle');
 
   return {
     setActivatorNodeRef,
