@@ -13,6 +13,7 @@ import { DraggableDialogSurfaceState } from './DraggableDialogSurface.types';
 export const useDraggableDialogSurface = (): DraggableDialogSurfaceState => {
   const ref = React.useRef<HTMLDivElement | null>(null);
   const {
+    hasDialogParent,
     id,
     hasBeenDragged,
     isDragging,
