@@ -1,4 +1,12 @@
+import {
+  Announcements,
+  DragEndEvent,
+  Modifier,
+  SensorDescriptor,
+  SensorOptions,
+} from '@dnd-kit/core';
 import { DialogProps } from '@fluentui/react-components';
+import { DraggableDialogContextValue } from '../../contexts/DraggableDialogContext';
 
 export type DraggableMarginAxis = {
   mainAxis?: number;
@@ -49,4 +57,47 @@ export type DraggableDialogProps = DialogProps & {
      */
     end?: string;
   };
+};
+
+/**
+ * Represents the state of a draggable dialog component.
+ */
+export type DraggableDialogState = {
+  /**
+   * Sensors used for the DndKit drag and drop system.
+   */
+  sensors: SensorDescriptor<SensorOptions>[];
+
+  /**
+   * The modifiers to apply to the draggable dialog.
+   */
+  modifiers: Modifier[];
+
+  /**
+   * Accessibility props to apply to the draggable dialog.
+   * Currently only used for screen reader announcements.
+   */
+  accessibilityProps?: {
+    announcements: Partial<Announcements>;
+  };
+
+  /**
+   * Event triggered when drag movement starts.
+   */
+  onDragStart: () => void;
+
+  /**
+   * Event triggered when drag movement finishes.
+   */
+  onDragEnd: (event: DragEndEvent) => void;
+
+  /**
+   * The context value to provide to child components.
+   */
+  contextValue: DraggableDialogContextValue;
+
+  /**
+   * The props to apply to the dialog.
+   */
+  dialogProps: DialogProps;
 };
