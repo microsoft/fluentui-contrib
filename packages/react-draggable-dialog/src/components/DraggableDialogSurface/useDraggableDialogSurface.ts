@@ -17,7 +17,6 @@ export const useDraggableDialogSurface = (): DraggableDialogSurfaceState => {
     hasBeenDragged,
     isDragging,
     position: { x, y },
-    hasDialogParent,
   } = useDraggableDialogState();
   const { setNodeRef, transform } = useDraggable({
     id,
