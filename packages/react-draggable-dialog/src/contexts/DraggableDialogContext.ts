@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 const draggableDialogContextDefaultValue = {
+  hasDialogParent: false,
   id: '',
   isDragging: false,
   hasBeenDragged: false,
@@ -24,8 +25,6 @@ export const useDraggableDialogContext = () => {
   );
 };
 
-export const useDraggableDialogState = () => {
-  return useDraggableDialogContext();
-};
+export const useDraggableDialogState = () => useDraggableDialogContext();
 
 export const DraggableDialogContextProvider = draggableDialogContext.Provider;
