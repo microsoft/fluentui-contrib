@@ -3,6 +3,7 @@ import { useDraggable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
 import { useMergedRefs } from '@fluentui/react-components';
 
+import { assertDialogParent } from '../../utils/assertDialogParent';
 import { useDraggableDialogContext } from '../../contexts/DraggableDialogContext';
 import { DraggableDialogSurfaceState } from './DraggableDialogSurface.types';
 
@@ -12,6 +13,7 @@ import { DraggableDialogSurfaceState } from './DraggableDialogSurface.types';
 export const useDraggableDialogSurface = (): DraggableDialogSurfaceState => {
   const ref = React.useRef<HTMLDivElement | null>(null);
   const {
+    hasDialogParent,
     id,
     hasBeenDragged,
     isDragging,
@@ -62,6 +64,8 @@ export const useDraggableDialogSurface = (): DraggableDialogSurfaceState => {
       transform: `translate3D(-50%, -50%, 0)`,
     };
   }, [transform, x, y, hasBeenDragged, isDragging]);
+
+  assertDialogParent(hasDialogParent, 'DraggableDialogSurface');
 
   return {
     ref: useMergedRefs(setNodeRef as React.Ref<HTMLDivElement>, ref),
