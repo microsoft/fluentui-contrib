@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "chore: use composition hook for Chat",
-  "packageName": "@fluentui-contrib/react-chat",
-  "email": "yuanboxue@microsoft.com",
-  "dependentChangeType": "patch"
-}

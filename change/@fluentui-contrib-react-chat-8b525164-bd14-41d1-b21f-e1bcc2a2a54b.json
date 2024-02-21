@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "chore: use new slot api for ChatMessage/ChatMyMessage",
-  "packageName": "@fluentui-contrib/react-chat",
-  "email": "yuanboxue@microsoft.com",
-  "dependentChangeType": "patch"
-}
