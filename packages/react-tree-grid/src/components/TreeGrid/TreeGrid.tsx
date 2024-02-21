@@ -13,7 +13,6 @@ import {
   useEventCallback,
   useFocusFinders,
 } from '@fluentui/react-components';
-import { useTreeGridStyles } from './useTreeGridStyles.styles';
 import { TreeGridProps } from './TreeGrid.types';
 import { useFindParentRow } from '../../hooks/useFindParentRow';
 import { isHTMLElement } from '@fluentui/react-utilities';
@@ -123,7 +122,7 @@ export const TreeGrid = React.forwardRef(
         ref,
         role: 'treegrid',
         ...props,
-        className: mergeClasses(useTreeGridStyles(), props.className),
+        className: mergeClasses('fui-TreeGrid', props.className),
         ...tabsterAttributes,
         onKeyDown: handleKeyDown,
       }),

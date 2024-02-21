@@ -2,6 +2,27 @@
   "name": "@fluentui-contrib/react-chat",
   "entries": [
     {
+      "date": "Wed, 21 Feb 2024 08:44:13 GMT",
+      "tag": "@fluentui-contrib/react-chat_v0.1.8",
+      "version": "0.1.8",
+      "comments": {
+        "patch": [
+          {
+            "author": "yuanboxue@microsoft.com",
+            "package": "@fluentui-contrib/react-chat",
+            "commit": "0c7e8ce95e66fad823a6704aac59a9698d9fb138",
+            "comment": "chore: use composition hook for Chat"
+          },
+          {
+            "author": "yuanboxue@microsoft.com",
+            "package": "@fluentui-contrib/react-chat",
+            "commit": "745ac81a45ac72443a5ebb7c72520ba6d8adde0a",
+            "comment": "chore: use new slot api for ChatMessage/ChatMyMessage"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 06 Feb 2024 09:15:09 GMT",
       "tag": "@fluentui-contrib/react-chat_v0.1.7",
       "version": "0.1.7",

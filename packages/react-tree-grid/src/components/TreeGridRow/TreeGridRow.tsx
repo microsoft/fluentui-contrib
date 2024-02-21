@@ -64,14 +64,13 @@ export const TreeGridRow = React.forwardRef(
     const handleClick = useEventCallback(
       (event: React.MouseEvent<HTMLDivElement>) => {
         props.onClick?.(event);
-        if (
-          !isHTMLElement(event.target) ||
-          !(
-            event.target === event.currentTarget ||
-            event.target.parentElement === event.currentTarget
-          )
-        ) {
+        if (!isHTMLElement(event.target)) {
           return;
+        }
+        let element: HTMLElement | null = event.target;
+        while (element && element !== event.currentTarget) {
+          if (element.tabIndex >= 0) return;
+          element = element.parentElement;
         }
         requestOpenChange({ open: !open, event, type: 'click' });
       }
