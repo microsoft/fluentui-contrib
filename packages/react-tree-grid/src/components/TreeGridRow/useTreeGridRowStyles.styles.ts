@@ -6,11 +6,9 @@ import {
 
 const useResetStyles = makeResetStyles({
   display: 'flex',
-  alignItems: 'center',
   position: 'relative',
   ...createFocusOutlineStyle(),
 });
 
-export const useTreeGridRowStyles = () => {
-  return mergeClasses('fui-TreeGridRow', useResetStyles());
-};
+export const useTreeGridRowStyles = () =>
+  mergeClasses('fui-TreeGridRow', useResetStyles());

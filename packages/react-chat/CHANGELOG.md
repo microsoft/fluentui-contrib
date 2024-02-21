@@ -1,8 +1,17 @@
 # Change Log - @fluentui-contrib/react-chat
 
-This log was last generated on Wed, 25 Oct 2023 09:11:36 GMT and should not be manually modified.
+This log was last generated on Wed, 21 Feb 2024 08:44:13 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.1.8
+
+Wed, 21 Feb 2024 08:44:13 GMT
+
+### Patches
+
+- chore: use composition hook for Chat (yuanboxue@microsoft.com)
+- chore: use new slot api for ChatMessage/ChatMyMessage (yuanboxue@microsoft.com)
 
 ## 0.1.7
 

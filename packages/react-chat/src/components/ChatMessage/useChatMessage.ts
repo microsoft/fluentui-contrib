@@ -1,8 +1,5 @@
 import * as React from 'react';
-import {
-  getPartitionedNativeProps,
-  resolveShorthand,
-} from '@fluentui/react-components';
+import { getPartitionedNativeProps, slot } from '@fluentui/react-components';
 import type { ChatMessageProps, ChatMessageState } from './ChatMessage.types';
 import { getDecorationIcon } from '../utils/getDecorationIcon';
 import { useChatMessageFocusableGroup } from '../utils/useChatMessageFocusableGroup';
@@ -60,29 +57,33 @@ export const useChatMessage_unstable = (
     persistentTimestamp,
     showAnimation,
 
-    body: resolveShorthand(body, {
-      required: true,
+    body: slot.always(body, {
       defaultProps: {
         ref,
         ...nativeProps.primary,
         tabIndex: 0,
       },
+      elementType: 'div',
     }),
-    root: resolveShorthand(root, {
-      required: true,
+    root: slot.always(root, {
       defaultProps: nativeProps.root,
+      elementType: 'div',
     }),
 
-    author: resolveShorthand(author),
+    author: slot.optional(author, { elementType: 'div' }),
     avatar:
-      attached && attached !== 'top' ? undefined : resolveShorthand(avatar),
-    decorationIcon: resolveShorthand(decorationIcon, {
-      required: !!decoration,
+      attached && attached !== 'top'
+        ? undefined
+        : slot.optional(avatar, { elementType: 'div' }),
+    decorationIcon: slot.optional(decorationIcon, {
+      elementType: 'div',
+      defaultProps: { children: getDecorationIcon(decoration) },
+      renderByDefault: !!decoration,
     }),
-    decorationLabel: resolveShorthand(decorationLabel),
-    details: resolveShorthand(details),
-    reactions: resolveShorthand(reactions),
-    timestamp: resolveShorthand(timestamp),
+    decorationLabel: slot.optional(decorationLabel, { elementType: 'div' }),
+    details: slot.optional(details, { elementType: 'div' }),
+    reactions: slot.optional(reactions, { elementType: 'div' }),
+    timestamp: slot.optional(timestamp, { elementType: 'span' }),
 
     components: {
       author: 'div',
@@ -96,10 +97,6 @@ export const useChatMessage_unstable = (
       timestamp: 'span',
     },
   };
-
-  if (state.decorationIcon && !state.decorationIcon.children) {
-    state.decorationIcon.children = getDecorationIcon(decoration);
-  }
 
   useChatMessagePopoverTrigger(state);
   useChatMessageFocusableGroup(state);

@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-data-grid-react-window-grid",
   "entries": [
     {
+      "date": "Wed, 21 Feb 2024 08:44:13 GMT",
+      "tag": "@fluentui-contrib/react-data-grid-react-window-grid_v2.0.0",
+      "version": "2.0.0",
+      "comments": {
+        "major": [
+          {
+            "author": "fengqi@microsoft.com",
+            "package": "@fluentui-contrib/react-data-grid-react-window-grid",
+            "commit": "227c81ff80b6dd4abd8855af9559557936454302",
+            "comment": "feat(react-data-grid-react-window-grid) use VaraiableSizeGrid for body and VariableSizeList for header"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 06 Feb 2024 09:15:09 GMT",
       "tag": "@fluentui-contrib/react-data-grid-react-window-grid_v1.1.0",
       "version": "1.1.0",
