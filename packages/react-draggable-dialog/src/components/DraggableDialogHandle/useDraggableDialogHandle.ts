@@ -8,12 +8,12 @@ import { DraggableDialogHandleState } from './DraggableDialogHandle.types';
  * Returns the state needed to make a draggable dialog handle.
  */
 export const useDraggableDialogHandle = (): DraggableDialogHandleState => {
-  const { id, hasDialogParent } = useDraggableDialogContext();
+  const { id, hasDraggableParent } = useDraggableDialogContext();
   const { setActivatorNodeRef, attributes, listeners } = useDraggable({
     id,
   });
 
-  assertDialogParent(hasDialogParent, 'DraggableDialogHandle');
+  assertDialogParent(hasDraggableParent, 'DraggableDialogHandle');
 
   return {
     setActivatorNodeRef,

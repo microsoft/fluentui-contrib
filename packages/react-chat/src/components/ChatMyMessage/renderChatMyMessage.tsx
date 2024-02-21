@@ -1,5 +1,10 @@
-import { getSlots } from '@fluentui/react-components';
-import * as React from 'react';
+/** @jsxRuntime classic */
+/** @jsx createElement */
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { createElement } from '@fluentui/react-jsx-runtime';
+
+import { assertSlots } from '@fluentui/react-components';
 
 import type {
   ChatMyMessageSlots,
@@ -7,37 +12,29 @@ import type {
 } from './ChatMyMessage.types';
 
 export const renderChatMyMessage_unstable = (state: ChatMyMessageState) => {
-  const { slots, slotProps } = getSlots<ChatMyMessageSlots>(state);
+  assertSlots<ChatMyMessageSlots>(state);
   return (
-    <slots.root {...slotProps.root}>
-      <slots.body {...slotProps.body}>
+    <state.root>
+      <state.body>
         <div className={state.nameLineClassName}>
-          {slots.author && <slots.author {...slotProps.author} />}
-          {slots.timestamp && <slots.timestamp {...slotProps.timestamp} />}
-          {slots.details && !slots.statusMessage && (
-            <slots.details {...slotProps.details} />
-          )}
-          {slots.statusMessage && (
-            <slots.statusMessage {...slotProps.statusMessage} />
-          )}
+          {state.author && <state.author />}
+          {state.timestamp && <state.timestamp />}
+          {state.details && !state.statusMessage && <state.details />}
+          {state.statusMessage && <state.statusMessage />}
         </div>
 
-        {slots.decorationLabel && (
-          <slots.decorationLabel {...slotProps.decorationLabel} />
-        )}
+        {state.decorationLabel && <state.decorationLabel />}
 
-        {slotProps.body.children}
+        {state.body.children}
 
-        {slots.decorationIcon && (
-          <slots.decorationIcon {...slotProps.decorationIcon} />
-        )}
+        {state.decorationIcon && <state.decorationIcon />}
 
-        {slots.reactions && <slots.reactions {...slotProps.reactions} />}
-      </slots.body>
+        {state.reactions && <state.reactions />}
+      </state.body>
 
-      {slots.statusIcon && <slots.statusIcon {...slotProps.statusIcon} />}
+      {state.statusIcon && <state.statusIcon />}
 
-      {slots.actions && <slots.actions {...slotProps.actions} />}
-    </slots.root>
+      {state.actions && <state.actions />}
+    </state.root>
   );
 };

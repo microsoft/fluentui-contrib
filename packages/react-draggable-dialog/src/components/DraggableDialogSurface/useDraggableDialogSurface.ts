@@ -13,7 +13,7 @@ import { DraggableDialogSurfaceState } from './DraggableDialogSurface.types';
 export const useDraggableDialogSurface = (): DraggableDialogSurfaceState => {
   const ref = React.useRef<HTMLDivElement | null>(null);
   const {
-    hasDialogParent,
+    hasDraggableParent,
     id,
     hasBeenDragged,
     isDragging,
@@ -65,7 +65,7 @@ export const useDraggableDialogSurface = (): DraggableDialogSurfaceState => {
     };
   }, [transform, x, y, hasBeenDragged, isDragging]);
 
-  assertDialogParent(hasDialogParent, 'DraggableDialogSurface');
+  assertDialogParent(hasDraggableParent, 'DraggableDialogSurface');
 
   return {
     ref: useMergedRefs(setNodeRef as React.Ref<HTMLDivElement>, ref),

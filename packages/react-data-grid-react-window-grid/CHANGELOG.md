@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-data-grid-react-window-grid
 
-This log was last generated on Tue, 06 Feb 2024 09:15:09 GMT and should not be manually modified.
+This log was last generated on Wed, 21 Feb 2024 08:44:13 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 2.0.0
+
+Wed, 21 Feb 2024 08:44:13 GMT
+
+### Major changes
+
+- feat(react-data-grid-react-window-grid) use VaraiableSizeGrid for body and VariableSizeList for header (fengqi@microsoft.com)
 
 ## 1.1.0
 

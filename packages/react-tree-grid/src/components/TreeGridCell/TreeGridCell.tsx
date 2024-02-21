@@ -10,19 +10,17 @@ import {
   mergeClasses,
   slot,
 } from '@fluentui/react-components';
-import { useTreeGridCellStyles } from './useTreeGridCellStyles.styles';
 import { TreeGridCellProps } from './TreeGridCell.types';
 
 export const TreeGridCell: ForwardRefComponent<TreeGridCellProps> =
   React.forwardRef((props, ref) => {
-    const styles = useTreeGridCellStyles();
     const { header, className, ...rest } = props;
     const Root = slot.always(
       getIntrinsicElementProps('div', {
         ref,
         role: header ? 'columnheader' : 'gridcell',
         ...rest,
-        className: mergeClasses(styles, className),
+        className: mergeClasses('fui-TreeGridCell', className),
       }),
       {
         elementType: 'div',
