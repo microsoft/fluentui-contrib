@@ -52,7 +52,7 @@ describe('DraggableDialog', () => {
     expect(result.current.contextValue).toEqual({
       id: 'draggable-dialog',
       hasBeenDragged: false,
-      hasDialogParent: true,
+      hasDraggableParent: true,
       isDragging: false,
       position: { x: 0, y: 0 },
     });
@@ -78,7 +78,7 @@ describe('DraggableDialog', () => {
     expect(result.current.contextValue).toEqual({
       id: 'draggable-dialog',
       hasBeenDragged: false,
-      hasDialogParent: true,
+      hasDraggableParent: true,
       isDragging: false,
       position: { x: 0, y: 0 },
     });
