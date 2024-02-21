@@ -5,10 +5,7 @@ import type {
   ChatMyMessageState,
 } from './ChatMyMessage.types';
 
-import {
-  getPartitionedNativeProps,
-  resolveShorthand,
-} from '@fluentui/react-components';
+import { getPartitionedNativeProps, slot } from '@fluentui/react-components';
 import {
   CheckmarkCircle16Regular,
   Circle16Regular,
@@ -67,30 +64,40 @@ export const useChatMyMessage_unstable = (
     showAnimation,
     status,
 
-    body: resolveShorthand(body, {
-      required: true,
+    body: slot.always(body, {
       defaultProps: {
         ref,
         ...nativeProps.primary,
         tabIndex: 0,
       },
+      elementType: 'div',
     }),
-    root: resolveShorthand(root, {
-      required: true,
+    root: slot.always(root, {
       defaultProps: nativeProps.root,
+      elementType: 'div',
     }),
 
-    actions: resolveShorthand(actions),
-    author: resolveShorthand(author),
-    decorationIcon: resolveShorthand(decorationIcon, {
-      required: !!decoration,
+    actions: slot.optional(actions, { elementType: 'div' }),
+    author: slot.optional(author, { elementType: 'div' }),
+    decorationIcon: slot.optional(decorationIcon, {
+      elementType: 'div',
+      defaultProps: {
+        children: getDecorationIcon(decoration),
+      },
+      renderByDefault: !!decoration,
     }),
-    decorationLabel: resolveShorthand(decorationLabel),
-    details: resolveShorthand(details),
-    reactions: resolveShorthand(reactions),
-    statusIcon: resolveShorthand(statusIcon, { required: !!status }),
-    statusMessage: resolveShorthand(statusMessage),
-    timestamp: resolveShorthand(timestamp),
+    decorationLabel: slot.optional(decorationLabel, { elementType: 'div' }),
+    details: slot.optional(details, { elementType: 'div' }),
+    reactions: slot.optional(reactions, { elementType: 'div' }),
+    statusIcon: slot.optional(statusIcon, {
+      elementType: 'div',
+      defaultProps: {
+        children: getStatusIcon(status),
+      },
+      renderByDefault: !!status,
+    }),
+    statusMessage: slot.optional(statusMessage, { elementType: 'div' }),
+    timestamp: slot.optional(timestamp, { elementType: 'span' }),
 
     components: {
       actions: 'div',
@@ -107,39 +114,25 @@ export const useChatMyMessage_unstable = (
     },
   };
 
-  updateStatusWithIcon(state);
-
-  if (state.decorationIcon && !state.decorationIcon.children) {
-    state.decorationIcon.children = getDecorationIcon(decoration);
-  }
-
   useChatMessagePopoverTrigger(state);
   useChatMessageFocusableGroup(state);
 
   return state;
 };
 
-const updateStatusWithIcon = (state: ChatMyMessageState) => {
-  if (state.statusIcon && !state.statusIcon.children) {
-    switch (state.status) {
-      case 'sending':
-        state.statusIcon.children = <Circle16Regular />;
-        break;
-      case 'received':
-        state.statusIcon.children = <CheckmarkCircle16Regular />;
-        break;
-      case 'read':
-        state.statusIcon.children = <Eye16Filled />;
-        break;
-      case 'failed':
-        state.statusIcon.children = <Warning16Filled />;
-        break;
-      case 'blocked':
-        state.statusIcon.children = <Flag16Filled />;
-        break;
-      case 'scheduled':
-        state.statusIcon.children = <Clock16Regular />;
-        break;
-    }
+const getStatusIcon = (status: ChatMyMessageProps['status']) => {
+  switch (status) {
+    case 'sending':
+      return <Circle16Regular />;
+    case 'received':
+      return <CheckmarkCircle16Regular />;
+    case 'read':
+      return <Eye16Filled />;
+    case 'failed':
+      return <Warning16Filled />;
+    case 'blocked':
+      return <Flag16Filled />;
+    case 'scheduled':
+      return <Clock16Regular />;
   }
 };
