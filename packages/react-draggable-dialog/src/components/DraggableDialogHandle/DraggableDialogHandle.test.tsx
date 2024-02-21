@@ -105,7 +105,6 @@ describe('DraggableDialogHandle', () => {
     });
   });
 
-
   it('should throw an error if not a descendant of DraggableDialog', () => {
     render(
       <DraggableDialogHandle>
@@ -113,14 +112,14 @@ describe('DraggableDialogHandle', () => {
       </DraggableDialogHandle>
     );
 
-    expect(consoleErrorMock).toHaveBeenCalledWith(
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
       'Warning: DraggableDialogHandle is not a descendant of DraggableDialog'
     );
   });
 
   it('should not throw an error if a descendant of DraggableDialog', () => {
     useDraggableDialogContextSpy.mockReturnValue({
-      hasDialogParent: true,
+      hasDraggableParent: true,
     });
 
     render(
