@@ -1,36 +1,17 @@
-import {
-  getNativeElementProps,
-  mergeClasses,
-} from '@fluentui/react-components';
 import * as React from 'react';
+import { useChat_unstable } from './useChat';
+import { renderChat_unstable } from './renderChat';
+import { useChatStyles_unstable } from './useChatStyles.styles';
+import type { ChatProps } from './Chat.types';
+import type { ForwardRefComponent } from '@fluentui/react-components';
 
-import { useChatClasses } from './Chat.styles';
-import { useChatMoverAttribute_unstable } from './useChatMoverAttribute';
-
-export const chatClassName = 'fui-Chat';
-
-export type ChatProps = React.HTMLAttributes<HTMLElement>;
-
-export const Chat = React.forwardRef<HTMLDivElement, ChatProps>(
+export const Chat: ForwardRefComponent<ChatProps> = React.forwardRef(
   (props, ref) => {
-    const classes = useChatClasses();
-    const className = mergeClasses(
-      chatClassName,
-      classes.base,
-      classes.comfy,
-      props.className
-    );
+    const state = useChat_unstable(props, ref);
 
-    const moverAttribute = useChatMoverAttribute_unstable();
-
-    const rootProps = getNativeElementProps('div', {
-      ref,
-      ...props,
-    });
-
-    return (
-      <div {...moverAttribute} {...rootProps} className={className} ref={ref} />
-    );
+    useChatStyles_unstable(state);
+    return renderChat_unstable(state);
   }
 );
+
 Chat.displayName = 'Chat';

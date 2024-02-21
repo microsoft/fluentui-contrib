@@ -5,8 +5,8 @@ import {
   TableColumnDefinition,
 } from '@fluentui/react-components';
 import {
-  FixedSizeList,
-  FixedSizeListProps,
+  VariableSizeList,
+  VariableSizeListProps,
   ListChildComponentProps,
   ListProps,
 } from 'react-window';
@@ -26,9 +26,9 @@ export type DataGridHeaderRowProps<TItem = unknown> = Omit<
   'children'
 > & {
   /**
-   * The size of each column
+   * Returns the size of each column width.
    */
-  itemSize: number;
+  itemSize: (index: number) => number;
   /**
    * The height of the virtualized container
    */
@@ -43,12 +43,12 @@ export type DataGridHeaderRowProps<TItem = unknown> = Omit<
   children: HeaderCellRenderer<TItem>;
 
   /**
-   * Optional props to pass through to the FixedSizeList component from react-window
+   * Optional props to pass through to the VariableSizeList component from react-window
    *
-   * @see https://react-window.vercel.app/#/api/FixedSizeList
+   * @see https://react-window.vercel.app/#/api/VariableSizeList
    */
 
-  listProps?: Partial<FixedSizeListProps>;
+  listProps?: Partial<VariableSizeListProps>;
 };
 
 /**
@@ -66,5 +66,5 @@ export type DataGridHeaderRowState = Omit<DataGridRowState, 'renderCell'> &
      * Ref of the virtualized list container ref
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    listRef: React.RefObject<FixedSizeList<any>>;
+    listRef: React.RefObject<VariableSizeList<any>>;
   } & Pick<ListProps, 'onScroll'>;
