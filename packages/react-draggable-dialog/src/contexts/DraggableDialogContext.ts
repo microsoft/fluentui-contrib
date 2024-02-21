@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 const draggableDialogContextDefaultValue = {
-  hasDialogParent: false,
+  hasDraggableParent: false,
   id: '',
   isDragging: false,
   hasBeenDragged: false,

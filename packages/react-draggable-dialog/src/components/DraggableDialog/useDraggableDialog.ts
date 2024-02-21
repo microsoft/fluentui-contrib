@@ -68,7 +68,7 @@ export const useDraggableDialog = (
 
   const contextValue = React.useMemo(
     () => ({
-      hasDialogParent: true,
+      hasDraggableParent: true,
       isDragging,
       hasBeenDragged,
       position,
