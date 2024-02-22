@@ -20,13 +20,15 @@ import { isHTMLElement } from '@fluentui/react-utilities';
 import { ArrowLeft, ArrowRight, Enter } from '@fluentui/keyboard-keys';
 import {
   TreeGridRowProvider,
+  useTreeGridRowContext,
   useTreeGridRowContextValue,
 } from '../../contexts/TreeGridRowContext';
 
 export const TreeGridRow = React.forwardRef(
   (props: TreeGridRowProps, ref: React.ForwardedRef<HTMLDivElement>) => {
     const context = useTreeGridRowContextValue(props);
-    const { open, requestOpenChange, level } = context;
+    const { level } = useTreeGridRowContext();
+    const { open, requestOpenChange } = context;
     const styles = useTreeGridRowStyles();
     const tabsterAttributes = useMergedTabsterAttributes_unstable(
       useArrowNavigationGroup({

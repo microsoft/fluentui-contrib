@@ -4,12 +4,12 @@ import { TreeGrid } from '@fluentui-contrib/react-tree-grid';
 export { Default } from './Default.stories';
 export { Meet } from './Meet.stories';
 export { Virtualization } from './Virtualization.stories';
-export { Interaction } from './Interaction.stories';
 export { EmailInbox } from './EmailInbox.stories';
+export { TodoList } from './TodoList.stories';
 
-const meta: Meta<typeof TreeGrid> = {
+const meta = {
   title: 'TreeGrid',
   component: TreeGrid,
-};
+} as Meta<typeof TreeGrid>;
 
 export default meta;

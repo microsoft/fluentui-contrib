@@ -16,6 +16,8 @@ import {
   useEventCallback,
   HeadlessFlatTreeItemProps,
   ForwardRefComponent,
+  makeStyles,
+  shorthands,
 } from '@fluentui/react-components';
 import { isHTMLElement } from '@fluentui/react-utilities';
 
@@ -26,6 +28,12 @@ import {
 } from 'react-window';
 import { TreeGridProps } from '../src/components/TreeGrid/TreeGrid.types';
 import { ArrowLeft } from '@fluentui/keyboard-keys';
+
+const useStyles = makeStyles({
+  cell: {
+    ...shorthands.flex(1, 1, '100%'),
+  },
+});
 
 type Item = {
   children: string;
@@ -83,6 +91,7 @@ type FixedSizeTreeGridRowProps = ListChildComponentProps<
 >;
 
 const FixedSizeTreeGridRow = React.memo((props: FixedSizeTreeGridRowProps) => {
+  const styles = useStyles();
   const item = props.data[props.index];
   const { openItems, requestOpenChange } = useVirtualizationContext();
   return item.parentValue === undefined ? (
@@ -94,9 +103,12 @@ const FixedSizeTreeGridRow = React.memo((props: FixedSizeTreeGridRowProps) => {
         requestOpenChange({ ...data, index: props.index })
       }
       style={props.style}
+      subtree
     >
-      <TreeGridCell header>{item.children}</TreeGridCell>
-      <TreeGridCell aria-colspan={3}>
+      <TreeGridCell className={styles.cell} header>
+        {item.children}
+      </TreeGridCell>
+      <TreeGridCell className={styles.cell} aria-colspan={3}>
         <Button>Header action</Button>
       </TreeGridCell>
     </TreeGridRow>
@@ -109,13 +121,13 @@ const FixedSizeTreeGridRow = React.memo((props: FixedSizeTreeGridRowProps) => {
       }}
     >
       <TreeGridRow data-item-parent-id={item.parentValue} style={props.style}>
-        <TreeGridCell header>
-          Monthly townhall, 10:00 AM to 11:00 AM
+        <TreeGridCell className={styles.cell} header>
+          {item.children}
         </TreeGridCell>
-        <TreeGridCell>
+        <TreeGridCell className={styles.cell}>
           <Button>Chat with participants</Button>
         </TreeGridCell>
-        <TreeGridCell>
+        <TreeGridCell className={styles.cell}>
           <Menu>
             <MenuTrigger disableButtonEnhancement>
               <Button>Toggle menu</Button>
@@ -131,7 +143,7 @@ const FixedSizeTreeGridRow = React.memo((props: FixedSizeTreeGridRowProps) => {
             </MenuPopover>
           </Menu>
         </TreeGridCell>
-        <TreeGridCell>
+        <TreeGridCell className={styles.cell}>
           <Button>Agenda and notes</Button>
         </TreeGridCell>
       </TreeGridRow>

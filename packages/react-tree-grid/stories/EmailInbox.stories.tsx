@@ -139,7 +139,7 @@ const Email = (props: EmailProps) => {
       className={tableRowStyle}
     >
       <TreeGridCell className={tableCellStyle} header>
-        <span style={{ paddingLeft: level * 10 }}>
+        <span style={{ paddingLeft: (level - 1) * 10 }}>
           {props.replies && (
             <>
               {open ? (
