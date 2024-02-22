@@ -1,13 +1,8 @@
-import { root, makeInsertionPointSheet } from '@fluentui-contrib/react-shadow';
+import { createRoot } from '@fluentui-contrib/react-shadow';
 import { Button } from '@fluentui/react-components';
 import * as React from 'react';
 
-// Create a sentinel stylesheet.
-// All Griffel styles will be inserted _before_ this sheet.
-// NOTE: this is just a normal stylesheet with extra metadata
-// attached to it. You can add styles to it if you like. Styles
-// are omitted here for better illustrate the feature.
-const insertionPointSheet = makeInsertionPointSheet();
+const insertionPoint = new CSSStyleSheet();
 
 const stylesFromOutsideReact = new CSSStyleSheet();
 stylesFromOutsideReact.insertRule(
@@ -16,7 +11,9 @@ stylesFromOutsideReact.insertRule(
   }`
 );
 
-const externalStyleSheets = [insertionPointSheet, stylesFromOutsideReact];
+// Griffel styles are inserted _after_ `insertionPoint`
+const externalStyleSheets = [insertionPoint, stylesFromOutsideReact];
+const root = createRoot({ insertionPoint });
 
 export const InsertionPoint = () => {
   return (

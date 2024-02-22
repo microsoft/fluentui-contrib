@@ -1,2 +1,1 @@
-export { root } from './root';
-export { makeInsertionPointSheet } from './util';
+export { createRoot, root } from './root';
