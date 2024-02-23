@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: allow custom tabster attribute on ChatMessage/ChatMyMessage",
+  "packageName": "@fluentui-contrib/react-chat",
+  "email": "yuanboxue@microsoft.com",
+  "dependentChangeType": "patch"
+}

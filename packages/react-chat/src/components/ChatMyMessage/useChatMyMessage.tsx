@@ -5,7 +5,11 @@ import type {
   ChatMyMessageState,
 } from './ChatMyMessage.types';
 
-import { getPartitionedNativeProps, slot } from '@fluentui/react-components';
+import {
+  getPartitionedNativeProps,
+  slot,
+  useFocusableGroup,
+} from '@fluentui/react-components';
 import {
   CheckmarkCircle16Regular,
   Circle16Regular,
@@ -16,7 +20,6 @@ import {
 } from '@fluentui/react-icons';
 
 import { getDecorationIcon } from '../utils/getDecorationIcon';
-import { useChatMessageFocusableGroup } from '../utils/useChatMessageFocusableGroup';
 import { useChatMessagePopoverTrigger } from '../utils/useChatMessagePopoverTrigger';
 
 export const useChatMyMessage_unstable = (
@@ -58,6 +61,10 @@ export const useChatMyMessage_unstable = (
     excludedPropNames: ['tabIndex'], // tabIndex from props will not be applied to the primary slot, as it should always be 0 for tabster navigation
   });
 
+  const groupperAttributes = useFocusableGroup({
+    tabBehavior: 'limited-trap-focus',
+  });
+
   const state: ChatMyMessageState = {
     attached,
     decoration,
@@ -67,6 +74,7 @@ export const useChatMyMessage_unstable = (
     body: slot.always(body, {
       defaultProps: {
         ref,
+        ...groupperAttributes,
         ...nativeProps.primary,
         tabIndex: 0,
       },
@@ -115,7 +123,6 @@ export const useChatMyMessage_unstable = (
   };
 
   useChatMessagePopoverTrigger(state);
-  useChatMessageFocusableGroup(state);
 
   return state;
 };
