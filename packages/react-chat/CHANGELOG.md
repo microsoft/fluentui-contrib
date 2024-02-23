@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-chat
 
-This log was last generated on Wed, 21 Feb 2024 08:44:13 GMT and should not be manually modified.
+This log was last generated on Fri, 23 Feb 2024 12:49:25 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.1.9
+
+Fri, 23 Feb 2024 12:49:25 GMT
+
+### Patches
+
+- fix: allow custom tabster attribute on ChatMessage/ChatMyMessage (yuanboxue@microsoft.com)
 
 ## 0.1.8
 

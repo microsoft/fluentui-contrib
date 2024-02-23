@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-chat",
   "entries": [
     {
+      "date": "Fri, 23 Feb 2024 12:49:25 GMT",
+      "tag": "@fluentui-contrib/react-chat_v0.1.9",
+      "version": "0.1.9",
+      "comments": {
+        "patch": [
+          {
+            "author": "yuanboxue@microsoft.com",
+            "package": "@fluentui-contrib/react-chat",
+            "commit": "074ea86756a9543d271167cad8fbbdc17a250a05",
+            "comment": "fix: allow custom tabster attribute on ChatMessage/ChatMyMessage"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 21 Feb 2024 08:44:13 GMT",
       "tag": "@fluentui-contrib/react-chat_v0.1.8",
       "version": "0.1.8",
