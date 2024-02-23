@@ -1,8 +1,11 @@
 import * as React from 'react';
-import { getPartitionedNativeProps, slot } from '@fluentui/react-components';
+import {
+  getPartitionedNativeProps,
+  slot,
+  useFocusableGroup,
+} from '@fluentui/react-components';
 import type { ChatMessageProps, ChatMessageState } from './ChatMessage.types';
 import { getDecorationIcon } from '../utils/getDecorationIcon';
-import { useChatMessageFocusableGroup } from '../utils/useChatMessageFocusableGroup';
 import { useChatMessagePopoverTrigger } from '../utils/useChatMessagePopoverTrigger';
 
 /**
@@ -51,6 +54,10 @@ export const useChatMessage_unstable = (
     excludedPropNames: ['tabIndex'], // tabIndex from props will not be applied to the primary slot, as it should always be 0 for tabster navigation
   });
 
+  const groupperAttributes = useFocusableGroup({
+    tabBehavior: 'limited-trap-focus',
+  });
+
   const state: ChatMessageState = {
     attached,
     decoration,
@@ -60,6 +67,7 @@ export const useChatMessage_unstable = (
     body: slot.always(body, {
       defaultProps: {
         ref,
+        ...groupperAttributes,
         ...nativeProps.primary,
         tabIndex: 0,
       },
@@ -99,7 +107,6 @@ export const useChatMessage_unstable = (
   };
 
   useChatMessagePopoverTrigger(state);
-  useChatMessageFocusableGroup(state);
 
   return state;
 };
