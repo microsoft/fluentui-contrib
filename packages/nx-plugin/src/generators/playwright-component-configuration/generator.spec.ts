@@ -45,12 +45,8 @@ describe('playwright-component-configuration generator', () => {
       {
         "executor": "@fluentui-contrib/nx-plugin:playwright",
         "options": {
-          "options": {
-            "config": "hello/playwright.config.ts",
-          },
-          "outputs": [
-            "{workspaceRoot}/dist/.playwright/hello",
-          ],
+          "config": "hello/playwright.config.ts",
+          "output": "{workspaceRoot}/dist/.playwright/hello",
           "testingType": "component",
         },
       }
