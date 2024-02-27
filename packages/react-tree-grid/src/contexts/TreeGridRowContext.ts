@@ -15,7 +15,7 @@ export type TreeGridRowContextValue = {
 };
 
 const defaultTreeGridRowContextValue: TreeGridRowContextValue = {
-  level: 0,
+  level: 1,
   open: true,
   requestOpenChange: () => {
     /* noop */
