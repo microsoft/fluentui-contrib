@@ -7,9 +7,11 @@ import {
   joinPathFragments,
   ProjectConfiguration,
   updateJson,
+  TargetConfiguration,
 } from '@nx/devkit';
 import * as path from 'path';
 import { PlaywrightComponentConfigurationGeneratorSchema } from './schema';
+import { type PlaywrightExecutorSchema } from '../../executors/playwright/schema';
 
 interface Options extends PlaywrightComponentConfigurationGeneratorSchema {
   projectConfig: ProjectConfiguration;
@@ -57,14 +59,12 @@ function addExtendsToLintConfig(tree: Tree, options: Options) {
 function addComponentTestTarget(tree: Tree, options: Options) {
   const config = options.projectConfig;
 
-  const targetDefinition = {
+  const targetDefinition: TargetConfiguration<PlaywrightExecutorSchema> = {
     executor: '@fluentui-contrib/nx-plugin:playwright',
     options: {
       testingType: 'component',
-      outputs: [`{workspaceRoot}/dist/.playwright/${config.root}`],
-      options: {
-        config: `${config.root}/playwright.config.ts`,
-      },
+      output: `{workspaceRoot}/dist/.playwright/${config.root}`,
+      config: `${config.root}/playwright.config.ts`,
     },
   };
 
