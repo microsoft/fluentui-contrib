@@ -24,11 +24,11 @@ import {
 } from '@fluentui/react-components';
 import { EventHandler } from '@fluentui/react-utilities';
 import {
-  CaretRight12Filled,
-  CaretDown12Filled,
-  Calendar20Regular,
-  CheckmarkCircle16Regular,
-  Attach16Regular,
+  CaretRightFilled,
+  CaretDownFilled,
+  CalendarRegular,
+  CheckmarkCircleRegular,
+  AttachRegular,
 } from '@fluentui/react-icons';
 
 const useMeetingsSectionStyles = makeStyles({
@@ -122,7 +122,10 @@ export const Meet = () => {
               relationship="label"
             >
               <InteractionTag appearance="brand" shape="circular" size="small">
-                <InteractionTagPrimary icon={<CheckmarkCircle16Regular />}>
+                <InteractionTagPrimary
+                  aria-label="5 tasks for people to follow up on"
+                  icon={<CheckmarkCircleRegular />}
+                >
                   5
                 </InteractionTagPrimary>
               </InteractionTag>
@@ -131,7 +134,10 @@ export const Meet = () => {
           attachments={
             <Tooltip content="2 files" relationship="label">
               <InteractionTag shape="circular" size="small">
-                <InteractionTagPrimary icon={<Attach16Regular />}>
+                <InteractionTagPrimary
+                  aria-label="2 files"
+                  icon={<AttachRegular />}
+                >
                   2
                 </InteractionTagPrimary>
               </InteractionTag>
@@ -161,7 +167,10 @@ export const Meet = () => {
               relationship="label"
             >
               <InteractionTag appearance="brand" shape="circular" size="small">
-                <InteractionTagPrimary icon={<CheckmarkCircle16Regular />}>
+                <InteractionTagPrimary
+                  aria-label="8 tasks for people to follow up on"
+                  icon={<CheckmarkCircleRegular />}
+                >
                   8
                 </InteractionTagPrimary>
               </InteractionTag>
@@ -170,7 +179,10 @@ export const Meet = () => {
           attachments={
             <Tooltip content="2 files" relationship="label">
               <InteractionTag shape="circular" size="small">
-                <InteractionTagPrimary icon={<Attach16Regular />}>
+                <InteractionTagPrimary
+                  aria-label="2 files"
+                  icon={<AttachRegular />}
+                >
                   2
                 </InteractionTagPrimary>
               </InteractionTag>
@@ -194,7 +206,10 @@ export const Meet = () => {
           attachments={
             <Tooltip content="2 files" relationship="label">
               <InteractionTag shape="circular" size="small">
-                <InteractionTagPrimary icon={<Attach16Regular />}>
+                <InteractionTagPrimary
+                  aria-label="2 files"
+                  icon={<AttachRegular />}
+                >
                   2
                 </InteractionTagPrimary>
               </InteractionTag>
@@ -202,7 +217,7 @@ export const Meet = () => {
           }
         />
       </MeetingsSection>
-      <MeetingsSection header="Thursday, 23 January">
+      <MeetingsSection header="Tuesday, 23 January">
         <MeetingsSectionItem
           header="CAP January Top of Mind with Jeff Teper"
           location="Tuesday, 23 January 2024 · 23:05 - 23:30, Collaborative Apps and Platforms Executive Calendar"
@@ -210,7 +225,10 @@ export const Meet = () => {
           attachments={
             <Tooltip content="2 files" relationship="label">
               <InteractionTag shape="circular" size="small">
-                <InteractionTagPrimary icon={<Attach16Regular />}>
+                <InteractionTagPrimary
+                  aria-label="2 files"
+                  icon={<AttachRegular />}
+                >
                   2
                 </InteractionTagPrimary>
               </InteractionTag>
@@ -258,9 +276,9 @@ const MeetingsSection = (props: MeetingsSectionProps) => {
       className={styles.section}
     >
       {open ? (
-        <CaretDown12Filled aria-hidden />
+        <CaretDownFilled aria-hidden />
       ) : (
-        <CaretRight12Filled aria-hidden />
+        <CaretRightFilled aria-hidden />
       )}
       <TreeGridCell header aria-colspan={4}>
         {props.header}
@@ -287,7 +305,7 @@ const MeetingsSectionItem = (props: MeetingsSectionItemProps) => {
       >
         <Avatar
           className={styles.icon}
-          icon={<Calendar20Regular />}
+          icon={<CalendarRegular />}
           aria-hidden
         />
         <Button
