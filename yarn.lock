@@ -2249,19 +2249,7 @@
   dependencies:
     "@swc/helpers" "^0.5.1"
 
-"@griffel/core@^1.14.1", "@griffel/core@^1.14.3":
-  version "1.14.3"
-  resolved "https://registry.yarnpkg.com/@griffel/core/-/core-1.14.3.tgz#b4a0ebdcab42c57f757f4bc0e56c2840fa8c417c"
-  integrity sha512-d1QqS8mP1fzF8KLLN/nhxNUHguMM9I61Ckjnn5zNUqxUlRaebnhbpa2kLDVBdIy1k22+76+NTg+pIpXXjGf+vg==
-  dependencies:
-    "@emotion/hash" "^0.9.0"
-    "@griffel/style-types" "^1.0.2"
-    csstype "^3.1.2"
-    rtl-css-js "^1.16.1"
-    stylis "^4.2.0"
-    tslib "^2.1.0"
-
-"@griffel/core@^1.15.2":
+"@griffel/core@^1.14.1", "@griffel/core@^1.14.3", "@griffel/core@^1.15.2":
   version "1.15.2"
   resolved "https://registry.yarnpkg.com/@griffel/core/-/core-1.15.2.tgz#8f0383aaed591980d327d38444b9631a63f7d499"
   integrity sha512-RlsIXoSS3gaYykUgxFpwKAs/DV9cRUKp3CW1kt3iPAtsDTWn/o+8bT1jvBws/tMM2GBu/Uc0EkaIzUPqD7uA+Q==
@@ -2288,13 +2276,6 @@
   dependencies:
     "@griffel/core" "^1.15.2"
     tslib "^2.1.0"
-
-"@griffel/style-types@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@griffel/style-types/-/style-types-1.0.2.tgz#9944b297e39f35308d109ee41b3757ce0b5c9a26"
-  integrity sha512-ka/Tpl1WU8js88LObwB/4EvpgXzx/EEJfbHhAr4ZNt29hrQKgL93X1zSY6M/FRhMhWrGIawauWkZP6/y6w/WiQ==
-  dependencies:
-    csstype "^3.1.2"
 
 "@griffel/style-types@^1.0.3":
   version "1.0.3"
@@ -6671,12 +6652,7 @@ cssstyle@^2.3.0:
   dependencies:
     cssom "~0.3.6"
 
-csstype@^3.0.2, csstype@^3.1.2:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.2.tgz#1d4bf9d572f11c14031f0436e1c10bc1f571f50b"
-  integrity sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==
-
-csstype@^3.1.3:
+csstype@^3.0.2, csstype@^3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.3.tgz#d80ff294d114fb0e6ac500fbf85b60137d7eff81"
   integrity sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==
