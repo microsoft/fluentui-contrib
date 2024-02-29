@@ -25,5 +25,5 @@ export default {
     '^.+\\.[tj]sx?$': ['@swc/jest', swcJestConfig],
   },
   moduleFileExtensions: ['js', 'ts', 'tsx', 'html'],
-  coverageDirectory: '../../coverage/packages/button',
+  coverageDirectory: '../../coverage/packages/houdini-utils',
 };
