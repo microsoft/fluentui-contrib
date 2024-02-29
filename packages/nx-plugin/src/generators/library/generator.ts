@@ -1,11 +1,11 @@
 import {
   formatFiles,
   Tree,
-  getProjects,
   updateProjectConfiguration,
   workspaceRoot,
   updateJson,
   generateFiles,
+  readProjectConfiguration,
 } from '@nx/devkit';
 import * as path from 'path';
 import { libraryGenerator } from '@nx/js';
@@ -20,34 +20,33 @@ export default async function (tree: Tree, options: LibraryGeneratorSchema) {
     name,
     publishable: true,
     compiler: 'swc',
-    testEnvironment: 'jsdom',
+    testEnvironment: options.testEnvironment,
     unitTestRunner: 'jest',
     importPath: `${npmScope}/${name}`,
   });
 
-  const projects = getProjects(tree);
-  const newProject = projects.get(name);
-  if (!newProject) {
-    return;
-  }
+  const newProject = readProjectConfiguration(tree, name);
 
-  const { root: projectRoot, targets } = newProject;
+  const { root: projectRoot } = newProject;
   const paths = getPackagePaths(workspaceRoot, projectRoot);
-  if (!targets) {
+
+  if (!newProject.targets) {
     return;
   }
 
-  targets.build = {
+  newProject.targets.build = {
     executor: '@fluentui-contrib/nx-plugin:build',
   };
 
-  targets['type-check'] = {
+  newProject.targets['type-check'] = {
     executor: '@fluentui-contrib/nx-plugin:type-check',
   };
 
-  targets.lint.options = {
+  newProject.targets.lint.options = {
     lintFilePatterns: [`${projectRoot}/**/*.ts`, `${projectRoot}/**/*.tsx`],
   };
+
+  newProject.targets.test.options.passWithNoTests = true;
 
   addCodeowner(tree, {
     path: projectRoot,
