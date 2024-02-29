@@ -28,7 +28,7 @@
     "@dnd-kit/modifiers": "^7.0.0",
     "@dnd-kit/utilities": "^3.2.2",
     "@fluentui/react-components": "^9.46.3",
-    "@griffel/shadow-dom": "~0.1.0",
+    "@griffel/shadow-dom": "~0.2.0",
     "@nx/devkit": "17.3.2",
     "@nx/eslint-plugin": "17.3.2",
     "@nx/jest": "17.3.2",

@@ -1,1 +1,1 @@
-export { root } from './root';
+export { createRoot, root } from './root';
