@@ -4,6 +4,7 @@ import {
   readProjectConfiguration,
   readJson,
   workspaceRoot,
+  joinPathFragments,
 } from '@nx/devkit';
 
 import generator from './generator';
@@ -20,18 +21,83 @@ describe('create-package generator', () => {
     createCodeowners(tree);
   });
 
-  it('should run successfully', async () => {
-    await generator(tree, options);
-    const config = readProjectConfiguration(tree, 'test');
-    expect(config).toBeDefined();
+  describe(`generates files`, () => {
+    it('should generate file tree', async () => {
+      await generator(tree, options);
+      const config = readProjectConfiguration(tree, 'test');
+
+      expect(tree.children(config.root)).toMatchInlineSnapshot(`
+        [
+          "tsconfig.json",
+          "README.md",
+          "src",
+          "tsconfig.lib.json",
+          ".swcrc",
+          "package.json",
+          "project.json",
+          ".eslintrc.json",
+          "jest.config.ts",
+          "tsconfig.spec.json",
+        ]
+      `);
+
+      expect(tree.children(joinPathFragments(config.root, 'src')))
+        .toMatchInlineSnapshot(`
+        [
+          "index.ts",
+        ]
+      `);
+    });
+
+    it('should generate jest config', async () => {
+      await generator(tree, options);
+      const config = readProjectConfiguration(tree, 'test');
+
+      expect(
+        tree.read(joinPathFragments(config.root, 'jest.config.ts'), 'utf-8')
+      ).toMatchInlineSnapshot(`
+              "/* eslint-disable */
+              import { readFileSync } from 'fs';
+
+              // Reading the SWC compilation config and remove the "exclude"
+              // for the test files to be compiled by SWC
+              const { exclude: _, ...swcJestConfig } = JSON.parse(
+                readFileSync(\`\${__dirname}/.swcrc\`, 'utf-8')
+              );
+
+              // disable .swcrc look-up by SWC core because we're passing in swcJestConfig ourselves.
+              // If we do not disable this, SWC Core will read .swcrc and won't transform our test files due to "exclude"
+              if (swcJestConfig.swcrc === undefined) {
+                swcJestConfig.swcrc = false;
+              }
+
+              // Uncomment if using global setup/teardown files being transformed via swc
+              // https://nx.dev/packages/jest/documents/overview#global-setup/teardown-with-nx-libraries
+              // jest needs EsModule Interop to find the default exported setup/teardown functions
+              // swcJestConfig.module.noInterop = false;
+
+              export default {
+                displayName: 'test',
+                preset: '../jest.preset.js',
+                transform: {
+                  '^.+\\\\.[tj]s$': ['@swc/jest', swcJestConfig],
+                },
+                moduleFileExtensions: ['ts', 'js', 'html'],
+                testEnvironment: '',
+                coverageDirectory: '../coverage/test',
+              };
+              "
+          `);
+    });
   });
 
-  it('should generate peer dependencies', async () => {
-    await generator(tree, options);
-    const config = readProjectConfiguration(tree, 'test');
-    const paths = getPackagePaths(workspaceRoot, config.root);
-    const pkgJson = readJson(tree, paths.packageJson);
-    expect(pkgJson.peerDependencies).toMatchInlineSnapshot(`
+  describe(`package.json`, () => {
+    it('should generate peer dependencies', async () => {
+      await generator(tree, options);
+      const config = readProjectConfiguration(tree, 'test');
+      const paths = getPackagePaths(workspaceRoot, config.root);
+      const pkgJson = readJson(tree, paths.packageJson);
+      expect(pkgJson.peerDependencies).toMatchInlineSnapshot(`
       {
         "@fluentui/react-components": ">=9.46.3 <10.0.0",
         "@types/react": ">=16.8.0 <19.0.0",
@@ -40,41 +106,61 @@ describe('create-package generator', () => {
         "react-dom": ">=16.8.0 <19.0.0",
       }
     `);
+    });
   });
 
-  it('should add build target', async () => {
-    await generator(tree, options);
-    const config = readProjectConfiguration(tree, 'test');
-    expect(config.targets?.build).toMatchInlineSnapshot(`
-      {
-        "executor": "@fluentui-contrib/nx-plugin:build",
-      }
-    `);
-  });
+  describe(`targets`, () => {
+    it('should add test target', async () => {
+      await generator(tree, options);
+      const config = readProjectConfiguration(tree, 'test');
+      expect(config.targets?.test).toMatchInlineSnapshot(`
+              {
+                "executor": "@nx/jest:jest",
+                "options": {
+                  "jestConfig": "test/jest.config.ts",
+                  "passWithNoTests": true,
+                },
+                "outputs": [
+                  "{workspaceRoot}/coverage/{projectRoot}",
+                ],
+              }
+          `);
+    });
 
-  it('should type-check target', async () => {
-    await generator(tree, options);
-    const config = readProjectConfiguration(tree, 'test');
-    expect(config.targets?.['type-check']).toMatchInlineSnapshot(`
-      {
-        "executor": "@fluentui-contrib/nx-plugin:type-check",
-      }
-    `);
-  });
+    it('should add build target', async () => {
+      await generator(tree, options);
+      const config = readProjectConfiguration(tree, 'test');
+      expect(config.targets?.build).toMatchInlineSnapshot(`
+              {
+                "executor": "@fluentui-contrib/nx-plugin:build",
+              }
+          `);
+    });
 
-  it('should update lint configuration', async () => {
-    await generator(tree, options);
-    const config = readProjectConfiguration(tree, 'test');
-    expect(config.targets?.lint).toMatchInlineSnapshot(`
-      {
-        "executor": "@nx/eslint:lint",
-        "options": {
-          "lintFilePatterns": [
-            "test/**/*.ts",
-            "test/**/*.tsx",
-          ],
-        },
-      }
-    `);
+    it('should type-check target', async () => {
+      await generator(tree, options);
+      const config = readProjectConfiguration(tree, 'test');
+      expect(config.targets?.['type-check']).toMatchInlineSnapshot(`
+              {
+                "executor": "@fluentui-contrib/nx-plugin:type-check",
+              }
+          `);
+    });
+
+    it('should update lint configuration', async () => {
+      await generator(tree, options);
+      const config = readProjectConfiguration(tree, 'test');
+      expect(config.targets?.lint).toMatchInlineSnapshot(`
+              {
+                "executor": "@nx/eslint:lint",
+                "options": {
+                  "lintFilePatterns": [
+                    "test/**/*.ts",
+                    "test/**/*.tsx",
+                  ],
+                },
+              }
+          `);
+    });
   });
 });
