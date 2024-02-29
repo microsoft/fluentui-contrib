@@ -19,11 +19,12 @@ if (swcJestConfig.swcrc === undefined) {
 // swcJestConfig.module.noInterop = false;
 
 export default {
-  displayName: 'button',
+  displayName: 'houdini-utils',
   preset: '../../jest.preset.js',
   transform: {
-    '^.+\\.[tj]sx?$': ['@swc/jest', swcJestConfig],
+    '^.+\\.[tj]s$': ['@swc/jest', swcJestConfig],
   },
-  moduleFileExtensions: ['js', 'ts', 'tsx', 'html'],
-  coverageDirectory: '../../coverage/packages/button',
+  moduleFileExtensions: ['ts', 'js', 'html'],
+  testEnvironment: 'jsdom',
+  coverageDirectory: '../../coverage/packages/houdini-utils',
 };
