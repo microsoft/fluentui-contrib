@@ -29,38 +29,46 @@ export type AsyncFeatureDetectFn = () => Promise<boolean>;
  *
  * @returns `true` if the browser supports the necessary APIs, `false` otherwise.
  */
-export const hasMozElement: FeatureDetectFn = () =>
-  typeof document?.mozSetImageElement === 'function';
+export const hasMozElement: FeatureDetectFn = () => {
+  return typeof document?.mozSetImageElement === 'function';
+};
 
 /**
  * Test if the APIs necessary for the Safari fallback exist.
  * @returns `true` if the browser supports the necessary APIs, `false` otherwise.
  */
-export const hasWebkitCanvas: FeatureDetectFn = () =>
-  typeof document?.getCSSCanvasContext === 'function';
+export const hasWebkitCanvas: FeatureDetectFn = () => {
+  return typeof document?.getCSSCanvasContext === 'function';
+};
 
 /**
  * Test if CSS Houdini APIs are availabe.
  * @see canUseHoudini() for a more robust test.
  * @returns `true` if the browser supports necessary Houdini APIs, `false` otherwise.
  */
-export const hasHoudini: FeatureDetectFn = () =>
-  window?.CSS && 'paintWorklet' in CSS && 'registerProperty' in CSS;
+export const hasHoudini: FeatureDetectFn = () => {
+  return (
+    typeof window !== 'undefined' &&
+    window.CSS &&
+    'paintWorklet' in CSS &&
+    'registerProperty' in CSS
+  );
+};
 
 let canUseHoudiniCache: boolean | undefined = undefined;
 /**
  * A more robust test for CSS Houdini APIs. This function also verifies that a simple
  * PaintWorklet can be loaded.
  * @returns `Promise<true>` if the browser supports necessary Houdini APIs, `Promise<false>` otherwise.
+ * @deprecated use `hasHoudini()` instead.
  */
 export const canUseHoudini: AsyncFeatureDetectFn = async () => {
   if (typeof canUseHoudiniCache === 'boolean') {
-    return Promise.resolve(canUseHoudiniCache);
+    return canUseHoudiniCache;
   }
 
   if (!hasHoudini()) {
-    canUseHoudiniCache = false;
-    return Promise.resolve(canUseHoudiniCache);
+    return false;
   }
 
   try {
@@ -69,11 +77,11 @@ export const canUseHoudini: AsyncFeatureDetectFn = async () => {
     // were converting this simple class to `const myvar = class { ...}` which fails to load as
     // as PaintWorklet. Using a string here ensures our test class will not be converted as gives
     // more accurate feature detection results.
-    const featureDetectClassAsString = `class FluentAiCanUseHoudiniFeatureDetect { paint() {} }`;
     await addModule(
-      '__fluent_ai__canUseHoudini__feature__detect__',
-      featureDetectClassAsString,
-      'FluentAiCanUseHoudiniFeatureDetect'
+      `data:text/javascript,${encodeURIComponent(
+        `registerPaint('fluent-ai-can-use-houdini-feature-detect', class { paint() {} })`
+      )}`,
+      ''
     );
     canUseHoudiniCache = true;
     return true;
