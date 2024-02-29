@@ -49,9 +49,9 @@ export const playAnim = (
     resizeObserver.observe(state.target);
 
     const onAnimUpdate: CallbackFn = (currentValues) => {
-      // @ts-expect-error - testing
       const inputProperties: string[] =
-        paintWorklet.constructor.inputProperties ?? [];
+        (paintWorklet.constructor as { inputProperties?: string[] })
+          .inputProperties ?? [];
       for (const prop of inputProperties) {
         props.set(prop, styles.getPropertyValue(prop));
       }
