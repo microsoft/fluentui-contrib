@@ -21,6 +21,12 @@
         "index": 1
       },
       "x-prompt": "Owner of the library. Will be written in CODEOWNERS. Should be in the form of github @username or @teamname."
+    },
+    "testEnvironment": {
+      "type": "string",
+      "enum": ["jsdom", "node"],
+      "description": "The test environment to use if unitTestRunner is set to jest or vitest.",
+      "default": "jsdom"
     }
   },
   "required": ["name", "owner"]
