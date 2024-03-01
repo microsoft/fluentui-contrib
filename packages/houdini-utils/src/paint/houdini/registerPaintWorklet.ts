@@ -1,13 +1,9 @@
-import type { PaintWorkletBase } from '../../types';
 import { addModule } from '../../util/addModule';
 import { hasHoudini } from '../../util/featureDetect';
 
-export const registerPaintWorklet = (
-  name: string,
-  worklet: typeof PaintWorkletBase
-) => {
+export const registerPaintWorklet = (baseUrl: string, filebaseUrl: string) => {
   if (hasHoudini()) {
-    return addModule(name, worklet);
+    return addModule(baseUrl, filebaseUrl);
   }
 
   return Promise.resolve();

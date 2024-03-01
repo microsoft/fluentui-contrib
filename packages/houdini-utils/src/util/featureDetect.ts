@@ -59,8 +59,10 @@ let canUseHoudiniCache: boolean | undefined = undefined;
 /**
  * A more robust test for CSS Houdini APIs. This function also verifies that a simple
  * PaintWorklet can be loaded.
+ *
+ * Note that this check will add a PaintWorklet as a blob URL, apps with CSP policies will always fail this check.
+ * @see hasHoudini
  * @returns `Promise<true>` if the browser supports necessary Houdini APIs, `Promise<false>` otherwise.
- * @deprecated use `hasHoudini()` instead.
  */
 export const canUseHoudini: AsyncFeatureDetectFn = async () => {
   if (typeof canUseHoudiniCache === 'boolean') {

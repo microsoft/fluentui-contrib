@@ -7,3 +7,5 @@ export {
   hasWebkitCanvas,
   canUseHoudini,
 } from './util/featureDetect';
+
+export { blobify } from './util/blobify';
