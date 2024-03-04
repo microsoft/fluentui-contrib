@@ -1,4 +1,7 @@
-import { Slot } from '@fluentui/react-components';
-import { ComponentProps } from '../../utils/types';
+import { ComponentProps, Slot } from '@fluentui/react-components';
 
-export type TreeGridProps = ComponentProps<Slot<'div'>>;
+export type TreeGridSlots = {
+  root: Slot<'div'>;
+};
+
+export type TreeGridProps = ComponentProps<TreeGridSlots>;

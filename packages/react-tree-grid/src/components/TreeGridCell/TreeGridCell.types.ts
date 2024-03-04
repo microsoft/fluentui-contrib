@@ -1,6 +1,11 @@
-import type { Slot } from '@fluentui/react-components';
-import { ComponentProps } from '../../utils/types';
+import type { ComponentProps, Slot } from '@fluentui/react-components';
 
-export type TreeGridCellProps = Omit<ComponentProps<Slot<'div'>>, 'header'> & {
+export type TreeGridCellSlots = {
+  root: Slot<'div'>;
+};
+export type TreeGridCellProps = Omit<
+  ComponentProps<TreeGridCellSlots>,
+  'header'
+> & {
   header?: boolean;
 };
