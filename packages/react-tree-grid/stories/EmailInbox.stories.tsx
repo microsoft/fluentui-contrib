@@ -60,10 +60,10 @@ export const EmailInbox = () => {
         subject={
           <>
             <Avatar aria-hidden color="colorful" name="Čestmír Ondřej" />{' '}
-            Implementing treegrid pattern
+            <span tabIndex={0}>Implementing treegrid pattern</span>
           </>
         }
-        summary="Here's attached the treegrid specs"
+        summary={<span tabIndex={0}>Here's attached the treegrid specs</span>}
         email="condrej@email.com"
         replies={
           <>
@@ -71,20 +71,22 @@ export const EmailInbox = () => {
               subject={
                 <>
                   <Avatar aria-hidden color="colorful" name="Maxim Tobiáš" />{' '}
-                  Re: Implementing treegrid pattern
+                  <span tabIndex={0}>Re: Implementing treegrid pattern</span>
                 </>
               }
-              summary="Thanks Čestmír, I'll take a look"
+              summary={
+                <span tabIndex={0}>Thanks Čestmír, I'll take a look</span>
+              }
               email="mtobias@email.com"
             />
             <Email
               subject={
                 <>
                   <Avatar aria-hidden color="colorful" name="Kristina Ctibor" />{' '}
-                  Re: Implementing treegrid pattern
+                  <span tabIndex={0}>Re: Implementing treegrid pattern</span>
                 </>
               }
-              summary="Great documentation!"
+              summary={<span tabIndex={0}>Great documentation!</span>}
               email="kctibor@email.com"
             />
           </>
@@ -93,21 +95,42 @@ export const EmailInbox = () => {
       <Email
         subject={
           <>
-            <Avatar aria-hidden color="colorful" name="E+D HR" /> E+D HR
+            <Avatar aria-hidden color="colorful" name="E+D HR" />{' '}
+            <span tabIndex={0}>E+D HR</span>
           </>
         }
-        summary="Career Jams Registration is now open"
+        summary={<span tabIndex={0}>Career Jams Registration is now open</span>}
         email="edhr@microsoft.com"
       />
       <Email
         subject={
           <>
             <Avatar aria-hidden color="colorful" name="Kristina Ctibor" />{' '}
-            Kristina Ctibor
+            <span tabIndex={0}>Kristina Ctibor</span>
           </>
         }
-        summary="Record Fluent UI demos for FW demo session"
+        summary={
+          <span tabIndex={0}>Record Fluent UI demos for FW demo session</span>
+        }
         email="kctibor@email.com"
+        replies={
+          <Email
+            subject={
+              <>
+                <Avatar aria-hidden color="colorful" name="Čestmír Ondřej" />{' '}
+                <span tabIndex={0}>
+                  Re: Record Fluent UI demos for FW demo session
+                </span>
+              </>
+            }
+            summary={
+              <span tabIndex={0}>
+                Here's the video to present treegrid in the FW demo session
+              </span>
+            }
+            email="condrej@email.com"
+          />
+        }
       />
     </TreeGrid>
   );
@@ -154,8 +177,8 @@ const Email = (props: EmailProps) => {
               )}
             </>
           )}
-          {props.subject}
         </span>
+        {props.subject}
       </TreeGridCell>
       <TreeGridCell className={tableCellStyle}>{props.summary}</TreeGridCell>
       <TreeGridCell className={tableCellStyle}>

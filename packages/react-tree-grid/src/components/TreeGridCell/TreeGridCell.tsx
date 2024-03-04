@@ -18,7 +18,7 @@ export const TreeGridCell: ForwardRefComponent<TreeGridCellProps> =
     const Root = slot.always(
       getIntrinsicElementProps('div', {
         ref,
-        role: header ? 'columnheader' : 'gridcell',
+        role: header ? 'rowheader' : 'gridcell',
         ...rest,
         className: mergeClasses('fui-TreeGridCell', className),
       }),
