@@ -22,7 +22,7 @@ import {
   Image,
   mergeClasses,
 } from '@fluentui/react-components';
-import { EventHandler } from '@fluentui/react-utilities';
+import { EventHandler, useId } from '@fluentui/react-utilities';
 import {
   CaretRightFilled,
   CaretDownFilled,
@@ -150,7 +150,7 @@ export const Meet = () => {
             >
               <Image
                 src="https://placehold.co/130x70"
-                alt="Image placeholder"
+                alt="Meeting recording"
               />
             </Button>
           }
@@ -195,7 +195,7 @@ export const Meet = () => {
             >
               <Image
                 src="https://placehold.co/130x70"
-                alt="Image placeholder"
+                alt="Meeting recording"
               />
             </Button>
           }
@@ -287,8 +287,8 @@ const MeetingsSection = (props: MeetingsSectionProps) => {
   );
 };
 type MeetingsSectionItemProps = {
-  header: React.ReactNode;
-  location: React.ReactNode;
+  header: string;
+  location: string;
   description?: React.ReactNode;
   status?: 'missed';
   tasks?: React.ReactNode;
@@ -298,7 +298,12 @@ type MeetingsSectionItemProps = {
 const MeetingsSectionItem = (props: MeetingsSectionItemProps) => {
   const styles = useMeetingsSectionStyles();
   return (
-    <TreeGridRow className={styles.sectionItem}>
+    <TreeGridRow
+      aria-label={`${props.header}. ${props.location}. ${
+        props.status ? `Meeting status: ${props.status}` : ''
+      }`}
+      className={styles.sectionItem}
+    >
       <TreeGridCell
         className={mergeClasses(styles.header, styles.container)}
         header
@@ -308,12 +313,13 @@ const MeetingsSectionItem = (props: MeetingsSectionItemProps) => {
           icon={<CalendarRegular />}
           aria-hidden
         />
-        <Body1Stronger
-          tabIndex={0}
+        <Button
+          appearance="transparent"
+          aria-label={`Go to "${props.header}" meeting`}
           className={mergeClasses(styles.noPadding, styles.title)}
         >
-          {props.header}
-        </Body1Stronger>
+          <Body1Stronger>{props.header}</Body1Stronger>
+        </Button>
         {props.status === 'missed' && (
           <Tag
             className={mergeClasses(styles.missedTag, styles.tag)}
