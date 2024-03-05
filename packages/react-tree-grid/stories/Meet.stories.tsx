@@ -241,7 +241,7 @@ export const Meet = () => {
             >
               <Image
                 src="https://placehold.co/130x70"
-                alt="Image placeholder"
+                alt="Meeting recording"
               />
             </Button>
           }
@@ -308,12 +308,12 @@ const MeetingsSectionItem = (props: MeetingsSectionItemProps) => {
           icon={<CalendarRegular />}
           aria-hidden
         />
-        <Button
-          appearance="transparent"
+        <Body1Stronger
+          tabIndex={0}
           className={mergeClasses(styles.noPadding, styles.title)}
         >
-          <Body1Stronger>{props.header}</Body1Stronger>
-        </Button>
+          {props.header}
+        </Body1Stronger>
         {props.status === 'missed' && (
           <Tag
             className={mergeClasses(styles.missedTag, styles.tag)}

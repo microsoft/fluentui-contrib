@@ -19,15 +19,9 @@ test.describe('Click interaction', () => {
   test('should open/close subtree on row click', async ({ mount }) => {
     const component = await mount(<TreeGridExample />);
     await expect(component.getByTestId('level-1-row-1')).toBeVisible();
-    await component
-      .getByTestId('level-1-row-1')
-      .getByRole('columnheader')
-      .click();
+    await component.getByTestId('level-1-row-1').getByRole('rowheader').click();
     await expect(component.getByTestId('level-2-row-1')).toBeVisible();
-    await component
-      .getByTestId('level-1-row-1')
-      .getByRole('columnheader')
-      .click();
+    await component.getByTestId('level-1-row-1').getByRole('rowheader').click();
     await expect(component.getByTestId('level-2-row-1')).toBeHidden();
   });
   test('should not open/close subtree on button click', async ({ mount }) => {
@@ -43,10 +37,7 @@ test.describe('Click interaction', () => {
   test('should not open/close subtree on subtree click', async ({ mount }) => {
     const component = await mount(<TreeGridExample defaultOpen />);
     await expect(component.getByTestId('level-2-row-1')).toBeVisible();
-    await component
-      .getByTestId('level-2-row-1')
-      .getByRole('columnheader')
-      .click();
+    await component.getByTestId('level-2-row-1').getByRole('rowheader').click();
     await expect(component.getByTestId('level-2-row-1')).toBeVisible();
   });
   test('should not open/close subtree on subtree button click', async ({
