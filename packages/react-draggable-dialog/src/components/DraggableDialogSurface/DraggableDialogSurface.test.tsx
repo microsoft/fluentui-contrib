@@ -5,12 +5,10 @@ import { DraggableDialogSurface } from './DraggableDialogSurface';
 import * as contexts from '../../contexts/DraggableDialogContext';
 import { useDraggableDialogSurface } from './useDraggableDialogSurface';
 
-jest.mock('../../contexts/DraggableDialogContext', () => {
-  return {
-    __esModule: true,
-    ...jest.requireActual('../../contexts/DraggableDialogContext'),
-  };
-});
+jest.mock('../../contexts/DraggableDialogContext', () => ({
+  __esModule: true,
+  ...jest.requireActual('../../contexts/DraggableDialogContext'),
+}));
 
 const getCustomEl = () => {
   const divEl = document.createElement('div');

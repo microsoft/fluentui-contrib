@@ -7,19 +7,15 @@ import * as contexts from '../../contexts/DraggableDialogContext';
 import * as dnd from '@dnd-kit/core';
 import { DraggableDialogHandleState } from './DraggableDialogHandle.types';
 
-jest.mock('../../contexts/DraggableDialogContext', () => {
-  return {
-    __esModule: true,
-    ...jest.requireActual('../../contexts/DraggableDialogContext'),
-  };
-});
+jest.mock('../../contexts/DraggableDialogContext', () => ({
+  __esModule: true,
+  ...jest.requireActual('../../contexts/DraggableDialogContext'),
+}));
 
-jest.mock('@dnd-kit/core', () => {
-  return {
-    __esModule: true,
-    ...jest.requireActual('@dnd-kit/core'),
-  };
-});
+jest.mock('@dnd-kit/core', () => ({
+  __esModule: true,
+  ...jest.requireActual('@dnd-kit/core'),
+}));
 
 describe('DraggableDialogHandle', () => {
   let consoleErrorSpy: jest.SpyInstance;
