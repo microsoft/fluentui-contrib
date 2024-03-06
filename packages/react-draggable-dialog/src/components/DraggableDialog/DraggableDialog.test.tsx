@@ -5,18 +5,9 @@ import { DraggableDialog } from './DraggableDialog';
 import { useDraggableDialog } from './useDraggableDialog';
 import { DragEndEvent } from '@dnd-kit/core';
 
-jest.mock('@fluentui/react-components', () => ({
-  ...jest.requireActual('@fluentui/react-components'),
-  useId: jest.fn().mockReturnValue('draggable-dialog'),
-}));
-
 const dialogChild = React.createElement('div', null, 'Dialog Child');
 
 describe('DraggableDialog', () => {
-  afterAll(() => {
-    jest.resetAllMocks();
-  });
-
   it('should render', () => {
     const text = 'Context';
     const { getByText } = render(
@@ -49,13 +40,16 @@ describe('DraggableDialog', () => {
     expect(result.current.onDragStart).toBeInstanceOf(Function);
     expect(result.current.onDragEnd).toBeInstanceOf(Function);
     expect(result.current.dialogProps).toEqual({ children: dialogChild });
-    expect(result.current.contextValue).toEqual({
-      id: 'draggable-dialog',
+
+    const { id, ...values } = result.current.contextValue;
+
+    expect(values).toEqual({
       hasBeenDragged: false,
       hasDraggableParent: true,
       isDragging: false,
       position: { x: 0, y: 0 },
     });
+    expect(id).toEqual(expect.any(String));
 
     const sensorNames = result.current.sensors.map(({ sensor }) => sensor.name);
 
@@ -75,13 +69,15 @@ describe('DraggableDialog', () => {
       });
     });
 
-    expect(result.current.contextValue).toEqual({
-      id: 'draggable-dialog',
+    const { id, ...values } = result.current.contextValue;
+
+    expect(values).toEqual({
       hasBeenDragged: false,
       hasDraggableParent: true,
       isDragging: false,
       position: { x: 0, y: 0 },
     });
+    expect(id).toEqual(expect.any(String));
   });
 
   it('should return default values with announcements', () => {
