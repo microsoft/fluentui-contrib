@@ -1,7 +1,6 @@
 {
   "name": "@fluentui-contrib/react-tree-grid",
   "version": "0.0.1",
-  "private": true,
   "peerDependencies": {
     "@fluentui/react-components": ">=9.44.5 < 10.0.0",
     "@types/react": ">=16.8.0 <19.0.0",
@@ -10,11 +9,10 @@
     "react-dom": ">=16.8.0 <19.0.0"
   },
   "dependencies": {
-    "@fluentui/react-context-selector": ">=9.1.47 < 10.0.0",
+    "@fluentui/react-context-selector": "~9.1.47",
     "@fluentui/react-jsx-runtime": ">=9.0.29 < 10.0.0",
-    "@fluentui/keyboard-keys": ">=9.0.6 < 10.0.0",
-    "@fluentui/react-tabster": ">=9.14.0 < 10.0.0",
-    "@fluentui/react-utilities": ">=9.16.0 < 10.0.0",
-    "@fluentui/react-jsx-runtime": ">=9.0.29 < 10.0.0"
+    "@fluentui/keyboard-keys": "~9.0.6",
+    "@fluentui/react-tabster": "~9.14.0",
+    "@fluentui/react-utilities": ">=9.16.0 < 10.0.0"
   }
 }
