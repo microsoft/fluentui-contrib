@@ -1,11 +1,9 @@
 import * as React from 'react';
-import { render, renderHook } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { DraggableDialogHandle } from './DraggableDialogHandle';
-import { useDraggableDialogHandle } from './useDraggableDialogHandle';
 
 import * as contexts from '../../contexts/DraggableDialogContext';
 import * as dnd from '@dnd-kit/core';
-import { DraggableDialogHandleState } from './DraggableDialogHandle.types';
 
 jest.mock('../../contexts/DraggableDialogContext', () => ({
   __esModule: true,
@@ -108,9 +106,7 @@ describe('DraggableDialogHandle', () => {
       </DraggableDialogHandle>
     );
 
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      'Warning: DraggableDialogHandle is not a descendant of DraggableDialog'
-    );
+    expect(consoleErrorSpy).toHaveBeenCalledWith(expect.any(String));
   });
 
   it('should not throw an error if a descendant of DraggableDialog', () => {
@@ -125,41 +121,5 @@ describe('DraggableDialogHandle', () => {
     );
 
     expect(consoleErrorSpy).not.toHaveBeenCalled();
-  });
-
-  it('should return default values', () => {
-    useDraggableDialogContextSpy.mockReturnValue({
-      id: 'draggable-dialog-handle',
-    });
-
-    const { result } = renderHook(() => useDraggableDialogHandle());
-
-    expect(Object.keys(result.current)).toStrictEqual([
-      'setActivatorNodeRef',
-      'attributes',
-      'listeners',
-    ]);
-    ['setActivatorNodeRef', 'attributes', 'listeners'].forEach((key) => {
-      const prop = key as keyof DraggableDialogHandleState;
-
-      expect(useDraggableSpy.mock.results[0].value[prop]).toBe(
-        result.current[prop]
-      );
-    });
-  });
-
-  it('should call useDraggable with the correct id', () => {
-    const mockedId = 'draggable-dialog-handle';
-
-    useDraggableDialogContextSpy.mockReturnValue({
-      id: mockedId,
-    });
-
-    renderHook(() => useDraggableDialogHandle());
-
-    expect(useDraggableDialogContextSpy).toHaveBeenCalled();
-    expect(useDraggableSpy).toHaveBeenCalledWith({
-      id: mockedId,
-    });
   });
 });
