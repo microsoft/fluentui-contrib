@@ -1,0 +1,20 @@
+{
+  "name": "@fluentui-contrib/react-tree-grid",
+  "entries": [
+    {
+      "date": "Wed, 06 Mar 2024 15:48:49 GMT",
+      "tag": "@fluentui-contrib/react-tree-grid_v0.0.2",
+      "version": "0.0.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "bernardo.sunderhus@gmail.com",
+            "package": "@fluentui-contrib/react-tree-grid",
+            "commit": "b6cb33846f065ea91f5d0b151b51a15d68d43a5d",
+            "comment": "chore: release"
+          }
+        ]
+      }
+    }
+  ]
+}
