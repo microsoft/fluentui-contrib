@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "feat: release houdini-utils",
-  "packageName": "@fluentui-contrib/houdini-utils",
-  "email": "lingfangao@hotmail.com",
-  "dependentChangeType": "patch"
-}
