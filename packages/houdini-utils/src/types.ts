@@ -1,5 +1,5 @@
-export interface PaintWorklet {
-  paint(
+export abstract class PaintWorklet {
+  abstract paint(
     ctx: CanvasRenderingContext2D,
     size: PaintWorkletGeometry,
     props: Map<string, string>

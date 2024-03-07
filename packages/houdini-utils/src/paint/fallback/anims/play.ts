@@ -4,14 +4,14 @@ import type {
   CallbackFn,
   FallbackAnimationParams,
   FallbackAnimationState,
-  PaintWorkletBase,
+  PaintWorklet,
 } from '../../../types';
 
 export type PlayAnimFn = () => (state: FallbackAnimationState) => () => void;
 
 export const playAnim = (
   state: FallbackAnimationState,
-  paintWorklet: PaintWorkletBase,
+  paintWorklet: PaintWorklet,
   animationParams: FallbackAnimationParams
 ) => {
   const props = new Map<string, string>();

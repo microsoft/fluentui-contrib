@@ -1,8 +1,8 @@
-import { PaintWorkletBase } from '../types';
+import { PaintWorklet } from '../types';
 
 const stringify = (
   name: string,
-  paintWorklet: typeof PaintWorkletBase | string,
+  paintWorklet: typeof PaintWorklet | string,
   className?: string
 ) => {
   let clsStr = '';
@@ -43,7 +43,7 @@ const stringify = (
  */
 export const blobify = (
   name: string,
-  paintWorklet: typeof PaintWorkletBase | string,
+  paintWorklet: typeof PaintWorklet | string,
   className?: string
 ): Blob => {
   const str = stringify(name, paintWorklet, className);
