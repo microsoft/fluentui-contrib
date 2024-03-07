@@ -25,10 +25,11 @@ import {
   MenuPopover,
   MenuList,
   MenuItem,
+  Avatar,
 } from '@fluentui/react-components';
 import {
-  CaretRight16Filled,
-  CaretDown16Filled,
+  ChevronRightRegular,
+  ChevronDownRegular,
   MoreHorizontal24Regular,
 } from '@fluentui/react-icons';
 import { EventHandler } from '@fluentui/react-utilities';
@@ -56,59 +57,79 @@ export const EmailInbox = () => {
         </div>
       </div>
       <Email
-        subject="Treegrids are awesome"
-        summary="Want to learn how to use them?"
-        email="aaron@thegoogle.rocks"
+        subject={
+          <>
+            <Avatar aria-hidden color="colorful" name="Čestmír Ondřej" />{' '}
+            <span tabIndex={0}>Implementing treegrid pattern</span>
+          </>
+        }
+        summary={<span tabIndex={0}>Here's attached the treegrid specs</span>}
+        email="condrej@email.com"
         replies={
           <>
             <Email
-              subject="Re: Treegrids are awesome"
-              summary="I agree with you, they are the shizzle"
-              email="joe@blahblahblah.blahblah"
-            />
-            <Email
-              subject="Re: Treegrids are awesome"
-              summary="They are great for showing a lot of data, like a grid"
-              email="billy@dangerous.fish"
-              replies={
+              subject={
                 <>
-                  <Email
-                    subject="Re: Treegrids are awesome"
-                    summary="Cool, we've been needing an example and documentation"
-                    email="doris@rufflazydogs.sleep"
-                  />
+                  <Avatar aria-hidden color="colorful" name="Maxim Tobiáš" />{' '}
+                  <span tabIndex={0}>Re: Implementing treegrid pattern</span>
                 </>
               }
+              summary={
+                <span tabIndex={0}>Thanks Čestmír, I'll take a look</span>
+              }
+              email="mtobias@email.com"
             />
             <Email
-              subject="Re: Treegrids are awesome"
-              summary="I hear the Fancytree library is going to align with this example!"
-              email="someone@please-do-it.company"
-              replies={
+              subject={
                 <>
-                  <Email
-                    subject="Re: Treegrids are awesome"
-                    summary="Sometimes they are more like trees, others are more like grids"
-                    email="mari@beingpractical.com"
-                    replies={
-                      <>
-                        <Email
-                          subject="Re: Treegrids are awesome"
-                          summary="Cool, when it's a tree, let's keep left/right to collapse/expand"
-                          email="issie@imadeadcatsadly.wascute"
-                        />
-                        <Email
-                          subject="Re: Treegrids are awesome"
-                          summary="I see, sometimes right arrow moves by column"
-                          email="kitten@kittenseason.future"
-                        />
-                      </>
-                    }
-                  />
+                  <Avatar aria-hidden color="colorful" name="Kristina Ctibor" />{' '}
+                  <span tabIndex={0}>Re: Implementing treegrid pattern</span>
                 </>
               }
+              summary={<span tabIndex={0}>Great documentation!</span>}
+              email="kctibor@email.com"
             />
           </>
+        }
+      />
+      <Email
+        subject={
+          <>
+            <Avatar aria-hidden color="colorful" name="E+D HR" />{' '}
+            <span tabIndex={0}>E+D HR</span>
+          </>
+        }
+        summary={<span tabIndex={0}>Career Jams Registration is now open</span>}
+        email="edhr@microsoft.com"
+      />
+      <Email
+        subject={
+          <>
+            <Avatar aria-hidden color="colorful" name="Kristina Ctibor" />{' '}
+            <span tabIndex={0}>Kristina Ctibor</span>
+          </>
+        }
+        summary={
+          <span tabIndex={0}>Record Fluent UI demos for FW demo session</span>
+        }
+        email="kctibor@email.com"
+        replies={
+          <Email
+            subject={
+              <>
+                <Avatar aria-hidden color="colorful" name="Čestmír Ondřej" />{' '}
+                <span tabIndex={0}>
+                  Re: Record Fluent UI demos for FW demo session
+                </span>
+              </>
+            }
+            summary={
+              <span tabIndex={0}>
+                Here's the video to present treegrid in the FW demo session
+              </span>
+            }
+            email="condrej@email.com"
+          />
         }
       />
     </TreeGrid>
@@ -116,8 +137,8 @@ export const EmailInbox = () => {
 };
 
 type EmailProps = {
-  subject: string;
-  summary: string;
+  subject: React.ReactNode;
+  summary: React.ReactNode;
   email: string;
   replies?: Slot<typeof React.Fragment>;
 };
@@ -139,22 +160,27 @@ const Email = (props: EmailProps) => {
       className={tableRowStyle}
     >
       <TreeGridCell className={tableCellStyle} header>
-        <span style={{ paddingLeft: (level - 1) * 10 }}>
+        <span
+          style={{
+            paddingLeft: (level - 1) * 10,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 5,
+          }}
+        >
           {props.replies && (
             <>
               {open ? (
-                <CaretDown16Filled aria-hidden />
+                <ChevronDownRegular aria-hidden />
               ) : (
-                <CaretRight16Filled aria-hidden />
+                <ChevronRightRegular aria-hidden />
               )}
             </>
           )}
-          <Body1>{props.subject}</Body1>
         </span>
+        {props.subject}
       </TreeGridCell>
-      <TreeGridCell className={tableCellStyle}>
-        <Body1>{props.summary}</Body1>
-      </TreeGridCell>
+      <TreeGridCell className={tableCellStyle}>{props.summary}</TreeGridCell>
       <TreeGridCell className={tableCellStyle}>
         <Link href={`mailto:${props.email}`}>{props.email}</Link>
       </TreeGridCell>
@@ -170,8 +196,9 @@ const Email = (props: EmailProps) => {
 
           <MenuPopover>
             <MenuList>
-              <MenuItem>Reply </MenuItem>
-              <MenuItem>Delete </MenuItem>
+              <MenuItem>Reply</MenuItem>
+              <MenuItem>Attachments</MenuItem>
+              <MenuItem>Delete</MenuItem>
             </MenuList>
           </MenuPopover>
         </Menu>

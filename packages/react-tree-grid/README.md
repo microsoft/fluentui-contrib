@@ -1,11 +1,13 @@
 # react-tree-grid
 
-This library was generated with [Nx](https://nx.dev).
+This package provides a set of styleless components to implement the `treegrid` navigation pattern.
 
-## Building
+## Installation
 
-Run `nx build react-tree-grid` to build the library.
+```bash
+yarn add @fluentui-contrib/react-tree-grid
+```
 
-## Running unit tests
+## Usage
 
-Run `nx test react-tree-grid` to execute the unit tests via [Jest](https://jestjs.io).
+Follow up on the [Storybook](https://microsoft.github.io/fluentui-contrib/react-tree-grid) for examples on how to use the components provided by this package.

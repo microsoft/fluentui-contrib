@@ -22,13 +22,13 @@ import {
   Image,
   mergeClasses,
 } from '@fluentui/react-components';
-import { EventHandler } from '@fluentui/react-utilities';
+import { EventHandler, useId } from '@fluentui/react-utilities';
 import {
-  CaretRight12Filled,
-  CaretDown12Filled,
-  Calendar20Regular,
-  CheckmarkCircle16Regular,
-  Attach16Regular,
+  CaretRightFilled,
+  CaretDownFilled,
+  CalendarRegular,
+  CheckmarkCircleRegular,
+  AttachRegular,
 } from '@fluentui/react-icons';
 
 const useMeetingsSectionStyles = makeStyles({
@@ -114,7 +114,8 @@ export const Meet = () => {
         <MeetingsSectionItem
           status="missed"
           header="All Hands with Sanjay Garg"
-          location="Thursday, 1 February · 11:05 - 12:00, Lenka Klugarova"
+          location="Thursday, 1 February · 11:05 - 12:00"
+          owner="Lenka Klugarova"
           description="Meeting summary is currently not available for this meeting."
           tasks={
             <Tooltip
@@ -122,7 +123,10 @@ export const Meet = () => {
               relationship="label"
             >
               <InteractionTag appearance="brand" shape="circular" size="small">
-                <InteractionTagPrimary icon={<CheckmarkCircle16Regular />}>
+                <InteractionTagPrimary
+                  aria-label="5 tasks for people to follow up on"
+                  icon={<CheckmarkCircleRegular />}
+                >
                   5
                 </InteractionTagPrimary>
               </InteractionTag>
@@ -131,7 +135,10 @@ export const Meet = () => {
           attachments={
             <Tooltip content="2 files" relationship="label">
               <InteractionTag shape="circular" size="small">
-                <InteractionTagPrimary icon={<Attach16Regular />}>
+                <InteractionTagPrimary
+                  aria-label="2 files"
+                  icon={<AttachRegular />}
+                >
                   2
                 </InteractionTagPrimary>
               </InteractionTag>
@@ -144,7 +151,7 @@ export const Meet = () => {
             >
               <Image
                 src="https://placehold.co/130x70"
-                alt="Image placeholder"
+                alt="Meeting recording"
               />
             </Button>
           }
@@ -153,7 +160,8 @@ export const Meet = () => {
       <MeetingsSection header="Thursday, 25 January">
         <MeetingsSectionItem
           header="Monthly Sync with Fluent Team"
-          location="Thursday, 25 January 2024 · 16:30 - 17:30, Amit Sehgal"
+          location="Thursday, 25 January 2024 · 16:30 - 17:30"
+          owner="Amit Sehgal"
           description="Meeting summary is currently not available for this meeting."
           tasks={
             <Tooltip
@@ -161,7 +169,10 @@ export const Meet = () => {
               relationship="label"
             >
               <InteractionTag appearance="brand" shape="circular" size="small">
-                <InteractionTagPrimary icon={<CheckmarkCircle16Regular />}>
+                <InteractionTagPrimary
+                  aria-label="8 tasks for people to follow up on"
+                  icon={<CheckmarkCircleRegular />}
+                >
                   8
                 </InteractionTagPrimary>
               </InteractionTag>
@@ -170,7 +181,10 @@ export const Meet = () => {
           attachments={
             <Tooltip content="2 files" relationship="label">
               <InteractionTag shape="circular" size="small">
-                <InteractionTagPrimary icon={<Attach16Regular />}>
+                <InteractionTagPrimary
+                  aria-label="2 files"
+                  icon={<AttachRegular />}
+                >
                   2
                 </InteractionTagPrimary>
               </InteractionTag>
@@ -183,18 +197,22 @@ export const Meet = () => {
             >
               <Image
                 src="https://placehold.co/130x70"
-                alt="Image placeholder"
+                alt="Meeting recording"
               />
             </Button>
           }
         />
         <MeetingsSectionItem
           header="TAX RETURN 2023: How to Prepare | Online Training (Option 1)"
-          location="Thursday, 25 January 2024 · 10:00 - 12:00, CZSK Comms"
+          location="Thursday, 25 January 2024 · 10:00 - 12:00"
+          owner="CZSK Comms"
           attachments={
             <Tooltip content="2 files" relationship="label">
               <InteractionTag shape="circular" size="small">
-                <InteractionTagPrimary icon={<Attach16Regular />}>
+                <InteractionTagPrimary
+                  aria-label="2 files"
+                  icon={<AttachRegular />}
+                >
                   2
                 </InteractionTagPrimary>
               </InteractionTag>
@@ -202,15 +220,19 @@ export const Meet = () => {
           }
         />
       </MeetingsSection>
-      <MeetingsSection header="Thursday, 23 January">
+      <MeetingsSection header="Tuesday, 23 January">
         <MeetingsSectionItem
           header="CAP January Top of Mind with Jeff Teper"
-          location="Tuesday, 23 January 2024 · 23:05 - 23:30, Collaborative Apps and Platforms Executive Calendar"
+          location="Tuesday, 23 January 2024 · 23:05 - 23:30"
+          owner="Collaborative Apps and Platforms Executive Calendar"
           description="Meeting summary is currently not available for this meeting."
           attachments={
             <Tooltip content="2 files" relationship="label">
               <InteractionTag shape="circular" size="small">
-                <InteractionTagPrimary icon={<Attach16Regular />}>
+                <InteractionTagPrimary
+                  aria-label="2 files"
+                  icon={<AttachRegular />}
+                >
                   2
                 </InteractionTagPrimary>
               </InteractionTag>
@@ -223,7 +245,7 @@ export const Meet = () => {
             >
               <Image
                 src="https://placehold.co/130x70"
-                alt="Image placeholder"
+                alt="Meeting recording"
               />
             </Button>
           }
@@ -258,9 +280,9 @@ const MeetingsSection = (props: MeetingsSectionProps) => {
       className={styles.section}
     >
       {open ? (
-        <CaretDown12Filled aria-hidden />
+        <CaretDownFilled aria-hidden />
       ) : (
-        <CaretRight12Filled aria-hidden />
+        <CaretRightFilled aria-hidden />
       )}
       <TreeGridCell header aria-colspan={4}>
         {props.header}
@@ -269,8 +291,9 @@ const MeetingsSection = (props: MeetingsSectionProps) => {
   );
 };
 type MeetingsSectionItemProps = {
-  header: React.ReactNode;
-  location: React.ReactNode;
+  header: string;
+  location: string;
+  owner: string;
   description?: React.ReactNode;
   status?: 'missed';
   tasks?: React.ReactNode;
@@ -280,18 +303,25 @@ type MeetingsSectionItemProps = {
 const MeetingsSectionItem = (props: MeetingsSectionItemProps) => {
   const styles = useMeetingsSectionStyles();
   return (
-    <TreeGridRow className={styles.sectionItem}>
+    <TreeGridRow
+      aria-description={`Created by: ${props.owner}. ${
+        props.status ? `Meeting status: ${props.status}` : ''
+      }`}
+      className={styles.sectionItem}
+    >
       <TreeGridCell
+        aria-label={`${props.header}. ${props.location}`}
         className={mergeClasses(styles.header, styles.container)}
         header
       >
         <Avatar
           className={styles.icon}
-          icon={<Calendar20Regular />}
+          icon={<CalendarRegular />}
           aria-hidden
         />
         <Button
           appearance="transparent"
+          aria-label="Go to meeting"
           className={mergeClasses(styles.noPadding, styles.title)}
         >
           <Body1Stronger>{props.header}</Body1Stronger>
@@ -305,7 +335,9 @@ const MeetingsSectionItem = (props: MeetingsSectionItemProps) => {
             <Caption1Stronger>Missed</Caption1Stronger>
           </Tag>
         )}
-        <Caption1 className={styles.location}>{props.location}</Caption1>
+        <Caption1 className={styles.location}>
+          {props.location}, {props.owner}
+        </Caption1>
         {props.description && (
           <Caption1 className={styles.description}>
             {props.description}

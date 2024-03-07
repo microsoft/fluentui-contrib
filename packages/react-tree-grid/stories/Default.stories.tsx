@@ -38,7 +38,7 @@ export const Default = () => {
               <TreeGridCell className={styles.cell}>
                 <Menu>
                   <MenuTrigger disableButtonEnhancement>
-                    <Button>Toggle menu</Button>
+                    <Button>More Actions</Button>
                   </MenuTrigger>
 
                   <MenuPopover>

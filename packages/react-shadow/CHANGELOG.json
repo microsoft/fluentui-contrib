@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-shadow",
   "entries": [
     {
+      "date": "Wed, 06 Mar 2024 15:48:49 GMT",
+      "tag": "@fluentui-contrib/react-shadow_v0.1.0",
+      "version": "0.1.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "seanmonahan@microsoft.com",
+            "package": "@fluentui-contrib/react-shadow",
+            "commit": "f053af14cc06d8d4804b68fc424077ec216c1b3e",
+            "comment": "feat: add \"insertion point\" API to `react-shadow`"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 06 Feb 2024 09:15:09 GMT",
       "tag": "@fluentui-contrib/react-shadow_v0.0.6",
       "version": "0.0.6",
