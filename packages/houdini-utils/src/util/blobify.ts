@@ -35,7 +35,7 @@ const stringify = (
 };
 
 /**
- * Creates a Blob from a paint worklet.
+ * Creates a Blob from a paint worklet. Do not use this function in an environment with CSP (Content Security Policy)
  * @param name - name of the worklet
  * @param paintWorklet - either a class or javascript code
  * @param className - name of the class if `paintWorklet` is a string
