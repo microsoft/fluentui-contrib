@@ -29,6 +29,7 @@ export const createKeyframeAnimation: CreateKeyframeAnimationFn = ({
 
   const anims = [] as FallbackAnimation[];
   let overallDuration = 0;
+  const styles = getComputedStyle(target);
   for (
     let animationIndex = 0;
     animationIndex < animations.length;
@@ -51,8 +52,6 @@ export const createKeyframeAnimation: CreateKeyframeAnimationFn = ({
     }
 
     const timingFunction = timingFunctions[animationIndex] ?? 'linear';
-
-    const styles = getComputedStyle(target);
 
     const anim = {
       currentValues: {},
