@@ -1,9 +1,14 @@
-export abstract class PaintWorkletBase {
-  abstract paint(
+export interface PaintWorklet {
+  paint(
     ctx: CanvasRenderingContext2D,
-    size: { width: number; height: number },
+    size: PaintWorkletGeometry,
     props: Map<string, string>
   ): void;
+}
+
+export interface PaintWorkletGeometry {
+  width: number;
+  height: number;
 }
 
 /**

@@ -1,5 +1,11 @@
 import * as React from 'react';
-import { blobify, registerPaintWorklet } from '@fluentui-contrib/houdini-utils';
+import {
+  blobify,
+  registerPaintWorklet,
+  PaintWorklet,
+  PaintWorkletGeometry,
+} from '@fluentui-contrib/houdini-utils';
+import { Switch } from '@fluentui/react-components';
 
 try {
   CSS.registerProperty({
@@ -24,7 +30,7 @@ try {
   /* empty */
 }
 
-class MyPaintWorklet {
+class MyPaintWorklet implements PaintWorklet {
   public static get inputProperties() {
     return [
       '--checkerboard-color-1',
@@ -33,13 +39,17 @@ class MyPaintWorklet {
     ];
   }
 
-  paint(ctx, geom, properties) {
+  paint(
+    ctx: CanvasRenderingContext2D,
+    geom: PaintWorkletGeometry,
+    properties: Map<string, string>
+  ) {
     // Use `ctx` as if it was a normal canvas
     const colors = [
       properties.get('--checkerboard-color-1'),
       properties.get('--checkerboard-color-2'),
       properties.get('--checkerboard-color-3'),
-    ];
+    ].filter(Boolean) as string[];
 
     const size = 32;
     for (let y = 0; y < geom.height / size; y++) {
@@ -61,10 +71,15 @@ registerPaintWorklet(
 
 export const Default = () => {
   const ref = React.useRef<HTMLDivElement>(null);
-
+  const animationRef = React.useRef<Animation | null>(null);
+  const [running, setRunning] = React.useState(true);
   React.useLayoutEffect(() => {
-    if (ref.current) {
-      ref.current.animate(
+    if (!ref.current) {
+      return;
+    }
+
+    if (running) {
+      animationRef.current = ref.current.animate(
         [
           {
             '--checkerboard-color-1': 'red',
@@ -85,24 +100,35 @@ export const Default = () => {
         {
           duration: 1000,
           iterations: Infinity,
-          direction: 'alternate',
-          easing: 'ease-in-out',
+          easing: 'linear',
         }
       );
+    } else {
+      animationRef.current?.cancel();
+      animationRef.current = null;
     }
-  }, []);
+  }, [running]);
 
   return (
-    <div
-      ref={ref}
-      style={{
-        background: 'paint(mypaintworklet)',
-        height: 200,
-        width: 200,
-        '--checkerboard-color-1': 'red',
-        '--checkerboard-color-2': 'green',
-        '--checkerboard-color-3': 'blue',
-      }}
-    />
+    <>
+      <Switch
+        onChange={(e, data) => setRunning(data.checked)}
+        checked={running}
+        label="Toggle animation"
+      />
+      <div
+        ref={ref}
+        style={
+          {
+            background: 'paint(mypaintworklet)',
+            height: 200,
+            width: 200,
+            '--checkerboard-color-1': 'red',
+            '--checkerboard-color-2': 'green',
+            '--checkerboard-color-3': 'blue',
+          } as React.CSSProperties
+        }
+      />
+    </>
   );
 };
