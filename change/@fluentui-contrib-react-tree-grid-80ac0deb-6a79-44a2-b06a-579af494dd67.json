@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "chore: bump to minor 0.1.0",
-  "packageName": "@fluentui-contrib/react-tree-grid",
-  "email": "bernardo.sunderhus@gmail.com",
-  "dependentChangeType": "patch"
-}
