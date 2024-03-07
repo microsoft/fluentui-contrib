@@ -19,13 +19,17 @@ class MyPaintWorklet implements PaintWorklet {
     ];
   }
 
-  paint(ctx: CanvasRenderingContext2D, geom: PaintWorkletGeometry, properties: Map<string, string>) {
+  paint(
+    ctx: CanvasRenderingContext2D,
+    geom: PaintWorkletGeometry,
+    properties: Map<string, string>
+  ) {
     // Use `ctx` as if it was a normal canvas
     const colors = [
       properties.get('--checkerboard-color-1'),
       properties.get('--checkerboard-color-2'),
       properties.get('--checkerboard-color-3'),
-    ].filter(Boolean)  as string[];
+    ].filter(Boolean) as string[];
 
     const size = 32;
     for (let y = 0; y < geom.height / size; y++) {
@@ -89,12 +93,15 @@ const getBackgroundImage = (id: string) => {
 const useFallbackAnimation = () => {
   const stateRef = React.useRef<'rest' | 'play'>('rest');
   const playRef = React.useRef<() => void>(() => null);
+  const cleanupRef = React.useRef<() => void>(() => null);
   const targetRef = React.useCallback((node: HTMLElement | null) => {
     if (!node) {
+      cleanupRef.current();
       return;
     }
 
-    const { id, play, canvas } = fallback(node);
+    const { id, play, canvas, cleanup } = fallback(node);
+    cleanupRef.current = cleanup;
     const backgroundImage = getBackgroundImage(id);
 
     const onComplete = () => {
@@ -106,7 +113,7 @@ const useFallbackAnimation = () => {
     let onUpdate: () => void = () => null;
 
     if (backgroundImage) {
-      node.style.setProperty('--background-image', backgroundImage);
+      node.style.backgroundImage = backgroundImage;
     } else {
       onUpdate = () => {
         if (canvas) {

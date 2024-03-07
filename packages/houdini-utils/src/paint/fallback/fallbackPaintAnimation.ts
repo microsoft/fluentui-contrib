@@ -10,7 +10,7 @@ import type {
   FallbackAnimationParams,
   FallbackAnimationReturn,
   FallbackAnimationState,
-  PaintWorkletBase,
+  PaintWorklet,
 } from '../../types';
 
 const cannotDraw = {
@@ -18,13 +18,15 @@ const cannotDraw = {
   canvas: null,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   play: () => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  cleanup: () => {},
 };
 
 let flairFallbackId = 0;
 
 export const fallbackPaintAnimation = (
   target: HTMLElement,
-  paintWorklet: PaintWorkletBase,
+  paintWorklet: PaintWorklet,
   animationParams: FallbackAnimationParams
 ): FallbackAnimationReturn => {
   const state: FallbackAnimationState = {
@@ -68,10 +70,17 @@ export const fallbackPaintAnimation = (
   }
 
   const play = playAnim(state, paintWorklet, animationParams);
+  const cleanup = () => {
+    state.ctx?.canvas.remove();
+    if (state.wrapper?.childElementCount === 0) {
+      state.wrapper.remove();
+    }
+  };
 
   return {
     id: state.id,
     canvas: state.ctx?.canvas ?? null,
     play,
+    cleanup,
   };
 };

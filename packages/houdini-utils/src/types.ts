@@ -196,6 +196,7 @@ export type FallbackAnimationReturn = {
     isStopped: () => boolean,
     onUpdate?: CallbackFn
   ) => void;
+  cleanup: () => void;
 };
 
 export type FallbackAnimationState = {

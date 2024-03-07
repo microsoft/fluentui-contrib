@@ -4,6 +4,7 @@ import {
   registerPaintWorklet,
   PaintWorklet,
   PaintWorkletGeometry,
+  hasHoudini,
 } from '@fluentui-contrib/houdini-utils';
 import { Switch } from '@fluentui/react-components';
 
@@ -108,6 +109,15 @@ export const Default = () => {
       animationRef.current = null;
     }
   }, [running]);
+
+  if (!hasHoudini()) {
+    return (
+      <div>
+        ⚠️ This browser does not support houdini, please take a look at the
+        fallback example.
+      </div>
+    );
+  }
 
   return (
     <>
