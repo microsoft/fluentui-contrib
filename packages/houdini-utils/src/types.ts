@@ -14,7 +14,7 @@ export interface PaintWorkletGeometry {
 /**
  * Function that animates values.
  */
-export type FallbackAnimationFn = (params: FallbackAnimationParams) => void;
+export type FallbackAnimationFn = (params: FallbackAnimationParams & { isStopped: () => boolean }) => void;
 
 /**
  * Function that creates keyframe animation objects from CSS input.
@@ -56,8 +56,6 @@ export type FallbackAnimationParams = {
    * HTML element where the animation will be applied.
    */
   target: HTMLElement;
-
-  isStopped: () => boolean;
 
   /**
    * Callback function that will be called on every animation frame.
@@ -191,11 +189,8 @@ export type TickFn = (
 export type FallbackAnimationReturn = {
   id: string;
   canvas: HTMLCanvasElement | null;
-  play: (
-    onComplete: CallbackFn,
-    isStopped: () => boolean,
-    onUpdate?: CallbackFn
-  ) => void;
+  play: (onComplete: CallbackFn, onUpdate?: CallbackFn) => void;
+  stop: () => void;
   cleanup: () => void;
 };
 
@@ -205,4 +200,5 @@ export type FallbackAnimationState = {
   id: string;
   mode: 'moz-element' | 'webkit-canvas' | 'to-data-url';
   wrapper: HTMLElement | null;
+  running: boolean;
 };
