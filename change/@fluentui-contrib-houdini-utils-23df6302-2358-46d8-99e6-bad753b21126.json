@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: re-export addModule",
+  "packageName": "@fluentui-contrib/houdini-utils",
+  "email": "lingfangao@hotmail.com",
+  "dependentChangeType": "patch"
+}
