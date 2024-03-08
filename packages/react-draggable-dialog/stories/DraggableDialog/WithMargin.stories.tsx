@@ -24,7 +24,7 @@ export const WithMargin = () => {
       <DraggableDialogSurface>
         <DialogBody>
           <DraggableDialogHandle>
-            <DialogTitle>Dialog title</DialogTitle>
+            <DialogTitle>Drag me</DialogTitle>
           </DraggableDialogHandle>
 
           <DialogContent>

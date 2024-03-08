@@ -24,7 +24,7 @@ export const NoBoundary = () => {
       <DraggableDialogSurface>
         <DialogBody>
           <DraggableDialogHandle>
-            <DialogTitle>Dialog title</DialogTitle>
+            <DialogTitle>Drag me</DialogTitle>
           </DraggableDialogHandle>
 
           <DialogContent>
