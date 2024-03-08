@@ -5,6 +5,9 @@ import {
   Button,
   DialogContent,
   Avatar,
+  Field,
+  Input,
+  tokens,
 } from '@fluentui/react-components';
 
 import {
@@ -16,8 +19,13 @@ import {
 const useStyles = makeStyles({
   boundary: {
     ...shorthands.padding('16px'),
-    width: '800px',
-    height: '800px',
+    ...shorthands.borderRadius(tokens.borderRadiusLarge),
+    width: '640px',
+    height: '560px',
+    display: 'flex',
+    flexDirection: 'column',
+    rowGap: '16px',
+    alignItems: 'start',
     position: 'relative',
     marginTop: '16px',
     backgroundColor: '#babaca',
@@ -44,6 +52,7 @@ const useStyles = makeStyles({
 export const CustomBoundary = () => {
   const styles = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [margin, setMargin] = React.useState(16);
   const boundaryRef = React.useRef<HTMLDivElement>(null);
 
   return (
@@ -53,14 +62,25 @@ export const CustomBoundary = () => {
       </Button>
 
       <div ref={boundaryRef} className={styles.boundary}>
-        <p>The Draggable dialog will be kept inside this element</p>
+        <p>
+          The Draggable dialog will open inside this container. While dragging,
+          this will be considered the boundary
+        </p>
+
+        <Field label="Margin">
+          <Input
+            type="number"
+            onChange={({ target }) => setMargin(Number(target.value))}
+            value={margin.toString()}
+          />
+        </Field>
       </div>
 
       <DraggableDialog
         open={open}
         modalType="non-modal"
         boundary={boundaryRef}
-        margin={16}
+        margin={margin}
       >
         <DraggableDialogSurface className={styles.dialog}>
           <DialogContent>
