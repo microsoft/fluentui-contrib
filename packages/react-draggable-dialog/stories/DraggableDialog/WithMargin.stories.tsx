@@ -14,9 +14,9 @@ import {
   DraggableDialogHandle,
 } from '@fluentui-contrib/react-draggable-dialog';
 
-export const Default = () => {
+export const WithMargin = () => {
   return (
-    <DraggableDialog>
+    <DraggableDialog margin={16}>
       <DialogTrigger>
         <Button>Toggle dialog</Button>
       </DialogTrigger>

@@ -3,6 +3,7 @@ import { act, renderHook } from '@testing-library/react';
 
 import { useDraggableDialog } from './useDraggableDialog';
 import { DragEndEvent } from '@dnd-kit/core';
+import { draggableDialogContextDefaultValue } from '../../contexts/DraggableDialogContext';
 
 const dialogChild = React.createElement('div', null, 'Dialog Child');
 
@@ -15,29 +16,35 @@ describe('DraggableDialog', () => {
     });
 
     expect(Object.keys(result.current)).toStrictEqual([
+      'onDragMove',
+      'onDragEnd',
       'sensors',
       'modifiers',
-      'accessibilityProps',
-      'onDragStart',
-      'onDragEnd',
+      'accessibility',
       'contextValue',
       'dialogProps',
     ]);
     expect(result.current.modifiers).toHaveLength(1);
-    expect(result.current.accessibilityProps).toEqual(undefined);
-    expect(result.current.onDragStart).toBeInstanceOf(Function);
+    expect(result.current.accessibility).toEqual(undefined);
     expect(result.current.onDragEnd).toBeInstanceOf(Function);
     expect(result.current.dialogProps).toEqual({ children: dialogChild });
 
-    const { id, ...values } = result.current.contextValue;
+    const { contextValue } = result.current;
 
-    expect(values).toEqual({
-      hasBeenDragged: false,
-      hasDraggableParent: true,
-      isDragging: false,
-      position: { x: 0, y: 0 },
+    expect(contextValue.boundary).toBe('viewport');
+    expect(contextValue.dropPosition).toEqual({ x: 0, y: 0 });
+    expect(contextValue.hasBeenDragged).toBe(false);
+    expect(contextValue.hasDraggableParent).toBe(true);
+    expect(contextValue.id).toEqual(expect.any(String));
+    expect(contextValue.margin).toEqual({
+      top: 0,
+      end: 0,
+      bottom: 0,
+      start: 0,
     });
-    expect(id).toEqual(expect.any(String));
+    expect(contextValue.onPositionChange).toEqual(expect.any(Function));
+    expect(contextValue.position).toBe(null);
+    expect(contextValue.setDropPosition).toEqual(expect.any(Function));
 
     const sensorNames = result.current.sensors.map(({ sensor }) => sensor.name);
 
@@ -49,25 +56,6 @@ describe('DraggableDialog', () => {
     ]);
   });
 
-  it('should return default values with keepInViewport', () => {
-    const { result } = renderHook(() => {
-      return useDraggableDialog({
-        children: dialogChild,
-        keepInViewport: true,
-      });
-    });
-
-    const { id, ...values } = result.current.contextValue;
-
-    expect(values).toEqual({
-      hasBeenDragged: false,
-      hasDraggableParent: true,
-      isDragging: false,
-      position: { x: 0, y: 0 },
-    });
-    expect(id).toEqual(expect.any(String));
-  });
-
   it('should return default values with announcements', () => {
     const { result } = renderHook(() => {
       return useDraggableDialog({
@@ -76,7 +64,7 @@ describe('DraggableDialog', () => {
       });
     });
 
-    expect(result.current.accessibilityProps).toEqual({
+    expect(result.current.accessibility).toEqual({
       announcements: {
         onDragStart: expect.any(Function),
         onDragEnd: expect.any(Function),
@@ -92,7 +80,7 @@ describe('DraggableDialog', () => {
       });
     });
 
-    expect(result.current.accessibilityProps).toEqual(undefined);
+    expect(result.current.accessibility).toEqual(undefined);
   });
 
   it('should not pass unknown props to Dialog', () => {
@@ -118,50 +106,5 @@ describe('DraggableDialog', () => {
       children: dialogChild,
       open: true,
     });
-  });
-
-  it('should change position on drag', () => {
-    const { result } = renderHook(() => {
-      return useDraggableDialog({
-        children: dialogChild,
-      });
-    });
-
-    act(() => {
-      result.current.onDragStart();
-      result.current.onDragEnd({ delta: { x: 10, y: 10 } } as DragEndEvent);
-    });
-
-    expect(result.current.contextValue.position).toEqual({ x: 10, y: 10 });
-
-    act(() => {
-      result.current.onDragStart();
-      result.current.onDragEnd({ delta: { x: 10, y: 10 } } as DragEndEvent);
-    });
-
-    expect(result.current.contextValue.position).toEqual({ x: 20, y: 20 });
-  });
-
-  it('should change isDragging on drag start and end', () => {
-    const { result } = renderHook(() => {
-      return useDraggableDialog({
-        children: dialogChild,
-      });
-    });
-
-    expect(result.current.contextValue.hasBeenDragged).toEqual(false);
-    act(() => {
-      result.current.onDragStart();
-    });
-
-    expect(result.current.contextValue.hasBeenDragged).toEqual(true);
-    expect(result.current.contextValue.isDragging).toEqual(true);
-
-    act(() => {
-      result.current.onDragEnd({ delta: { x: 10, y: 10 } } as DragEndEvent);
-    });
-
-    expect(result.current.contextValue.isDragging).toEqual(false);
-    expect(result.current.contextValue.hasBeenDragged).toEqual(true);
   });
 });

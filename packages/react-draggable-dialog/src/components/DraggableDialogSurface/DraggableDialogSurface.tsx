@@ -12,9 +12,10 @@ import { useDraggableDialogSurface } from './useDraggableDialogSurface';
 export const DraggableDialogSurface: React.FC<DraggableDialogSurfaceProps> = ({
   children,
   className,
+  ...props
 }) => {
   const styles = useStyles();
-  const { ref, style } = useDraggableDialogSurface();
+  const { ref, style, mountNode } = useDraggableDialogSurface(props);
 
   return (
     <DialogSurface
@@ -25,6 +26,8 @@ export const DraggableDialogSurface: React.FC<DraggableDialogSurfaceProps> = ({
         styles.root,
         className
       )}
+      mountNode={mountNode}
+      {...props}
     >
       {children}
     </DialogSurface>

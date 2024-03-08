@@ -1,6 +1,7 @@
 import {
   Announcements,
   DragEndEvent,
+  DragMoveEvent,
   Modifier,
   SensorDescriptor,
   SensorOptions,
@@ -8,22 +9,27 @@ import {
 import { DialogProps } from '@fluentui/react-components';
 import { DraggableDialogContextValue } from '../../contexts/DraggableDialogContext';
 
-export type DraggableMarginAxis = {
+export type DraggableDialogMarginAxis = {
   mainAxis?: number;
   crossAxis?: number;
 };
 
-export type DraggableMarginViewport = {
+export type DraggableDialogMarginViewport = {
   top?: number;
   end?: number;
   bottom?: number;
   start?: number;
 };
 
-export type DraggableMargin =
+export type DraggableDialogMargin =
   | number
-  | DraggableMarginAxis
-  | DraggableMarginViewport;
+  | DraggableDialogMarginAxis
+  | DraggableDialogMarginViewport;
+
+export type DraggableDialogPosition = {
+  x: number;
+  y: number;
+};
 
 export type DraggableDialogProps = DialogProps & {
   /**
@@ -32,16 +38,30 @@ export type DraggableDialogProps = DialogProps & {
   id?: string;
 
   /**
-   * Whether the element should remain in the viewport when dragged.
-   * @default true
+   * Element to be used as a boundary when dragging the dialog.
+   * @default viewport
    */
-  keepInViewport?: boolean;
+  boundary?: React.RefObject<HTMLElement> | 'viewport' | null;
 
   /**
-   * The margin from the viewport to keep the element in when dragged. Only used when keepInViewport is true.
+   * The margin from the boundary to keep the element in when dragged. Only used when boundary is set.
    * @default 0
    */
-  margin?: DraggableMargin;
+  margin?: DraggableDialogMargin;
+
+  /**
+   * Initial position of the dialog.
+   * - Only works when boundary is set.
+   * - If not set, the dialog will be centered within the boundary.
+   * - If set, the dialog will be positioned at the specified coordinates, relative to the boundary.
+   * @default null
+   */
+  position?: DraggableDialogPosition;
+
+  /**
+   * Event triggered when the dialog is dragged.
+   */
+  onPositionChange?: (position: { x: number; y: number }) => void;
 
   /**
    * Text to be announced by screen readers when the dialog is dragged.
@@ -77,19 +97,19 @@ export type DraggableDialogState = {
    * Accessibility props to apply to the draggable dialog.
    * Currently only used for screen reader announcements.
    */
-  accessibilityProps?: {
+  accessibility?: {
     announcements: Partial<Announcements>;
   };
-
-  /**
-   * Event triggered when drag movement starts.
-   */
-  onDragStart: () => void;
 
   /**
    * Event triggered when drag movement finishes.
    */
   onDragEnd: (event: DragEndEvent) => void;
+
+  /**
+   * Event triggered when drag movement occurs.
+   */
+  onDragMove: (event: DragMoveEvent) => void;
 
   /**
    * The context value to provide to child components.
