@@ -41,10 +41,7 @@ export const playAnim = (
     }
   });
 
-  return (
-    onComplete: CallbackFn,
-    onUpdate?: CallbackFn
-  ) => {
+  return (onComplete: CallbackFn, onUpdate?: CallbackFn) => {
     state.running = true;
     resizeObserver.observe(state.target);
 

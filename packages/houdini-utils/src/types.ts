@@ -14,7 +14,9 @@ export interface PaintWorkletGeometry {
 /**
  * Function that animates values.
  */
-export type FallbackAnimationFn = (params: FallbackAnimationParams & { isStopped: () => boolean }) => void;
+export type FallbackAnimationFn = (
+  params: FallbackAnimationParams & { isStopped: () => boolean }
+) => void;
 
 /**
  * Function that creates keyframe animation objects from CSS input.
