@@ -8,3 +8,4 @@ export {
 } from './util/featureDetect';
 
 export { blobify } from './util/blobify';
+export { addModule } from './util/addModule';
