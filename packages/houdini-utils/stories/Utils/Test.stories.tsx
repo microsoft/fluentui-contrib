@@ -199,12 +199,16 @@ class MyPaintWorklet implements PaintWorklet {
       return (deg * Math.PI) / 180;
     }
 
-    if (progress === 1) {
-      return;
+    let startAngle = toRadians(360 * progress);
+    const endAngle = toRadians(0);
+
+    if (progress === 0) {
+      startAngle = toRadians(360);
     }
 
-    const startAngle = toRadians(360 * progress);
-    const endAngle = toRadians(0);
+    if (progress === 1) {
+      startAngle = toRadians(0);
+    }
 
     ctx.globalCompositeOperation = 'destination-out';
     ctx.beginPath();
@@ -338,6 +342,9 @@ export const Test = () => {
             height: 200,
             width: 200,
             padding: 2,
+            '--liveness-color-1': tokens.colorPaletteLilacBorderActive,
+            '--liveness-color-2': tokens.colorBrandStroke1,
+            '--liveness-color-3': tokens.colorPaletteLightTealBorderActive,
           } as React.CSSProperties
         }
       />
