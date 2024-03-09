@@ -72,7 +72,24 @@ class MyPaintWorklet implements PaintWorklet {
     ];
   }
 
-  private parseProps(props: Map<string, string>) {
+  /**
+   * Canvas drawing context only handles numbers, so we need to parse percentage values
+   * The percentage handling is explicitly wrong since it doesn't take into account both dimensions.
+   *
+   * However 50% is generally used for circles so we should handle that to some degree
+   * @param value border radius in pixel value
+   * @returns border radius in pixel value
+   */
+  private parseBorderRadiusValue(value: string, size: number) {
+    const parsed = parseFloat(value);
+    if (value.includes('%')) {
+      return (parsed / 100) * size;
+    }
+
+    return parsed;
+  }
+
+  private parseProps(props: Map<string, string>, geom: PaintWorkletGeometry) {
     const angle = parseFloat(String(props.get('--liveness-angle')));
     const strokeWidth = parseFloat(
       String(props.get('--liveness-stroke-width'))
@@ -87,17 +104,21 @@ class MyPaintWorklet implements PaintWorklet {
         String(props.get(`--liveness-color-2`)),
         String(props.get(`--liveness-color-3`)),
       ],
-      borderTopLeftRadius: parseFloat(
-        String(props.get('border-top-left-radius'))
+      borderTopLeftRadius: this.parseBorderRadiusValue(
+        String(props.get('border-top-left-radius')),
+        geom.width
       ),
-      borderTopRightRadius: parseFloat(
-        String(props.get('border-top-right-radius'))
+      borderTopRightRadius: this.parseBorderRadiusValue(
+        String(props.get('border-top-right-radius')),
+        geom.width
       ),
-      borderBottomLeftRadius: parseFloat(
-        String(props.get('border-bottom-left-radius'))
+      borderBottomLeftRadius: this.parseBorderRadiusValue(
+        String(props.get('border-bottom-left-radius')),
+        geom.width
       ),
-      borderBottomRightRadius: parseFloat(
-        String(props.get('border-bottom-right-radius'))
+      borderBottomRightRadius: this.parseBorderRadiusValue(
+        String(props.get('border-bottom-right-radius')),
+        geom.width
       ),
     };
   }
@@ -199,15 +220,20 @@ class MyPaintWorklet implements PaintWorklet {
       return (deg * Math.PI) / 180;
     }
 
-    let startAngle = toRadians(360 * progress);
-    const endAngle = toRadians(0);
+    // move both the start and end angles as progress increases to create
+    // the effect that the border is moving around like a snake
+    const rotation = 90 * progress;
+    let startAngle = toRadians(360 * progress + rotation);
+    let endAngle = toRadians(rotation);
 
     if (progress === 0) {
       startAngle = toRadians(360);
+      endAngle = toRadians(0);
     }
 
     if (progress === 1) {
       startAngle = toRadians(0);
+      endAngle = toRadians(0);
     }
 
     ctx.globalCompositeOperation = 'destination-out';
@@ -236,7 +262,7 @@ class MyPaintWorklet implements PaintWorklet {
       borderTopLeftRadius,
       borderTopRightRadius,
       progress,
-    } = this.parseProps(props);
+    } = this.parseProps(props, size);
     const { width, height } = size;
 
     this.renderGradientRect(ctx, { colors, angle, width, height });
@@ -299,7 +325,7 @@ export const Test = () => {
             '--liveness-progress': '1',
           },
         ],
-        { duration: 200, easing: 'linear', fill: 'forwards' }
+        { duration: 500, easing: 'linear', fill: 'forwards' }
       );
 
       drawAnimRef.current.persist();
@@ -338,13 +364,10 @@ export const Test = () => {
         style={
           {
             background: 'paint(testworklet)',
-            borderRadius: '99px',
+            borderRadius: '20px',
             height: 200,
             width: 200,
             padding: 2,
-            '--liveness-color-1': tokens.colorPaletteLilacBorderActive,
-            '--liveness-color-2': tokens.colorBrandStroke1,
-            '--liveness-color-3': tokens.colorPaletteLightTealBorderActive,
           } as React.CSSProperties
         }
       />
