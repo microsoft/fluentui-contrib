@@ -6,39 +6,15 @@ import {
   PaintWorkletGeometry,
   hasHoudini,
 } from '@fluentui-contrib/houdini-utils';
-import { Switch, tokens, Button } from '@fluentui/react-components';
+import { Switch, tokens } from '@fluentui/react-components';
 
 try {
   CSS.registerProperty({
-    // Percentage!
-    name: '--liveness-border-top-visibility',
-    syntax: '<percentage>',
+    // Radians!
+    name: '--liveness-progress',
+    syntax: '<number>',
     inherits: true,
-    initialValue: '0%',
-  });
-
-  CSS.registerProperty({
-    // Percentage!
-    name: '--liveness-border-right-visibility',
-    syntax: '<percentage>',
-    inherits: true,
-    initialValue: '0%',
-  });
-
-  CSS.registerProperty({
-    // Percentage!
-    name: '--liveness-border-bottom-visibility',
-    syntax: '<percentage>',
-    inherits: true,
-    initialValue: '0%',
-  });
-
-  CSS.registerProperty({
-    // Percentage!
-    name: '--liveness-border-left-visibility',
-    syntax: '<percentage>',
-    inherits: true,
-    initialValue: '0%',
+    initialValue: '0',
   });
 
   CSS.registerProperty({
@@ -88,10 +64,7 @@ class MyPaintWorklet implements PaintWorklet {
       '--liveness-color-2',
       '--liveness-color-3',
       '--liveness-stroke-width',
-      '--liveness-border-top-visibility',
-      '--liveness-border-right-visibility',
-      '--liveness-border-bottom-visibility',
-      '--liveness-border-left-visibility',
+      '--liveness-progress',
       'border-top-left-radius',
       'border-top-right-radius',
       'border-bottom-right-radius',
@@ -101,27 +74,14 @@ class MyPaintWorklet implements PaintWorklet {
 
   private parseProps(props: Map<string, string>) {
     const angle = parseFloat(String(props.get('--liveness-angle')));
-
-    const borderTopVisibility =
-      parseFloat(String(props.get('--liveness-border-top-visibility'))) / 100;
-    const borderRightVisibility =
-      parseFloat(String(props.get('--liveness-border-right-visibility'))) / 100;
-    const borderBottomVisibility =
-      parseFloat(String(props.get('--liveness-border-bottom-visibility'))) /
-      100;
-    const borderLeftVisibility =
-      parseFloat(String(props.get('--liveness-border-left-visibility'))) / 100;
     const strokeWidth = parseFloat(
       String(props.get('--liveness-stroke-width'))
     );
 
     return {
       angle,
-      borderBottomVisibility,
-      borderLeftVisibility,
-      borderTopVisibility,
-      borderRightVisibility,
       strokeWidth,
+      progress: parseFloat(String(props.get('--liveness-progress'))),
       colors: [
         String(props.get(`--liveness-color-1`)),
         String(props.get(`--liveness-color-2`)),
@@ -225,52 +185,36 @@ class MyPaintWorklet implements PaintWorklet {
   }
 
   /**
-   * Renders two overlapping rects that will shrink based on each side's visibility
-   * Provides the effect that the border is being 'drawn' around the rect
+   * Renders a cone that will clip the border.
+   * When there no progress the cone is in fact a circle and hides the entire border
+   * As the progress increases the cone becomes smaller and smaller which gradually reveals the border
    */
-  private renderClippingProgressBorderRects(
+  private renderClippingCone(
     ctx: CanvasRenderingContext2D,
-    options: {
-      borderBottomVisibility: number;
-      borderLeftVisibility: number;
-      borderTopVisibility: number;
-      borderRightVisibility: number;
-      strokeWidth: number;
-      width: number;
-      height: number;
-    }
+    options: { width: number; height: number; progress: number }
   ) {
-    const {
-      borderBottomVisibility,
-      borderLeftVisibility,
-      borderRightVisibility,
-      borderTopVisibility,
-      height,
-      strokeWidth,
-      width,
-    } = options;
+    const { width, height, progress } = options;
+
+    function toRadians(deg: number) {
+      return (deg * Math.PI) / 180;
+    }
+
+    if (progress === 1) {
+      return;
+    }
+
+    const startAngle = toRadians(360 * progress);
+    const endAngle = toRadians(0);
+
     ctx.globalCompositeOperation = 'destination-out';
     ctx.beginPath();
-    ctx.fillStyle = 'cyan';
-    ctx.rect(
-      width,
-      height,
-      Math.min(-width * (1 - borderTopVisibility), -strokeWidth),
-      -height * (1 - borderRightVisibility)
-    );
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.fillStyle = 'pink';
-    ctx.rect(
-      0,
-      0 + strokeWidth,
-      Math.max(
-        (width - strokeWidth) * (1 - borderBottomVisibility),
-        strokeWidth
-      ),
-      height * (1 - borderLeftVisibility)
-    );
+    const midX = width / 2;
+    const midY = height / 2;
+    ctx.moveTo(midX, midY);
+    ctx.arc(midX, midY, 400, startAngle, endAngle);
+    ctx.lineTo(midX, midY);
+    ctx.closePath();
+    ctx.fillStyle = 'yellow';
     ctx.fill();
   }
 
@@ -281,20 +225,20 @@ class MyPaintWorklet implements PaintWorklet {
   ) {
     const {
       angle,
-      borderBottomVisibility,
-      borderLeftVisibility,
-      borderTopVisibility,
-      borderRightVisibility,
       strokeWidth,
       colors,
       borderBottomLeftRadius,
       borderBottomRightRadius,
       borderTopLeftRadius,
       borderTopRightRadius,
+      progress,
     } = this.parseProps(props);
     const { width, height } = size;
 
     this.renderGradientRect(ctx, { colors, angle, width, height });
+
+    this.renderClippingCone(ctx, { width, height, progress });
+
     this.renderClippingBorderRect(ctx, {
       borderBottomLeftRadius,
       borderBottomRightRadius,
@@ -304,44 +248,6 @@ class MyPaintWorklet implements PaintWorklet {
       width,
       height,
     });
-    this.renderClippingProgressBorderRects(ctx, {
-      borderBottomVisibility,
-      borderLeftVisibility,
-      borderTopVisibility,
-      borderRightVisibility,
-      height,
-      strokeWidth,
-      width,
-    });
-
-    // top
-    // ctx.beginPath();
-    // ctx.fillStyle = 'pink';
-    // ctx.rect(width, 0, -width * (1 - borderTopVisibility), strokeWidth);
-    // ctx.fill();
-
-    // // left
-    // ctx.beginPath();
-    // ctx.fillStyle = 'pink';
-    // ctx.rect(0, 0, strokeWidth, width * (1 - borderLeftVisibility));
-    // ctx.fill();
-
-    // // right
-    // ctx.beginPath();
-    // ctx.fillStyle = 'pink';
-    // ctx.rect(
-    //   width,
-    //   height,
-    //   -strokeWidth,
-    //   -height * (1 - borderRightVisibility)
-    // );
-    // ctx.fill();
-
-    // // bottom
-    // ctx.beginPath();
-    // ctx.fillStyle = 'pink';
-    // ctx.rect(0, height, width * (1 - borderBottomVisibility), -strokeWidth);
-    // ctx.fill();
   }
 }
 
@@ -353,6 +259,7 @@ registerPaintWorklet(
 export const Test = () => {
   const ref = React.useRef<HTMLDivElement>(null);
   const drawAnimRef = React.useRef<Animation | null>(null);
+  const colorAnimRef = React.useRef<Animation | null>(null);
   const spinAnimRef = React.useRef<Animation | null>(null);
   const [running, setRunning] = React.useState(false);
   React.useLayoutEffect(() => {
@@ -361,52 +268,47 @@ export const Test = () => {
     }
 
     if (running) {
-      drawAnimRef.current = ref.current.animate(
+      colorAnimRef.current = ref.current.animate(
         [
           {
-            '--liveness-border-top-visibility': '0%',
-            '--liveness-border-right-visibility': '0%',
-            '--liveness-border-bottom-visibility': '0%',
-            '--liveness-border-left-visibility': '0%',
+            '--liveness-color-1': 'transparent',
+            '--liveness-color-2': 'transparent',
+            '--liveness-color-3': 'transparent',
           },
           {
-            '--liveness-border-top-visibility': '100%',
-            '--liveness-border-right-visibility': '0%',
-            '--liveness-border-bottom-visibility': '0%',
-            '--liveness-border-left-visibility': '0%',
-          },
-          {
-            '--liveness-border-top-visibility': '100%',
-            '--liveness-border-right-visibility': '100%',
-            '--liveness-border-bottom-visibility': '0%',
-            '--liveness-border-left-visibility': '0%',
-          },
-          {
-            '--liveness-border-top-visibility': '100%',
-            '--liveness-border-right-visibility': '100%',
-            '--liveness-border-bottom-visibility': '100%',
-            '--liveness-border-left-visibility': '0%',
-          },
-          {
-            '--liveness-border-top-visibility': '100%',
-            '--liveness-border-right-visibility': '100%',
-            '--liveness-border-bottom-visibility': '100%',
-            '--liveness-border-left-visibility': '100%',
+            '--liveness-color-1': tokens.colorPaletteLilacBorderActive,
+            '--liveness-color-2': tokens.colorBrandStroke1,
+            '--liveness-color-3': tokens.colorPaletteLightTealBorderActive,
           },
         ],
         { duration: 200, easing: 'linear', fill: 'forwards' }
       );
 
-      // drawAnimRef.current.persist();
+      colorAnimRef.current.persist();
+
+      drawAnimRef.current = ref.current.animate(
+        [
+          {
+            '--liveness-progress': '0',
+          },
+          {
+            '--liveness-progress': '1',
+          },
+        ],
+        { duration: 200, easing: 'linear', fill: 'forwards' }
+      );
+
+      drawAnimRef.current.persist();
 
       const START_ANGLE = (3 * Math.PI) / 4;
       const startAngle = String(START_ANGLE);
       const endAngle = String(START_ANGLE + 2 * Math.PI);
       spinAnimRef.current = ref.current.animate(
         [{ '--liveness-angle': startAngle }, { '--liveness-angle': endAngle }],
-        { duration: 2000, delay: 0, easing: 'linear', iterations: Infinity }
+        { duration: 1000, easing: 'linear', iterations: Infinity }
       );
     } else {
+      colorAnimRef.current?.cancel();
       drawAnimRef.current?.cancel();
       spinAnimRef.current?.cancel();
     }
@@ -432,19 +334,13 @@ export const Test = () => {
         style={
           {
             background: 'paint(testworklet)',
-            borderRadius: '4px',
-            display: 'inline-flex',
-            justifyContent: 'center',
-            alignItems: 'center',
+            borderRadius: '99px',
+            height: 200,
+            width: 200,
             padding: 2,
-            '--liveness-color-1': tokens.colorPaletteLilacBorderActive,
-            '--liveness-color-2': tokens.colorBrandStroke1,
-            '--liveness-color-3': tokens.colorPaletteLightTealBorderActive,
           } as React.CSSProperties
         }
-      >
-        <Button>Liveness button</Button>
-      </div>
+      />
     </>
   );
 };
