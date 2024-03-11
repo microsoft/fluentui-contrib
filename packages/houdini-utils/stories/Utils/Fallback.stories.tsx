@@ -97,7 +97,7 @@ const useFallbackAnimation = () => {
     playRef.current = () => {
       if (stateRef.current === 'rest') {
         stateRef.current = 'play';
-        play(onComplete, () => null);
+        play(onComplete);
       }
     };
   }, []);
