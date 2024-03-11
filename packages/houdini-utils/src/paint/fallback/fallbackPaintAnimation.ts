@@ -20,6 +20,8 @@ const cannotDraw = {
   play: () => {},
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   cleanup: () => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  stop: () => {},
 };
 
 let flairFallbackId = 0;
@@ -35,6 +37,7 @@ export const fallbackPaintAnimation = (
     mode: 'to-data-url',
     id: `houdini-fallback-${++flairFallbackId}`,
     wrapper: null,
+    running: false,
   };
 
   // Non-Houdini fallbacks require a canvas element be present in the DOM.
@@ -70,6 +73,9 @@ export const fallbackPaintAnimation = (
   }
 
   const play = playAnim(state, paintWorklet, animationParams);
+  const stop = () => {
+    state.running = false;
+  };
   const cleanup = () => {
     state.ctx?.canvas.remove();
     if (state.wrapper?.childElementCount === 0) {
@@ -82,5 +88,6 @@ export const fallbackPaintAnimation = (
     canvas: state.ctx?.canvas ?? null,
     play,
     cleanup,
+    stop,
   };
 };

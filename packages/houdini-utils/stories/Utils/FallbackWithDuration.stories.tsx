@@ -8,7 +8,7 @@ import {
   PaintWorklet,
   PaintWorkletGeometry,
 } from '@fluentui-contrib/houdini-utils';
-import { Switch } from '@fluentui/react-components';
+import { Button } from '@fluentui/react-components';
 
 class MyPaintWorklet implements PaintWorklet {
   public static get inputProperties() {
@@ -53,7 +53,7 @@ export const fallback = (target: HTMLElement) => {
   return fallbackPaintAnimation(target, new MyPaintWorklet(), {
     duration: '1000ms',
     timingFunction: 'ease-in-out',
-    iterationCount: [Infinity],
+    iterationCount: [2],
     target,
     onComplete: () => null,
     onUpdate: () => null,
@@ -90,7 +90,7 @@ const getBackgroundImage = (id: string) => {
   return undefined;
 };
 
-const useFallbackAnimation = () => {
+const useFallbackAnimation = (options: { onComplete: () => void }) => {
   const stateRef = React.useRef<'rest' | 'play'>('rest');
   const playRef = React.useRef<() => void>(() => null);
   const stopRef = React.useRef<() => void>(() => null);
@@ -108,6 +108,7 @@ const useFallbackAnimation = () => {
 
     const onComplete = () => {
       stateRef.current = 'rest';
+      options.onComplete();
     };
 
     let onUpdate: () => void = () => null;
@@ -138,24 +139,22 @@ const useFallbackAnimation = () => {
   };
 };
 
-export const Fallback = () => {
-  const { targetRef, play, stop } = useFallbackAnimation();
-  const [running, setRunning] = React.useState(true);
+export const FallbackWithDuration = () => {
+  const { targetRef, play } = useFallbackAnimation({
+    onComplete: () => setRunning(false),
+  });
+  const [running, setRunning] = React.useState(false);
   React.useEffect(() => {
     if (running) {
       play();
-    } else {
-      stop();
     }
   }, [running]);
 
   return (
     <>
-      <Switch
-        onChange={(e, data) => setRunning(data.checked)}
-        checked={running}
-        label="Toggle animation"
-      />
+      <Button disabled={running} onClick={() => setRunning(true)}>
+        Play
+      </Button>
       <div
         ref={targetRef}
         style={

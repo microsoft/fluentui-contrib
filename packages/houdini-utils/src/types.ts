@@ -14,7 +14,9 @@ export interface PaintWorkletGeometry {
 /**
  * Function that animates values.
  */
-export type FallbackAnimationFn = (params: FallbackAnimationParams) => void;
+export type FallbackAnimationFn = (
+  params: FallbackAnimationParams & { isStopped: () => boolean }
+) => void;
 
 /**
  * Function that creates keyframe animation objects from CSS input.
@@ -26,9 +28,10 @@ export type CreateKeyframeAnimationFn = (
 export type FallbackAnimationParams = {
   /**
    * CSS animation-iteration-count longhand property
-   * @default 1
+   * The order of iteration counts should match the order of the animations.
+   * @default [1]
    */
-  iterationCount?: number;
+  iterationCount?: number[];
   /**
    * CSS keyframe animation steps.
    */
@@ -56,8 +59,6 @@ export type FallbackAnimationParams = {
    * HTML element where the animation will be applied.
    */
   target: HTMLElement;
-
-  isStopped: () => boolean;
 
   /**
    * Callback function that will be called on every animation frame.
@@ -92,6 +93,11 @@ export type FallbackAnimationSteps = {
 };
 
 export type FallbackKeyframe = {
+  /**
+   * Number of times this keyframe will be played.
+   */
+  iterationCount: number;
+
   /**
    * Time in ms when the keyframe starts, including delay.
    */
@@ -184,18 +190,14 @@ export type TickFn = (
    */
   onUpdate: CallbackFn,
 
-  iterationCount: number,
   isStopped: () => boolean
 ) => void;
 
 export type FallbackAnimationReturn = {
   id: string;
   canvas: HTMLCanvasElement | null;
-  play: (
-    onComplete: CallbackFn,
-    isStopped: () => boolean,
-    onUpdate?: CallbackFn
-  ) => void;
+  play: (onComplete: CallbackFn, onUpdate?: CallbackFn) => void;
+  stop: () => void;
   cleanup: () => void;
 };
 
@@ -205,4 +207,5 @@ export type FallbackAnimationState = {
   id: string;
   mode: 'moz-element' | 'webkit-canvas' | 'to-data-url';
   wrapper: HTMLElement | null;
+  running: boolean;
 };

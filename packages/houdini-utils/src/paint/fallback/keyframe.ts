@@ -21,8 +21,10 @@ export const createKeyframeAnimation: CreateKeyframeAnimationFn = ({
   delay,
   duration,
   timingFunction,
+  iterationCount = [1],
   target,
 }) => {
+  const iterations = iterationCount;
   const durations = duration.split(',').map(timeToNumber);
   const delays = delay.split(',').map(timeToNumber);
   const timingFunctions = timingFunction.split(',').map(processTimingFunction);
@@ -43,6 +45,7 @@ export const createKeyframeAnimation: CreateKeyframeAnimationFn = ({
       return;
     }
 
+    const iterationCount = iterations[animationIndex] ?? 1;
     const delay = delays[animationIndex] ?? 0;
     const duration = durations[animationIndex] ?? 0;
     const animDuration = delay + duration;
@@ -94,6 +97,7 @@ export const createKeyframeAnimation: CreateKeyframeAnimationFn = ({
       }
 
       anim.keyframes.push({
+        iterationCount,
         startTime,
         endTime,
         duration: endTime - startTime,
