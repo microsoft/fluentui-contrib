@@ -6,8 +6,19 @@ import type {
   FallbackAnimationState,
   PaintWorklet,
 } from '../../../types';
+import { hasMozElement, hasWebkitCanvas } from '../../../util/featureDetect';
 
 export type PlayAnimFn = () => (state: FallbackAnimationState) => () => void;
+
+const getBackgroundImage = (id: string) => {
+  if (hasMozElement()) {
+    return `-moz-element(#${id})`;
+  } else if (hasWebkitCanvas()) {
+    return `-webkit-canvas(${id})`;
+  }
+
+  return undefined;
+};
 
 export const playAnim = (
   state: FallbackAnimationState,
@@ -61,6 +72,17 @@ export const playAnim = (
         props.set(key, value);
       }
       paintWorklet.paint(state.ctx, rect, props);
+
+      const backgroundImage = getBackgroundImage(state.id);
+      if (backgroundImage) {
+        state.target.style.backgroundImage = backgroundImage;
+      } else {
+        const urlBackgroundImage = `url(${state.ctx.canvas.toDataURL(
+          'image/png'
+        )})`;
+        state.target.style.backgroundImage = urlBackgroundImage;
+      }
+
       onUpdate?.(currentValues);
     };
 

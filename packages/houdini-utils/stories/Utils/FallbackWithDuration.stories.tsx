@@ -54,9 +54,6 @@ export const fallback = (target: HTMLElement) => {
     duration: '1000ms',
     timingFunction: 'ease-in-out',
     iterationCount: [2],
-    target,
-    onComplete: () => null,
-    onUpdate: () => null,
     delay: '0',
     animations: [
       {
