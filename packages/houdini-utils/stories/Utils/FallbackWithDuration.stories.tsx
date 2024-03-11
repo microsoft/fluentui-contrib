@@ -53,6 +53,7 @@ export const fallback = (target: HTMLElement) => {
   return fallbackPaintAnimation(target, new MyPaintWorklet(), {
     duration: '1000ms',
     timingFunction: 'ease-in-out',
+    iterationCount: [2],
     target,
     onComplete: () => null,
     onUpdate: () => null,
