@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/houdini-utils
 
-This log was last generated on Mon, 11 Mar 2024 09:49:50 GMT and should not be manually modified.
+This log was last generated on Mon, 11 Mar 2024 13:54:17 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.3.0
+
+Mon, 11 Mar 2024 13:54:17 GMT
+
+### Minor changes
+
+- BREAKING: Remove unnecessary API and handle fallback image internally (lingfangao@hotmail.com)
 
 ## 0.2.0
 

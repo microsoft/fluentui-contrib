@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/houdini-utils",
   "entries": [
     {
+      "date": "Mon, 11 Mar 2024 13:54:17 GMT",
+      "tag": "@fluentui-contrib/houdini-utils_v0.3.0",
+      "version": "0.3.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "lingfangao@hotmail.com",
+            "package": "@fluentui-contrib/houdini-utils",
+            "commit": "0b4208158f8cb0d416b49c69c3b9149f3f0ff96a",
+            "comment": "BREAKING: Remove unnecessary API and handle fallback image internally"
+          }
+        ]
+      }
+    },
+    {
       "date": "Mon, 11 Mar 2024 09:49:50 GMT",
       "tag": "@fluentui-contrib/houdini-utils_v0.2.0",
       "version": "0.2.0",

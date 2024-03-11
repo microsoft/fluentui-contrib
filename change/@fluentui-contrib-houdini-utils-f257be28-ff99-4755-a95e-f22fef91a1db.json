@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "BREAKING: Remove unnecessary API and handle fallback image internally",
-  "packageName": "@fluentui-contrib/houdini-utils",
-  "email": "lingfangao@hotmail.com",
-  "dependentChangeType": "patch"
-}
