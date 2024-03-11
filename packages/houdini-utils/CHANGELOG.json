@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/houdini-utils",
   "entries": [
     {
+      "date": "Mon, 11 Mar 2024 09:49:50 GMT",
+      "tag": "@fluentui-contrib/houdini-utils_v0.2.0",
+      "version": "0.2.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "lingfangao@hotmail.com",
+            "package": "@fluentui-contrib/houdini-utils",
+            "commit": "d269deb4f480be57272e72f43b8a66d663d68f4a",
+            "comment": "BREAKING: Stopping a fallback animation should be imperative"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 08 Mar 2024 11:55:38 GMT",
       "tag": "@fluentui-contrib/houdini-utils_v0.1.1",
       "version": "0.1.1",
