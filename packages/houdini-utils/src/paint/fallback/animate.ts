@@ -108,7 +108,11 @@ const tick: TickFn = (
       onComplete(currentValues);
     } else if (
       currentDuration >= overallDuration &&
-      anims.some(anim => anim.keyframes.some(keyframe => currentIteration < keyframe.iterationCount))
+      anims.some((anim) =>
+        anim.keyframes.some(
+          (keyframe) => currentIteration < keyframe.iterationCount
+        )
+      )
     ) {
       currentIteration++;
       start = performance.now();
