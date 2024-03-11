@@ -298,24 +298,6 @@ export const Test = () => {
     }
 
     if (running) {
-      colorAnimRef.current = ref.current.animate(
-        [
-          {
-            '--liveness-color-1': 'transparent',
-            '--liveness-color-2': 'transparent',
-            '--liveness-color-3': 'transparent',
-          },
-          {
-            '--liveness-color-1': tokens.colorPaletteLilacBorderActive,
-            '--liveness-color-2': tokens.colorBrandStroke1,
-            '--liveness-color-3': tokens.colorPaletteLightTealBorderActive,
-          },
-        ],
-        { duration: 200, easing: 'linear', fill: 'forwards' }
-      );
-
-      colorAnimRef.current.persist();
-
       drawAnimRef.current = ref.current.animate(
         [
           {
@@ -368,6 +350,9 @@ export const Test = () => {
             height: 200,
             width: 200,
             padding: 2,
+            '--liveness-color-1': tokens.colorPaletteLilacBorderActive,
+            '--liveness-color-2': tokens.colorBrandStroke1,
+            '--liveness-color-3': tokens.colorPaletteLightTealBorderActive,
           } as React.CSSProperties
         }
       />
