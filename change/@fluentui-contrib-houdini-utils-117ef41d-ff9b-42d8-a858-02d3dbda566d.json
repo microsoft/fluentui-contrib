@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: iterations should be tracked with 1 indexing",
+  "packageName": "@fluentui-contrib/houdini-utils",
+  "email": "lingfangao@hotmail.com",
+  "dependentChangeType": "patch"
+}
