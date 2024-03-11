@@ -28,9 +28,10 @@ export type CreateKeyframeAnimationFn = (
 export type FallbackAnimationParams = {
   /**
    * CSS animation-iteration-count longhand property
-   * @default 1
+   * The order of iteration counts should match the order of the animations.
+   * @default [1]
    */
-  iterationCount?: number;
+  iterationCount?: number[];
   /**
    * CSS keyframe animation steps.
    */
@@ -92,6 +93,11 @@ export type FallbackAnimationSteps = {
 };
 
 export type FallbackKeyframe = {
+  /**
+   * Number of times this keyframe will be played.
+   */
+  iterationCount: number;
+
   /**
    * Time in ms when the keyframe starts, including delay.
    */
@@ -184,7 +190,6 @@ export type TickFn = (
    */
   onUpdate: CallbackFn,
 
-  iterationCount: number,
   isStopped: () => boolean
 ) => void;
 

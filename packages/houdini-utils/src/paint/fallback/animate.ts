@@ -7,13 +7,7 @@ import type {
 } from '../../types';
 
 export const animate: FallbackAnimationFn = (params) => {
-  const {
-    onComplete,
-    isStopped,
-    onUpdate,
-    iterationCount = 1,
-    ...otherParams
-  } = params;
+  const { onComplete, isStopped, onUpdate, ...otherParams } = params;
   const result = createKeyframeAnimation(otherParams);
   if (!result) {
     console.error('Unable to create keyframe animation.');
@@ -22,7 +16,7 @@ export const animate: FallbackAnimationFn = (params) => {
 
   const { anims, overallDuration } = result;
 
-  tick(anims, overallDuration, onComplete, onUpdate, iterationCount, isStopped);
+  tick(anims, overallDuration, onComplete, onUpdate, isStopped);
 };
 
 const stringifyValue = (value: number | number[]): string =>
@@ -33,12 +27,11 @@ const tick: TickFn = (
   overallDuration,
   onComplete,
   onUpdate,
-  iterationCount,
   isStopped
 ) => {
   let start = performance.now();
   const currentValues = new Map<string, string>();
-  let currentIteration = 1;
+  let currentIteration = 0;
 
   const raf = (time: number = performance.now()) => {
     const currentDuration = time - start;
@@ -91,7 +84,10 @@ const tick: TickFn = (
     };
 
     for (const animValue of anims) {
-      if (currentDuration <= animValue.keyframes[0].startTime) {
+      if (currentIteration >= animValue.keyframes[0].iterationCount) {
+        // We've completed all iterations - just render the last frame
+        lastFrame(animValue);
+      } else if (currentDuration <= animValue.keyframes[0].startTime) {
         initialFrame(animValue);
       } else if (
         currentDuration >=
@@ -112,7 +108,7 @@ const tick: TickFn = (
       onComplete(currentValues);
     } else if (
       currentDuration >= overallDuration &&
-      currentIteration < iterationCount
+      anims.some(anim => anim.keyframes.some(keyframe => currentIteration < keyframe.iterationCount))
     ) {
       currentIteration++;
       start = performance.now();
