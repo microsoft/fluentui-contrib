@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "BREAKING: Stopping a fallback animation should be imperative",
+  "packageName": "@fluentui-contrib/houdini-utils",
+  "email": "lingfangao@hotmail.com",
+  "dependentChangeType": "patch"
+}

@@ -38,7 +38,6 @@ class MyPaintWorklet implements PaintWorklet {
     radii: number | number[] = 0
   ) {
     if (ctx.roundRect) {
-      console.log(x, y, w, h);
       ctx.roundRect(x, y, w, h, radii);
     } else {
       let rad: number[] = [0, 0, 0, 0];
@@ -281,11 +280,12 @@ export const fallback = (target: HTMLElement) => {
   const startAngle = String(START_ANGLE);
   const endAngle = String(START_ANGLE + 2 * Math.PI);
   return fallbackPaintAnimation(target, new MyPaintWorklet(), {
-    duration: '1000ms, 1000ms',
+    duration: '500ms, 1000ms',
     timingFunction: 'linear',
     target,
     onComplete: () => null,
     onUpdate: () => null,
+    iterationCount: [1, Infinity],
     delay: '0',
     animations: [
       {
@@ -305,7 +305,6 @@ export const fallback = (target: HTMLElement) => {
         },
       },
     ],
-    isStopped: () => false,
   });
 };
 
@@ -322,6 +321,7 @@ const getBackgroundImage = (id: string) => {
 const useFallbackAnimation = () => {
   const stateRef = React.useRef<'rest' | 'play'>('rest');
   const playRef = React.useRef<() => void>(() => null);
+  const stopRef = React.useRef<() => void>(() => null);
   const cleanupRef = React.useRef<() => void>(() => null);
   const targetRef = React.useCallback((node: HTMLElement | null) => {
     if (!node) {
@@ -329,15 +329,14 @@ const useFallbackAnimation = () => {
       return;
     }
 
-    const { id, play, canvas, cleanup } = fallback(node);
+    const { id, play, stop, canvas, cleanup } = fallback(node);
+    stopRef.current = stop;
     cleanupRef.current = cleanup;
     const backgroundImage = getBackgroundImage(id);
 
     const onComplete = () => {
       stateRef.current = 'rest';
     };
-
-    const isStopped = () => stateRef.current === 'rest';
 
     let onUpdate: () => void = () => null;
 
@@ -355,7 +354,7 @@ const useFallbackAnimation = () => {
     playRef.current = () => {
       if (stateRef.current === 'rest') {
         stateRef.current = 'play';
-        play(onComplete, isStopped, onUpdate);
+        play(onComplete, onUpdate);
       }
     };
   }, []);
@@ -363,16 +362,23 @@ const useFallbackAnimation = () => {
   return {
     targetRef,
     play: () => playRef.current(),
-    stop: () => (stateRef.current = 'rest'),
+    stop: () => {
+      if (stateRef.current === 'play') {
+        stopRef.current();
+        stateRef.current = 'rest';
+      }
+    },
   };
 };
 
 export const TestFallback = () => {
   const [running, setRunning] = React.useState(false);
-  const { targetRef, play } = useFallbackAnimation();
+  const { targetRef, play, stop } = useFallbackAnimation();
   React.useLayoutEffect(() => {
     if (running) {
       play();
+    } else {
+      stop();
     }
   }, [running]);
 

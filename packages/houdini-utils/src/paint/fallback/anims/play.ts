@@ -41,11 +41,8 @@ export const playAnim = (
     }
   });
 
-  return (
-    onComplete: CallbackFn,
-    isStopped: () => boolean,
-    onUpdate?: CallbackFn
-  ) => {
+  return (onComplete: CallbackFn, onUpdate?: CallbackFn) => {
+    state.running = true;
     resizeObserver.observe(state.target);
 
     const onAnimUpdate: CallbackFn = (currentValues) => {
@@ -70,9 +67,10 @@ export const playAnim = (
     animate({
       ...animationParams,
       target: state.target,
-      isStopped,
+      isStopped: () => !state.running,
       onUpdate: onAnimUpdate,
       onComplete: (currentValues) => {
+        state.running = false;
         resizeObserver.unobserve(state.target);
         onComplete(currentValues);
       },
