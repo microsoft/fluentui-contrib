@@ -382,14 +382,6 @@ export const TestFallback = () => {
     }
   }, [running]);
 
-  if (!hasHoudini()) {
-    return (
-      <div>
-        ⚠️ This browser does not support houdini, please take a look at the
-        fallback example.
-      </div>
-    );
-  }
   return (
     <>
       <Switch
@@ -409,6 +401,7 @@ export const TestFallback = () => {
             '--liveness-color-1': tokens.colorPaletteLilacBorderActive,
             '--liveness-color-2': tokens.colorBrandStroke1,
             '--liveness-color-3': tokens.colorPaletteLightTealBorderActive,
+            '--liveness-stroke-width': '2px',
           } as React.CSSProperties
         }
       />
