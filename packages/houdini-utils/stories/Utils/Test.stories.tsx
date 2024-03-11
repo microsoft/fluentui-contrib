@@ -73,6 +73,45 @@ class MyPaintWorklet implements PaintWorklet {
   }
 
   /**
+   * roundRect does not meet the browser support matrix of Fluent UI
+   * @link https://react.fluentui.dev/?path=/docs/concepts-developer-browser-support-matrix--page#full-browser-support-matrix
+   */
+  private roundRect(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+    radii: number | number[] = 0
+  ) {
+    if (ctx.roundRect) {
+      ctx.roundRect(x, y, w, h, radii);
+    } else {
+      let rad: number[] = [0, 0, 0, 0];
+      if (Array.isArray(radii)) {
+        if (radii.length === 4) {
+          rad = radii;
+        } else if (radii.length === 1) {
+          rad = new Array(4).fill(radii[0]);
+        } else if (radii.length === 2) {
+          rad = [radii[0], radii[1], radii[0], radii[1]];
+        } else if (radii.length === 3) {
+          rad = [radii[0], radii[1], radii[2], radii[1]];
+        }
+      } else if (typeof radii === 'number') {
+        rad = new Array(4).fill(radii);
+      }
+
+      ctx.moveTo(x + rad[0], y);
+      ctx.arcTo(x + w, y, x + w, y + h, rad[1]);
+      ctx.arcTo(x + w, y + h, x, y + h, rad[2]);
+      ctx.arcTo(x, y + h, x, y, rad[3]);
+      ctx.arcTo(x, y, x + w, y, rad[0]);
+      ctx.closePath();
+    }
+  }
+
+  /**
    * Canvas drawing context only handles numbers, so we need to parse percentage values
    * The percentage handling is explicitly wrong since it doesn't take into account both dimensions.
    *
@@ -194,7 +233,8 @@ class MyPaintWorklet implements PaintWorklet {
 
     // mask rectangle
     // clips the gradient to have a border
-    ctx.roundRect(
+    this.roundRect(
+      ctx,
       strokeWidth,
       strokeWidth,
       width - strokeWidth * 2,
@@ -289,7 +329,6 @@ registerPaintWorklet(
 export const Test = () => {
   const ref = React.useRef<HTMLDivElement>(null);
   const drawAnimRef = React.useRef<Animation | null>(null);
-  const colorAnimRef = React.useRef<Animation | null>(null);
   const spinAnimRef = React.useRef<Animation | null>(null);
   const [running, setRunning] = React.useState(false);
   React.useLayoutEffect(() => {
@@ -320,7 +359,6 @@ export const Test = () => {
         { duration: 1000, easing: 'linear', iterations: Infinity }
       );
     } else {
-      colorAnimRef.current?.cancel();
       drawAnimRef.current?.cancel();
       spinAnimRef.current?.cancel();
     }
