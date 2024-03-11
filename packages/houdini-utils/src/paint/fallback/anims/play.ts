@@ -6,6 +6,7 @@ import type {
   FallbackAnimationState,
   PaintWorklet,
 } from '../../../types';
+import { hasMozElement, hasWebkitCanvas } from '../../../util/featureDetect';
 
 export type PlayAnimFn = () => (state: FallbackAnimationState) => () => void;
 
@@ -61,6 +62,20 @@ export const playAnim = (
         props.set(key, value);
       }
       paintWorklet.paint(state.ctx, rect, props);
+
+      // Firefox and webkit both support using canvas as a background image
+      // For all other browsers, we'll use a data url
+      if (hasMozElement()) {
+        state.target.style.backgroundImage = `-moz-element(#${state.id})`;
+      } else if (hasWebkitCanvas()) {
+        state.target.style.backgroundImage = `-webkit-canvas(#${state.id})`;
+      } else {
+        const urlBackgroundImage = `url(${state.ctx.canvas.toDataURL(
+          'image/png'
+        )})`;
+        state.target.style.backgroundImage = urlBackgroundImage;
+      }
+
       onUpdate?.(currentValues);
     };
 
