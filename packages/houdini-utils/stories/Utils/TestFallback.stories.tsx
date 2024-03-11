@@ -2,9 +2,6 @@ import * as React from 'react';
 import {
   PaintWorklet,
   PaintWorkletGeometry,
-  hasHoudini,
-  hasMozElement,
-  hasWebkitCanvas,
   fallbackPaintAnimation,
 } from '@fluentui-contrib/houdini-utils';
 import { Switch, tokens } from '@fluentui/react-components';
@@ -282,9 +279,6 @@ export const fallback = (target: HTMLElement) => {
   return fallbackPaintAnimation(target, new MyPaintWorklet(), {
     duration: '500ms, 1000ms',
     timingFunction: 'linear',
-    target,
-    onComplete: () => null,
-    onUpdate: () => null,
     iterationCount: [1, Infinity],
     delay: '0',
     animations: [
@@ -308,16 +302,6 @@ export const fallback = (target: HTMLElement) => {
   });
 };
 
-const getBackgroundImage = (id: string) => {
-  if (hasMozElement()) {
-    return `-moz-element(#${id})`;
-  } else if (hasWebkitCanvas()) {
-    return `-webkit-canvas(${id})`;
-  }
-
-  return undefined;
-};
-
 const useFallbackAnimation = () => {
   const stateRef = React.useRef<'rest' | 'play'>('rest');
   const playRef = React.useRef<() => void>(() => null);
@@ -329,32 +313,18 @@ const useFallbackAnimation = () => {
       return;
     }
 
-    const { id, play, stop, canvas, cleanup } = fallback(node);
+    const { play, stop, cleanup } = fallback(node);
     stopRef.current = stop;
     cleanupRef.current = cleanup;
-    const backgroundImage = getBackgroundImage(id);
 
     const onComplete = () => {
       stateRef.current = 'rest';
     };
 
-    let onUpdate: () => void = () => null;
-
-    if (backgroundImage) {
-      node.style.backgroundImage = backgroundImage;
-    } else {
-      onUpdate = () => {
-        if (canvas) {
-          const backgroundImage = `url(${canvas.toDataURL('image/png')})`;
-          node.style.backgroundImage = backgroundImage;
-        }
-      };
-    }
-
     playRef.current = () => {
       if (stateRef.current === 'rest') {
         stateRef.current = 'play';
-        play(onComplete, onUpdate);
+        play(onComplete);
       }
     };
   }, []);
