@@ -31,7 +31,7 @@ const tick: TickFn = (
 ) => {
   let start = performance.now();
   const currentValues = new Map<string, string>();
-  let currentIteration = 0;
+  let currentIteration = 1;
 
   const raf = (time: number = performance.now()) => {
     const currentDuration = time - start;
@@ -84,7 +84,7 @@ const tick: TickFn = (
     };
 
     for (const animValue of anims) {
-      if (currentIteration >= animValue.keyframes[0].iterationCount) {
+      if (currentIteration > animValue.keyframes[0].iterationCount) {
         // We've completed all iterations - just render the last frame
         lastFrame(animValue);
       } else if (currentDuration <= animValue.keyframes[0].startTime) {
