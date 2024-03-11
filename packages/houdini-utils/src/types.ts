@@ -15,14 +15,35 @@ export interface PaintWorkletGeometry {
  * Function that animates values.
  */
 export type FallbackAnimationFn = (
-  params: FallbackAnimationParams & { isStopped: () => boolean }
+  params: FallbackAnimationParamsInternal & { isStopped: () => boolean }
 ) => void;
+
+export type FallbackKeyframeParams = Pick<
+  FallbackAnimationParams,
+  'animations' | 'delay' | 'duration' | 'iterationCount' | 'timingFunction'
+> & {
+  target: HTMLElement;
+};
+
+export type FallbackAnimationParamsInternal = FallbackKeyframeParams & {
+  target: HTMLElement;
+
+  /**
+   * Callback function that will be called on every animation frame.
+   */
+  onUpdate: CallbackFn;
+
+  /**
+   * Callback function that will be called when the animation is complete.
+   */
+  onComplete: CallbackFn;
+};
 
 /**
  * Function that creates keyframe animation objects from CSS input.
  */
 export type CreateKeyframeAnimationFn = (
-  params: CreateKeyframeAnimationParams
+  params: FallbackKeyframeParams
 ) => { anims: FallbackAnimation[]; overallDuration: number } | undefined;
 
 export type FallbackAnimationParams = {
@@ -54,21 +75,6 @@ export type FallbackAnimationParams = {
    * @see https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timing-function
    */
   timingFunction: string;
-
-  /**
-   * HTML element where the animation will be applied.
-   */
-  target: HTMLElement;
-
-  /**
-   * Callback function that will be called on every animation frame.
-   */
-  onUpdate: CallbackFn;
-
-  /**
-   * Callback function that will be called when the animation is complete.
-   */
-  onComplete: CallbackFn;
 };
 
 export type CreateKeyframeAnimationParams = Omit<
@@ -196,7 +202,11 @@ export type TickFn = (
 export type FallbackAnimationReturn = {
   id: string;
   canvas: HTMLCanvasElement | null;
-  play: (onComplete: CallbackFn, onUpdate?: CallbackFn) => void;
+  /**
+   * @param onComplete Callback when animation completes
+   * @param onUpdate Update called on each new frame
+   */
+  play(onComplete: CallbackFn, onUpdate?: CallbackFn): void;
   stop: () => void;
   cleanup: () => void;
 };
