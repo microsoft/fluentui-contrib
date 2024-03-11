@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/houdini-utils
 
-This log was last generated on Mon, 11 Mar 2024 13:54:17 GMT and should not be manually modified.
+This log was last generated on Mon, 11 Mar 2024 16:03:34 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.3.1
+
+Mon, 11 Mar 2024 16:03:34 GMT
+
+### Patches
+
+- fix: iterations should be tracked with 1 indexing (lingfangao@hotmail.com)
 
 ## 0.3.0
 

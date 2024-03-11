@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/houdini-utils",
   "entries": [
     {
+      "date": "Mon, 11 Mar 2024 16:03:34 GMT",
+      "tag": "@fluentui-contrib/houdini-utils_v0.3.1",
+      "version": "0.3.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "lingfangao@hotmail.com",
+            "package": "@fluentui-contrib/houdini-utils",
+            "commit": "4457b89346178c52233ce701e9435f174017631e",
+            "comment": "fix: iterations should be tracked with 1 indexing"
+          }
+        ]
+      }
+    },
+    {
       "date": "Mon, 11 Mar 2024 13:54:17 GMT",
       "tag": "@fluentui-contrib/houdini-utils_v0.3.0",
       "version": "0.3.0",
