@@ -4,7 +4,13 @@ import {
   PaintWorkletGeometry,
   fallbackPaintAnimation,
 } from '@fluentui-contrib/houdini-utils';
-import { Switch, tokens } from '@fluentui/react-components';
+import {
+  Switch,
+  makeStyles,
+  tokens,
+  shorthands,
+  Button,
+} from '@fluentui/react-components';
 
 class MyPaintWorklet implements PaintWorklet {
   public static get inputProperties() {
@@ -340,8 +346,30 @@ const useFallbackAnimation = () => {
     },
   };
 };
+const useStyles = makeStyles({
+  liveness: {
+    position: 'relative',
+    display: 'inline-flex',
+    justifyContent: 'center',
+    ...shorthands.borderRadius('4px'),
+    alignItems: 'center',
+    '--liveness-color-1': tokens.colorPaletteLilacBorderActive,
+    '--liveness-color-2': tokens.colorBrandStroke1,
+    '--liveness-color-3': tokens.colorPaletteLightTealBorderActive,
+    '--liveness-stroke-width': '2px',
+    ':after': {
+      ...shorthands.borderRadius('inherit'),
+      position: 'absolute',
+      content: "''",
+      width: '100%',
+      height: '100%',
+      backgroundImage: 'inherit',
+    },
+  },
+});
 
 export const TestFallback = () => {
+  const styles = useStyles();
   const [running, setRunning] = React.useState(false);
   const { targetRef, play, stop } = useFallbackAnimation();
   React.useLayoutEffect(() => {
@@ -359,22 +387,9 @@ export const TestFallback = () => {
         checked={running}
         label="Toggle animation"
       />
-      <div
-        ref={targetRef}
-        style={
-          {
-            background: 'paint(testworklet)',
-            borderRadius: '20px',
-            height: 200,
-            width: 200,
-            padding: 2,
-            '--liveness-color-1': tokens.colorPaletteLilacBorderActive,
-            '--liveness-color-2': tokens.colorBrandStroke1,
-            '--liveness-color-3': tokens.colorPaletteLightTealBorderActive,
-            '--liveness-stroke-width': '2px',
-          } as React.CSSProperties
-        }
-      />
+      <div ref={targetRef} className={styles.liveness}>
+        <Button>Liveness</Button>
+      </div>
     </>
   );
 };

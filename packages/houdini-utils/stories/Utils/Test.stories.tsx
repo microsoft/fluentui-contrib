@@ -6,7 +6,13 @@ import {
   PaintWorkletGeometry,
   hasHoudini,
 } from '@fluentui-contrib/houdini-utils';
-import { Switch, tokens } from '@fluentui/react-components';
+import {
+  Switch,
+  tokens,
+  Button,
+  makeStyles,
+  shorthands,
+} from '@fluentui/react-components';
 
 try {
   CSS.registerProperty({
@@ -326,18 +332,41 @@ registerPaintWorklet(
   ''
 ).then(() => console.log('registered'));
 
+const useStyles = makeStyles({
+  liveness: {
+    position: 'relative',
+    display: 'inline-flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+      ...shorthands.borderRadius('4px'),
+    '--liveness-color-1': tokens.colorPaletteLilacBorderActive,
+    '--liveness-color-2': tokens.colorBrandStroke1,
+    '--liveness-color-3': tokens.colorPaletteLightTealBorderActive,
+    ':after': {
+      ...shorthands.borderRadius('inherit'),
+      position: 'absolute',
+      content: "''",
+      width: '100%',
+      height: '100%',
+      backgroundImage: 'paint(testworklet)',
+    },
+  },
+});
+
 export const Test = () => {
   const ref = React.useRef<HTMLDivElement>(null);
-  const drawAnimRef = React.useRef<Animation | null>(null);
+  const fadeRef = React.useRef<Animation | null>(null);
   const spinAnimRef = React.useRef<Animation | null>(null);
   const [running, setRunning] = React.useState(false);
+  const styles = useStyles();
   React.useLayoutEffect(() => {
     if (!ref.current) {
       return;
     }
 
     if (running) {
-      drawAnimRef.current = ref.current.animate(
+      const inDuration = 500;
+      fadeRef.current = ref.current.animate(
         [
           {
             '--liveness-progress': '0',
@@ -346,10 +375,10 @@ export const Test = () => {
             '--liveness-progress': '1',
           },
         ],
-        { duration: 500, easing: 'linear', fill: 'forwards' }
+        { duration: inDuration, easing: 'linear', fill: 'forwards' }
       );
 
-      drawAnimRef.current.persist();
+      fadeRef.current.persist();
 
       const START_ANGLE = (3 * Math.PI) / 4;
       const startAngle = String(START_ANGLE);
@@ -359,8 +388,8 @@ export const Test = () => {
         { duration: 1000, easing: 'linear', iterations: Infinity }
       );
     } else {
-      drawAnimRef.current?.cancel();
       spinAnimRef.current?.cancel();
+      fadeRef.current?.cancel();
     }
   }, [running]);
 
@@ -379,21 +408,9 @@ export const Test = () => {
         checked={running}
         label="Toggle animation"
       />
-      <div
-        ref={ref}
-        style={
-          {
-            background: 'paint(testworklet)',
-            borderRadius: '20px',
-            height: 200,
-            width: 200,
-            padding: 2,
-            '--liveness-color-1': tokens.colorPaletteLilacBorderActive,
-            '--liveness-color-2': tokens.colorBrandStroke1,
-            '--liveness-color-3': tokens.colorPaletteLightTealBorderActive,
-          } as React.CSSProperties
-        }
-      />
+      <div ref={ref} className={styles.liveness}>
+        <Button>Liveness</Button>
+      </div>
     </>
   );
 };
