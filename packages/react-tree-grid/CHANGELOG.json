@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-tree-grid",
   "entries": [
     {
+      "date": "Thu, 07 Mar 2024 09:21:49 GMT",
+      "tag": "@fluentui-contrib/react-tree-grid_v0.1.0",
+      "version": "0.1.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "bernardo.sunderhus@gmail.com",
+            "package": "@fluentui-contrib/react-tree-grid",
+            "commit": "ccf9ae05dc5cb3f2a50f99bd4ffb1e8e60131cfe",
+            "comment": "chore: bump to minor 0.1.0"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 06 Mar 2024 15:48:49 GMT",
       "tag": "@fluentui-contrib/react-tree-grid_v0.0.2",
       "version": "0.0.2",

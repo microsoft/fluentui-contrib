@@ -1,9 +1,7 @@
 import * as React from 'react';
-import { act, renderHook } from '@testing-library/react';
+import { renderHook } from '@testing-library/react';
 
 import { useDraggableDialog } from './useDraggableDialog';
-import { DragEndEvent } from '@dnd-kit/core';
-import { draggableDialogContextDefaultValue } from '../../contexts/DraggableDialogContext';
 
 const dialogChild = React.createElement('div', null, 'Dialog Child');
 
