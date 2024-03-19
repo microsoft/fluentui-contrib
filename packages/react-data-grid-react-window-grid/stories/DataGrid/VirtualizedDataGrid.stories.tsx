@@ -15,7 +15,9 @@ import {
   TableCellLayout,
   TableColumnDefinition,
   createTableColumn,
+  Button,
 } from '@fluentui/react-components';
+import { VariableSizeGrid, VariableSizeList } from 'react-window';
 
 export default {
   component: DataGrid,
@@ -36,12 +38,12 @@ const useStyles = makeStyles({
   },
   headerCell: {
     whiteSpace: 'nowrap',
+    boxSizing: 'border-box'
   },
 });
 
 const COLUMN_WIDTH = 120;
-const columnWidths = new Array(50).fill(COLUMN_WIDTH);
-const columnWidth = (index: number) => (index == 0 ? 200 : columnWidths[index]);
+
 const rowHeights = new Array(1000).fill(44);
 
 function getColumnDefinitions(
@@ -100,20 +102,30 @@ export const VirtualizedDataGrid: React.FunctionComponent = () => {
   );
   const items = generateTableArrays(1000, 50);
   const styles = useStyles();
-
-  return (
-    <DataGrid
+  const bodyRef = React.useRef<VariableSizeGrid>(null);
+  const headerRef = React.useRef<VariableSizeList>(null);
+  const [ width, setWidth ] = React.useState(200);
+  const columnWidth = React.useCallback((index: number) => (index == 0 ? 200 : new Array(columns.length).fill(true).map(() => width)[index]), [width]) ;
+  return (<>
+  <Button onClick={()=> {
+    setWidth(100);
+    bodyRef.current?.resetAfterColumnIndex(0);
+    headerRef.current?.resetAfterIndex(0);
+  }}>Change column width</Button>
+  <DataGrid
       noNativeElements
       sortable
       items={items}
       columns={columns}
       size={'medium'}
+      bodyRef={bodyRef}
+      headerRef={headerRef}
     >
       <DataGridHeader className={styles.tableHeader}>
         <DataGridHeaderRow<TableUIData>
           itemSize={columnWidth}
           height={42}
-          width={20000}
+          width={1000}
         >
           {({ renderHeaderCell }, style) => {
             return (
@@ -137,5 +149,7 @@ export const VirtualizedDataGrid: React.FunctionComponent = () => {
         {cellRenderer}
       </DataGridBody>
     </DataGrid>
+  </>
+
   );
 };

@@ -19,8 +19,11 @@ export type {
   DataGridHeaderProps,
   DataGridSelectionCellProps,
   DataGridRowProps,
-  DataGridProps,
 } from '@fluentui/react-components';
+
+export type {
+  DataGridProps,
+} from './components/DataGrid';
 
 export type {
   DataGridBodyProps,
