@@ -1,10 +1,10 @@
 import {
-  DataGridProps as OldDataGridProps,
+  DataGridProps as BaseDataGridProps,
   DataGridState as BaseDataGridState,
 } from '@fluentui/react-components';
 import { RefObject } from 'react';
 import { VariableSizeGrid, VariableSizeList } from 'react-window';
-export type DataGridProps = OldDataGridProps & {
+export type DataGridProps = BaseDataGridProps & {
   bodyRef?: RefObject<VariableSizeGrid>;
   headerRef?: RefObject<VariableSizeList>;
 };
