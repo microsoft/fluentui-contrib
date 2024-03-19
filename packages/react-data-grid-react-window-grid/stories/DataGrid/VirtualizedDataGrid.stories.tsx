@@ -38,7 +38,7 @@ const useStyles = makeStyles({
   },
   headerCell: {
     whiteSpace: 'nowrap',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
   },
 });
 
@@ -104,52 +104,62 @@ export const VirtualizedDataGrid: React.FunctionComponent = () => {
   const styles = useStyles();
   const bodyRef = React.useRef<VariableSizeGrid>(null);
   const headerRef = React.useRef<VariableSizeList>(null);
-  const [ width, setWidth ] = React.useState(200);
-  const columnWidth = React.useCallback((index: number) => (index == 0 ? 200 : new Array(columns.length).fill(true).map(() => width)[index]), [width]) ;
-  return (<>
-  <Button onClick={()=> {
-    setWidth(100);
-    bodyRef.current?.resetAfterColumnIndex(0);
-    headerRef.current?.resetAfterIndex(0);
-  }}>Change column width</Button>
-  <DataGrid
-      noNativeElements
-      sortable
-      items={items}
-      columns={columns}
-      size={'medium'}
-      bodyRef={bodyRef}
-      headerRef={headerRef}
-    >
-      <DataGridHeader className={styles.tableHeader}>
-        <DataGridHeaderRow<TableUIData>
-          itemSize={columnWidth}
-          height={42}
-          width={1000}
-        >
-          {({ renderHeaderCell }, style) => {
-            return (
-              <DataGridHeaderCell
-                className={styles.headerCell}
-                as="div"
-                style={style}
-              >
-                {renderHeaderCell()}
-              </DataGridHeaderCell>
-            );
-          }}
-        </DataGridHeaderRow>
-      </DataGridHeader>
-      <DataGridBody<TableUIData>
-        rowHeight={(index) => rowHeights[index]}
-        height={500}
-        width={1000}
-        columnWidth={columnWidth}
+  const [width, setWidth] = React.useState(200);
+  const columnWidth = React.useCallback(
+    (index: number) =>
+      index == 0
+        ? 200
+        : new Array(columns.length).fill(true).map(() => width)[index],
+    [width]
+  );
+  return (
+    <>
+      <Button
+        onClick={() => {
+          setWidth(100);
+          bodyRef.current?.resetAfterColumnIndex(0);
+          headerRef.current?.resetAfterIndex(0);
+        }}
       >
-        {cellRenderer}
-      </DataGridBody>
-    </DataGrid>
-  </>
-
+        Change column width
+      </Button>
+      <DataGrid
+        noNativeElements
+        sortable
+        items={items}
+        columns={columns}
+        size={'medium'}
+        bodyRef={bodyRef}
+        headerRef={headerRef}
+      >
+        <DataGridHeader className={styles.tableHeader}>
+          <DataGridHeaderRow<TableUIData>
+            itemSize={columnWidth}
+            height={42}
+            width={1000}
+          >
+            {({ renderHeaderCell }, style) => {
+              return (
+                <DataGridHeaderCell
+                  className={styles.headerCell}
+                  as="div"
+                  style={style}
+                >
+                  {renderHeaderCell()}
+                </DataGridHeaderCell>
+              );
+            }}
+          </DataGridHeaderRow>
+        </DataGridHeader>
+        <DataGridBody<TableUIData>
+          rowHeight={(index) => rowHeights[index]}
+          height={500}
+          width={1000}
+          columnWidth={columnWidth}
+        >
+          {cellRenderer}
+        </DataGridBody>
+      </DataGrid>
+    </>
   );
 };

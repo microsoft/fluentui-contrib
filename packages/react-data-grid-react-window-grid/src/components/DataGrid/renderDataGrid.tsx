@@ -13,7 +13,6 @@ export const renderDataGrid_unstable = (
   state: DataGridState,
   contextValues: DataGridContextValues
 ) => {
-
   return (
     <HeaderListRefContextProvider value={state.headerRef}>
       <BodyRefContextProvider value={state.bodyRef}>

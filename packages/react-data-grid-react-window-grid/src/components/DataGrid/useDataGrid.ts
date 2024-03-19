@@ -1,7 +1,5 @@
 import * as React from 'react';
-import {
-  useDataGrid_unstable as useBaseState,
-} from '@fluentui/react-components';
+import { useDataGrid_unstable as useBaseState } from '@fluentui/react-components';
 import { useFluent, useScrollbarWidth } from '@fluentui/react-components';
 import { DataGridProps, DataGridState } from './DataGrid.types';
 import { VariableSizeGrid, VariableSizeList } from 'react-window';
@@ -35,12 +33,12 @@ export const useDataGrid_unstable = (
 
   const baseState = useBaseState(
     { ...props, 'aria-rowcount': props.items.length, containerWidthOffset },
-    ref,
+    ref
   );
 
   return {
     ...baseState,
     bodyRef: props.bodyRef ?? React.useRef<VariableSizeGrid>(null),
-    headerRef: props.headerRef ?? React.useRef<VariableSizeList>(null)
-  }
+    headerRef: props.headerRef ?? React.useRef<VariableSizeList>(null),
+  };
 };
