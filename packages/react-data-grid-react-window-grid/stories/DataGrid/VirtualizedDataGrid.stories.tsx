@@ -110,7 +110,7 @@ export const VirtualizedDataGrid: React.FunctionComponent = () => {
       index == 0
         ? 200
         : new Array(columns.length).fill(true).map(() => width)[index],
-    [width]
+    [width, columns.length]
   );
   return (
     <>
