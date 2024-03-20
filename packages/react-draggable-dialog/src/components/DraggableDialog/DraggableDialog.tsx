@@ -10,24 +10,10 @@ import { useDraggableDialog } from './useDraggableDialog';
  * DraggableDialog is a wrapper around the Dialog component that makes it draggable.
  */
 export const DraggableDialog: React.FC<DraggableDialogProps> = (props) => {
-  const {
-    sensors,
-    modifiers,
-    onDragStart,
-    onDragEnd,
-    accessibilityProps,
-    contextValue,
-    dialogProps,
-  } = useDraggableDialog(props);
+  const { contextValue, dialogProps, ...dndProps } = useDraggableDialog(props);
 
   return (
-    <DndContext
-      sensors={sensors}
-      modifiers={modifiers}
-      accessibility={accessibilityProps}
-      onDragStart={onDragStart}
-      onDragEnd={onDragEnd}
-    >
+    <DndContext {...dndProps}>
       <DraggableDialogContextProvider value={contextValue}>
         <Dialog {...dialogProps} />
       </DraggableDialogContextProvider>

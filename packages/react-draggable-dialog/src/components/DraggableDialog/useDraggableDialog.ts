@@ -3,6 +3,7 @@ import * as React from 'react';
 import {
   Announcements,
   DragEndEvent,
+  DragMoveEvent,
   KeyboardSensor,
   MouseSensor,
   PointerSensor,
@@ -12,26 +13,36 @@ import {
 } from '@dnd-kit/core';
 import { useId } from '@fluentui/react-components';
 
-import { getParsedDraggableMargin, restrictToMarginModifier } from './utils';
 import {
   DraggableDialogProps,
   DraggableDialogState,
 } from './DraggableDialog.types';
+import { getParsedDraggableMargin } from './utils/getParsedDraggableMargin';
+import { restrictToMarginModifier } from './utils/restrictToMarginModifier';
 
 /**
  * This function is used to partition the props into two separate objects. The first object contains
  * the props that are specific to the DraggableDialog component, and the second object contains the
  * props that should be passed down to the Dialog component.
  */
-const getPartitionedProps = (props: DraggableDialogProps) => {
-  const { margin, keepInViewport, id, announcements, ...dialogProps } = props;
-
+const usePartitionedDraggableProps = (props: DraggableDialogProps) => {
+  const {
+    margin,
+    boundary,
+    position,
+    id,
+    announcements,
+    onPositionChange,
+    ...dialogProps
+  } = props;
+  const defaultId = useId('draggable-dialog-');
   const draggableDialogProps = {
-    id: useId('draggable-dialog-', id),
-    keepInViewport:
-      typeof keepInViewport === 'undefined' ? true : keepInViewport,
+    id: id || defaultId,
+    boundary: boundary === null ? null : boundary ?? 'viewport',
+    position: position ?? null,
     announcements,
     margin: getParsedDraggableMargin(margin),
+    onPositionChange: onPositionChange ?? (() => ({})),
   };
 
   return {
@@ -47,13 +58,18 @@ export const useDraggableDialog = (
   props: DraggableDialogProps
 ): DraggableDialogState => {
   const {
-    draggableDialogProps: { announcements, id, keepInViewport, margin },
+    draggableDialogProps: {
+      margin,
+      boundary,
+      id,
+      announcements,
+      position,
+      onPositionChange,
+    },
     dialogProps,
-  } = getPartitionedProps(props);
-
-  const [isDragging, setIsDragging] = React.useState(false);
+  } = usePartitionedDraggableProps(props);
+  const [dropPosition, setDropPosition] = React.useState({ x: 0, y: 0 });
   const [hasBeenDragged, setHasBeenDragged] = React.useState(false);
-  const [position, setPosition] = React.useState({ x: 0, y: 0 });
 
   const mouseSensor = useSensor(MouseSensor);
   const pointerSensor = useSensor(PointerSensor);
@@ -66,35 +82,57 @@ export const useDraggableDialog = (
     keyboardSensor
   );
 
-  const contextValue = React.useMemo(
-    () => ({
-      hasDraggableParent: true,
-      isDragging,
-      hasBeenDragged,
-      position,
-      id,
-    }),
-    [isDragging, hasBeenDragged, position, id]
+  const onDragMove = React.useCallback(
+    ({ active }: DragMoveEvent | DragEndEvent) => {
+      const { translated: rect } = active.rect.current;
+
+      if (!onPositionChange || !rect) {
+        return;
+      }
+
+      const position = {
+        x: rect.left,
+        y: rect.top,
+      };
+
+      onPositionChange(position);
+    },
+    [onPositionChange]
   );
 
-  const onDragEnd = React.useCallback((event: DragEndEvent) => {
-    setPosition(({ x, y }) => ({
-      x: x + event.delta.x,
-      y: y + event.delta.y,
-    }));
-    setIsDragging(false);
-  }, []);
+  const onDragEnd = React.useCallback(
+    (event: DragEndEvent) => {
+      const { translated: rect } = event.active.rect.current;
 
-  const onDragStart = React.useCallback(() => {
-    setHasBeenDragged(true);
-    setIsDragging(true);
-  }, []);
+      if (!rect) {
+        return;
+      }
+
+      setInitialDropPosition({
+        x: rect.left,
+        y: rect.top,
+      });
+      onDragMove(event);
+    },
+    [onDragMove]
+  );
+
+  const setInitialDropPosition = React.useCallback(
+    ({ x, y }: typeof dropPosition) => {
+      setHasBeenDragged(true);
+      setDropPosition({
+        x,
+        y,
+      });
+    },
+    []
+  );
 
   const modifiers = React.useMemo(() => {
-    return [restrictToMarginModifier({ margin, keepInViewport })];
-  }, [margin, keepInViewport]);
+    return [restrictToMarginModifier({ margin, boundary })];
+  }, [margin, boundary]);
 
-  const accessibilityProps = React.useMemo(() => {
+  const accessibility = React.useMemo(() => {
     const { start, end } = announcements || {};
 
     if (!announcements || (!start && !end)) {
@@ -116,13 +154,36 @@ export const useDraggableDialog = (
     };
   }, [announcements]);
 
-  return {
-    sensors,
-    modifiers,
-    accessibilityProps,
-    onDragStart,
-    onDragEnd,
-    contextValue,
-    dialogProps,
+  const contextValue = {
+    hasDraggableParent: true,
+    setDropPosition: setInitialDropPosition,
+    dropPosition,
+    position,
+    onPositionChange,
+    id,
+    hasBeenDragged,
+    margin,
+    boundary,
   };
+
+  return React.useMemo(
+    () => ({
+      onDragMove,
+      onDragEnd,
+      sensors,
+      modifiers,
+      accessibility,
+      contextValue,
+      dialogProps,
+    }),
+    [
+      onDragMove,
+      onDragEnd,
+      sensors,
+      modifiers,
+      accessibility,
+      contextValue,
+      dialogProps,
+    ]
+  );
 };

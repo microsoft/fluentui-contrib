@@ -14,9 +14,9 @@ import {
   DraggableDialogHandle,
 } from '@fluentui-contrib/react-draggable-dialog';
 
-export const Default = () => {
+export const NoBoundary = () => {
   return (
-    <DraggableDialog>
+    <DraggableDialog boundary={null}>
       <DialogTrigger>
         <Button>Toggle dialog</Button>
       </DialogTrigger>

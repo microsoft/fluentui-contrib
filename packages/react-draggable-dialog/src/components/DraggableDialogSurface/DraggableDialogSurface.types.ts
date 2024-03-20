@@ -12,4 +12,9 @@ export type DraggableDialogSurfaceState = {
    * Style to apply to the draggable dialog surface.
    */
   style: React.CSSProperties | undefined;
+
+  /**
+   * Where the draggable surface should be mounted on DOM
+   */
+  mountNode?: DraggableDialogSurfaceProps['mountNode'];
 };

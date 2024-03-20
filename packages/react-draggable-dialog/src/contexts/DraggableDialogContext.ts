@@ -1,18 +1,47 @@
 import * as React from 'react';
+import {
+  DraggableDialogProps,
+  DraggableDialogMarginViewport,
+} from '../components/DraggableDialog/DraggableDialog.types';
 
-const draggableDialogContextDefaultValue = {
+type DraggablePosition = {
+  x: number;
+  y: number;
+};
+export type DraggableDialogContextValue = {
+  hasDraggableParent: boolean;
+  id: string;
+  boundary: DraggableDialogProps['boundary'];
+  margin: Required<DraggableDialogMarginViewport>;
+  setDropPosition: (position: DraggablePosition) => void;
+  onPositionChange?: DraggableDialogProps['onPositionChange'];
+  position?: DraggablePosition | null;
+  dropPosition: DraggablePosition;
+  hasBeenDragged: boolean;
+};
+
+export const draggableDialogContextDefaultValue: DraggableDialogContextValue = {
   hasDraggableParent: false,
   id: '',
-  isDragging: false,
-  hasBeenDragged: false,
+  boundary: 'viewport',
+  margin: {
+    top: 0,
+    end: 0,
+    bottom: 0,
+    start: 0,
+  },
+  setDropPosition: () => undefined,
+  onPositionChange: () => undefined,
   position: {
     x: 0,
     y: 0,
   },
+  dropPosition: {
+    x: 0,
+    y: 0,
+  },
+  hasBeenDragged: false,
 };
-
-export type DraggableDialogContextValue =
-  typeof draggableDialogContextDefaultValue;
 
 const draggableDialogContext = React.createContext<DraggableDialogContextValue>(
   draggableDialogContextDefaultValue
