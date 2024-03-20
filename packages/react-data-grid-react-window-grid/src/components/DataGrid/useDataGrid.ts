@@ -1,5 +1,8 @@
 import * as React from 'react';
-import { useDataGrid_unstable as useBaseState, useMergedRefs } from '@fluentui/react-components';
+import {
+  useDataGrid_unstable as useBaseState,
+  useMergedRefs,
+} from '@fluentui/react-components';
 import { useFluent, useScrollbarWidth } from '@fluentui/react-components';
 import { DataGridProps, DataGridState } from './DataGrid.types';
 import { VariableSizeGrid, VariableSizeList } from 'react-window';
