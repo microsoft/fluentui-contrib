@@ -42,9 +42,7 @@ const useStyles = makeStyles({
   },
 });
 
-const COLUMN_WIDTH = 120;
-
-const rowHeights = new Array(1000).fill(44);
+const ROW_HEIGHT = 44;
 
 function getColumnDefinitions(
   columns: string[]
@@ -107,10 +105,8 @@ export const VirtualizedDataGrid: React.FunctionComponent = () => {
   const [width, setWidth] = React.useState(200);
   const columnWidth = React.useCallback(
     (index: number) =>
-      index == 0
-        ? 200
-        : new Array(columns.length).fill(true).map(() => width)[index],
-    [width, columns.length]
+      index == 0 ? 200 : width,
+    [width]
   );
   return (
     <>
@@ -152,7 +148,7 @@ export const VirtualizedDataGrid: React.FunctionComponent = () => {
           </DataGridHeaderRow>
         </DataGridHeader>
         <DataGridBody<TableUIData>
-          rowHeight={(index) => rowHeights[index]}
+          rowHeight={(index) => ROW_HEIGHT}
           height={500}
           width={1000}
           columnWidth={columnWidth}
