@@ -1,6 +1,6 @@
 {
   "name": "fluentui-contrib",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "license": "MIT",
   "scripts": {
     "build": "nx affected --target=build",
@@ -16,7 +16,6 @@
     "url": "https://github.com/microsoft/fluentui-contrib",
     "type": "git"
   },
-  "private": true,
   "engines": {
     "node": "^18.0.0 || ^20.0.0"
   },
