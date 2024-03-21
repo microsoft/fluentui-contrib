@@ -41,6 +41,9 @@
         "packages/react-resize-handle/src/index.ts"
       ],
       "@fluentui-contrib/react-shadow": ["packages/react-shadow/src/index.ts"],
+      "@fluentui-contrib/react-themeless-provider": [
+        "packages/react-themeless-provider/src/index.ts"
+      ],
       "@fluentui-contrib/react-tree-grid": [
         "packages/react-tree-grid/src/index.ts"
       ],
