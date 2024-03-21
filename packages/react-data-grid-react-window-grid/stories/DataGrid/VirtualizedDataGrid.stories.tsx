@@ -104,8 +104,7 @@ export const VirtualizedDataGrid: React.FunctionComponent = () => {
   const headerRef = React.useRef<VariableSizeList>(null);
   const [width, setWidth] = React.useState(200);
   const columnWidth = React.useCallback(
-    (index: number) =>
-      index == 0 ? 200 : width,
+    (index: number) => (index == 0 ? 200 : width),
     [width]
   );
   return (
