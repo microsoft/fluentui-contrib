@@ -85,7 +85,7 @@ export type DataGridBodyState = Omit<DataGridBodyStateBase, 'renderRow'> &
     gridProps?: Partial<VariableSizeGridProps>;
 
     /**
-     * Ref of the virtualized list container ref
+     * Ref of the virtualized grid container ref
      */
     gridRef: React.RefObject<VariableSizeGrid>;
   };

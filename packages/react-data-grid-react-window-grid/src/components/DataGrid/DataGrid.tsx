@@ -4,8 +4,8 @@ import { renderDataGrid_unstable } from './renderDataGrid';
 import {
   useDataGridStyles_unstable,
   useDataGridContextValues_unstable,
-  DataGridProps,
 } from '@fluentui/react-components';
+import { DataGridProps } from './DataGrid.types';
 
 export const DataGrid = React.forwardRef<HTMLDivElement, DataGridProps>(
   (props, ref) => {
