@@ -22,9 +22,9 @@ export default {
   displayName: 'react-themeless-provider',
   preset: '../../jest.preset.js',
   transform: {
-    '^.+\\.[tj]s$': ['@swc/jest', swcJestConfig],
+    '^.+\\.[tj]sx?$': ['@swc/jest', swcJestConfig],
   },
-  moduleFileExtensions: ['ts', 'js', 'html'],
+  moduleFileExtensions: ['js', 'ts', 'tsx', 'html'],
   testEnvironment: 'jsdom',
   coverageDirectory: '../../coverage/packages/react-themeless-provider',
 };
