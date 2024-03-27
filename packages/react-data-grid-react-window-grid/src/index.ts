@@ -32,7 +32,7 @@ export { dataGridBodyGridClassName } from './components/DataGridBody';
 
 export type {
   DataGridHeaderRowProps,
-  HeaderCellRenderer
+  HeaderCellRenderer,
 } from './components/DataGridHeaderRow';
 
 export { dataGridHeaderListClassName } from './components/DataGridHeaderRow';

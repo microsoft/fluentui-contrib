@@ -11,4 +11,5 @@ export const useDataGridBodyStyles_unstable = (
   return state;
 };
 
-export const dataGridBodyGridClassName = 'fui-DataGridReactWindowGridBody__grid';
+export const dataGridBodyGridClassName =
+  'fui-DataGridReactWindowGridBody__grid';

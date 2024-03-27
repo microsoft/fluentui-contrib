@@ -7,7 +7,8 @@ import {
 import { VariableSizeList as List } from 'react-window';
 import { DataGridHeaderRowState } from './DataGridHeaderRow.types';
 
-export const dataGridHeaderListClassName = 'fui-DataGridReactWindowGridHeader__list';
+export const dataGridHeaderListClassName =
+  'fui-DataGridReactWindowGridHeader__list';
 
 /**
  * Render the final JSX of DataGridHeaderRow
