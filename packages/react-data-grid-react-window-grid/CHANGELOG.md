@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-data-grid-react-window-grid
 
-This log was last generated on Wed, 21 Feb 2024 08:44:13 GMT and should not be manually modified.
+This log was last generated on Wed, 27 Mar 2024 07:37:18 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 2.1.0
+
+Wed, 27 Mar 2024 07:37:18 GMT
+
+### Minor changes
+
+- minor(react-data-grid-react-window-grid): bug fix on columnWidth not been called when rerendered (fengqi@microsoft.com)
 
 ## 2.0.0
 

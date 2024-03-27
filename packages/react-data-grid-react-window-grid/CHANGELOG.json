@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-data-grid-react-window-grid",
   "entries": [
     {
+      "date": "Wed, 27 Mar 2024 07:37:18 GMT",
+      "tag": "@fluentui-contrib/react-data-grid-react-window-grid_v2.1.0",
+      "version": "2.1.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "fengqi@microsoft.com",
+            "package": "@fluentui-contrib/react-data-grid-react-window-grid",
+            "commit": "ba17b24a67636fbd140fe657990f276429aa85d1",
+            "comment": "minor(react-data-grid-react-window-grid): bug fix on columnWidth not been called when rerendered"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 21 Feb 2024 08:44:13 GMT",
       "tag": "@fluentui-contrib/react-data-grid-react-window-grid_v2.0.0",
       "version": "2.0.0",
