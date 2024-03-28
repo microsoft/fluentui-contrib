@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {
-  createCSSRuleFromTheme,
   makeStyles,
   Button,
   Checkbox,
@@ -10,7 +9,10 @@ import {
   FluentProvider,
 } from '@fluentui/react-components';
 import type { PartialTheme } from '@fluentui/react-components';
-import { ThemelessFluentProvider } from '@fluentui-contrib/react-themeless-provider';
+import {
+  createCSSStyleSheetFromTheme,
+  ThemelessFluentProvider,
+} from '@fluentui-contrib/react-themeless-provider';
 import { root } from '@fluentui-contrib/react-shadow';
 
 const useClasses = makeStyles({
@@ -54,13 +56,19 @@ const Container: React.FC = () => {
   );
 };
 
-const ThemeInjector: React.FC<{ theme: PartialTheme }> = ({ theme }) => {
-  const cssRule = React.useMemo(
-    () => createCSSRuleFromTheme(':root', theme),
-    [theme]
-  );
+const useTheme = (theme: PartialTheme, inject = true) => {
+  React.useEffect(() => {
+    const sheet = createCSSStyleSheetFromTheme(':root', theme);
+    if (inject) {
+      document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
+    }
 
-  return <style dangerouslySetInnerHTML={{ __html: cssRule }} />;
+    return () => {
+      document.adoptedStyleSheets = document.adoptedStyleSheets.filter(
+        (adoptedSheet) => adoptedSheet !== sheet
+      );
+    };
+  }, [theme, inject]);
 };
 
 export const Default = () => {
@@ -68,6 +76,8 @@ export const Default = () => {
 
   const [fluentProviderEnabled, setFluentProviderEnabled] =
     React.useState(false);
+
+  useTheme(webLightTheme, !fluentProviderEnabled);
 
   return (
     <>
@@ -94,7 +104,6 @@ export const Default = () => {
           label="Use standard FluentProvider"
         />
       </FluentProvider>
-      {!fluentProviderEnabled && <ThemeInjector theme={webLightTheme} />}
 
       <root.div className={shadowDomContainerStyles.container}>
         {fluentProviderEnabled ? (
