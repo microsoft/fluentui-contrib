@@ -19,6 +19,9 @@
       "@fluentui-contrib/accessible-chat": [
         "packages/accessible-chat/src/index.ts"
       ],
+      "@fluentui-contrib/azuretheme-v9": [
+        "packages/azuretheme-v9/src/index.ts"
+      ],
       "@fluentui-contrib/houdini-utils": [
         "packages/houdini-utils/src/index.ts"
       ],

@@ -7,6 +7,7 @@ packages/react-data-grid-react-window-grid/ @microsoft/ms-fabric
 packages/react-draggable-dialog/ @microsoft/cxe-prg @marcosmoura
 packages/pierce-dom @spmonahan
 packages/houdini-utils @microsoft/teams-prg
+packages/azuretheme-v9 @aorantes
 # <%= NX-CODEOWNER-PLACEHOLDER %>
 
 #### Build/Infra
