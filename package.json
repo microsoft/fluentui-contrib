@@ -92,7 +92,9 @@
     "typescript": "5.3.3",
     "verdaccio": "^5.0.4"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@fluentui/tokens": "^1.0.0-alpha.16"
+  },
   "nx": {
     "includedScripts": []
   }

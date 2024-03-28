@@ -2,7 +2,8 @@
   "name": "@fluentui-contrib/azuretheme-v9",
   "version": "0.0.1",
   "dependencies": {
-    "@swc/helpers": "~0.5.2"
+    "@swc/helpers": "~0.5.2",
+    "@fluentui/tokens": "1.0.0-alpha.16"
   },
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",
