@@ -5,6 +5,7 @@ import type {
   DataGridBodySlots,
 } from './DataGridBody.types';
 import { VariableSizeGrid as Grid } from 'react-window';
+import { dataGridBodyGridClassName } from './useDataGridBodyStyles.styles';
 
 /**
  * Render the final JSX of DataGridVirtualizedBody
@@ -15,6 +16,7 @@ export const renderDataGridBody_unstable = (state: DataGridBodyState) => {
   return (
     <slots.root {...slotProps.root}>
       <Grid
+        className={dataGridBodyGridClassName}
         ref={state.gridRef}
         rowHeight={state.rowHeight}
         columnCount={state.columns.length}

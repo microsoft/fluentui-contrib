@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "minor: add classname for grid/list to support styling by selector",
+  "packageName": "@fluentui-contrib/react-data-grid-react-window-grid",
+  "email": "chaxu@microsoft.com",
+  "dependentChangeType": "patch"
+}
