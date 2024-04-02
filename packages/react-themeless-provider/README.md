@@ -26,10 +26,9 @@ export function App() {
     // This does not need to be created by React and can be created
     // by a host Web Component application for example.
     const cssRule = createCSSRuleFromTheme(':root', webLightTheme);
-    const stylesheet = new CSSStyleSheet();
-    stylesheet.insertRule(cssRule);
-
-    document.adoptedStyleSheets = [...document.adoptedStyleSheets, stylesheet];
+    const style = document.createElement('style');
+    document.head.appendChild(style);
+    style.sheet.insertRule(cssRule);
   }, []);
 
   return (

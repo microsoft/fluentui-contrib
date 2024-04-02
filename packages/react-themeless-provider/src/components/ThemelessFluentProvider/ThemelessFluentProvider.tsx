@@ -40,7 +40,7 @@ function shallowMerge<T>(a: T, b: T): T {
 
 function useThemelessFluentProviderState(
   props: ThemelessFluentProviderProps,
-  ref: React.Ref<HTMLElement>
+  ref: React.Ref<HTMLDivElement>
 ): FluentProviderState {
   const parentContext = useFluent();
   const parentOverrides = useOverrides();
@@ -76,13 +76,10 @@ function useThemelessFluentProviderState(
       getIntrinsicElementProps('div', {
         ...props,
         dir,
-        // FIXME:
-        // `ref` is wrongly assigned to be `HTMLElement` instead of `HTMLDivElement`
-        // but since it would be a breaking change to fix it, we are casting ref to it's proper type
         ref: useMergedRefs(
           ref,
           useFocusVisible<HTMLDivElement>({ targetDocument })
-        ) as React.Ref<HTMLDivElement>,
+        ),
       }),
       { elementType: 'div' }
     ),
