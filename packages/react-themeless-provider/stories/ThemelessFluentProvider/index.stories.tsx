@@ -1,4 +1,4 @@
-import * as React from 'react';
+// import * as React from 'react';
 import { Meta } from '@storybook/react';
 import { ThemelessFluentProvider } from '@fluentui-contrib/react-themeless-provider';
 export { Default } from './Default.stories';

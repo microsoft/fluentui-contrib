@@ -1,2 +1,1 @@
-export * from './components/ThemelessFluentProvider';
-export {};
+export { ThemelessFluentProvider } from './components/ThemelessFluentProvider';
