@@ -11,6 +11,7 @@ packages/houdini-utils @microsoft/teams-prg
 packages/react-headless-provider/ @microsoft/teams-prg
 packages/react-resize-handler/ @microsoft/teams-prg
 packages/stylelint-plugin/ @microsoft/teams-prg
+packages/react-themeless-provider/ @spmonahan
 # <%= NX-CODEOWNER-PLACEHOLDER %>
 
 #### Build/Infra
