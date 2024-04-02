@@ -26,6 +26,7 @@ export default async function (
     configureCypress: false,
     uiFramework: '@storybook/react-webpack5',
     tsConfiguration: true,
+    interactionTests: false,
   });
 
   // remove nx/storybook generator defaults that we don't need
