@@ -140,4 +140,12 @@ describe('configure-storybook generator', () => {
       }
     `);
   });
+
+  it(`should not update root package.json`, async () => {
+    await generator(tree, options);
+
+    expect(
+      readJson(tree, '/package.json').devDependencies['core-js']
+    ).toBeUndefined();
+  });
 });

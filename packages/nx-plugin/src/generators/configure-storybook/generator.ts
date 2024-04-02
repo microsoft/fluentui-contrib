@@ -33,6 +33,13 @@ export default async function (
   tree.delete(joinPathFragments(projectRoot, '.storybook/preview.ts'));
   tree.delete(joinPathFragments(projectRoot, 'tsconfig.storybook.json'));
 
+  updateJson(tree, '/package.json', (json) => {
+    json.devDependencies = json.devDependencies ?? {};
+    // remove nx/storybook generator defaults that we don't need
+    delete json.devDependencies['core-js'];
+    return json;
+  });
+
   // add our boilerplate
   generateFiles(tree, path.join(__dirname, 'files'), projectRoot, options);
   updateSolutionTsConfig(tree, { project });
