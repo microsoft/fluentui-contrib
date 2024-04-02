@@ -22,15 +22,9 @@ describe('configure-storybook generator', () => {
     await generator(tree, options);
     const config = readProjectConfiguration(tree, 'hello');
 
-    expect(tree.children(joinPathFragments(config.root, '.storybook')))
-      .toMatchInlineSnapshot(`
-      [
-        "main.ts",
-        "preview.ts",
-        "tsconfig.json",
-        "preview.tsx",
-      ]
-    `);
+    expect(tree.children(joinPathFragments(config.root, '.storybook'))).toEqual(
+      ['main.ts', 'tsconfig.json', 'preview.tsx']
+    );
 
     expect(
       tree.exists(joinPathFragments(config.root, 'stories/.gitkeep'))

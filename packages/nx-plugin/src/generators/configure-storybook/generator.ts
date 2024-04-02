@@ -1,4 +1,10 @@
-import { getProjects, formatFiles, generateFiles, Tree } from '@nx/devkit';
+import {
+  formatFiles,
+  generateFiles,
+  Tree,
+  joinPathFragments,
+  readProjectConfiguration,
+} from '@nx/devkit';
 import { configurationGenerator } from '@nx/storybook';
 import * as path from 'path';
 import { ConfigureStorybookGeneratorSchema } from './schema';
@@ -8,13 +14,11 @@ export default async function (
   options: ConfigureStorybookGeneratorSchema
 ) {
   const { name } = options;
-  const projects = getProjects(tree);
-  const project = projects.get(name);
-  if (!project) {
-    return;
-  }
+
+  const project = readProjectConfiguration(tree, name);
 
   const { root: projectRoot } = project;
+
   await configurationGenerator(tree, {
     project: name,
     configureCypress: false,
@@ -22,6 +26,11 @@ export default async function (
     tsConfiguration: true,
   });
 
+  // remove nx/storybook generator defaults that we don't need
+  tree.delete(joinPathFragments(projectRoot, '.storybook/preview.ts'));
+
+  // add our boilerplate
   generateFiles(tree, path.join(__dirname, 'files'), projectRoot, options);
+
   await formatFiles(tree);
 }
