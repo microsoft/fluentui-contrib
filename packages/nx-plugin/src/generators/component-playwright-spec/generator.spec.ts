@@ -39,7 +39,7 @@ describe('playwright-component-configuration generator', () => {
         "Hello.test.tsx",
         "Hello.tsx",
         "index.ts",
-        "Hello.spec.tsx",
+        "Hello.component-browser-spec.tsx",
       ]
     `);
   });
