@@ -19,7 +19,7 @@
         "**/generators/**/files/**",
         "**/.storybook/**",
         "**/playwright.config.ts",
-        "**/playwright**"
+        "**/playwright/**"
       ],
       "rules": {
         "import/no-extraneous-dependencies": ["error"]
