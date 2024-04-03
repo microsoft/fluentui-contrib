@@ -3,10 +3,14 @@ packages/react-chat/ @microsoft/teams-prg
 packages/react-data-grid-react-window/ @microsoft/teams-prg
 packages/react-shadow/ @microsoft/teams-prg
 packages/nx-plugin/ @microsoft/teams-prg @microsoft/fluentui-react-build
+packages/react-tree-grid/ @microsoft/teams-prg
 packages/react-data-grid-react-window-grid/ @microsoft/ms-fabric
 packages/react-draggable-dialog/ @microsoft/cxe-prg @marcosmoura
-packages/pierce-dom @spmonahan
+packages/pierce-dom/ @spmonahan
 packages/houdini-utils @microsoft/teams-prg
+packages/react-headless-provider/ @microsoft/teams-prg
+packages/react-resize-handler/ @microsoft/teams-prg
+packages/stylelint-plugin/ @microsoft/teams-prg
 # <%= NX-CODEOWNER-PLACEHOLDER %>
 
 #### Build/Infra
