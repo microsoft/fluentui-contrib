@@ -4,6 +4,11 @@ import { parse } from 'semver';
 
 const exec = promisify(execCb);
 
+/**
+ *
+ * 💡 NOTE: this should not be used within generator as it will significantly slow down generator and all tests that use it
+ * - non tree modifications should/can be done within generator only within return callback where all side effects are executed
+ */
 export async function findInstalledReactComponentsVersion() {
   const { stdout } = await exec(
     `yarn list --pattern @fluentui/react-components --json --depth=0`
