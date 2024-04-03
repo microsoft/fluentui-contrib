@@ -7,7 +7,10 @@ import {
 } from '@nx/devkit';
 
 import { default as libraryGenerator } from '../library/generator';
-import { createCodeowners } from '../../utils-testing';
+import {
+  createCodeowners,
+  setupWorkspaceDependencies,
+} from '../../utils-testing';
 
 import generator from './generator';
 import { ConfigureStorybookGeneratorSchema } from './schema';
@@ -18,6 +21,7 @@ describe('configure-storybook generator', () => {
 
   beforeEach(async () => {
     tree = createTreeWithEmptyWorkspace();
+    setupWorkspaceDependencies(tree);
     createCodeowners(tree);
 
     await libraryGenerator(tree, { name: 'hello', owner: '@MrWick' });

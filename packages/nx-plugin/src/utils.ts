@@ -1,23 +1,9 @@
 import { Tree, getProjects } from '@nx/devkit';
 import * as path from 'path';
 
-export interface PackagePaths {
-  root: string;
-  src: string;
-  main: string;
-  packageJson: string;
-  readme: string;
-  swcrc: string;
-  dist: string;
-  esm: string;
-  commonjs: string;
-  tsconfigLib: string;
-}
+export type PackagePaths = ReturnType<typeof getPackagePaths>;
 
-export function getPackagePaths(
-  workspaceRoot: string,
-  rootPath: string
-): PackagePaths {
+export function getPackagePaths(workspaceRoot: string, rootPath: string) {
   return {
     root: rootPath,
     main: path.join(rootPath, 'src', 'index.ts'),
@@ -43,3 +29,10 @@ export function getProject(tree: Tree, name: string) {
 }
 
 export const npmScope = '@fluentui-contrib';
+
+// =================================================
+// nx @private API's re-exports for internal usage
+// =================================================
+
+// eslint-disable-next-line import/no-extraneous-dependencies
+export { type PackageJson } from 'nx/src/utils/package-json';

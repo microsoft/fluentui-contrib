@@ -7,7 +7,10 @@ import {
 } from '@nx/devkit';
 
 import { default as libraryGenerator } from '../library/generator';
-import { createCodeowners } from '../../utils-testing';
+import {
+  createCodeowners,
+  setupWorkspaceDependencies,
+} from '../../utils-testing';
 
 import generator from './generator';
 import { PlaywrightComponentConfigurationGeneratorSchema } from './schema';
@@ -20,6 +23,7 @@ describe('playwright-component-configuration generator', () => {
 
   beforeEach(async () => {
     tree = createTreeWithEmptyWorkspace();
+    setupWorkspaceDependencies(tree);
     createCodeowners(tree);
 
     await libraryGenerator(tree, { name: 'hello', owner: '@MrWick' });
@@ -45,8 +49,8 @@ describe('playwright-component-configuration generator', () => {
       {
         "executor": "@fluentui-contrib/nx-plugin:playwright",
         "options": {
-          "config": "hello/playwright.config.ts",
-          "output": "{workspaceRoot}/dist/.playwright/hello",
+          "config": "packages/hello/playwright.config.ts",
+          "output": "{workspaceRoot}/dist/.playwright/packages/hello",
           "testingType": "component",
         },
       }
