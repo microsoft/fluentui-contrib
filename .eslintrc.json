@@ -12,10 +12,14 @@
         "*.spec.tsx",
         "*.spec.js",
         "*.spec.jsx",
+        "*.component-browser-spec.tsx",
+        "*.component-browser-test.tsx",
         "*.stories.ts",
         "*.stories.tsx",
         "**/generators/**/files/**",
-        "**/.storybook/**"
+        "**/.storybook/**",
+        "**/playwright.config.ts",
+        "**/playwright/**"
       ],
       "rules": {
         "import/no-extraneous-dependencies": ["error"]

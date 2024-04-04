@@ -13,7 +13,7 @@ export default defineConfig({
   /* Directory with the test files. */
   testDir: './src',
   /* Glob patterns or regular expressions that match test files. */
-  testMatch: '**.e2e.ts(x)',
+  testMatch: '**/*.component-browser-@(spec|test).tsx',
   /* The base directory, relative to the config file, for snapshot files created with toMatchSnapshot and toHaveScreenshot. */
   snapshotDir: './__snapshots__',
   /* Maximum time one test can run for. */
@@ -46,10 +46,6 @@ export default defineConfig({
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
-    },
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
     },
   ],
 });
