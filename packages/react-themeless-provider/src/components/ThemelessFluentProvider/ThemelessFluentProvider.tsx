@@ -93,7 +93,7 @@ function useThemelessFluentProviderState(
 }
 
 export const ThemelessFluentProvider = React.forwardRef<
-  HTMLElement,
+  HTMLDivElement,
   ThemelessFluentProviderProps
 >((props, ref) => {
   const state = useThemelessFluentProviderState(props, ref);
