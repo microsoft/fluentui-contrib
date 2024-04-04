@@ -1975,15 +1975,7 @@
     "@griffel/react" "^1.5.14"
     "@swc/helpers" "^0.5.1"
 
-"@fluentui/react-shared-contexts@^9.14.0":
-  version "9.14.0"
-  resolved "https://registry.yarnpkg.com/@fluentui/react-shared-contexts/-/react-shared-contexts-9.14.0.tgz#b239bb969bcf26617a02b513d4863a2669242916"
-  integrity sha512-P9yhg31WYfB1W66/gD3+qVCLBsyIEcOzQvKVaIQvd9UhF67lNW4kMXUB6YVOk5PV0Og4hXnkH/vuHl7YMD9RHw==
-  dependencies:
-    "@fluentui/react-theme" "^9.1.16"
-    "@swc/helpers" "^0.5.1"
-
-"@fluentui/react-shared-contexts@^9.7.2":
+"@fluentui/react-shared-contexts@^9.14.0", "@fluentui/react-shared-contexts@^9.7.2":
   version "9.15.2"
   resolved "https://registry.yarnpkg.com/@fluentui/react-shared-contexts/-/react-shared-contexts-9.15.2.tgz#e5214436ffc3672ff76e6dc964fd83078b570de5"
   integrity sha512-0KEYEYGP4pjMrxZ5EytYqkUe56+tlr46ltxyKdcPcbfN+ptPffC9cevAR+4VIcb4xgmW+c7JT6nxDr5Rd5pvcw==
@@ -2151,15 +2143,7 @@
     "@griffel/react" "^1.5.14"
     "@swc/helpers" "^0.5.1"
 
-"@fluentui/react-theme@^9.1.16":
-  version "9.1.16"
-  resolved "https://registry.yarnpkg.com/@fluentui/react-theme/-/react-theme-9.1.16.tgz#e00210847863ac8cf5d5d162639fad1c16f85a5b"
-  integrity sha512-QK2dGE5aQXN1UGdiEmGKpYGP3tHXIchLvFf8DEEOWnF4XBc9SiEPNFYkvLMJjHxZmDz4D670rsOPe0r5jFDEKQ==
-  dependencies:
-    "@fluentui/tokens" "1.0.0-alpha.13"
-    "@swc/helpers" "^0.5.1"
-
-"@fluentui/react-theme@^9.1.19":
+"@fluentui/react-theme@^9.1.16", "@fluentui/react-theme@^9.1.19":
   version "9.1.19"
   resolved "https://registry.yarnpkg.com/@fluentui/react-theme/-/react-theme-9.1.19.tgz#46122e65a08d0560af4b2f17dc1e741913e41825"
   integrity sha512-mrVhKbr4o9UKERPxgghIRDU59S7gRizrgz3/wwyMt7elkr8Sw+OpwKIeEw9x6P0RTcFDC00nggaMJhBGs7Xo4A==
@@ -2257,13 +2241,6 @@
     "@fluentui/react-shared-contexts" "^9.14.0"
     "@fluentui/react-utilities" "^9.18.0"
     "@griffel/react" "^1.5.14"
-    "@swc/helpers" "^0.5.1"
-
-"@fluentui/tokens@1.0.0-alpha.13":
-  version "1.0.0-alpha.13"
-  resolved "https://registry.yarnpkg.com/@fluentui/tokens/-/tokens-1.0.0-alpha.13.tgz#15c0b006bebbd587ff22589f7e48572a28f842d8"
-  integrity sha512-IzYysTTBkAH7tQZxYKpzhxYnTJkvwXhjhTOpmERgnqTFifHTP8/vaQjJAAm7dI/9zlDx1oN+y/I+KzL9bDLHZQ==
-  dependencies:
     "@swc/helpers" "^0.5.1"
 
 "@fluentui/tokens@1.0.0-alpha.16":
