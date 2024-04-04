@@ -1,5 +1,5 @@
 import { createCSSRuleFromTheme } from '@fluentui/react-components';
-import type { PartialTheme } from '@fluentui/react-theme';
+import type { PartialTheme } from '@fluentui/react-components';
 
 export const createCSSStyleSheetFromTheme = (
   rule: string,

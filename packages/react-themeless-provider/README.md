@@ -29,6 +29,10 @@ export function App() {
     const style = document.createElement('style');
     document.head.appendChild(style);
     style.sheet.insertRule(cssRule);
+
+    return () => {
+      document.head.removeChild(style);
+    }
   }, []);
 
   return (
