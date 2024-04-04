@@ -1,5 +1,17 @@
+import * as React from 'react';
+import { FontWeightTokens, Theme, Button } from '@fluentui/react-components';
 import type { BrandVariants } from '@fluentui/tokens';
 import { createLightTheme, createDarkTheme } from '@fluentui/tokens';
+import { CalendarMonthRegular } from '@fluentui/react-icons';
+
+export const V9PrimaryButton = () => {
+  return (
+    <Button appearance="primary" icon={<CalendarMonthRegular />}>
+      {' '}
+      Primary{' '}
+    </Button>
+  );
+};
 
 export const brandAzure: BrandVariants = {
   10: `#101b2f`,
@@ -20,5 +32,22 @@ export const brandAzure: BrandVariants = {
   160: `#e8f2fd`,
 };
 
-export const azureLightTheme = createLightTheme(brandAzure);
-export const azureDarkTheme = createDarkTheme(brandAzure);
+export const azureFontWeight: FontWeightTokens = {
+  fontWeightRegular: 400,
+  fontWeightMedium: 500,
+  fontWeightSemibold: 600,
+  fontWeightBold: 700,
+};
+
+const azureLightColors = createLightTheme(brandAzure);
+export const azureDarkColors = createDarkTheme(brandAzure);
+
+export const azureLightTheme: Theme = {
+  ...azureLightColors,
+  ...azureFontWeight,
+};
+
+export const azureDarkTheme: Theme = {
+  ...azureDarkColors,
+  ...azureFontWeight,
+};
