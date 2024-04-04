@@ -38,6 +38,7 @@
     "@nx/plugin": "17.3.2",
     "@nx/react": "17.3.2",
     "@nx/storybook": "17.3.2",
+    "@nx/web": "17.3.2",
     "@nx/webpack": "17.3.2",
     "@nx/workspace": "17.3.2",
     "@playwright/experimental-ct-react": "^1.41.2",
