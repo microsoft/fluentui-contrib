@@ -114,7 +114,11 @@ function createArgs(
  */
 function runPlaywright(args: string[], cwd: string) {
   try {
-    const cli = require.resolve('@playwright/experimental-ct-core/cli');
+    const cli = require
+      .resolve('@playwright/experimental-ct-core')
+      // Breaking Change in @playwright/experimental-ct-react@1.42.x - introducing package.json#exports which don't map to cli anymore
+      // @see https://github.com/microsoft/playwright/issues/30241
+      .replace('index.js', 'cli.js');
 
     return fork(cli, ['test', ...args], {
       stdio: ['pipe', 'pipe', 'pipe', 'ipc'],

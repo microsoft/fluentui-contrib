@@ -40,7 +40,7 @@
     "@nx/storybook": "17.3.2",
     "@nx/webpack": "17.3.2",
     "@nx/workspace": "17.3.2",
-    "@playwright/experimental-ct-react": "^1.41.2",
+    "@playwright/experimental-ct-react": "1.42.1",
     "@rnx-kit/eslint-plugin": "0.4.2",
     "@storybook/addon-essentials": "7.6.10",
     "@storybook/addon-storysource": "7.6.10",
@@ -84,7 +84,8 @@
     "ts-node": "10.9.1",
     "tslib": "^2.3.0",
     "typescript": "5.3.3",
-    "verdaccio": "^5.0.4"
+    "verdaccio": "^5.0.4",
+    "vite": "5.2.8"
   },
   "dependencies": {},
   "nx": {
