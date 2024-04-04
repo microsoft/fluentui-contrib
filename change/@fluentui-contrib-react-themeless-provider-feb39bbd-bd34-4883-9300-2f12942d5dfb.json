@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "feat: add ThemelessFluentProvider implementation",
+  "packageName": "@fluentui-contrib/react-themeless-provider",
+  "email": "seanmonahan@microsoft.com",
+  "dependentChangeType": "patch"
+}
