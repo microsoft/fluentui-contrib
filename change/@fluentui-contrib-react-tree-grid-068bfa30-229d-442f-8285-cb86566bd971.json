@@ -1,7 +1,0 @@
-{
-  "type": "none",
-  "comment": "refactor: update all repo to use new playwright component test file suffix patterns",
-  "packageName": "@fluentui-contrib/react-tree-grid",
-  "email": "hochelmartin@gmail.com",
-  "dependentChangeType": "none"
-}

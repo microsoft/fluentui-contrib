@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-data-grid-react-window-grid
 
-This log was last generated on Wed, 27 Mar 2024 07:37:18 GMT and should not be manually modified.
+This log was last generated on Fri, 05 Apr 2024 08:15:59 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 2.2.0
+
+Fri, 05 Apr 2024 08:15:59 GMT
+
+### Minor changes
+
+- minor: add classname for grid/list to support styling by selector (chaxu@microsoft.com)
 
 ## 2.1.0
 
