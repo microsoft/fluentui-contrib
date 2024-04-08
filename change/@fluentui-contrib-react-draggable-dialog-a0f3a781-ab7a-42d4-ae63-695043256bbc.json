@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "release: first minor version",
+  "packageName": "@fluentui-contrib/react-draggable-dialog",
+  "email": "marcosvmmoura@gmail.com",
+  "dependentChangeType": "patch"
+}
