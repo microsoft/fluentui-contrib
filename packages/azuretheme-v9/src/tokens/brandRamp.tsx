@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { FontWeightTokens, Theme, Button } from '@fluentui/react-components';
 import type { BrandVariants } from '@fluentui/tokens';
-import { createLightTheme, createDarkTheme } from '@fluentui/tokens';
+import {
+  createLightTheme,
+  createDarkTheme,
+  createHighContrastTheme,
+} from '@fluentui/tokens';
 import { CalendarMonthRegular } from '@fluentui/react-icons';
 
 export const V9PrimaryButton = () => {
@@ -41,6 +45,14 @@ export const azureFontWeight: FontWeightTokens = {
 
 const azureLightColors = createLightTheme(brandAzure);
 export const azureDarkColors = createDarkTheme(brandAzure);
+export const azureHighContrastColors = createHighContrastTheme();
+
+export const customHighContrastTheme: Theme = {
+  ...azureLightColors,
+  colorBrandBackground: '#Ff0000', // overriden token
+  colorBrandBackgroundHover: '#Ff0000', // overriden token
+  colorNeutralBackground1: '#Ff0000',
+};
 
 export const azureLightTheme: Theme = {
   ...azureLightColors,
@@ -49,5 +61,10 @@ export const azureLightTheme: Theme = {
 
 export const azureDarkTheme: Theme = {
   ...azureDarkColors,
+  ...azureFontWeight,
+};
+
+export const azureHighContrastTheme: Theme = {
+  ...azureHighContrastColors,
   ...azureFontWeight,
 };
