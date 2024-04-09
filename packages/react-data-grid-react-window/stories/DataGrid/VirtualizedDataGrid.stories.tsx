@@ -194,7 +194,9 @@ const columns: TableColumnDefinition<Item>[] = [
 
 const renderRow: RowRenderer<Item> = ({ item, rowId }, style) => (
   <DataGridRow<Item> key={rowId} style={style}>
-    {({ renderCell }) => <DataGridCell focusMode="group">{renderCell(item)}</DataGridCell>}
+    {({ renderCell }) => (
+      <DataGridCell focusMode="group">{renderCell(item)}</DataGridCell>
+    )}
   </DataGridRow>
 );
 
