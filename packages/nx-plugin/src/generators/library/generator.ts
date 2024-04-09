@@ -16,16 +16,8 @@ import { addCodeowner } from '../add-codeowners';
 
 export default async function (tree: Tree, options: LibraryGeneratorSchema) {
   const { name, owner } = options;
-  await libraryGenerator(tree, {
-    name,
-    directory: `packages/${name}`,
-    projectNameAndRootFormat: 'as-provided',
-    publishable: true,
-    compiler: 'swc',
-    testEnvironment: options.testEnvironment,
-    unitTestRunner: 'jest',
-    importPath: `${npmScope}/${name}`,
-  });
+
+  await invokeNxGenerators(tree, options);
 
   const newProject = readProjectConfiguration(tree, name);
 
@@ -94,4 +86,32 @@ function getReactComponentsVersion(tree: Tree) {
 
   // strip version ranges non-numeric characters
   return reactComponentsVersion.replace(/^[~^]/, '');
+}
+
+async function invokeNxGenerators(tree: Tree, options: LibraryGeneratorSchema) {
+  const { name } = options;
+
+  await libraryGenerator(tree, {
+    name,
+    directory: `packages/${name}`,
+    projectNameAndRootFormat: 'as-provided',
+    publishable: true,
+    compiler: 'swc',
+    testEnvironment: options.testEnvironment,
+    unitTestRunner: 'jest',
+    importPath: `${npmScope}/${name}`,
+  });
+
+  // remove nx/jest generator defaults that we don't need
+  updateJson(tree, '/package.json', (json: PackageJson) => {
+    if (json.devDependencies) {
+      // @see https://github.com/nrwl/nx/blob/master/packages/jest/src/generators/configuration/lib/ensure-dependencies.ts#L26
+
+      delete json.devDependencies['ts-jest'];
+    }
+
+    return json;
+  });
+
+  return tree;
 }
