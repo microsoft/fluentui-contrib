@@ -167,4 +167,14 @@ describe('create-package generator', () => {
       `);
     });
   });
+
+  describe(`nx generators overrides`, () => {
+    it(`should not update /package.json with deps we dont need`, async () => {
+      await generator(tree, options);
+
+      expect(readJson(tree, '/package.json').devDependencies).not.toEqual(
+        expect.objectContaining({ 'ts-jest': expect.any(String) })
+      );
+    });
+  });
 });

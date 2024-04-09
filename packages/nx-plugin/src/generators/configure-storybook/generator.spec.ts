@@ -145,11 +145,13 @@ describe('configure-storybook generator', () => {
     `);
   });
 
-  it(`should not update root package.json`, async () => {
-    await generator(tree, options);
+  describe(`nx generators overrides`, () => {
+    it(`should not update /package.json with deps we dont need`, async () => {
+      await generator(tree, options);
 
-    expect(
-      readJson(tree, '/package.json').devDependencies['core-js']
-    ).toBeUndefined();
+      expect(
+        readJson(tree, '/package.json').devDependencies['core-js']
+      ).toBeUndefined();
+    });
   });
 });
