@@ -1,0 +1,20 @@
+{
+  "name": "@fluentui-contrib/react-draggable-dialog",
+  "entries": [
+    {
+      "date": "Fri, 12 Apr 2024 14:30:00 GMT",
+      "tag": "@fluentui-contrib/react-draggable-dialog_v0.1.0",
+      "version": "0.1.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "marcosvmmoura@gmail.com",
+            "package": "@fluentui-contrib/react-draggable-dialog",
+            "commit": "9a165c1647490eee32f9a03dcd291ac2cc46e7bf",
+            "comment": "release: first minor version"
+          }
+        ]
+      }
+    }
+  ]
+}
