@@ -93,7 +93,7 @@
     "verdaccio": "^5.0.4"
   },
   "dependencies": {
-    "@fluentui/react-icons": "^2.0.233",
+    "@fluentui/react-icons": "^2.0.235",
     "@fluentui/tokens": "^1.0.0-alpha.16"
   },
   "nx": {

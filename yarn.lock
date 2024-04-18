@@ -1808,10 +1808,10 @@
     "@griffel/react" "^1.5.14"
     "@swc/helpers" "^0.5.1"
 
-"@fluentui/react-icons@^2.0.224", "@fluentui/react-icons@^2.0.233":
-  version "2.0.233"
-  resolved "https://registry.npmjs.org/@fluentui/react-icons/-/react-icons-2.0.233.tgz"
-  integrity sha512-gt3efrmlJFz3LiJknPpnFtGDF4ah+w+D/0klZit6izOwmb3KGnfqVDtSgupApYW717T9vhwgZKWETGipghiOTw==
+"@fluentui/react-icons@^2.0.224", "@fluentui/react-icons@^2.0.235":
+  version "2.0.235"
+  resolved "https://registry.npmjs.org/@fluentui/react-icons/-/react-icons-2.0.235.tgz"
+  integrity sha512-8uZPBncO+dTHuZyke+KXv4bSF4ZtHyniVOVWXnbFClqMmarb4qRul06qCqq2bbqz/7xFtP5YujypKn+d2i+vEg==
   dependencies:
     "@griffel/react" "^1.0.0"
     tslib "^2.1.0"
