@@ -12,7 +12,6 @@ import {
   Portal,
 } from '@fluentui/react-components';
 import { DragLocationHistory } from '@atlaskit/pragmatic-drag-and-drop/dist/types/internal-types';
-import { usePrevious } from '@dnd-kit/utilities';
 
 const useStyles = makeStyles({
   draggable: {
@@ -121,7 +120,6 @@ export const Draggable = ({
   margin,
   boundary = 'viewport',
   handle,
-  onPositionChange,
 }: DraggableProps) => {
   const [currentElement, setCurrentElement] =
     React.useState<HTMLElement | null>(null);
@@ -286,24 +284,54 @@ export const Draggable = ({
     return () => intersectionObserver.current?.disconnect();
   }, [boundary, currentElement, margin]);
 
-  React.useEffect(() => {
-    if (!onPositionChange) {
-      return;
-    }
+  // React.useEffect(() => {
+  //   if (!onPositionChange) {
+  //     return;
+  //   }
 
-    (async () => {
-      const rect = await measureElementRect();
+  //   (async () => {
+  //     const rect = await measureElementRect();
 
-      if (!rect) {
-        return;
-      }
+  //     if (!rect) {
+  //       return;
+  //     }
 
-      onPositionChange?.({
-        x: Math.round(rect.x),
-        y: Math.round(rect.y),
-      });
-    })();
-  }, [coordinates, onPositionChange, measureElementRect]);
+  //     // onPositionChange?.({
+  //     //   x: Math.round(rect.x),
+  //     //   y: Math.round(rect.y),
+  //     // });
+  //   })();
+  // }, [initialCoordinates, onPositionChange, measureElementRect]);
+
+  // React.useEffect(() => {
+  //   if (!position || !intersectionData) {
+  //     return;
+  //   }
+
+  //   let animationFrameId: number;
+
+  //   (async () => {
+  //     const rect = await measureElementRect();
+  //     const { rootBounds } = intersectionData;
+
+  //     if (!rect || !rootBounds) {
+  //       return;
+  //     }
+
+  //     const coordinates = {
+  //       x: rootBounds.x - rect.x + position.x,
+  //       y: rootBounds.y - rect.y + position.y,
+  //     };
+
+  //     setIsDragging(true);
+  //     setCoordinates(coordinates);
+  //     setInitialCoordinates(coordinates);
+
+  //     animationFrameId = requestAnimationFrame(() => setIsDragging(false));
+  //   })();
+
+  //   return () => cancelAnimationFrame(animationFrameId);
+  // }, [position, intersectionData, measureElementRect]);
 
   const computedStyles = React.useMemo(() => {
     if (!currentElement) {
@@ -316,7 +344,7 @@ export const Draggable = ({
         transition: 'none',
       }),
     };
-  }, [coordinates, isDragging, currentElement]);
+  }, [currentElement, coordinates, isDragging]);
 
   return React.cloneElement(children as React.ReactElement, {
     ref,
