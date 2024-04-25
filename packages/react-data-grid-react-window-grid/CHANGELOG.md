@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-data-grid-react-window-grid
 
-This log was last generated on Fri, 05 Apr 2024 08:15:59 GMT and should not be manually modified.
+This log was last generated on Thu, 25 Apr 2024 09:32:18 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 2.2.1
+
+Thu, 25 Apr 2024 09:32:18 GMT
+
+### Patches
+
+- Fix columns update not trigger rerender (fengqi@microsoft.com)
 
 ## 2.2.0
 

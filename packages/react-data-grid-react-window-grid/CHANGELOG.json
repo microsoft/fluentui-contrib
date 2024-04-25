@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-data-grid-react-window-grid",
   "entries": [
     {
+      "date": "Thu, 25 Apr 2024 09:32:18 GMT",
+      "tag": "@fluentui-contrib/react-data-grid-react-window-grid_v2.2.1",
+      "version": "2.2.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "fengqi@microsoft.com",
+            "package": "@fluentui-contrib/react-data-grid-react-window-grid",
+            "commit": "5911ee887a613676b2a96283230ab6e4cff21413",
+            "comment": "Fix columns update not trigger rerender"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 05 Apr 2024 08:15:59 GMT",
       "tag": "@fluentui-contrib/react-data-grid-react-window-grid_v2.2.0",
       "version": "2.2.0",
