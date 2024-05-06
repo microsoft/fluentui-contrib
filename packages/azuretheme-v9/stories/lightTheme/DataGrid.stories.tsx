@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { azureLightTheme } from '../../src/tokens/brandRamp';
 import { FluentProvider } from '@fluentui/react-components';
-import { ButtonsExample } from '../../src/components/fluent/ButtonsExample';
+import { DataGridExample } from '../../src/components/fluent/DataGridExample';
 
-export const Buttons = () => (
+export const DataGrid = () => (
   <FluentProvider theme={azureLightTheme}>
-    <ButtonsExample />
+    <DataGridExample />
   </FluentProvider>
 );

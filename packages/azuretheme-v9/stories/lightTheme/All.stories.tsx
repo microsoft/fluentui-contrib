@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { azureLightTheme } from '../../src/tokens/brandRamp';
 import { FluentProvider } from '@fluentui/react-components';
-import { ButtonsExample } from '../../src/components/fluent/ButtonsExample';
+import { AllControls } from '../../src/components/AllControls/AllControls';
 
-export const Buttons = () => (
+export const All = () => (
   <FluentProvider theme={azureLightTheme}>
-    <ButtonsExample />
+    <div>Light theme</div>
+    <AllControls />
   </FluentProvider>
 );

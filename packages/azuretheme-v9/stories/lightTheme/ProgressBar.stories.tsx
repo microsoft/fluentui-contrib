@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { azureLightTheme } from '../../src/tokens/brandRamp';
 import { FluentProvider } from '@fluentui/react-components';
-import { AllControls } from '../../src/components/AllControls/AllControls';
+import { ProgressBarExample } from '../../src/components/fluent/ProgressBarExample';
 
-export const Default = () => (
+export const ProgressBar = () => (
   <FluentProvider theme={azureLightTheme}>
-    <div>Light theme</div>
-    <AllControls />
+    <ProgressBarExample />
   </FluentProvider>
 );

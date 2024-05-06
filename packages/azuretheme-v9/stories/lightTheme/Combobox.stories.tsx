@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { azureLightTheme } from '../../src/tokens/brandRamp';
 import { FluentProvider } from '@fluentui/react-components';
-import { ButtonsExample } from '../../src/components/fluent/ButtonsExample';
+import { ComboboxExample } from '../../src/components/fluent/ComboboxExample';
 
-export const Buttons = () => (
+export const Combobox = () => (
   <FluentProvider theme={azureLightTheme}>
-    <ButtonsExample />
+    <ComboboxExample />
   </FluentProvider>
 );

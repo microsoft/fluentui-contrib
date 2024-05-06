@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { azureLightTheme } from '../../src/tokens/brandRamp';
 import { FluentProvider } from '@fluentui/react-components';
-import { ButtonsExample } from '../../src/components/fluent/ButtonsExample';
+import { ToolbarExample } from '../../src/components/fluent/Toolbar';
 
-export const Buttons = () => (
+export const Toolbar = () => (
   <FluentProvider theme={azureLightTheme}>
-    <ButtonsExample />
+    <ToolbarExample />
   </FluentProvider>
 );

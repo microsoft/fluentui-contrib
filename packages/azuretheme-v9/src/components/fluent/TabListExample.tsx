@@ -17,7 +17,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const TabeListExample = () => {
+export const TabListExample = () => {
   const styles = useStyles();
 
   return (

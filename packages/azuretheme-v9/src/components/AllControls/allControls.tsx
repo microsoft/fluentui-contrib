@@ -9,7 +9,7 @@ import { CardExample } from '../fluent/CardExample';
 import { CheckboxExample } from '../fluent/CheckboxExample';
 import { ComboboxExample } from '../fluent/ComboboxExample';
 import { DataGridExample } from '../fluent/DataGridExample';
-import { DiaglogExample } from '../fluent/DialogExample';
+import { DialogExample } from '../fluent/DialogExample';
 import { DividerExample } from '../fluent/DividerExample';
 import { DrawerExample } from '../fluent/DrawerExample';
 import { DropdownExample } from '../fluent/DropdownExample';
@@ -34,7 +34,7 @@ import { SpinButtonExample } from '../fluent/SpinButtonExample';
 import { SpinnerExample } from '../../../../../SpinnerExample';
 import { SwitchExample } from '../fluent/SwitchExample';
 import { TableExample } from '../fluent/TableExample';
-import { TabeListExample } from '../fluent/TabListExample';
+import { TabListExample } from '../fluent/TabListExample';
 import { InteractionTagExample } from '../fluent/TagExamples/InteractionTag';
 import { TagExample } from '../fluent/TagExamples/Tag';
 import { TagGroupExample } from '../fluent/TagExamples/TagGroup';
@@ -60,7 +60,7 @@ export const AllControls = () => {
       <CheckboxExample />
       <ComboboxExample />
       <DataGridExample />
-      <DiaglogExample />
+      <DialogExample />
       <DividerExample />
       <DrawerExample />
       <DropdownExample />
@@ -85,7 +85,7 @@ export const AllControls = () => {
       <SpinnerExample />
       <SwitchExample />
       <TableExample />
-      <TabeListExample />
+      <TabListExample />
       <InteractionTagExample />
       <TagExample />
       <TagGroupExample />

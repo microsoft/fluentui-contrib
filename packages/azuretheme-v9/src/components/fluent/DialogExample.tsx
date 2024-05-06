@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   Dialog,
   DialogTrigger,
@@ -8,9 +8,9 @@ import {
   DialogActions,
   DialogContent,
   Button,
-} from "@fluentui/react-components";
+} from '@fluentui/react-components';
 
-export const DiaglogExample = () => {
+export const DialogExample = () => {
   return (
     <Dialog>
       <DialogTrigger disableButtonEnhancement>

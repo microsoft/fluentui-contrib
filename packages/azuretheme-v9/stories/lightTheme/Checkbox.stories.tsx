@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { azureLightTheme } from '../../src/tokens/brandRamp';
 import { FluentProvider } from '@fluentui/react-components';
-import { ButtonsExample } from '../../src/components/fluent/ButtonsExample';
+import { CheckboxExample } from '../../src/components/fluent/CheckboxExample';
 
-export const Buttons = () => (
+export const Checkbox = () => (
   <FluentProvider theme={azureLightTheme}>
-    <ButtonsExample />
+    <CheckboxExample />
   </FluentProvider>
 );
