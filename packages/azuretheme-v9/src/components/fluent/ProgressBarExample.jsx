@@ -13,13 +13,13 @@ const useStyles = makeStyles({
     },
   });
 
-export const ProgressBarExample = (props) => {
+export const ProgressBarExample = () => {
 
     const styles = useStyles();
     return (
         <>
         <Field validationMessage="Default ProgressBar" validationState="none">
-            <ProgressBar {...props} value={0.5} />
+            <ProgressBar value={0.5} />
         </Field>
         <Field validationMessage="Error ProgressBar">
             <ProgressBar value={0.75} color="error" />
