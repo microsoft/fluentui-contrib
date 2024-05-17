@@ -1,0 +1,7 @@
+{
+  "type": "none",
+  "comment": "docs: adds calls example (contextual menu + hidden menu)",
+  "packageName": "@fluentui-contrib/react-tree-grid",
+  "email": "bernardo.sunderhus@gmail.com",
+  "dependentChangeType": "none"
+}
