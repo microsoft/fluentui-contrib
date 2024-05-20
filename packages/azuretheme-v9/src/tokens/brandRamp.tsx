@@ -1,23 +1,11 @@
 import * as React from 'react';
 import { Colors } from './colorPalette';
+import { Theme, BrandVariants, ColorTokens } from '@fluentui/react-components';
 import {
-  Theme,
-  BrandVariants,
-  ColorTokens,
-  Button,
-} from '@fluentui/react-components';
-import { createLightTheme, createDarkTheme } from '@fluentui/tokens';
-
-import { CalendarMonthRegular } from '@fluentui/react-icons';
-
-export const V9PrimaryButton = () => {
-  return (
-    <Button appearance="primary" icon={<CalendarMonthRegular />}>
-      {' '}
-      Primary{' '}
-    </Button>
-  );
-};
+  createLightTheme,
+  createDarkTheme,
+  createHighContrastTheme,
+} from '@fluentui/tokens';
 
 export const brandAzure: BrandVariants = {
   10: Colors.Brand10,
@@ -264,6 +252,7 @@ const neutralColorsLight: ColorTokens = {
   colorBrandShadowAmbient: Colors.Black25T, // Brand Ambient
   colorBrandShadowKey: Colors.Black30T, // Brand Key
 };
+
 const neutralColorsDark: ColorTokens = {
   colorNeutralForeground1: Colors.White,
   colorNeutralForeground1Hover: Colors.White,
@@ -492,6 +481,7 @@ const neutralColorsDark: ColorTokens = {
 
 export const azureLightColors = createLightTheme(brandAzure);
 export const azureDarkColors = createDarkTheme(brandAzure);
+export const azureHighContrastColors = createHighContrastTheme();
 
 export const azureLightTheme: Theme = {
   ...azureLightColors,
@@ -501,4 +491,8 @@ export const azureLightTheme: Theme = {
 export const azureDarkTheme: Theme = {
   ...azureDarkColors,
   ...neutralColorsDark,
+};
+
+export const azureHighContrastTheme: Theme = {
+  ...azureHighContrastColors,
 };
