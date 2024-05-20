@@ -5,6 +5,7 @@ export { Default } from './Default.stories';
 export { Meet } from './Meet.stories';
 export { Virtualization } from './Virtualization.stories';
 export { EmailInbox } from './EmailInbox.stories';
+export { Calls } from './Calls.stories';
 
 const meta = {
   title: 'TreeGrid',
