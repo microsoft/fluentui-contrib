@@ -6,24 +6,18 @@ import {
   updateJson,
   generateFiles,
   readProjectConfiguration,
+  readJson,
 } from '@nx/devkit';
 import * as path from 'path';
 import { libraryGenerator } from '@nx/js';
 import { LibraryGeneratorSchema } from './schema';
-import { getPackagePaths, npmScope } from '../../utils';
-import { findInstalledReactComponentsVersion } from './findInstalledReactComponentsVersion';
+import { PackageJson, getPackagePaths, npmScope } from '../../utils';
 import { addCodeowner } from '../add-codeowners';
 
 export default async function (tree: Tree, options: LibraryGeneratorSchema) {
   const { name, owner } = options;
-  await libraryGenerator(tree, {
-    name,
-    publishable: true,
-    compiler: 'swc',
-    testEnvironment: options.testEnvironment,
-    unitTestRunner: 'jest',
-    importPath: `${npmScope}/${name}`,
-  });
+
+  await invokeNxGenerators(tree, options);
 
   const newProject = readProjectConfiguration(tree, name);
 
@@ -54,7 +48,8 @@ export default async function (tree: Tree, options: LibraryGeneratorSchema) {
   });
   updateProjectConfiguration(tree, name, newProject);
   tree.delete(path.join(paths.src, 'lib'));
-  const reactComponentsVersion = await findInstalledReactComponentsVersion();
+
+  const reactComponentsVersion = getReactComponentsVersion(tree);
 
   updateJson(tree, paths.packageJson, (packageJson) => {
     packageJson.type = undefined;
@@ -74,4 +69,49 @@ export default async function (tree: Tree, options: LibraryGeneratorSchema) {
   generateFiles(tree, path.join(__dirname, 'files'), paths.root, options);
 
   await formatFiles(tree);
+}
+
+function getReactComponentsVersion(tree: Tree) {
+  const pkgJson: PackageJson = readJson(tree, '/package.json');
+  const { dependencies = {}, devDependencies = {} } = pkgJson;
+  const reactComponentsVersion =
+    dependencies['@fluentui/react-components'] ||
+    devDependencies['@fluentui/react-components'];
+
+  if (!reactComponentsVersion) {
+    throw new Error(
+      '🚨 Could not find @fluentui/react-components in package.json. please report this issue'
+    );
+  }
+
+  // strip version ranges non-numeric characters
+  return reactComponentsVersion.replace(/^[~^]/, '');
+}
+
+async function invokeNxGenerators(tree: Tree, options: LibraryGeneratorSchema) {
+  const { name } = options;
+
+  await libraryGenerator(tree, {
+    name,
+    directory: `packages/${name}`,
+    projectNameAndRootFormat: 'as-provided',
+    publishable: true,
+    compiler: 'swc',
+    testEnvironment: options.testEnvironment,
+    unitTestRunner: 'jest',
+    importPath: `${npmScope}/${name}`,
+  });
+
+  // remove nx/jest generator defaults that we don't need
+  updateJson(tree, '/package.json', (json: PackageJson) => {
+    if (json.devDependencies) {
+      // @see https://github.com/nrwl/nx/blob/master/packages/jest/src/generators/configuration/lib/ensure-dependencies.ts#L26
+
+      delete json.devDependencies['ts-jest'];
+    }
+
+    return json;
+  });
+
+  return tree;
 }

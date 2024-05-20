@@ -62,6 +62,14 @@
           "quiet": true
         }
       }
+    },
+    "component-test": {
+      "executor": "@fluentui-contrib/nx-plugin:playwright",
+      "options": {
+        "testingType": "component",
+        "output": "{workspaceRoot}/dist/.playwright/packages/react-draggable-dialog",
+        "config": "packages/react-draggable-dialog/playwright.config.ts"
+      }
     }
   },
   "tags": []

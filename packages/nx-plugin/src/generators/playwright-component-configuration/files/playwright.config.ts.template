@@ -11,6 +11,8 @@ import { defineConfig, devices } from '@playwright/experimental-ct-react';
  */
 export default defineConfig({
   testDir: './src',
+  /* Glob patterns or regular expressions that match test files. */
+  testMatch: '**/*.component-browser-@(spec|test).tsx',
   /* The base directory, relative to the config file, for snapshot files created with toMatchSnapshot and toHaveScreenshot. */
   snapshotDir: './__snapshots__',
   /* Maximum time one test can run for. */

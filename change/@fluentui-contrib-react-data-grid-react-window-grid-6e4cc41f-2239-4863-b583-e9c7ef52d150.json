@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "minor(react-data-grid-react-window-grid): bug fix on columnWidth not been called when rerendered",
-  "packageName": "@fluentui-contrib/react-data-grid-react-window-grid",
-  "email": "fengqi@microsoft.com",
-  "dependentChangeType": "patch"
-}

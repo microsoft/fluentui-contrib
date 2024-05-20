@@ -2,33 +2,38 @@ import * as React from 'react';
 import { render } from '@testing-library/react';
 import { DraggableDialogHandle } from './DraggableDialogHandle';
 
-import * as contexts from '../../contexts/DraggableDialogContext';
-import * as dnd from '@dnd-kit/core';
+import { useDraggableDialogContext } from '../../contexts/DraggableDialogContext';
+import { useDraggable } from '@dnd-kit/core';
 
-jest.mock('../../contexts/DraggableDialogContext', () => ({
-  __esModule: true,
-  ...jest.requireActual('../../contexts/DraggableDialogContext'),
-}));
+jest.mock('../../contexts/DraggableDialogContext');
+jest.mock('@dnd-kit/core');
 
-jest.mock('@dnd-kit/core', () => ({
-  __esModule: true,
-  ...jest.requireActual('@dnd-kit/core'),
-}));
+type UseDraggableFn = (
+  args: Parameters<typeof useDraggable>[number]
+) => Partial<ReturnType<typeof useDraggable>>;
+type UseDraggableDialogContextFn = () => Partial<
+  ReturnType<typeof useDraggableDialogContext>
+>;
+
+const useDraggableDialogContextSpy = jest.mocked<UseDraggableDialogContextFn>(
+  useDraggableDialogContext
+);
+const useDraggableSpy = jest.mocked<UseDraggableFn>(useDraggable);
 
 describe('DraggableDialogHandle', () => {
   let consoleErrorSpy: jest.SpyInstance;
-  let useDraggableDialogContextSpy: jest.SpyInstance;
-  let useDraggableSpy: jest.SpyInstance;
 
   beforeEach(() => {
     consoleErrorSpy = jest
       .spyOn(console, 'error')
       .mockImplementation((error: string) => error);
-    useDraggableDialogContextSpy = jest.spyOn(
-      contexts,
-      'useDraggableDialogContext'
-    );
-    useDraggableSpy = jest.spyOn(dnd, 'useDraggable');
+
+    useDraggableSpy.mockReturnValue({
+      setActivatorNodeRef: jest.fn(),
+    });
+    useDraggableDialogContextSpy.mockReturnValue({
+      id: 'draggable-dialog-id',
+    });
   });
 
   afterEach(() => {
@@ -77,8 +82,11 @@ describe('DraggableDialogHandle', () => {
   it('should add draggable props to the child', () => {
     const mockAttributes = {
       'aria-describedby': 'dialog-id',
-      'aria-disabled': 'false',
+      'aria-disabled': false,
       role: 'button',
+      tabIndex: 0,
+      'aria-pressed': false,
+      'aria-roledescription': 'draggable',
     };
     useDraggableSpy.mockReturnValue({
       setActivatorNodeRef: jest.fn(),
@@ -95,7 +103,7 @@ describe('DraggableDialogHandle', () => {
     Object.keys(mockAttributes).forEach((key) => {
       const prop = key as keyof typeof mockAttributes;
 
-      expect(handle.getAttribute(prop)).toBe(mockAttributes[prop]);
+      expect(handle.getAttribute(prop)).toBe(String(mockAttributes[prop]));
     });
   });
 

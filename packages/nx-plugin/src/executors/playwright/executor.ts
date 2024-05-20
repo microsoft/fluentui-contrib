@@ -48,7 +48,7 @@ function playwrightCTExecutor(
       bodyLines: ['use --skipInstall to skip installation.'],
     });
     const pmc = getPackageManagerCommand();
-    execSync(`${pmc.exec} playwright install`, {
+    execSync(`${pmc.exec} playwright install --with-deps`, {
       cwd: workspaceRoot,
       stdio: 'inherit',
     });

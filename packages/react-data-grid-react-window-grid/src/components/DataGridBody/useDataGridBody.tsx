@@ -66,8 +66,8 @@ export const useDataGridBody_unstable = (
             <RowIndexContextProvider value={ariaRowIndexStart + rowIndex}>
               <TableRowIdContextProvider value={row.rowId}>
                 <ColumnIdContextProvider
-                  value={columnDef.columnId}
-                  key={columnDef.columnId}
+                  value={columnDef?.columnId}
+                  key={columnDef?.columnId}
                 >
                   {children(row, columnDef, style, rowIndex, columnIndex)}
                 </ColumnIdContextProvider>
@@ -76,7 +76,7 @@ export const useDataGridBody_unstable = (
           </ColumnIndexContextProvider>
         );
       },
-      [ariaRowIndexStart, children]
+      [ariaRowIndexStart, ariaColumnIndexStart, children, columns]
     );
 
   const onScroll = React.useCallback(

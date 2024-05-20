@@ -3,7 +3,10 @@ import { Tree, joinPathFragments, readProjectConfiguration } from '@nx/devkit';
 
 import { default as libraryGenerator } from '../library/generator';
 import { default as componentGenerator } from '../component/generator';
-import { createCodeowners } from '../../utils-testing';
+import {
+  createCodeowners,
+  setupWorkspaceDependencies,
+} from '../../utils-testing';
 
 import generator from './generator';
 import { PlaywrightComponentSpecGeneratorSchema } from './schema';
@@ -17,11 +20,12 @@ describe('playwright-component-configuration generator', () => {
 
   beforeEach(async () => {
     tree = createTreeWithEmptyWorkspace();
+    setupWorkspaceDependencies(tree);
     createCodeowners(tree);
 
     await libraryGenerator(tree, { name: 'hello', owner: '@MrWick' });
     await componentGenerator(tree, { name: 'hello', componentName: 'Hello' });
-  }, 10000);
+  });
 
   it('should generate playwright component spec', async () => {
     await generator(tree, options);
@@ -35,7 +39,7 @@ describe('playwright-component-configuration generator', () => {
         "Hello.test.tsx",
         "Hello.tsx",
         "index.ts",
-        "Hello.spec.tsx",
+        "Hello.component-browser-spec.tsx",
       ]
     `);
   });
