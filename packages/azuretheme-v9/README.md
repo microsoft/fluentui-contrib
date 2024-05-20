@@ -1,6 +1,28 @@
-# azuretheme-v9
+# @fluentui-contrib/azuretheme-v9
 
-This library was generated with [Nx](https://nx.dev).
+Azure Theme tokens include light and dark. High contrast is WIP.
+
+## Try it out
+
+```sh
+yarn add @fluentui-contrib/azuretheme-v9
+
+npm install @fluentui-contrib/azuretheme-v9
+```
+
+```tsx
+import * as React from 'react';
+import { FluentProvider, webLightTheme, Button } from '@fluentui/react-components';
+import { lightTheme, darkTheme } from '@fluentui-contrib/azuretheme-v9';
+
+export const MyProject = () => {
+  return (
+    <FluentProvider theme={lightTheme}>
+      <Button appearance="primary">Hello Fluent UI React</Button>
+    </FluentProvider>
+  );
+};
+```
 
 ## Building
 

@@ -5,7 +5,7 @@ import { AllControls } from '../../src/components/AllControls/allControls';
 
 export const All = () => (
   <FluentProvider theme={azureHighContrastTheme}>
-    <div>Light theme</div>
+    <div>High contrast theme</div>
     <AllControls />
   </FluentProvider>
 );
