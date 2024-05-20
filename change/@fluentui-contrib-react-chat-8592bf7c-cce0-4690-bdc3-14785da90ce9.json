@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "azure theme v9 initial release ",
+  "packageName": "@fluentui-contrib/react-chat",
+  "email": "30805892+Jacqueline-ms@users.noreply.github.com",
+  "dependentChangeType": "patch"
+}
