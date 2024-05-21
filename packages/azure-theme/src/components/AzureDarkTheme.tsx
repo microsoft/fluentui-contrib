@@ -4,7 +4,7 @@ import { neutralColorsDark } from '../tokens/brandRamp';
 
 const darkColors: Theme = createDarkTheme(brandAzure);
 
-export const AzureLightTheme: Theme = {
+export const AzureDarkTheme: Theme = {
   ...darkColors,
   ...neutralColorsDark,
 };
