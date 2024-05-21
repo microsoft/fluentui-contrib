@@ -50,6 +50,15 @@ git remote add upstream git@github.com:microsoft/fluentui-contrib.git
 
 ## Creating a new package
 
+> [!IMPORTANT]
+> Every new package needs to go through 2 step PR process
+>
+> - 1st PR bootstraps package via generator
+> - 2nd PR adds implementation logic
+
+> [!IMPORTANT]
+> Every package needs to have owner assigned within [CODEOWNERS](./.github/CODEOWNERS) file. It's highly recommended to use Github Team as owner instead individual to mitigate unmaintained code risks.
+
 You can create a new package by running the following commands.
 
 > `<name>` refers to the name of a folder within the `packages/` folder. The

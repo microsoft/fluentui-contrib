@@ -35,9 +35,9 @@ packages/react-themeless-provider/ @spmonahan
 /.yarn/ @microsoft/fluentui-react-build
 
 #### License and READMEs
-/LICENSE @microsoft/teams-prg
+/LICENSE @microsoft/teams-prg @microsoft/fluentui-react-build
 /README.md @microsoft/teams-prg @microsoft/fluentui-react-build
-/CONTRIBUTING.md @microsoft/teams-prg
-/CODE_OF_CONDUCT.md @microsoft/teams-prg
-/SECURITY.md @microsoft/teams-prg
-/SUPPORT.md @microsoft/teams-prg
+/CONTRIBUTING.md @microsoft/teams-prg @microsoft/fluentui-react-build
+/CODE_OF_CONDUCT.md @microsoft/teams-prg @microsoft/fluentui-react-build
+/SECURITY.md @microsoft/teams-prg @microsoft/fluentui-react-build
+/SUPPORT.md @microsoft/teams-prg @microsoft/fluentui-react-build
