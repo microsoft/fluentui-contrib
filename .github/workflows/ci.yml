@@ -31,6 +31,7 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
+      - run: yarn nx affected --target=verify-integrity --parallel --max-parallel=3
       - run: yarn nx affected --target=type-check --parallel --max-parallel=3
       - run: yarn nx affected --target=build --parallel --max-parallel=3
       - run: yarn nx affected --target=build-storybook --parallel --max-parallel=3

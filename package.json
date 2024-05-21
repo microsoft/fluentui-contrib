@@ -1,7 +1,7 @@
 {
   "name": "fluentui-contrib",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.0.0",
   "license": "MIT",
   "scripts": {
     "build": "nx affected --target=build",
