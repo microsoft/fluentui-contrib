@@ -31,6 +31,8 @@ export const createKeyframeAnimation: CreateKeyframeAnimationFn = ({
 
   const anims = [] as FallbackAnimation[];
   let overallDuration = 0;
+  // TODO: fix global
+  // eslint-disable-next-line no-restricted-globals
   const styles = getComputedStyle(target);
   for (
     let animationIndex = 0;

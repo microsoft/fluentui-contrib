@@ -29,10 +29,14 @@ const tick: TickFn = (
   onUpdate,
   isStopped
 ) => {
+  // TODO: fix global
+  // eslint-disable-next-line no-restricted-globals
   let start = performance.now();
   const currentValues = new Map<string, string>();
   let currentIteration = 1;
 
+  // TODO: fix global
+  // eslint-disable-next-line no-restricted-globals
   const raf = (time: number = performance.now()) => {
     const currentDuration = time - start;
     currentValues.clear();
@@ -115,11 +119,17 @@ const tick: TickFn = (
       )
     ) {
       currentIteration++;
+      // TODO: fix global
+      // eslint-disable-next-line no-restricted-globals
       start = performance.now();
+      // TODO: fix global
+      // eslint-disable-next-line no-restricted-globals
       requestAnimationFrame(raf);
     } else if (currentDuration >= overallDuration) {
       onComplete(currentValues);
     } else {
+      // TODO: fix global
+      // eslint-disable-next-line no-restricted-globals
       requestAnimationFrame(raf);
     }
 

@@ -1,7 +1,11 @@
 const createWrapper = (id: string): HTMLElement => {
+  // TODO: fix global
+  // eslint-disable-next-line no-restricted-globals
   let wrapper = document.getElementById(id);
 
   if (!wrapper) {
+    // TODO: fix global
+    // eslint-disable-next-line no-restricted-globals
     wrapper = document.createElement('div');
     wrapper.id = id;
     // Safari requires the canvas to have be visible in the
