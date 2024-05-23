@@ -7,6 +7,7 @@ import {
   shorthands,
   webLightTheme,
   FluentProvider,
+  useFluent,
 } from '@fluentui/react-components';
 import type { PartialTheme } from '@fluentui/react-components';
 import {
@@ -57,14 +58,19 @@ const Container: React.FC = () => {
 };
 
 const useTheme = (theme: PartialTheme, inject = true) => {
+  const { targetDocument: doc } = useFluent();
+
   React.useEffect(() => {
     const sheet = createCSSStyleSheetFromTheme(':root', theme);
-    if (inject) {
-      document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
+    if (inject && doc) {
+      doc.adoptedStyleSheets = [...doc.adoptedStyleSheets, sheet];
     }
 
     return () => {
-      document.adoptedStyleSheets = document.adoptedStyleSheets.filter(
+      if (!doc) {
+        return;
+      }
+      doc.adoptedStyleSheets = doc.adoptedStyleSheets.filter(
         (adoptedSheet) => adoptedSheet !== sheet
       );
     };
