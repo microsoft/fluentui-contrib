@@ -4,10 +4,6 @@ import { AzureLightTheme } from './azureLightTheme';
 import { FluentProvider } from '@fluentui/react-components';
 describe('AzureLightTheme', () => {
   it('should render', () => {
-    render(
-      <FluentProvider theme={AzureLightTheme}>
-        {/* other components go here */}
-      </FluentProvider>
-    );
+    render(<FluentProvider theme={AzureLightTheme}></FluentProvider>);
   });
-}); // Add a closing parenthesis here
+});
