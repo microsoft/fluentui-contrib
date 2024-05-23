@@ -2,6 +2,42 @@
   "root": true,
   "ignorePatterns": ["**/*"],
   "plugins": ["@nx", "import", "@rnx-kit"],
+  "rules": {
+    "no-restricted-globals": [
+      "error",
+      {
+        "name": "window",
+        "message": "Get a reference to `window` from `useFluent()`."
+      },
+      {
+        "name": "document",
+        "message": "Get a reference to `document` from `useFluent()`."
+      },
+      "customElements",
+      "devicePixelRatio",
+      "location",
+      "navigator",
+      "performance",
+
+      "cancelAnimationFrame",
+      "cancelIdleCallback",
+      "clearImmediate",
+      "clearInterval",
+      "clearTimeout",
+      "fetch",
+      "getComputedStyle",
+      "matchMedia",
+      "requestAnimationFrame",
+      "requestIdleCallback",
+      "setImmediate",
+      "setInterval",
+      "setTimeout",
+
+      "IntersectionObserver",
+      "MutationObserver",
+      "ResizeObserver"
+    ]
+  },
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -66,7 +102,9 @@
       "env": {
         "jest": true
       },
-      "rules": {}
+      "rules": {
+        "no-restricted-globals": "off"
+      }
     },
     {
       "files": "*.json",
