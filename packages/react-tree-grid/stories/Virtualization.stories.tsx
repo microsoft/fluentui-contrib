@@ -18,6 +18,7 @@ import {
   ForwardRefComponent,
   makeStyles,
   shorthands,
+  useFluent,
 } from '@fluentui/react-components';
 import { isHTMLElement } from '@fluentui/react-utilities';
 
@@ -173,6 +174,9 @@ const useVirtualizationContext = () => {
 };
 
 export const Virtualization = () => {
+  const { targetDocument: doc } = useFluent();
+  const win = doc?.defaultView;
+
   const [openItems, setOpenItems] = React.useState(
     () => new Map<PropertyKey, number>()
   );
@@ -217,10 +221,10 @@ export const Virtualization = () => {
           return;
         }
         const index = openItems.get(parentId);
-        if (index !== undefined) {
+        if (index !== undefined && win && doc) {
           listRef.current?.scrollToItem(index, 'smart');
-          requestAnimationFrame(() => {
-            document
+          win.requestAnimationFrame(() => {
+            doc
               .querySelector<HTMLElement>(`[data-item-id="${parentId}"]`)
               ?.focus();
           });

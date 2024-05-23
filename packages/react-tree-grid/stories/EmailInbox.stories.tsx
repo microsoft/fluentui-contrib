@@ -7,7 +7,6 @@ import {
   useTreeGridRowContext,
 } from '@fluentui-contrib/react-tree-grid';
 import {
-  Body1,
   Link,
   Slot,
   useTableRowStyles_unstable,
