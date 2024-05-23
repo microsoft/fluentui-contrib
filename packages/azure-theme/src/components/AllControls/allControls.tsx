@@ -1,72 +1,75 @@
 import * as React from 'react';
-import { ButtonsExample } from '../fluent/ButtonsExample';
-import { AccordionExample } from '../fluent/AccordionExample';
-import { AvatarExample } from '../fluent/AvatarExample';
-import { AvatarGroupExample } from '../fluent/AvatarGroupExample';
-import { BadgeExample } from '../fluent/BadgeExample';
-import { BreadcrumbExample } from '../fluent/BreadcrumbExample';
-import { CardExample } from '../fluent/CardExample';
-import { CheckboxExample } from '../fluent/CheckboxExample';
-import { ComboboxExample } from '../fluent/ComboboxExample';
-import { DataGridExample } from '../fluent/DataGridExample';
-import { DialogExample } from '../fluent/DialogExample';
-import { DividerExample } from '../fluent/DividerExample';
-import { DrawerExample } from '../fluent/DrawerExample';
-import { DropdownExample } from '../fluent/DropdownExample';
-import { FieldExample } from '../fluent/FieldExample';
-import { InfoLabelExample } from '../fluent/InfoLabelExample';
-import { InputExample } from '../fluent/InputExample';
-import { LabelExample } from '../fluent/LabelExample';
-import { LinkExample } from '../fluent/LinkExample';
-import { MenuExample } from '../fluent/MenuExample';
-import { MenuListExample } from '../fluent/MenuListExample';
-import { MessageBarExample } from '../fluent/MessageBarExample';
-import { OverflowExample } from '../fluent/OverflowExample';
-import { PersonaExample } from '../fluent/PersonaExample';
-import { PopoverExample } from '../fluent/PopoverExample';
-import { ProgressBarExample } from '../fluent/ProgressBarExample';
-import { RadioGroupExample } from '../fluent/RadioGroupExample';
-import { SearchBoxExample } from '../fluent/SearchBoxExample';
-import { SelectExample } from '../fluent/SelectExample';
-import { SkeletonExample } from '../fluent/SkeletonExample';
-import { SliderExample } from '../fluent/SliderExample';
-import { SpinButtonExample } from '../fluent/SpinButtonExample';
-import { SpinnerExample } from '../../../../../SpinnerExample';
-import { SwitchExample } from '../fluent/SwitchExample';
-import { TableExample } from '../fluent/TableExample';
-import { TabListExample } from '../fluent/TabListExample';
-import { InteractionTagExample } from '../fluent/TagExamples/InteractionTag';
-import { TagExample } from '../fluent/TagExamples/Tag';
-import { TagGroupExample } from '../fluent/TagExamples/TagGroup';
-import { TeachingPopoverExample } from '../fluent/TeachingPopover';
-import { TextExample } from '../fluent/Text';
-// import { TextareaExample } from '../fluent/TextareaExample';
-import { ToastExample } from '../fluent/Toast';
-import { ToolbarExample } from '../fluent/Toolbar';
-import { TooltipExample } from '../fluent/Tooltip';
-import { TreeExample } from '../fluent/Tree';
+import { ButtonsExample } from '../Fluent/ButtonsExample';
+import { AccordionExample } from '../Fluent/AccordionExample';
+import { AvatarExample } from '../Fluent/AvatarExample';
+import { AvatarGroupExample } from '../Fluent/AvatarGroupExample';
+import { BadgeExample } from '../Fluent/BadgeExample';
+import { BreadcrumbExample } from '../Fluent/BreadcrumbExample';
+import { CardExample } from '../Fluent/CardExample';
+import { CheckboxExample } from '../Fluent/CheckboxExample';
+import { ComboboxExample } from '../Fluent/ComboboxExample';
+import { DataGridExample } from '../Fluent/DataGridExample';
+import { DialogExample } from '../Fluent/DialogExample';
+import { DividerExample } from '../Fluent/DividerExample';
+import { DrawerExample } from '../Fluent/DrawerExample';
+import { DropdownExample } from '../Fluent/DropdownExample';
+import { FieldExample } from '../Fluent/FieldExample';
+import { InfoLabelExample } from '../Fluent/InfoLabelExample';
+import { InputExample } from '../Fluent/InputExample';
+import { LabelExample } from '../Fluent/LabelExample';
+import { LinkExample } from '../Fluent/LinkExample';
+import { MenuExample } from '../Fluent/MenuExample';
+import { MenuListExample } from '../Fluent/MenuListExample';
+import { MessageBarExample } from '../Fluent/MessageBarExample';
+import { OverflowExample } from '../Fluent/OverflowExample';
+import { PersonaExample } from '../Fluent/PersonaExample';
+import { PopoverExample } from '../Fluent/PopoverExample';
+// import { ProgressBarExample } from '../Fluent/ProgressBarExample';
+import { RadioGroupExample } from '../Fluent/RadioGroupExample';
+import { SearchBoxExample } from '../Fluent/SearchBoxExample';
+import { SelectExample } from '../Fluent/SelectExample';
+import { SkeletonExample } from '../Fluent/SkeletonExample';
+import { SliderExample } from '../Fluent/SliderExample';
+import { SpinButtonExample } from '../Fluent/SpinButtonExample';
+// import { SpinnerExample } from '../../../../../SpinnerExample';
+import { SwitchExample } from '../Fluent/SwitchExample';
+import { TableExample } from '../Fluent/TableExample';
+import { TabListExample } from '../Fluent/TabListExample';
+import { InteractionTagExample } from '../Fluent/TagExamples/InteractionTag';
+import { TagExample } from '../Fluent/TagExamples/Tag';
+import { TagGroupExample } from '../Fluent/TagExamples/TagGroup';
+import { TeachingPopoverExample } from '../Fluent/TeachingPopover';
+import { TextExample } from '../Fluent/Text';
+// import { TextareaExample } from '../Fluent/TextareaExample';
+import { ToastExample } from '../Fluent/Toast';
+import { ToolbarExample } from '../Fluent/Toolbar';
+import { TooltipExample } from '../Fluent/Tooltip';
+import { TreeExample } from '../Fluent/Tree';
 
 export const AllControls = () => {
   return (
     <div>
-      <div>All controls</div>
+      <h2>All controls</h2>
+      <h3>Buttons</h3>
       <ButtonsExample />
+      <h3>Accordion</h3>
       <AccordionExample />
+      <h3>Avatar</h3>
       <AvatarExample />
-      <AvatarGroupExample />
-      <BadgeExample />
-      <BreadcrumbExample />
-      <CardExample />
-      <CheckboxExample />
-      <ComboboxExample />
-      <DataGridExample />
-      <DialogExample />
-      <DividerExample />
-      <DrawerExample />
-      <DropdownExample />
-      <FieldExample />
-      <InfoLabelExample />
-      <InputExample />
+      {/* <AvatarGroupExample /> */}
+      {/* <BadgeExample /> */}
+      {/* <BreadcrumbExample /> */}
+      {/* <CardExample /> */}
+      {/* <CheckboxExample />
+      <ComboboxExample /> */}
+      {/* <DataGridExample /> */}
+      {/* <DialogExample /> */}
+      {/* <DividerExample /> */}
+      {/* <DrawerExample /> */}
+      {/* <DropdownExample /> */}
+      {/* <FieldExample /> */}
+      {/* <InfoLabelExample /> */}
+      {/* <InputExample />
       <LabelExample />
       <LinkExample />
       <MenuExample />
@@ -91,11 +94,11 @@ export const AllControls = () => {
       <TagGroupExample />
       <TeachingPopoverExample />
       <TextExample />
-      {/* <TextareaExample /> */}
+      <TextareaExample />
       <ToastExample />
       <ToolbarExample />
       <TooltipExample />
-      <TreeExample />
+      <TreeExample /> */}
     </div>
   );
 };

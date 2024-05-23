@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   OverlayDrawer,
   DrawerBody,
@@ -12,36 +12,36 @@ import {
   useId,
   tokens,
   makeStyles,
-} from "@fluentui/react-components";
-import { Dismiss24Regular } from "@fluentui/react-icons";
+} from '@fluentui/react-components';
+import { Dismiss24Regular } from '@fluentui/react-icons';
 
 const useStyles = makeStyles({
   main: {
-    display: "grid",
-    justifyContent: "flex-start",
+    display: 'grid',
+    justifyContent: 'flex-start',
     gridRowGap: tokens.spacingVerticalXXL,
   },
 
   field: {
-    display: "grid",
+    display: 'grid',
     gridRowGap: tokens.spacingVerticalS,
   },
 });
 
-type DrawerSizeStory = Required<DrawerProps>["size"];
+type DrawerSizeStory = Required<DrawerProps>['size'];
 
 export const DrawerExample = () => {
   const styles = useStyles();
-  const labelId = useId("size-label");
+  const labelId = useId('size-label');
 
   const [open, setOpen] = React.useState(false);
-  const [size, setSize] = React.useState<DrawerSizeStory>("small");
+  const [size, setSize] = React.useState<DrawerSizeStory>('small');
 
   const labelMap: Record<DrawerSizeStory, string> = {
-    small: "Small (Default)",
-    medium: "Medium",
-    large: "Large",
-    full: "Full",
+    small: 'Small (Default)',
+    medium: 'Medium',
+    large: 'Large',
+    full: 'Full',
   };
 
   return (

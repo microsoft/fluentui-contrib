@@ -21,13 +21,13 @@ const names = [
   'Elliot Woodward',
 ];
 
-export const AvatarGroupExample = (props: Partial<AvatarGroupProps>) => {
+export const AvatarGroupExample = () => {
   const { inlineItems, overflowItems } = partitionAvatarGroupItems({
     items: names,
   });
 
   return (
-    <AvatarGroup {...props}>
+    <AvatarGroup>
       {inlineItems.map((name) => (
         <AvatarGroupItem name={name} key={name} />
       ))}
