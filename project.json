@@ -9,6 +9,9 @@
         "config": ".verdaccio/config.yml",
         "storage": "tmp/local-registry/storage"
       }
+    },
+    "verify-integrity": {
+      "command": "node ./tools/scripts/verify-repo-integrity.mjs"
     }
   }
 }

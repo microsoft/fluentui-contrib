@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "release: first minor version",
-  "packageName": "fluentui-contrib",
-  "email": "marcosvmmoura@gmail.com",
-  "dependentChangeType": "patch"
-}

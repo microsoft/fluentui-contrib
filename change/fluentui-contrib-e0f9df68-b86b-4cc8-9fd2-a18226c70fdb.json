@@ -1,7 +1,0 @@
-{
-  "type": "none",
-  "comment": "chore: scaffold react-themeless-provider package",
-  "packageName": "fluentui-contrib",
-  "email": "seanmonahan@microsoft.com",
-  "dependentChangeType": "none"
-}
