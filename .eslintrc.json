@@ -5,14 +5,8 @@
   "rules": {
     "no-restricted-globals": [
       "error",
-      {
-        "name": "window",
-        "message": "Get a reference to `window` from `useFluent()`."
-      },
-      {
-        "name": "document",
-        "message": "Get a reference to `document` from `useFluent()`."
-      },
+      "window",
+      "document"
       "customElements",
       "devicePixelRatio",
       "location",
