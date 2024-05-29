@@ -6,7 +6,7 @@
     "no-restricted-globals": [
       "error",
       "window",
-      "document"
+      "document",
       "customElements",
       "devicePixelRatio",
       "location",
