@@ -16,11 +16,11 @@ export const playAnim = (
   animationParams: FallbackAnimationParams
 ) => {
   const props = new Map<string, string>();
-  // TODO: fix global
+  // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
   // eslint-disable-next-line no-restricted-globals
   const styles = getComputedStyle(state.target);
   const rect = { width: 0, height: 0 };
-  // TODO: fix global
+  // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
   // eslint-disable-next-line no-restricted-globals
   const resizeObserver = new ResizeObserver((entries) => {
     for (const entry of entries) {

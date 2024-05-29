@@ -44,7 +44,7 @@ export const fallbackPaintAnimation = (
   // Create a wrapper for us to store these elements in so we avoid
   // thrashing the DOM with appends.
   if (!state.wrapper) {
-    // TODO: fix global
+    // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
     // eslint-disable-next-line no-restricted-globals
     state.wrapper = appendWrapper(document.body);
   }

@@ -29,13 +29,13 @@ const tick: TickFn = (
   onUpdate,
   isStopped
 ) => {
-  // TODO: fix global
+  // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
   // eslint-disable-next-line no-restricted-globals
   let start = performance.now();
   const currentValues = new Map<string, string>();
   let currentIteration = 1;
 
-  // TODO: fix global
+  // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
   // eslint-disable-next-line no-restricted-globals
   const raf = (time: number = performance.now()) => {
     const currentDuration = time - start;
@@ -119,16 +119,16 @@ const tick: TickFn = (
       )
     ) {
       currentIteration++;
-      // TODO: fix global
+      // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
       // eslint-disable-next-line no-restricted-globals
       start = performance.now();
-      // TODO: fix global
+      // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
       // eslint-disable-next-line no-restricted-globals
       requestAnimationFrame(raf);
     } else if (currentDuration >= overallDuration) {
       onComplete(currentValues);
     } else {
-      // TODO: fix global
+      // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
       // eslint-disable-next-line no-restricted-globals
       requestAnimationFrame(raf);
     }

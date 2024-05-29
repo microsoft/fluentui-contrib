@@ -1,7 +1,7 @@
 export const createMozContext = (
   id: string
 ): CanvasRenderingContext2D | null => {
-  // TODO: fix global
+  // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
   // eslint-disable-next-line no-restricted-globals
   const canvas = document.createElement('canvas');
   canvas.id = id;
@@ -31,7 +31,7 @@ export const createWebkitContext = (
   width: number,
   height: number
 ): CanvasRenderingContext2D | null => {
-  // TODO: fix global
+  // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
   // eslint-disable-next-line no-restricted-globals
   const ctx = document.getCSSCanvasContext?.('2d', id, width, height) ?? null;
   if (!ctx) {
