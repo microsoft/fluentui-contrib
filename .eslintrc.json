@@ -2,6 +2,36 @@
   "root": true,
   "ignorePatterns": ["**/*"],
   "plugins": ["@nx", "import", "@rnx-kit"],
+  "rules": {
+    "no-restricted-globals": [
+      "error",
+      "window",
+      "document",
+      "customElements",
+      "devicePixelRatio",
+      "location",
+      "navigator",
+      "performance",
+
+      "cancelAnimationFrame",
+      "cancelIdleCallback",
+      "clearImmediate",
+      "clearInterval",
+      "clearTimeout",
+      "fetch",
+      "getComputedStyle",
+      "matchMedia",
+      "requestAnimationFrame",
+      "requestIdleCallback",
+      "setImmediate",
+      "setInterval",
+      "setTimeout",
+
+      "IntersectionObserver",
+      "MutationObserver",
+      "ResizeObserver"
+    ]
+  },
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -62,11 +92,20 @@
       "rules": {}
     },
     {
-      "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
+      "files": [
+        "*.spec.ts",
+        "*.spec.tsx",
+        "*.spec.js",
+        "*.spec.jsx",
+        "*test.ts",
+        "*.test.tsx"
+      ],
       "env": {
         "jest": true
       },
-      "rules": {}
+      "rules": {
+        "no-restricted-globals": "off"
+      }
     },
     {
       "files": "*.json",
