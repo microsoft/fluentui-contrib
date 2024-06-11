@@ -14,7 +14,8 @@ import {
  * Returns the state needed to make a draggable dialog surface.
  */
 export const useDraggableDialogSurface = (
-  props: DraggableDialogSurfaceProps, _ref: React.ForwardedRef<HTMLDivElement>
+  props: DraggableDialogSurfaceProps,
+  _ref: React.ForwardedRef<HTMLDivElement>
 ): DraggableDialogSurfaceState => {
   const { targetDocument } = useFluent();
   const {
