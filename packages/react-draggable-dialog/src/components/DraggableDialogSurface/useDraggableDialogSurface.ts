@@ -14,7 +14,7 @@ import {
  * Returns the state needed to make a draggable dialog surface.
  */
 export const useDraggableDialogSurface = (
-  props: DraggableDialogSurfaceProps
+  props: DraggableDialogSurfaceProps, _ref: React.ForwardedRef<HTMLDivElement>
 ): DraggableDialogSurfaceState => {
   const { targetDocument } = useFluent();
   const {
@@ -147,7 +147,7 @@ export const useDraggableDialogSurface = (
   assertDialogParent(hasDraggableParent, 'DraggableDialogSurface');
 
   return {
-    ref: useMergedRefs(setNodeRef as React.Ref<HTMLDivElement>, ref),
+    ref: useMergedRefs(setNodeRef as React.Ref<HTMLDivElement>, ref, _ref),
     mountNode,
     style,
   };
