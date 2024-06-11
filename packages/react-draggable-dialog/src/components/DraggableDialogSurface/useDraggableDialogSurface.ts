@@ -148,7 +148,11 @@ export const useDraggableDialogSurface = (
   assertDialogParent(hasDraggableParent, 'DraggableDialogSurface');
 
   return {
-    ref: useMergedRefs(setNodeRef as React.Ref<HTMLDivElement>, ref, forwardedRef),
+    ref: useMergedRefs(
+      setNodeRef as React.Ref<HTMLDivElement>,
+      ref,
+      forwardedRef
+    ),
     mountNode,
     style,
   };

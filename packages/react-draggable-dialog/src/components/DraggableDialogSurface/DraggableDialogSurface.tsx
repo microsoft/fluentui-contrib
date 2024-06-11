@@ -17,7 +17,10 @@ export const DraggableDialogSurface: ForwardRefComponent<DraggableDialogSurfaceP
   React.forwardRef((props, forwardedRef) => {
     const { children, className } = props;
     const styles = useStyles();
-    const { ref, style, mountNode } = useDraggableDialogSurface(props, forwardedRef);
+    const { ref, style, mountNode } = useDraggableDialogSurface(
+      props,
+      forwardedRef
+    );
 
     return (
       <DialogSurface
