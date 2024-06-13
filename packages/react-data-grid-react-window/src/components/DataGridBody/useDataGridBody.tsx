@@ -41,12 +41,12 @@ export const useDataGridBody_unstable = (
   );
 
   const virtualizedRow: DataGridBodyState['virtualizedRow'] = React.useCallback(
-    ({ data, index, style }) => {
+    ({ data, index, style, isScrolling }) => {
       const row: TableRowData<unknown> = data[index];
       return (
         <TableRowIndexContextProvider value={ariaRowIndexStart + index}>
           <TableRowIdContextProvider value={row.rowId}>
-            {children(row, style, index)}
+            {children(row, style, index, isScrolling)}
           </TableRowIdContextProvider>
         </TableRowIndexContextProvider>
       );

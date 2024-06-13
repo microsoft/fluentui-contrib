@@ -15,7 +15,11 @@ export type RowRenderer<TItem = unknown> = (
   /**
    * The index of each row
    */
-  index: number
+  index: number,
+  /**
+   * Indicates whether the grid is currently being scrolled.
+   */
+  isScrolling?: boolean | undefined
 ) => React.ReactNode;
 
 /**
