@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "feat(react-data-grid-react-window*): add scrolling indicators",
+  "packageName": "@fluentui-contrib/react-data-grid-react-window",
+  "email": "sghorashi@microsoft.com",
+  "dependentChangeType": "patch"
+}
