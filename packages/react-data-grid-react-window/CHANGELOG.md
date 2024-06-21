@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-data-grid-react-window
 
-This log was last generated on Wed, 25 Oct 2023 09:11:36 GMT and should not be manually modified.
+This log was last generated on Fri, 21 Jun 2024 06:08:36 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 1.2.0
+
+Fri, 21 Jun 2024 06:08:36 GMT
+
+### Minor changes
+
+- feat(react-data-grid-react-window*): add scrolling indicators (sghorashi@microsoft.com)
 
 ## 1.1.2
 

@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-data-grid-react-window-grid",
   "entries": [
     {
+      "date": "Fri, 21 Jun 2024 06:08:36 GMT",
+      "tag": "@fluentui-contrib/react-data-grid-react-window-grid_v2.3.0",
+      "version": "2.3.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "sghorashi@microsoft.com",
+            "package": "@fluentui-contrib/react-data-grid-react-window-grid",
+            "commit": "99a4b65b6659541b1c98886e968bc7a62cb64c44",
+            "comment": "feat(react-data-grid-react-window*): add scrolling indicators"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 25 Apr 2024 09:32:18 GMT",
       "tag": "@fluentui-contrib/react-data-grid-react-window-grid_v2.2.1",
       "version": "2.2.1",

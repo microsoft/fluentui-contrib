@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-tree-grid",
   "entries": [
     {
+      "date": "Fri, 21 Jun 2024 06:08:36 GMT",
+      "tag": "@fluentui-contrib/react-tree-grid_v0.1.0",
+      "version": "0.1.0",
+      "comments": {
+        "none": [
+          {
+            "author": "bernardo.sunderhus@gmail.com",
+            "package": "@fluentui-contrib/react-tree-grid",
+            "commit": "0e2c744afa0f2ed5863de15fa720f374265a90d9",
+            "comment": "docs: adds calls example (contextual menu + hidden menu)"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 05 Apr 2024 08:15:59 GMT",
       "tag": "@fluentui-contrib/react-tree-grid_v0.1.0",
       "version": "0.1.0",

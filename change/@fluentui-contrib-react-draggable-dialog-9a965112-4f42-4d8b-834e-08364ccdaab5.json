@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "Add ref forwarding for DraggableDialogSurface",
-  "packageName": "@fluentui-contrib/react-draggable-dialog",
-  "email": "tor.lye@tietoevry.com",
-  "dependentChangeType": "patch"
-}

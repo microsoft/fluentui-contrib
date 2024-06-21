@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "chore: temporarily disable no-restricted-globals for houdini-utils",
-  "packageName": "@fluentui-contrib/houdini-utils",
-  "email": "seanmonahan@microsoft.com",
-  "dependentChangeType": "patch"
-}
