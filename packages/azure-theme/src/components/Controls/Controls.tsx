@@ -30,7 +30,7 @@ import {
 } from '@fluentui/react-components';
 
 export const Controls = () => {
-  const controlStyles = { margin: '10px', padding: '10px' };
+  const controlStyles = { margin: '10px' };
 
   const options = ['Cat', 'Dog', 'Ferret', 'Fish', 'Hamster', 'Snake'];
   return (
@@ -55,7 +55,7 @@ export const Controls = () => {
           <Checkbox style={controlStyles} />
         </div>
         <div style={{ display: 'flex' }}>
-          <Combobox placeholder="Select an animal">
+          <Combobox style={controlStyles}  placeholder="Select an animal">
             {options.map((option) => (
               <Option key={option} disabled={option === 'Ferret'}>
                 {option}
@@ -115,7 +115,7 @@ export const Controls = () => {
           <Switch style={controlStyles} />
         </div>
         <div style={{ display: 'flex' }}>
-          <TabList defaultSelectedValue="tab2">
+          <TabList defaultSelectedValue="tab2" style={controlStyles}>
             <Tab value="tab1">First Tab</Tab>
             <Tab value="tab2">Second Tab</Tab>
             <Tab value="tab3">Third Tab</Tab>
