@@ -1,10 +1,10 @@
 import { Theme, createLightTheme } from '@fluentui/react-components';
-import { brandAzure } from './tokens/brandRamp';
-import { neutralColorsLight } from './tokens/brandRamp';
+import { brandAzure } from '../../tokens/brandRamp';
+import { neutralColorsLight } from '../../tokens/brandRamp';
 
 const lightColors: Theme = createLightTheme(brandAzure);
 
-export const azureLightTheme: Theme = {
+export const AzureLightTheme: Theme = {
   ...lightColors,
   ...neutralColorsLight,
 };
