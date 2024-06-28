@@ -586,6 +586,22 @@
     "@griffel/react" "^1.5.22"
     "@swc/helpers" "^0.5.1"
 
+"@fluentui/react-list-preview@^0.2.9":
+  version "0.2.9"
+  resolved "https://registry.npmjs.org/@fluentui/react-list-preview/-/react-list-preview-0.2.9.tgz#d9d226f85381a5276f560d4d4f12c3a20eddbf5d"
+  integrity sha512-qphma/zNJC0+6/UXxT5DNVvH3LwhYoQYdCZXFshkzJ5OG6tvzGodRiU+wunryws02T/nS5kUOfXS16sE7xGdHg==
+  dependencies:
+    "@fluentui/keyboard-keys" "^9.0.7"
+    "@fluentui/react-checkbox" "^9.2.29"
+    "@fluentui/react-context-selector" "^9.1.62"
+    "@fluentui/react-jsx-runtime" "^9.0.39"
+    "@fluentui/react-shared-contexts" "^9.19.0"
+    "@fluentui/react-tabster" "^9.22.0"
+    "@fluentui/react-theme" "^9.1.19"
+    "@fluentui/react-utilities" "^9.18.10"
+    "@griffel/react" "^1.5.22"
+    "@swc/helpers" "^0.5.1"
+
 "@fluentui/react-menu@^9.14.8":
   version "9.14.8"
   resolved "https://registry.npmjs.org/@fluentui/react-menu/-/react-menu-9.14.8.tgz#a179ee31cab799c54bac73098a4a7ff1cb48429e"
