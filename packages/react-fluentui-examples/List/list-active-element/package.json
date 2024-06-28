@@ -1,7 +1,6 @@
 {
-  "name": "react-fluentui-examples",
+  "name": "react-fluentui-examples-list-active-element",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,8 +11,7 @@
   "dependencies": {
     "@fluentui/react-components": "^9.54.2",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^6.24.0"
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
