@@ -55,7 +55,7 @@ export const Controls = () => {
           <Checkbox style={controlStyles} />
         </div>
         <div style={{ display: 'flex' }}>
-          <Combobox style={controlStyles}  placeholder="Select an animal">
+          <Combobox style={controlStyles} placeholder="Select an animal">
             {options.map((option) => (
               <Option key={option} disabled={option === 'Ferret'}>
                 {option}
