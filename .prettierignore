@@ -6,3 +6,4 @@ patches/
 packages/nx-plugin/src/generators/**/files/
 
 /.nx/cache
+/.nx/workspace-data
