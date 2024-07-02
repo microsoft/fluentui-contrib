@@ -11,7 +11,7 @@
       "enum": ["component", "e2e"],
       "default": "component"
     },
-   "browser": {
+    "browser": {
       "type": "string",
       "description": "Browser to use for tests, one of 'all', 'chromium', 'firefox' or 'webkit'. If a playwright config is provided/discovered then the browserName value is expected from the configured 'projects'",
       "x-priority": "important"
