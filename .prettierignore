@@ -4,3 +4,5 @@
 .yarn/
 patches/
 packages/nx-plugin/src/generators/**/files/
+
+/.nx/cache
