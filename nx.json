@@ -67,5 +67,8 @@
   "workspaceLayout": {
     "appsDir": "packages",
     "libsDir": "packages"
-  }
+  },
+  "parallel": 3,
+  "defaultBase": "main",
+  "useInferencePlugins": false
 }
