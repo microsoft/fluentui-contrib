@@ -33,9 +33,9 @@ describe('create-package generator', () => {
       expect(tree.children(config.root)).toMatchInlineSnapshot(`
         [
           "tsconfig.json",
-          "README.md",
           "src",
           "tsconfig.lib.json",
+          "README.md",
           ".swcrc",
           "package.json",
           "project.json",
