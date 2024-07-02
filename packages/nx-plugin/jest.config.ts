@@ -26,4 +26,5 @@ export default {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/packages/nx-plugin',
+  setupFiles: ['<rootDir>/jest-setup.js'],
 };
