@@ -1,0 +1,22 @@
+{
+  "name": "variant-theme-v9",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/variant-theme-v9/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/variant-theme-v9",
+        "main": "packages/variant-theme-v9/src/index.ts",
+        "tsConfig": "packages/variant-theme-v9/tsconfig.lib.json",
+        "assets": ["packages/variant-theme-v9/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  },
+  "tags": []
+}

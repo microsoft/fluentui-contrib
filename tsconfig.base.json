@@ -50,7 +50,8 @@
       ],
       "@fluentui-contrib/stylelint-plugin": [
         "packages/stylelint-plugin/src/index.ts"
-      ]
+      ],
+      "@fluentui-contrib/variant-theme-v9": ["packages/variant-theme-v9/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
