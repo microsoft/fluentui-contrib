@@ -40,6 +40,14 @@ export type UseResizeHandleParams = {
    * Use this for localization.
    */
   getA11ValueText?: (value: number) => string;
+
+  /**
+   * Only measure relative change in size, useful to use with CSS calc() function.
+   * Example: clamp(60px, calc(20% + var(--nav-size)), 40%)
+   * This will take 20% of the parent size by default, but will allow to resize between 60px and 40%.
+   * Also, the size will still be relative in nature (20% - (X)px).
+   */
+  relative?: boolean;
 };
 
 export const useResizeHandle = (params: UseResizeHandleParams) => {
@@ -52,6 +60,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
     onDragStart,
     onDragEnd,
     getA11ValueText = (value) => `${value.toFixed(0)}px`,
+    relative,
   } = params;
 
   const handleRef = React.useRef<HTMLElement | null>(null);
@@ -61,6 +70,15 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
   const currentValue = React.useRef(UNMEASURED);
 
   const updateElementsAttrs = React.useCallback(() => {
+    let a11yValue = getA11ValueText(currentValue.current);
+
+    // If relative mode is enabled, we actually have to measure the element,
+    // because the currentValue is just the px offset.
+    if (relative) {
+      const sizeInPx = elementDimension(elementRef.current, growDirection);
+      a11yValue = getA11ValueText(sizeInPx);
+    }
+
     wrapperRef.current?.style.setProperty(
       variableName,
       `${currentValue.current}px`
@@ -72,7 +90,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
       ...(maxValue < Number.MAX_SAFE_INTEGER
         ? { 'aria-valuemax': maxValue }
         : {}),
-      'aria-valuetext': getA11ValueText(currentValue.current),
+      'aria-valuetext': a11yValue,
       'aria-orientation':
         growDirection === 'end' || growDirection === 'start'
           ? 'vertical'
@@ -89,14 +107,36 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
   // In case the maxValue or minValue is changed, we need to make sure we are not exceeding the new limits
   React.useEffect(() => {
     setValue(currentValue.current);
-  }, [maxValue, minValue, updateElementsAttrs]);
+  }, [maxValue, minValue]);
 
   const setValue = React.useCallback(
     (value: number) => {
-      const newValue = clamp(value, minValue, maxValue);
+      const newValue = relative ? value : clamp(value, minValue, maxValue);
+
       if (newValue !== currentValue.current) {
+        // Save the current value, we might need to revert to it if the new value doesn't have any impact on size
+        const oldValue = currentValue.current;
+
+        // Measure the size before setting the new value
+        const previousSizeInPx = elementDimension(
+          elementRef.current,
+          growDirection
+        );
+
+        // Set the new value and update the elements, this should result in element resize
         currentValue.current = newValue;
         updateElementsAttrs();
+
+        // Measure the size after setting the new value
+        const newSizeInPx = elementDimension(elementRef.current, growDirection);
+
+        // If the size hasn't changed, we need to revert to the old value to keep the state and DOM in sync.
+        // If we don't do this, then the handle might be stuck in a place where small changes
+        // in value don't have any effect.
+        if (newSizeInPx === previousSizeInPx) {
+          currentValue.current = oldValue;
+          updateElementsAttrs();
+        }
       }
     },
     [minValue, maxValue, updateElementsAttrs]
@@ -105,27 +145,29 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
   const onDragStartLocal = useEventCallback((e: NativeTouchOrMouseEvent) => {
     onDragStart?.(e, currentValue.current);
   });
+
   const onDragEndLocal = useEventCallback((e: NativeTouchOrMouseEvent) => {
     onDragEnd?.(e, currentValue.current);
   });
+
   const {
     attachHandlers: attachMouseHandlers,
     detachHandlers: detachMouseHandlers,
   } = useMouseHandler({
-    elementRef,
     growDirection,
     onValueChange: setValue,
     onDragStart: onDragStartLocal,
     onDragEnd: onDragEndLocal,
+    currentValue,
   });
 
   const {
     attachHandlers: attachKeyboardHandlers,
     detachHandlers: detachKeyboardHandlers,
   } = useKeyboardHandler({
-    elementRef,
     growDirection,
     onValueChange: setValue,
+    currentValue,
   });
 
   const setHandleRef: React.RefCallback<HTMLElement> = React.useCallback(
@@ -165,7 +207,9 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
       elementRef.current = node;
       if (elementRef.current) {
         if (currentValue.current === UNMEASURED) {
-          currentValue.current = elementDimension(node, growDirection);
+          currentValue.current = relative
+            ? 0
+            : elementDimension(node, growDirection);
         }
         updateElementsAttrs();
       }
