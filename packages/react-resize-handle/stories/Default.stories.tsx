@@ -18,7 +18,7 @@ const usePageStyles = makeResetStyles({
 });
 
 const useMainWrapperStyles = makeResetStyles({
-  [NAV_SIZE_CSS_VAR]: `20%`,
+  [NAV_SIZE_CSS_VAR]: '0px',
   [SIDE_SIZE_CSS_VAR]: '120px',
   [FOOTER_SIZE_CSS_VAR]: '10%',
   display: 'grid',

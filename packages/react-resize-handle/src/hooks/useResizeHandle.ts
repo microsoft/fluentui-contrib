@@ -45,7 +45,7 @@ export type UseResizeHandleParams = {
    * Only measure relative change in size, useful to use with CSS calc() function.
    * Example: clamp(60px, calc(20% + var(--nav-size)), 40%)
    * This will take 20% of the parent size by default, but will allow to resize between 60px and 40%.
-   * Also, the size will still be relative in nature (20% - (X)px).
+   * Also, the size will still be relative in nature (20% + (X)px).
    */
   relative?: boolean;
 };
