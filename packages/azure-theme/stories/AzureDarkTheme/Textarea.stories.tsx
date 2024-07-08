@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { AzureDarkTheme } from '@fluentui-contrib/azure-theme';
 import { FluentProvider } from '@fluentui/react-components';
-import { AllControls } from '../../src/components/AllControls/AllControls';
+import { TextareaExample } from '../../src/components/fluent/Textarea';
 
-export const Default = () => (
+export const Textarea = () => (
   <FluentProvider theme={AzureDarkTheme}>
-    <AllControls />
+    <TextareaExample />
   </FluentProvider>
 );

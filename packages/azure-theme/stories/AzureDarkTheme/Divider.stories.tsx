@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { AzureDarkTheme } from '@fluentui-contrib/azure-theme';
 import { FluentProvider } from '@fluentui/react-components';
-import { AllControls } from '../../src/components/AllControls/AllControls';
+import { DividerExample } from '../../src/components/fluent/DividerExample';
 
-export const Default = () => (
+export const Divider = () => (
   <FluentProvider theme={AzureDarkTheme}>
-    <AllControls />
+    <DividerExample />
   </FluentProvider>
 );

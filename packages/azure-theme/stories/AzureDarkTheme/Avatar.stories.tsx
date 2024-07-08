@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { AzureDarkTheme } from '@fluentui-contrib/azure-theme';
 import { FluentProvider } from '@fluentui/react-components';
-import { AllControls } from '../../src/components/AllControls/AllControls';
+import { AvatarExample } from '../../src/components/fluent/AvatarExample';
 
-export const Default = () => (
+export const Avatar = () => (
   <FluentProvider theme={AzureDarkTheme}>
-    <AllControls />
+    <AvatarExample />
   </FluentProvider>
 );

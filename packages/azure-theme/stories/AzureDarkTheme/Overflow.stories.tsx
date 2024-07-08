@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { AzureDarkTheme } from '@fluentui-contrib/azure-theme';
 import { FluentProvider } from '@fluentui/react-components';
-import { AllControls } from '../../src/components/AllControls/AllControls';
+import { OverflowExample } from '../../src/components/fluent/OverflowExample';
 
-export const Default = () => (
+export const Overflow = () => (
   <FluentProvider theme={AzureDarkTheme}>
-    <AllControls />
+    <OverflowExample />
   </FluentProvider>
 );

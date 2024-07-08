@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { AzureDarkTheme } from '@fluentui-contrib/azure-theme';
 import { FluentProvider } from '@fluentui/react-components';
-import { AllControls } from '../../src/components/AllControls/AllControls';
+import { MessageBarExample } from '../../src/components/fluent/MessageBarExample';
 
-export const Default = () => (
+export const MessageBar = () => (
   <FluentProvider theme={AzureDarkTheme}>
-    <AllControls />
+    <MessageBarExample />
   </FluentProvider>
 );

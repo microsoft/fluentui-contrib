@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { AzureDarkTheme } from '@fluentui-contrib/azure-theme';
 import { FluentProvider } from '@fluentui/react-components';
-import { AllControls } from '../../src/components/AllControls/AllControls';
+import { SkeletonExample } from '../../src/components/fluent/SkeletonExample';
 
-export const Default = () => (
+export const Skeleton = () => (
   <FluentProvider theme={AzureDarkTheme}>
-    <AllControls />
+    <SkeletonExample />
   </FluentProvider>
 );

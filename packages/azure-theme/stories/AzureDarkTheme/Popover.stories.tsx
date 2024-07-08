@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { AzureDarkTheme } from '@fluentui-contrib/azure-theme';
 import { FluentProvider } from '@fluentui/react-components';
-import { AllControls } from '../../src/components/AllControls/AllControls';
+import { PopoverExample } from '../../src/components/fluent/PopoverExample';
 
-export const Default = () => (
+export const Popover = () => (
   <FluentProvider theme={AzureDarkTheme}>
-    <AllControls />
+    <PopoverExample />
   </FluentProvider>
 );

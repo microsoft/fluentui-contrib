@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { AzureDarkTheme } from '@fluentui-contrib/azure-theme';
 import { FluentProvider } from '@fluentui/react-components';
-import { AllControls } from '../../src/components/AllControls/AllControls';
+import { TableExample } from '../../src/components/fluent/TableExample';
 
-export const Default = () => (
+export const Table = () => (
   <FluentProvider theme={AzureDarkTheme}>
-    <AllControls />
+    <TableExample />
   </FluentProvider>
 );

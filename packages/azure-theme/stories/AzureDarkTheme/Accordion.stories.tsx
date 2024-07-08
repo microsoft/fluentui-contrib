@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { AzureDarkTheme } from '@fluentui-contrib/azure-theme';
 import { FluentProvider } from '@fluentui/react-components';
-import { AllControls } from '../../src/components/AllControls/AllControls';
+import { AccordionExample } from '../../src/components/fluent/AccordionExample';
 
-export const Default = () => (
+export const Accordion = () => (
   <FluentProvider theme={AzureDarkTheme}>
-    <AllControls />
+    <AccordionExample />
   </FluentProvider>
 );

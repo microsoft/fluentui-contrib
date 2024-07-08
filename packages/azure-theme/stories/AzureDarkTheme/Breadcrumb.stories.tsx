@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { AzureDarkTheme } from '@fluentui-contrib/azure-theme';
 import { FluentProvider } from '@fluentui/react-components';
-import { AllControls } from '../../src/components/AllControls/AllControls';
+import { BreadcrumbExample } from '../../src/components/fluent/BreadcrumbExample';
 
-export const Default = () => (
+export const Breadcrumb = () => (
   <FluentProvider theme={AzureDarkTheme}>
-    <AllControls />
+    <BreadcrumbExample />
   </FluentProvider>
 );
