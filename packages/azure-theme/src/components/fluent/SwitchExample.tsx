@@ -4,7 +4,7 @@ import { Switch } from '@fluentui/react-components';
 export const SwitchExample = () => {
   const [checked, setChecked] = React.useState(true);
   const onChange = React.useCallback(
-    (ev) => {
+    (ev: any) => {
       setChecked(ev.currentTarget.checked);
     },
     [setChecked]

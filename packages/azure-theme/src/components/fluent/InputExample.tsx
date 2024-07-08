@@ -1,5 +1,4 @@
-import * as React from "react";
-import { ArgTypes } from "@storybook/api";
+import * as React from 'react';
 import {
   makeStyles,
   shorthands,
@@ -8,44 +7,43 @@ import {
   Label,
   Button,
   Body1,
-  Text
-} from "@fluentui/react-components";
-import { PersonRegular, MicRegular } from "@fluentui/react-icons";
-import type { InputProps, ButtonProps } from "@fluentui/react-components";
+  Text,
+} from '@fluentui/react-components';
+import { PersonRegular, MicRegular } from '@fluentui/react-icons';
+import type { InputProps, ButtonProps } from '@fluentui/react-components';
 
 const useStyles = makeStyles({
   root: {
     // Stack the label above the field
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column',
     // Use 2px gap below the label (per the design system)
-    ...shorthands.gap("2px"),
+    ...shorthands.gap('2px'),
     // Prevent the example from taking the full width of the page (optional)
-    maxWidth: "400px",
+    maxWidth: '400px',
   },
 });
 
 const MicButton: React.FC<ButtonProps> = (props) => {
-    return (
-      <Button
-        {...props}
-        appearance="transparent"
-        icon={<MicRegular />}
-        size="small"
-      />
-    );
-  };
-  
+  return (
+    <Button
+      {...props}
+      appearance="transparent"
+      icon={<MicRegular />}
+      size="small"
+    />
+  );
+};
 
 export const InputExample = (props: InputProps) => {
-  const inputId = useId("input");
+  const inputId = useId('input');
   const styles = useStyles();
 
-  const beforeId = useId("content-before");
-  const afterId = useId("content-after");
-  const beforeAndAfterId = useId("content-before-and-after");
-  const beforeLabelId = useId("before-label");
-  const afterLabelId = useId("after-label");
+  const beforeId = useId('content-before');
+  const afterId = useId('content-after');
+  const beforeAndAfterId = useId('content-before-and-after');
+  const beforeLabelId = useId('before-label');
+  const afterLabelId = useId('after-label');
 
   return (
     <div className={styles.root}>
@@ -57,7 +55,7 @@ export const InputExample = (props: InputProps) => {
         <Label htmlFor={beforeId}>Full name</Label>
         <Input contentBefore={<PersonRegular />} id={beforeId} />
         <Body1>
-          An input with a decorative icon in the <code>contentBefore</code>{" "}
+          An input with a decorative icon in the <code>contentBefore</code>{' '}
           slot.
         </Body1>
       </div>
@@ -91,30 +89,11 @@ export const InputExample = (props: InputProps) => {
         />
 
         <Body1>
-          An input with a presentational value in the <code>contentBefore</code>{" "}
-          slot and another presentational value in the <code>contentAfter</code>{" "}
+          An input with a presentational value in the <code>contentBefore</code>{' '}
+          slot and another presentational value in the <code>contentAfter</code>{' '}
           slot.
         </Body1>
       </div>
     </div>
   );
-};
-
-const argTypes: ArgTypes = {
-  // Add these native props to the props table and controls pane
-  placeholder: {
-    description:
-      "Placeholder text for the input. If using this instead of a label (which is " +
-      "not recommended), be sure to provide an `aria-label` for screen reader users.",
-    type: { name: "string", required: false }, // for inferring control type
-    table: { type: { summary: "string" } }, // for showing type in prop table
-  },
-  disabled: {
-    description: "Whether the input is disabled",
-    type: { name: "boolean", required: false },
-    table: { type: { summary: "boolean" } },
-  },
-  // Hide these from the props table and controls pane
-  children: { table: { disable: true } },
-  as: { table: { disable: true } },
 };

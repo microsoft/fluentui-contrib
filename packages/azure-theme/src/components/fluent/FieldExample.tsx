@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 
 import {
   Field,
@@ -6,14 +6,13 @@ import {
   makeResetStyles,
   tokens,
   LabelProps,
-  InfoLabel
-} from "@fluentui/react-components";
-import { SparkleFilled } from "@fluentui/react-icons";
-
+  InfoLabel,
+} from '@fluentui/react-components';
+import { SparkleFilled } from '@fluentui/react-icons';
 
 const useStackClassName = makeResetStyles({
-  display: "flex",
-  flexDirection: "column",
+  display: 'flex',
+  flexDirection: 'column',
   rowGap: tokens.spacingVerticalL,
 });
 
@@ -44,19 +43,8 @@ export const FieldExample = () => (
     >
       <Input />
     </Field>
-    <Field
-        label={{
-        // Setting children to a render function allows you to replace the entire slot.
-        // The first param is the component for the slot (Label), which we're ignoring to use InfoLabel instead.
-        // The second param are the props for the slot, which need to be passed to the InfoLabel.
-        children: (_: unknown, slotProps: LabelProps) => (
-            <InfoLabel {...slotProps} info="Example info">
-            Field with an info button
-            </InfoLabel>
-        ),
-        }}
-    >
-        <Input />
+    <Field label="Field with an info button">
+      <Input />
     </Field>
   </div>
 );
