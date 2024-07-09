@@ -72,6 +72,10 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
   const updateElementsAttrs = React.useCallback(() => {
     let a11yValue = getA11ValueText(currentValue.current);
 
+    if (currentValue.current === UNMEASURED) {
+      return;
+    }
+
     // If relative mode is enabled, we actually have to measure the element,
     // because the currentValue is just the px offset.
     if (relative) {
@@ -106,8 +110,19 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
 
   // In case the maxValue or minValue is changed, we need to make sure we are not exceeding the new limits
   React.useEffect(() => {
-    setValue(currentValue.current);
+    currentValue.current = clamp(currentValue.current, minValue, maxValue);
   }, [maxValue, minValue]);
+
+  // If the element is unmeasured, we need to measure it to get the initial value
+  React.useLayoutEffect(() => {
+    if (
+      !relative &&
+      currentValue.current === UNMEASURED &&
+      elementRef.current
+    ) {
+      setValue(elementDimension(elementRef.current, growDirection));
+    }
+  });
 
   const setValue = React.useCallback(
     (value: number) => {
@@ -150,6 +165,12 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
     onDragEnd?.(e, currentValue.current);
   });
 
+  const getCurrentValue = React.useCallback(() => {
+    return relative
+      ? currentValue.current
+      : elementDimension(elementRef.current, growDirection);
+  }, []);
+
   const {
     attachHandlers: attachMouseHandlers,
     detachHandlers: detachMouseHandlers,
@@ -158,7 +179,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
     onValueChange: setValue,
     onDragStart: onDragStartLocal,
     onDragEnd: onDragEndLocal,
-    currentValue,
+    getCurrentValue,
   });
 
   const {
@@ -167,7 +188,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
   } = useKeyboardHandler({
     growDirection,
     onValueChange: setValue,
-    currentValue,
+    getCurrentValue,
   });
 
   const setHandleRef: React.RefCallback<HTMLElement> = React.useCallback(
@@ -206,10 +227,8 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
     (node) => {
       elementRef.current = node;
       if (elementRef.current) {
-        if (currentValue.current === UNMEASURED) {
-          currentValue.current = relative
-            ? 0
-            : elementDimension(node, growDirection);
+        if (currentValue.current === UNMEASURED && relative) {
+          currentValue.current = 0;
         }
         updateElementsAttrs();
       }

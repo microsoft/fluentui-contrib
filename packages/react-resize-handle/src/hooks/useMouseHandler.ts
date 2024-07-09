@@ -15,7 +15,7 @@ export type UseMouseHandlerParams = {
   onValueChange: (value: number) => void;
   onDragEnd?: (e: NativeTouchOrMouseEvent) => void;
   onDragStart?: (e: NativeTouchOrMouseEvent) => void;
-  currentValue: React.RefObject<number>;
+  getCurrentValue: () => number;
 };
 
 export function useMouseHandler(params: UseMouseHandlerParams) {
@@ -23,7 +23,7 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
   const targetWindow = targetDocument?.defaultView;
 
   const dragStartOriginCoords = React.useRef({ clientX: 0, clientY: 0 });
-  const { growDirection, onValueChange, currentValue } = params;
+  const { growDirection, onValueChange, getCurrentValue } = params;
 
   const startValue = React.useRef(0);
 
@@ -78,7 +78,7 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
     dragStartOriginCoords.current = getEventClientCoords(event);
     // As we start dragging, save the current value otherwise the value increases,
     // the delta compounds and the element grows/shrinks too fast.
-    startValue.current = currentValue.current || 0;
+    startValue.current = getCurrentValue() || 0;
 
     if (event.defaultPrevented) {
       return;

@@ -1,12 +1,11 @@
 import { useEventCallback, useFluent } from '@fluentui/react-components';
 import * as React from 'react';
 import { GrowDirection, SupportedKeys } from '../types';
-import { elementDimension } from '../utils/index';
 
 export type UseKeyboardHandlerOptions = {
   onValueChange: (value: number) => void;
   growDirection: GrowDirection;
-  currentValue: React.RefObject<number>;
+  getCurrentValue: () => number;
 };
 
 const DEFAULT_STEP = 20;
@@ -44,7 +43,7 @@ function isSupportedKey(
 }
 
 export const useKeyboardHandler = (options: UseKeyboardHandlerOptions) => {
-  const { onValueChange, growDirection, currentValue } = options;
+  const { onValueChange, growDirection, getCurrentValue } = options;
   const { dir } = useFluent();
 
   const onKeyDown = useEventCallback((event: KeyboardEvent) => {
@@ -52,7 +51,7 @@ export const useKeyboardHandler = (options: UseKeyboardHandlerOptions) => {
       return;
     }
 
-    let newValue = currentValue.current || 0;
+    let newValue = getCurrentValue() || 0;
 
     const multiplier = multipliers[growDirection][event.key] ?? 1;
     const directionMultiplier =
