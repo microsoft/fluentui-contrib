@@ -59,7 +59,8 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
     onChange,
     onDragStart,
     onDragEnd,
-    getA11ValueText = (value) => `${value.toFixed(0)}px`,
+    getA11ValueText = (value) =>
+      value === UNMEASURED ? 'Unknown' : `${value.toFixed(0)}px`,
     relative,
   } = params;
 
@@ -72,10 +73,6 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
   const updateElementsAttrs = React.useCallback(() => {
     let a11yValue = getA11ValueText(currentValue.current);
 
-    if (currentValue.current === UNMEASURED) {
-      return;
-    }
-
     // If relative mode is enabled, we actually have to measure the element,
     // because the currentValue is just the px offset.
     if (relative) {
@@ -83,10 +80,6 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
       a11yValue = getA11ValueText(sizeInPx);
     }
 
-    wrapperRef.current?.style.setProperty(
-      variableName,
-      `${currentValue.current}px`
-    );
     const handleAttributes = {
       tabIndex: 0,
       role: 'separator',
@@ -105,24 +98,23 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
       handleRef.current?.setAttribute(key, String(value));
     });
 
-    onChange?.(currentValue.current);
+    // Make sure to only apply the value if it's not the initial value!
+    if (currentValue.current !== UNMEASURED) {
+      wrapperRef.current?.style.setProperty(
+        variableName,
+        `${currentValue.current}px`
+      );
+      onChange?.(currentValue.current);
+    }
   }, [getA11ValueText, maxValue, minValue, onChange, variableName]);
 
   // In case the maxValue or minValue is changed, we need to make sure we are not exceeding the new limits
   React.useEffect(() => {
+    if (currentValue.current === UNMEASURED) {
+      return;
+    }
     currentValue.current = clamp(currentValue.current, minValue, maxValue);
   }, [maxValue, minValue]);
-
-  // If the element is unmeasured, we need to measure it to get the initial value
-  React.useLayoutEffect(() => {
-    if (
-      !relative &&
-      currentValue.current === UNMEASURED &&
-      elementRef.current
-    ) {
-      setValue(elementDimension(elementRef.current, growDirection));
-    }
-  });
 
   const setValue = React.useCallback(
     (value: number) => {
