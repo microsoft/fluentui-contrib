@@ -51,7 +51,7 @@ export const useKeyboardHandler = (options: UseKeyboardHandlerOptions) => {
       return;
     }
 
-    let newValue = getCurrentValue() || 0;
+    let newValue = getCurrentValue();
 
     const multiplier = multipliers[growDirection][event.key] ?? 1;
     const directionMultiplier =

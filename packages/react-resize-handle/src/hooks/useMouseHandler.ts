@@ -35,7 +35,7 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
         clientY - dragStartOriginCoords.current.clientY,
       ];
 
-      let newValue = startValue.current || 0;
+      let newValue = startValue.current;
 
       switch (growDirection) {
         case 'end':
@@ -78,7 +78,7 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
     dragStartOriginCoords.current = getEventClientCoords(event);
     // As we start dragging, save the current value otherwise the value increases,
     // the delta compounds and the element grows/shrinks too fast.
-    startValue.current = getCurrentValue() || 0;
+    startValue.current = getCurrentValue();
 
     if (event.defaultPrevented) {
       return;

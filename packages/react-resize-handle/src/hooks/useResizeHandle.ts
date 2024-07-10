@@ -6,6 +6,15 @@ import { useEventCallback } from '@fluentui/react-components';
 import { NativeTouchOrMouseEvent } from '@fluentui/react-utilities';
 import { GrowDirection, UNMEASURED } from '../types';
 
+const clampWithMode = (
+  value: number,
+  min: number,
+  max: number,
+  relative?: boolean
+) => {
+  return relative || value === UNMEASURED ? value : clamp(value, min, max);
+};
+
 export type UseResizeHandleParams = {
   /**
    * The direction in which the element is considered growing in size ('end', 'start', 'up', or 'down').
@@ -16,11 +25,11 @@ export type UseResizeHandleParams = {
    */
   variableName: string;
   /**
-   * The minimum value in pixels that the element can be resized to.
+   * The minimum value in pixels that the element can be resized to. Only applicable if relative is false.
    */
   minValue?: number;
   /**
-   * The maximum value in pixels that the element can be resized to.
+   * The maximum value in pixels that the element can be resized to. Only applicable if relative is false.
    */
   maxValue?: number;
   /**
@@ -60,7 +69,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
     onDragStart,
     onDragEnd,
     getA11ValueText = (value) =>
-      value === UNMEASURED ? 'Unknown' : `${value.toFixed(0)}px`,
+      value === UNMEASURED ? undefined : `${value.toFixed(0)}px`,
     relative,
   } = params;
 
@@ -71,14 +80,11 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
   const currentValue = React.useRef(UNMEASURED);
 
   const updateElementsAttrs = React.useCallback(() => {
-    let a11yValue = getA11ValueText(currentValue.current);
-
-    // If relative mode is enabled, we actually have to measure the element,
-    // because the currentValue is just the px offset.
-    if (relative) {
-      const sizeInPx = elementDimension(elementRef.current, growDirection);
-      a11yValue = getA11ValueText(sizeInPx);
-    }
+    const a11yValue = relative
+      ? // If relative mode is enabled, we actually have to measure the element,
+        // because the currentValue is just the px offset.
+        getA11ValueText(elementDimension(elementRef.current, growDirection))
+      : getA11ValueText(currentValue.current);
 
     const handleAttributes = {
       tabIndex: 0,
@@ -87,7 +93,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
       ...(maxValue < Number.MAX_SAFE_INTEGER
         ? { 'aria-valuemax': maxValue }
         : {}),
-      'aria-valuetext': a11yValue,
+      ...(a11yValue ? { 'aria-valuetext': a11yValue } : {}),
       'aria-orientation':
         growDirection === 'end' || growDirection === 'start'
           ? 'vertical'
@@ -110,15 +116,17 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
 
   // In case the maxValue or minValue is changed, we need to make sure we are not exceeding the new limits
   React.useEffect(() => {
-    if (currentValue.current === UNMEASURED) {
-      return;
-    }
-    currentValue.current = clamp(currentValue.current, minValue, maxValue);
+    currentValue.current = clampWithMode(
+      currentValue.current,
+      minValue,
+      maxValue,
+      relative
+    );
   }, [maxValue, minValue]);
 
   const setValue = React.useCallback(
     (value: number) => {
-      const newValue = relative ? value : clamp(value, minValue, maxValue);
+      const newValue = clampWithMode(value, minValue, maxValue, relative);
 
       if (newValue !== currentValue.current) {
         // Save the current value, we might need to revert to it if the new value doesn't have any impact on size
