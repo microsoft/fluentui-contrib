@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   makeStyles,
   shorthands,
@@ -7,16 +7,16 @@ import {
   PopoverSurface,
   useId,
   useRestoreFocusTarget,
-} from "@fluentui/react-components";
-import type { PositioningImperativeRef } from "@fluentui/react-components";
+} from '@fluentui/react-components';
+import type { PositioningImperativeRef } from '@fluentui/react-components';
 const useStyles = makeStyles({
   container: {
-    display: "flex",
-    ...shorthands.gap("10px"),
+    display: 'flex',
+    ...shorthands.gap('10px'),
   },
 
   contentHeader: {
-    marginTop: "0",
+    marginTop: '0',
   },
 });
 

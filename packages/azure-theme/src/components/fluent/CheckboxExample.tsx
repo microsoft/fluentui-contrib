@@ -1,5 +1,5 @@
-import * as React from "react";
-import { Checkbox } from "@fluentui/react-components";
+import * as React from 'react';
+import { Checkbox } from '@fluentui/react-components';
 
 export const CheckboxExample = () => {
   const [option1, setOption1] = React.useState(false);
@@ -14,7 +14,7 @@ export const CheckboxExample = () => {
             ? true
             : !(option1 || option2 || option3)
             ? false
-            : "mixed"
+            : 'mixed'
         }
         onChange={(_ev, data) => {
           setOption1(!!data.checked);
@@ -39,9 +39,9 @@ export const CheckboxExample = () => {
         onChange={() => setOption3((checked) => !checked)}
         label="Option 3"
       />
-    <Checkbox disabled label="Disabled" />
-    <Checkbox disabled label="Disabled checked" checked />
-    <Checkbox disabled label="Disabled mixed" checked="mixed" />
+      <Checkbox disabled label="Disabled" />
+      <Checkbox disabled label="Disabled checked" checked />
+      <Checkbox disabled label="Disabled mixed" checked="mixed" />
     </>
   );
 };

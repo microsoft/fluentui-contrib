@@ -1,11 +1,11 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   makeStyles,
   Persona,
   presenceAvailableRegular,
   presenceOfflineRegular,
   tokens,
-} from "@fluentui/react-components";
+} from '@fluentui/react-components';
 
 const useStyles = makeStyles({
   statusAway: {
@@ -16,12 +16,12 @@ const useStyles = makeStyles({
   },
 
   root: {
-    display: "grid",
-    gridAutoFlow: "column",
-    gridTemplateColumns: "repeat(2, max-content)",
-    gridTemplateRows: "repeat(3, auto)",
-    columnGap: "20px",
-    rowGap: "10px",
+    display: 'grid',
+    gridAutoFlow: 'column',
+    gridTemplateColumns: 'repeat(2, max-content)',
+    gridTemplateRows: 'repeat(3, auto)',
+    columnGap: '20px',
+    rowGap: '10px',
   },
 });
 
@@ -34,12 +34,12 @@ export const PersonaExample = () => {
     <div className={styles.root}>
       <span>Current Behavior</span>
       <Persona
-        presence={{ status: "away", outOfOffice: true }}
+        presence={{ status: 'away', outOfOffice: true }}
         name="Kevin Sturgis"
         secondaryText="Away - OOF"
       />
       <Persona
-        presence={{ status: "offline", outOfOffice: true }}
+        presence={{ status: 'offline', outOfOffice: true }}
         name="Kevin Sturgis"
         secondaryText="Offline - OOF"
       />
@@ -47,7 +47,7 @@ export const PersonaExample = () => {
       <span>Previous Behavior</span>
       <Persona
         presence={{
-          status: "away",
+          status: 'away',
           outOfOffice: true,
           icon: <AwayFilledIcon />,
           className: styles.statusAway,
@@ -58,7 +58,7 @@ export const PersonaExample = () => {
 
       <Persona
         presence={{
-          status: "offline",
+          status: 'offline',
           outOfOffice: true,
           icon: <OfflineRegularIcon />,
           className: styles.statusOffline,

@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   makeStyles,
   shorthands,
@@ -16,34 +16,34 @@ import {
   OverflowItemProps,
   useIsOverflowItemVisible,
   useOverflowMenu,
-} from "@fluentui/react-components";
+} from '@fluentui/react-components';
 
 const useStyles = makeStyles({
   container: {
-    display: "flex",
-    flexWrap: "nowrap",
+    display: 'flex',
+    flexWrap: 'nowrap',
     minWidth: 0,
-    ...shorthands.overflow("hidden"),
+    ...shorthands.overflow('hidden'),
   },
 
   resizableArea: {
-    minWidth: "200px",
-    maxWidth: "800px",
-    ...shorthands.border("2px", "solid", tokens.colorBrandBackground),
-    ...shorthands.padding("20px", "10px", "10px", "10px"),
-    position: "relative",
-    resize: "horizontal",
-    "::after": {
+    minWidth: '200px',
+    maxWidth: '800px',
+    ...shorthands.border('2px', 'solid', tokens.colorBrandBackground),
+    ...shorthands.padding('20px', '10px', '10px', '10px'),
+    position: 'relative',
+    resize: 'horizontal',
+    '::after': {
       content: `'Resizable Area'`,
-      position: "absolute",
-      ...shorthands.padding("1px", "4px", "1px"),
-      top: "-2px",
-      left: "-2px",
-      fontFamily: "monospace",
-      fontSize: "15px",
+      position: 'absolute',
+      ...shorthands.padding('1px', '4px', '1px'),
+      top: '-2px',
+      left: '-2px',
+      fontFamily: 'monospace',
+      fontSize: '15px',
       fontWeight: 900,
       lineHeight: 1,
-      letterSpacing: "1px",
+      letterSpacing: '1px',
       color: tokens.colorNeutralForegroundOnBrand,
       backgroundColor: tokens.colorBrandBackground,
     },
@@ -69,7 +69,7 @@ export const OverflowExample = () => {
   );
 };
 
-const OverflowMenuItem: React.FC<Pick<OverflowItemProps, "id">> = (props) => {
+const OverflowMenuItem: React.FC<Pick<OverflowItemProps, 'id'>> = (props) => {
   const { id } = props;
   const isVisible = useIsOverflowItemVisible(id);
 

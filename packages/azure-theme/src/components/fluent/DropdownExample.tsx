@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   Dropdown,
   makeStyles,
@@ -6,24 +6,24 @@ import {
   OptionGroup,
   shorthands,
   useId,
-} from "@fluentui/react-components";
-import type { DropdownProps } from "@fluentui/react-components";
+} from '@fluentui/react-components';
+import type { DropdownProps } from '@fluentui/react-components';
 
 const useStyles = makeStyles({
   root: {
     // Stack the label above the field with a gap
-    display: "grid",
-    gridTemplateRows: "repeat(1fr)",
-    justifyItems: "start",
-    ...shorthands.gap("2px"),
-    maxWidth: "400px",
+    display: 'grid',
+    gridTemplateRows: 'repeat(1fr)',
+    justifyItems: 'start',
+    ...shorthands.gap('2px'),
+    maxWidth: '400px',
   },
 });
 
 export const DropdownExample = (props: Partial<DropdownProps>) => {
-  const dropdownId = useId("dropdown-grouped");
-  const land = ["Cat", "Dog", "Ferret", "Hamster"];
-  const water = ["Fish", "Jellyfish", "Octopus", "Seal"];
+  const dropdownId = useId('dropdown-grouped');
+  const land = ['Cat', 'Dog', 'Ferret', 'Hamster'];
+  const water = ['Fish', 'Jellyfish', 'Octopus', 'Seal'];
   const styles = useStyles();
   return (
     <div className={styles.root}>
@@ -35,7 +35,7 @@ export const DropdownExample = (props: Partial<DropdownProps>) => {
       >
         <OptionGroup label="Land">
           {land.map((option) => (
-            <Option key={option} disabled={option === "Ferret"}>
+            <Option key={option} disabled={option === 'Ferret'}>
               {option}
             </Option>
           ))}

@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 
 import {
   Button,
@@ -7,7 +7,7 @@ import {
   MenuList,
   MenuItemCheckbox,
   MenuPopover,
-} from "@fluentui/react-components";
+} from '@fluentui/react-components';
 import {
   bundleIcon,
   CutRegular,
@@ -16,8 +16,8 @@ import {
   ClipboardPasteFilled,
   EditRegular,
   EditFilled,
-} from "@fluentui/react-icons";
-import type { MenuProps } from "@fluentui/react-components";
+} from '@fluentui/react-icons';
+import type { MenuProps } from '@fluentui/react-components';
 
 const CutIcon = bundleIcon(CutFilled, CutRegular);
 const PasteIcon = bundleIcon(ClipboardPasteFilled, ClipboardPasteRegular);
@@ -26,8 +26,8 @@ const EditIcon = bundleIcon(EditFilled, EditRegular);
 export const MenuExample = () => {
   const [checkedValues, setCheckedValues] = React.useState<
     Record<string, string[]>
-  >({ edit: ["cut", "paste"] });
-  const onChange: MenuProps["onCheckedValueChange"] = (
+  >({ edit: ['cut', 'paste'] });
+  const onChange: MenuProps['onCheckedValueChange'] = (
     e,
     { name, checkedItems }
   ) => {
@@ -38,24 +38,24 @@ export const MenuExample = () => {
 
   return (
     <>
-    <Menu checkedValues={checkedValues} onCheckedValueChange={onChange}>
-      <MenuTrigger disableButtonEnhancement>
-        <Button>Toggle menu</Button>
-      </MenuTrigger>
-      <MenuPopover>
-        <MenuList>
-          <MenuItemCheckbox icon={<CutIcon />} name="edit" value="cut">
-            Cut
-          </MenuItemCheckbox>
-          <MenuItemCheckbox icon={<PasteIcon />} name="edit" value="paste">
-            Paste
-          </MenuItemCheckbox>
-          <MenuItemCheckbox icon={<EditIcon />} name="edit" value="edit">
-            Edit
-          </MenuItemCheckbox>
-        </MenuList>
-      </MenuPopover>
-    </Menu>
+      <Menu checkedValues={checkedValues} onCheckedValueChange={onChange}>
+        <MenuTrigger disableButtonEnhancement>
+          <Button>Toggle menu</Button>
+        </MenuTrigger>
+        <MenuPopover>
+          <MenuList>
+            <MenuItemCheckbox icon={<CutIcon />} name="edit" value="cut">
+              Cut
+            </MenuItemCheckbox>
+            <MenuItemCheckbox icon={<PasteIcon />} name="edit" value="paste">
+              Paste
+            </MenuItemCheckbox>
+            <MenuItemCheckbox icon={<EditIcon />} name="edit" value="edit">
+              Edit
+            </MenuItemCheckbox>
+          </MenuList>
+        </MenuPopover>
+      </Menu>
     </>
   );
 };

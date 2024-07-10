@@ -1,12 +1,12 @@
-import * as React from "react";
+import * as React from 'react';
 
-import { InfoLabel, makeStyles, tokens } from "@fluentui/react-components";
+import { InfoLabel, makeStyles, tokens } from '@fluentui/react-components';
 
 const useStyles = makeStyles({
   container: {
-    alignItems: "start",
-    display: "flex",
-    flexDirection: "column",
+    alignItems: 'start',
+    display: 'flex',
+    flexDirection: 'column',
     rowGap: tokens.spacingVerticalL,
   },
 });

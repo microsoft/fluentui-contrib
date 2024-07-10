@@ -1,6 +1,6 @@
-import * as React from "react";
+import * as React from 'react';
 
-import { Field, Radio, RadioGroup, Text } from "@fluentui/react-components";
+import { Field, Radio, RadioGroup, Text } from '@fluentui/react-components';
 
 export const RadioGroupExample = () => (
   <Field label="Favorite Fruit">
@@ -18,7 +18,6 @@ export const RadioGroupExample = () => (
       />
       <Radio value="banana" label="Banana" disabled />
       <Radio value="orange" label="Orange" />
-     
     </RadioGroup>
   </Field>
 );

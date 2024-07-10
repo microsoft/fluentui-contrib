@@ -1,18 +1,18 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbDivider,
   BreadcrumbButton,
-} from "@fluentui/react-components";
+} from '@fluentui/react-components';
 import {
   CalendarMonthFilled,
   CalendarMonthRegular,
   bundleIcon,
-} from "@fluentui/react-icons";
+} from '@fluentui/react-icons';
 
 const CalendarMonth = bundleIcon(CalendarMonthFilled, CalendarMonthRegular);
-const path = "https://www.bing.com/";
+const path = 'https://www.bing.com/';
 
 export const BreadcrumbExample = () => {
   return (
