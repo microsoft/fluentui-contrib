@@ -9,7 +9,6 @@ import {
 } from '@fluentui/react-components';
 import { Handle } from './Handle';
 
-const NAV_INITIAL_WIDTH = 80;
 const NAV_SIZE_CSS_VAR = '--nav-size';
 const SIDE_SIZE_CSS_VAR = '--side-size';
 const FOOTER_SIZE_CSS_VAR = '--footer-size';
@@ -19,7 +18,7 @@ const usePageStyles = makeResetStyles({
 });
 
 const useMainWrapperStyles = makeResetStyles({
-  [NAV_SIZE_CSS_VAR]: `${NAV_INITIAL_WIDTH}px`,
+  [NAV_SIZE_CSS_VAR]: '0px',
   [SIDE_SIZE_CSS_VAR]: '120px',
   [FOOTER_SIZE_CSS_VAR]: '10%',
   display: 'grid',
@@ -28,7 +27,7 @@ const useMainWrapperStyles = makeResetStyles({
   gap: '16px',
   gridTemplate: `"nav sub-nav main side" minmax(0, 1fr)
   "nav sub-nav main-footer side" clamp(5%, var(${FOOTER_SIZE_CSS_VAR}), 30%)
-  / clamp(60px, var(${NAV_SIZE_CSS_VAR}), 40%)  150px 1fr var(${SIDE_SIZE_CSS_VAR})`,
+  / clamp(60px, calc(20% + var(${NAV_SIZE_CSS_VAR})), 40%)  150px 1fr var(${SIDE_SIZE_CSS_VAR})`,
 });
 
 const useStyles = makeStyles({
@@ -67,8 +66,6 @@ const Component = (props: ComponentProps) => {
   const boxStyles = useMainBoxStyles();
   const styles = useStyles();
 
-  const [maxValue, setMaxValue] = React.useState(400);
-
   const {
     handleRef: navHandleRef,
     wrapperRef: navWrapperRef,
@@ -77,8 +74,7 @@ const Component = (props: ComponentProps) => {
   } = useResizeHandle({
     variableName: NAV_SIZE_CSS_VAR,
     growDirection: 'end',
-    minValue: 60,
-    maxValue: maxValue,
+    relative: true,
     onChange: (value: number) => {
       props.onChange(value);
     },
@@ -117,7 +113,7 @@ const Component = (props: ComponentProps) => {
   );
 
   const resetToInitial = () => {
-    setLeftColumnSize(NAV_INITIAL_WIDTH);
+    setLeftColumnSize(0);
   };
 
   return (
@@ -127,7 +123,6 @@ const Component = (props: ComponentProps) => {
           className={mergeClasses(boxStyles, styles.areaNav)}
           ref={navElementRef}
         >
-          <button onClick={() => setMaxValue(200)}>Set max 200</button>
           <Handle
             position="end"
             ref={navHandleRef}
