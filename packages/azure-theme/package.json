@@ -2,7 +2,7 @@
   "name": "@fluentui-contrib/azure-theme",
   "version": "0.0.1",
   "dependencies": {
-    "@fluentui/react-icons": "^2.0.247",
+    "@fluentui/react-icons": ">=2.0.204 <3.0.0",
     "@swc/helpers": "~0.5.2"
   },
   "main": "./src/index.js",
