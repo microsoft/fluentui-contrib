@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-resize-handle",
   "entries": [
     {
+      "date": "Wed, 10 Jul 2024 12:57:30 GMT",
+      "tag": "@fluentui-contrib/react-resize-handle_v0.3.0",
+      "version": "0.3.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "jirivyhnalek@microsoft.com",
+            "package": "@fluentui-contrib/react-resize-handle",
+            "commit": "b7ef7cd2c93eb600de46aef6d9deeffc3563343b",
+            "comment": "feat(react-resize-handle): Allow relative panel adjustments"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 06 Feb 2024 09:15:09 GMT",
       "tag": "@fluentui-contrib/react-resize-handle_v0.2.1",
       "version": "0.2.1",
