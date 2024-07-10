@@ -49,6 +49,7 @@ export const ButtonsExample = () => {
 
   const onButtonClick = () => {
     setLoadingState('loading');
+    // eslint-disable-next-line no-restricted-globals
     setTimeout(() => setLoadingState('loaded'), 5000);
   };
 

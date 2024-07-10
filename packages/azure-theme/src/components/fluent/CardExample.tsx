@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   makeStyles,
   tokens,
@@ -7,45 +7,45 @@ import {
   Subtitle1,
   mergeClasses,
   Text,
-} from "@fluentui/react-components";
-import { Card, CardHeader, CardProps } from "@fluentui/react-components";
+} from '@fluentui/react-components';
+import { Card, CardHeader, CardProps } from '@fluentui/react-components';
 
 const resolveAsset = (asset: string) => {
   const ASSET_URL =
-    "https://raw.githubusercontent.com/microsoft/fluentui/master/packages/react-components/react-card/stories/assets/";
+    'https://raw.githubusercontent.com/microsoft/fluentui/master/packages/react-components/react-card/stories/assets/';
 
   return `${ASSET_URL}${asset}`;
 };
 
 const useStyles = makeStyles({
   main: {
-    display: "flex",
-    flexDirection: "column",
-    flexWrap: "wrap",
-    columnGap: "16px",
-    rowGap: "36px",
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+    columnGap: '16px',
+    rowGap: '36px',
   },
 
   title: {
-    ...shorthands.margin(0, 0, "12px"),
+    ...shorthands.margin(0, 0, '12px'),
   },
 
   card: {
-    width: "300px",
-    maxWidth: "100%",
-    height: "fit-content",
+    width: '300px',
+    maxWidth: '100%',
+    height: 'fit-content',
   },
 
   flex: {
-    ...shorthands.gap("4px"),
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
+    ...shorthands.gap('4px'),
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 
   appIcon: {
-    ...shorthands.borderRadius("4px"),
-    height: "32px",
+    ...shorthands.borderRadius('4px'),
+    height: '32px',
   },
 
   caption: {
@@ -53,17 +53,17 @@ const useStyles = makeStyles({
   },
 
   cardFooter: {
-    alignItems: "center",
-    justifyContent: "space-between",
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });
 
-const Title = ({ children }: React.PropsWithChildren<{}>) => {
+const Title = ({ children }: { children: string }) => {
   const styles = useStyles();
 
   return (
     <Subtitle1 as="h4" block className={styles.title}>
-      {children}
+      Title
     </Subtitle1>
   );
 };
@@ -76,12 +76,12 @@ const CardExample1 = (props: CardProps) => {
       <header className={styles.flex}>
         <img
           className={styles.appIcon}
-          src={resolveAsset("logo.svg")}
+          src={resolveAsset('logo.svg')}
           alt="Application one logo"
         />
         <img
           className={styles.appIcon}
-          src={resolveAsset("logo2.svg")}
+          src={resolveAsset('logo2.svg')}
           alt="Application two logo"
         />
       </header>
