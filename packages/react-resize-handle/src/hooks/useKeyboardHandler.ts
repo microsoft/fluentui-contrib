@@ -1,12 +1,11 @@
 import { useEventCallback, useFluent } from '@fluentui/react-components';
 import * as React from 'react';
 import { GrowDirection, SupportedKeys } from '../types';
-import { elementDimension } from '../utils/index';
 
 export type UseKeyboardHandlerOptions = {
   onValueChange: (value: number) => void;
-  elementRef: React.RefObject<HTMLElement>;
   growDirection: GrowDirection;
+  getCurrentValue: () => number;
 };
 
 const DEFAULT_STEP = 20;
@@ -44,19 +43,21 @@ function isSupportedKey(
 }
 
 export const useKeyboardHandler = (options: UseKeyboardHandlerOptions) => {
-  const { elementRef, onValueChange, growDirection } = options;
+  const { onValueChange, growDirection, getCurrentValue } = options;
   const { dir } = useFluent();
 
   const onKeyDown = useEventCallback((event: KeyboardEvent) => {
-    let newValue = elementDimension(elementRef.current, growDirection);
-
-    if (isSupportedKey(growDirection, event.key)) {
-      const multiplier = multipliers[growDirection][event.key] ?? 1;
-      const directionMultiplier =
-        dir === 'rtl' && ['start', 'end'].includes(growDirection) ? -1 : 1;
-
-      newValue += multiplier * DEFAULT_STEP * directionMultiplier;
+    if (!isSupportedKey(growDirection, event.key)) {
+      return;
     }
+
+    let newValue = getCurrentValue();
+
+    const multiplier = multipliers[growDirection][event.key] ?? 1;
+    const directionMultiplier =
+      dir === 'rtl' && ['start', 'end'].includes(growDirection) ? -1 : 1;
+
+    newValue += multiplier * DEFAULT_STEP * directionMultiplier;
 
     onValueChange(Math.round(newValue));
   });
@@ -67,6 +68,7 @@ export const useKeyboardHandler = (options: UseKeyboardHandlerOptions) => {
     },
     [onKeyDown]
   );
+
   const detachHandlers = React.useCallback(
     (node: HTMLElement) => {
       node.removeEventListener('keydown', onKeyDown);
