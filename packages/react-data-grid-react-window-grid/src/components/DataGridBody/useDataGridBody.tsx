@@ -92,6 +92,17 @@ export const useDataGridBody_unstable = (
     [headerListRef]
   );
 
+  const combinedOnScroll = React.useCallback(
+    (scrollProps: GridOnScrollProps) => {
+      onScroll(scrollProps);
+
+      if (gridProps && gridProps.onScroll) {
+        gridProps.onScroll(scrollProps);
+      }
+    },
+    [onScroll, gridProps]
+  );
+
   return {
     ...baseState,
     rowHeight,
@@ -103,7 +114,7 @@ export const useDataGridBody_unstable = (
     ariaRowIndexStart,
     gridRef: bodyRef,
     gridProps: {
-      onScroll,
+      onScroll: combinedOnScroll,
       ...gridProps,
     },
   };
