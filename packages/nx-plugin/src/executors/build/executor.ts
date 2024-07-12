@@ -1,7 +1,13 @@
-import { execSync } from 'child_process';
-import * as path from 'path';
-import * as fs from 'fs';
-import { ExecutorContext, readJsonFile, writeJsonFile } from '@nx/devkit';
+import { execSync } from 'node:child_process';
+import * as path from 'node:path';
+import * as fs from 'node:fs';
+import {
+  type ExecutorContext,
+  readJsonFile,
+  writeJsonFile,
+  output,
+} from '@nx/devkit';
+
 import { BuildExecutorSchema } from './schema';
 import { PackagePaths, getPackagePaths } from '../../utils';
 
@@ -12,20 +18,21 @@ export default async function runExecutor(
   context: ExecutorContext
 ) {
   if (!context.projectsConfigurations || !context.projectName) {
-    throw new Error('no project configurations');
+    throw new Error(
+      'executor context is missing required metadata - projectsConfigurations,projectName'
+    );
   }
 
-  const { sourceRoot, root } =
+  const projectConfig =
     context.projectsConfigurations.projects[context.projectName];
 
-  const { root: workspaceRoot } = context;
-  const paths = getPackagePaths(workspaceRoot, root);
-
-  fs.rmSync(paths.dist, { recursive: true, force: true });
-
-  if (!sourceRoot || !root) {
-    return;
+  if (!projectConfig) {
+    return { success: false };
   }
+
+  const paths = getPackagePaths(context.root, projectConfig.root);
+
+  cleanDist(paths);
 
   runSwc(paths, 'es6');
   runSwc(paths, 'commonjs');
@@ -42,10 +49,13 @@ function copyReadme(paths: PackagePaths) {
   fs.copyFileSync(paths.readme, path.join(paths.dist, 'README.md'));
 }
 
+function cleanDist(paths: PackagePaths) {
+  fs.rmSync(paths.dist, { recursive: true, force: true });
+}
+
 function copyPackageJson(paths: PackagePaths) {
   const packageJson = readJsonFile(paths.packageJson);
   Object.assign(packageJson, {
-    types: './src/index.d.ts',
     typings: './src/index.d.ts',
     main: './lib-commonjs/index.js',
     module: './lib/index.js',
@@ -80,16 +90,21 @@ function copyPackageJson(paths: PackagePaths) {
 }
 
 function runSwc(paths: PackagePaths, type: ModuleType) {
-  const destPath = type === 'commonjs' ? paths.commonjs : paths.esm;
   const swcCmd = getSwcCmd({
     srcPath: 'src',
-    destPath: destPath,
+    destPath: type === 'commonjs' ? paths.commonjs : paths.esm,
     swcrcPath: '.swcrc',
     type,
   });
 
-  console.log('running', swcCmd);
-  execSync(swcCmd, { cwd: paths.root });
+  output.logSingleLine(`running: "${swcCmd}"`);
+
+  execSync(swcCmd, {
+    // NOTE:
+    // swc CLI needs to be run from project root otherwise it will incorrectly build assets folder structure
+    // https://github.com/microsoft/fluentui-contrib/issues/198
+    cwd: paths.root,
+  });
 }
 
 function getSwcCmd({
@@ -103,5 +118,6 @@ function getSwcCmd({
   destPath: string;
   type: ModuleType;
 }) {
-  return `npx swc ${srcPath} -d ${destPath} --config-file=${swcrcPath} --config module.type=${type}`;
+  // strip-leading-paths is necessary in order to not put build assets under provided source (`/src`) - https://swc.rs/docs/usage/cli#--strip-leading-paths
+  return `npx swc ${srcPath} --strip-leading-paths -d ${destPath} --config-file=${swcrcPath} --config module.type=${type}`;
 }
