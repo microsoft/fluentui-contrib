@@ -114,8 +114,8 @@ export const useDataGridBody_unstable = (
     ariaRowIndexStart,
     gridRef: bodyRef,
     gridProps: {
-      onScroll: combinedOnScroll,
       ...gridProps,
+      onScroll: combinedOnScroll,
     },
   };
 };
