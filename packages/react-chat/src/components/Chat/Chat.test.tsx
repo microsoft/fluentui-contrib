@@ -6,4 +6,11 @@ describe('Chat', () => {
   it('should render', () => {
     render(<Chat />);
   });
+
+  it('should be able to override tabster', () => {
+    const { container } = render(<Chat data-tabster="foo" />);
+    expect(container.firstElementChild?.getAttribute('data-tabster')).toBe(
+      'foo'
+    );
+  });
 });
