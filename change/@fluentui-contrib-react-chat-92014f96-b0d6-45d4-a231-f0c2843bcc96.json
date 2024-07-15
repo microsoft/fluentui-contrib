@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: Chat should be able to override tabster attributes",
+  "packageName": "@fluentui-contrib/react-chat",
+  "email": "lingfangao@hotmail.com",
+  "dependentChangeType": "patch"
+}
