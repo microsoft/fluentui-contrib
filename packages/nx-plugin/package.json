@@ -6,10 +6,10 @@
   "generators": "./generators.json",
   "executors": "./executors.json",
   "dependencies": {
+    "@nx/devkit": "^19.3.2",
     "semver": "^7.5.2",
-    "@nx/devkit": "^17.3.0",
-    "@nx/storybook": "^17.3.0",
-    "@nx/js": "^17.3.0",
-    "@nx/playwright": "^17.3.0"
+    "@nx/storybook": "^19.3.2",
+    "@nx/js": "^19.3.2",
+    "@nx/playwright": "^19.3.2"
   }
 }
