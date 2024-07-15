@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-chat",
   "entries": [
     {
+      "date": "Mon, 15 Jul 2024 16:29:30 GMT",
+      "tag": "@fluentui-contrib/react-chat_v0.1.10",
+      "version": "0.1.10",
+      "comments": {
+        "patch": [
+          {
+            "author": "lingfangao@hotmail.com",
+            "package": "@fluentui-contrib/react-chat",
+            "commit": "3320ed0ebd37caa3f9a4ba7e2ff32486343b71a3",
+            "comment": "fix: Chat should be able to override tabster attributes"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 23 Feb 2024 12:49:25 GMT",
       "tag": "@fluentui-contrib/react-chat_v0.1.9",
       "version": "0.1.9",
