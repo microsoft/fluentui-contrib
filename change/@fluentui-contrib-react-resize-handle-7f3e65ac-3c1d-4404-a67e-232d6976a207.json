@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: resolve incorrectly build package structure",
-  "packageName": "@fluentui-contrib/react-resize-handle",
-  "email": "hochelmartin@gmail.com",
-  "dependentChangeType": "patch"
-}
