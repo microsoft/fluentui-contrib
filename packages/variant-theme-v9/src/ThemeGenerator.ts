@@ -63,24 +63,9 @@ export function getVariantTheme(
 
 function getNeutralVariant(theme: Theme, isInverted: boolean) {
   for (const token in theme) {
+    // Shift most neutral colors by 4 steps
     if (
-      token.startsWith('colorNeutralBackground') &&
-      !isTokenNameContains(token, ['Alpha'])
-    ) {
-      const num: number | undefined = getNumberFromToken(token);
-      if (!num) {
-        continue;
-      }
-      if (num >= 4 && num <= 5) {
-        if (token.endsWith('hover')) {
-          theme[token] = shift(theme[token], !isInverted, 12);
-        } else if (token.endsWith('pressed') || token.endsWith('selected')) {
-          theme[token] = shift(theme[token], !isInverted, 18);
-        }
-      } else {
-        theme[token] = shift(theme[token], !isInverted, 4);
-      }
-    } else if (
+      (token.startsWith('colorNeutralBackground') && !isTokenNameContains(token, ['Alpha', 'Inverted', 'Static', 'Disabled'])) ||
       (token.startsWith('colorNeutralStroke') &&
         !isTokenNameContains(token, [
           'Alpha',
@@ -88,12 +73,25 @@ function getNeutralVariant(theme: Theme, isInverted: boolean) {
           'AccessibleSelected',
           'InvertedDisabled',
         ])) ||
-      (isTokenNameContains(token, ['Foreground']) &&
-        isTokenNameContains(token, ['Neutral']) &&
-        !isTokenNameContains(token, ['Brand'])) ||
+      isTokenNameContains(token, ['NeutralForeground']) ||
       isTokenNameContains(token, ['Subtle'])
     ) {
       theme[token] = shift(theme[token], !isInverted, 4);
+      // Shift extra steps for special cases
+      shiftNeutralSpecialCases(theme, token, isInverted);
+    }
+  }
+}
+
+function shiftNeutralSpecialCases(theme: Theme, token: string, isInverted: boolean) {
+  if (token.startsWith('colorNeutralBackground')) {
+    const num: number | undefined = getNumberFromToken(token);
+    if (num === 4 || num === 5) {
+      if (token.endsWith('hover')) {
+        theme[token] = shift(theme[token], !isInverted, 8);
+      } else if (token.endsWith('pressed') || token.endsWith('selected')) {
+        theme[token] = shift(theme[token], !isInverted, 14);
+      }
     }
   }
 }
@@ -104,6 +102,7 @@ function getSoftVariant(
   isInverted: boolean
 ) {
   for (const token in theme) {
+    // convert some neutral colors to brand colors
     if (
       token.startsWith('colorNeutralBackground') &&
       !isTokenNameContains(token, ['Alpha', 'Static', 'Inverted', 'Disabled'])
@@ -139,6 +138,7 @@ function getSoftVariant(
         theme[token] = brand[150];
       }
     } else if (
+      // Shift some neutral stoke and foreground colors by 4 steps
       (token.startsWith('colorNeutralStroke') &&
         !isTokenNameContains(token, [
           'Alpha',
@@ -206,6 +206,7 @@ function setNeutralWithBrand(theme: Theme, brand: BrandVariants) {
   }
 }
 
+// Determine the brand color is light or dark according to the lightness
 function determineColorOnBrand(brandColor: string): string {
   const color: string =
     brandColor.charAt(0) === '#' ? brandColor.substring(1, 7) : brandColor;
