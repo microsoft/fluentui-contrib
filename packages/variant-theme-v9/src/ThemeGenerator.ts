@@ -9,7 +9,7 @@ import {
   isDark,
   ThemeGenerator,
   themeRulesStandardCreator,
-  updateA
+  updateA,
 } from '@fluentui/react';
 import { BrandVariants, Theme } from '@fluentui/react-components';
 import { VariantThemeType } from '@fluentui/scheme-utilities';
@@ -20,7 +20,7 @@ import {
   whiteAlpha,
   blackAlpha,
   AlphaColors,
-  type Greys
+  type Greys,
 } from '@fluentui/react-migration-v8-v9';
 import * as lodash from 'lodash';
 import { contrast, hex_to_sRGB } from './ThemeDesigner/src/colors';
@@ -28,39 +28,7 @@ import { contrast, hex_to_sRGB } from './ThemeDesigner/src/colors';
 const standardContrastRatio: number = 4.5;
 const whiteHex: string = '#ffffff';
 const blackHex: string = '#000000';
-const greyReverse: Record<string, Greys> = Object.keys(grey).reduce((acc: any, key: any) => {
-  acc[grey[key]] = key;
-  return acc;
-}, {});
-
-export const getV8Theme = (primaryColor: string, darkMode = false) => {
-  const themeRules = themeRulesStandardCreator();
-
-  ThemeGenerator.setSlot(
-    themeRules[BaseSlots[BaseSlots.foregroundColor]],
-    darkMode ? whiteHex : '#323130',
-    darkMode,
-    false,
-    darkMode
-  );
-  ThemeGenerator.setSlot(
-    themeRules[BaseSlots[BaseSlots.backgroundColor]],
-    darkMode ? '#323130' : whiteHex,
-    darkMode,
-    false,
-    darkMode
-  );
-  ThemeGenerator.setSlot(themeRules[BaseSlots[BaseSlots.primaryColor]], primaryColor, darkMode, true, true);
-
-  const themeAsJson = ThemeGenerator.getThemeAsJson(themeRules);
-
-  const finalTheme = createTheme({
-    ...{ palette: themeAsJson },
-    isInverted: darkMode || isDark(themeRules[BaseSlots[BaseSlots.backgroundColor]].color!)
-  });
-
-  return finalTheme;
-};
+const greyReverse: Record<string, Greys> = lodash.invert(grey);
 
 export function getVariantTheme(
   brandVariants: BrandVariants,
@@ -72,7 +40,7 @@ export function getVariantTheme(
   // Need a way to detect if the theme is light or dark
 
   const newTheme: Theme = {
-    ...theme
+    ...theme,
   };
   switch (type) {
     case VariantThemeType.Neutral:
@@ -95,7 +63,10 @@ export function getVariantTheme(
 
 function getNeutralVariant(theme: Theme, isInverted: boolean) {
   for (const token in theme) {
-    if (token.startsWith('colorNeutralBackground') && !isTokenNameContains(token, ['Alpha'])) {
+    if (
+      token.startsWith('colorNeutralBackground') &&
+      !isTokenNameContains(token, ['Alpha'])
+    ) {
       const num: number | undefined = getNumberFromToken(token);
       if (!num) {
         continue;
@@ -111,7 +82,12 @@ function getNeutralVariant(theme: Theme, isInverted: boolean) {
       }
     } else if (
       (token.startsWith('colorNeutralStroke') &&
-        !isTokenNameContains(token, ['Alpha', 'OnBrand', 'AccessibleSelected', 'InvertedDisabled'])) ||
+        !isTokenNameContains(token, [
+          'Alpha',
+          'OnBrand',
+          'AccessibleSelected',
+          'InvertedDisabled',
+        ])) ||
       (isTokenNameContains(token, ['Foreground']) &&
         isTokenNameContains(token, ['Neutral']) &&
         !isTokenNameContains(token, ['Brand'])) ||
@@ -122,7 +98,11 @@ function getNeutralVariant(theme: Theme, isInverted: boolean) {
   }
 }
 
-function getSoftVariant(theme: Theme, brand: BrandVariants, isInverted: boolean) {
+function getSoftVariant(
+  theme: Theme,
+  brand: BrandVariants,
+  isInverted: boolean
+) {
   for (const token in theme) {
     if (
       token.startsWith('colorNeutralBackground') &&
@@ -148,7 +128,10 @@ function getSoftVariant(theme: Theme, brand: BrandVariants, isInverted: boolean)
       } else if (token.endsWith('Selected')) {
         theme[token] = brand[140];
       }
-    } else if (token.startsWith('colorNeutralStencil') && !isTokenNameContains(token, ['Alpha'])) {
+    } else if (
+      token.startsWith('colorNeutralStencil') &&
+      !isTokenNameContains(token, ['Alpha'])
+    ) {
       const num: number | undefined = getNumberFromToken(token);
       if (num === 1) {
         theme[token] = brand[140];
@@ -157,7 +140,12 @@ function getSoftVariant(theme: Theme, brand: BrandVariants, isInverted: boolean)
       }
     } else if (
       (token.startsWith('colorNeutralStroke') &&
-        !isTokenNameContains(token, ['Alpha', 'OnBrand', 'AccessibleSelected', 'InvertedDisabled'])) ||
+        !isTokenNameContains(token, [
+          'Alpha',
+          'OnBrand',
+          'AccessibleSelected',
+          'InvertedDisabled',
+        ])) ||
       (isTokenNameContains(token, ['Foreground']) &&
         !isTokenNameContains(token, ['Brand', 'Status', 'Palette']))
     ) {
@@ -170,11 +158,18 @@ function getSoftVariant(theme: Theme, brand: BrandVariants, isInverted: boolean)
   theme['colorNeutralBackground1'] = rgbaToHex(color, isInverted);
 }
 
-function getStrongVariant(theme: Theme, brand: BrandVariants, isInverted?: boolean) {
+function getStrongVariant(
+  theme: Theme,
+  brand: BrandVariants,
+  isInverted?: boolean
+) {
   // Todo: dark mode support
   setNeutralWithBrand(theme, brand);
-  const colorOnBrand: string = determineColorOnBrand(theme.colorNeutralBackground1);
-  const alphas: Record<AlphaColors, string> = colorOnBrand === black ? blackAlpha : whiteAlpha;
+  const colorOnBrand: string = determineColorOnBrand(
+    theme.colorNeutralBackground1
+  );
+  const alphas: Record<AlphaColors, string> =
+    colorOnBrand === black ? blackAlpha : whiteAlpha;
 
   setColorsOnBrand(theme, brand, colorOnBrand, alphas);
 }
@@ -212,7 +207,8 @@ function setNeutralWithBrand(theme: Theme, brand: BrandVariants) {
 }
 
 function determineColorOnBrand(brandColor: string): string {
-  const color: string = brandColor.charAt(0) === '#' ? brandColor.substring(1, 7) : brandColor;
+  const color: string =
+    brandColor.charAt(0) === '#' ? brandColor.substring(1, 7) : brandColor;
   const r: number = parseInt(color.substring(0, 2), 16); // hexToR
   const g: number = parseInt(color.substring(2, 4), 16); // hexToG
   const b: number = parseInt(color.substring(4, 6), 16); // hexToB
@@ -235,8 +231,14 @@ function setColorsOnBrand(
 ) {
   for (const token in theme) {
     if (
-      (token.startsWith('colorNeutralForeground') || token.startsWith('colorNeutralStroke')) &&
-      !isTokenNameContains(token, ['Alpha', 'Static', 'InvertedDisabled', 'Subtle'])
+      (token.startsWith('colorNeutralForeground') ||
+        token.startsWith('colorNeutralStroke')) &&
+      !isTokenNameContains(token, [
+        'Alpha',
+        'Static',
+        'InvertedDisabled',
+        'Subtle',
+      ])
     ) {
       theme[token] = colorOnBrand;
     }
@@ -313,17 +315,29 @@ function setColorsOnBrand(
     colorStatusDangerForeground1: theme.colorStatusDangerBackground1,
     colorStatusDangerBackground1: theme.colorStatusDangerForeground1,
     colorStatusSuccessForeground1: theme.colorStatusSuccessBackground1,
-    colorStatusSuccessBackground1: theme.colorStatusSuccessForeground1
+    colorStatusSuccessBackground1: theme.colorStatusSuccessForeground1,
   };
 
-  newThemeProps.colorPaletteRedForeground1 = resetByContrast(theme.colorPaletteRedForeground1, brand[80]);
+  newThemeProps.colorPaletteRedForeground1 = resetByContrast(
+    theme.colorPaletteRedForeground1,
+    brand[80]
+  );
   newThemeProps.colorPaletteDarkOrangeForeground1 = resetByContrast(
     theme.colorPaletteDarkOrangeForeground1,
     brand[80]
   );
-  newThemeProps.colorPaletteRedForeground3 = resetByContrast(theme.colorPaletteRedForeground3, brand[80]);
-  newThemeProps.colorPaletteGreenForeground1 = resetByContrast(theme.colorPaletteGreenForeground1, brand[80]);
-  newThemeProps.colorPaletteRedBorder2 = resetByContrast(theme.colorPaletteRedBorder2, brand[80]);
+  newThemeProps.colorPaletteRedForeground3 = resetByContrast(
+    theme.colorPaletteRedForeground3,
+    brand[80]
+  );
+  newThemeProps.colorPaletteGreenForeground1 = resetByContrast(
+    theme.colorPaletteGreenForeground1,
+    brand[80]
+  );
+  newThemeProps.colorPaletteRedBorder2 = resetByContrast(
+    theme.colorPaletteRedBorder2,
+    brand[80]
+  );
 
   Object.assign(theme, newThemeProps);
 }
@@ -337,7 +351,9 @@ function shift(color: string, darken: boolean, degree: number): string {
     return color;
   }
   const index: number = greyReverse[color];
-  return darken ? grey[Math.max(index - degree, 0)] : grey[Math.min(index + degree, 100)];
+  return darken
+    ? grey[Math.max(index - degree, 0)]
+    : grey[Math.min(index + degree, 100)];
 }
 
 function getNumberFromToken(token: string): number | undefined {
@@ -347,26 +363,43 @@ function getNumberFromToken(token: string): number | undefined {
 
 function rgbaToHex(color: IColor, isInverted: boolean): string {
   if (!color.a) {
-    return `#${color.r.toString(16)}${color.g.toString(16)}${color.b.toString(16)}`;
+    return `#${color.r.toString(16)}${color.g.toString(16)}${color.b.toString(
+      16
+    )}`;
   }
-  const r: number = Math.round(color.r * color.a * 0.01 + (!isInverted ? 255 * (1 - color.a * 0.01) : 0));
-  const g: number = Math.round(color.g * color.a * 0.01 + (!isInverted ? 255 * (1 - color.a * 0.01) : 0));
-  const b: number = Math.round(color.b * color.a * 0.01 + (!isInverted ? 255 * (1 - color.a * 0.01) : 0));
+  const r: number = Math.round(
+    color.r * color.a * 0.01 + (!isInverted ? 255 * (1 - color.a * 0.01) : 0)
+  );
+  const g: number = Math.round(
+    color.g * color.a * 0.01 + (!isInverted ? 255 * (1 - color.a * 0.01) : 0)
+  );
+  const b: number = Math.round(
+    color.b * color.a * 0.01 + (!isInverted ? 255 * (1 - color.a * 0.01) : 0)
+  );
   return `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`;
 }
 
-function resetByContrast(color: string | undefined, pageBackground: string): string | undefined {
+function resetByContrast(
+  color: string | undefined,
+  pageBackground: string
+): string | undefined {
   if (!color || !pageBackground) {
     return color;
   }
-  const colorContrastWithRed: number = contrast(hex_to_sRGB(pageBackground), hex_to_sRGB(color));
+  const colorContrastWithRed: number = contrast(
+    hex_to_sRGB(pageBackground),
+    hex_to_sRGB(color)
+  );
   if (colorContrastWithRed < standardContrastRatio) {
     return white;
   }
   return color;
 }
 
-function invertObject(obj: Record<string, string>, prefix: string): Record<string, string> {
+function invertObject(
+  obj: Record<string, string>,
+  prefix: string
+): Record<string, string> {
   const inverted = {};
   Object.keys(obj).forEach((key) => {
     inverted[obj[key]] = `${prefix}${key}`;
@@ -396,7 +429,7 @@ export function getColor2NameMapping(brandVariants) {
     ...invertObject(blackAlpha, 'BlackAlpha'),
     ...invertObject(whiteAlpha, 'WhiteAlpha'),
     whiteHex: 'white',
-    blackHex: 'black'
+    blackHex: 'black',
   };
 }
 
