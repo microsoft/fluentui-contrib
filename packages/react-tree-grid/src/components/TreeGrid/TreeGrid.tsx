@@ -20,8 +20,8 @@ export const TreeGrid = React.forwardRef(
       getIntrinsicElementProps('div', {
         ref,
         role: 'treegrid',
-        ...props,
         ...navigationProps,
+        ...props,
         className: mergeClasses('fui-TreeGrid', props.className),
       }),
       { elementType: 'div' }

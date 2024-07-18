@@ -86,9 +86,9 @@ export const TreeGridRow = React.forwardRef(
         role: 'row',
         tabIndex: 0,
         'aria-level': level,
+        ...tabsterAttributes,
         ...props,
         className: mergeClasses(styles, props.className),
-        ...tabsterAttributes,
         ...(Subtree && {
           onKeyDown: handleKeyDown,
           onClick: handleClick,
