@@ -2,14 +2,9 @@
 /* tslint-disable */
 //@ts-ignore
 import {
-  BaseSlots,
-  createTheme,
   getColorFromString,
   IColor,
-  isDark,
-  ThemeGenerator,
-  themeRulesStandardCreator,
-  updateA,
+  updateA
 } from '@fluentui/react';
 import { BrandVariants, Theme } from '@fluentui/react-components';
 import { VariantThemeType } from '@fluentui/scheme-utilities';
