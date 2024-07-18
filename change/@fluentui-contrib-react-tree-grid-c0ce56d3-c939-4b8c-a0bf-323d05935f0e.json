@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: TreeGrid components should allow tabster override",
+  "packageName": "@fluentui-contrib/react-tree-grid",
+  "email": "lingfangao@hotmail.com",
+  "dependentChangeType": "patch"
+}
