@@ -13,6 +13,7 @@ packages/react-resize-handler/ @microsoft/teams-prg
 packages/stylelint-plugin/ @microsoft/teams-prg
 packages/react-themeless-provider/ @spmonahan
 packages/azure-theme/ @microsoft/azure-ux-design-engineering
+packages/variant-theme @microsoft/fluentui-variant-theme
 # <%= NX-CODEOWNER-PLACEHOLDER %>
 
 #### Build/Infra
