@@ -1,0 +1,10 @@
+import * as React from 'react';
+import { AzureDarkTheme } from '@fluentui-contrib/azure-theme';
+import { FluentProvider } from '@fluentui/react-components';
+import { RadioGroupExample } from '../../src/components/fluent/RadioGroupExample';
+
+export const RadioGroup = () => (
+  <FluentProvider theme={AzureDarkTheme}>
+    <RadioGroupExample />
+  </FluentProvider>
+);
