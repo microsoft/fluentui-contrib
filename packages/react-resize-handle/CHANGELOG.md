@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-resize-handle
 
-This log was last generated on Wed, 10 Jul 2024 12:57:30 GMT and should not be manually modified.
+This log was last generated on Mon, 15 Jul 2024 08:56:10 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.3.1
+
+Mon, 15 Jul 2024 08:56:10 GMT
+
+### Patches
+
+- fix: resolve incorrectly build package structure (hochelmartin@gmail.com)
 
 ## 0.3.0
 

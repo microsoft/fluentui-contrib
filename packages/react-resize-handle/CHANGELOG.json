@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-resize-handle",
   "entries": [
     {
+      "date": "Mon, 15 Jul 2024 08:56:10 GMT",
+      "tag": "@fluentui-contrib/react-resize-handle_v0.3.1",
+      "version": "0.3.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "@fluentui-contrib/react-resize-handle",
+            "commit": "ca0a0f201bb7cb77f75052208548e3c8929b5d9d",
+            "comment": "fix: resolve incorrectly build package structure"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 10 Jul 2024 12:57:30 GMT",
       "tag": "@fluentui-contrib/react-resize-handle_v0.3.0",
       "version": "0.3.0",
