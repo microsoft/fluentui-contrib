@@ -1,6 +1,6 @@
 /* eslint-disable */
 /* tslint-disable */
-//@ts-ignore
+//@ts-nocheck
 import {
   getColorFromString,
   IColor,
@@ -342,14 +342,14 @@ function isTokenNameContains(token: string, names: string[]): boolean {
   return names.some((name) => token.indexOf(name) !== -1);
 }
 
-function shift(color: string, darken: boolean, degree: number): string {
+function shift(color: string, darken: boolean, degree: number) {
   if (!greyReverse[color]) {
     return color;
   }
   const index: number = greyReverse[color];
   return darken
-    ? grey[Math.max(index - degree, 0)]
-    : grey[Math.min(index + degree, 100)];
+    ? grey[Math.max(index - degree, 0) as Greys]
+    : grey[Math.min(index + degree, 100) as Greys];
 }
 
 function getNumberFromToken(token: string): number | undefined {
@@ -403,7 +403,7 @@ function invertObject(
   return inverted;
 }
 
-// convert colorBrandBackground = 'Brand80' TO colorBrandBackground = '#0067B7'
+// convert object { colorBrandBackground = 'Brand80' } To object { colorBrandBackground = '#0067B7' }
 export function getColorFromName(colorMapping, brandVariants) {
   const colors = lodash.invert(getColor2NameMapping(brandVariants));
 
@@ -429,7 +429,7 @@ export function getColor2NameMapping(brandVariants) {
   };
 }
 
-// convert colorBrandBackground = '#0067B7' TO colorBrandBackground = 'Brand80'
+// convert object { colorBrandBackground = '0067B7' } To object { colorBrandBackground = '#Brand80' }
 export function getThemeTokenMapping(theme, brandVariants: BrandVariants) {
   const results = {};
   const colors = getColor2NameMapping(brandVariants);
