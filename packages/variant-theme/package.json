@@ -2,7 +2,21 @@
   "name": "@fluentui-contrib/variant-theme",
   "version": "0.0.1",
   "dependencies": {
-    "@swc/helpers": "~0.5.2"
+    "@swc/helpers": "~0.5.2",
+    "@fluentui/example-data": "latest",
+    "@fluentui/react": "^8",
+    "@fluentui/react-calendar-compat": "latest",
+    "@fluentui/react-components": "9.53.0",
+    "@fluentui/react-hooks": "latest",
+    "@fluentui/react-icons": "~2.0.203",
+    "@fluentui/react-migration-v8-v9": "^9",
+    "@fluentui/scheme-utilities": "^8",
+    "@griffel/react": "^1.5.14",
+    "@types/dedent": "0.7.0",
+    "codesandbox-import-utils": "2.2.3",
+    "react": "^17",
+    "react-dom": "^17",
+    "react-scripts": "latest"
   },
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",
