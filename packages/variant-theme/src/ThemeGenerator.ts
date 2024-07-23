@@ -108,6 +108,13 @@ function shiftNeutralSpecialCases(theme: Theme, token: string, isInverted: boole
   }
 }
 
+const getBrandColor = (brandVariants, isDark, index) => {
+  if (isDark) {
+    return brandVariants[160 - index + 10];
+  }
+  return brandVariants[index];
+};
+
 function getSoftVariant(
   theme: Theme,
   brand: BrandVariants,
