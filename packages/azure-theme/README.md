@@ -1,11 +1,32 @@
-# azure-theme
+# @fluentui-contrib/react-chat
 
-This library was generated with [Nx](https://nx.dev).
+Azure Theme package powered by Fluent UI and used in Microsoft Azure.
 
-## Building
+## Requirements
 
-Run `nx build azure-theme` to build the library.
+Node 20
 
-## Running unit tests
+## Try it out
 
-Run `nx test azure-theme` to execute the unit tests via [Jest](https://jestjs.io).
+```sh
+yarn add @fluentui-contrib/azure-theme
+
+npm install @fluentui-contrib/azure-theme
+```
+
+```tsx
+import * as React from 'react';
+import { Button } from '@fluentui/react-components';
+import { FluentProvider, button } from '@fluentui/react-components';
+import { AzureDarkTheme } from '@fluentui-contrib/azure-theme';
+
+function App() {
+  const theme = AzureDarkTheme; // or AzureLightTheme
+
+  return (
+    <FluentProvider theme={theme}>
+      <Button>Azure Themed Button</Button>
+    </FluentProvider>
+  );
+}
+```
