@@ -38,6 +38,9 @@ export function getVariantTheme(
     ...theme,
   };
   switch (type) {
+    case VariantThemeType.None:
+      getNoneVariant(newTheme, isInverted);
+      return newTheme;
     case VariantThemeType.Neutral:
       // Set the background to be a light grey
       // Shift all the other neutrals to account for the darker background
@@ -55,6 +58,16 @@ export function getVariantTheme(
       return newTheme;
   }
 }
+
+const getNoneVariant = (theme: Theme, isInverted: boolean) => {
+  if (!isInverted) {
+    return theme;
+  }
+
+  theme.colorBrandForegroundLink = white;
+  theme.colorBrandForeground1 = white;
+  return theme;
+};
 
 function getNeutralVariant(theme: Theme, isInverted: boolean) {
   for (const token in theme) {
@@ -75,6 +88,10 @@ function getNeutralVariant(theme: Theme, isInverted: boolean) {
       // Shift extra steps for special cases
       shiftNeutralSpecialCases(theme, token, isInverted);
     }
+  }
+  if (isInverted) {
+    theme.colorBrandForegroundLink = white;
+    theme.colorBrandForeground1 = white;
   }
 }
 
@@ -103,24 +120,24 @@ function getSoftVariant(
       !isTokenNameContains(token, ['Alpha', 'Static', 'Inverted', 'Disabled'])
     ) {
       if (token.endsWith('Hover')) {
-        theme[token] = brand[150];
+        theme[token] = getBrandColor(brand, isInverted, 150);
       } else if (token.endsWith('Pressed')) {
-        theme[token] = brand[130];
+        theme[token] = getBrandColor(brand, isInverted, 130);
       } else if (token.endsWith('Selected')) {
-        theme[token] = brand[150];
+        theme[token] = getBrandColor(brand, isInverted, 150);
       } else {
-        theme[token] = brand[160];
+        theme[token] = getBrandColor(brand, isInverted, 160);
       }
     } else if (
       token.startsWith('colorSubtleBackground') &&
       !isTokenNameContains(token, ['LightAlpha', 'Inverted'])
     ) {
       if (token.endsWith('Hover')) {
-        theme[token] = brand[150];
+        theme[token] = getBrandColor(brand, isInverted, 150);
       } else if (token.endsWith('Pressed')) {
-        theme[token] = brand[130];
+        theme[token] = getBrandColor(brand, isInverted, 130);
       } else if (token.endsWith('Selected')) {
-        theme[token] = brand[140];
+        theme[token] = getBrandColor(brand, isInverted, 140);
       }
     } else if (
       token.startsWith('colorNeutralStencil') &&
@@ -128,9 +145,9 @@ function getSoftVariant(
     ) {
       const num: number | undefined = getNumberFromToken(token);
       if (num === 1) {
-        theme[token] = brand[140];
+        theme[token] = getBrandColor(brand, isInverted, 140);
       } else if (num === 2) {
-        theme[token] = brand[150];
+        theme[token] = getBrandColor(brand, isInverted, 150);
       }
     } else if (
       // Shift some neutral stoke and foreground colors by 4 steps
@@ -148,9 +165,12 @@ function getSoftVariant(
     }
   }
 
-  let color: IColor = getColorFromString(brand[80])!;
-  color = updateA(color, 5);
-  theme['colorNeutralBackground1'] = rgbaToHex(color, isInverted);
+  if (isInverted) {
+    theme.colorBrandForegroundLink = white;
+    theme.colorBrandForeground1 = white;
+  }
+
+  theme['colorNeutralBackground1'] = calculateSoftBackground(brand, isInverted);
 }
 
 function getStrongVariant(
@@ -166,7 +186,7 @@ function getStrongVariant(
   const alphas: Record<AlphaColors, string> =
     colorOnBrand === black ? blackAlpha : whiteAlpha;
 
-  setColorsOnBrand(theme, brand, colorOnBrand, alphas);
+  setColorsOnBrand(theme, brand, colorOnBrand, alphas, isInverted);
 }
 
 function setNeutralWithBrand(theme: Theme, brand: BrandVariants) {
@@ -223,7 +243,8 @@ function setColorsOnBrand(
   theme: Theme,
   brand: BrandVariants,
   colorOnBrand: string,
-  alphas: Record<AlphaColors, string>
+  alphas: Record<AlphaColors, string>,
+  isInverted: boolean
 ) {
   for (const token in theme) {
     if (
@@ -247,7 +268,7 @@ function setColorsOnBrand(
 
     colorNeutralForeground2: alphas[90],
     colorNeutralForeground3: alphas[90],
-    colorNeutralForeground4: grey[80],
+    colorNeutralForeground4: grey[92],
     colorNeutralBackground3: brand[70],
 
     colorNeutralForegroundInverted: brand[80],
@@ -270,6 +291,9 @@ function setColorsOnBrand(
     colorNeutralBackground6: brand[60],
     colorNeutralBackgroundStatic: colorOnBrand,
     colorNeutralBackgroundInverted: colorOnBrand,
+
+    colorNeutralStencil1Alpha: alphas[10],
+    colorNeutralStencil2Alpha: alphas[5],
 
     colorBrandBackground: colorOnBrand,
     colorBrandBackgroundHover: alphas[90],
@@ -305,14 +329,19 @@ function setColorsOnBrand(
     colorCompoundBrandStrokeHover: colorOnBrand,
     colorCompoundBrandStrokePressed: colorOnBrand,
 
-    //Status colors need to change
-    colorStatusWarningBackground1: theme.colorStatusWarningForeground3,
-    colorStatusWarningForeground3: theme.colorStatusWarningBackground1,
-    colorStatusDangerForeground1: theme.colorStatusDangerBackground1,
-    colorStatusDangerBackground1: theme.colorStatusDangerForeground1,
-    colorStatusSuccessForeground1: theme.colorStatusSuccessBackground1,
-    colorStatusSuccessBackground1: theme.colorStatusSuccessForeground1,
+    colorSubtleBackgroundLightAlphaHover: theme.colorSubtleBackgroundHover,
+    colorSubtleBackgroundLightAlphaPressed: theme.colorSubtleBackgroundPressed
   };
+
+  if (!isInverted) {
+    //Status colors need to change
+    newThemeProps.colorStatusWarningBackground1 = theme.colorStatusWarningForeground3;
+    newThemeProps.colorStatusWarningForeground3 = theme.colorStatusWarningBackground1;
+    newThemeProps.colorStatusDangerForeground1 = theme.colorStatusDangerBackground1;
+    newThemeProps.colorStatusDangerBackground1 = theme.colorStatusDangerForeground1;
+    newThemeProps.colorStatusSuccessForeground1 = theme.colorStatusSuccessBackground1;
+    newThemeProps.colorStatusSuccessBackground1 = theme.colorStatusSuccessForeground1;
+  }
 
   newThemeProps.colorPaletteRedForeground1 = resetByContrast(
     theme.colorPaletteRedForeground1,
@@ -359,19 +388,11 @@ function getNumberFromToken(token: string): number | undefined {
 
 function rgbaToHex(color: IColor, isInverted: boolean): string {
   if (!color.a) {
-    return `#${color.r.toString(16)}${color.g.toString(16)}${color.b.toString(
-      16
-    )}`;
+    return `#${color.r.toString(16)}${color.g.toString(16)}${color.b.toString(16)}`;
   }
-  const r: number = Math.round(
-    color.r * color.a * 0.01 + (!isInverted ? 255 * (1 - color.a * 0.01) : 0)
-  );
-  const g: number = Math.round(
-    color.g * color.a * 0.01 + (!isInverted ? 255 * (1 - color.a * 0.01) : 0)
-  );
-  const b: number = Math.round(
-    color.b * color.a * 0.01 + (!isInverted ? 255 * (1 - color.a * 0.01) : 0)
-  );
+  const r: number = Math.round(color.r * color.a * 0.01 + (!isInverted ? 255 * (1 - color.a * 0.01) : 0));
+  const g: number = Math.round(color.g * color.a * 0.01 + (!isInverted ? 255 * (1 - color.a * 0.01) : 0));
+  const b: number = Math.round(color.b * color.a * 0.01 + (!isInverted ? 255 * (1 - color.a * 0.01) : 0));
   return `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`;
 }
 
@@ -446,12 +467,8 @@ export function getThemeTokenMapping(theme, brandVariants: BrandVariants) {
   return results;
 }
 
-export const fillNoMappingTokens = (allThemeMapping, brandVariants) => {
-  const result = allThemeMapping;
-  let color: IColor = getColorFromString(brandVariants[80])!;
+const calculateSoftBackground = (brandVariants, isInverted: boolean) => {
+  let color: IColor = getColorFromString(isInverted ? brandVariants[30] : brandVariants[80])!;
   color = updateA(color, 5);
-
-  result.soft.colorNeutralBackground1 = rgbaToHex(color, false);
-
-  return result;
+  return rgbaToHex(color, isInverted);
 };
