@@ -1,6 +1,6 @@
 {
-  "type": "minor",
-  "comment": "Added Azure Theme for V9 style object for partner teams use. Exported as AzureLightTheme and AzureDarkTheme",
+  "type": "patch",
+  "comment": "feat: add Azure Theme for V9 style object for partner teams use. Exported as AzureLightTheme and AzureDarkTheme",
   "packageName": "@fluentui-contrib/azure-theme",
   "email": "30805892+Jacqueline-ms@users.noreply.github.com",
   "dependentChangeType": "patch"
