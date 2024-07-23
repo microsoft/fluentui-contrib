@@ -1,4 +1,4 @@
-# @fluentui-contrib/react-chat
+# @fluentui-contrib/azure-theme
 
 Azure Theme package powered by Fluent UI and used in Microsoft Azure.
 
