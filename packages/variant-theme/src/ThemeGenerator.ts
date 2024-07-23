@@ -21,8 +21,7 @@ import * as lodash from 'lodash';
 import { contrast, hex_to_sRGB } from './ThemeDesigner/src/colors';
 
 const standardContrastRatio: number = 4.5;
-const whiteHex: string = '#ffffff';
-const blackHex: string = '#000000';
+
 const greyReverse: Record<string, Greys> = lodash.invert(grey);
 
 export function getVariantTheme(
@@ -418,60 +417,6 @@ function resetByContrast(
     return white;
   }
   return color;
-}
-
-function invertObject(
-  obj: Record<string, string>,
-  prefix: string
-): Record<string, string> {
-  const inverted = {};
-  Object.keys(obj).forEach((key) => {
-    inverted[obj[key]] = `${prefix}${key}`;
-  });
-  return inverted;
-}
-
-// convert object { colorBrandBackground = 'Brand80' } To object { colorBrandBackground = '#0067B7' }
-export function getColorFromName(colorMapping, brandVariants) {
-  const colors = lodash.invert(getColor2NameMapping(brandVariants));
-
-  const results = {};
-  for (const token in colorMapping) {
-    if (token.startsWith('color') && colors[colorMapping[token]]) {
-      results[token] = colors[colorMapping[token]];
-    } else {
-      results[token] = colorMapping[token];
-    }
-  }
-  return results;
-}
-
-export function getColor2NameMapping(brandVariants) {
-  return {
-    ...invertObject(grey, 'Grey'),
-    ...invertObject(brandVariants, 'Brand'),
-    ...invertObject(blackAlpha, 'BlackAlpha'),
-    ...invertObject(whiteAlpha, 'WhiteAlpha'),
-    whiteHex: 'white',
-    blackHex: 'black',
-  };
-}
-
-// convert object { colorBrandBackground = '0067B7' } To object { colorBrandBackground = '#Brand80' }
-export function getThemeTokenMapping(theme, brandVariants: BrandVariants) {
-  const results = {};
-  const colors = getColor2NameMapping(brandVariants);
-
-  for (const token in theme) {
-    if (token.startsWith('color')) {
-      if (colors[theme[token]]) {
-        results[token] = colors[theme[token]];
-      } else {
-        results[token] = theme[token];
-      }
-    }
-  }
-  return results;
 }
 
 const calculateSoftBackground = (brandVariants, isInverted: boolean) => {
