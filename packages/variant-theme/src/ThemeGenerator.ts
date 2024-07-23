@@ -381,7 +381,7 @@ function shift(color: string, darken: boolean, degree: number) {
   if (!greyReverse[color]) {
     return color;
   }
-  const index: number = greyReverse[color];
+  const index: number = Number(greyReverse[color]);
   return darken
     ? grey[Math.max(index - degree, 0) as Greys]
     : grey[Math.min(index + degree, 100) as Greys];
@@ -419,7 +419,7 @@ function resetByContrast(
   return color;
 }
 
-const calculateSoftBackground = (brandVariants, isInverted: boolean) => {
+export const calculateSoftBackground = (brandVariants, isInverted: boolean) => {
   let color: IColor = getColorFromString(isInverted ? brandVariants[30] : brandVariants[80])!;
   color = updateA(color, 5);
   return rgbaToHex(color, isInverted);
