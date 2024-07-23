@@ -7,6 +7,8 @@ tmp
 
 # dependencies
 node_modules
+# we use yarn
+package-lock.json
 
 # IDEs and editors
 /.idea
