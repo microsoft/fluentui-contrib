@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "feat: move react-icons to peerDependencies to mitigate dupes in applications",
+  "packageName": "@fluentui-contrib/azure-theme",
+  "email": "hochelmartin@gmail.com",
+  "dependentChangeType": "patch"
+}
