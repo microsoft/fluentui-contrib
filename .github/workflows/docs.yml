@@ -11,6 +11,11 @@ permissions:
   pages: write
   id-token: write
 
+env:
+  NX_PARALLEL: 2 # ubuntu-latest = 2-core CPU / 7 GB of RAM
+  NX_PREFER_TS_NODE: true
+  NX_VERBOSE_LOGGING: true
+
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
@@ -36,7 +41,7 @@ jobs:
           node-version: '20'
 
       - run: yarn install --frozen-lockfile
-      - run: yarn nx run-many --target=build-storybook --parallel --max-parallel=3
+      - run: yarn nx run-many --target=build-storybook
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
