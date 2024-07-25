@@ -7,7 +7,6 @@ on:
 
 env:
   NX_PARALLEL: 2 # ubuntu-latest = 2-core CPU / 7 GB of RAM
-  NX_PREFER_TS_NODE: true
   NX_VERBOSE_LOGGING: true
 
 jobs:
