@@ -5,16 +5,24 @@ on:
       - main
   pull_request:
 
+env:
+  NX_PARALLEL: 2 # ubuntu-latest = 2-core CPU / 7 GB of RAM
+  NX_VERBOSE_LOGGING: true
+
 jobs:
   main:
     runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      actions: 'read'
+
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v2
+        uses: nrwl/nx-set-shas@v4
 
       - uses: actions/setup-node@v4
         with:
@@ -31,34 +39,16 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - run: yarn nx affected --target=verify-integrity --parallel --max-parallel=3
-      - run: yarn nx affected --target=type-check --parallel --max-parallel=3
-      - run: yarn nx affected --target=build --parallel --max-parallel=3
-      - run: yarn nx affected --target=build-storybook --parallel --max-parallel=3
-      - run: yarn nx affected --target=test --parallel --max-parallel=2
-      - run: yarn nx affected --target=component-test --skipInstall --parallel --max-parallel=2
-      - run: yarn nx affected --target=lint --parallel --max-parallel=3
+      - run: yarn nx affected --target=verify-integrity
+      - run: yarn nx affected --target=build
+      - run: yarn nx affected --target=build-storybook
+      - run: yarn nx affected --target=type-check
+      - run: yarn nx affected --target=lint
+      - run: yarn nx affected --target=test
+      - run: yarn nx affected --target=component-test --skipInstall
       - run: yarn nx format:check --base origin/main
 
       - name: 'Check for unstaged changes'
         run: |
           git status --porcelain
           git diff-index --quiet HEAD -- || exit 1
-
-  docs:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v2
-
-      - uses: actions/setup-node@v4
-        with:
-          cache: 'yarn'
-          node-version: '20'
-
-      - run: yarn install --frozen-lockfile
-      - run: yarn nx affected --target=build-storybook --parallel --max-parallel=3
