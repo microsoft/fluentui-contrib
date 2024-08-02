@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "Re arranging storybook for performance",
-  "packageName": "@fluentui-contrib/azure-theme",
-  "email": "30805892+Jacqueline-ms@users.noreply.github.com",
-  "dependentChangeType": "patch"
-}

@@ -1,6 +1,6 @@
 {
   "name": "@fluentui-contrib/azure-theme",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "dependencies": {
     "@swc/helpers": "~0.5.2"
   },
