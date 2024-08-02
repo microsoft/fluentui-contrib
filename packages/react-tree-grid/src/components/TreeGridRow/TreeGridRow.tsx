@@ -1,9 +1,3 @@
-/** @jsxRuntime classic */
-/** @jsx createElement */
-/** @jsxFrag Fragment */
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { createElement, Fragment } from '@fluentui/react-jsx-runtime';
 import * as React from 'react';
 import {
   getIntrinsicElementProps,

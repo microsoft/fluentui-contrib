@@ -2,7 +2,9 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
-    "declaration": true
+    "declaration": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "@fluentui/react-jsx-runtime"
   },
   "include": ["src/**/*.ts"],
   "exclude": [
