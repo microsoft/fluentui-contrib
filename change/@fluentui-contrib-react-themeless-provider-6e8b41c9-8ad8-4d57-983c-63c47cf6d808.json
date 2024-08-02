@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "chore: adopts jsx runtime instead of createElement method",
+  "packageName": "@fluentui-contrib/react-themeless-provider",
+  "email": "bernardo.sunderhus@gmail.com",
+  "dependentChangeType": "patch"
+}
