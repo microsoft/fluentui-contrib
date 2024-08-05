@@ -1,1 +1,1 @@
-export {};
+export { getVariantTheme } from './ThemeGenerator';
