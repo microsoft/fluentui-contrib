@@ -15,13 +15,14 @@ import { useRowNavigation } from '../../hooks/useRowNavigation';
 
 export const TreeGrid = React.forwardRef(
   (props: TreeGridProps, ref: React.ForwardedRef<HTMLDivElement>) => {
-    const navigationProps = useRowNavigation(props);
+    const { onKeyDown, ...tabsterAttributes } = useRowNavigation(props);
     const Root = slot.always(
       getIntrinsicElementProps('div', {
         ref,
         role: 'treegrid',
+        ...tabsterAttributes,
         ...props,
-        ...navigationProps,
+        onKeyDown,
         className: mergeClasses('fui-TreeGrid', props.className),
       }),
       { elementType: 'div' }

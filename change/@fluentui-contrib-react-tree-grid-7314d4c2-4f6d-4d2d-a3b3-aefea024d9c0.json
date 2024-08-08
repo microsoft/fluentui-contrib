@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "bugfix: allow override internal attributes through props",
+  "packageName": "@fluentui-contrib/react-tree-grid",
+  "email": "bernardo.sunderhus@gmail.com",
+  "dependentChangeType": "patch"
+}
