@@ -1503,6 +1503,14 @@
     "@fluentui/set-version" "^8.2.23"
     tslib "^2.1.0"
 
+"@fluentui/merge-styles@^8.6.13":
+  version "8.6.13"
+  resolved "https://registry.yarnpkg.com/@fluentui/merge-styles/-/merge-styles-8.6.13.tgz#c9168b39aa6952ef36318e4e5273f50a5529b023"
+  integrity sha512-IWgvi2CC+mcQ7/YlCvRjsmHL2+PUz7q+Pa2Rqk3a+QHN0V1uBvgIbKk5y/Y/awwDXy1yJHiqMCcDHjBNmS1d4A==
+  dependencies:
+    "@fluentui/set-version" "^8.2.23"
+    tslib "^2.1.0"
+
 "@fluentui/priority-overflow@^9.1.11":
   version "9.1.11"
   resolved "https://registry.yarnpkg.com/@fluentui/priority-overflow/-/priority-overflow-9.1.11.tgz#d418560859f75e8727824972a9db9f76d5b74b83"
@@ -2073,6 +2081,42 @@
     "@fluentui/react-utilities" "^9.18.0"
     "@griffel/react" "^1.5.14"
     "@swc/helpers" "^0.5.1"
+
+"@fluentui/react-field@^9.1.72":
+  version "9.1.72"
+  resolved "https://registry.yarnpkg.com/@fluentui/react-field/-/react-field-9.1.72.tgz#b96964034b0c986b02c59bd9e53ad99831d09573"
+  integrity sha512-39DsB0nIOU7FdWN7+a8x2RKPaZrAMmsGaz85DOYryzbp8y9bn990BjU8WnhquNABkW2xJNI9gEi0goW/R3tmiQ==
+  dependencies:
+    "@fluentui/react-context-selector" "^9.1.65"
+    "@fluentui/react-icons" "^2.0.245"
+    "@fluentui/react-jsx-runtime" "^9.0.42"
+    "@fluentui/react-label" "^9.1.74"
+    "@fluentui/react-theme" "^9.1.19"
+    "@fluentui/react-utilities" "^9.18.13"
+    "@griffel/react" "^1.5.22"
+    "@swc/helpers" "^0.5.1"
+
+"@fluentui/react-focus@^8.9.11":
+  version "8.9.12"
+  resolved "https://registry.yarnpkg.com/@fluentui/react-focus/-/react-focus-8.9.12.tgz#53fe04df846f4b606a544c7f414f346fab5f15d7"
+  integrity sha512-H150/caeZ3YbUWPfsNj9i4AjZpu+fBvodduzW2r9u+lkeCOZ8HZJqZ5mjSSp3XkyJxkvPmPcGH6F3AEq4qgWiA==
+  dependencies:
+    "@fluentui/keyboard-key" "^0.4.23"
+    "@fluentui/merge-styles" "^8.6.13"
+    "@fluentui/set-version" "^8.2.23"
+    "@fluentui/style-utilities" "^8.10.20"
+    "@fluentui/utilities" "^8.15.15"
+    tslib "^2.1.0"
+
+"@fluentui/react-hooks@^8.8.10", "@fluentui/react-hooks@^8.8.11":
+  version "8.8.12"
+  resolved "https://registry.yarnpkg.com/@fluentui/react-hooks/-/react-hooks-8.8.12.tgz#0280741dff3703b6a139567eb506fbf9ef8327c1"
+  integrity sha512-lplre6x5dONjd12D0BWs4LKq4lX++o0w07pIk2XhxikOW1e4Xfjn6VM52WSdtx+tU4rbLUoCA8drN2y/wDvhGg==
+  dependencies:
+    "@fluentui/react-window-provider" "^2.2.28"
+    "@fluentui/set-version" "^8.2.23"
+    "@fluentui/utilities" "^8.15.15"
+    tslib "^2.1.0"
 
 "@fluentui/react-icons@^2.0.224", "@fluentui/react-icons@^2.0.249":
   version "2.0.249"
@@ -3309,6 +3353,18 @@
     "@microsoft/load-themed-styles" "^1.10.26"
     tslib "^2.1.0"
 
+"@fluentui/style-utilities@^8.10.20":
+  version "8.10.20"
+  resolved "https://registry.yarnpkg.com/@fluentui/style-utilities/-/style-utilities-8.10.20.tgz#1cdfd4bb3615ffaa00fca818e90a8509e09e9d78"
+  integrity sha512-FS70bOKyWJR1EAP1+nCpHi9FbuDwMx5/GaGlykR315mVzyQ6PHfBR65XhndZAii/ZUOcc6ibjgkiCfYKPQwuXg==
+  dependencies:
+    "@fluentui/merge-styles" "^8.6.13"
+    "@fluentui/set-version" "^8.2.23"
+    "@fluentui/theme" "^2.6.58"
+    "@fluentui/utilities" "^8.15.15"
+    "@microsoft/load-themed-styles" "^1.10.26"
+    tslib "^2.1.0"
+
 "@fluentui/theme@^2.6.57":
   version "2.6.57"
   resolved "https://registry.yarnpkg.com/@fluentui/theme/-/theme-2.6.57.tgz#31e57ae3483960ebe14def9e41b8789231f9a36f"
@@ -3317,6 +3373,16 @@
     "@fluentui/merge-styles" "^8.6.12"
     "@fluentui/set-version" "^8.2.23"
     "@fluentui/utilities" "^8.15.14"
+    tslib "^2.1.0"
+
+"@fluentui/theme@^2.6.58":
+  version "2.6.58"
+  resolved "https://registry.yarnpkg.com/@fluentui/theme/-/theme-2.6.58.tgz#70490f473f3ff77cef1895142b957ffee449864d"
+  integrity sha512-m92eUnlSXWIEvm8mVE3XZL0i6+h7UpX32g+dv5s5JjxlrMd6w9DDfmu1awAufX/MAYfO6SZkI7JndKf+r6XNDQ==
+  dependencies:
+    "@fluentui/merge-styles" "^8.6.13"
+    "@fluentui/set-version" "^8.2.23"
+    "@fluentui/utilities" "^8.15.15"
     tslib "^2.1.0"
 
 "@fluentui/tokens@1.0.0-alpha.16":
@@ -3333,6 +3399,17 @@
   dependencies:
     "@fluentui/dom-utilities" "^2.3.7"
     "@fluentui/merge-styles" "^8.6.12"
+    "@fluentui/react-window-provider" "^2.2.28"
+    "@fluentui/set-version" "^8.2.23"
+    tslib "^2.1.0"
+
+"@fluentui/utilities@^8.15.15":
+  version "8.15.15"
+  resolved "https://registry.yarnpkg.com/@fluentui/utilities/-/utilities-8.15.15.tgz#ca3428108c6b92155d88d0c4ada1fb185f9bbb85"
+  integrity sha512-7GpET/AuWR8aBEQSQj9iO2j+9riAaoK1qBduCB4Ht6353d25vwwsKXreHZGqS8efv+NNIxQTlLWz0Rq73iQFWw==
+  dependencies:
+    "@fluentui/dom-utilities" "^2.3.7"
+    "@fluentui/merge-styles" "^8.6.13"
     "@fluentui/react-window-provider" "^2.2.28"
     "@fluentui/set-version" "^8.2.23"
     tslib "^2.1.0"
