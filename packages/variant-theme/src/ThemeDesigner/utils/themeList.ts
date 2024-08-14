@@ -4,7 +4,7 @@ export type ThemeList = Record<string, { brand?: BrandVariants }>;
 
 export const themeList: ThemeList = {
   CustomLight: {},
-  CustomDark: {}
+  CustomDark: {},
 };
 
 const lightThemes = Object.keys(themeList).map((currTheme) => {

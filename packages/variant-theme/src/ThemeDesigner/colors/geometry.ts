@@ -35,8 +35,17 @@ function QuadraticBezierP2(t: number, p: number): number {
   return t * t * p;
 }
 
-function QuadraticBezier(t: number, p0: number, p1: number, p2: number): number {
-  return QuadraticBezierP0(t, p0) + QuadraticBezierP1(t, p1) + QuadraticBezierP2(t, p2);
+function QuadraticBezier(
+  t: number,
+  p0: number,
+  p1: number,
+  p2: number
+): number {
+  return (
+    QuadraticBezierP0(t, p0) +
+    QuadraticBezierP1(t, p1) +
+    QuadraticBezierP2(t, p2)
+  );
 }
 
 function getPointOnCurve(curve: Curve, t: number) {
@@ -44,7 +53,7 @@ function getPointOnCurve(curve: Curve, t: number) {
   return [
     QuadraticBezier(t, v0[0], v1[0], v2[0]),
     QuadraticBezier(t, v0[1], v1[1], v2[1]),
-    QuadraticBezier(t, v0[2], v1[2], v2[2])
+    QuadraticBezier(t, v0[2], v1[2], v2[2]),
   ] as Vec3;
 }
 
@@ -62,7 +71,10 @@ function getCurvePathLength(curvePath: CurvePath) {
 }
 
 function getCurvePathLengths(curvePath: CurvePath) {
-  if (curvePath.cacheLengths && curvePath.cacheLengths.length === curvePath.curves.length) {
+  if (
+    curvePath.cacheLengths &&
+    curvePath.cacheLengths.length === curvePath.curves.length
+  ) {
     return curvePath.cacheLengths;
   }
   // Get length of sub-curve
@@ -163,7 +175,10 @@ function getPointOnCurveAt(curve: Curve, u: number) {
   return getPointOnCurve(curve, getCurveUtoTMapping(curve, u));
 }
 
-export function getPointOnCurvePath(curvePath: CurvePath, t: number): Vec3 | null {
+export function getPointOnCurvePath(
+  curvePath: CurvePath,
+  t: number
+): Vec3 | null {
   const d = t * getCurvePathLength(curvePath);
   const curveLengths = getCurvePathLengths(curvePath);
   let i = 0;
@@ -183,7 +198,10 @@ export function getPointOnCurvePath(curvePath: CurvePath, t: number): Vec3 | nul
   return null;
 }
 
-export function getPointsOnCurvePath(curvePath: CurvePath, divisions = curveResolution): Vec3[] {
+export function getPointsOnCurvePath(
+  curvePath: CurvePath,
+  divisions = curveResolution
+): Vec3[] {
   const points = [];
   let last;
 

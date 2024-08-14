@@ -16,5 +16,5 @@ export const brandWeb: BrandVariants = {
   130: `#96C6FA`,
   140: `#B4D6FA`,
   150: `#CFE4FA`,
-  160: `#EBF3FC`
+  160: `#EBF3FC`,
 };

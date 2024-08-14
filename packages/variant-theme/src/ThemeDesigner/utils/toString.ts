@@ -18,12 +18,17 @@ export const getBrandValues = (
 
   return (
     Object.keys(overrideList).map((token) => {
-      return '\n' + spacer + token + ': ' + hexToBrand[stringOverrideList[token]];
+      return (
+        '\n' + spacer + token + ': ' + hexToBrand[stringOverrideList[token]]
+      );
     }) + '\n'
   );
 };
 
-export const objectToString = (input: Record<string, string>, spacer: string) => {
+export const objectToString = (
+  input: Record<string, string>,
+  spacer: string
+) => {
   return (
     Object.keys(input).map((key) => {
       return '\n' + spacer + key + ': "' + input[key].toUpperCase() + '"';

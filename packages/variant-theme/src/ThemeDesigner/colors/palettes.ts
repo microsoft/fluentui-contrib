@@ -1,5 +1,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { LAB_to_sRGB, LCH_to_Lab, Lab_to_LCH, sRGB_to_LCH, snap_into_gamut } from './csswg';
+import {
+  LAB_to_sRGB,
+  LCH_to_Lab,
+  Lab_to_LCH,
+  sRGB_to_LCH,
+  snap_into_gamut,
+} from './csswg';
 import { getPointsOnCurvePath } from './geometry';
 import { CurvedHelixPath, Palette, Vec3 } from './types';
 import { hueToSnappingPointsMap, hexToHue } from './hueMap';
@@ -19,19 +25,33 @@ const snappingPointsForKeyColor = (keyColor: string): number[] => {
   const range = [
     hueToSnappingPointsMap[hue][0] * 100,
     hueToSnappingPointsMap[hue][1] * 100,
-    hueToSnappingPointsMap[hue][2] * 100
+    hueToSnappingPointsMap[hue][2] * 100,
   ];
   return range;
 };
 
-const pointsForKeyColor = (keyColor: string, range: number[], centerPoint: number): number[] => {
+const pointsForKeyColor = (
+  keyColor: string,
+  range: number[],
+  centerPoint: number
+): number[] => {
   const hue = hexToHue(keyColor);
   const center = hueToSnappingPointsMap[hue][1] * 100;
-  const linear = linearInterpolationThroughPoint(range[0], range[1], center, 16);
+  const linear = linearInterpolationThroughPoint(
+    range[0],
+    range[1],
+    center,
+    16
+  );
   return linear;
 };
 
-function linearInterpolationThroughPoint(start: number, end: number, inBetween: number, numSamples: number) {
+function linearInterpolationThroughPoint(
+  start: number,
+  end: number,
+  inBetween: number,
+  numSamples: number
+) {
   if (numSamples < 3) {
     throw new Error('Number of samples must be at least 3.');
   }
@@ -101,7 +121,10 @@ function paletteShadesFromCurvePoints(
   for (let i = 0; i < nShades; i++) {
     const l = Math.min(
       range[1],
-      Math.max(range[0], logLightness[i] * (1 - linearity) + linearLightness[i] * linearity)
+      Math.max(
+        range[0],
+        logLightness[i] * (1 - linearity) + linearLightness[i] * linearity
+      )
     );
 
     while (l > curvePoints[c + 1][0]) {
@@ -113,7 +136,11 @@ function paletteShadesFromCurvePoints(
 
     const u = (l - l1) / (l2 - l1);
 
-    paletteShades[i] = [l1 + (l2 - l1) * u, a1 + (a2 - a1) * u, b1 + (b2 - b1) * u] as Vec3;
+    paletteShades[i] = [
+      l1 + (l2 - l1) * u,
+      a1 + (a2 - a1) * u,
+      b1 + (b2 - b1) * u,
+    ] as Vec3;
   }
 
   return paletteShades.map(snap_into_gamut);
@@ -129,7 +156,9 @@ export function paletteShadesFromCurve(
   const points = getPointsOnCurvePath(
     curve,
     Math.ceil((curveDepth * (1 + Math.abs(curve.torsion || 1))) / 2)
-  ).map((curvePoint: Vec3) => getPointOnHelix(curvePoint, curve.torsion, curve.torsionT0));
+  ).map((curvePoint: Vec3) =>
+    getPointOnHelix(curvePoint, curve.torsion, curve.torsionT0)
+  );
   return paletteShadesFromCurvePoints(points, nShades, linearity, keyColor);
 }
 
@@ -149,7 +178,11 @@ export function Lab_to_hex(lab: Vec3): string {
 export function hex_to_sRGB(hex: string): Vec3 {
   const aRgbHex = hex.match(/#?(..)(..)(..)/);
   return aRgbHex
-    ? [parseInt(aRgbHex[1], 16) / 255, parseInt(aRgbHex[2], 16) / 255, parseInt(aRgbHex[3], 16) / 255]
+    ? [
+        parseInt(aRgbHex[1], 16) / 255,
+        parseInt(aRgbHex[2], 16) / 255,
+        parseInt(aRgbHex[3], 16) / 255,
+      ]
     : [0, 0, 0];
 }
 
@@ -161,7 +194,11 @@ function paletteShadesToHex(paletteShades: Vec3[]): string[] {
   return paletteShades.map(Lab_to_hex);
 }
 
-function getPointOnHelix(pointOnCurve: Vec3, torsion = 0, torsionT0 = 50): Vec3 {
+function getPointOnHelix(
+  pointOnCurve: Vec3,
+  torsion = 0,
+  torsionT0 = 50
+): Vec3 {
   const t = pointOnCurve[0];
   const [l, c, h] = Lab_to_LCH(pointOnCurve);
   const hueOffset = torsion * (t - torsionT0);
@@ -174,7 +211,12 @@ function getPointOnHelix(pointOnCurve: Vec3, torsion = 0, torsionT0 = 50): Vec3 
 //   );
 // }
 
-export function curvePathFromPalette({ keyColor, darkCp, lightCp, hueTorsion }: Palette): CurvedHelixPath {
+export function curvePathFromPalette({
+  keyColor,
+  darkCp,
+  lightCp,
+  hueTorsion,
+}: Palette): CurvedHelixPath {
   const blackPosition = [0, 0, 0];
   const whitePosition = [100, 0, 0];
   const keyColorPosition = LCH_to_Lab(keyColor);
@@ -186,10 +228,10 @@ export function curvePathFromPalette({ keyColor, darkCp, lightCp, hueTorsion }: 
   return {
     curves: [
       { points: [blackPosition, darkControlPosition, keyColorPosition] },
-      { points: [keyColorPosition, lightControlPosition, whitePosition] }
+      { points: [keyColorPosition, lightControlPosition, whitePosition] },
     ],
     torsion: hueTorsion,
-    torsionT0: l
+    torsionT0: l,
   } as CurvedHelixPath;
 }
 
@@ -201,6 +243,12 @@ export function hexColorsFromPalette(
   curveDepth = 24
 ): string[] {
   const curve = curvePathFromPalette(palette);
-  const shades = paletteShadesFromCurve(keyColor, curve, nShades, linearity, curveDepth);
+  const shades = paletteShadesFromCurve(
+    keyColor,
+    curve,
+    nShades,
+    linearity,
+    curveDepth
+  );
   return paletteShadesToHex(shades);
 }
