@@ -1,9 +1,9 @@
-import {
-  getColorFromString,
-  IColor,
-  updateA
-} from '@fluentui/react';
-import type { BrandVariants, ColorTokens, Theme } from '@fluentui/react-components';
+import { getColorFromString, IColor, updateA } from '@fluentui/react';
+import type {
+  BrandVariants,
+  ColorTokens,
+  Theme,
+} from '@fluentui/react-components';
 import { VariantThemeType } from '@fluentui/scheme-utilities';
 import {
   black,
@@ -72,10 +72,16 @@ const getNoneVariant = (theme: Theme, isInverted: boolean) => {
 
 function getNeutralVariant(theme: Theme, isInverted: boolean) {
   for (const token in theme) {
-    if (theme.hasOwnProperty(token)) {
+    if (Object.prototype.hasOwnProperty.call(theme, token)) {
       // Shift most neutral colors by 4 steps
       if (
-        (token.startsWith('colorNeutralBackground') && !isTokenNameContains(token, ['Alpha', 'Inverted', 'Static', 'Disabled'])) ||
+        (token.startsWith('colorNeutralBackground') &&
+          !isTokenNameContains(token, [
+            'Alpha',
+            'Inverted',
+            'Static',
+            'Disabled',
+          ])) ||
         (token.startsWith('colorNeutralStroke') &&
           !isTokenNameContains(token, [
             'Alpha',
@@ -86,7 +92,11 @@ function getNeutralVariant(theme: Theme, isInverted: boolean) {
         isTokenNameContains(token, ['NeutralForeground']) ||
         isTokenNameContains(token, ['Subtle'])
       ) {
-        theme[token as keyof ColorTokens] = shift(theme[token as keyof ColorTokens] as string, !isInverted, 4);
+        theme[token as keyof ColorTokens] = shift(
+          theme[token as keyof ColorTokens] as string,
+          !isInverted,
+          4
+        );
         // Shift extra steps for special cases
         shiftNeutralSpecialCases(theme, token as keyof ColorTokens, isInverted);
       }
@@ -98,7 +108,11 @@ function getNeutralVariant(theme: Theme, isInverted: boolean) {
   }
 }
 
-function shiftNeutralSpecialCases(theme: Theme, token: keyof ColorTokens, isInverted: boolean) {
+function shiftNeutralSpecialCases(
+  theme: Theme,
+  token: keyof ColorTokens,
+  isInverted: boolean
+) {
   if (token.startsWith('colorNeutralBackground')) {
     const num: number | undefined = getNumberFromToken(token);
     if (num === 4 || num === 5) {
@@ -111,12 +125,16 @@ function shiftNeutralSpecialCases(theme: Theme, token: keyof ColorTokens, isInve
   }
 }
 
-function getBrandColor (brandVariants: BrandVariants, isDark: boolean, index: keyof BrandVariants): string {
+function getBrandColor(
+  brandVariants: BrandVariants,
+  isDark: boolean,
+  index: keyof BrandVariants
+): string {
   if (isDark) {
-    return brandVariants[160 - index + 10 as keyof BrandVariants];
+    return brandVariants[(160 - index + 10) as keyof BrandVariants];
   }
   return brandVariants[index];
-};
+}
 
 function getSoftVariant(
   theme: Theme,
@@ -124,9 +142,9 @@ function getSoftVariant(
   isInverted: boolean
 ) {
   for (const token in theme) {
-    if (theme.hasOwnProperty(token)) {
+    if (Object.prototype.hasOwnProperty.call(theme, token)) {
       // convert some neutral colors to brand colors
-      const colorToken = token as keyof ColorTokens
+      const colorToken = token as keyof ColorTokens;
       if (
         token.startsWith('colorNeutralBackground') &&
         !isTokenNameContains(token, ['Alpha', 'Static', 'Inverted', 'Disabled'])
@@ -204,7 +222,7 @@ function getStrongVariant(
 
 function setNeutralWithBrand(theme: Theme, brand: BrandVariants) {
   for (const token in theme) {
-    if (theme.hasOwnProperty(token)) {
+    if (Object.prototype.hasOwnProperty.call(theme, token)) {
       if (
         token.startsWith('colorNeutralBackground') &&
         !isTokenNameContains(token, ['Alpha', 'InvertedDisabled', 'Static'])
@@ -264,7 +282,7 @@ function setColorsOnBrand(
   isInverted?: boolean
 ) {
   for (const token in theme) {
-    if (theme.hasOwnProperty(token)) {
+    if (Object.prototype.hasOwnProperty.call(theme, token)) {
       if (
         (token.startsWith('colorNeutralForeground') ||
           token.startsWith('colorNeutralStroke')) &&
@@ -349,17 +367,23 @@ function setColorsOnBrand(
     colorCompoundBrandStrokePressed: colorOnBrand,
 
     colorSubtleBackgroundLightAlphaHover: theme.colorSubtleBackgroundHover,
-    colorSubtleBackgroundLightAlphaPressed: theme.colorSubtleBackgroundPressed
+    colorSubtleBackgroundLightAlphaPressed: theme.colorSubtleBackgroundPressed,
   };
 
   if (!isInverted) {
     //Status colors need to change
-    newThemeProps.colorStatusWarningBackground1 = theme.colorStatusWarningForeground3;
-    newThemeProps.colorStatusWarningForeground3 = theme.colorStatusWarningBackground1;
-    newThemeProps.colorStatusDangerForeground1 = theme.colorStatusDangerBackground1;
-    newThemeProps.colorStatusDangerBackground1 = theme.colorStatusDangerForeground1;
-    newThemeProps.colorStatusSuccessForeground1 = theme.colorStatusSuccessBackground1;
-    newThemeProps.colorStatusSuccessBackground1 = theme.colorStatusSuccessForeground1;
+    newThemeProps.colorStatusWarningBackground1 =
+      theme.colorStatusWarningForeground3;
+    newThemeProps.colorStatusWarningForeground3 =
+      theme.colorStatusWarningBackground1;
+    newThemeProps.colorStatusDangerForeground1 =
+      theme.colorStatusDangerBackground1;
+    newThemeProps.colorStatusDangerBackground1 =
+      theme.colorStatusDangerForeground1;
+    newThemeProps.colorStatusSuccessForeground1 =
+      theme.colorStatusSuccessBackground1;
+    newThemeProps.colorStatusSuccessBackground1 =
+      theme.colorStatusSuccessForeground1;
   }
 
   newThemeProps.colorPaletteRedForeground1 = resetByContrast(
@@ -394,7 +418,7 @@ function shift(color: string, darken: boolean, degree: number) {
   if (!greyReverse[color]) {
     return color;
   }
-  const index: number = Number(greyReverse[color]);
+  const index = Number(greyReverse[color]);
   return darken
     ? grey[Math.max(index - degree, 0) as Greys]
     : grey[Math.min(index + degree, 100) as Greys];
@@ -407,11 +431,19 @@ function getNumberFromToken(token: string): number | undefined {
 
 function rgbaToHex(color: IColor, isInverted: boolean): string {
   if (!color.a) {
-    return `#${color.r.toString(16)}${color.g.toString(16)}${color.b.toString(16)}`;
+    return `#${color.r.toString(16)}${color.g.toString(16)}${color.b.toString(
+      16
+    )}`;
   }
-  const r: number = Math.round(color.r * color.a * 0.01 + (!isInverted ? 255 * (1 - color.a * 0.01) : 0));
-  const g: number = Math.round(color.g * color.a * 0.01 + (!isInverted ? 255 * (1 - color.a * 0.01) : 0));
-  const b: number = Math.round(color.b * color.a * 0.01 + (!isInverted ? 255 * (1 - color.a * 0.01) : 0));
+  const r: number = Math.round(
+    color.r * color.a * 0.01 + (!isInverted ? 255 * (1 - color.a * 0.01) : 0)
+  );
+  const g: number = Math.round(
+    color.g * color.a * 0.01 + (!isInverted ? 255 * (1 - color.a * 0.01) : 0)
+  );
+  const b: number = Math.round(
+    color.b * color.a * 0.01 + (!isInverted ? 255 * (1 - color.a * 0.01) : 0)
+  );
   return `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`;
 }
 
@@ -432,8 +464,13 @@ function resetByContrast(
   return color;
 }
 
-const calculateSoftBackground = (brandVariants: BrandVariants, isInverted: boolean) => {
-  let color: IColor = getColorFromString(isInverted ? brandVariants[30] : brandVariants[80])!;
+const calculateSoftBackground = (
+  brandVariants: BrandVariants,
+  isInverted: boolean
+) => {
+  let color: IColor = getColorFromString(
+    isInverted ? brandVariants[30] : brandVariants[80]
+  )!;
   color = updateA(color, 5);
   return rgbaToHex(color, isInverted);
 };

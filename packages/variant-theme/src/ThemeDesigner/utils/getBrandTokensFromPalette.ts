@@ -1,4 +1,4 @@
-import { BrandVariants } from '@fluentui/react-theme';
+import type { BrandVariants } from '@fluentui/react-components';
 import { Palette, hexColorsFromPalette, hex_to_LCH } from '../colors';
 
 type Options = {
