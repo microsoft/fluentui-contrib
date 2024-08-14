@@ -12,6 +12,10 @@ import {
 } from '@fluentui/react-components';
 import { TreeGridProps } from './TreeGrid.types';
 import { useRowNavigation } from '../../hooks/useRowNavigation';
+import {
+  TabsterDOMAttribute,
+  useMergedTabsterAttributes_unstable,
+} from '@fluentui/react-tabster';
 
 export const TreeGrid = React.forwardRef(
   (props: TreeGridProps, ref: React.ForwardedRef<HTMLDivElement>) => {
@@ -20,8 +24,11 @@ export const TreeGrid = React.forwardRef(
       getIntrinsicElementProps('div', {
         ref,
         role: 'treegrid',
-        ...tabsterAttributes,
         ...props,
+        ...useMergedTabsterAttributes_unstable(
+          tabsterAttributes,
+          props as TabsterDOMAttribute
+        ),
         onKeyDown,
         className: mergeClasses('fui-TreeGrid', props.className),
       }),
