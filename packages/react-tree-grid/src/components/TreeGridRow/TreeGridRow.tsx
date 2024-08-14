@@ -15,7 +15,10 @@ import {
 } from '@fluentui/react-components';
 import { useTreeGridRowStyles } from './useTreeGridRowStyles.styles';
 import { TreeGridRowProps } from './TreeGridRow.types';
-import { useMergedTabsterAttributes_unstable } from '@fluentui/react-tabster';
+import {
+  TabsterDOMAttribute,
+  useMergedTabsterAttributes_unstable,
+} from '@fluentui/react-tabster';
 import { isHTMLElement } from '@fluentui/react-utilities';
 import { ArrowLeft, ArrowRight, Enter } from '@fluentui/keyboard-keys';
 import {
@@ -38,7 +41,8 @@ export const TreeGridRow = React.forwardRef(
       useFocusableGroup({
         tabBehavior: 'limited-trap-focus',
         ignoreDefaultKeydown: { Enter: true },
-      })
+      }),
+      props as TabsterDOMAttribute
     );
     const handleKeyDown = useEventCallback(
       (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -86,8 +90,8 @@ export const TreeGridRow = React.forwardRef(
         role: 'row',
         tabIndex: 0,
         'aria-level': level,
-        ...tabsterAttributes,
         ...props,
+        ...tabsterAttributes,
         className: mergeClasses(styles, props.className),
         ...(Subtree && {
           onKeyDown: handleKeyDown,

@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "react-tree-grid/bugfix: merges tabster attributes instead of replacing with props",
+  "packageName": "@fluentui-contrib/react-tree-grid",
+  "email": "bernardo.sunderhus@gmail.com",
+  "dependentChangeType": "patch"
+}
