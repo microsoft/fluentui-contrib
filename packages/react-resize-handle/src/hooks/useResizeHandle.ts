@@ -48,7 +48,7 @@ export type UseResizeHandleParams = {
    * A function that will be called to get the value that will be set as the aria-valuetext attribute on the resize handle.
    * Use this for localization.
    */
-  getA11ValueText?: (value: number) => string;
+  getA11ValueText?: (value: number) => string | undefined;
 
   /**
    * Only measure relative change in size, useful to use with CSS calc() function.
@@ -59,6 +59,10 @@ export type UseResizeHandleParams = {
   relative?: boolean;
 };
 
+const DEFAULT_GET_A11_VALUE_TEXT: UseResizeHandleParams['getA11ValueText'] = (
+  value
+) => (value === UNMEASURED ? undefined : `${value.toFixed(0)}px`);
+
 export const useResizeHandle = (params: UseResizeHandleParams) => {
   const {
     growDirection,
@@ -68,8 +72,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
     onChange,
     onDragStart,
     onDragEnd,
-    getA11ValueText = (value) =>
-      value === UNMEASURED ? undefined : `${value.toFixed(0)}px`,
+    getA11ValueText = DEFAULT_GET_A11_VALUE_TEXT,
     relative,
   } = params;
 
@@ -78,6 +81,11 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
   const elementRef = React.useRef<HTMLElement | null>(null);
 
   const currentValue = React.useRef(UNMEASURED);
+  const handleChange: UseResizeHandleParams['onChange'] = useEventCallback(
+    (value) => {
+      onChange?.(value);
+    }
+  );
 
   const updateElementsAttrs = React.useCallback(() => {
     const a11yValue = relative
@@ -89,10 +97,8 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
     const handleAttributes = {
       role: 'separator',
       'aria-valuemin': minValue,
-      ...(maxValue < Number.MAX_SAFE_INTEGER
-        ? { 'aria-valuemax': maxValue }
-        : {}),
-      ...(a11yValue ? { 'aria-valuetext': a11yValue } : {}),
+      ...(maxValue < Number.MAX_SAFE_INTEGER && { 'aria-valuemax': maxValue }),
+      ...(a11yValue && { 'aria-valuetext': a11yValue }),
       'aria-orientation':
         growDirection === 'end' || growDirection === 'start'
           ? 'vertical'
@@ -109,9 +115,9 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
         variableName,
         `${currentValue.current}px`
       );
-      onChange?.(currentValue.current);
+      handleChange(currentValue.current);
     }
-  }, [getA11ValueText, maxValue, minValue, onChange, variableName]);
+  }, [getA11ValueText, maxValue, minValue, handleChange, variableName]);
 
   // In case the maxValue or minValue is changed, we need to make sure we are not exceeding the new limits
   React.useEffect(() => {

@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-tree-grid
 
-This log was last generated on Fri, 09 Aug 2024 17:22:25 GMT and should not be manually modified.
+This log was last generated on Wed, 14 Aug 2024 14:13:06 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.1.2
+
+Wed, 14 Aug 2024 14:13:06 GMT
+
+### Patches
+
+- react-tree-grid/bugfix: merges tabster attributes instead of replacing with props (bernardo.sunderhus@gmail.com)
 
 ## 0.1.1
 
