@@ -38,6 +38,9 @@
       "@fluentui-contrib/react-headless-provider": [
         "packages/react-headless-provider/src/index.ts"
       ],
+      "@fluentui-contrib/react-interactive-tab": [
+        "packages/react-interactive-tab/src/index.ts"
+      ],
       "@fluentui-contrib/react-keytips": [
         "packages/react-keytips/src/index.ts"
       ],
