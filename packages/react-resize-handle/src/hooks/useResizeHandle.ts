@@ -95,7 +95,6 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
       : getA11ValueText(currentValue.current);
 
     const handleAttributes = {
-      tabIndex: 0,
       role: 'separator',
       'aria-valuemin': minValue,
       ...(maxValue < Number.MAX_SAFE_INTEGER && { 'aria-valuemax': maxValue }),
