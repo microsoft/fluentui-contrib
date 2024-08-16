@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "**Breaking**: Remove the default \"tabIndex=0\" from the handle attributes",
-  "packageName": "@fluentui-contrib/react-resize-handle",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}

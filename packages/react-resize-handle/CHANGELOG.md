@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-resize-handle
 
-This log was last generated on Wed, 14 Aug 2024 14:30:28 GMT and should not be manually modified.
+This log was last generated on Fri, 16 Aug 2024 08:51:35 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.4.0
+
+Fri, 16 Aug 2024 08:51:35 GMT
+
+### Minor changes
+
+- **Breaking**: Remove the default "tabIndex=0" from the handle attributes (olfedias@microsoft.com)
 
 ## 0.3.2
 

@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-resize-handle",
   "entries": [
     {
+      "date": "Fri, 16 Aug 2024 08:51:35 GMT",
+      "tag": "@fluentui-contrib/react-resize-handle_v0.4.0",
+      "version": "0.4.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "@fluentui-contrib/react-resize-handle",
+            "commit": "0cbac9c66304e55eae0ad71c373f0d99ba658757",
+            "comment": "**Breaking**: Remove the default \"tabIndex=0\" from the handle attributes"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 14 Aug 2024 14:30:28 GMT",
       "tag": "@fluentui-contrib/react-resize-handle_v0.3.2",
       "version": "0.3.2",
