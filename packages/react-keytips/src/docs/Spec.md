@@ -104,7 +104,7 @@ The keytip is positioned below and centered to the target element by default.
 
 ### Style variants
 
-`Keytips` have two style variants (appearance): `normal` and `inverted` (default).
+`Keytips` background (`NeutralBackgroundInverted`) and foreground (`NeutralForegroundInverted`) tokens are based on theme provided to `FluentProvider`.
 
 ![Keytip style variants example](assets/style-variants.png)
 
