@@ -36,6 +36,11 @@
     },
     "e2e": {
       "cache": true
+    },
+    "@nx/js:swc": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     }
   },
   "namedInputs": {
@@ -58,5 +63,10 @@
   },
   "parallel": 3,
   "defaultBase": "main",
-  "useInferencePlugins": false
+  "useInferencePlugins": false,
+  "release": {
+    "version": {
+      "preVersionCommand": "yarn nx run-many -t build"
+    }
+  }
 }
