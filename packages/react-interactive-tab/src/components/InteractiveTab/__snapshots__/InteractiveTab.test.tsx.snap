@@ -1,0 +1,525 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InteractiveTab renders correctly 1`] = `
+<div>
+  <div
+    class="fui-InteractiveTab fui-Tab ___g4lkl70_1l33e2d f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf fm6alxz fhx32z1 fchca7p f1s2r9ax f1o0nnkk fxb7rol"
+    style="--fui-Tab__indicator--offset: 0px; --fui-Tab__indicator--scale: 1;"
+  >
+    <span
+      class="fui-InteractiveTab__contentBefore"
+    >
+      Before
+    </span>
+    <button
+      aria-selected="false"
+      class="fui-InteractiveTab__button ___r6tj4r0_8akeb70 f122n59 f3bhgqh ft85np5 f1k6fduh f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy fk6fouc f1i3iumi f1s6fcnf f10pi13n f1a3p1vp f1cxpek8 f4d9j23 f1rjii52 f1w08f2p f8hki3x f1d2448m f1bjia2o ffh67wi f1p7hgxw f1way5bb f9znhxp fqa318h f1vjpng2 f1c21dwh fjxutwb fophhak fmmjozx f1mfqf41 f10aiid4 fpkze5g f149wc3x fjioou7"
+      role="tab"
+      type="button"
+      value="1"
+    >
+      <span
+        class="fui-InteractiveTab__content fui-Tab__content ___1bw8k0o_105zl9c fk6fouc fkhj508 figsok6 f1i3iumi f1a3p1vp f1bwptpd fwpfdsa f16hsg94"
+      >
+        Default Tab
+      </span>
+    </button>
+    <span
+      class="fui-InteractiveTab__contentAfter"
+    >
+      After
+    </span>
+  </div>
+</div>
+`;
+
+exports[`InteractiveTab renders correctly when disabled 1`] = `
+<div>
+  <div
+    class="fui-InteractiveTab fui-Tab ___1d0mezg_1136s6i f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n f1ut20fw fg9j5n4 f1kmhr4c fl1ydde fhrzcfn fceyvr4 f16cxu0 f1nwgacf fm6alxz fhx32z1 fchca7p f1s2r9ax f1o0nnkk fxb7rol"
+  >
+    <span
+      class="fui-InteractiveTab__contentBefore"
+    >
+      Before
+    </span>
+    <button
+      class="fui-InteractiveTab__button ___5l5jd90_5zcu0d0 f122n59 f3bhgqh ft85np5 fdrzuqr f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy fk6fouc f1i3iumi f1s6fcnf f10pi13n f1a3p1vp f1cxpek8 f4d9j23 f1rjii52 f1w08f2p f8hki3x f1d2448m f1bjia2o ffh67wi f1p7hgxw f1way5bb f9znhxp fqa318h f1vjpng2 f1c21dwh fato7r6 fao1bnu"
+      disabled=""
+      role="tab"
+      type="button"
+      value="1"
+    >
+      <span
+        class="fui-InteractiveTab__content fui-Tab__content ___1bw8k0o_105zl9c fk6fouc fkhj508 figsok6 f1i3iumi f1a3p1vp f1bwptpd fwpfdsa f16hsg94"
+      >
+        Default Tab
+      </span>
+    </button>
+    <span
+      class="fui-InteractiveTab__contentAfter"
+    >
+      After
+    </span>
+  </div>
+</div>
+`;
+
+exports[`InteractiveTab renders default correctly with icon slotted 1`] = `
+<div>
+  <div
+    class="fui-InteractiveTab fui-Tab ___g4lkl70_1l33e2d f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf fm6alxz fhx32z1 fchca7p f1s2r9ax f1o0nnkk fxb7rol"
+    style="--fui-Tab__indicator--offset: 0px; --fui-Tab__indicator--scale: 1;"
+  >
+    <span
+      class="fui-InteractiveTab__contentBefore"
+    >
+      Before
+    </span>
+    <button
+      aria-selected="false"
+      class="fui-InteractiveTab__button ___r6tj4r0_8akeb70 f122n59 f3bhgqh ft85np5 f1k6fduh f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy fk6fouc f1i3iumi f1s6fcnf f10pi13n f1a3p1vp f1cxpek8 f4d9j23 f1rjii52 f1w08f2p f8hki3x f1d2448m f1bjia2o ffh67wi f1p7hgxw f1way5bb f9znhxp fqa318h f1vjpng2 f1c21dwh fjxutwb fophhak fmmjozx f1mfqf41 f10aiid4 fpkze5g f149wc3x fjioou7"
+      role="tab"
+      type="button"
+      value="1"
+    >
+      <span
+        class="fui-InteractiveTab__icon fui-Tab__icon ___iq6ig50_1aqm0zx fwpfdsa f16hsg94 f122n59 ftuwxu6 f4d9j23 f1a3p1vp f16u1re f8bsbmo fe5j1ua fjamq6b f64fuq3"
+      >
+        <svg
+          aria-hidden="true"
+          class="___12fm75w_v8ls9a0 f1w7gpdv fez10in fg4l7m0"
+          fill="currentColor"
+          height="1em"
+          viewBox="0 0 20 20"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M14.5 3A2.5 2.5 0 0 1 17 5.5v9a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 3 14.5v-9A2.5 2.5 0 0 1 5.5 3h9Zm0 1h-9C4.67 4 4 4.67 4 5.5v9c0 .83.67 1.5 1.5 1.5h9c.83 0 1.5-.67 1.5-1.5v-9c0-.83-.67-1.5-1.5-1.5ZM7 11a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2ZM7 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"
+            fill="currentColor"
+          />
+        </svg>
+      </span>
+      <span
+        class="fui-InteractiveTab__content fui-Tab__content ___4bchg00_47styz0 fk6fouc fkhj508 figsok6 f1i3iumi f1a3p1vp f1bwptpd fd46tj4 f16hsg94"
+      >
+        Default Tab
+      </span>
+    </button>
+    <span
+      class="fui-InteractiveTab__contentAfter"
+    >
+      After
+    </span>
+  </div>
+</div>
+`;
+
+exports[`InteractiveTab renders large size and vertical correctly with icon slotted 1`] = `
+<div>
+  <div
+    class="fui-InteractiveTab fui-Tab ___v7c4cs0_pibonm0 f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf fm6alxz fhx32z1 fel9d3z f1fzr1x6 f6vqlre f1aij3q"
+    style="--fui-Tab__indicator--offset: 0px; --fui-Tab__indicator--scale: 1;"
+  >
+    <span
+      class="fui-InteractiveTab__contentBefore"
+    >
+      Before
+    </span>
+    <button
+      aria-selected="false"
+      class="fui-InteractiveTab__button ___59vhh10_1tciuga f122n59 f3bhgqh ft85np5 f1k6fduh f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy fk6fouc f1i3iumi f1s6fcnf f10pi13n f1a3p1vp f1cxpek8 f1s9ku6b f1rjii52 fwkd1rq f8hki3x f1d2448m f1bjia2o ffh67wi f1p7hgxw f1way5bb f9znhxp fqa318h f1vjpng2 f1c21dwh fjxutwb fophhak fmmjozx f1mfqf41 f10aiid4 fpkze5g f149wc3x fjioou7"
+      role="tab"
+      type="button"
+      value="1"
+    >
+      <span
+        class="fui-InteractiveTab__icon fui-Tab__icon ___1wx28ww_v6cime0 fwpfdsa f16hsg94 f122n59 ftuwxu6 f4d9j23 f1a3p1vp f16u1re f8bsbmo f1rt2boy frvgh55 fq4mcun"
+      >
+        <svg
+          aria-hidden="true"
+          class="___12fm75w_v8ls9a0 f1w7gpdv fez10in fg4l7m0"
+          fill="currentColor"
+          height="1em"
+          viewBox="0 0 20 20"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M14.5 3A2.5 2.5 0 0 1 17 5.5v9a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 3 14.5v-9A2.5 2.5 0 0 1 5.5 3h9Zm0 1h-9C4.67 4 4 4.67 4 5.5v9c0 .83.67 1.5 1.5 1.5h9c.83 0 1.5-.67 1.5-1.5v-9c0-.83-.67-1.5-1.5-1.5ZM7 11a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2ZM7 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"
+            fill="currentColor"
+          />
+        </svg>
+      </span>
+      <span
+        class="fui-InteractiveTab__content fui-Tab__content ___fqcjy00_8shqnb0 fk6fouc fod5ikn figsok6 faaz57k f1a3p1vp f1bwptpd fd46tj4 f16hsg94"
+      >
+        Default Tab
+      </span>
+    </button>
+    <span
+      class="fui-InteractiveTab__contentAfter"
+    >
+      After
+    </span>
+  </div>
+</div>
+`;
+
+exports[`InteractiveTab renders large size correctly with icon slotted 1`] = `
+<div>
+  <div
+    class="fui-InteractiveTab fui-Tab ___g4lkl70_1l33e2d f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf fm6alxz fhx32z1 fchca7p f1s2r9ax f1o0nnkk fxb7rol"
+    style="--fui-Tab__indicator--offset: 0px; --fui-Tab__indicator--scale: 1;"
+  >
+    <span
+      class="fui-InteractiveTab__contentBefore"
+    >
+      Before
+    </span>
+    <button
+      aria-selected="false"
+      class="fui-InteractiveTab__button ___sf0wcd0_22e8ex0 f122n59 f3bhgqh ft85np5 f1k6fduh f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy fk6fouc f1i3iumi f1s6fcnf f10pi13n f1a3p1vp f1cxpek8 f4d9j23 f1rjii52 f1ssfvub f8hki3x f1d2448m f1bjia2o ffh67wi f1p7hgxw f1way5bb f9znhxp fqa318h f1vjpng2 f1c21dwh fjxutwb fophhak fmmjozx f1mfqf41 f10aiid4 fpkze5g f149wc3x fjioou7"
+      role="tab"
+      type="button"
+      value="1"
+    >
+      <span
+        class="fui-InteractiveTab__icon fui-Tab__icon ___1wx28ww_v6cime0 fwpfdsa f16hsg94 f122n59 ftuwxu6 f4d9j23 f1a3p1vp f16u1re f8bsbmo f1rt2boy frvgh55 fq4mcun"
+      >
+        <svg
+          aria-hidden="true"
+          class="___12fm75w_v8ls9a0 f1w7gpdv fez10in fg4l7m0"
+          fill="currentColor"
+          height="1em"
+          viewBox="0 0 20 20"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M14.5 3A2.5 2.5 0 0 1 17 5.5v9a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 3 14.5v-9A2.5 2.5 0 0 1 5.5 3h9Zm0 1h-9C4.67 4 4 4.67 4 5.5v9c0 .83.67 1.5 1.5 1.5h9c.83 0 1.5-.67 1.5-1.5v-9c0-.83-.67-1.5-1.5-1.5ZM7 11a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2ZM7 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"
+            fill="currentColor"
+          />
+        </svg>
+      </span>
+      <span
+        class="fui-InteractiveTab__content fui-Tab__content ___fqcjy00_8shqnb0 fk6fouc fod5ikn figsok6 faaz57k f1a3p1vp f1bwptpd fd46tj4 f16hsg94"
+      >
+        Default Tab
+      </span>
+    </button>
+    <span
+      class="fui-InteractiveTab__contentAfter"
+    >
+      After
+    </span>
+  </div>
+</div>
+`;
+
+exports[`InteractiveTab renders medium size and vertical correctly with icon slotted 1`] = `
+<div>
+  <div
+    class="fui-InteractiveTab fui-Tab ___x65j950_1vzacr2 f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf fm6alxz fhx32z1 f17jracn f1fzr1x6 f117lcb2 f1aij3q"
+    style="--fui-Tab__indicator--offset: 0px; --fui-Tab__indicator--scale: 1;"
+  >
+    <span
+      class="fui-InteractiveTab__contentBefore"
+    >
+      Before
+    </span>
+    <button
+      aria-selected="false"
+      class="fui-InteractiveTab__button ___10w3j4u_17vlrcq f122n59 f3bhgqh ft85np5 f1k6fduh f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy fk6fouc f1i3iumi f1s6fcnf f10pi13n f1a3p1vp f1cxpek8 f1s9ku6b f1rjii52 fymxs25 f8hki3x f1d2448m f1bjia2o ffh67wi f1p7hgxw f1way5bb f9znhxp fqa318h f1vjpng2 f1c21dwh fjxutwb fophhak fmmjozx f1mfqf41 f10aiid4 fpkze5g f149wc3x fjioou7"
+      role="tab"
+      type="button"
+      value="1"
+    >
+      <span
+        class="fui-InteractiveTab__icon fui-Tab__icon ___iq6ig50_1aqm0zx fwpfdsa f16hsg94 f122n59 ftuwxu6 f4d9j23 f1a3p1vp f16u1re f8bsbmo fe5j1ua fjamq6b f64fuq3"
+      >
+        <svg
+          aria-hidden="true"
+          class="___12fm75w_v8ls9a0 f1w7gpdv fez10in fg4l7m0"
+          fill="currentColor"
+          height="1em"
+          viewBox="0 0 20 20"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M14.5 3A2.5 2.5 0 0 1 17 5.5v9a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 3 14.5v-9A2.5 2.5 0 0 1 5.5 3h9Zm0 1h-9C4.67 4 4 4.67 4 5.5v9c0 .83.67 1.5 1.5 1.5h9c.83 0 1.5-.67 1.5-1.5v-9c0-.83-.67-1.5-1.5-1.5ZM7 11a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2ZM7 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"
+            fill="currentColor"
+          />
+        </svg>
+      </span>
+      <span
+        class="fui-InteractiveTab__content fui-Tab__content ___4bchg00_47styz0 fk6fouc fkhj508 figsok6 f1i3iumi f1a3p1vp f1bwptpd fd46tj4 f16hsg94"
+      >
+        Default Tab
+      </span>
+    </button>
+    <span
+      class="fui-InteractiveTab__contentAfter"
+    >
+      After
+    </span>
+  </div>
+</div>
+`;
+
+exports[`InteractiveTab renders medium size correctly with icon slotted 1`] = `
+<div>
+  <div
+    class="fui-InteractiveTab fui-Tab ___g4lkl70_1l33e2d f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf fm6alxz fhx32z1 fchca7p f1s2r9ax f1o0nnkk fxb7rol"
+    style="--fui-Tab__indicator--offset: 0px; --fui-Tab__indicator--scale: 1;"
+  >
+    <span
+      class="fui-InteractiveTab__contentBefore"
+    >
+      Before
+    </span>
+    <button
+      aria-selected="false"
+      class="fui-InteractiveTab__button ___r6tj4r0_8akeb70 f122n59 f3bhgqh ft85np5 f1k6fduh f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy fk6fouc f1i3iumi f1s6fcnf f10pi13n f1a3p1vp f1cxpek8 f4d9j23 f1rjii52 f1w08f2p f8hki3x f1d2448m f1bjia2o ffh67wi f1p7hgxw f1way5bb f9znhxp fqa318h f1vjpng2 f1c21dwh fjxutwb fophhak fmmjozx f1mfqf41 f10aiid4 fpkze5g f149wc3x fjioou7"
+      role="tab"
+      type="button"
+      value="1"
+    >
+      <span
+        class="fui-InteractiveTab__icon fui-Tab__icon ___iq6ig50_1aqm0zx fwpfdsa f16hsg94 f122n59 ftuwxu6 f4d9j23 f1a3p1vp f16u1re f8bsbmo fe5j1ua fjamq6b f64fuq3"
+      >
+        <svg
+          aria-hidden="true"
+          class="___12fm75w_v8ls9a0 f1w7gpdv fez10in fg4l7m0"
+          fill="currentColor"
+          height="1em"
+          viewBox="0 0 20 20"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M14.5 3A2.5 2.5 0 0 1 17 5.5v9a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 3 14.5v-9A2.5 2.5 0 0 1 5.5 3h9Zm0 1h-9C4.67 4 4 4.67 4 5.5v9c0 .83.67 1.5 1.5 1.5h9c.83 0 1.5-.67 1.5-1.5v-9c0-.83-.67-1.5-1.5-1.5ZM7 11a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2ZM7 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"
+            fill="currentColor"
+          />
+        </svg>
+      </span>
+      <span
+        class="fui-InteractiveTab__content fui-Tab__content ___4bchg00_47styz0 fk6fouc fkhj508 figsok6 f1i3iumi f1a3p1vp f1bwptpd fd46tj4 f16hsg94"
+      >
+        Default Tab
+      </span>
+    </button>
+    <span
+      class="fui-InteractiveTab__contentAfter"
+    >
+      After
+    </span>
+  </div>
+</div>
+`;
+
+exports[`InteractiveTab renders small size and vertical correctly with icon slotted 1`] = `
+<div>
+  <div
+    class="fui-InteractiveTab fui-Tab ___1uts38u_ue3b2q0 f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf fm6alxz fhx32z1 fze4zud f1fzr1x6 fdp32p8 f1aij3q"
+    style="--fui-Tab__indicator--offset: 0px; --fui-Tab__indicator--scale: 1;"
+  >
+    <span
+      class="fui-InteractiveTab__contentBefore"
+    >
+      Before
+    </span>
+    <button
+      aria-selected="false"
+      class="fui-InteractiveTab__button ___fvn24u0_po61s30 f122n59 f3bhgqh ft85np5 f1k6fduh f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy fk6fouc f1i3iumi f1s6fcnf f10pi13n f1a3p1vp f1cxpek8 f1s9ku6b f14mj54c f12or63q f8hki3x f1d2448m f1bjia2o ffh67wi f1p7hgxw f1way5bb f9znhxp fqa318h f1vjpng2 f1c21dwh fjxutwb fophhak fmmjozx f1mfqf41 f10aiid4 fpkze5g f149wc3x fjioou7"
+      role="tab"
+      type="button"
+      value="1"
+    >
+      <span
+        class="fui-InteractiveTab__icon fui-Tab__icon ___iq6ig50_1aqm0zx fwpfdsa f16hsg94 f122n59 ftuwxu6 f4d9j23 f1a3p1vp f16u1re f8bsbmo fe5j1ua fjamq6b f64fuq3"
+      >
+        <svg
+          aria-hidden="true"
+          class="___12fm75w_v8ls9a0 f1w7gpdv fez10in fg4l7m0"
+          fill="currentColor"
+          height="1em"
+          viewBox="0 0 20 20"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M14.5 3A2.5 2.5 0 0 1 17 5.5v9a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 3 14.5v-9A2.5 2.5 0 0 1 5.5 3h9Zm0 1h-9C4.67 4 4 4.67 4 5.5v9c0 .83.67 1.5 1.5 1.5h9c.83 0 1.5-.67 1.5-1.5v-9c0-.83-.67-1.5-1.5-1.5ZM7 11a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2ZM7 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"
+            fill="currentColor"
+          />
+        </svg>
+      </span>
+      <span
+        class="fui-InteractiveTab__content fui-Tab__content ___4bchg00_47styz0 fk6fouc fkhj508 figsok6 f1i3iumi f1a3p1vp f1bwptpd fd46tj4 f16hsg94"
+      >
+        Default Tab
+      </span>
+    </button>
+    <span
+      class="fui-InteractiveTab__contentAfter"
+    >
+      After
+    </span>
+  </div>
+</div>
+`;
+
+exports[`InteractiveTab renders small size correctly with icon slotted 1`] = `
+<div>
+  <div
+    class="fui-InteractiveTab fui-Tab ___mt20c70_1jab1tj f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf fm6alxz fhx32z1 fchca7p f1r53b5e f1s6rxz5 fo35v8s"
+    style="--fui-Tab__indicator--offset: 0px; --fui-Tab__indicator--scale: 1;"
+  >
+    <span
+      class="fui-InteractiveTab__contentBefore"
+    >
+      Before
+    </span>
+    <button
+      aria-selected="false"
+      class="fui-InteractiveTab__button ___1rfdcbw_hpv0qw0 f122n59 f3bhgqh ft85np5 f1k6fduh f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy fk6fouc f1i3iumi f1s6fcnf f10pi13n f1a3p1vp f1cxpek8 f4d9j23 f14mj54c f1wmopi4 f8hki3x f1d2448m f1bjia2o ffh67wi f1p7hgxw f1way5bb f9znhxp fqa318h f1vjpng2 f1c21dwh fjxutwb fophhak fmmjozx f1mfqf41 f10aiid4 fpkze5g f149wc3x fjioou7"
+      role="tab"
+      type="button"
+      value="1"
+    >
+      <span
+        class="fui-InteractiveTab__icon fui-Tab__icon ___iq6ig50_1aqm0zx fwpfdsa f16hsg94 f122n59 ftuwxu6 f4d9j23 f1a3p1vp f16u1re f8bsbmo fe5j1ua fjamq6b f64fuq3"
+      >
+        <svg
+          aria-hidden="true"
+          class="___12fm75w_v8ls9a0 f1w7gpdv fez10in fg4l7m0"
+          fill="currentColor"
+          height="1em"
+          viewBox="0 0 20 20"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M14.5 3A2.5 2.5 0 0 1 17 5.5v9a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 3 14.5v-9A2.5 2.5 0 0 1 5.5 3h9Zm0 1h-9C4.67 4 4 4.67 4 5.5v9c0 .83.67 1.5 1.5 1.5h9c.83 0 1.5-.67 1.5-1.5v-9c0-.83-.67-1.5-1.5-1.5ZM7 11a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2ZM7 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"
+            fill="currentColor"
+          />
+        </svg>
+      </span>
+      <span
+        class="fui-InteractiveTab__content fui-Tab__content ___4bchg00_47styz0 fk6fouc fkhj508 figsok6 f1i3iumi f1a3p1vp f1bwptpd fd46tj4 f16hsg94"
+      >
+        Default Tab
+      </span>
+    </button>
+    <span
+      class="fui-InteractiveTab__contentAfter"
+    >
+      After
+    </span>
+  </div>
+</div>
+`;
+
+exports[`InteractiveTab renders subtle appearance correctly with icon slotted 1`] = `
+<div>
+  <div
+    class="fui-InteractiveTab fui-Tab ___g4lkl70_1l33e2d f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf fm6alxz fhx32z1 fchca7p f1s2r9ax f1o0nnkk fxb7rol"
+    style="--fui-Tab__indicator--offset: 0px; --fui-Tab__indicator--scale: 1;"
+  >
+    <span
+      class="fui-InteractiveTab__contentBefore"
+    >
+      Before
+    </span>
+    <button
+      aria-selected="false"
+      class="fui-InteractiveTab__button ___18equjb_1m9p9t7 f122n59 f3bhgqh ft85np5 f1k6fduh f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy fk6fouc f1i3iumi f1s6fcnf f10pi13n f1a3p1vp f1cxpek8 f4d9j23 f1rjii52 f1w08f2p f8hki3x f1d2448m f1bjia2o ffh67wi f1p7hgxw f1way5bb f9znhxp fqa318h f1vjpng2 fhovq9v f1t94bn6 f1wfn5kd fmmjozx f1mfqf41 f10aiid4 fpkze5g f149wc3x fjioou7"
+      role="tab"
+      type="button"
+      value="1"
+    >
+      <span
+        class="fui-InteractiveTab__icon fui-Tab__icon ___iq6ig50_1aqm0zx fwpfdsa f16hsg94 f122n59 ftuwxu6 f4d9j23 f1a3p1vp f16u1re f8bsbmo fe5j1ua fjamq6b f64fuq3"
+      >
+        <svg
+          aria-hidden="true"
+          class="___12fm75w_v8ls9a0 f1w7gpdv fez10in fg4l7m0"
+          fill="currentColor"
+          height="1em"
+          viewBox="0 0 20 20"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M14.5 3A2.5 2.5 0 0 1 17 5.5v9a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 3 14.5v-9A2.5 2.5 0 0 1 5.5 3h9Zm0 1h-9C4.67 4 4 4.67 4 5.5v9c0 .83.67 1.5 1.5 1.5h9c.83 0 1.5-.67 1.5-1.5v-9c0-.83-.67-1.5-1.5-1.5ZM7 11a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2ZM7 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"
+            fill="currentColor"
+          />
+        </svg>
+      </span>
+      <span
+        class="fui-InteractiveTab__content fui-Tab__content ___4bchg00_47styz0 fk6fouc fkhj508 figsok6 f1i3iumi f1a3p1vp f1bwptpd fd46tj4 f16hsg94"
+      >
+        Default Tab
+      </span>
+    </button>
+    <span
+      class="fui-InteractiveTab__contentAfter"
+    >
+      After
+    </span>
+  </div>
+</div>
+`;
+
+exports[`InteractiveTab renders vertical correctly with icon slotted 1`] = `
+<div>
+  <div
+    class="fui-InteractiveTab fui-Tab ___x65j950_1vzacr2 f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf fm6alxz fhx32z1 f17jracn f1fzr1x6 f117lcb2 f1aij3q"
+    style="--fui-Tab__indicator--offset: 0px; --fui-Tab__indicator--scale: 1;"
+  >
+    <span
+      class="fui-InteractiveTab__contentBefore"
+    >
+      Before
+    </span>
+    <button
+      aria-selected="false"
+      class="fui-InteractiveTab__button ___10w3j4u_17vlrcq f122n59 f3bhgqh ft85np5 f1k6fduh f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy fk6fouc f1i3iumi f1s6fcnf f10pi13n f1a3p1vp f1cxpek8 f1s9ku6b f1rjii52 fymxs25 f8hki3x f1d2448m f1bjia2o ffh67wi f1p7hgxw f1way5bb f9znhxp fqa318h f1vjpng2 f1c21dwh fjxutwb fophhak fmmjozx f1mfqf41 f10aiid4 fpkze5g f149wc3x fjioou7"
+      role="tab"
+      type="button"
+      value="1"
+    >
+      <span
+        class="fui-InteractiveTab__icon fui-Tab__icon ___iq6ig50_1aqm0zx fwpfdsa f16hsg94 f122n59 ftuwxu6 f4d9j23 f1a3p1vp f16u1re f8bsbmo fe5j1ua fjamq6b f64fuq3"
+      >
+        <svg
+          aria-hidden="true"
+          class="___12fm75w_v8ls9a0 f1w7gpdv fez10in fg4l7m0"
+          fill="currentColor"
+          height="1em"
+          viewBox="0 0 20 20"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M14.5 3A2.5 2.5 0 0 1 17 5.5v9a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 3 14.5v-9A2.5 2.5 0 0 1 5.5 3h9Zm0 1h-9C4.67 4 4 4.67 4 5.5v9c0 .83.67 1.5 1.5 1.5h9c.83 0 1.5-.67 1.5-1.5v-9c0-.83-.67-1.5-1.5-1.5ZM7 11a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2ZM7 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"
+            fill="currentColor"
+          />
+        </svg>
+      </span>
+      <span
+        class="fui-InteractiveTab__content fui-Tab__content ___4bchg00_47styz0 fk6fouc fkhj508 figsok6 f1i3iumi f1a3p1vp f1bwptpd fd46tj4 f16hsg94"
+      >
+        Default Tab
+      </span>
+    </button>
+    <span
+      class="fui-InteractiveTab__contentAfter"
+    >
+      After
+    </span>
+  </div>
+</div>
+`;
