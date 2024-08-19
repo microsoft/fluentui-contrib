@@ -34,6 +34,8 @@ export type UseResizeHandleParams = {
   maxValue?: number;
   /**
    * A callback that will be called when the element is resized.
+   *
+   * @remarks The passed function should be memoization for better performance.
    */
   onChange?: (value: number) => void;
   /**
@@ -81,11 +83,6 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
   const elementRef = React.useRef<HTMLElement | null>(null);
 
   const currentValue = React.useRef(UNMEASURED);
-  const handleChange: UseResizeHandleParams['onChange'] = useEventCallback(
-    (value) => {
-      onChange?.(value);
-    }
-  );
 
   const updateElementsAttrs = React.useCallback(() => {
     const a11yValue = relative
@@ -115,9 +112,9 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
         variableName,
         `${currentValue.current}px`
       );
-      handleChange(currentValue.current);
+      onChange?.(currentValue.current);
     }
-  }, [getA11ValueText, maxValue, minValue, handleChange, variableName]);
+  }, [getA11ValueText, maxValue, minValue, onChange, variableName]);
 
   // In case the maxValue or minValue is changed, we need to make sure we are not exceeding the new limits
   React.useEffect(() => {
