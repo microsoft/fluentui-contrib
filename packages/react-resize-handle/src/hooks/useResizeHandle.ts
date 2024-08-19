@@ -92,14 +92,14 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
       : getA11ValueText(currentValue.current);
 
     const handleAttributes = {
-      role: 'separator',
+      role: 'slider',
       'aria-valuemin': minValue,
       ...(maxValue < Number.MAX_SAFE_INTEGER && { 'aria-valuemax': maxValue }),
       ...(a11yValue && { 'aria-valuetext': a11yValue }),
       'aria-orientation':
         growDirection === 'end' || growDirection === 'start'
-          ? 'vertical'
-          : 'horizontal',
+          ? 'horizontal'
+          : 'vertical',
     };
 
     Object.entries(handleAttributes).forEach(([key, value]) => {
