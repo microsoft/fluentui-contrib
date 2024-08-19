@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-resize-handle",
   "entries": [
     {
+      "date": "Mon, 19 Aug 2024 11:38:24 GMT",
+      "tag": "@fluentui-contrib/react-resize-handle_v0.4.1",
+      "version": "0.4.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "@fluentui-contrib/react-resize-handle",
+            "commit": "a1201a9b78ea4a6dec722d0468ff49236d7479e8",
+            "comment": "fix(resize-handle): restore to useCallback, add tests"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 16 Aug 2024 08:51:35 GMT",
       "tag": "@fluentui-contrib/react-resize-handle_v0.4.0",
       "version": "0.4.0",
