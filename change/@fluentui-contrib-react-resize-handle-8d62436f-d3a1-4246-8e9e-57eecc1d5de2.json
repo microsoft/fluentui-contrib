@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "feat(react-resize-handle): Use slider role for better screen reader support",
+  "packageName": "@fluentui-contrib/react-resize-handle",
+  "email": "jirivyhnalek@microsoft.com",
+  "dependentChangeType": "patch"
+}
