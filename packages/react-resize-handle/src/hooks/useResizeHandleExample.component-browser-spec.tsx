@@ -21,6 +21,7 @@ export function TestArea() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
       <div
         ref={handle.wrapperRef}
+        data-testid="wrapper"
         style={{
           '--width': '50px',
           display: 'grid',
@@ -38,6 +39,7 @@ export function TestArea() {
           }}
         />
         <div
+          tabIndex={0}
           ref={handle.handleRef}
           role="separator"
           style={{
