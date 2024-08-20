@@ -53,10 +53,10 @@ test.describe('useResizeHandle', () => {
     test('with mouse', async ({ mount, page }) => {
       const component = await mountTest(mount);
 
-      dragX(component, page, 1000);
+      dragX(component, page, 500);
       await validateComponent(component, 400);
 
-      dragX(component, page, -1000);
+      dragX(component, page, -500);
       await validateComponent(component, 50);
     });
 
