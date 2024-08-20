@@ -23,14 +23,18 @@ async function validateComponent(component, value) {
   );
 }
 
+async function dragX(component, page, amount) {
+  await component.dragHandle.hover();
+  await page.mouse.down();
+  await page.mouse.move(amount, 0);
+  await page.mouse.up();
+}
+
 test.describe('useResizeHandle', () => {
   test('mouse can be used for dragging', async ({ mount, page }) => {
     const component = await mountTest(mount);
 
-    await component.dragHandle.hover();
-    await page.mouse.down();
-    await page.mouse.move(100, 0);
-    await page.mouse.up();
+    dragX(component, page, 100);
 
     await validateComponent(component, 83);
   });
@@ -48,18 +52,11 @@ test.describe('useResizeHandle', () => {
   test.describe("min/max value can't be exceeded", () => {
     test('with mouse', async ({ mount, page }) => {
       const component = await mountTest(mount);
-      await component.dragHandle.hover();
-      await page.mouse.down();
-      await page.mouse.move(1000, 0);
-      await page.mouse.up();
 
+      dragX(component, page, 1000);
       await validateComponent(component, 400);
 
-      await component.dragHandle.hover();
-      await page.mouse.down();
-      await page.mouse.move(-1000, 0);
-      await page.mouse.up();
-
+      dragX(component, page, -1000);
       await validateComponent(component, 50);
     });
 
