@@ -15,6 +15,7 @@ packages/react-themeless-provider/ @spmonahan
 packages/azure-theme/ @microsoft/azure-ux-design-engineering
 packages/variant-theme @microsoft/fluentui-variant-theme
 packages/react-keytips @microsoft/cxe-prg @mainframev
+packages/react-interactive-tab @microsoft/cxe-prg @dmytrokirpa
 # <%= NX-CODEOWNER-PLACEHOLDER %>
 
 #### Build/Infra
