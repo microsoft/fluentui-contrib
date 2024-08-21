@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-resize-handle",
   "entries": [
     {
+      "date": "Wed, 21 Aug 2024 08:45:39 GMT",
+      "tag": "@fluentui-contrib/react-resize-handle_v0.5.0",
+      "version": "0.5.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "jirivyhnalek@microsoft.com",
+            "package": "@fluentui-contrib/react-resize-handle",
+            "commit": "fc505f5d02fb2d907ace9a520da5d73c619525bf",
+            "comment": "feat(react-resize-handle): Use slider role for better screen reader support"
+          }
+        ]
+      }
+    },
+    {
       "date": "Mon, 19 Aug 2024 11:38:24 GMT",
       "tag": "@fluentui-contrib/react-resize-handle_v0.4.1",
       "version": "0.4.1",

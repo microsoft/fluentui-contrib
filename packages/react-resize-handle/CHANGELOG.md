@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-resize-handle
 
-This log was last generated on Mon, 19 Aug 2024 11:38:24 GMT and should not be manually modified.
+This log was last generated on Wed, 21 Aug 2024 08:45:39 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.5.0
+
+Wed, 21 Aug 2024 08:45:39 GMT
+
+### Minor changes
+
+- feat(react-resize-handle): Use slider role for better screen reader support (jirivyhnalek@microsoft.com)
 
 ## 0.4.1
 
