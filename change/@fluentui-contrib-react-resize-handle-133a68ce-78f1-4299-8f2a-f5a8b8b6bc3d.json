@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "Fix: pass event to onValueChange",
+  "packageName": "@fluentui-contrib/react-resize-handle",
+  "email": "jirivyhnalek@microsoft.com",
+  "dependentChangeType": "patch"
+}
