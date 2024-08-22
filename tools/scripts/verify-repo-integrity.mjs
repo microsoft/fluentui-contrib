@@ -22,7 +22,7 @@ function main() {
 
 /**
  *
- * @param {Array<VerifyResult>} results
+ * @param {VerifyResult[]} results
  */
 function processVerifications(...results) {
   results.forEach((result) => {
@@ -50,14 +50,14 @@ function verifyPackageJson() {
 
   if (json.private !== true) {
     return {
-      message: 'The package.json must have a private field set to true',
+      message: `The package.json must have a "private" field set to true`,
       type: 'error',
     };
   }
 
   if (json.version !== '0.0.0') {
     return {
-      message: 'The package.json must have a version field set to 0.0.0',
+      message: `The package.json must have a "version" field set to 0.0.0`,
       type: 'error',
     };
   }
@@ -85,7 +85,7 @@ function verifyYarnLock() {
 
   if (rootYarnLockPath !== nonRootYarnLock) {
     const message = [
-      `Invalid yarn.lock file "${nonRootYarnLock}", yarn.lock file can exists only at monorepo root`,
+      `Invalid yarn.lock file "${nonRootYarnLock}", yarn.lock file can exist only at the monorepo root`,
       chalk.italic(
         `\tNOTE: Make sure your run "yarn install" from monorepo root`
       ),
@@ -95,7 +95,7 @@ function verifyYarnLock() {
   }
 
   return {
-    message: 'yarn.lock file exists only in monorepo root.',
+    message: 'yarn.lock file exists only at the monorepo root.',
     type: 'success',
   };
 }
