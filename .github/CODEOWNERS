@@ -19,6 +19,7 @@ packages/react-interactive-tab @microsoft/cxe-prg @dmytrokirpa
 # <%= NX-CODEOWNER-PLACEHOLDER %>
 
 #### Build/Infra
+/tools/ @microsoft/fluentui-react-build
 /.github/ @microsoft/fluentui-react-build
 /tsconfig.base.json @microsoft/fluentui-react-build
 /yarn.lock @microsoft/fluentui-react-build
