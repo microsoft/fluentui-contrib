@@ -75,7 +75,8 @@ const Component = (props: ComponentProps) => {
     variableName: NAV_SIZE_CSS_VAR,
     growDirection: 'end',
     relative: true,
-    onChange: (value: number) => {
+    onChange: (value: number, event) => {
+      console.log(event);
       props.onChange(value);
     },
     onDragStart: (e, value: number) => {
