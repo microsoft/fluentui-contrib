@@ -21,7 +21,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const Dynamic = (props: KeytipsProps) => {
+export const DynamicStory = (props: KeytipsProps) => {
   const classes = useStyles();
 
   const [currentButton, setCurrentButton] = React.useState('Button 1');
@@ -36,7 +36,6 @@ export const Dynamic = (props: KeytipsProps) => {
   };
 
   const firstButton = useKeytipRef({
-    uniqueId: '1',
     keySequences: ['gg1'],
     content: 'GG1',
     hasDynamicChildren: true,
@@ -44,7 +43,6 @@ export const Dynamic = (props: KeytipsProps) => {
   });
 
   const secondButton = useKeytipRef({
-    uniqueId: '2',
     keySequences: ['gg2'],
     content: 'GG2',
     hasDynamicChildren: true,
@@ -52,7 +50,6 @@ export const Dynamic = (props: KeytipsProps) => {
   });
 
   const thirdButton = useKeytipRef({
-    uniqueId: '3',
     keySequences: [startSequence, 'gg3'],
     content: 'GG3',
     onExecute,

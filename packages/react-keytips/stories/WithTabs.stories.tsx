@@ -44,7 +44,7 @@ const btnExecute: ExecuteKeytipEventHandler = (_, el) => {
   el.targetElement?.click();
 };
 
-export const WithTabs = (props: KeytipsProps) => {
+export const WithTabsStory = (props: KeytipsProps) => {
   const classes = useStyles();
 
   const [selectedValue, setSelectedValue] = React.useState<TabValue>('1');
@@ -54,56 +54,48 @@ export const WithTabs = (props: KeytipsProps) => {
   };
 
   const refFirstTab = useKeytipRef({
-    uniqueId: 'tab-1',
     keySequences: ['a'],
     content: 'A',
     onExecute: btnExecute,
   });
 
   const refSecondTab = useKeytipRef({
-    uniqueId: 'tab-2',
     keySequences: ['b'],
     content: 'B',
     onExecute: btnExecute,
   });
 
   const refThirdTab = useKeytipRef({
-    uniqueId: 'tab-3',
     keySequences: ['c'],
     content: 'C',
     onExecute: btnExecute,
   });
 
   const checkBoxRef = useKeytipRef<HTMLInputElement>({
-    uniqueId: 'checkbox',
     keySequences: ['a', '1'],
     content: '1',
     onExecute: btnExecute,
   });
 
   const switchRef = useKeytipRef<HTMLInputElement>({
-    uniqueId: 'switch',
     keySequences: ['a', '2'],
     content: '2',
     onExecute: btnExecute,
   });
 
   const linkRef = useKeytipRef({
-    uniqueId: 'link',
     keySequences: ['a', '3'],
     content: '3',
     onExecute: btnExecute,
   });
 
   const btnRef = useKeytipRef({
-    uniqueId: 'btn-1',
     keySequences: ['b', '1'],
     content: 'B1',
     onExecute: btnExecute,
   });
 
   const btnRefSecond = useKeytipRef({
-    uniqueId: 'btn-2',
     keySequences: ['c', '1'],
     content: 'C1',
     onExecute: btnExecute,

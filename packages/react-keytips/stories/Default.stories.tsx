@@ -16,9 +16,16 @@ import {
   MenuList,
   MenuPopover,
   MenuTrigger,
+  SplitButton,
+  MenuButtonProps,
+  useMergedRefs,
 } from '@fluentui/react-components';
 
 const useStyles = makeStyles({
+  splitButtonWrapper: {
+    display: 'flex',
+    minWidth: 'min-content',
+  },
   column: {
     display: 'flex',
     flexDirection: 'column',
@@ -32,11 +39,55 @@ const useStyles = makeStyles({
   },
 });
 
-const MenuButtonComponent = () => {
-  const onExecute: ExecuteKeytipEventHandler = (_, { targetElement }) => {
-    if (targetElement) targetElement.click();
-  };
+const onExecute: ExecuteKeytipEventHandler = (_, { targetElement }) => {
+  if (targetElement) targetElement.click();
+};
 
+const SplitButtonComponent = () => {
+  const splitButton = useKeytipRef({
+    keySequences: ['b3'],
+    content: 'B3',
+    onExecute,
+  });
+
+  const menuItemA = useKeytipRef<HTMLDivElement>({
+    keySequences: ['b3', '1'],
+    content: '1',
+    onExecute: () => alert('Item A'),
+  });
+
+  const menuItemB = useKeytipRef<HTMLDivElement>({
+    keySequences: ['b3', '2'],
+    content: '2',
+    onExecute: () => alert('Item B'),
+  });
+
+  return (
+    <Menu positioning="below-end">
+      <MenuTrigger disableButtonEnhancement>
+        {(triggerProps: MenuButtonProps) => (
+          <SplitButton
+            menuButton={{
+              ...triggerProps,
+              // @ts-expect-error ref exists
+              ref: useMergedRefs(splitButton, triggerProps.ref),
+            }}
+          >
+            Split Button
+          </SplitButton>
+        )}
+      </MenuTrigger>
+      <MenuPopover>
+        <MenuList>
+          <MenuItem ref={menuItemA}>Item a</MenuItem>
+          <MenuItem ref={menuItemB}>Item b</MenuItem>
+        </MenuList>
+      </MenuPopover>
+    </Menu>
+  );
+};
+
+const MenuButtonComponent = () => {
   const menuRef = useKeytipRef({
     keySequences: ['2a'],
     content: '2A',
@@ -71,12 +122,8 @@ const MenuButtonComponent = () => {
   );
 };
 
-export const Default = (props: KeytipsProps) => {
+export const DefaultStory = (props: KeytipsProps) => {
   const classes = useStyles();
-
-  const onExecute: ExecuteKeytipEventHandler = (_, { targetElement }) => {
-    if (targetElement) targetElement.click();
-  };
 
   const normalButton = useKeytipRef({
     keySequences: ['b1'],
@@ -87,12 +134,6 @@ export const Default = (props: KeytipsProps) => {
   const compoundButton = useKeytipRef({
     keySequences: ['b2'],
     content: 'B2',
-    onExecute,
-  });
-
-  const splitButton = useKeytipRef({
-    keySequences: ['b3'],
-    content: 'B3',
     onExecute,
   });
 
@@ -117,7 +158,7 @@ export const Default = (props: KeytipsProps) => {
             Compound Button
           </CompoundButton>
           <MenuButtonComponent />
-          <Button ref={splitButton}>Split Button</Button>
+          <SplitButtonComponent />
         </div>
         <Button ref={offsetButton}>Button with Keytip offset</Button>
       </div>
