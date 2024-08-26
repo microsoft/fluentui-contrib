@@ -6,7 +6,7 @@ import { useFluent } from '@fluentui/react-components';
 
 export type KeytipTreeNode = Pick<
   KeytipProps,
-  'keySequences' | 'onExecute' | 'onReturn' | 'hasDynamicChildren'
+  'keySequences' | 'onExecute' | 'onReturn' | 'dynamic'
 > & {
   id: string;
   uniqueId: string;
@@ -38,10 +38,13 @@ export function useTree() {
     new Map([[KTP_ROOT_ID, root]])
   );
 
-  const currentKeytip = React.useRef<KeytipTreeNode | undefined>(root);
+  const currentKeytip = React.useRef<KeytipTreeNode | undefined>();
 
   const addNode = React.useCallback((keytip: KeytipWithId) => {
-    const node = createNode(keytip);
+    const node = createNode({
+      ...keytip,
+      nodeMap: [...nodeMap.current.values()],
+    });
 
     nodeMap.current.set(node.uniqueId, node);
 
@@ -54,11 +57,13 @@ export function useTree() {
 
   const removeNode = React.useCallback((keytip: KeytipWithId) => {
     const node = nodeMap.current.get(keytip.uniqueId);
+
     if (node) {
       nodeMap.current.delete(keytip.uniqueId);
       const parentNode = [...nodeMap.current.values()].find(
         (n) => n.id === node.parent
       );
+
       if (parentNode) {
         parentNode.children.delete(keytip.uniqueId);
       }
@@ -67,6 +72,7 @@ export function useTree() {
 
   const updateNode = React.useCallback((keytip: KeytipWithId) => {
     const node = nodeMap.current.get(keytip.uniqueId);
+
     if (node) {
       const prevParent = node.parent;
       const parent = getParentID(keytip.keySequences);
@@ -80,7 +86,11 @@ export function useTree() {
           }
         });
       }
-      nodeMap.current.set(keytip.uniqueId, createNode(keytip));
+
+      nodeMap.current.set(
+        keytip.uniqueId,
+        createNode({ ...keytip, nodeMap: [...nodeMap.current.values()] })
+      );
     }
   }, []);
 
@@ -103,12 +113,12 @@ export function useTree() {
 
       return matchingNodes[0];
     },
-    [nodeMap, targetDocument]
+    [targetDocument]
   );
 
   const getChildren = React.useCallback((node?: KeytipTreeNode) => {
     const target = node ?? currentKeytip.current;
-    return target ? [...target.children] : [];
+    return target && target.children ? [...target.children.values()] : [];
   }, []);
 
   const getBack = React.useCallback(() => {
@@ -121,27 +131,25 @@ export function useTree() {
         currentKeytip.current = undefined;
       }
     }
-  }, [nodeMap]);
+  }, []);
 
   const getPartiallyMatched = React.useCallback(
     (sequence: string) => {
       const children = getChildren(currentKeytip.current);
-      console.log('children', children);
       const matchingNodes = children
         .map((node) => nodeMap.current.get(node))
         .filter((node) => node?.keySequences.slice(-1)[0].startsWith(sequence));
       return matchingNodes;
     },
-    [nodeMap, getChildren]
+    [getChildren]
   );
 
   const isCurrentKeytipParent = React.useCallback((keytip: KeytipProps) => {
-    if (currentKeytip.current) {
-      const fullSequence = keytip.keySequences.slice(0, -1);
-      const parentID =
-        fullSequence.length === 0 ? KTP_ROOT_ID : sequencesToID(fullSequence);
-      return currentKeytip.current.id === parentID;
-    }
+    if (!currentKeytip.current) return false;
+    const fullSequence = keytip.keySequences.slice(0, -1);
+    const parentID =
+      fullSequence.length === 0 ? KTP_ROOT_ID : sequencesToID(fullSequence);
+    return currentKeytip.current.id === parentID;
   }, []);
 
   return {

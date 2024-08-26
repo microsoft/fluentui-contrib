@@ -19,6 +19,7 @@ type Keytips = Record<string, KeytipProps & { visibleInternal?: boolean }>;
 export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
   const { targetDocument } = useFluent();
   const {
+    content = 'Alt Meta',
     startSequence = 'alt+meta',
     exitSequence = 'alt+escape',
     returnSequence = 'escape',
@@ -77,7 +78,6 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
       if (!inKeytipMode) {
         return;
       }
-
       const currentKeytip = tree.currentKeytip?.current;
       if (currentKeytip && currentKeytip.target) {
         if (currentKeytip.target) {
@@ -113,6 +113,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
 
     const handleKeytipAdded = (keytip: KeytipWithId) => {
       tree.addNode(keytip);
+
       setKeytips((prev) => ({
         ...prev,
         [keytip.uniqueId]: {
@@ -198,7 +199,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
             });
           }
           // To exit keytipMode after executing the keytip it must not have a menu or have dynamic children
-          if (currentKtpChildren.length === 0 && !node.hasDynamicChildren) {
+          if (currentKtpChildren.length === 0 && !node.dynamic) {
             handleExitKeytipMode(ev);
           } else {
             // show all children keytips
@@ -247,6 +248,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     components: {
       root: 'div',
     },
+    content,
     mountNode: props.mountNode,
     keytips: hiddenKeytips,
     visibleKeytips,

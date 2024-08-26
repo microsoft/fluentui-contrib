@@ -38,14 +38,14 @@ export const DynamicStory = (props: KeytipsProps) => {
   const firstButton = useKeytipRef({
     keySequences: ['gg1'],
     content: 'GG1',
-    hasDynamicChildren: true,
+    dynamic: true,
     onExecute,
   });
 
   const secondButton = useKeytipRef({
     keySequences: ['gg2'],
     content: 'GG2',
-    hasDynamicChildren: true,
+    dynamic: true,
     onExecute,
   });
 

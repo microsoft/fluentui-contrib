@@ -3,7 +3,7 @@ import { useHotkeys } from './useHotkeys';
 import userEvent from '@testing-library/user-event';
 
 describe('useHotkeys', () => {
-  it('should trigger callbacks', () => {
+  it('should trigger callbacks', async () => {
     const handlerFirst = jest.fn();
     const handlerSecond = jest.fn();
 
@@ -14,18 +14,18 @@ describe('useHotkeys', () => {
       ])
     );
 
-    userEvent.keyboard('{Alt}{Control}');
+    await userEvent.keyboard('{Alt>}{Control}');
     expect(handlerFirst).toHaveBeenCalledTimes(1);
     expect(handlerSecond).not.toHaveBeenCalled();
 
-    userEvent.keyboard('{Alt}{x}');
+    await userEvent.keyboard('{Alt>}{x}');
     expect(handlerSecond).toHaveBeenCalledTimes(1);
   });
 
-  it('should not trigger callback', () => {
+  it('should not trigger callback', async () => {
     const cb = jest.fn();
     renderHook(() => useHotkeys([['alt+X', cb]]));
-    userEvent.keyboard('{Alt}{C}');
+    await userEvent.keyboard('{Alt}{C}');
     expect(cb).toHaveBeenCalledTimes(0);
   });
 });

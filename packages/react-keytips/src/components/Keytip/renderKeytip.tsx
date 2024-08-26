@@ -11,7 +11,6 @@ import { createElement } from '@fluentui/react-jsx-runtime';
  */
 export const renderKeytip_unstable = (state: KeytipState) => {
   assertSlots<KeytipSlots>(state);
-  return state.shouldRenderTooltip ? (
-    <state.content>{state.content.children}</state.content>
-  ) : null;
+  if (!state.shouldRenderTooltip) return null;
+  return <state.content>{state.content.children}</state.content>;
 };

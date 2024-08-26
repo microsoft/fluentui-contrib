@@ -59,17 +59,43 @@ const onExecute: ExecuteKeytipEventHandler = (_, el) => {
   el.targetElement.click();
 };
 
-const SubMenu = () => {
-  const menuRef = useKeytipRef<HTMLDivElement>({
-    keySequences: ['a', 'b'],
-    content: 'B',
+const SubMenuSecond = () => {
+  const subMenuRef = useKeytipRef<HTMLDivElement>({
+    keySequences: ['a', 'b', 'c'],
+    content: 'C',
+    dynamic: true,
     onExecute,
   });
 
   return (
     <Menu>
       <MenuTrigger disableButtonEnhancement>
-        <MenuItem ref={menuRef}>Sub Menu</MenuItem>
+        <MenuItem ref={subMenuRef}>Sub Menu</MenuItem>
+      </MenuTrigger>
+
+      <MenuPopover>
+        <MenuList>
+          <MenuItem>11</MenuItem>
+          <MenuItem>12</MenuItem>
+          <MenuItem>13</MenuItem>
+        </MenuList>
+      </MenuPopover>
+    </Menu>
+  );
+};
+
+const SubMenu = () => {
+  const subMenuRef = useKeytipRef<HTMLDivElement>({
+    keySequences: ['a', 'b'],
+    content: 'B',
+    dynamic: true,
+    onExecute,
+  });
+
+  return (
+    <Menu>
+      <MenuTrigger disableButtonEnhancement>
+        <MenuItem ref={subMenuRef}>Sub Menu</MenuItem>
       </MenuTrigger>
 
       <MenuPopover>
@@ -77,6 +103,7 @@ const SubMenu = () => {
           <MenuItem>8</MenuItem>
           <MenuItem>9</MenuItem>
           <MenuItem>10</MenuItem>
+          <SubMenuSecond />
         </MenuList>
       </MenuPopover>
     </Menu>
@@ -91,7 +118,6 @@ const OverflowMenuItem: React.FC<Pick<OverflowItemProps, 'id'>> = (props) => {
     return null;
   }
 
-  // As an union between button props and div props may be conflicting, casting is required
   return <MenuItem>Item {id}</MenuItem>;
 };
 
@@ -102,7 +128,7 @@ const OverflowMenu: React.FC<{ itemIds: string[] }> = ({ itemIds }) => {
   const menuRef = useKeytipRef({
     keySequences: ['a'],
     content: 'A',
-    hasDynamicChildren: true,
+    dynamic: true,
     onExecute,
   });
 

@@ -71,7 +71,7 @@ export type KeytipProps = ComponentProps<KeytipSlots> & {
   keySequences: string[];
   /**
    * Whether or not this keytip will have children keytips that are dynamically created (DOM is generated on * keytip activation).
-   *Common cases are a Tabs or Modal.
+   * Common cases are a Tabs or Modal. Or if the keytip opens a menu.
    */
   dynamic?: boolean;
 };
