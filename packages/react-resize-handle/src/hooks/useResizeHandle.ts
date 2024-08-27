@@ -15,6 +15,22 @@ const clampWithMode = (
   return relative || value === UNMEASURED ? value : clamp(value, min, max);
 };
 
+import { EventData, EventHandler } from '@fluentui/react-utilities';
+
+export const EVENTS = {
+  keyboard: 'fui-react-resize-handle-keyboard',
+  touch: 'fui-react-resize-handle-touch',
+  mouse: 'fui-react-resize-handle-mouse',
+  setValue: 'fui-react-resize-handle-setValue',
+} as const;
+
+export type ResizeHandleUpdateEventData = (
+  | EventData<typeof EVENTS.keyboard, KeyboardEvent>
+  | EventData<typeof EVENTS.touch, TouchEvent>
+  | EventData<typeof EVENTS.mouse, MouseEvent>
+  | EventData<typeof EVENTS.setValue, CustomEvent>
+) & { value: number };
+
 export type UseResizeHandleParams = {
   /**
    * The direction in which the element is considered growing in size ('end', 'start', 'up', or 'down').
@@ -37,24 +53,20 @@ export type UseResizeHandleParams = {
    *
    * @remarks The passed function should be memoization for better performance.
    */
-  onChange?: (
-    value: number,
-    event?: MouseEvent | TouchEvent | KeyboardEvent
-  ) => void;
+  onChange?: EventHandler<ResizeHandleUpdateEventData>;
   /**
    * A callback that will be called when the resize operation starts.
    */
-  onDragStart?: (e: NativeTouchOrMouseEvent, value: number) => void;
+  onDragStart?: EventHandler<ResizeHandleUpdateEventData>;
   /**
    * A callback that will be called when the resize operation ends.
    */
-  onDragEnd?: (e: NativeTouchOrMouseEvent, value: number) => void;
+  onDragEnd?: EventHandler<ResizeHandleUpdateEventData>;
   /**
    * A function that will be called to get the value that will be set as the aria-valuetext attribute on the resize handle.
    * Use this for localization.
    */
   getA11ValueText?: (value: number) => string | undefined;
-
   /**
    * Only measure relative change in size, useful to use with CSS calc() function.
    * Example: clamp(60px, calc(20% + var(--nav-size)), 40%)
@@ -62,6 +74,38 @@ export type UseResizeHandleParams = {
    * Also, the size will still be relative in nature (20% + (X)px).
    */
   relative?: boolean;
+};
+
+const getUpdateEventData = (
+  event: NativeTouchOrMouseEvent | KeyboardEvent | CustomEvent,
+  value: number
+): ResizeHandleUpdateEventData => {
+  switch (event.constructor) {
+    case TouchEvent:
+      return {
+        type: EVENTS.touch,
+        value,
+        event: event as TouchEvent,
+      };
+    case KeyboardEvent:
+      return {
+        type: EVENTS.keyboard,
+        value,
+        event: event as KeyboardEvent,
+      };
+    case MouseEvent:
+      return {
+        type: EVENTS.mouse,
+        value,
+        event: event as MouseEvent,
+      };
+    default:
+      return {
+        type: EVENTS.setValue,
+        value,
+        event: event as CustomEvent,
+      };
+  }
 };
 
 const DEFAULT_GET_A11_VALUE_TEXT: UseResizeHandleParams['getA11ValueText'] = (
@@ -118,7 +162,12 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
           variableName,
           `${currentValue.current}px`
         );
-        onChange?.(currentValue.current, event);
+
+        const eventToPass = event || new CustomEvent(EVENTS.setValue);
+        onChange?.(
+          eventToPass,
+          getUpdateEventData(eventToPass, currentValue.current)
+        );
       }
     },
     [getA11ValueText, maxValue, minValue, onChange, variableName]
@@ -168,11 +217,11 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
   );
 
   const onDragStartLocal = useEventCallback((e: NativeTouchOrMouseEvent) => {
-    onDragStart?.(e, currentValue.current);
+    onDragStart?.(e, getUpdateEventData(e, currentValue.current));
   });
 
   const onDragEndLocal = useEventCallback((e: NativeTouchOrMouseEvent) => {
-    onDragEnd?.(e, currentValue.current);
+    onDragEnd?.(e, getUpdateEventData(e, currentValue.current));
   });
 
   const getCurrentValue = React.useCallback(() => {
