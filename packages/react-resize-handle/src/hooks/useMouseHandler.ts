@@ -1,4 +1,6 @@
 import { useFluent, useEventCallback } from '@fluentui/react-components';
+
+import type { EventHandler } from '@fluentui/react-utilities';
 import {
   getEventClientCoords,
   NativeTouchOrMouseEvent,
@@ -6,15 +8,13 @@ import {
   isTouchEvent,
 } from '@fluentui/react-utilities';
 import * as React from 'react';
-import { GrowDirection } from '../types';
+import { EVENTS, GrowDirection, ResizeHandleUpdateEventData } from '../types';
 
 export type UseMouseHandlerParams = {
-  onDown?: (event: NativeTouchOrMouseEvent) => void;
-  onMove?: (event: NativeTouchOrMouseEvent) => void;
   growDirection: GrowDirection;
-  onValueChange: (event: NativeTouchOrMouseEvent, value: number) => void;
-  onDragEnd?: (e: NativeTouchOrMouseEvent) => void;
-  onDragStart?: (e: NativeTouchOrMouseEvent) => void;
+  onValueChange: EventHandler<ResizeHandleUpdateEventData>;
+  onDragEnd?: EventHandler<Omit<ResizeHandleUpdateEventData, 'value'>>;
+  onDragStart?: EventHandler<Omit<ResizeHandleUpdateEventData, 'value'>>;
   getCurrentValue: () => number;
 };
 
@@ -52,7 +52,20 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
           break;
       }
 
-      onValueChange(event, Math.round(newValue));
+      onValueChange(
+        event,
+        'touches' in event
+          ? {
+              type: EVENTS.touch,
+              value: Math.round(newValue),
+              event: event as TouchEvent,
+            }
+          : {
+              type: EVENTS.mouse,
+              value: Math.round(newValue),
+              event: event as MouseEvent,
+            }
+      );
     }
   );
 
@@ -71,7 +84,18 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
       targetDocument?.removeEventListener('touchmove', onDrag);
     }
 
-    params.onDragEnd?.(event);
+    params.onDragEnd?.(
+      event,
+      'touches' in event
+        ? {
+            type: EVENTS.touch,
+            event: event as TouchEvent,
+          }
+        : {
+            type: EVENTS.mouse,
+            event: event as MouseEvent,
+          }
+    );
   });
 
   const onPointerDown = useEventCallback((event: NativeTouchOrMouseEvent) => {
@@ -98,7 +122,18 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
       targetDocument?.addEventListener('touchmove', onDrag);
     }
 
-    params.onDragStart?.(event);
+    params.onDragStart?.(
+      event,
+      'touches' in event
+        ? {
+            type: EVENTS.touch,
+            event: event as TouchEvent,
+          }
+        : {
+            type: EVENTS.mouse,
+            event: event as MouseEvent,
+          }
+    );
   });
 
   const attachHandlers = React.useCallback(

@@ -3,8 +3,12 @@ import { useKeyboardHandler } from './useKeyboardHandler';
 import { useMouseHandler } from './useMouseHandler';
 import { clamp, elementDimension } from '../utils';
 import { useEventCallback } from '@fluentui/react-components';
-import { NativeTouchOrMouseEvent } from '@fluentui/react-utilities';
-import { GrowDirection, UNMEASURED } from '../types';
+import {
+  EVENTS,
+  GrowDirection,
+  ResizeHandleUpdateEventData,
+  UNMEASURED,
+} from '../types';
 
 const clampWithMode = (
   value: number,
@@ -15,35 +19,7 @@ const clampWithMode = (
   return relative || value === UNMEASURED ? value : clamp(value, min, max);
 };
 
-export type ResizeHandleChangeEvent =
-  | NativeTouchOrMouseEvent
-  | KeyboardEvent
-  | CustomEvent;
-
-import type { EventData, EventHandler } from '@fluentui/react-utilities';
-import { getUpdateEventData } from '../utils/getUpdateEventData';
-
-export const EVENTS = {
-  keyboard: 'fui-react-resize-handle_onchange_keyboard',
-  touch: 'fui-react-resize-handle_onchange_touch',
-  mouse: 'fui-react-resize-handle_onchange_mouse',
-  setValue: 'fui-react-resize-handle_onchange_setValue',
-  handleRef: 'fui-react-resize-handle_onchange_handleRef',
-  wrapperRef: 'fui-react-resize-handle_onchange_wrapperRef',
-  elementRef: 'fui-react-resize-handle_onchange_elementRef',
-  unknown: 'fui-react-resize-handle_onchange_unknown',
-} as const;
-
-export type ResizeHandleUpdateEventData = (
-  | EventData<typeof EVENTS.keyboard, KeyboardEvent>
-  | EventData<typeof EVENTS.touch, TouchEvent>
-  | EventData<typeof EVENTS.mouse, MouseEvent>
-  | EventData<typeof EVENTS.setValue, CustomEvent>
-  | EventData<typeof EVENTS.handleRef, CustomEvent>
-  | EventData<typeof EVENTS.wrapperRef, CustomEvent>
-  | EventData<typeof EVENTS.elementRef, CustomEvent>
-  | EventData<typeof EVENTS.unknown, CustomEvent>
-) & { value: number };
+import type { EventHandler } from '@fluentui/react-utilities';
 
 export type UseResizeHandleParams = {
   /**
@@ -114,7 +90,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
   const currentValue = React.useRef(UNMEASURED);
 
   const updateElementsAttrs = React.useCallback(
-    (event: ResizeHandleChangeEvent) => {
+    (eventData: ResizeHandleUpdateEventData) => {
       const a11yValue = relative
         ? // If relative mode is enabled, we actually have to measure the element,
           // because the currentValue is just the px offset.
@@ -145,7 +121,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
           `${currentValue.current}px`
         );
 
-        onChange?.(event, getUpdateEventData(event, currentValue.current));
+        onChange?.(eventData.event, eventData);
       }
     },
     [getA11ValueText, maxValue, minValue, onChange, variableName]
@@ -161,52 +137,68 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
     );
   }, [maxValue, minValue]);
 
-  const onValueChange = React.useCallback(
-    (event: ResizeHandleChangeEvent, value: number) => {
-      const newValue = clampWithMode(value, minValue, maxValue, relative);
+  const onValueChange: EventHandler<ResizeHandleUpdateEventData> =
+    React.useCallback(
+      (_, eventData: ResizeHandleUpdateEventData) => {
+        const { value } = eventData;
+        const newValue = clampWithMode(value, minValue, maxValue, relative);
 
-      if (newValue !== currentValue.current) {
-        // Save the current value, we might need to revert to it if the new value doesn't have any impact on size
-        const oldValue = currentValue.current;
+        if (newValue !== currentValue.current) {
+          // Save the current value, we might need to revert to it if the new value doesn't have any impact on size
+          const oldValue = currentValue.current;
 
-        // Measure the size before setting the new value
-        const previousSizeInPx = elementDimension(
-          elementRef.current,
-          growDirection
-        );
+          // Measure the size before setting the new value
+          const previousSizeInPx = elementDimension(
+            elementRef.current,
+            growDirection
+          );
 
-        // Set the new value and update the elements, this should result in element resize
-        currentValue.current = newValue;
-        updateElementsAttrs(event);
+          // Set the new value and update the elements, this should result in element resize
+          currentValue.current = newValue;
+          updateElementsAttrs(eventData);
 
-        // Measure the size after setting the new value
-        const newSizeInPx = elementDimension(elementRef.current, growDirection);
+          // Measure the size after setting the new value
+          const newSizeInPx = elementDimension(
+            elementRef.current,
+            growDirection
+          );
 
-        // If the size hasn't changed, we need to revert to the old value to keep the state and DOM in sync.
-        // If we don't do this, then the handle might be stuck in a place where small changes
-        // in value don't have any effect.
-        if (newSizeInPx === previousSizeInPx) {
-          currentValue.current = oldValue;
-          updateElementsAttrs(event);
+          // If the size hasn't changed, we need to revert to the old value to keep the state and DOM in sync.
+          // If we don't do this, then the handle might be stuck in a place where small changes
+          // in value don't have any effect.
+          if (newSizeInPx === previousSizeInPx) {
+            currentValue.current = oldValue;
+            updateElementsAttrs(eventData);
+          }
         }
-      }
-    },
-    [minValue, maxValue, updateElementsAttrs]
-  );
+      },
+      [minValue, maxValue, updateElementsAttrs]
+    );
 
   const setValue = React.useCallback(
     (value: number) => {
-      onValueChange(new CustomEvent(EVENTS.setValue), value);
+      const event = new CustomEvent(EVENTS.setValue);
+      onValueChange(event, { event, value, type: EVENTS.setValue });
     },
     [onValueChange]
   );
 
-  const onDragStartLocal = useEventCallback((e: NativeTouchOrMouseEvent) => {
-    onDragStart?.(e, getUpdateEventData(e, currentValue.current));
+  const onDragStartLocal: EventHandler<
+    Omit<ResizeHandleUpdateEventData, 'value'>
+  > = useEventCallback((e, data) => {
+    onDragStart?.(e, {
+      ...data,
+      value: currentValue.current,
+    } as ResizeHandleUpdateEventData);
   });
 
-  const onDragEndLocal = useEventCallback((e: NativeTouchOrMouseEvent) => {
-    onDragEnd?.(e, getUpdateEventData(e, currentValue.current));
+  const onDragEndLocal: EventHandler<
+    Omit<ResizeHandleUpdateEventData, 'value'>
+  > = useEventCallback((e, data) => {
+    onDragEnd?.(e, {
+      ...data,
+      value: currentValue.current,
+    } as ResizeHandleUpdateEventData);
   });
 
   const getCurrentValue = React.useCallback(() => {
@@ -244,7 +236,11 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
         }
         attachMouseHandlers(node);
         attachKeyboardHandlers(node);
-        updateElementsAttrs(new CustomEvent(EVENTS.handleRef));
+        updateElementsAttrs({
+          type: EVENTS.handleRef,
+          event: new CustomEvent(EVENTS.handleRef),
+          value: currentValue.current,
+        });
       }
       handleRef.current = node;
     },
@@ -261,7 +257,11 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
     (node) => {
       wrapperRef.current = node;
       if (elementRef.current) {
-        updateElementsAttrs(new CustomEvent(EVENTS.wrapperRef));
+        updateElementsAttrs({
+          type: EVENTS.wrapperRef,
+          event: new CustomEvent(EVENTS.wrapperRef),
+          value: currentValue.current,
+        });
       }
     },
     [updateElementsAttrs]
@@ -274,7 +274,11 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
         if (currentValue.current === UNMEASURED && relative) {
           currentValue.current = 0;
         }
-        updateElementsAttrs(new CustomEvent(EVENTS.elementRef));
+        updateElementsAttrs({
+          type: EVENTS.elementRef,
+          event: new CustomEvent(EVENTS.elementRef),
+          value: currentValue.current,
+        });
       }
     },
     [updateElementsAttrs]

@@ -1,7 +1,5 @@
-export { useResizeHandle, EVENTS } from './hooks/useResizeHandle';
+export { useResizeHandle } from './hooks/useResizeHandle';
+export { EVENTS } from './types';
 
-export type {
-  ResizeHandleChangeEvent,
-  ResizeHandleUpdateEventData,
-  UseResizeHandleParams,
-} from './hooks/useResizeHandle';
+export type { ResizeHandleUpdateEventData } from './types';
+export type { UseResizeHandleParams } from './hooks/useResizeHandle';
