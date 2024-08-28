@@ -55,7 +55,7 @@ export type UseResizeHandleParams = {
    * @remarks The passed function should be memoization for better performance.
    */
   onChange?: EventHandler<ResizeHandleUpdateEventData> &
-    ((ev: null, data: { value: number }) => void);
+    ((ev: null, data: { type: undefined; value: number }) => void);
   /**
    * A callback that will be called when the resize operation starts.
    */

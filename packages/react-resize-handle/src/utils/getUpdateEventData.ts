@@ -7,7 +7,7 @@ import type {
 export function getUpdateEventData(
   event: null,
   value: number
-): { value: number };
+): { type: undefined; value: number };
 export function getUpdateEventData(
   event: ResizeHandleChangeEvent,
   value: number
@@ -15,7 +15,7 @@ export function getUpdateEventData(
 export function getUpdateEventData(
   event: ResizeHandleChangeEvent | null,
   value: number
-): ResizeHandleUpdateEventData | { value: number } {
+): ResizeHandleUpdateEventData | { type: undefined; value: number } {
   if (event) {
     if ('touches' in event) {
       return {
