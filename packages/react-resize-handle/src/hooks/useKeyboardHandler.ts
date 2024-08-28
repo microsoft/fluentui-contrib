@@ -3,7 +3,7 @@ import * as React from 'react';
 import { GrowDirection, SupportedKeys } from '../types';
 
 export type UseKeyboardHandlerOptions = {
-  onValueChange: (value: number) => void;
+  onValueChange: (event: KeyboardEvent, value: number) => void;
   growDirection: GrowDirection;
   getCurrentValue: () => number;
 };
@@ -59,7 +59,7 @@ export const useKeyboardHandler = (options: UseKeyboardHandlerOptions) => {
 
     newValue += multiplier * DEFAULT_STEP * directionMultiplier;
 
-    onValueChange(Math.round(newValue));
+    onValueChange(event, Math.round(newValue));
   });
 
   const attachHandlers = React.useCallback(
