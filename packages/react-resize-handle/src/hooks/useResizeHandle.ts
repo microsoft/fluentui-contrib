@@ -15,34 +15,21 @@ const clampWithMode = (
   return relative || value === UNMEASURED ? value : clamp(value, min, max);
 };
 
-export type ResizeHandleChangeEvent =
-  | NativeTouchOrMouseEvent
-  | KeyboardEvent
-  | CustomEvent;
+export type ResizeHandleChangeEvent = NativeTouchOrMouseEvent | KeyboardEvent;
 
 import type { EventData, EventHandler } from '@fluentui/react-utilities';
 import { getUpdateEventData } from '../utils/getUpdateEventData';
 
 export const EVENTS = {
-  keyboard: 'fui-react-resize-handle_onchange_keyboard',
-  touch: 'fui-react-resize-handle_onchange_touch',
+  keyboard: 'keyboard',
+  touch: 'touch',
   mouse: 'fui-react-resize-handle_onchange_mouse',
-  setValue: 'fui-react-resize-handle_onchange_setValue',
-  handleRef: 'fui-react-resize-handle_onchange_handleRef',
-  wrapperRef: 'fui-react-resize-handle_onchange_wrapperRef',
-  elementRef: 'fui-react-resize-handle_onchange_elementRef',
-  unknown: 'fui-react-resize-handle_onchange_unknown',
 } as const;
 
 export type ResizeHandleUpdateEventData = (
   | EventData<typeof EVENTS.keyboard, KeyboardEvent>
   | EventData<typeof EVENTS.touch, TouchEvent>
   | EventData<typeof EVENTS.mouse, MouseEvent>
-  | EventData<typeof EVENTS.setValue, CustomEvent>
-  | EventData<typeof EVENTS.handleRef, CustomEvent>
-  | EventData<typeof EVENTS.wrapperRef, CustomEvent>
-  | EventData<typeof EVENTS.elementRef, CustomEvent>
-  | EventData<typeof EVENTS.unknown, CustomEvent>
 ) & { value: number };
 
 export type UseResizeHandleParams = {
@@ -67,7 +54,8 @@ export type UseResizeHandleParams = {
    *
    * @remarks The passed function should be memoization for better performance.
    */
-  onChange?: EventHandler<ResizeHandleUpdateEventData>;
+  onChange?: EventHandler<ResizeHandleUpdateEventData> &
+    ((ev: null, data: { value: number }) => void);
   /**
    * A callback that will be called when the resize operation starts.
    */
@@ -114,7 +102,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
   const currentValue = React.useRef(UNMEASURED);
 
   const updateElementsAttrs = React.useCallback(
-    (event: ResizeHandleChangeEvent) => {
+    (event: ResizeHandleChangeEvent | null) => {
       const a11yValue = relative
         ? // If relative mode is enabled, we actually have to measure the element,
           // because the currentValue is just the px offset.
@@ -145,7 +133,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
           `${currentValue.current}px`
         );
 
-        onChange?.(event, getUpdateEventData(event, currentValue.current));
+        onChange?.(null, getUpdateEventData(event, currentValue.current));
       }
     },
     [getA11ValueText, maxValue, minValue, onChange, variableName]
@@ -162,7 +150,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
   }, [maxValue, minValue]);
 
   const onValueChange = React.useCallback(
-    (event: ResizeHandleChangeEvent, value: number) => {
+    (event: ResizeHandleChangeEvent | null, value: number) => {
       const newValue = clampWithMode(value, minValue, maxValue, relative);
 
       if (newValue !== currentValue.current) {
@@ -196,7 +184,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
 
   const setValue = React.useCallback(
     (value: number) => {
-      onValueChange(new CustomEvent(EVENTS.setValue), value);
+      onValueChange(null, value);
     },
     [onValueChange]
   );
@@ -244,7 +232,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
         }
         attachMouseHandlers(node);
         attachKeyboardHandlers(node);
-        updateElementsAttrs(new CustomEvent(EVENTS.handleRef));
+        updateElementsAttrs(null);
       }
       handleRef.current = node;
     },
@@ -261,7 +249,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
     (node) => {
       wrapperRef.current = node;
       if (elementRef.current) {
-        updateElementsAttrs(new CustomEvent(EVENTS.wrapperRef));
+        updateElementsAttrs(null);
       }
     },
     [updateElementsAttrs]
@@ -274,7 +262,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
         if (currentValue.current === UNMEASURED && relative) {
           currentValue.current = 0;
         }
-        updateElementsAttrs(new CustomEvent(EVENTS.elementRef));
+        updateElementsAttrs(null);
       }
     },
     [updateElementsAttrs]
