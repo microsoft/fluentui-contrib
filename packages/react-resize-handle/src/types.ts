@@ -10,13 +10,13 @@ export type SupportedKeys =
 export const UNMEASURED = -1;
 
 export const EVENTS = {
-  keyboard: 'onChange_keyboard',
-  touch: 'onChange_touch',
-  mouse: 'onChange_mouse',
-  setValue: 'onChange_setValue',
-  handleRef: 'onChange_handleRef',
-  wrapperRef: 'onChange_wrapperRef',
-  elementRef: 'onChange_elementRef',
+  keyboard: 'keyboard',
+  touch: 'touch',
+  mouse: 'mouse',
+  setValue: 'setValue',
+  handleRef: 'handleRef',
+  wrapperRef: 'wrapperRef',
+  elementRef: 'elementRef',
 } as const;
 
 export type ResizeHandleUpdateEventData = (
