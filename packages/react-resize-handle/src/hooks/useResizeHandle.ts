@@ -15,13 +15,23 @@ const clampWithMode = (
   return relative || value === UNMEASURED ? value : clamp(value, min, max);
 };
 
-import { EventData, EventHandler } from '@fluentui/react-utilities';
+export type ResizeHandleChangeEvent =
+  | NativeTouchOrMouseEvent
+  | KeyboardEvent
+  | CustomEvent;
+
+import type { EventData, EventHandler } from '@fluentui/react-utilities';
+import { getUpdateEventData } from '../utils/getUpdateEventData';
 
 export const EVENTS = {
-  keyboard: 'fui-react-resize-handle-keyboard',
-  touch: 'fui-react-resize-handle-touch',
-  mouse: 'fui-react-resize-handle-mouse',
-  setValue: 'fui-react-resize-handle-setValue',
+  keyboard: 'fui-react-resize-handle_onchange_keyboard',
+  touch: 'fui-react-resize-handle_onchange_touch',
+  mouse: 'fui-react-resize-handle_onchange_mouse',
+  setValue: 'fui-react-resize-handle_onchange_setValue',
+  handleRef: 'fui-react-resize-handle_onchange_handleRef',
+  wrapperRef: 'fui-react-resize-handle_onchange_wrapperRef',
+  elementRef: 'fui-react-resize-handle_onchange_elementRef',
+  unknown: 'fui-react-resize-handle_onchange_unknown',
 } as const;
 
 export type ResizeHandleUpdateEventData = (
@@ -29,6 +39,10 @@ export type ResizeHandleUpdateEventData = (
   | EventData<typeof EVENTS.touch, TouchEvent>
   | EventData<typeof EVENTS.mouse, MouseEvent>
   | EventData<typeof EVENTS.setValue, CustomEvent>
+  | EventData<typeof EVENTS.handleRef, CustomEvent>
+  | EventData<typeof EVENTS.wrapperRef, CustomEvent>
+  | EventData<typeof EVENTS.elementRef, CustomEvent>
+  | EventData<typeof EVENTS.unknown, CustomEvent>
 ) & { value: number };
 
 export type UseResizeHandleParams = {
@@ -76,38 +90,6 @@ export type UseResizeHandleParams = {
   relative?: boolean;
 };
 
-const getUpdateEventData = (
-  event: NativeTouchOrMouseEvent | KeyboardEvent | CustomEvent,
-  value: number
-): ResizeHandleUpdateEventData => {
-  switch (event.constructor) {
-    case TouchEvent:
-      return {
-        type: EVENTS.touch,
-        value,
-        event: event as TouchEvent,
-      };
-    case KeyboardEvent:
-      return {
-        type: EVENTS.keyboard,
-        value,
-        event: event as KeyboardEvent,
-      };
-    case MouseEvent:
-      return {
-        type: EVENTS.mouse,
-        value,
-        event: event as MouseEvent,
-      };
-    default:
-      return {
-        type: EVENTS.setValue,
-        value,
-        event: event as CustomEvent,
-      };
-  }
-};
-
 const DEFAULT_GET_A11_VALUE_TEXT: UseResizeHandleParams['getA11ValueText'] = (
   value
 ) => (value === UNMEASURED ? undefined : `${value.toFixed(0)}px`);
@@ -132,7 +114,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
   const currentValue = React.useRef(UNMEASURED);
 
   const updateElementsAttrs = React.useCallback(
-    (event?: NativeTouchOrMouseEvent | KeyboardEvent) => {
+    (event: ResizeHandleChangeEvent) => {
       const a11yValue = relative
         ? // If relative mode is enabled, we actually have to measure the element,
           // because the currentValue is just the px offset.
@@ -163,11 +145,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
           `${currentValue.current}px`
         );
 
-        const eventToPass = event || new CustomEvent(EVENTS.setValue);
-        onChange?.(
-          eventToPass,
-          getUpdateEventData(eventToPass, currentValue.current)
-        );
+        onChange?.(event, getUpdateEventData(event, currentValue.current));
       }
     },
     [getA11ValueText, maxValue, minValue, onChange, variableName]
@@ -183,8 +161,8 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
     );
   }, [maxValue, minValue]);
 
-  const setValue = React.useCallback(
-    (value: number, event?: NativeTouchOrMouseEvent | KeyboardEvent) => {
+  const onValueChange = React.useCallback(
+    (event: ResizeHandleChangeEvent, value: number) => {
       const newValue = clampWithMode(value, minValue, maxValue, relative);
 
       if (newValue !== currentValue.current) {
@@ -216,6 +194,13 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
     [minValue, maxValue, updateElementsAttrs]
   );
 
+  const setValue = React.useCallback(
+    (value: number) => {
+      onValueChange(new CustomEvent(EVENTS.setValue), value);
+    },
+    [onValueChange]
+  );
+
   const onDragStartLocal = useEventCallback((e: NativeTouchOrMouseEvent) => {
     onDragStart?.(e, getUpdateEventData(e, currentValue.current));
   });
@@ -235,7 +220,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
     detachHandlers: detachMouseHandlers,
   } = useMouseHandler({
     growDirection,
-    onValueChange: setValue,
+    onValueChange,
     onDragStart: onDragStartLocal,
     onDragEnd: onDragEndLocal,
     getCurrentValue,
@@ -246,7 +231,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
     detachHandlers: detachKeyboardHandlers,
   } = useKeyboardHandler({
     growDirection,
-    onValueChange: setValue,
+    onValueChange,
     getCurrentValue,
   });
 
@@ -259,7 +244,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
         }
         attachMouseHandlers(node);
         attachKeyboardHandlers(node);
-        updateElementsAttrs();
+        updateElementsAttrs(new CustomEvent(EVENTS.handleRef));
       }
       handleRef.current = node;
     },
@@ -276,7 +261,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
     (node) => {
       wrapperRef.current = node;
       if (elementRef.current) {
-        updateElementsAttrs();
+        updateElementsAttrs(new CustomEvent(EVENTS.wrapperRef));
       }
     },
     [updateElementsAttrs]
@@ -289,7 +274,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
         if (currentValue.current === UNMEASURED && relative) {
           currentValue.current = 0;
         }
-        updateElementsAttrs();
+        updateElementsAttrs(new CustomEvent(EVENTS.elementRef));
       }
     },
     [updateElementsAttrs]

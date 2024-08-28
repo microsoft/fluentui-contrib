@@ -12,7 +12,7 @@ export type UseMouseHandlerParams = {
   onDown?: (event: NativeTouchOrMouseEvent) => void;
   onMove?: (event: NativeTouchOrMouseEvent) => void;
   growDirection: GrowDirection;
-  onValueChange: (value: number, event: NativeTouchOrMouseEvent) => void;
+  onValueChange: (event: NativeTouchOrMouseEvent, value: number) => void;
   onDragEnd?: (e: NativeTouchOrMouseEvent) => void;
   onDragStart?: (e: NativeTouchOrMouseEvent) => void;
   getCurrentValue: () => number;
@@ -52,7 +52,7 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
           break;
       }
 
-      onValueChange(Math.round(newValue), event);
+      onValueChange(event, Math.round(newValue));
     }
   );
 
