@@ -1,9 +1,15 @@
 import { useEventCallback, useFluent } from '@fluentui/react-components';
 import * as React from 'react';
-import { GrowDirection, SupportedKeys } from '../types';
+import {
+  EVENTS,
+  GrowDirection,
+  ResizeHandleUpdateEventData,
+  SupportedKeys,
+} from '../types';
+import type { EventHandler } from '@fluentui/react-utilities';
 
 export type UseKeyboardHandlerOptions = {
-  onValueChange: (value: number) => void;
+  onValueChange: EventHandler<ResizeHandleUpdateEventData>;
   growDirection: GrowDirection;
   getCurrentValue: () => number;
 };
@@ -59,7 +65,11 @@ export const useKeyboardHandler = (options: UseKeyboardHandlerOptions) => {
 
     newValue += multiplier * DEFAULT_STEP * directionMultiplier;
 
-    onValueChange(Math.round(newValue));
+    onValueChange(event, {
+      event,
+      value: Math.round(newValue),
+      type: EVENTS.keyboard,
+    });
   });
 
   const attachHandlers = React.useCallback(
