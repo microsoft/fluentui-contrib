@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-resize-handle
 
-This log was last generated on Wed, 21 Aug 2024 08:45:39 GMT and should not be manually modified.
+This log was last generated on Thu, 29 Aug 2024 12:00:06 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.6.0
+
+Thu, 29 Aug 2024 12:00:06 GMT
+
+### Minor changes
+
+- Feat: BREAKING - update event callbacks to be more consistent with other Fluent UI components (jirivyhnalek@microsoft.com)
 
 ## 0.5.0
 

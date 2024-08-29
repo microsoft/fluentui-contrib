@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-resize-handle",
   "entries": [
     {
+      "date": "Thu, 29 Aug 2024 12:00:06 GMT",
+      "tag": "@fluentui-contrib/react-resize-handle_v0.6.0",
+      "version": "0.6.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "jirivyhnalek@microsoft.com",
+            "package": "@fluentui-contrib/react-resize-handle",
+            "commit": "5310457c50e7c72dc685e1ec88a1dd61a9554286",
+            "comment": "Feat: BREAKING - update event callbacks to be more consistent with other Fluent UI components"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 21 Aug 2024 08:45:39 GMT",
       "tag": "@fluentui-contrib/react-resize-handle_v0.5.0",
       "version": "0.5.0",
