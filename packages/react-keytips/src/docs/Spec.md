@@ -7,7 +7,7 @@ not to be confused with keyboard shortcuts, they are instead key sequence to tra
 
 ## Prior Art
 
-- [Convergence Epic](https://github.com/microsoft/fluentui/issues/26420)
+- [Convergence Epic](https://github.com/microsoft/fluentui/issues/31776)
 
 ### Fabric (v8)
 
@@ -112,14 +112,14 @@ The keytip is positioned below and centered to the target element by default.
 
 ### Keytips
 
-| Prop Name            | Type                                   | Default         | Description                                                     |
-| -------------------- | -------------------------------------- | --------------- | --------------------------------------------------------------- |
-| `mountNode`          |                                        |                 | Where the Portal children are mounted on DOM.                   |
-| `startSequence`      | `string`                               | `'alt+control'` | Key sequence that will start keytips mode.                      |
-| `returnSequence`     | `string`                               | `'escape'`      | Key sequences that execute the return functionality in keytips. |
-| `exitSequence`       | `string`                               |                 | Key sequences that will exit keytips mode.                      |
-| `onExitKeytipsMode`  | `EventHandler<OnExitKeytipsModeData>`  |                 | Callback function triggered when keytip mode is exited.         |
-| `onEnterKeytipsMode` | `EventHandler<OnEnterKeytipsModeData>` |                 | Callback function triggered when keytip mode is entered.        |
+| Prop Name            | Type                                   | Default                                              | Description                                                     |
+| -------------------- | -------------------------------------- | ---------------------------------------------------- | --------------------------------------------------------------- |
+| `mountNode`          |                                        |                                                      | Where the Portal children are mounted on DOM.                   |
+| `startSequence`      | `string`                               | `'alt+windows (windows)' or 'option+control (macOS)` | Key sequence that will start keytips mode.                      |
+| `returnSequence`     | `string`                               | `'escape'`                                           | Key sequences that execute the return functionality in keytips. |
+| `exitSequence`       | `string`                               |                                                      | Key sequences that will exit keytips mode.                      |
+| `onExitKeytipsMode`  | `EventHandler<OnExitKeytipsModeData>`  |                                                      | Callback function triggered when keytip mode is exited.         |
+| `onEnterKeytipsMode` | `EventHandler<OnEnterKeytipsModeData>` |                                                      | Callback function triggered when keytip mode is entered.        |
 
 ## useKeytipRef
 
@@ -140,9 +140,9 @@ The keytip is positioned below and centered to the target element by default.
 
 ```tsx
 <Portal>
-  <Keytip content="A" positioning={{ target }} />
-  <Keytip content="B" positioning={{ target }} />
-  <Keytip content="C" positioning={{ target }} />
+  <Keytip content="A" positioning={{ target1 }} />
+  <Keytip content="B" positioning={{ target2 }} />
+  <Keytip content="C" positioning={{ target3 }} />
 </Portal>
 ```
 
@@ -165,7 +165,7 @@ See [MIGRATION.md](./MIGRATION.md).
 
 ## Entering and Exiting Keytips Mode
 
-- When the `startSequence` is pressed, the keytips component will enter keytips mode. By default the `startSequence` is `'alt+control'` (option+control on macOS).
+- When the `startSequence` is pressed, the keytips component will enter keytips mode. By default the `startSequence` is `'alt+windows'` (option+control on macOS).
   After entering keytips mode, the root Keytips will be visible (the ones that have no parent Keytip).
 
 - When the `returnSequence` is pressed, the parent keytips of current keytip will be shown, if it's the first (root) level of keytip, then the keytips mode will be exited.
