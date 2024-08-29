@@ -21,7 +21,7 @@ It provides `KeytipLayer` and `useKeytipRef` to manage the keytips.
 
 ```tsx
 export default function App() {
-  // default is 'Alt-Windows' and 'Option-Control' on macOS
+  // default is 'Alt-Windows' on Windows and 'Option-Control' on macOS
   return <KeytipLayer content="Alt Windows" />;
 }
 ```
