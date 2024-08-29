@@ -3,9 +3,9 @@ import { useResizeHandle } from './useResizeHandle';
 
 export function TestArea() {
   const codeRef = React.useRef<HTMLElement>(null);
-  const handleChange = React.useCallback((value: number, event) => {
+  const handleChange = React.useCallback((_, { value, type }) => {
     if (codeRef.current) {
-      codeRef.current.textContent = `--width: ${value}px; event: ${event.type}`;
+      codeRef.current.textContent = `--width: ${value}px; eventType: ${type}`;
     }
   }, []);
 

@@ -155,7 +155,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
 
           // Set the new value and update the elements, this should result in element resize
           currentValue.current = newValue;
-          updateElementsAttrs(eventData);
+          updateElementsAttrs({ ...eventData, value: currentValue.current });
 
           // Measure the size after setting the new value
           const newSizeInPx = elementDimension(
@@ -168,7 +168,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
           // in value don't have any effect.
           if (newSizeInPx === previousSizeInPx) {
             currentValue.current = oldValue;
-            updateElementsAttrs(eventData);
+            updateElementsAttrs({ ...eventData, value: currentValue.current });
           }
         }
       },

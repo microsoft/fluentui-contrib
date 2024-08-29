@@ -18,7 +18,7 @@ async function validateComponent(component, value, eventType?: string) {
   await expect(component.wrapper).toHaveCSS('--width', `${value}px`);
   await expect(component.valueEl).toContainText(`--width: ${value}px;`);
   if (eventType) {
-    await expect(component.valueEl).toContainText(`event: ${eventType}`);
+    await expect(component.valueEl).toContainText(`eventType: ${eventType}`);
   }
   await expect(component.dragHandle).toHaveAttribute(
     'aria-valuetext',
@@ -47,9 +47,9 @@ test.describe('useResizeHandle', () => {
 
     await component.dragHandle.focus();
     await page.keyboard.press('ArrowRight');
-    await validateComponent(component, 70, 'keydown');
+    await validateComponent(component, 70, 'keyboard');
     await page.keyboard.press('ArrowLeft');
-    await validateComponent(component, 50, 'keydown');
+    await validateComponent(component, 50, 'keyboard');
   });
 
   test.describe("min/max value can't be exceeded", () => {
@@ -57,10 +57,10 @@ test.describe('useResizeHandle', () => {
       const component = await mountTest(mount);
 
       dragX(component, page, 500);
-      await validateComponent(component, 400, 'mousemove');
+      await validateComponent(component, 400, 'mouse');
 
       dragX(component, page, -500);
-      await validateComponent(component, 50, 'mousemove');
+      await validateComponent(component, 50, 'mouse');
     });
 
     test('with keyboard', async ({ mount, page }) => {
@@ -71,12 +71,12 @@ test.describe('useResizeHandle', () => {
         await page.keyboard.press('ArrowRight');
       }
 
-      await validateComponent(component, 400, 'keydown');
+      await validateComponent(component, 400, 'keyboard');
 
       for (let i = 0; i < 30; i++) {
         await page.keyboard.press('ArrowLeft');
       }
-      await validateComponent(component, 50, 'keydown');
+      await validateComponent(component, 50, 'keyboard');
     });
   });
 });
