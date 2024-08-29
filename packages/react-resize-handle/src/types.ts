@@ -1,4 +1,4 @@
-import { EventData } from '@fluentui/react-utilities';
+import type { EventData } from '@fluentui/react-utilities';
 
 export type GrowDirection = 'end' | 'start' | 'up' | 'down';
 export type SupportedKeys =

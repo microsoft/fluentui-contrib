@@ -66,7 +66,7 @@ export const useKeyboardHandler = (options: UseKeyboardHandlerOptions) => {
     newValue += multiplier * DEFAULT_STEP * directionMultiplier;
 
     onValueChange(event, {
-      event: event,
+      event,
       value: Math.round(newValue),
       type: EVENTS.keyboard,
     });

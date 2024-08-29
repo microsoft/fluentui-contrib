@@ -52,20 +52,12 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
           break;
       }
 
-      onValueChange(
-        event,
-        'touches' in event
-          ? {
-              type: EVENTS.touch,
-              value: Math.round(newValue),
-              event: event as TouchEvent,
-            }
-          : {
-              type: EVENTS.mouse,
-              value: Math.round(newValue),
-              event: event as MouseEvent,
-            }
-      );
+      onValueChange(event, {
+        value: Math.round(newValue),
+        ...(isTouchEvent(event)
+          ? { event, type: EVENTS.touch }
+          : { event, type: EVENTS.mouse }),
+      });
     }
   );
 
@@ -86,15 +78,9 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
 
     params.onDragEnd?.(
       event,
-      'touches' in event
-        ? {
-            type: EVENTS.touch,
-            event: event as TouchEvent,
-          }
-        : {
-            type: EVENTS.mouse,
-            event: event as MouseEvent,
-          }
+      isTouchEvent(event)
+        ? { event, type: EVENTS.touch }
+        : { event, type: EVENTS.mouse }
     );
   });
 
@@ -124,15 +110,9 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
 
     params.onDragStart?.(
       event,
-      'touches' in event
-        ? {
-            type: EVENTS.touch,
-            event: event as TouchEvent,
-          }
-        : {
-            type: EVENTS.mouse,
-            event: event as MouseEvent,
-          }
+      isTouchEvent(event)
+        ? { event, type: EVENTS.touch }
+        : { event, type: EVENTS.mouse }
     );
   });
 
