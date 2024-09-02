@@ -57,7 +57,7 @@ export const DynamicStory = (props: KeytipsProps) => {
 
   return (
     <>
-      <Keytips {...props} />
+      <Keytips {...props} content="Alt Control" />
       <div className={classes.column}>
         <div className={classes.row}>
           <Button

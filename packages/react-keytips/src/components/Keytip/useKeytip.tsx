@@ -60,7 +60,8 @@ export const useKeytip_unstable = (props: KeytipProps): KeytipState => {
     }),
   };
 
-  state.content.id = useId('keytip-', state.content.id);
+  const id = sequencesToID(keySequences);
+  state.content.id = useId('keytip-', `keytip-${id}`);
 
   const positioningOptions = {
     enabled: state.visible,

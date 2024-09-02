@@ -146,7 +146,7 @@ export const DefaultStory = (props: KeytipsProps) => {
 
   return (
     <>
-      <Keytips {...props} />
+      <Keytips {...props} content="Alt Control" />
       <div className={classes.column}>
         <div className={classes.row}>
           <Button ref={normalButton}>Button</Button>

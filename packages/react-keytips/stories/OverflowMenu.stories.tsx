@@ -163,7 +163,7 @@ export const OverflowStory = () => {
 
   return (
     <>
-      <Keytips />
+      <Keytips content="Alt Control" />
       <Overflow>
         <div className={mergeClasses(styles.container, styles.resizableArea)}>
           {itemIds.map((i) => (

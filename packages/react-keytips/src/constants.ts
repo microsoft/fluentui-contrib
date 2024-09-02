@@ -23,6 +23,16 @@ export const EVENTS = {
   EXIT_KEYTIP_MODE: 'fui-exit-keytip-mode',
 } as const;
 
+export const VISUALLY_HIDDEN_STYLES = {
+  clip: 'rect(0px, 0px, 0px, 0px)',
+  height: '1px',
+  margin: '-1px',
+  width: '1px',
+  position: 'absolute',
+  overflow: 'hidden',
+  textWrap: 'nowrap',
+} as React.CSSProperties;
+
 export const EXIT_KEYS = [
   Tab,
   Enter,

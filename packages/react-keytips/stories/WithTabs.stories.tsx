@@ -103,7 +103,7 @@ export const WithTabsStory = (props: KeytipsProps) => {
 
   return (
     <>
-      <Keytips {...props} />
+      <Keytips {...props} content="Alt Control" />
       <TabList onTabSelect={onTabSelect}>
         <Tab id="1" ref={refFirstTab} value="1">
           First Tab
