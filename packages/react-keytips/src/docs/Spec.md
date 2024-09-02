@@ -21,8 +21,8 @@ It provides `KeytipLayer` and `useKeytipRef` to manage the keytips.
 
 ```tsx
 export default function App() {
-  // default is 'Alt-Windows' on Windows and 'Option-Control' on macOS
-  return <KeytipLayer content="Alt Windows" />;
+  // default is 'Alt-Meta'
+  return <KeytipLayer content="Alt Meta" />;
 }
 ```
 
@@ -112,14 +112,15 @@ The keytip is positioned below and centered to the target element by default.
 
 ### Keytips
 
-| Prop Name            | Type                                   | Default                                              | Description                                                     |
-| -------------------- | -------------------------------------- | ---------------------------------------------------- | --------------------------------------------------------------- |
-| `mountNode`          |                                        |                                                      | Where the Portal children are mounted on DOM.                   |
-| `startSequence`      | `string`                               | `'alt+windows (windows)' or 'option+control (macOS)` | Key sequence that will start keytips mode.                      |
-| `returnSequence`     | `string`                               | `'escape'`                                           | Key sequences that execute the return functionality in keytips. |
-| `exitSequence`       | `string`                               |                                                      | Key sequences that will exit keytips mode.                      |
-| `onExitKeytipsMode`  | `EventHandler<OnExitKeytipsModeData>`  |                                                      | Callback function triggered when keytip mode is exited.         |
-| `onEnterKeytipsMode` | `EventHandler<OnEnterKeytipsModeData>` |                                                      | Callback function triggered when keytip mode is entered.        |
+| Prop Name            | Type                                   | Default     | Description                                                                                                                                      |
+| -------------------- | -------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `content`            | `string`                               | `Alt Meta`  | String to put inside the `Portal`to be used for the aria-describedby for the component with the keytip. Should be one of the starting sequences. |
+| `mountNode`          |                                        |             | Where the Portal children are mounted on DOM.                                                                                                    |
+| `startSequence`      | `string`                               | `'alt+meta` | Key sequence that will start keytips mode.                                                                                                       |
+| `returnSequence`     | `string`                               | `'escape'`  | Key sequences that execute the return functionality in keytips.                                                                                  |
+| `exitSequence`       | `string`                               |             | Key sequences that will exit keytips mode.                                                                                                       |
+| `onExitKeytipsMode`  | `EventHandler<OnExitKeytipsModeData>`  |             | Callback function triggered when keytip mode is exited.                                                                                          |
+| `onEnterKeytipsMode` | `EventHandler<OnEnterKeytipsModeData>` |             | Callback function triggered when keytip mode is entered.                                                                                         |
 
 ## useKeytipRef
 
@@ -165,7 +166,7 @@ See [MIGRATION.md](./MIGRATION.md).
 
 ## Entering and Exiting Keytips Mode
 
-- When the `startSequence` is pressed, the keytips component will enter keytips mode. By default the `startSequence` is `'alt+windows'` (option+control on macOS).
+- When the `startSequence` is pressed, the keytips component will enter keytips mode. By default the `startSequence` is `'alt+meta'` (option+control on macOS).
   After entering keytips mode, the root Keytips will be visible (the ones that have no parent Keytip).
 
 - When the `returnSequence` is pressed, the parent keytips of current keytip will be shown, if it's the first (root) level of keytip, then the keytips mode will be exited.
@@ -182,9 +183,21 @@ See [MIGRATION.md](./MIGRATION.md).
 
 ## Keytip on disabled item
 
-- Unlike Fabric, the Keytip won't appear for disabled target.
+- Unlike Fabric, the `Keytip` won't appear for disabled target.
 
 ## Keytip positioning
 
 Keytip component using [positioning API](https://react.fluentui.dev/?path=/docs/concepts-developer-positioning-components--docs) and
 can be controlled by `positioning` prop in `useKeytipRef` hook. By default the keytip is positioned below and centered to the target element.
+
+## Accessibility
+
+In terms of accessibility, `Keytip` component is very similar to `Tooltip` - it's a small popup that displays information related to an element, with difference, that `Keytip` can't be displayed by mouse hover over target element. Multiple keytips can be visible at the same time.
+
+- Each `Keytip` is assigned the role `"tooltip"`.
+- The `Keytip` target element references the corresponding keytip element using the `"aria-describedby"` attribute, providing a clear association between the target and the keytip (tooltip).
+- `Keytips` component has `content` prop, which is responsible for adding the `"aria-describedby"` for default start key sequence.
+- `Keytip` is not focusable.
+- `Keytip` adds `"aria-keyshortcuts"` attribute to the target element, which contains the key sequence that will trigger the keytip.
+- Unlike Tooltip, pressing `Escape` does not always hide the `Keytip`. By default, `Keytip` is configured to use `Escape` as a return sequence. Therefore, if there are ancestor keytips, pressing it will not hide the current `Keytip` but will instead display the ancestor keytips.
+- Focus stays on the trigger element while `Keytip` is displayed.

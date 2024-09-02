@@ -16,7 +16,6 @@ This Migration guide is a work in progress and is not yet ready for use.
     accepts a string value. Can be a single key or a combination of keys separated by "+".
   - `styles` - Not supported.
   - `componentRef` -> Not supported.
-  - `content` -> Not supported.
 
 - `useKeytipRef`:
   - `offset` - Changed. Instead use [positioning.offset](https://react.fluentui.dev/?path=/docs/concepts-developer-positioning-components--docs#offset-value).
