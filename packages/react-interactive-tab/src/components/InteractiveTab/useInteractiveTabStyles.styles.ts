@@ -1,12 +1,10 @@
 import type { SlotClassNames, TabState } from '@fluentui/react-components';
 import { mergeClasses } from '@fluentui/react-components';
-
 import {
   useTabButtonStyles_unstable,
   useTabContentStyles_unstable,
   useTabIndicatorStyles_unstable,
-  // Change to the `@fluentui/react-tabs` package when the new version is released
-} from './useTabStyles.styles';
+} from '@fluentui/react-tabs';
 
 import type {
   InteractiveTabSlots,

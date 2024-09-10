@@ -3,7 +3,7 @@
 exports[`InteractiveTab renders correctly 1`] = `
 <div>
   <div
-    class="fui-InteractiveTab fui-Tab ___g4lkl70_1l33e2d f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf fm6alxz fhx32z1 fchca7p f1s2r9ax f1o0nnkk fxb7rol"
+    class="fui-InteractiveTab fui-Tab ___1equkgp_10xv7p8 f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf f15ovonk fvje46l fchca7p f1s2r9ax f1o0nnkk fxb7rol"
     style="--fui-Tab__indicator--offset: 0px; --fui-Tab__indicator--scale: 1;"
   >
     <span
@@ -36,7 +36,7 @@ exports[`InteractiveTab renders correctly 1`] = `
 exports[`InteractiveTab renders correctly when disabled 1`] = `
 <div>
   <div
-    class="fui-InteractiveTab fui-Tab ___1d0mezg_1136s6i f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n f1ut20fw fg9j5n4 f1kmhr4c fl1ydde fhrzcfn fceyvr4 f16cxu0 f1nwgacf fm6alxz fhx32z1 fchca7p f1s2r9ax f1o0nnkk fxb7rol"
+    class="fui-InteractiveTab fui-Tab ___1h8s9vq_vjlvat0 f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n f1ut20fw fg9j5n4 f1kmhr4c fl1ydde fhrzcfn fceyvr4 f16cxu0 f1nwgacf f15ovonk fvje46l fchca7p f1s2r9ax f1o0nnkk fxb7rol"
   >
     <span
       class="fui-InteractiveTab__contentBefore"
@@ -68,7 +68,7 @@ exports[`InteractiveTab renders correctly when disabled 1`] = `
 exports[`InteractiveTab renders default correctly with icon slotted 1`] = `
 <div>
   <div
-    class="fui-InteractiveTab fui-Tab ___g4lkl70_1l33e2d f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf fm6alxz fhx32z1 fchca7p f1s2r9ax f1o0nnkk fxb7rol"
+    class="fui-InteractiveTab fui-Tab ___1equkgp_10xv7p8 f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf f15ovonk fvje46l fchca7p f1s2r9ax f1o0nnkk fxb7rol"
     style="--fui-Tab__indicator--offset: 0px; --fui-Tab__indicator--scale: 1;"
   >
     <span
@@ -119,7 +119,7 @@ exports[`InteractiveTab renders default correctly with icon slotted 1`] = `
 exports[`InteractiveTab renders large size and vertical correctly with icon slotted 1`] = `
 <div>
   <div
-    class="fui-InteractiveTab fui-Tab ___v7c4cs0_pibonm0 f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf fm6alxz fhx32z1 fel9d3z f1fzr1x6 f6vqlre f1aij3q"
+    class="fui-InteractiveTab fui-Tab ___15ykttx_1y4yndp f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf f15ovonk fvje46l fel9d3z f1fzr1x6 f6vqlre f1aij3q"
     style="--fui-Tab__indicator--offset: 0px; --fui-Tab__indicator--scale: 1;"
   >
     <span
@@ -170,7 +170,7 @@ exports[`InteractiveTab renders large size and vertical correctly with icon slot
 exports[`InteractiveTab renders large size correctly with icon slotted 1`] = `
 <div>
   <div
-    class="fui-InteractiveTab fui-Tab ___g4lkl70_1l33e2d f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf fm6alxz fhx32z1 fchca7p f1s2r9ax f1o0nnkk fxb7rol"
+    class="fui-InteractiveTab fui-Tab ___1equkgp_10xv7p8 f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf f15ovonk fvje46l fchca7p f1s2r9ax f1o0nnkk fxb7rol"
     style="--fui-Tab__indicator--offset: 0px; --fui-Tab__indicator--scale: 1;"
   >
     <span
@@ -221,7 +221,7 @@ exports[`InteractiveTab renders large size correctly with icon slotted 1`] = `
 exports[`InteractiveTab renders medium size and vertical correctly with icon slotted 1`] = `
 <div>
   <div
-    class="fui-InteractiveTab fui-Tab ___x65j950_1vzacr2 f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf fm6alxz fhx32z1 f17jracn f1fzr1x6 f117lcb2 f1aij3q"
+    class="fui-InteractiveTab fui-Tab ___15rq4y2_1w9nnij f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf f15ovonk fvje46l f17jracn f1fzr1x6 f117lcb2 f1aij3q"
     style="--fui-Tab__indicator--offset: 0px; --fui-Tab__indicator--scale: 1;"
   >
     <span
@@ -272,7 +272,7 @@ exports[`InteractiveTab renders medium size and vertical correctly with icon slo
 exports[`InteractiveTab renders medium size correctly with icon slotted 1`] = `
 <div>
   <div
-    class="fui-InteractiveTab fui-Tab ___g4lkl70_1l33e2d f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf fm6alxz fhx32z1 fchca7p f1s2r9ax f1o0nnkk fxb7rol"
+    class="fui-InteractiveTab fui-Tab ___1equkgp_10xv7p8 f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf f15ovonk fvje46l fchca7p f1s2r9ax f1o0nnkk fxb7rol"
     style="--fui-Tab__indicator--offset: 0px; --fui-Tab__indicator--scale: 1;"
   >
     <span
@@ -323,7 +323,7 @@ exports[`InteractiveTab renders medium size correctly with icon slotted 1`] = `
 exports[`InteractiveTab renders small size and vertical correctly with icon slotted 1`] = `
 <div>
   <div
-    class="fui-InteractiveTab fui-Tab ___1uts38u_ue3b2q0 f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf fm6alxz fhx32z1 fze4zud f1fzr1x6 fdp32p8 f1aij3q"
+    class="fui-InteractiveTab fui-Tab ___1g5debt_1e28v6j f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf f15ovonk fvje46l fze4zud f1fzr1x6 fdp32p8 f1aij3q"
     style="--fui-Tab__indicator--offset: 0px; --fui-Tab__indicator--scale: 1;"
   >
     <span
@@ -374,7 +374,7 @@ exports[`InteractiveTab renders small size and vertical correctly with icon slot
 exports[`InteractiveTab renders small size correctly with icon slotted 1`] = `
 <div>
   <div
-    class="fui-InteractiveTab fui-Tab ___mt20c70_1jab1tj f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf fm6alxz fhx32z1 fchca7p f1r53b5e f1s6rxz5 fo35v8s"
+    class="fui-InteractiveTab fui-Tab ___9zudp00_n6fm9d0 f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf f15ovonk fvje46l fchca7p f1r53b5e f1s6rxz5 fo35v8s"
     style="--fui-Tab__indicator--offset: 0px; --fui-Tab__indicator--scale: 1;"
   >
     <span
@@ -425,7 +425,7 @@ exports[`InteractiveTab renders small size correctly with icon slotted 1`] = `
 exports[`InteractiveTab renders subtle appearance correctly with icon slotted 1`] = `
 <div>
   <div
-    class="fui-InteractiveTab fui-Tab ___g4lkl70_1l33e2d f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf fm6alxz fhx32z1 fchca7p f1s2r9ax f1o0nnkk fxb7rol"
+    class="fui-InteractiveTab fui-Tab ___1equkgp_10xv7p8 f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf f15ovonk fvje46l fchca7p f1s2r9ax f1o0nnkk fxb7rol"
     style="--fui-Tab__indicator--offset: 0px; --fui-Tab__indicator--scale: 1;"
   >
     <span
@@ -476,7 +476,7 @@ exports[`InteractiveTab renders subtle appearance correctly with icon slotted 1`
 exports[`InteractiveTab renders vertical correctly with icon slotted 1`] = `
 <div>
   <div
-    class="fui-InteractiveTab fui-Tab ___x65j950_1vzacr2 f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf fm6alxz fhx32z1 f17jracn f1fzr1x6 f117lcb2 f1aij3q"
+    class="fui-InteractiveTab fui-Tab ___15rq4y2_1w9nnij f122n59 f13qh94s fi64zpg f1u07yai frn2hmy f1olsevy f1s6fcnf f10pi13n fhw179n fg9j5n4 f1kmhr4c fl1ydde f1y7maxz fceyvr4 f16cxu0 f1nwgacf f15ovonk fvje46l f17jracn f1fzr1x6 f117lcb2 f1aij3q"
     style="--fui-Tab__indicator--offset: 0px; --fui-Tab__indicator--scale: 1;"
   >
     <span
