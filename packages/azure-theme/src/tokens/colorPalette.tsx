@@ -96,10 +96,10 @@ export const Colors = {
   Black60T: '#99000000',
   Grey20T: '#33808080',
   Custom_90T_191A1B: '#E6191A1B',
-  Custom_70T_1D1E20: '#B31D1E20', // 70% opacity, but figma says 70.2
+  Custom_70T_1D1E20: '#B31D1E20',
   Custom_80T_222326: '#CC222326',
   Custom_50T_222326: '#80222326',
-  Transparent: '#rgba(0, 0, 0, 0)',
+  Transparent: 'transparent)',
   Transparent_5: '#rgba(0, 0, 0, 0.05)',
   Transparent_10: '#rgba(0, 0, 0, 0.1)',
   Transparent_20: '#rgba(0, 0, 0, 0.2)',
