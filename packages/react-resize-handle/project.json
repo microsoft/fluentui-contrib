@@ -3,6 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/react-resize-handle/src",
   "projectType": "library",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@fluentui-contrib/nx-plugin:build"
@@ -62,7 +63,14 @@
           "quiet": true
         }
       }
+    },
+    "component-test": {
+      "executor": "@fluentui-contrib/nx-plugin:playwright",
+      "options": {
+        "testingType": "component",
+        "output": "{workspaceRoot}/dist/.playwright/packages/react-resize-handle",
+        "config": "packages/react-resize-handle/playwright.config.ts"
+      }
     }
-  },
-  "tags": []
+  }
 }

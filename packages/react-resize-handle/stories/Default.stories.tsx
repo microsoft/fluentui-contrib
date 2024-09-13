@@ -55,9 +55,9 @@ const useMainBoxStyles = makeResetStyles({
 
 type ComponentProps = {
   maxWidth: number;
-  onDragStart: (value: number) => void;
-  onDragEnd: (value: number) => void;
-  onChange: (value: number) => void;
+  onDragStart: (value: number, eventType: string) => void;
+  onDragEnd: (value: number, eventType: string) => void;
+  onChange: (value: number, eventType: string) => void;
 };
 
 const Component = (props: ComponentProps) => {
@@ -75,14 +75,14 @@ const Component = (props: ComponentProps) => {
     variableName: NAV_SIZE_CSS_VAR,
     growDirection: 'end',
     relative: true,
-    onChange: (value: number) => {
-      props.onChange(value);
+    onChange: (_, { value, type }) => {
+      props.onChange(value, String(type));
     },
-    onDragStart: (e, value: number) => {
-      props.onDragStart(value);
+    onDragStart: (_, { value, type }) => {
+      props.onDragStart(value, String(type));
     },
-    onDragEnd: (e, value: number) => {
-      props.onDragEnd(value);
+    onDragEnd: (_, { value, type }) => {
+      props.onDragEnd(value, String(type));
     },
   });
 

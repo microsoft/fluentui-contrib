@@ -2,6 +2,81 @@
   "name": "@fluentui-contrib/react-resize-handle",
   "entries": [
     {
+      "date": "Thu, 29 Aug 2024 12:00:06 GMT",
+      "tag": "@fluentui-contrib/react-resize-handle_v0.6.0",
+      "version": "0.6.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "jirivyhnalek@microsoft.com",
+            "package": "@fluentui-contrib/react-resize-handle",
+            "commit": "5310457c50e7c72dc685e1ec88a1dd61a9554286",
+            "comment": "Feat: BREAKING - update event callbacks to be more consistent with other Fluent UI components"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Wed, 21 Aug 2024 08:45:39 GMT",
+      "tag": "@fluentui-contrib/react-resize-handle_v0.5.0",
+      "version": "0.5.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "jirivyhnalek@microsoft.com",
+            "package": "@fluentui-contrib/react-resize-handle",
+            "commit": "fc505f5d02fb2d907ace9a520da5d73c619525bf",
+            "comment": "feat(react-resize-handle): Use slider role for better screen reader support"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Mon, 19 Aug 2024 11:38:24 GMT",
+      "tag": "@fluentui-contrib/react-resize-handle_v0.4.1",
+      "version": "0.4.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "@fluentui-contrib/react-resize-handle",
+            "commit": "a1201a9b78ea4a6dec722d0468ff49236d7479e8",
+            "comment": "fix(resize-handle): restore to useCallback, add tests"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Fri, 16 Aug 2024 08:51:35 GMT",
+      "tag": "@fluentui-contrib/react-resize-handle_v0.4.0",
+      "version": "0.4.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "@fluentui-contrib/react-resize-handle",
+            "commit": "0cbac9c66304e55eae0ad71c373f0d99ba658757",
+            "comment": "**Breaking**: Remove the default \"tabIndex=0\" from the handle attributes"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Wed, 14 Aug 2024 14:30:28 GMT",
+      "tag": "@fluentui-contrib/react-resize-handle_v0.3.2",
+      "version": "0.3.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "@fluentui-contrib/react-resize-handle",
+            "commit": "09e08241a66acc08963abe3425d527e78855672a",
+            "comment": "fix: make ref callback stable"
+          }
+        ]
+      }
+    },
+    {
       "date": "Mon, 15 Jul 2024 08:56:10 GMT",
       "tag": "@fluentui-contrib/react-resize-handle_v0.3.1",
       "version": "0.3.1",

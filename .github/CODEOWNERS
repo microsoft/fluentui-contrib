@@ -14,9 +14,12 @@ packages/stylelint-plugin/ @microsoft/teams-prg
 packages/react-themeless-provider/ @spmonahan
 packages/azure-theme/ @microsoft/azure-ux-design-engineering
 packages/variant-theme @microsoft/fluentui-variant-theme
+packages/react-keytips @microsoft/cxe-prg @mainframev
+packages/react-interactive-tab @microsoft/cxe-prg @dmytrokirpa
 # <%= NX-CODEOWNER-PLACEHOLDER %>
 
 #### Build/Infra
+/tools/ @microsoft/fluentui-react-build
 /.github/ @microsoft/fluentui-react-build
 /tsconfig.base.json @microsoft/fluentui-react-build
 /yarn.lock @microsoft/fluentui-react-build

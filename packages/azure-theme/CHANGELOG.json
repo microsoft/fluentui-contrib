@@ -1,0 +1,41 @@
+{
+  "name": "@fluentui-contrib/azure-theme",
+  "entries": [
+    {
+      "date": "Fri, 02 Aug 2024 14:44:26 GMT",
+      "tag": "@fluentui-contrib/azure-theme_v0.0.2",
+      "version": "0.0.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "30805892+Jacqueline-ms@users.noreply.github.com",
+            "package": "@fluentui-contrib/azure-theme",
+            "commit": "fd1d1655762f3690a0d29a9da9aa480a5161d0c2",
+            "comment": "Re arranging storybook for performance"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Tue, 23 Jul 2024 15:31:31 GMT",
+      "tag": "@fluentui-contrib/azure-theme_v0.0.1",
+      "version": "0.0.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "@fluentui-contrib/azure-theme",
+            "commit": "ab063e908076dfb7fc5896fa97869dac891c1563",
+            "comment": "feat: move react-icons to peerDependencies to mitigate dupes in applications"
+          },
+          {
+            "author": "30805892+Jacqueline-ms@users.noreply.github.com",
+            "package": "@fluentui-contrib/azure-theme",
+            "commit": "448624c1ba0c66cd360143dcbc22139368abe37b",
+            "comment": "feat: add Azure Theme for V9 style object for partner teams use. Exported as AzureLightTheme and AzureDarkTheme"
+          }
+        ]
+      }
+    }
+  ]
+}

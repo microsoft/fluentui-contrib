@@ -2,6 +2,36 @@
   "name": "@fluentui-contrib/react-tree-grid",
   "entries": [
     {
+      "date": "Wed, 14 Aug 2024 14:13:06 GMT",
+      "tag": "@fluentui-contrib/react-tree-grid_v0.1.2",
+      "version": "0.1.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "bernardo.sunderhus@gmail.com",
+            "package": "@fluentui-contrib/react-tree-grid",
+            "commit": "a02f2409ad752bff8fd1cca0169af5c1151da8c5",
+            "comment": "react-tree-grid/bugfix: merges tabster attributes instead of replacing with props"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Fri, 09 Aug 2024 17:22:25 GMT",
+      "tag": "@fluentui-contrib/react-tree-grid_v0.1.1",
+      "version": "0.1.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "bernardo.sunderhus@gmail.com",
+            "package": "@fluentui-contrib/react-tree-grid",
+            "commit": "468a4f31c08248a0da8d1c69ea1fa7ea285be390",
+            "comment": "bugfix: allow override internal attributes through props"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 21 Jun 2024 06:08:36 GMT",
       "tag": "@fluentui-contrib/react-tree-grid_v0.1.0",
       "version": "0.1.0",

@@ -50,6 +50,7 @@ export const Handle = React.forwardRef<HTMLDivElement, HandleProps>(
         {...rest}
         ref={ref}
         onClick={handleClick}
+        tabIndex={0}
         style={{
           position: 'absolute',
           borderRadius: '4px',

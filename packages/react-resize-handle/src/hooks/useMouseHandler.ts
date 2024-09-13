@@ -1,4 +1,6 @@
 import { useFluent, useEventCallback } from '@fluentui/react-components';
+
+import type { EventHandler } from '@fluentui/react-utilities';
 import {
   getEventClientCoords,
   NativeTouchOrMouseEvent,
@@ -6,15 +8,13 @@ import {
   isTouchEvent,
 } from '@fluentui/react-utilities';
 import * as React from 'react';
-import { GrowDirection } from '../types';
+import { EVENTS, GrowDirection, ResizeHandleUpdateEventData } from '../types';
 
 export type UseMouseHandlerParams = {
-  onDown?: (event: NativeTouchOrMouseEvent) => void;
-  onMove?: (event: NativeTouchOrMouseEvent) => void;
   growDirection: GrowDirection;
-  onValueChange: (value: number) => void;
-  onDragEnd?: (e: NativeTouchOrMouseEvent) => void;
-  onDragStart?: (e: NativeTouchOrMouseEvent) => void;
+  onValueChange: EventHandler<ResizeHandleUpdateEventData>;
+  onDragEnd?: EventHandler<Omit<ResizeHandleUpdateEventData, 'value'>>;
+  onDragStart?: EventHandler<Omit<ResizeHandleUpdateEventData, 'value'>>;
   getCurrentValue: () => number;
 };
 
@@ -52,7 +52,12 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
           break;
       }
 
-      onValueChange(Math.round(newValue));
+      onValueChange(event, {
+        value: Math.round(newValue),
+        ...(isTouchEvent(event)
+          ? { event, type: EVENTS.touch }
+          : { event, type: EVENTS.mouse }),
+      });
     }
   );
 
@@ -71,7 +76,12 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
       targetDocument?.removeEventListener('touchmove', onDrag);
     }
 
-    params.onDragEnd?.(event);
+    params.onDragEnd?.(
+      event,
+      isTouchEvent(event)
+        ? { event, type: EVENTS.touch }
+        : { event, type: EVENTS.mouse }
+    );
   });
 
   const onPointerDown = useEventCallback((event: NativeTouchOrMouseEvent) => {
@@ -98,7 +108,12 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
       targetDocument?.addEventListener('touchmove', onDrag);
     }
 
-    params.onDragStart?.(event);
+    params.onDragStart?.(
+      event,
+      isTouchEvent(event)
+        ? { event, type: EVENTS.touch }
+        : { event, type: EVENTS.mouse }
+    );
   });
 
   const attachHandlers = React.useCallback(
