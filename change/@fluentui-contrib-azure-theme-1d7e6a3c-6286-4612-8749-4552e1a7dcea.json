@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "updated transparent value to fix card border, updated values of color palette to set to default when undefined",
+  "packageName": "@fluentui-contrib/azure-theme",
+  "email": "email not defined",
+  "dependentChangeType": "patch"
+}
