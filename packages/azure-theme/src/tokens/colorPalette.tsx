@@ -99,7 +99,7 @@ export const Colors = {
   Custom_70T_1D1E20: '#B31D1E20',
   Custom_80T_222326: '#CC222326',
   Custom_50T_222326: '#80222326',
-  Transparent: 'transparent',
+  Transparent: 'transparent)',
   Transparent_5: '#rgba(0, 0, 0, 0.05)',
   Transparent_10: '#rgba(0, 0, 0, 0.1)',
   Transparent_20: '#rgba(0, 0, 0, 0.2)',
