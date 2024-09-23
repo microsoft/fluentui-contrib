@@ -9,8 +9,7 @@
     },
     "transform": {
       "react": {
-        "runtime": "automatic",
-        "importSource": "@fluentui/react-jsx-runtime",
+        "runtime": "classic",
         "useSpread": true
       }
     },
