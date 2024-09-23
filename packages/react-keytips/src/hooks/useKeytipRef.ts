@@ -24,13 +24,12 @@ export const useKeytipRef = <T extends HTMLElement = HTMLButtonElement>(
       ...keytip.positioning,
     },
   };
+
   const prevKeytip = usePrevious(ktp);
 
   const setRef = React.useCallback(
     (node?: T) => {
-      if (node) {
-        setNode(node);
-      }
+      setNode(node);
     },
     [keytip.keySequences]
   ) as React.Ref<T>;

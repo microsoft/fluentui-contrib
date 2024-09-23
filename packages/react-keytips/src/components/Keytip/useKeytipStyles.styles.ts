@@ -35,11 +35,6 @@ const useStyles = makeStyles({
   visible: {
     display: 'block',
   },
-
-  inverted: {
-    backgroundColor: tokens.colorNeutralBackgroundStatic,
-    color: tokens.colorNeutralForegroundStaticInverted,
-  },
 });
 
 /**
@@ -53,7 +48,6 @@ export const useKeytipStyles_unstable = (state: KeytipState): KeytipState => {
   state.content.className = mergeClasses(
     keytipClassNames.content,
     styles.root,
-    state.appearance === 'inverted' && styles.inverted,
     state.visible && styles.visible,
     state.content.className
   );

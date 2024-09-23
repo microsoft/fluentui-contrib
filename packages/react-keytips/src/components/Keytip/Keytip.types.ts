@@ -45,14 +45,6 @@ export type KeytipProps = ComponentProps<KeytipSlots> & {
    */
   positioning?: PositioningProps;
   /**
-   * The keytip's visual appearance.
-   * * `normal` - Uses the theme's background and text colors.
-   * * `inverted` - Higher contrast variant that uses the theme's inverted colors.
-   *
-   * @default inverted
-   */
-  appearance?: 'inverted' | 'normal';
-  /**
    * Whether the keytip is visible.
    */
   visible?: boolean;
@@ -81,9 +73,7 @@ export type KeytipWithId = KeytipProps & {
 };
 
 export type KeytipState = ComponentState<KeytipSlots> &
-  Required<
-    Pick<KeytipProps, 'visible' | 'positioning' | 'appearance' | 'content'>
-  > & {
+  Required<Pick<KeytipProps, 'visible' | 'positioning' | 'content'>> & {
     /**
      * Whether the Keytip should be rendered to the DOM.
      */

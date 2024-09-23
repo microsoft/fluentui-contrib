@@ -29,7 +29,6 @@ export const useKeytip_unstable = (props: KeytipProps): KeytipState => {
     content,
     keySequences,
     visible,
-    appearance = 'inverted',
   } = props;
 
   const { targetDocument } = useFluent();
@@ -44,6 +43,7 @@ export const useKeytip_unstable = (props: KeytipProps): KeytipState => {
   }, []);
 
   const isServerSideRender = useIsSSR();
+
   const state: KeytipState = {
     components: {
       content: 'div',
@@ -51,7 +51,6 @@ export const useKeytip_unstable = (props: KeytipProps): KeytipState => {
     positioning,
     shouldRenderTooltip: isKeytipVisible,
     visible: isKeytipVisible,
-    appearance,
     content: slot.always(content, {
       defaultProps: {
         role: 'tooltip',

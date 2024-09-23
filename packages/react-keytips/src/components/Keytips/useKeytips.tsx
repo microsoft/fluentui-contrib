@@ -9,8 +9,18 @@ import { Keytip } from '../Keytip';
 import { useEventService } from '../../hooks/useEventService';
 import { sequencesToID, isTargetVisible } from '../../utilities';
 import { useTree } from '../../hooks/useTree';
+import type { PositioningProps } from '@fluentui/react-positioning';
 
 type Keytips = Record<string, KeytipProps & { visibleInternal?: boolean }>;
+
+const isTargetVisible = (
+  target?: PositioningProps['target'],
+  win?: Document['defaultView']
+): boolean => {
+  if (!target || !win) return false;
+  const style = win.getComputedStyle(target as HTMLElement);
+  return style.display !== 'none' && style.visibility !== 'hidden';
+};
 
 /**
  * Create the state required to render Keytips.
@@ -37,7 +47,12 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
       Object.entries(ktps).reduce<Keytips>((acc, [id, keytip]) => {
         acc[id] = {
           ...keytip,
-          visibleInternal: ids.includes(id) && !!keytip?.positioning?.target,
+          visibleInternal:
+            ids.includes(id) &&
+            isTargetVisible(
+              keytip?.positioning?.target,
+              targetDocument?.defaultView
+            ),
         };
         return acc;
       }, {});
@@ -75,9 +90,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
 
   const handleReturnSequence = React.useCallback(
     (ev: KeyboardEvent) => {
-      if (!inKeytipMode) {
-        return;
-      }
+      if (!inKeytipMode) return;
       const currentKeytip = tree.currentKeytip?.current;
       if (currentKeytip && currentKeytip.target) {
         if (currentKeytip.target) {
