@@ -7,6 +7,7 @@ export { AvatarGroupExample } from './AvatarGroup.stories';
 export { BadgeExample } from './Badge.stories';
 export { BreadcrumbExample } from './Breadcrumb.stories';
 export { ButtonsExample } from './Buttons.stories';
+export { CardsExample } from './Cards.stories';
 export { CheckBoxExample } from './Checkbox.stories';
 export { ComboBoxExample } from './Combobox.stories';
 export { DataGridExample } from './DataGrid.stories';
