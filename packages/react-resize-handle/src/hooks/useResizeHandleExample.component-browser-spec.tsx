@@ -1,7 +1,11 @@
 import * as React from 'react';
-import { useResizeHandle } from './useResizeHandle';
+import { useResizeHandle, type UseResizeHandleParams } from './useResizeHandle';
 
-export function TestArea() {
+export type TestAreaProps = Pick<UseResizeHandleParams, 'variableTarget'>;
+
+export function TestArea(props: TestAreaProps) {
+  const { variableTarget = 'wrapper' } = props;
+
   const codeRef = React.useRef<HTMLElement>(null);
   const handleChange = React.useCallback((_, { value, type }) => {
     if (codeRef.current) {
@@ -23,19 +27,30 @@ export function TestArea() {
         ref={handle.wrapperRef}
         data-testid="wrapper"
         style={{
-          '--width': '50px',
           display: 'grid',
-          gridTemplateColumns: 'var(--width) 10px auto',
           width: '100%',
           height: '400px',
           gap: '4px',
+
+          ...(variableTarget === 'wrapper' && {
+            '--width': '50px',
+            gridTemplateColumns: 'var(--width) 10px 1fr',
+          }),
+          ...(variableTarget === 'element' && {
+            gridTemplateColumns: 'auto 10px 1fr',
+          }),
         }}
       >
         <div
+          data-testid="element"
           ref={handle.elementRef}
           style={{
             border: '2px dotted blue',
             height: '100%',
+
+            ...(variableTarget === 'element' && {
+              width: 'var(--width, 50px)',
+            }),
           }}
         />
         <div
