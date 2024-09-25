@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-resize-handle
 
-This log was last generated on Thu, 29 Aug 2024 12:00:06 GMT and should not be manually modified.
+This log was last generated on Wed, 25 Sep 2024 12:26:50 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.6.1
+
+Wed, 25 Sep 2024 12:26:50 GMT
+
+### Patches
+
+- feat: add `variableTarget` option (olfedias@microsoft.com)
 
 ## 0.6.0
 
