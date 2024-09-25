@@ -15,6 +15,18 @@
         "peer"
       ],
       "isIgnored": true
+    },
+    {
+      "packages": [
+        "@fluentui-contrib/react-interactive-tab"
+      ],
+      "dependencies": [
+        "@fluentui/react-jsx-runtime"
+      ],
+      "dependencyTypes": [
+        "prod"
+      ],
+      "isIgnored": true
     }
   ]
 }
