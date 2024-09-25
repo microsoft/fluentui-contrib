@@ -31,6 +31,14 @@ export type UseResizeHandleParams = {
    */
   variableName: string;
   /**
+   * Defines where to apply a variable:
+   * - 'wrapper' - apply to the wrapper element
+   * - 'element' - apply to the element itself
+   *
+   * @default 'wrapper'
+   */
+  variableTarget?: 'wrapper' | 'element';
+  /**
    * The minimum value in pixels that the element can be resized to. Only applicable if relative is false.
    */
   minValue?: number;
@@ -74,6 +82,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
   const {
     growDirection,
     variableName,
+    variableTarget = 'wrapper',
     minValue = 0,
     maxValue = Number.MAX_SAFE_INTEGER,
     onChange,
@@ -116,11 +125,12 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
 
       // Make sure to only apply the value if it's not the initial value!
       if (currentValue.current !== UNMEASURED) {
-        wrapperRef.current?.style.setProperty(
-          variableName,
-          `${currentValue.current}px`
-        );
+        const targetEl =
+          variableTarget === 'wrapper'
+            ? wrapperRef.current
+            : elementRef.current;
 
+        targetEl?.style.setProperty(variableName, `${currentValue.current}px`);
         onChange?.(eventData.event, eventData);
       }
     },
