@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-resize-handle",
   "entries": [
     {
+      "date": "Wed, 25 Sep 2024 12:26:50 GMT",
+      "tag": "@fluentui-contrib/react-resize-handle_v0.6.1",
+      "version": "0.6.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "@fluentui-contrib/react-resize-handle",
+            "commit": "937e231528a018612b5381c6b5152c3d186935f0",
+            "comment": "feat: add `variableTarget` option"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 29 Aug 2024 12:00:06 GMT",
       "tag": "@fluentui-contrib/react-resize-handle_v0.6.0",
       "version": "0.6.0",

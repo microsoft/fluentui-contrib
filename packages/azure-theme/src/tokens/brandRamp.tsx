@@ -47,7 +47,7 @@ export const neutralColorsLight: ColorTokens = {
   colorNeutralForeground4: Colors.Grey44,
 
   colorNeutralForegroundDisabled: Colors.Grey74,
-  colorNeutralForegroundInvertedDisabled: Colors.White40T,
+  colorNeutralForegroundInvertedDisabled: Colors.WhiteT40,
 
   colorBrandForegroundLink: Colors.Brand70,
   colorBrandForegroundLinkHover: Colors.Brand60,
@@ -59,7 +59,7 @@ export const neutralColorsLight: ColorTokens = {
   colorNeutralForeground2LinkPressed: Colors.Grey14,
   colorNeutralForeground2LinkSelected: Colors.Grey14,
 
-  colorCompoundBrandForeground1: Colors.Brand80, // Brand / Compound / Foreground
+  colorCompoundBrandForeground1: Colors.Brand80,
   colorCompoundBrandForeground1Hover: Colors.Brand70,
   colorCompoundBrandForeground1Pressed: Colors.Brand60,
 
@@ -73,7 +73,7 @@ export const neutralColorsLight: ColorTokens = {
 
   colorNeutralForegroundStaticInverted: Colors.White,
 
-  colorNeutralForegroundInverted: Colors.White, // Neutral / Foreground / Inverted / 1
+  colorNeutralForegroundInverted: Colors.White,
   colorNeutralForegroundInvertedHover: Colors.White,
   colorNeutralForegroundInvertedPressed: Colors.White,
   colorNeutralForegroundInvertedSelected: Colors.White,
@@ -125,24 +125,24 @@ export const neutralColorsLight: ColorTokens = {
 
   colorNeutralBackgroundInverted: Colors.Grey16,
   colorNeutralBackgroundStatic: Colors.Grey20,
-  colorNeutralBackgroundAlpha: Colors.White50T, // Neutral / Background / Alpha / 1
-  colorNeutralBackgroundAlpha2: Colors.White80T, // Neutral / Background / Alpha / 2
+  colorNeutralBackgroundAlpha: Colors.WhiteT50,
+  colorNeutralBackgroundAlpha2: Colors.WhiteT80,
 
-  colorSubtleBackground: Colors.Transparent, // Neutral / Background / Subtle
+  colorSubtleBackground: Colors.Transparent,
   colorSubtleBackgroundHover: Colors.Grey96,
   colorSubtleBackgroundPressed: Colors.Grey88,
   colorSubtleBackgroundSelected: Colors.Grey92,
 
-  colorSubtleBackgroundLightAlphaHover: Colors.White70T, // Neutral / Background / Subtle / Lightalpha
-  colorSubtleBackgroundLightAlphaPressed: Colors.White50T,
+  colorSubtleBackgroundLightAlphaHover: Colors.WhiteT70,
+  colorSubtleBackgroundLightAlphaPressed: Colors.WhiteT50,
   colorSubtleBackgroundLightAlphaSelected: Colors.Transparent,
 
-  colorSubtleBackgroundInverted: Colors.Transparent, // Neutral / Background / Subtle / Inverted
-  colorSubtleBackgroundInvertedHover: Colors.Black10T,
-  colorSubtleBackgroundInvertedPressed: Colors.Black30T,
-  colorSubtleBackgroundInvertedSelected: Colors.Black20T,
+  colorSubtleBackgroundInverted: Colors.Transparent,
+  colorSubtleBackgroundInvertedHover: Colors.Transparent_10,
+  colorSubtleBackgroundInvertedPressed: Colors.Transparent_30,
+  colorSubtleBackgroundInvertedSelected: Colors.Transparent_20,
 
-  colorTransparentBackground: Colors.Transparent, // Neutral / Background / Transparent
+  colorTransparentBackground: Colors.Transparent,
   colorTransparentBackgroundHover: Colors.Transparent,
   colorTransparentBackgroundPressed: Colors.Transparent,
   colorTransparentBackgroundSelected: Colors.Transparent,
@@ -153,13 +153,13 @@ export const neutralColorsLight: ColorTokens = {
   colorNeutralStencil1: Colors.Grey90,
   colorNeutralStencil2: Colors.Grey98,
 
-  colorNeutralStencil1Alpha: Colors.Grey90, // unassigned
-  colorNeutralStencil2Alpha: Colors.Grey98, // unassigned
+  colorNeutralStencil1Alpha: Colors.Transparent_10,
+  colorNeutralStencil2Alpha: Colors.Transparent_5,
 
-  colorBackgroundOverlay: Colors.Black40T, // Neutral / Background / Overlay
-  colorScrollbarOverlay: Colors.Black60T, // Neutral / Background / Overlay / Scrollbar
+  colorBackgroundOverlay: Colors.Transparent_40,
+  colorScrollbarOverlay: Colors.Transparent_50,
 
-  colorBrandBackground: Colors.Brand80, // Brand / Background / 1
+  colorBrandBackground: Colors.Brand80,
   colorBrandBackgroundHover: Colors.Brand70,
   colorBrandBackgroundPressed: Colors.Brand50,
   colorBrandBackgroundSelected: Colors.Brand60,
@@ -203,9 +203,9 @@ export const neutralColorsLight: ColorTokens = {
 
   colorNeutralStrokeSubtle: Colors.Grey88,
 
-  colorNeutralStrokeOnBrand: Colors.White, // Neutral / Stroke / on Brand / 2 / 1
+  colorNeutralStrokeOnBrand: Colors.White,
 
-  colorNeutralStrokeOnBrand2: Colors.White, // Neutral / Stroke / on Brand / 2
+  colorNeutralStrokeOnBrand2: Colors.White,
   colorNeutralStrokeOnBrand2Hover: Colors.White,
   colorNeutralStrokeOnBrand2Pressed: Colors.White,
   colorNeutralStrokeOnBrand2Selected: Colors.White,
@@ -222,29 +222,29 @@ export const neutralColorsLight: ColorTokens = {
   colorCompoundBrandStrokePressed: Colors.Brand60,
 
   colorNeutralStrokeDisabled: Colors.Grey88,
-  colorNeutralStrokeInvertedDisabled: Colors.White40T,
+  colorNeutralStrokeInvertedDisabled: Colors.WhiteT40,
 
-  colorTransparentStroke: Colors.Transparent, // Neutral / Stroke / Transparent
-  colorTransparentStrokeInteractive: Colors.Transparent, // Neutral / Stroke / Transparent / Interactive
-  colorTransparentStrokeDisabled: Colors.Transparent, // Neutral / Stroke / Transparent / Disabled
+  colorTransparentStroke: Colors.Transparent,
+  colorTransparentStrokeInteractive: Colors.Transparent,
+  colorTransparentStrokeDisabled: Colors.Transparent,
 
-  colorNeutralStrokeAlpha: Colors.Black5T, // Neutral / Stroke / Alpha / 1
-  colorNeutralStrokeAlpha2: Colors.White20T,
+  colorNeutralStrokeAlpha: Colors.Transparent_5,
+  colorNeutralStrokeAlpha2: Colors.WhiteT20,
 
-  colorStrokeFocus1: Colors.White, // Neutral / Stroke / Focus / 1
-  colorStrokeFocus2: Colors.Black, // Neutral / Stroke / Focus / 2
+  colorStrokeFocus1: Colors.White,
+  colorStrokeFocus2: Colors.Black,
 
-  colorNeutralShadowAmbient: Colors.Black12T, // Shadow / Ambient
-  colorNeutralShadowKey: Colors.Black14T, // Shadow / Key
+  colorNeutralShadowAmbient: Colors.Transparent_12,
+  colorNeutralShadowKey: Colors.Transparent_14,
 
-  colorNeutralShadowAmbientLighter: Colors.Black6T, // Shadow / Ambient / Lighter
-  colorNeutralShadowKeyLighter: Colors.Black7T, // Shadow / Key / Lighter
+  colorNeutralShadowAmbientLighter: Colors.Transparent_6,
+  colorNeutralShadowKeyLighter: Colors.Transparent_7,
 
-  colorNeutralShadowAmbientDarker: Colors.Black20T, // Shadow / Ambient / Darker
-  colorNeutralShadowKeyDarker: Colors.Black24T, // Shadow / Key / Darker
+  colorNeutralShadowAmbientDarker: Colors.Transparent_20,
+  colorNeutralShadowKeyDarker: Colors.Transparent_24,
 
-  colorBrandShadowAmbient: Colors.Black25T, // Brand Ambient
-  colorBrandShadowKey: Colors.Black30T, // Brand Key
+  colorBrandShadowAmbient: Colors.Transparent_30,
+  colorBrandShadowKey: Colors.Transparent_25,
 };
 
 export const neutralColorsDark: ColorTokens = {
@@ -273,7 +273,7 @@ export const neutralColorsDark: ColorTokens = {
 
   colorNeutralForeground4: Colors.Grey60,
   colorNeutralForegroundDisabled: Colors.Grey36,
-  colorNeutralForegroundInvertedDisabled: Colors.White40T,
+  colorNeutralForegroundInvertedDisabled: Colors.WhiteT40,
 
   colorBrandForegroundLink: Colors.Brand100,
   colorBrandForegroundLinkHover: Colors.Brand110,
@@ -295,11 +295,11 @@ export const neutralColorsDark: ColorTokens = {
   colorBrandForeground2Hover: Colors.Brand130,
   colorBrandForeground2Pressed: Colors.Brand100,
 
-  colorNeutralForeground1Static: Colors.Grey14, // Neutral / Foreground / Static
+  colorNeutralForeground1Static: Colors.Grey14,
 
   colorNeutralForegroundStaticInverted: Colors.White,
 
-  colorNeutralForegroundInverted: Colors.Grey14, // Neutral / Foreground / Inverted / 1
+  colorNeutralForegroundInverted: Colors.Grey14,
   colorNeutralForegroundInvertedHover: Colors.Grey14,
   colorNeutralForegroundInvertedPressed: Colors.Grey14,
   colorNeutralForegroundInvertedSelected: Colors.Grey14,
@@ -351,41 +351,41 @@ export const neutralColorsDark: ColorTokens = {
 
   colorNeutralBackgroundInverted: Colors.White,
   colorNeutralBackgroundStatic: Colors.Grey24,
-  colorNeutralBackgroundAlpha: Colors.Custom_90T_191A1B, // Neutral / Background / Alpha / 1
-  colorNeutralBackgroundAlpha2: Colors.Custom_70T_1D1E20, // Neutral / Background / Alpha / 2
+  colorNeutralBackgroundAlpha: Colors.LightGreyT50,
+  colorNeutralBackgroundAlpha2: Colors.GreyT70,
 
-  colorSubtleBackground: Colors.Transparent, // Neutral / Background / Subtle
+  colorSubtleBackground: Colors.Transparent,
   colorSubtleBackgroundHover: Colors.Grey22,
   colorSubtleBackgroundPressed: Colors.Grey18,
   colorSubtleBackgroundSelected: Colors.Grey20,
 
-  colorSubtleBackgroundLightAlphaHover: Colors.Custom_80T_222326, // Neutral / Background / Subtle / Lightalpha
-  colorSubtleBackgroundLightAlphaPressed: Colors.Custom_50T_222326,
+  colorSubtleBackgroundLightAlphaHover: Colors.GreyT80,
+  colorSubtleBackgroundLightAlphaPressed: Colors.GreyT50,
   colorSubtleBackgroundLightAlphaSelected: Colors.Transparent,
 
-  colorSubtleBackgroundInverted: Colors.Transparent, // Neutral / Background / Subtle / Inverted
+  colorSubtleBackgroundInverted: Colors.Transparent,
   colorSubtleBackgroundInvertedHover: Colors.Transparent_10,
   colorSubtleBackgroundInvertedPressed: Colors.Transparent_30,
   colorSubtleBackgroundInvertedSelected: Colors.Transparent_20,
 
-  colorTransparentBackground: Colors.Transparent, // Neutral / Background / Transparent
+  colorTransparentBackground: Colors.Transparent,
   colorTransparentBackgroundHover: Colors.Transparent,
   colorTransparentBackgroundPressed: Colors.Transparent,
   colorTransparentBackgroundSelected: Colors.Transparent,
 
   colorNeutralBackgroundDisabled: Colors.Grey8,
-  colorNeutralBackgroundInvertedDisabled: Colors.White10T,
+  colorNeutralBackgroundInvertedDisabled: Colors.WhiteT10,
 
   colorNeutralStencil1: Colors.Grey34,
   colorNeutralStencil2: Colors.Grey20,
 
-  colorNeutralStencil1Alpha: Colors.Grey34, // unassigned
-  colorNeutralStencil2Alpha: Colors.Grey20, // unassigned
+  colorNeutralStencil1Alpha: Colors.WhiteT10,
+  colorNeutralStencil2Alpha: Colors.WhiteT5,
 
-  colorBackgroundOverlay: Colors.Transparent_50, // Neutral / Background / Overlay
-  colorScrollbarOverlay: Colors.Transparent_60, // Neutral / Background / Overlay / Scrollbar
+  colorBackgroundOverlay: Colors.Transparent_50,
+  colorScrollbarOverlay: Colors.Transparent_60,
 
-  colorBrandBackground: Colors.Brand70, // Brand / Background / 1
+  colorBrandBackground: Colors.Brand70,
   colorBrandBackgroundHover: Colors.Brand60,
   colorBrandBackgroundPressed: Colors.Brand40,
   colorBrandBackgroundSelected: Colors.Brand50,
@@ -429,9 +429,9 @@ export const neutralColorsDark: ColorTokens = {
 
   colorNeutralStrokeSubtle: Colors.Grey4,
 
-  colorNeutralStrokeOnBrand: Colors.Grey16, // Neutral / Stroke / on Brand / 2 / 1
+  colorNeutralStrokeOnBrand: Colors.Grey16,
 
-  colorNeutralStrokeOnBrand2: Colors.White, // Neutral / Stroke / on Brand / 2
+  colorNeutralStrokeOnBrand2: Colors.White,
   colorNeutralStrokeOnBrand2Hover: Colors.White,
   colorNeutralStrokeOnBrand2Pressed: Colors.White,
   colorNeutralStrokeOnBrand2Selected: Colors.White,
@@ -448,27 +448,27 @@ export const neutralColorsDark: ColorTokens = {
   colorCompoundBrandStrokePressed: Colors.Brand90,
 
   colorNeutralStrokeDisabled: Colors.Grey26,
-  colorNeutralStrokeInvertedDisabled: Colors.White40T,
+  colorNeutralStrokeInvertedDisabled: Colors.WhiteT40,
 
-  colorTransparentStroke: Colors.Transparent, // Neutral / Stroke / Transparent
-  colorTransparentStrokeInteractive: Colors.Transparent, // Neutral / Stroke / Transparent / Interactive
-  colorTransparentStrokeDisabled: Colors.Transparent, // Neutral / Stroke / Transparent / Disabled
+  colorTransparentStroke: Colors.Transparent,
+  colorTransparentStrokeInteractive: Colors.Transparent,
+  colorTransparentStrokeDisabled: Colors.Transparent,
 
-  colorNeutralStrokeAlpha: Colors.Transparent_10, // Neutral / Stroke / Alpha / 1
-  colorNeutralStrokeAlpha2: Colors.Transparent_20,
+  colorNeutralStrokeAlpha: Colors.WhiteT10,
+  colorNeutralStrokeAlpha2: Colors.WhiteT20,
 
-  colorStrokeFocus1: Colors.Black, // Neutral / Stroke / Focus / 1
-  colorStrokeFocus2: Colors.White, // Neutral / Stroke / Focus / 2
+  colorStrokeFocus1: Colors.Black,
+  colorStrokeFocus2: Colors.White,
 
-  colorNeutralShadowAmbient: Colors.Black20T, // Shadow / Ambient
-  colorNeutralShadowKey: Colors.Black28T, // Shadow / Key
+  colorNeutralShadowAmbient: Colors.Transparent_24,
+  colorNeutralShadowKey: Colors.Transparent_28,
 
-  colorNeutralShadowAmbientLighter: Colors.Black12T, // Shadow / Ambient / Lighter
-  colorNeutralShadowKeyLighter: Colors.Black14T, // Shadow / Key / Lighter
+  colorNeutralShadowAmbientLighter: Colors.Transparent_12,
+  colorNeutralShadowKeyLighter: Colors.Transparent_14,
 
-  colorNeutralShadowAmbientDarker: Colors.Black40T, // Shadow / Ambient / Darker
-  colorNeutralShadowKeyDarker: Colors.Black48T, // Shadow / Key / Darker
+  colorNeutralShadowAmbientDarker: Colors.Transparent_40,
+  colorNeutralShadowKeyDarker: Colors.Transparent_48,
 
-  colorBrandShadowAmbient: Colors.Black25T, // Brand Ambient
-  colorBrandShadowKey: Colors.Black30T, // Brand Key
+  colorBrandShadowAmbient: Colors.Transparent_30,
+  colorBrandShadowKey: Colors.Transparent_25,
 };
