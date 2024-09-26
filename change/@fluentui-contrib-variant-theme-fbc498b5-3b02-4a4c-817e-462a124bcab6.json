@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "feat(variant-theme): prepare initial release",
-  "packageName": "@fluentui-contrib/variant-theme",
-  "email": "hochelmartin@gmail.com",
-  "dependentChangeType": "patch"
-}

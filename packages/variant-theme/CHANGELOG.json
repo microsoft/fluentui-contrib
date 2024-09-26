@@ -1,0 +1,20 @@
+{
+  "name": "@fluentui-contrib/variant-theme",
+  "entries": [
+    {
+      "date": "Thu, 26 Sep 2024 08:04:30 GMT",
+      "tag": "@fluentui-contrib/variant-theme_v0.0.2",
+      "version": "0.0.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "@fluentui-contrib/variant-theme",
+            "commit": "4346254045d5c53fa549b82940e01e09e8c8871a",
+            "comment": "feat(variant-theme): prepare initial release"
+          }
+        ]
+      }
+    }
+  ]
+}
