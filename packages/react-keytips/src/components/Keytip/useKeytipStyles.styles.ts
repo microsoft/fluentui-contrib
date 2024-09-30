@@ -25,11 +25,8 @@ const useStyles = makeStyles({
     padding: tokens.spacingHorizontalXS,
     backgroundColor: tokens.colorNeutralBackgroundInverted,
     color: tokens.colorNeutralForegroundInverted,
+    boxShadow: tokens.shadow16,
     ...createSlideStyles(15),
-
-    filter:
-      `drop-shadow(0 0 2px ${tokens.colorNeutralShadowAmbient}) ` +
-      `drop-shadow(0 4px 8px ${tokens.colorNeutralShadowKey})`,
   },
 
   visible: {
