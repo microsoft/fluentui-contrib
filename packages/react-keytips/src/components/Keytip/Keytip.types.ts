@@ -28,16 +28,6 @@ export type ReturnKeytipEventHandler<E = HTMLElement> = EventHandler<
   }
 >;
 
-export type OnVisibleChangeData = {
-  visible: boolean;
-
-  /**
-   * The event object, if this visibility change was triggered by a keyboard event on the document element
-   * (such as Escape to hide the visible Keytip). Otherwise undefined.
-   */
-  documentKeyboardEvent?: KeyboardEvent;
-};
-
 export type KeytipProps = ComponentProps<KeytipSlots> & {
   /**
    * Positioning props to be passed to Keytip.
