@@ -38,7 +38,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
   } = props;
   const [inKeytipMode, setInKeytipMode] = React.useState(false);
   const [keytips, setKeytips] = React.useState<Keytips>({});
-  const { subscribe } = useEventService();
+  const { subscribe, reset } = useEventService();
   const currentSequence = React.useRef('');
   const tree = useTree();
 
@@ -121,9 +121,6 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
   ]);
 
   React.useEffect(() => {
-    const controller = new AbortController();
-    const { signal } = controller;
-
     const handleKeytipAdded = (keytip: KeytipWithId) => {
       tree.addNode(keytip);
 
@@ -160,11 +157,12 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
       }));
     };
 
-    subscribe(EVENTS.KEYTIP_ADDED, handleKeytipAdded, signal);
-    subscribe(EVENTS.KEYTIP_UPDATED, handleKeytipUpdated, signal);
-    subscribe(EVENTS.KEYTIP_REMOVED, handleKeytipRemoved, signal);
+    subscribe(EVENTS.KEYTIP_ADDED, handleKeytipAdded);
+    subscribe(EVENTS.KEYTIP_UPDATED, handleKeytipUpdated);
+    subscribe(EVENTS.KEYTIP_REMOVED, handleKeytipRemoved);
+
     return () => {
-      controller.abort();
+      reset();
     };
   }, []);
 
