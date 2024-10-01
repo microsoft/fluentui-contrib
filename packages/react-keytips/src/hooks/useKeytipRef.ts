@@ -27,13 +27,6 @@ export const useKeytipRef = <T extends HTMLElement = HTMLButtonElement>(
 
   const prevKeytip = usePrevious(ktp);
 
-  const setRef = React.useCallback(
-    (node?: T) => {
-      setNode(node);
-    },
-    [keytip.keySequences]
-  ) as React.Ref<T>;
-
   React.useEffect(() => {
     if (prevKeytip) {
       if (!isEqualArray(prevKeytip.keySequences, ktp.keySequences)) {
@@ -50,5 +43,5 @@ export const useKeytipRef = <T extends HTMLElement = HTMLButtonElement>(
     };
   }, [node]);
 
-  return setRef;
+  return setNode;
 };
