@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useRef, useEffect } from 'react';
 import { useFluent } from '@fluentui/react-components';
 import { EVENTS } from '../constants';
 import type { KeytipWithId } from '../components/Keytip';
@@ -17,8 +17,20 @@ function isCustomEvent(event: Event): event is CustomEvent {
   return 'detail' in event;
 }
 
+function createEventHandler<T>(
+  handler: (payload: T) => void
+): (ev: Event) => void {
+  return (ev: Event) => {
+    if (isCustomEvent(ev)) {
+      const eventPayload = ev.detail;
+      handler(eventPayload);
+    }
+  };
+}
+
 export function useEventService() {
   const { targetDocument } = useFluent();
+  const controller = useRef<AbortController | null>(new AbortController());
 
   const dispatch = useCallback(
     <T extends EventType>(eventName: T, payload?: PayloadDefinition[T]) => {
@@ -33,37 +45,37 @@ export function useEventService() {
   const subscribe = useCallback(
     <T extends EventType>(
       event: T,
-      handler: (payload: PayloadDefinition[T]) => void,
-      signal?: AbortSignal
-    ) => {
-      const eventHandler = (ev: Event) => {
-        if (isCustomEvent(ev)) {
-          const eventPayload = ev.detail;
-          handler(eventPayload);
-        }
-      };
-
-      targetDocument?.addEventListener(event, eventHandler, { signal });
-    },
-    [targetDocument]
-  );
-
-  const unsubscribe = useCallback(
-    <T extends EventType>(
-      event: T,
       handler: (payload: PayloadDefinition[T]) => void
     ) => {
-      const eventHandler = (ev: Event) => {
-        if (isCustomEvent(ev)) {
-          const eventPayload = ev.detail;
-          handler(eventPayload);
-        }
-      };
+      if (!controller.current) {
+        controller.current = new AbortController();
+      }
 
-      targetDocument?.removeEventListener(event, eventHandler);
+      const eventHandler = createEventHandler(handler);
+
+      targetDocument?.addEventListener(event, eventHandler, {
+        signal: controller.current.signal,
+      });
+
+      return () => {
+        targetDocument?.removeEventListener(event, eventHandler);
+      };
     },
     [targetDocument]
   );
 
-  return { dispatch, subscribe, unsubscribe };
+  const reset = useCallback(() => {
+    if (controller.current) {
+      controller.current.abort();
+      controller.current = null;
+    }
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      reset();
+    };
+  }, []);
+
+  return { dispatch, subscribe, reset };
 }
