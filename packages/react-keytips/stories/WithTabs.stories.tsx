@@ -83,7 +83,7 @@ export const WithTabsStory = (props: KeytipsProps) => {
     onExecute: btnExecute,
   });
 
-  const linkRef = useKeytipRef({
+  const linkRef = useKeytipRef<HTMLAnchorElement | HTMLSpanElement>({
     keySequences: ['a', '3'],
     content: '3',
     onExecute: btnExecute,

@@ -83,5 +83,4 @@ export const DynamicStory = (props: KeytipsProps) => {
       </div>
     </>
   );
-  props;
 };
