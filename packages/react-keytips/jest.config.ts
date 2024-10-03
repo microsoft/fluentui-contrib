@@ -14,7 +14,7 @@ if (swcJestConfig.swcrc === undefined) {
 }
 
 // Uncomment if using global setup/teardown files being transformed via swc
-// https://nx.dev/nx-api/jest/documents/overview#global-setupteardown-with-nx-libraries
+// https://nx.dev/packages/jest/documents/overview#global-setup/teardown-with-nx-libraries
 // jest needs EsModule Interop to find the default exported setup/teardown functions
 // swcJestConfig.module.noInterop = false;
 
@@ -22,9 +22,8 @@ export default {
   displayName: 'react-keytips',
   preset: '../../jest.preset.js',
   transform: {
-    '^.+\\.[tj]s$': ['@swc/jest', swcJestConfig],
+    '^.+\\.[tj]sx?$': ['@swc/jest', swcJestConfig],
   },
-  moduleFileExtensions: ['ts', 'js', 'html'],
-  testEnvironment: 'jsdom',
+  moduleFileExtensions: ['js', 'ts', 'tsx', 'html'],
   coverageDirectory: '../../coverage/packages/react-keytips',
 };
