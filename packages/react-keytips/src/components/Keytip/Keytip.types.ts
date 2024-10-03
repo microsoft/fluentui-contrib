@@ -67,5 +67,5 @@ export type KeytipState = ComponentState<KeytipSlots> &
     /**
      * Whether the Keytip should be rendered to the DOM.
      */
-    shouldRenderTooltip?: boolean;
+    shouldRenderKeytip?: boolean;
   };

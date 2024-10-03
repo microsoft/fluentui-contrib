@@ -15,36 +15,6 @@ describe('Keytips', () => {
     expect(keytipsRoot?.getAttribute('data-start-shortcut')).toEqual(content);
   });
 
-  it('should have invisible keytips', () => {
-    const Component = () => {
-      const firstButton = useKeytipRef<HTMLButtonElement | HTMLAnchorElement>({
-        keySequences: ['b1'],
-        content: 'B1',
-      });
-
-      const secondButton = useKeytipRef<HTMLButtonElement | HTMLAnchorElement>({
-        keySequences: ['b2'],
-        content: 'B2',
-      });
-
-      return (
-        <>
-          <Keytips content="Alt Windows" />
-          <Button ref={firstButton}>1</Button>
-          <Button ref={secondButton}>2</Button>
-        </>
-      );
-    };
-
-    const { baseElement } = render(<Component />);
-
-    const portal = baseElement.querySelector('[data-portal-node]');
-
-    expect(portal?.children).toHaveLength(3);
-    expect(screen.getByText('b1')).toBeTruthy();
-    expect(screen.getByText('b2')).toBeTruthy();
-  });
-
   it('should have invisible and visible keytips', async () => {
     const Component = () => {
       const firstButton = useKeytipRef<HTMLButtonElement | HTMLAnchorElement>({
@@ -66,10 +36,13 @@ describe('Keytips', () => {
       );
     };
 
-    render(<Component />);
+    const { baseElement } = render(<Component />);
 
     expect(screen.getByText('b1')).toBeTruthy();
     expect(screen.getByText('b2')).toBeTruthy();
+    const portal = baseElement.querySelector('[data-portal-node]');
+
+    expect(portal?.children).toHaveLength(3);
 
     expect(screen.queryAllByRole('tooltip')).toHaveLength(0);
 
@@ -80,20 +53,25 @@ describe('Keytips', () => {
   });
 
   it('should navigate deeper and upper by pressing key sequence and return sequence', async () => {
+    const onReturn = jest.fn();
+
     const Component = () => {
       const firstButton = useKeytipRef({
         keySequences: ['a'],
         content: 'A',
+        onReturn,
       });
 
       const secondButton = useKeytipRef({
         keySequences: ['a', 'b'],
         content: 'B',
+        onReturn,
       });
 
       const thirdButton = useKeytipRef({
         keySequences: ['a', 'b', 'c'],
         content: 'C',
+        onReturn,
       });
 
       return (
@@ -134,6 +112,7 @@ describe('Keytips', () => {
     expect(baseElement.querySelector('#keytip-ktp-a-b')).toBeTruthy();
     expect(baseElement.querySelector('#keytip-ktp-a-b-c')).not.toBeTruthy();
     expect(baseElement.querySelector('#keytip-ktp-a')).not.toBeTruthy();
+    expect(onReturn).toHaveBeenCalledTimes(1);
 
     // // should show previous keytip (A)
     await act(async () => await userEvent.keyboard('{Escape}'));
@@ -141,5 +120,73 @@ describe('Keytips', () => {
     expect(baseElement.querySelector('#keytip-ktp-a')).toBeTruthy();
     expect(baseElement.querySelector('#keytip-ktp-a-b')).not.toBeTruthy();
     expect(baseElement.querySelector('#keytip-ktp-a-b-c')).not.toBeTruthy();
+    expect(onReturn).toHaveBeenCalledTimes(2);
+  });
+
+  it('should fire onExecute', async () => {
+    const onExecute = jest.fn();
+
+    const Component = () => {
+      const ref = useKeytipRef({
+        keySequences: ['a'],
+        content: 'A',
+        onExecute,
+      });
+
+      return (
+        <>
+          <Keytips />
+          <Button ref={ref}>keytip A</Button>
+        </>
+      );
+    };
+
+    render(<Component />);
+
+    // enter keytip mode
+    await act(async () => await userEvent.keyboard('{Alt>}{Meta}'));
+
+    expect(onExecute).not.toHaveBeenCalled();
+
+    await act(async () => await userEvent.keyboard('{A}'));
+
+    expect(onExecute).toHaveBeenCalledTimes(1);
+  });
+
+  it('should have custom start and exit sequences', async () => {
+    const onEnterKeytipsMode = jest.fn();
+    const onExitKeytipsMode = jest.fn();
+
+    const Component = () => {
+      const ref = useKeytipRef({
+        keySequences: ['a'],
+        content: 'A',
+      });
+
+      return (
+        <>
+          <Keytips
+            startSequence="alt+s"
+            exitSequence="alt+x"
+            content="Alt S"
+            onEnterKeytipsMode={onEnterKeytipsMode}
+            onExitKeytipsMode={onExitKeytipsMode}
+          />
+          <Button ref={ref}>keytip A</Button>
+        </>
+      );
+    };
+
+    render(<Component />);
+
+    expect(screen.queryAllByRole('tooltip')).toHaveLength(0);
+    // enter keytip mode
+    await act(async () => await userEvent.keyboard('{alt>}{s}'));
+    expect(screen.queryAllByRole('tooltip')).toHaveLength(1);
+    expect(onEnterKeytipsMode).toHaveBeenCalledTimes(1);
+
+    await act(async () => await userEvent.keyboard('{alt>}{x}'));
+    expect(screen.queryAllByRole('tooltip')).toHaveLength(0);
+    expect(onExitKeytipsMode).toHaveBeenCalledTimes(1);
   });
 });

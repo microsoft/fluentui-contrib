@@ -49,7 +49,7 @@ export const useKeytip_unstable = (props: KeytipProps): KeytipState => {
       content: 'div',
     },
     positioning,
-    shouldRenderTooltip: isKeytipVisible,
+    shouldRenderKeytip: isKeytipVisible,
     visible: isKeytipVisible,
     content: slot.always(content, {
       defaultProps: {
@@ -92,11 +92,11 @@ export const useKeytip_unstable = (props: KeytipProps): KeytipState => {
         `${[startSequence, ...keySequences].join('+')}`
       );
     }
-    state.shouldRenderTooltip = true;
+    state.shouldRenderKeytip = true;
   }
 
   if (isServerSideRender) {
-    state.shouldRenderTooltip = false;
+    state.shouldRenderKeytip = false;
   }
 
   return state;
