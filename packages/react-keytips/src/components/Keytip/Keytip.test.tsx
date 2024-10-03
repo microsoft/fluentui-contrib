@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { render } from '@testing-library/react';
-import { Keytip } from './Keytip';
+import { render, screen } from '@testing-library/react';
+import { Keytip, keytipClassNames } from '.';
 
 describe('Keytip', () => {
-  // TODO add more tests here, and create visual regression tests in /apps/vr-tests
-
   it('renders a default state', () => {
-    const result = render(<Keytip content="A" keySequences={['A']} />);
-    expect(result.container).toMatchSnapshot();
+    render(<Keytip content="A" keySequences={['a']} visible />);
+    const keytip = screen.getByRole('tooltip');
+    expect(keytip.classList.contains(keytipClassNames.content)).toBeTruthy();
+    expect(keytip.id).toBe('keytip-ktp-a');
   });
 });
