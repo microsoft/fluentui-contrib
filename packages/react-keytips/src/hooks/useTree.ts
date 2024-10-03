@@ -121,9 +121,14 @@ export function useTree() {
     return target && target.children ? [...target.children.values()] : [];
   }, []);
 
+  const getNode = React.useCallback((id: string) => {
+    const node = [...nodeMap.current.values()].find((node) => node.id === id);
+    return node;
+  }, []);
+
   const getBack = React.useCallback(() => {
     if (currentKeytip.current) {
-      const parent = nodeMap.current.get(currentKeytip.current.parent);
+      const parent = getNode(currentKeytip.current.parent);
       if (parent) {
         currentKeytip.current = parent;
       } else {
