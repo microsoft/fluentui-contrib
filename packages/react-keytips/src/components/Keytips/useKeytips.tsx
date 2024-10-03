@@ -9,18 +9,9 @@ import { Keytip } from '../Keytip';
 import { useEventService } from '../../hooks/useEventService';
 import { sequencesToID, isTargetVisible } from '../../utilities';
 import { useTree } from '../../hooks/useTree';
-import type { PositioningProps } from '@fluentui/react-positioning';
+import type { Hotkey } from '../../hooks/useHotkeys';
 
 type Keytips = Record<string, KeytipProps & { visibleInternal?: boolean }>;
-
-const isTargetVisible = (
-  target?: PositioningProps['target'],
-  win?: Document['defaultView']
-): boolean => {
-  if (!target || !win) return false;
-  const style = win.getComputedStyle(target as HTMLElement);
-  return style.display !== 'none' && style.visibility !== 'hidden';
-};
 
 /**
  * Create the state required to render Keytips.
@@ -101,6 +92,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
           });
         }
       }
+
       currentSequence.current = '';
       tree.getBack();
       showKeytips(tree.getChildren());
@@ -114,10 +106,9 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
   useHotkeys([
     [startSequence, handleEnterKeytipMode],
     [returnSequence, handleReturnSequence],
-    [exitSequence, handleExitKeytipMode],
-    ['tab', handleExitKeytipMode],
-    ['enter', handleExitKeytipMode],
-    ['space', handleExitKeytipMode],
+    ...[exitSequence, 'tab', 'enter', 'space'].map(
+      (key) => [key, handleExitKeytipMode] as Hotkey
+    ),
   ]);
 
   React.useEffect(() => {

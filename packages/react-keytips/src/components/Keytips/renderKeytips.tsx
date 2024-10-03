@@ -36,7 +36,9 @@ export const renderKeytips_unstable = (state: KeytipsState) => {
         {state.content}
       </span>
       {state.keytips}
-      <state.root>{state.visibleKeytips}</state.root>
+      {state.visibleKeytips.length > 0 && (
+        <state.root>{state.visibleKeytips}</state.root>
+      )}
     </Portal>
   );
 };
