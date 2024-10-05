@@ -129,7 +129,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     };
 
     const handleKeytipRemoved = (keytip: KeytipWithId) => {
-      tree.removeNode(keytip);
+      tree.removeNode(keytip.uniqueId);
       setKeytips((prev) => {
         const newKeytips = { ...prev };
         delete newKeytips[keytip.uniqueId];
@@ -139,13 +139,18 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
 
     const handleKeytipUpdated = (keytip: KeytipWithId) => {
       tree.updateNode(keytip);
-      setKeytips((prev) => ({
-        ...prev,
-        [keytip.uniqueId]: {
-          ...keytip,
-          id: sequencesToID(keytip.keySequences),
-        },
-      }));
+
+      setKeytips((prev) => {
+        return {
+          ...prev,
+          [keytip.uniqueId]: {
+            ...keytip,
+            id: sequencesToID(keytip.keySequences),
+          },
+        };
+      });
+
+      showKeytips(tree.getChildren());
     };
 
     subscribe(EVENTS.KEYTIP_ADDED, handleKeytipAdded);

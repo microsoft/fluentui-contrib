@@ -25,11 +25,7 @@ export const DynamicStory = (props: KeytipsProps) => {
   const classes = useStyles();
 
   const [currentButton, setCurrentButton] = React.useState('Button 1');
-  const [startSequence, setStartSequence] = React.useState('gg1');
-
-  React.useEffect(() => {
-    setStartSequence(currentButton === 'Button 1' ? 'gg1' : 'gg2');
-  }, [currentButton]);
+  const startSequence = currentButton === 'Button 1' ? 'gg1' : 'gg2';
 
   const onExecute: ExecuteKeytipEventHandler = (_, { targetElement }) => {
     if (targetElement) targetElement?.click();
@@ -50,9 +46,8 @@ export const DynamicStory = (props: KeytipsProps) => {
   });
 
   const thirdButton = useKeytipRef({
-    keySequences: [startSequence, 'gg3'],
     content: 'GG3',
-    onExecute,
+    keySequences: [startSequence, 'gg3'],
   });
 
   return (

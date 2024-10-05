@@ -11,7 +11,7 @@ export const createNode = ({
   nodeMap,
   positioning,
 }: KeytipWithId & {
-  nodeMap: KeytipTreeNode[];
+  nodeMap: Map<string, KeytipTreeNode>;
 }): KeytipTreeNode => {
   const id = sequencesToID(keySequences);
   const parent =
@@ -21,7 +21,8 @@ export const createNode = ({
 
   const children = new Set<string>();
 
-  nodeMap.forEach((node) => {
+  // fill in children set, if there are nodes that has this node as parent
+  [...nodeMap.values()].forEach((node) => {
     if (node.parent === id) {
       children.add(node.uniqueId);
     }
