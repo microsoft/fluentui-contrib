@@ -285,7 +285,7 @@ describe('useTree', () => {
       const { result } = renderHook(() => useTree());
       result.current.addNode(keytipPropsC);
       // Remove C from the tree
-      result.current.removeNode(keytipPropsC);
+      result.current.removeNode(keytipPropsC.uniqueId);
       // Verify that C is not in the node map
       expect(result.current.nodeMap.current.get(uniqueIdC)).toBeUndefined();
       // Verify that root has no children
@@ -298,14 +298,14 @@ describe('useTree', () => {
       result.current.addNode(keytipPropsC);
       result.current.addNode(keytipPropsB);
       // Remove B
-      result.current.removeNode(keytipPropsB);
+      result.current.removeNode(keytipPropsB.uniqueId);
       // Verify that B is not in the node map
       expect(result.current.nodeMap.current.get(uniqueIdB)).toBeUndefined();
       // Verify C has no children
       const nodeC = result.current.nodeMap.current.get(uniqueIdC);
       expect(nodeC?.children.size).toBe(0);
       // Remove C
-      result.current.removeNode(keytipPropsC);
+      result.current.removeNode(keytipPropsC.uniqueId);
       // Verify that C is not in the node map
       expect(result.current.nodeMap.current.get(uniqueIdC)).toBeUndefined();
       // Verify that root has no children
@@ -318,7 +318,7 @@ describe('useTree', () => {
       result.current.addNode(keytipPropsC);
       result.current.addNode(keytipPropsB);
       // Remove C
-      result.current.removeNode(keytipPropsC);
+      result.current.removeNode(keytipPropsC.uniqueId);
       // Verify that C is not in the node map
       expect(result.current.nodeMap.current.get(uniqueIdC)).toBeUndefined();
       // Verify that B still has C as its parent
@@ -355,7 +355,7 @@ describe('useTree', () => {
       result.current.addNode(keytipPropsC);
       result.current.addNode(keytipPropsEWithOverflow);
       // Remove E
-      result.current.removeNode(keytipPropsEWithOverflow);
+      result.current.removeNode(keytipPropsEWithOverflow.uniqueId);
       const nodeE = result.current.nodeMap.current.get(uniqueIdE);
       expect(nodeE).toBeUndefined();
       const nodeC = result.current.nodeMap.current.get(uniqueIdC);

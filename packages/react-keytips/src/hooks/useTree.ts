@@ -43,11 +43,12 @@ export function useTree() {
   const addNode = React.useCallback((keytip: KeytipWithId) => {
     const node = createNode({
       ...keytip,
-      nodeMap: [...nodeMap.current.values()],
+      nodeMap: nodeMap.current,
     });
 
     nodeMap.current.set(node.uniqueId, node);
 
+    // if there are nodes that are parent of current node, add it to their children
     [...nodeMap.current.values()].forEach((n) => {
       if (n.id === node.parent) {
         n.children.add(node.uniqueId);
@@ -55,17 +56,19 @@ export function useTree() {
     });
   }, []);
 
-  const removeNode = React.useCallback((keytip: KeytipWithId) => {
-    const node = nodeMap.current.get(keytip.uniqueId);
+  const removeNode = React.useCallback((id: string) => {
+    const node = nodeMap.current.get(id);
 
     if (node) {
-      nodeMap.current.delete(keytip.uniqueId);
+      nodeMap.current.delete(id);
+
+      // find and remove the node from its parent
       const parentNode = [...nodeMap.current.values()].find(
         (n) => n.id === node.parent
       );
 
       if (parentNode) {
-        parentNode.children.delete(keytip.uniqueId);
+        parentNode.children.delete(id);
       }
     }
   }, []);
@@ -76,6 +79,7 @@ export function useTree() {
     if (node) {
       const prevParent = node.parent;
       const parent = getParentID(keytip.keySequences);
+
       if (prevParent !== parent) {
         [...nodeMap.current.values()].forEach((node) => {
           if (node.id === prevParent) {
@@ -89,7 +93,7 @@ export function useTree() {
 
       nodeMap.current.set(
         keytip.uniqueId,
-        createNode({ ...keytip, nodeMap: [...nodeMap.current.values()] })
+        createNode({ ...keytip, nodeMap: nodeMap.current })
       );
     }
   }, []);
