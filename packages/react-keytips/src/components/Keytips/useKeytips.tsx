@@ -9,6 +9,7 @@ import { Keytip } from '../Keytip';
 import { useEventService } from '../../hooks/useEventService';
 import { sequencesToID } from '../../utilities';
 import { useTree } from '../../hooks/useTree';
+import type { KeytipTreeNode } from '../../hooks/useTree';
 import type { Hotkey } from '../../hooks/useHotkeys';
 import { useKeytipsState } from './useKeytipsState';
 
@@ -153,54 +154,75 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     };
   }, [state.inKeytipMode, targetDocument, handleExitKeytipMode]);
 
+  const handleMatchingNode = React.useCallback(
+    (ev: KeyboardEvent, node: KeytipTreeNode) => {
+      tree.currentKeytip.current = node;
+
+      if (node.target) {
+        node.onExecute?.(ev, {
+          event: ev,
+          type: 'keydown',
+          targetElement: node.target,
+        });
+      }
+
+      const currentChildren = tree.getChildren(node);
+      const shouldExitKeytipMode =
+        currentChildren.length === 0 && !node.dynamic;
+      // To exit keytipMode after executing the keytip it must not have have dynamic children
+      if (shouldExitKeytipMode) {
+        handleExitKeytipMode(ev);
+      } else {
+        showKeytips(currentChildren);
+      }
+
+      dispatch({ type: ACTIONS.SET_SEQUENCE, value: '' });
+    },
+    []
+  );
+
+  const handlePartiallyMatchedNodes = React.useCallback((sequence: string) => {
+    const partialNodes = tree.getPartiallyMatched(sequence);
+    if (partialNodes && partialNodes.length > 0) {
+      // We found nodes that partially match the sequence, so we show only those
+      const ids = partialNodes.map((n) => n?.uniqueId || '');
+      showKeytips(ids);
+      dispatch({ type: ACTIONS.SET_SEQUENCE, value: sequence });
+    }
+  }, []);
+
   React.useEffect(() => {
+    if (!targetDocument) return;
+
     const handleKeyDown = (ev: KeyboardEvent) => {
       ev.preventDefault();
       ev.stopPropagation();
 
-      if (state.inKeytipMode) {
-        const { key } = parseHotkey(ev.key.toLowerCase());
-        const currSeq = state.currentSequence + key?.toLowerCase();
-        const node = tree.getMatchingNode(currSeq);
+      if (!state.inKeytipMode) return;
 
-        if (node) {
-          tree.currentKeytip.current = node;
-          const currentKtpChildren = tree.getChildren(node);
-          if (node.target) {
-            node.onExecute?.(ev, {
-              event: ev,
-              type: 'keydown',
-              targetElement: node.target,
-            });
-          }
-          // To exit keytipMode after executing the keytip it must not have a menu or have dynamic children
-          if (currentKtpChildren.length === 0 && !node.dynamic) {
-            handleExitKeytipMode(ev);
-          } else {
-            // show all children keytips
-            showKeytips(currentKtpChildren);
-          }
-          dispatch({ type: ACTIONS.SET_SEQUENCE, value: '' });
-          return;
-        }
+      const { key } = parseHotkey(ev.key.toLowerCase());
+      const currSeq = state.currentSequence + key?.toLowerCase();
+      const node = tree.getMatchingNode(currSeq);
 
-        // if we don't have a match, we have to check if the sequence is a partial match
-        const partialNodes = tree.getPartiallyMatched(currSeq);
-        if (partialNodes && partialNodes.length > 0) {
-          // We found nodes that partially match the sequence, so we show only those
-          const ids = partialNodes.map((n) => (n ? n.uniqueId : ''));
-          showKeytips(ids);
-          // Save currentSequence
-          dispatch({ type: ACTIONS.SET_SEQUENCE, value: currSeq });
-        }
+      if (node) {
+        handleMatchingNode(ev, node);
+        return;
       }
+      // if we don't have a match, we have to check if the sequence is a partial match
+      handlePartiallyMatchedNodes(currSeq);
     };
 
     targetDocument?.addEventListener('keydown', handleKeyDown);
     return () => {
       targetDocument?.removeEventListener('keydown', handleKeyDown);
     };
-  }, [state.inKeytipMode, state.currentSequence, handleExitKeytipMode]);
+  }, [
+    state.inKeytipMode,
+    state.currentSequence,
+    handleExitKeytipMode,
+    handlePartiallyMatchedNodes,
+    handleMatchingNode,
+  ]);
 
   const visibleKeytips = Object.entries(state.keytips)
     .filter(([, { visible, visibleInternal }]) => visible || visibleInternal)
