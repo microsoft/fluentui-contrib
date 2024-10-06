@@ -2,16 +2,15 @@ import * as React from 'react';
 import { getIntrinsicElementProps, slot } from '@fluentui/react-components';
 import type { KeytipsProps, KeytipsState } from './Keytips.types';
 import { useHotkeys, parseHotkey } from '../../hooks/useHotkeys';
-import { EVENTS, VISUALLY_HIDDEN_STYLES } from '../../constants';
+import { EVENTS, VISUALLY_HIDDEN_STYLES, ACTIONS } from '../../constants';
 import { useFluent } from '@fluentui/react-components';
-import type { KeytipProps, KeytipWithId } from '../Keytip';
+import type { KeytipWithId } from '../Keytip';
 import { Keytip } from '../Keytip';
 import { useEventService } from '../../hooks/useEventService';
-import { sequencesToID, isTargetVisible } from '../../utilities';
+import { sequencesToID } from '../../utilities';
 import { useTree } from '../../hooks/useTree';
 import type { Hotkey } from '../../hooks/useHotkeys';
-
-type Keytips = Record<string, KeytipProps & { visibleInternal?: boolean }>;
+import { useKeytipsState } from './useKeytipsState';
 
 /**
  * Create the state required to render Keytips.
@@ -27,61 +26,47 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     onEnterKeytipsMode,
     onExitKeytipsMode,
   } = props;
-  const [inKeytipMode, setInKeytipMode] = React.useState(false);
-  const [keytips, setKeytips] = React.useState<Keytips>({});
   const { subscribe, reset } = useEventService();
-  const currentSequence = React.useRef('');
+  const [state, dispatch] = useKeytipsState();
   const tree = useTree();
 
-  const showKeytips = React.useCallback((ids: string[]) => {
-    const updatedKeytips = (ktps: Keytips) =>
-      Object.entries(ktps).reduce<Keytips>((acc, [id, keytip]) => {
-        acc[id] = {
-          ...keytip,
-          visibleInternal:
-            ids.includes(id) &&
-            isTargetVisible(
-              keytip?.positioning?.target,
-              targetDocument?.defaultView
-            ),
-        };
-        return acc;
-      }, {});
-
-    setKeytips(updatedKeytips);
-  }, []);
+  const showKeytips = React.useCallback(
+    (ids: string[]) =>
+      dispatch({ type: ACTIONS.SET_VISIBLE_KEYTIPS, ids, targetDocument }),
+    []
+  );
 
   const handleEnterKeytipMode = React.useCallback(
     (ev: KeyboardEvent) => {
-      if (!inKeytipMode) {
+      if (!state.inKeytipMode) {
         tree.currentKeytip.current = tree.root;
-        setInKeytipMode(true);
+        dispatch({ type: ACTIONS.ENTER_KEYTIP_MODE });
         onEnterKeytipsMode?.(ev, { event: ev, type: 'keydown' });
         showKeytips(tree.getChildren());
       } else {
-        setInKeytipMode(false);
+        dispatch({ type: ACTIONS.EXIT_KEYTIP_MODE });
         showKeytips([]);
       }
     },
-    [showKeytips, inKeytipMode, onEnterKeytipsMode]
+    [state.inKeytipMode, onEnterKeytipsMode]
   );
 
   const handleExitKeytipMode = React.useCallback(
     (ev: KeyboardEvent) => {
-      if (inKeytipMode) {
+      if (state.inKeytipMode) {
         tree.currentKeytip.current = tree.root;
-        currentSequence.current = '';
-        setInKeytipMode(false);
+        dispatch({ type: ACTIONS.SET_SEQUENCE, value: '' });
+        dispatch({ type: ACTIONS.EXIT_KEYTIP_MODE });
         onExitKeytipsMode?.(ev, { event: ev, type: 'keydown' });
         showKeytips([]);
       }
     },
-    [inKeytipMode, onExitKeytipsMode]
+    [state.inKeytipMode, onExitKeytipsMode]
   );
 
   const handleReturnSequence = React.useCallback(
     (ev: KeyboardEvent) => {
-      if (!inKeytipMode) return;
+      if (!state.inKeytipMode) return;
       const currentKeytip = tree.currentKeytip?.current;
       if (currentKeytip && currentKeytip.target) {
         if (currentKeytip.target) {
@@ -93,14 +78,14 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
         }
       }
 
-      currentSequence.current = '';
+      dispatch({ type: ACTIONS.SET_SEQUENCE, value: '' });
       tree.getBack();
       showKeytips(tree.getChildren());
       if (tree.currentKeytip.current === undefined) {
-        setInKeytipMode(false);
+        dispatch({ type: ACTIONS.EXIT_KEYTIP_MODE });
       }
     },
-    [inKeytipMode]
+    [state.inKeytipMode]
   );
 
   useHotkeys([
@@ -115,13 +100,10 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     const handleKeytipAdded = (keytip: KeytipWithId) => {
       tree.addNode(keytip);
 
-      setKeytips((prev) => ({
-        ...prev,
-        [keytip.uniqueId]: {
-          ...keytip,
-          id: sequencesToID(keytip.keySequences),
-        },
-      }));
+      dispatch({
+        type: ACTIONS.ADD_KEYTIP,
+        keytip,
+      });
 
       if (tree.isCurrentKeytipParent(keytip)) {
         showKeytips(tree.getChildren());
@@ -130,26 +112,12 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
 
     const handleKeytipRemoved = (keytip: KeytipWithId) => {
       tree.removeNode(keytip.uniqueId);
-      setKeytips((prev) => {
-        const newKeytips = { ...prev };
-        delete newKeytips[keytip.uniqueId];
-        return newKeytips;
-      });
+      dispatch({ type: ACTIONS.REMOVE_KEYTIP, id: keytip.uniqueId });
     };
 
     const handleKeytipUpdated = (keytip: KeytipWithId) => {
       tree.updateNode(keytip);
-
-      setKeytips((prev) => {
-        return {
-          ...prev,
-          [keytip.uniqueId]: {
-            ...keytip,
-            id: sequencesToID(keytip.keySequences),
-          },
-        };
-      });
-
+      dispatch({ type: ACTIONS.UPDATE_KEYTIP, keytip });
       showKeytips(tree.getChildren());
     };
 
@@ -167,7 +135,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     const { signal } = controller;
 
     const handleDismiss = (ev: Event) => {
-      if (inKeytipMode) {
+      if (state.inKeytipMode) {
         handleExitKeytipMode(ev as KeyboardEvent);
       }
     };
@@ -183,16 +151,16 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     return () => {
       controller.abort();
     };
-  }, [targetDocument, inKeytipMode, handleExitKeytipMode]);
+  }, [state.inKeytipMode, targetDocument, handleExitKeytipMode]);
 
   React.useEffect(() => {
     const handleKeyDown = (ev: KeyboardEvent) => {
       ev.preventDefault();
       ev.stopPropagation();
 
-      if (inKeytipMode) {
+      if (state.inKeytipMode) {
         const { key } = parseHotkey(ev.key.toLowerCase());
-        const currSeq = currentSequence.current + key?.toLowerCase();
+        const currSeq = state.currentSequence + key?.toLowerCase();
         const node = tree.getMatchingNode(currSeq);
 
         if (node) {
@@ -212,8 +180,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
             // show all children keytips
             showKeytips(currentKtpChildren);
           }
-
-          currentSequence.current = '';
+          dispatch({ type: ACTIONS.SET_SEQUENCE, value: '' });
           return;
         }
 
@@ -224,7 +191,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
           const ids = partialNodes.map((n) => (n ? n.uniqueId : ''));
           showKeytips(ids);
           // Save currentSequence
-          currentSequence.current = currSeq;
+          dispatch({ type: ACTIONS.SET_SEQUENCE, value: currSeq });
         }
       }
     };
@@ -233,15 +200,15 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     return () => {
       targetDocument?.removeEventListener('keydown', handleKeyDown);
     };
-  }, [inKeytipMode, handleExitKeytipMode]);
+  }, [state.inKeytipMode, state.currentSequence, handleExitKeytipMode]);
 
-  const visibleKeytips = Object.entries(keytips)
+  const visibleKeytips = Object.entries(state.keytips)
     .filter(([, { visible, visibleInternal }]) => visible || visibleInternal)
     .map(([keytipId, keytipProps]) => (
       <Keytip key={keytipId} {...keytipProps} />
     ));
 
-  const hiddenKeytips = Object.values(keytips).map(({ keySequences }) => (
+  const hiddenKeytips = Object.values(state.keytips).map(({ keySequences }) => (
     <span
       key={sequencesToID(keySequences)}
       id={sequencesToID(keySequences)}
