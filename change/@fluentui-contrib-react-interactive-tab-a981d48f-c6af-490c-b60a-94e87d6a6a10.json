@@ -1,6 +1,6 @@
 {
   "type": "minor",
-  "comment": "feat(react-interactive-tab): prepare initial release",
+  "comment": "feat: prepare initial release",
   "packageName": "@fluentui-contrib/react-interactive-tab",
   "email": "kirpadv@gmail.com",
   "dependentChangeType": "patch"
