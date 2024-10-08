@@ -3,9 +3,8 @@
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createElement } from '@fluentui/react-jsx-runtime';
-import { assertSlots } from '@fluentui/react-utilities';
 import type { KeytipsState, KeytipsSlots } from './Keytips.types';
-import { Portal, makeStyles } from '@fluentui/react-components';
+import { Portal, makeStyles, assertSlots } from '@fluentui/react-components';
 import { KTP_ROOT_ID, VISUALLY_HIDDEN_STYLES } from '../../constants';
 /**
  * Render the final JSX of Keytips

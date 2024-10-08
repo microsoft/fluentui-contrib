@@ -1,5 +1,9 @@
-import { tokens, makeStyles, mergeClasses } from '@fluentui/react-components';
-import type { SlotClassNames } from '@fluentui/react-utilities';
+import {
+  tokens,
+  makeStyles,
+  mergeClasses,
+  SlotClassNames,
+} from '@fluentui/react-components';
 import { KeytipSlots, KeytipState } from './Keytip.types';
 import { createSlideStyles } from '@fluentui/react-positioning';
 

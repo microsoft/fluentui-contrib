@@ -1,18 +1,16 @@
 import * as React from 'react';
 import type { KeytipProps, KeytipState } from './Keytip.types';
-import {
-  resolvePositioningShorthand,
-  usePositioning,
-} from '@fluentui/react-positioning';
-import {
-  slot,
-  useId,
-  useIsSSR,
-  useMergedRefs,
-  useControllableState,
-} from '@fluentui/react-utilities';
+import { usePositioning } from '@fluentui/react-positioning';
+import { useControllableState } from '@fluentui/react-utilities';
 import { KEYTIP_BORDER_RADIUS, KTP_ROOT_ID } from '../../constants';
-import { useFluent } from '@fluentui/react-components';
+import {
+  useFluent,
+  slot,
+  useIsSSR,
+  useId,
+  resolvePositioningShorthand,
+  useMergedRefs,
+} from '@fluentui/react-components';
 import { sequencesToID } from '../../utilities/sequencesToID';
 
 /**

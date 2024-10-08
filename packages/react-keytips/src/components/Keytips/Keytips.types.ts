@@ -1,12 +1,11 @@
 import * as React from 'react';
-import type {
+import type { EventData, EventHandler } from '@fluentui/react-utilities';
+import {
+  PortalProps,
   ComponentProps,
   ComponentState,
   Slot,
-  EventData,
-  EventHandler,
-} from '@fluentui/react-utilities';
-import { PortalProps } from '@fluentui/react-components';
+} from '@fluentui/react-components';
 
 export type KeytipsSlots = {
   root: Slot<'div'>;

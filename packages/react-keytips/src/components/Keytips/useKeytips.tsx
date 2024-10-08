@@ -1,9 +1,12 @@
 import * as React from 'react';
-import { getIntrinsicElementProps, slot } from '@fluentui/react-components';
+import {
+  getIntrinsicElementProps,
+  slot,
+  useFluent,
+} from '@fluentui/react-components';
 import type { KeytipsProps, KeytipsState } from './Keytips.types';
 import { useHotkeys, parseHotkey } from '../../hooks/useHotkeys';
 import { EVENTS, VISUALLY_HIDDEN_STYLES, ACTIONS } from '../../constants';
-import { useFluent } from '@fluentui/react-components';
 import type { KeytipWithId } from '../Keytip';
 import { Keytip } from '../Keytip';
 import { useEventService } from '../../hooks/useEventService';

@@ -1,10 +1,10 @@
 import type { EventData, EventHandler } from '@fluentui/react-utilities';
-import type { PositioningProps } from '@fluentui/react-components';
 import type {
+  PositioningProps,
   ComponentProps,
   ComponentState,
   Slot,
-} from '@fluentui/react-utilities';
+} from '@fluentui/react-components';
 
 /**
  * Slot properties for Keytip

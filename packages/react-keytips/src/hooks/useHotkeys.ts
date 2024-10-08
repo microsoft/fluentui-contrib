@@ -1,5 +1,7 @@
-import { useIsomorphicLayoutEffect } from '@fluentui/react-components';
-import { useFluent } from '@fluentui/react-components';
+import {
+  useIsomorphicLayoutEffect,
+  useFluent,
+} from '@fluentui/react-components';
 
 type Options = { preventDefault?: boolean; stopPropagation?: boolean };
 export type Hotkey = [string, (ev: KeyboardEvent) => void, Options?];
