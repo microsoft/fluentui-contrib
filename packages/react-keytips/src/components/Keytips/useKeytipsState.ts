@@ -2,6 +2,7 @@ import * as React from 'react';
 import type { KeytipProps, KeytipWithId } from '../Keytip';
 import { isTargetVisible } from '../../utilities';
 import { ACTIONS } from '../../constants';
+import { omit } from '../../utilities';
 
 type Keytips = Record<string, KeytipProps & { visibleInternal?: boolean }>;
 
@@ -41,11 +42,9 @@ const stateReducer: React.Reducer<KeytipsState, KeytipsAction> = (
       };
     }
     case ACTIONS.REMOVE_KEYTIP: {
-      const newKeytips = { ...state.keytips };
-      delete newKeytips[action.id];
       return {
         ...state,
-        keytips: newKeytips,
+        keytips: omit(state.keytips, [action.id]),
       };
     }
     case ACTIONS.UPDATE_KEYTIP: {
