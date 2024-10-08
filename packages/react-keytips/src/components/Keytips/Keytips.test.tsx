@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { render, screen, act } from '@testing-library/react';
 import { Keytips } from './Keytips';
-import { useKeytipRef } from '../..';
+import { useKeytipRef } from '../../hooks/useKeytipRef';
 import { Button } from '@fluentui/react-components';
 import userEvent from '@testing-library/user-event';
 

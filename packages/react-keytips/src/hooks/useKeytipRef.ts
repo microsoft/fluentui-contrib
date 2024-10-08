@@ -3,7 +3,7 @@ import { useEventService } from './useEventService';
 import { EVENTS } from '../constants';
 import { usePrevious } from '@fluentui/react-utilities';
 import type { KeytipProps } from '../components/Keytip';
-import { sequencesToID } from '../utilities';
+import { sequencesToID } from '../utilities/index';
 
 const isEqualArray = (a: string[], b: string[]) => {
   return a.length === b.length && a.every((v, i) => v === b[i]);

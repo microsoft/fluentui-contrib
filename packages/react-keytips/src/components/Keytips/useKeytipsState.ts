@@ -1,8 +1,7 @@
 import * as React from 'react';
 import type { KeytipProps, KeytipWithId } from '../Keytip';
-import { isTargetVisible } from '../../utilities';
+import { isTargetVisible, omit } from '../../utilities';
 import { ACTIONS } from '../../constants';
-import { omit } from '../../utilities';
 
 type Keytips = Record<string, KeytipProps & { visibleInternal?: boolean }>;
 

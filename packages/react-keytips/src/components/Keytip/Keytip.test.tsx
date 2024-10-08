@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
-import { Keytip, keytipClassNames } from '.';
+import { Keytip, keytipClassNames } from './index';
 
 describe('Keytip', () => {
   it('renders a default state', () => {
