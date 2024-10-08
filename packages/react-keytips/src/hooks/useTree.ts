@@ -49,11 +49,11 @@ export function useTree() {
     nodeMap.current.set(node.uniqueId, node);
 
     // if there are nodes that are parent of current node, add it to their children
-    [...nodeMap.current.values()].forEach((n) => {
+    for (const n of nodeMap.current.values()) {
       if (n.id === node.parent) {
         n.children.add(node.uniqueId);
       }
-    });
+    }
   }, []);
 
   const removeNode = React.useCallback((id: string) => {
@@ -81,14 +81,15 @@ export function useTree() {
       const parent = getParentID(keytip.keySequences);
 
       if (prevParent !== parent) {
-        [...nodeMap.current.values()].forEach((node) => {
+        for (const node of nodeMap.current.values()) {
           if (node.id === prevParent) {
             node.children.delete(keytip.uniqueId);
           }
+
           if (node.id === parent) {
             node.children.add(keytip.uniqueId);
           }
-        });
+        }
       }
 
       nodeMap.current.set(
