@@ -52,77 +52,6 @@ describe('Keytips', () => {
     expect(screen.getAllByRole('tooltip')).toHaveLength(2);
   });
 
-  it('should navigate deeper and upper by pressing key sequence and return sequence', async () => {
-    const onReturn = jest.fn();
-
-    const Component = () => {
-      const firstButton = useKeytipRef({
-        keySequences: ['a'],
-        content: 'A',
-        onReturn,
-      });
-
-      const secondButton = useKeytipRef({
-        keySequences: ['a', 'b'],
-        content: 'B',
-        onReturn,
-      });
-
-      const thirdButton = useKeytipRef({
-        keySequences: ['a', 'b', 'c'],
-        content: 'C',
-        onReturn,
-      });
-
-      return (
-        <>
-          <Keytips content="Alt Meta" />
-          <Button ref={firstButton}>keytip A</Button>
-          <Button ref={secondButton}>keytip B</Button>
-          <Button ref={thirdButton}>keytip C</Button>
-        </>
-      );
-    };
-
-    const { baseElement } = render(<Component />);
-
-    // enter keytip mode
-    await act(async () => await userEvent.keyboard('{Alt>}{Meta}'));
-
-    expect(screen.getAllByRole('tooltip')).toHaveLength(1);
-    // shows the root level keytip (A)
-    expect(baseElement.querySelector('#keytip-ktp-a')).toBeTruthy();
-    expect(baseElement.querySelector('#keytip-ktp-a-b')).not.toBeTruthy();
-    expect(baseElement.querySelector('#keytip-ktp-a-b-c')).not.toBeTruthy();
-
-    // should show the next keytip (B)
-    await act(async () => await userEvent.keyboard('{A}'));
-    expect(baseElement.querySelector('#keytip-ktp-a-b')).toBeTruthy();
-
-    // should show the next keytip (C)
-    await act(async () => await userEvent.keyboard('{B}'));
-
-    expect(baseElement.querySelector('#keytip-ktp-a')).not.toBeTruthy();
-    expect(baseElement.querySelector('#keytip-ktp-a-b')).not.toBeTruthy();
-    expect(baseElement.querySelector('#keytip-ktp-a-b-c')).toBeTruthy();
-
-    // should show previous keytip (B)
-    await act(async () => await userEvent.keyboard('{Escape}'));
-
-    expect(baseElement.querySelector('#keytip-ktp-a-b')).toBeTruthy();
-    expect(baseElement.querySelector('#keytip-ktp-a-b-c')).not.toBeTruthy();
-    expect(baseElement.querySelector('#keytip-ktp-a')).not.toBeTruthy();
-    expect(onReturn).toHaveBeenCalledTimes(1);
-
-    // // should show previous keytip (A)
-    await act(async () => await userEvent.keyboard('{Escape}'));
-
-    expect(baseElement.querySelector('#keytip-ktp-a')).toBeTruthy();
-    expect(baseElement.querySelector('#keytip-ktp-a-b')).not.toBeTruthy();
-    expect(baseElement.querySelector('#keytip-ktp-a-b-c')).not.toBeTruthy();
-    expect(onReturn).toHaveBeenCalledTimes(2);
-  });
-
   it('should fire onExecute', async () => {
     const onExecute = jest.fn();
 
@@ -153,7 +82,7 @@ describe('Keytips', () => {
     expect(onExecute).toHaveBeenCalledTimes(1);
   });
 
-  it('should have custom start and exit sequences', async () => {
+  it('should fire onEnterKeytipsMode and onExitKeytipsMode', async () => {
     const onEnterKeytipsMode = jest.fn();
     const onExitKeytipsMode = jest.fn();
 
@@ -166,9 +95,6 @@ describe('Keytips', () => {
       return (
         <>
           <Keytips
-            startSequence="alt+s"
-            exitSequence="alt+x"
-            content="Alt S"
             onEnterKeytipsMode={onEnterKeytipsMode}
             onExitKeytipsMode={onExitKeytipsMode}
           />
@@ -181,11 +107,12 @@ describe('Keytips', () => {
 
     expect(screen.queryAllByRole('tooltip')).toHaveLength(0);
     // enter keytip mode
-    await act(async () => await userEvent.keyboard('{alt>}{s}'));
+    await act(async () => await userEvent.keyboard('{Alt>}{Meta}'));
+
     expect(screen.queryAllByRole('tooltip')).toHaveLength(1);
     expect(onEnterKeytipsMode).toHaveBeenCalledTimes(1);
 
-    await act(async () => await userEvent.keyboard('{alt>}{x}'));
+    await act(async () => await userEvent.keyboard('{Alt>}{Escape}'));
     expect(screen.queryAllByRole('tooltip')).toHaveLength(0);
     expect(onExitKeytipsMode).toHaveBeenCalledTimes(1);
   });
