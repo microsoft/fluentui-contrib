@@ -65,6 +65,14 @@
           "quiet": true
         }
       }
+    },
+    "component-test": {
+      "executor": "@fluentui-contrib/nx-plugin:playwright",
+      "options": {
+        "testingType": "component",
+        "output": "{workspaceRoot}/dist/.playwright/packages/react-keytips",
+        "config": "packages/react-keytips/playwright.config.ts"
+      }
     }
   }
 }

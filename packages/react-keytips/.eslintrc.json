@@ -19,6 +19,11 @@
       "rules": {
         "@nx/enforce-module-boundaries": "off"
       }
+    },
+    {
+      "files": ["src/**/*.spec.{ts,js,tsx,jsx}"],
+      "extends": ["plugin:playwright/recommended"],
+      "rules": {}
     }
   ]
 }
