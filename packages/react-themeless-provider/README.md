@@ -1,4 +1,4 @@
-# react-themeless-provider
+# @fluentui-contrib/react-themeless-provider
 
 This package provides `ThemelessFluentProvider`, a replacement for `FluentProvider` when the provider needs to be rendered inside shadow DOM.
 

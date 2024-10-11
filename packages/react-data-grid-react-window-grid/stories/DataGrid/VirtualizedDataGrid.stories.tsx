@@ -21,7 +21,7 @@ import { VariableSizeGrid, VariableSizeList } from 'react-window';
 
 export default {
   component: DataGrid,
-  title: 'DataGrid',
+  title: 'Packages/DataGrid',
 } as Meta;
 
 /**
