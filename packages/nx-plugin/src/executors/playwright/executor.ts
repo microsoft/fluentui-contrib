@@ -44,7 +44,7 @@ function playwrightCTExecutor(
 
   if (!options.skipInstall) {
     output.log({
-      title: 'Packages/Ensuring Playwright is installed.',
+      title: 'Ensuring Playwright is installed.',
       bodyLines: ['use --skipInstall to skip installation.'],
     });
     const pmc = getPackageManagerCommand();
