@@ -26,7 +26,7 @@
       "executor": "@nx/storybook:build",
       "outputs": ["{options.outputDir}"],
       "options": {
-        "outputDir": "dist/storybook/docs",
+        "outputDir": "dist/storybook/docsite",
         "configDir": "apps/docsite/.storybook",
         "docs": true,
         "docsMode": true
