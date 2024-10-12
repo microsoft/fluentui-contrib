@@ -1,4 +1,4 @@
-# react-keytips
+# @fluentui-contrib/react-keytips
 
 This library was generated with [Nx](https://nx.dev).
 
