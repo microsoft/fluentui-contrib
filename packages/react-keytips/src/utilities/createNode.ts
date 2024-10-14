@@ -22,11 +22,11 @@ export const createNode = ({
   const children = new Set<string>();
 
   // fill in children set, if there are nodes that has this node as parent
-  [...nodeMap.values()].forEach((node) => {
+  for (const node of nodeMap.values()) {
     if (node.parent === id) {
       children.add(node.uniqueId);
     }
-  });
+  }
 
   const node: KeytipTreeNode = {
     id,
