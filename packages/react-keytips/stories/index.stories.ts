@@ -5,9 +5,9 @@ export { WithTabsStory as WithTabs } from './WithTabs.stories';
 export { DynamicStory as Dynamic } from './Dynamic.stories';
 export { OverflowStory as Overflow } from './OverflowMenu.stories';
 
-const meta: Meta<typeof Keytips> = {
+const meta = {
   title: 'Keytips',
   component: Keytips,
-};
+} satisfies Meta<typeof Keytips>;
 
 export default meta;

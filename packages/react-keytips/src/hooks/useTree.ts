@@ -63,7 +63,7 @@ export function useTree() {
       nodeMap.current.delete(id);
 
       // find and remove the node from its parent
-      const parentNode = [...nodeMap.current.values()].find(
+      const parentNode = Array.from(nodeMap.current.values()).find(
         (n) => n.id === node.parent
       );
 
@@ -106,7 +106,7 @@ export function useTree() {
         return undefined;
       }
 
-      const matchingNodes = [...current.children]
+      const matchingNodes = Array.from(current.children)
         .map((childId) => nodeMap.current.get(childId))
         .filter((node) => node?.keySequences.slice(-1)[0] === sequence);
 
@@ -123,12 +123,14 @@ export function useTree() {
 
   const getChildren = React.useCallback((node?: KeytipTreeNode) => {
     const target = node ?? currentKeytip.current;
-    return target && target.children ? [...target.children.values()] : [];
+    return target && target.children
+      ? Array.from(target.children.values())
+      : [];
   }, []);
 
   const getBack = React.useCallback(() => {
     if (currentKeytip.current) {
-      const parent = [...nodeMap.current.values()].find(
+      const parent = Array.from(nodeMap.current.values()).find(
         (n) => n.id === currentKeytip.current?.parent
       );
       if (parent) {
