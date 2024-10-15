@@ -1,6 +1,6 @@
 {
   "type": "minor",
-  "comment": "feat(react-keytips): initial implementation",
+  "comment": "feat: initial implementation",
   "packageName": "@fluentui-contrib/react-keytips",
   "email": "vgenaev@gmail.com",
   "dependentChangeType": "patch"
