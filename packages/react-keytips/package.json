@@ -15,6 +15,7 @@
     "@fluentui/react-jsx-runtime": "^9.0.29",
     "@fluentui/react-utilities": "^9.16.0",
     "@fluentui/react-positioning": "^9.16.0",
-    "@fluentui/keyboard-keys": "~9.0.6"
+    "@fluentui/keyboard-keys": "~9.0.6",
+    "@swc/helpers": "~0.5.2"
   }
 }
