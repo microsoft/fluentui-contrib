@@ -181,7 +181,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
 
       dispatch({ type: ACTIONS.SET_SEQUENCE, value: '' });
     },
-    []
+    [handleExitKeytipMode]
   );
 
   const handlePartiallyMatchedNodes = React.useCallback((sequence: string) => {
