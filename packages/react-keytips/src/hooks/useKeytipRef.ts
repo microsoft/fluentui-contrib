@@ -33,6 +33,7 @@ export const useKeytipRef = <
 
   const prevKeytip = usePrevious(ktp);
 
+  // this will run on every render, in order to update the keytip if the keySequences change
   React.useEffect(() => {
     if (prevKeytip) {
       if (!isEqualArray(prevKeytip.keySequences, ktp.keySequences)) {
