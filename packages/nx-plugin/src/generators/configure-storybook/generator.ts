@@ -6,6 +6,7 @@ import {
   readProjectConfiguration,
   updateJson,
   ProjectConfiguration,
+  offsetFromRoot,
 } from '@nx/devkit';
 import { configurationGenerator } from '@nx/storybook';
 import * as path from 'path';
@@ -41,7 +42,10 @@ export default async function (
   });
 
   // add our boilerplate
-  generateFiles(tree, path.join(__dirname, 'files'), projectRoot, options);
+  generateFiles(tree, path.join(__dirname, 'files'), projectRoot, {
+    ...offsetFromRoot,
+    rootOffset: [offsetFromRoot(projectRoot), '..'].join(''),
+  });
   updateSolutionTsConfig(tree, { project });
 
   await formatFiles(tree);

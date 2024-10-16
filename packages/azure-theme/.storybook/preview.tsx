@@ -1,17 +1,10 @@
-import * as React from 'react';
+import type { Preview } from '@storybook/react';
 
-import { Preview } from '@storybook/react';
-import { AzureLightTheme } from '../src/index';
-import { FluentProvider } from '@fluentui/react-components';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import rootPreview from '../../../.storybook/preview';
 
 const preview: Preview = {
-  decorators: [
-    (Story) => (
-      <FluentProvider theme={AzureLightTheme}>
-        <Story />
-      </FluentProvider>
-    ),
-  ],
+  ...rootPreview,
 };
 
 export default preview;

@@ -6,6 +6,7 @@ export { Status } from './Status.stories';
 export { Slots } from './Slots.stories';
 
 const meta: Meta<typeof ChatMyMessage> = {
+  title: 'Packages/react-chat/ChatMyMessage',
   component: ChatMyMessage,
 };
 

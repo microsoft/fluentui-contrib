@@ -1,4 +1,4 @@
-# variant-theme
+# @fluentui-contrib/variant-theme
 
 This library was generated with [Nx](https://nx.dev).
 

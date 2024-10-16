@@ -1,4 +1,4 @@
-# react-data-grid-react-window-grid
+# @fluentui-contrib/react-data-grid-react-window-grid
 
 A variant of the Fluent UI [DataGrid](https://react.fluentui.dev/?path=/docs/components-datagrid--default) that is
 virtualized 2 dimentionally using [react-window](https://react-window.vercel.app/#/examples/grid/variable-size).

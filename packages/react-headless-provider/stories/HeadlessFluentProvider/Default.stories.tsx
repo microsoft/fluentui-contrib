@@ -79,25 +79,26 @@ const ThemeInjector: React.FC<{ theme: PartialTheme }> = ({ theme }) => {
 
 export const Default = () => {
   return (
-    <>
-      <p>
-        This example uses <code>iframe</code> to sandbox styles, but it's not
-        mandatory in a real world.
-      </p>
-
-      <p>
-        This example uses <code>HeadlessFluentProvider</code> to provide proper
-        context values for components (including a proper <code>document</code>{' '}
-        instance), but does not apply CSS for the theme. CSS for theme is
-        applied globally (to `:root`) in this example.
-      </p>
-
-      <Frame style={{ border: '2px dotted green', width: 500 }}>
-        <ThemeInjector theme={webLightTheme} />
-        <AppProvider>
-          <Container />
-        </AppProvider>
-      </Frame>
-    </>
+    <Frame style={{ border: '2px dotted green', width: 500 }}>
+      <ThemeInjector theme={webLightTheme} />
+      <AppProvider>
+        <Container />
+      </AppProvider>
+    </Frame>
   );
+};
+
+Default.parameters = {
+  docs: {
+    description: {
+      story: [
+        `This example uses <code>iframe</code> to sandbox styles, but it's not
+      mandatory in a real world.`,
+        `This example uses <code>HeadlessFluentProvider</code> to provide proper
+      context values for components (including a proper <code>document</code>
+      instance), but does not apply CSS for the theme. CSS for theme is
+      applied globally (to \`:root\`) in this example.`,
+      ].join('\n'),
+    },
+  },
 };

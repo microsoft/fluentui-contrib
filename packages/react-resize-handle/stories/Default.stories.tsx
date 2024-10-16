@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { StoryObj } from '@storybook/react';
 import { useResizeHandle } from '@fluentui-contrib/react-resize-handle';
 import {
   makeResetStyles,
@@ -148,7 +149,7 @@ const Component = (props: ComponentProps) => {
   );
 };
 
-export const Default = {
+export const Default: StoryObj<ComponentProps> = {
   render: (args) => {
     return <Component {...args} />;
   },

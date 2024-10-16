@@ -1,4 +1,4 @@
-# react-tree-grid
+# @fluentui-contrib/react-tree-grid
 
 This package provides a set of styleless components to implement the `treegrid` navigation pattern.
 
