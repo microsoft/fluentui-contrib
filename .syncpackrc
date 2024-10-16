@@ -18,10 +18,12 @@
     },
     {
       "packages": [
-        "@fluentui-contrib/react-interactive-tab"
+        "@fluentui-contrib/react-interactive-tab",
+        "@fluentui-contrib/react-keytips"
       ],
       "dependencies": [
-        "@fluentui/react-jsx-runtime"
+        "@fluentui/react-jsx-runtime",
+        "@fluentui/react-utilities"
       ],
       "dependencyTypes": [
         "prod"

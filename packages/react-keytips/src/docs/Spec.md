@@ -104,7 +104,7 @@ The keytip is positioned below and centered to the target element by default.
 
 ### Style variants
 
-`Keytips` have two style variants (appearance): `normal` and `inverted` (default).
+`Keytips` background (`NeutralBackgroundInverted`) and foreground (`NeutralForegroundInverted`) tokens are based on theme provided to `FluentProvider`.
 
 ![Keytip style variants example](assets/style-variants.png)
 
@@ -131,7 +131,6 @@ The keytip is positioned below and centered to the target element by default.
 | `onReturn`     | `ReturnKeytipEventHandler`  |                                          | Callback function triggered when the return sequence is pressed.                                                                                                  |
 | `keySequences` | `string[]`                  |                                          | Array of KeySequences which is the full key sequence to trigger this keytip. Should not include initial 'start' key sequence.                                     |
 | `dynamic`      | `boolean`                   |                                          | Whether or not this keytip will have dynamic content: children keytips that are dynamically created (DOM is generated on keytip activation), Menu, Tabs or Modal. |
-| `appearance`   | `normal \| inverted`        | `inverted`                               | Visual appearance of Keytip.                                                                                                                                      |
 | `visible`      | `boolean`                   | `false`                                  | Control the Keytip's visibility programmatically.                                                                                                                 |
 | `content`      | `string`                    |                                          | The text content of the Keytip.                                                                                                                                   |
 
@@ -176,10 +175,10 @@ See [MIGRATION.md](./MIGRATION.md).
 
 ## Keytip activation
 
-- Keytip activation is done by pressing the key sequence that is defined in `keySequences` prop of `useKeytipRef` hook.
+- `Keytip` activation is done by pressing the key sequence that is defined in `keySequences` prop of `useKeytipRef` hook.
   When the key sequence is pressed, the `onExecute` callback is triggered, if keytip has children keytips it will show them.
 
-- Keytip sequence is case-insensitive and limited to 3 characters.
+- `Keytip` sequence is case-insensitive and limited to 3 characters.
 
 ## Keytip on disabled item
 
@@ -187,8 +186,43 @@ See [MIGRATION.md](./MIGRATION.md).
 
 ## Keytip positioning
 
-Keytip component using [positioning API](https://react.fluentui.dev/?path=/docs/concepts-developer-positioning-components--docs) and
-can be controlled by `positioning` prop in `useKeytipRef` hook. By default the keytip is positioned below and centered to the target element.
+`Keytip` component using [positioning API](https://react.fluentui.dev/?path=/docs/concepts-developer-positioning-components--docs) and
+can be controlled by `positioning` prop in `useKeytipRef` hook. By default all keytips are positioned below and centered to the target element.
+
+## Keytip and dynamic content
+
+There is a special case where controls on the page will change other controls down the chain in the `keytip` sequence.
+For instance, clicking Button A and Button B will update the text of the Button C. Keytip sequence of Button C is depending on Button A and B,
+because it cannot be the child of both at the same time, for this working fully Button A and Button B should have set their keytips with additional
+parameter `dynamic: true`.
+
+```tsx
+const [currentButton, setCurrentButton] = React.useState('Button 1');
+const startSequence = currentButton === 'Button 1' ? 'gg1' : 'gg2';
+
+const onExecute: ExecuteKeytipEventHandler = (_, { targetElement }) => {
+  if (targetElement) targetElement?.click();
+};
+
+const firstButton = useKeytipRef({
+  keySequences: ['gg1'],
+  content: 'GG1',
+  dynamic: true,
+  onExecute,
+});
+
+const secondButton = useKeytipRef({
+  keySequences: ['gg2'],
+  content: 'GG2',
+  dynamic: true,
+  onExecute,
+});
+
+const thirdButton = useKeytipRef({
+  content: 'GG3',
+  keySequences: [startSequence, 'gg3'],
+});
+```
 
 ## Accessibility
 
