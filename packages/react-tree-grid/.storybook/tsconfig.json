@@ -22,7 +22,6 @@
     "../stories/**/*.stories.tsx",
     "../stories/**/*.stories.mdx",
     "*.ts",
-    "*.js",
-    "../stories/VariantB.stories.tsx"
+    "*.js"
   ]
 }
