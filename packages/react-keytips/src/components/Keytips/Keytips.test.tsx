@@ -116,4 +116,40 @@ describe('Keytips', () => {
     expect(screen.queryAllByRole('tooltip')).toHaveLength(0);
     expect(onExitKeytipsMode).toHaveBeenCalledTimes(1);
   });
+
+  it('should support different invoking event', async () => {
+    const addEventListener = jest.spyOn(document, 'addEventListener');
+    const removeEventListener = jest.spyOn(document, 'removeEventListener');
+
+    const Component = () => {
+      const ref = useKeytipRef({
+        keySequences: ['a'],
+        content: 'A',
+      });
+
+      return (
+        <>
+          {/* default is keydown */}
+          <Keytips invokeEvent="keyup" />
+          <Button ref={ref}>keytip A</Button>
+        </>
+      );
+    };
+
+    const { unmount } = render(<Component />);
+
+    await act(async () => await userEvent.keyboard('{Alt>}{Meta}'));
+
+    expect(addEventListener).toHaveBeenCalledWith(
+      'keyup',
+      expect.any(Function)
+    );
+
+    unmount();
+
+    expect(removeEventListener).toHaveBeenCalledWith(
+      'keyup',
+      expect.any(Function)
+    );
+  });
 });
