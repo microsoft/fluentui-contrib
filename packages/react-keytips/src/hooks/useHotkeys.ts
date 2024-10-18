@@ -54,7 +54,11 @@ const isKeyMatchingKeyboardEvent = (
   return false;
 };
 
-export const useHotkeys = (hotkeys: Hotkey[], target?: Document) => {
+export const useHotkeys = (
+  hotkeys: Hotkey[],
+  invokeEvent: 'keyup' | 'keydown' = 'keydown',
+  target?: Document
+) => {
   const { targetDocument } = useFluent();
   const doc = target ?? targetDocument;
 
@@ -85,9 +89,9 @@ export const useHotkeys = (hotkeys: Hotkey[], target?: Document) => {
       );
     };
 
-    doc?.addEventListener('keydown', listener);
+    doc?.addEventListener(invokeEvent, listener);
     return () => {
-      doc?.removeEventListener('keydown', listener);
+      doc?.removeEventListener(invokeEvent, listener);
     };
   }, [hotkeys, doc]);
 };
