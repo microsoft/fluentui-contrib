@@ -1,5 +1,6 @@
 import { Meta } from '@storybook/react';
-import * as React from 'react';
+import description from '../README.md';
+
 import { AllControls } from './All.stories';
 export { AccordionExample } from './Accordion.stories';
 export { AvatarExample } from './Avatar.stories';
@@ -41,8 +42,16 @@ export { TreeExample } from './Tree.stories';
 
 // Using AllControls component in meta
 const meta: Meta<typeof AllControls> = {
-  title: 'YourComponent/AllControls', // Add a unique title here
+  title: 'Packages/azure-theme',
   component: AllControls,
+  parameters: {
+    docs: {
+      description: {
+        component: description,
+      },
+      hideArgsTable: true,
+    },
+  },
 };
 
 export default meta;

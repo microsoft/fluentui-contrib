@@ -1,29 +1,10 @@
-import { Preview } from '@storybook/react';
-import { withThemeFromJSXProvider } from '@storybook/addon-themes';
+import type { Preview } from '@storybook/react';
 
-import {
-  FluentProvider,
-  webLightTheme,
-  webDarkTheme,
-  teamsLightTheme,
-  teamsDarkTheme,
-  teamsHighContrastTheme,
-} from '@fluentui/react-components';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import rootPreview from '../../../.storybook/preview';
 
 const preview: Preview = {
-  decorators: [
-    withThemeFromJSXProvider({
-      themes: {
-        webLightTheme: webLightTheme,
-        webDarkTheme: webDarkTheme,
-        teamsLightTheme: teamsLightTheme,
-        teamsDarkTheme: teamsDarkTheme,
-        teamsHighContrastTheme: teamsHighContrastTheme,
-      },
-      defaultTheme: 'webLightTheme',
-      Provider: FluentProvider,
-    }),
-  ],
+  ...rootPreview,
 };
 
 export default preview;
