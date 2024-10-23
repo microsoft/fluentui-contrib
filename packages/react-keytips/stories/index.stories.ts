@@ -6,7 +6,7 @@ export { DynamicStory as Dynamic } from './Dynamic.stories';
 export { OverflowStory as Overflow } from './OverflowMenu.stories';
 
 const meta = {
-  title: 'Keytips',
+  title: 'Packages/react-keytips',
   component: Keytips,
 } satisfies Meta<typeof Keytips>;
 
