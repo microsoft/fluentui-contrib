@@ -1,5 +1,5 @@
 {
-  "type": "minor",
+  "type": "patch",
   "comment": "feat: add invokeEvent prop",
   "packageName": "@fluentui-contrib/react-keytips",
   "email": "vgenaev@gmail.com",
