@@ -25,17 +25,17 @@ export type KeytipsProps = ComponentProps<KeytipsSlots> &
     content?: string;
     /**
      * Key sequence that will start keytips mode
-     * @default 'alt+meta'
+     * @default 'alt+meta'.
      */
     startSequence?: string;
     /**
      * Key sequences that execute the return functionality in keytips
-     * (going back to the previous level of keytips)
+     * (going back to the previous level of keytips).
      * @default 'escape'
      */
     returnSequence?: string;
     /**
-     * Key sequences that will exit keytips mode
+     * Key sequences that will exit keytips mode.
      */
     exitSequence?: string;
     /**
@@ -43,9 +43,14 @@ export type KeytipsProps = ComponentProps<KeytipsSlots> &
      */
     onExitKeytipsMode?: EventHandler<OnExitKeytipsModeData>;
     /**
-     * Callback function triggered when keytip mode is entered
+     * Callback function triggered when keytip mode is entered.
      */
     onEnterKeytipsMode?: EventHandler<OnEnterKeytipsModeData>;
+    /**
+     * Event responsible for invoking keytips.
+     * @default 'keydown'
+     * */
+    invokeEvent?: 'keydown' | 'keyup';
   };
 
 /**

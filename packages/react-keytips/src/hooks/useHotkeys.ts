@@ -2,6 +2,7 @@ import {
   useIsomorphicLayoutEffect,
   useFluent,
 } from '@fluentui/react-components';
+import { KeytipsProps } from '../components/Keytips/Keytips.types';
 
 type Options = { preventDefault?: boolean; stopPropagation?: boolean };
 export type Hotkey = [string, (ev: KeyboardEvent) => void, Options?];
@@ -54,7 +55,11 @@ const isKeyMatchingKeyboardEvent = (
   return false;
 };
 
-export const useHotkeys = (hotkeys: Hotkey[], target?: Document) => {
+export const useHotkeys = (
+  hotkeys: Hotkey[],
+  invokeEvent: KeytipsProps['invokeEvent'] = 'keydown',
+  target?: Document
+) => {
   const { targetDocument } = useFluent();
   const doc = target ?? targetDocument;
 
@@ -85,9 +90,9 @@ export const useHotkeys = (hotkeys: Hotkey[], target?: Document) => {
       );
     };
 
-    doc?.addEventListener('keydown', listener);
+    doc?.addEventListener(invokeEvent, listener);
     return () => {
-      doc?.removeEventListener('keydown', listener);
+      doc?.removeEventListener(invokeEvent, listener);
     };
   }, [hotkeys, doc]);
 };

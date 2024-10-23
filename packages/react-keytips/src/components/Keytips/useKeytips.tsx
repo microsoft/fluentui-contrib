@@ -29,6 +29,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     returnSequence = 'escape',
     onEnterKeytipsMode,
     onExitKeytipsMode,
+    invokeEvent = 'keydown',
   } = props;
   const { subscribe, reset } = useEventService();
   const [state, dispatch] = useKeytipsState();
@@ -92,13 +93,16 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     [state.inKeytipMode]
   );
 
-  useHotkeys([
-    [startSequence, handleEnterKeytipMode],
-    [returnSequence, handleReturnSequence],
-    ...[exitSequence, 'tab', 'enter', 'space'].map(
-      (key) => [key, handleExitKeytipMode] as Hotkey
-    ),
-  ]);
+  useHotkeys(
+    [
+      [startSequence, handleEnterKeytipMode],
+      [returnSequence, handleReturnSequence],
+      ...[exitSequence, 'tab', 'enter', 'space'].map(
+        (key) => [key, handleExitKeytipMode] as Hotkey
+      ),
+    ],
+    invokeEvent
+  );
 
   React.useEffect(() => {
     const handleKeytipAdded = (keytip: KeytipWithId) => {
@@ -197,7 +201,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
   React.useEffect(() => {
     if (!targetDocument) return;
 
-    const handleKeyDown = (ev: KeyboardEvent) => {
+    const handleInvokeEvent = (ev: KeyboardEvent) => {
       ev.preventDefault();
       ev.stopPropagation();
 
@@ -215,9 +219,9 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
       handlePartiallyMatchedNodes(currSeq);
     };
 
-    targetDocument?.addEventListener('keydown', handleKeyDown);
+    targetDocument?.addEventListener(invokeEvent, handleInvokeEvent);
     return () => {
-      targetDocument?.removeEventListener('keydown', handleKeyDown);
+      targetDocument?.removeEventListener(invokeEvent, handleInvokeEvent);
     };
   }, [
     state.inKeytipMode,
