@@ -13,7 +13,6 @@
       "options": {
         "port": 4400,
         "configDir": "apps/docsite/.storybook",
-        "docs": true,
         "docsMode": true
       },
       "configurations": {
@@ -28,7 +27,6 @@
       "options": {
         "outputDir": "dist/storybook/docsite",
         "configDir": "apps/docsite/.storybook",
-        "docs": true,
         "docsMode": true
       },
       "configurations": {
