@@ -128,3 +128,26 @@ test.describe('keytip and dynamic content update', () => {
     ).toBeVisible();
   });
 });
+
+test.describe('keytips should have invoking events', () => {
+  test('it should invoke on keyup event', async ({ mount, page }) => {
+    await mount(<KeytipsBasicExample invokeEvent="keyup" />);
+    const tooltip = page.getByRole('tooltip');
+    await page.keyboard.down('Alt');
+    await page.keyboard.down('Meta');
+    await expect(tooltip).toBeHidden();
+    await page.keyboard.press('Alt+Meta');
+    await expect(tooltip).toBeVisible();
+  });
+
+  test('it should invoke on keydown event', async ({ mount, page }) => {
+    await mount(<KeytipsBasicExample />);
+    const tooltip = page.getByRole('tooltip');
+    await page.keyboard.up('Alt');
+    await page.keyboard.up('Meta');
+    await expect(tooltip).toBeHidden();
+    await page.keyboard.down('Alt');
+    await page.keyboard.down('Meta');
+    await expect(tooltip).toBeVisible();
+  });
+});
