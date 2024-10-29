@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react';
+import { renderHook, act } from '@testing-library/react';
 import { useHotkeys } from './useHotkeys';
 import userEvent from '@testing-library/user-event';
 
@@ -27,5 +27,25 @@ describe('useHotkeys', () => {
     renderHook(() => useHotkeys([['alt+X', cb]]));
     await userEvent.keyboard('{Alt}{C}');
     expect(cb).toHaveBeenCalledTimes(0);
+  });
+
+  it('should run handler only if the sequence is hold for certain time', async () => {
+    jest.useFakeTimers();
+
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+    const cb = jest.fn();
+
+    renderHook(() => useHotkeys([['alt+control', cb, { delay: 1000 }]]));
+
+    await user.keyboard('{Alt>}{Control>}');
+
+    expect(cb).toHaveBeenCalledTimes(0);
+
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
+
+    expect(cb).toHaveBeenCalledTimes(1);
   });
 });
