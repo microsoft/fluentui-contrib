@@ -125,6 +125,7 @@ export const useHotkeys = (
     return () => {
       doc?.removeEventListener(invokeEvent, handleInvokeEvent);
       doc?.removeEventListener('keyup', handleKeyUp);
+      clearDelayTimeout();
     };
   }, [hotkeys, doc]);
 };
