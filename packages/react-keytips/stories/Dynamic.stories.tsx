@@ -1,7 +1,5 @@
 import * as React from 'react';
 import {
-  Keytips,
-  KeytipsProps,
   ExecuteKeytipEventHandler,
   useKeytipRef,
 } from '@fluentui-contrib/react-keytips';
@@ -21,7 +19,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const DynamicStory = (props: KeytipsProps) => {
+export const DynamicStory = () => {
   const classes = useStyles();
 
   const [currentButton, setCurrentButton] = React.useState('Button 1');
@@ -52,7 +50,6 @@ export const DynamicStory = (props: KeytipsProps) => {
 
   return (
     <>
-      <Keytips {...props} content="Alt Control" />
       <div className={classes.column}>
         <div className={classes.row}>
           <Button

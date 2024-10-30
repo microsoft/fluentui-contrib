@@ -1,8 +1,6 @@
 import * as React from 'react';
 import {
   ExecuteKeytipEventHandler,
-  Keytips,
-  KeytipsProps,
   useKeytipRef,
 } from '@fluentui-contrib/react-keytips';
 import {
@@ -44,7 +42,7 @@ const btnExecute: ExecuteKeytipEventHandler = (_, el) => {
   el.targetElement?.click();
 };
 
-export const WithTabsStory = (props: KeytipsProps) => {
+export const WithTabsStory = () => {
   const classes = useStyles();
 
   const [selectedValue, setSelectedValue] = React.useState<TabValue>('1');
@@ -103,7 +101,6 @@ export const WithTabsStory = (props: KeytipsProps) => {
 
   return (
     <>
-      <Keytips {...props} content="Alt Control" />
       <TabList onTabSelect={onTabSelect}>
         <Tab id="1" ref={refFirstTab} value="1">
           First Tab

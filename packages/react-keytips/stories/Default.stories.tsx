@@ -1,7 +1,5 @@
 import * as React from 'react';
 import {
-  Keytips,
-  KeytipsProps,
   ExecuteKeytipEventHandler,
   useKeytipRef,
 } from '@fluentui-contrib/react-keytips';
@@ -122,7 +120,7 @@ const MenuButtonComponent = () => {
   );
 };
 
-export const DefaultStory = (props: KeytipsProps) => {
+export const DefaultStory = () => {
   const classes = useStyles();
 
   const normalButton = useKeytipRef({
@@ -146,7 +144,6 @@ export const DefaultStory = (props: KeytipsProps) => {
 
   return (
     <>
-      <Keytips {...props} content="Alt Meta" />
       <div className={classes.column}>
         <div className={classes.row}>
           <Button ref={normalButton}>Button</Button>
