@@ -117,6 +117,7 @@ describe('useTree', () => {
       expect(result.current.root).toEqual({
         id: KTP_ROOT_ID,
         children: new Set(),
+        dependentKeys: [],
         target: null,
         parent: '',
         keySequences: [],

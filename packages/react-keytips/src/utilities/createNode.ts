@@ -8,10 +8,14 @@ export const createNode = ({
   onExecute,
   onReturn,
   dynamic,
+  isShortcut,
   nodeMap,
   positioning,
+  dependentKeys = [],
 }: KeytipWithId & {
   nodeMap: Map<string, KeytipTreeNode>;
+  isShortcut?: boolean;
+  dependentKeys?: string[];
 }): KeytipTreeNode => {
   const id = sequencesToID(keySequences);
   const parent =
@@ -34,10 +38,12 @@ export const createNode = ({
     target: positioning?.target as HTMLElement,
     parent,
     children,
+    dependentKeys,
     keySequences: keySequences.map((key) => key.toLowerCase()),
     onExecute,
     onReturn,
     dynamic,
+    isShortcut,
   };
 
   return node;

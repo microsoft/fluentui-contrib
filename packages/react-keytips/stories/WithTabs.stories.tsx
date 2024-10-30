@@ -2,7 +2,6 @@ import * as React from 'react';
 import {
   ExecuteKeytipEventHandler,
   useKeytipRef,
-  KeytipsProps,
 } from '@fluentui-contrib/react-keytips';
 import {
   makeStyles,
@@ -53,50 +52,50 @@ export const WithTabsStory = () => {
   };
 
   const refFirstTab = useKeytipRef({
-    keySequences: ['a'],
-    content: 'A',
+    keySequences: ['b1'],
+    content: 'B1',
     onExecute: btnExecute,
   });
 
   const refSecondTab = useKeytipRef({
-    keySequences: ['b'],
-    content: 'B',
+    keySequences: ['b2'],
+    content: 'B2',
     onExecute: btnExecute,
   });
 
   const refThirdTab = useKeytipRef({
-    keySequences: ['c'],
-    content: 'C',
+    keySequences: ['b3'],
+    content: 'B3',
     onExecute: btnExecute,
   });
 
   const checkBoxRef = useKeytipRef<HTMLInputElement>({
-    keySequences: ['a', '1'],
+    keySequences: ['b1', '1'],
     content: '1',
     onExecute: btnExecute,
   });
 
   const switchRef = useKeytipRef<HTMLInputElement>({
-    keySequences: ['a', '2'],
+    keySequences: ['b1', '2'],
     content: '2',
     onExecute: btnExecute,
   });
 
   const linkRef = useKeytipRef<HTMLAnchorElement | HTMLSpanElement>({
-    keySequences: ['a', '3'],
+    keySequences: ['b1', '3'],
     content: '3',
     onExecute: btnExecute,
   });
 
   const btnRef = useKeytipRef({
-    keySequences: ['b', '1'],
-    content: 'B1',
+    keySequences: ['b2', '1'],
+    content: '1',
     onExecute: btnExecute,
   });
 
   const btnRefSecond = useKeytipRef({
-    keySequences: ['c', '1'],
-    content: 'C1',
+    keySequences: ['b3', '1'],
+    content: '1',
     onExecute: btnExecute,
   });
 

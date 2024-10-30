@@ -10,6 +10,8 @@ export type KeytipTreeNode = Pick<
 > & {
   id: string;
   uniqueId: string;
+  isShortcut?: boolean;
+  dependentKeys: string[];
   target: HTMLElement | null;
   parent: string;
   children: Set<string>;
@@ -29,6 +31,7 @@ export function useTree() {
       children: new Set(),
       target: null,
       parent: '',
+      dependentKeys: [],
       keySequences: [],
     }),
     []
@@ -40,9 +43,9 @@ export function useTree() {
 
   const currentKeytip = React.useRef<KeytipTreeNode | undefined>();
 
-  const addNode = React.useCallback((keytip: KeytipWithId) => {
+  const addNode = React.useCallback((newNode: KeytipWithId) => {
     const node = createNode({
-      ...keytip,
+      ...newNode,
       nodeMap: nodeMap.current,
     });
 
@@ -102,6 +105,7 @@ export function useTree() {
   const getMatchingNode = React.useCallback(
     (sequence: string) => {
       const { current } = currentKeytip;
+
       if (!current) {
         return undefined;
       }
@@ -114,9 +118,13 @@ export function useTree() {
         return undefined;
       }
 
-      currentKeytip.current = matchingNodes[0];
+      const matched = matchingNodes[0];
 
-      return matchingNodes[0];
+      if (!matched) return undefined;
+
+      currentKeytip.current = matched;
+
+      return matched;
     },
     [targetDocument]
   );
@@ -161,9 +169,13 @@ export function useTree() {
     return currentKeytip.current.id === parentID;
   }, []);
 
+  const getNode = (id: string) =>
+    [...nodeMap.current.values()].find((node) => node.id === id);
+
   return {
     nodeMap,
     addNode,
+    getNode,
     updateNode,
     root,
     currentKeytip,

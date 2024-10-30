@@ -2,6 +2,7 @@ import * as React from 'react';
 import {
   ExecuteKeytipEventHandler,
   useKeytipRef,
+  useMenuShortcut,
 } from '@fluentui-contrib/react-keytips';
 import {
   makeStyles,
@@ -56,14 +57,20 @@ const useStyles = makeStyles({
 });
 
 const onExecute: ExecuteKeytipEventHandler = (_, el) => {
-  el.targetElement.click();
+  el.targetElement?.click();
 };
 
 const SubMenuSecond = () => {
   const subMenuRef = useKeytipRef<HTMLDivElement>({
-    keySequences: ['a', 'b', 'c'],
-    content: 'C',
+    keySequences: ['d', 'bb', 'cc'],
+    content: 'CC',
     dynamic: true,
+    onExecute,
+  });
+
+  const subMenuItemRef = useKeytipRef<HTMLDivElement>({
+    keySequences: ['d', 'bb', 'cc', 'cz'],
+    content: 'CZ',
     onExecute,
   });
 
@@ -75,7 +82,7 @@ const SubMenuSecond = () => {
 
       <MenuPopover>
         <MenuList>
-          <MenuItem>11</MenuItem>
+          <MenuItem ref={subMenuItemRef}>11</MenuItem>
           <MenuItem>12</MenuItem>
           <MenuItem>13</MenuItem>
         </MenuList>
@@ -86,8 +93,8 @@ const SubMenuSecond = () => {
 
 const SubMenu = () => {
   const subMenuRef = useKeytipRef<HTMLDivElement>({
-    keySequences: ['a', 'b'],
-    content: 'B',
+    keySequences: ['d', 'bb'],
+    content: 'BB',
     dynamic: true,
     onExecute,
   });
@@ -125,9 +132,19 @@ const OverflowMenu = ({ itemIds }: { itemIds: string[] }) => {
   const { ref, overflowCount, isOverflowing } =
     useOverflowMenu<HTMLButtonElement>();
 
+  useMenuShortcut({
+    shortcut: 'bb',
+    dependentKeys: ['d'],
+  });
+
+  useMenuShortcut({
+    shortcut: 'cc',
+    dependentKeys: ['d', 'bb'],
+  });
+
   const menuRef = useKeytipRef({
-    keySequences: ['a'],
-    content: 'A',
+    keySequences: ['d'],
+    content: 'D',
     dynamic: true,
     onExecute,
   });

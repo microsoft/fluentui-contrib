@@ -8,7 +8,6 @@ const subMenuRef = useKeytipRef<HTMLDivElement>({
   keySequences: ['a', 'b'],
   content: 'B',
   dynamic: true,
-  persited: true,
   onExecute,
 });
 ```

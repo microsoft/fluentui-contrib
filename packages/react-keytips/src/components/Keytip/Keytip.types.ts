@@ -17,13 +17,13 @@ export type KeytipSlots = {
   content: NonNullable<Slot<'div'>>;
 };
 
-export type ExecuteKeytipEventHandler<E = HTMLElement> = EventHandler<
+export type ExecuteKeytipEventHandler<E = HTMLElement | null> = EventHandler<
   EventData<InvokeEvent, KeyboardEvent> & {
     targetElement: E;
   }
 >;
 
-export type ReturnKeytipEventHandler<E = HTMLElement> = EventHandler<
+export type ReturnKeytipEventHandler<E = HTMLElement | null> = EventHandler<
   EventData<InvokeEvent, KeyboardEvent> & {
     targetElement: E;
   }
@@ -59,8 +59,11 @@ export type KeytipProps = ComponentProps<KeytipSlots> & {
   dynamic?: boolean;
 };
 
+/** @internal */
 export type KeytipWithId = KeytipProps & {
   uniqueId: string;
+  isShortcut?: boolean;
+  dependentKeys?: string[];
 };
 
 export type KeytipState = ComponentState<KeytipSlots> &
