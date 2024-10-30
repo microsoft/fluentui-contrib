@@ -1,7 +1,0 @@
-{
-  "type": "none",
-  "comment": "fix: make stories title consistent with other packages",
-  "packageName": "@fluentui-contrib/react-keytips",
-  "email": "kirpadv@gmail.com",
-  "dependentChangeType": "none"
-}

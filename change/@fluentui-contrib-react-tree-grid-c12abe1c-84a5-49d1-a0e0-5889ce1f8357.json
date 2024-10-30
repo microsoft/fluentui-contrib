@@ -1,7 +1,0 @@
-{
-  "type": "none",
-  "comment": "feat: add docsite app with docs for packages",
-  "packageName": "@fluentui-contrib/react-tree-grid",
-  "email": "kirpadv@gmail.com",
-  "dependentChangeType": "none"
-}

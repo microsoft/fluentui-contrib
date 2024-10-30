@@ -2,6 +2,41 @@
   "name": "@fluentui-contrib/react-keytips",
   "entries": [
     {
+      "date": "Wed, 30 Oct 2024 16:51:34 GMT",
+      "tag": "@fluentui-contrib/react-keytips_v0.1.1",
+      "version": "0.1.1",
+      "comments": {
+        "none": [
+          {
+            "author": "kirpadv@gmail.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "d047927299a9e0ad85ee35a7e36852522ec4fcfc",
+            "comment": "fix: make stories title consistent with other packages"
+          }
+        ],
+        "patch": [
+          {
+            "author": "vgenaev@gmail.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "88d894e93647c7c5142295ad75364b1f586d41ec",
+            "comment": "feat: add invokeEvent prop"
+          },
+          {
+            "author": "vgenaev@gmail.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "bbe928a9ef83ba79409697b10e701771c8d03bfa",
+            "comment": "feat: add startDelay prop"
+          },
+          {
+            "author": "vgenaev@gmail.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "c0879bb2055ced0aac140240fbdd008b3d5b62a1",
+            "comment": "fix: adjust exports"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 16 Oct 2024 11:04:29 GMT",
       "tag": "@fluentui-contrib/react-keytips_v0.1.0",
       "version": "0.1.0",

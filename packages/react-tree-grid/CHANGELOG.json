@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-tree-grid",
   "entries": [
     {
+      "date": "Wed, 30 Oct 2024 16:51:34 GMT",
+      "tag": "@fluentui-contrib/react-tree-grid_v0.1.2",
+      "version": "0.1.2",
+      "comments": {
+        "none": [
+          {
+            "author": "kirpadv@gmail.com",
+            "package": "@fluentui-contrib/react-tree-grid",
+            "commit": "5f2bc3aa11788aab9654b3eb6aa26b52e197003b",
+            "comment": "feat: add docsite app with docs for packages"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 14 Aug 2024 14:13:06 GMT",
       "tag": "@fluentui-contrib/react-tree-grid_v0.1.2",
       "version": "0.1.2",
