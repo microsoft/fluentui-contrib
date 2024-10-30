@@ -2,6 +2,7 @@ import { useCallback, useRef, useEffect } from 'react';
 import { useFluent } from '@fluentui/react-components';
 import { EVENTS } from '../constants';
 import type { KeytipWithId } from '../components/Keytip';
+import type { KeytipTreeNode } from '../hooks/useTree';
 
 type EventType = (typeof EVENTS)[keyof typeof EVENTS];
 
@@ -11,6 +12,10 @@ type PayloadDefinition = {
   [EVENTS.KEYTIP_UPDATED]: KeytipWithId;
   [EVENTS.KEYTIP_ADDED]: KeytipWithId;
   [EVENTS.KEYTIP_REMOVED]: KeytipWithId;
+  [EVENTS.KEYTIP_EXECUTED]: KeytipTreeNode;
+  [EVENTS.SHORTCUT_ADDED]: KeytipWithId;
+  [EVENTS.SHORTCUT_REMOVED]: KeytipWithId;
+  [EVENTS.SHORTCUT_EXECUTED]: KeytipTreeNode;
 };
 
 function isCustomEvent(event: Event): event is CustomEvent {

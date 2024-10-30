@@ -17,13 +17,13 @@ export type KeytipSlots = {
   content: NonNullable<Slot<'div'>>;
 };
 
-export type ExecuteKeytipEventHandler<E = HTMLElement> = EventHandler<
+export type ExecuteKeytipEventHandler<E = HTMLElement | null> = EventHandler<
   EventData<InvokeEvent, KeyboardEvent> & {
     targetElement: E;
   }
 >;
 
-export type ReturnKeytipEventHandler<E = HTMLElement> = EventHandler<
+export type ReturnKeytipEventHandler<E = HTMLElement | null> = EventHandler<
   EventData<InvokeEvent, KeyboardEvent> & {
     targetElement: E;
   }
@@ -53,12 +53,22 @@ export type KeytipProps = ComponentProps<KeytipSlots> & {
    */
   keySequences: string[];
   /**
-   * Whether or not this keytip will have children keytips that are dynamically created (DOM is generated on * keytip activation).
+   * Whether or not this Keytip will have children keytips that are dynamically created (DOM is generated on * keytip activation).
    * Common cases are a Tabs or Modal. Or if the keytip opens a menu.
    */
   dynamic?: boolean;
+  /**
+   * Whether this Keytip can be accessed at the root level.
+   */
+  shortcut?: boolean;
+  /**
+   * Whether or not this Keytip belongs to a component that has a menu Keytip mode will stay on when a menu is opened,
+   * even if the items in that menu have no keytips.
+   */
+  hasMenu?: boolean;
 };
 
+/** @internal */
 export type KeytipWithId = KeytipProps & {
   uniqueId: string;
 };

@@ -12,105 +12,38 @@ import {
   MenuList,
   MenuItem,
   MenuButton,
-  tokens,
-  mergeClasses,
   Overflow,
-  OverflowItemProps,
   OverflowItem,
-  useIsOverflowItemVisible,
   useOverflowMenu,
   useMergedRefs,
+  useIsOverflowItemVisible,
+  OverflowItemProps,
 } from '@fluentui/react-components';
 import description from './OverflowMenu.md';
+
+type ItemIds = Array<[string, ReturnType<typeof useKeytipRef>]>;
 
 const useStyles = makeStyles({
   container: {
     display: 'flex',
     flexWrap: 'nowrap',
     minWidth: 0,
+    maxWidth: '400px',
     overflow: 'hidden',
-  },
-
-  resizableArea: {
-    minWidth: '200px',
-    maxWidth: '800px',
-    border: `2px solid ${tokens.colorBrandBackground}`,
-    padding: '20px 10px 10px 10px',
-    position: 'relative',
-    resize: 'horizontal',
-    '::after': {
-      content: `'Resizable Area'`,
-      position: 'absolute',
-      padding: '1px 4px 1px',
-      top: '-2px',
-      left: '-2px',
-      fontFamily: 'monospace',
-      fontSize: '15px',
-      fontWeight: 900,
-      lineHeight: 1,
-      letterSpacing: '1px',
-      color: tokens.colorNeutralForegroundOnBrand,
-      backgroundColor: tokens.colorBrandBackground,
-    },
   },
 });
 
-const onExecute: ExecuteKeytipEventHandler = (_, el) => {
-  el.targetElement.click();
+const onExecute: ExecuteKeytipEventHandler = (_, { targetElement }) => {
+  if (targetElement) {
+    targetElement?.focus();
+    targetElement?.click();
+  }
 };
 
-const SubMenuSecond = () => {
-  const subMenuRef = useKeytipRef<HTMLDivElement>({
-    keySequences: ['a', 'b', 'c'],
-    content: 'C',
-    dynamic: true,
-    onExecute,
-  });
-
-  return (
-    <Menu>
-      <MenuTrigger disableButtonEnhancement>
-        <MenuItem ref={subMenuRef}>Sub Menu</MenuItem>
-      </MenuTrigger>
-
-      <MenuPopover>
-        <MenuList>
-          <MenuItem>11</MenuItem>
-          <MenuItem>12</MenuItem>
-          <MenuItem>13</MenuItem>
-        </MenuList>
-      </MenuPopover>
-    </Menu>
-  );
-};
-
-const SubMenu = () => {
-  const subMenuRef = useKeytipRef<HTMLDivElement>({
-    keySequences: ['a', 'b'],
-    content: 'B',
-    dynamic: true,
-    onExecute,
-  });
-
-  return (
-    <Menu>
-      <MenuTrigger disableButtonEnhancement>
-        <MenuItem ref={subMenuRef}>Sub Menu</MenuItem>
-      </MenuTrigger>
-
-      <MenuPopover>
-        <MenuList>
-          <MenuItem>8</MenuItem>
-          <MenuItem>9</MenuItem>
-          <MenuItem>10</MenuItem>
-          <SubMenuSecond />
-        </MenuList>
-      </MenuPopover>
-    </Menu>
-  );
-};
-
-const OverflowMenuItem = (props: Pick<OverflowItemProps, 'id'>) => {
+const OverflowMenuItem = React.forwardRef<
+  HTMLDivElement,
+  Pick<OverflowItemProps, 'id'>
+>((props, ref) => {
   const { id } = props;
   const isVisible = useIsOverflowItemVisible(id);
 
@@ -118,16 +51,55 @@ const OverflowMenuItem = (props: Pick<OverflowItemProps, 'id'>) => {
     return null;
   }
 
-  return <MenuItem>Item {id}</MenuItem>;
-};
+  return <MenuItem ref={ref}>Item {id}</MenuItem>;
+});
 
-const OverflowMenu = ({ itemIds }: { itemIds: string[] }) => {
+const SubMenu = React.forwardRef<HTMLDivElement>((_, ref) => {
+  const menuRefItem = useKeytipRef<HTMLDivElement>({
+    keySequences: ['d', 'y', 'h'],
+    content: 'H',
+    onExecute,
+  });
+
+  return (
+    <Menu>
+      <MenuTrigger disableButtonEnhancement>
+        <MenuItem ref={ref}>Overflow Item</MenuItem>
+      </MenuTrigger>
+
+      <MenuPopover>
+        <MenuList>
+          <MenuItem ref={menuRefItem}>Overflow SubMenu Item</MenuItem>
+        </MenuList>
+      </MenuPopover>
+    </Menu>
+  );
+});
+
+const OverflowMenu = ({ itemIds }: { itemIds: ItemIds }) => {
   const { ref, overflowCount, isOverflowing } =
     useOverflowMenu<HTMLButtonElement>();
 
+  const menuRefItem = useKeytipRef<HTMLDivElement>({
+    keySequences: ['d', 't'],
+    content: 'T',
+    shortcut: true,
+    onExecute: () => {
+      console.info('overflow item T');
+    },
+  });
+
+  const subMenuRef = useKeytipRef<HTMLDivElement>({
+    keySequences: ['d', 'y'],
+    content: 'Y',
+    shortcut: true,
+    hasMenu: true,
+    onExecute,
+  });
+
   const menuRef = useKeytipRef({
-    keySequences: ['a'],
-    content: 'A',
+    keySequences: ['d'],
+    content: 'D',
     dynamic: true,
     onExecute,
   });
@@ -146,10 +118,16 @@ const OverflowMenu = ({ itemIds }: { itemIds: string[] }) => {
 
       <MenuPopover>
         <MenuList>
-          {itemIds.map((i) => {
-            return <OverflowMenuItem key={i} id={i} />;
+          {itemIds.map(([id, ref], idx) => {
+            return (
+              <OverflowMenuItem
+                key={id}
+                id={id}
+                ref={idx === itemIds.length - 1 ? menuRefItem : ref}
+              />
+            );
           })}
-          <SubMenu />
+          <SubMenu ref={subMenuRef} />
         </MenuList>
       </MenuPopover>
     </Menu>
@@ -159,15 +137,37 @@ const OverflowMenu = ({ itemIds }: { itemIds: string[] }) => {
 export const OverflowStory = () => {
   const styles = useStyles();
 
-  const itemIds = new Array(8).fill(0).map((_, i) => i.toString());
+  const firstItemRef = useKeytipRef({
+    keySequences: ['q'],
+    content: 'Q',
+    onExecute,
+  });
+
+  const secondItemRef = useKeytipRef({
+    keySequences: ['w'],
+    content: 'W',
+    onExecute,
+  });
+
+  const thirdItemRef = useKeytipRef({
+    keySequences: ['e'],
+    content: 'E',
+    onExecute,
+  });
+
+  const refs = [firstItemRef, secondItemRef, thirdItemRef];
+
+  const itemIds = new Array(5)
+    .fill(0)
+    .map((_, i) => [i.toString(), refs[i]]) as ItemIds;
 
   return (
     <>
       <Overflow>
-        <div className={mergeClasses(styles.container, styles.resizableArea)}>
-          {itemIds.map((i) => (
+        <div className={styles.container}>
+          {itemIds.map(([i, ref]) => (
             <OverflowItem key={i} id={i}>
-              <Button>Item {i}</Button>
+              <Button ref={ref}>Item {i}</Button>
             </OverflowItem>
           ))}
           <OverflowMenu itemIds={itemIds} />

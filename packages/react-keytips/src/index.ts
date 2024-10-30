@@ -20,6 +20,9 @@ export {
   useKeytips_unstable,
 } from './components/Keytips';
 
+export { EVENTS } from './constants';
+
 export type { KeytipsProps, KeytipsSlots, KeytipsState } from './Keytips';
 
 export { useKeytipRef } from './hooks/useKeytipRef';
+export { useEventService } from './hooks/useEventService';

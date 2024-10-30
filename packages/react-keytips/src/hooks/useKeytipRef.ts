@@ -14,21 +14,33 @@ export const useKeytipRef = <
 >(
   keytip: Omit<KeytipProps, 'uniqueId'>
 ): React.Dispatch<React.SetStateAction<T | null>> => {
-  const uniqueId = React.useId();
+  const ktpId = React.useId();
+  const shortcutId = React.useId();
   const [node, setNode] = React.useState<T | null>(null);
   const { dispatch } = useEventService();
 
   const ktp = React.useMemo(
     () => ({
       ...keytip,
-      uniqueId,
+      uniqueId: ktpId,
       id: sequencesToID(keytip.keySequences),
       positioning: {
         target: node,
         ...keytip.positioning,
       },
     }),
-    [keytip, uniqueId, node]
+    [keytip, ktpId, node]
+  );
+
+  const shortcut = React.useMemo(
+    () => ({
+      uniqueId: shortcutId,
+      dependentKeys: keytip.keySequences.slice(0, -1),
+      keySequences: keytip.keySequences.slice(-1),
+      isShortcut: true,
+      content: '',
+    }),
+    [keytip, shortcutId]
   );
 
   const prevKeytip = usePrevious(ktp);
@@ -44,9 +56,11 @@ export const useKeytipRef = <
 
   React.useEffect(() => {
     dispatch(EVENTS.KEYTIP_ADDED, ktp);
+    if (ktp.shortcut) dispatch(EVENTS.SHORTCUT_ADDED, shortcut);
 
     return () => {
       dispatch(EVENTS.KEYTIP_REMOVED, ktp);
+      if (ktp.shortcut) dispatch(EVENTS.SHORTCUT_REMOVED, shortcut);
     };
   }, [node]);
 
