@@ -30,21 +30,21 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     onEnterKeytipsMode,
     onExitKeytipsMode,
     invokeEvent = 'keydown',
+    startDelay = 0,
   } = props;
   const { subscribe, reset } = useEventService();
   const [state, dispatch] = useKeytipsState();
   const tree = useTree();
 
-  const showKeytips = React.useCallback(
-    (ids: string[]) =>
-      dispatch({ type: ACTIONS.SET_VISIBLE_KEYTIPS, ids, targetDocument }),
-    []
-  );
+  const showKeytips = React.useCallback((ids: string[]) => {
+    dispatch({ type: ACTIONS.SET_VISIBLE_KEYTIPS, ids, targetDocument });
+  }, []);
 
   const handleEnterKeytipMode = React.useCallback(
     (ev: KeyboardEvent) => {
       if (!state.inKeytipMode) {
         tree.currentKeytip.current = tree.root;
+
         dispatch({ type: ACTIONS.ENTER_KEYTIP_MODE });
         onEnterKeytipsMode?.(ev, { event: ev, type: 'keydown' });
         showKeytips(tree.getChildren());
@@ -95,7 +95,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
 
   useHotkeys(
     [
-      [startSequence, handleEnterKeytipMode],
+      [startSequence, handleEnterKeytipMode, { delay: startDelay }],
       [returnSequence, handleReturnSequence],
       ...[exitSequence, 'tab', 'enter', 'space'].map(
         (key) => [key, handleExitKeytipMode] as Hotkey
@@ -183,6 +183,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
         showKeytips(currentChildren);
       }
 
+      // reset the sequence
       dispatch({ type: ACTIONS.SET_SEQUENCE, value: '' });
     },
     [handleExitKeytipMode]

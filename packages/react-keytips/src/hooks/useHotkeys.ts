@@ -1,10 +1,18 @@
+import * as React from 'react';
+
 import {
   useIsomorphicLayoutEffect,
   useFluent,
+  useTimeout,
 } from '@fluentui/react-components';
 import { KeytipsProps } from '../components/Keytips/Keytips.types';
 
-type Options = { preventDefault?: boolean; stopPropagation?: boolean };
+type Options = {
+  preventDefault?: boolean;
+  stopPropagation?: boolean;
+  delay?: number;
+};
+
 export type Hotkey = [string, (ev: KeyboardEvent) => void, Options?];
 
 export type InputHotkey = {
@@ -61,10 +69,12 @@ export const useHotkeys = (
   target?: Document
 ) => {
   const { targetDocument } = useFluent();
+  const [setDelayTimeout, clearDelayTimeout] = useTimeout();
   const doc = target ?? targetDocument;
+  const activeKeys = React.useRef<Set<string>>(new Set());
 
   useIsomorphicLayoutEffect(() => {
-    const listener = (ev: KeyboardEvent) => {
+    const handleInvokeEvent = (ev: KeyboardEvent) => {
       hotkeys.forEach(
         ([hotkey, handler, options = { preventDefault: true }]) => {
           const event = (
@@ -84,15 +94,38 @@ export const useHotkeys = (
               ev.stopPropagation();
             }
 
-            handler(event);
+            // if options.delay is > 0, it will be needed to hold the sequence
+            // to fire the handler
+            if (options.delay && options.delay > 0) {
+              clearDelayTimeout();
+              activeKeys.current.add(ev.key);
+              setDelayTimeout(() => {
+                if (activeKeys.current.has(ev.key)) {
+                  handler(event);
+                }
+              }, options.delay);
+            } else {
+              handler(event);
+            }
           }
         }
       );
     };
 
-    doc?.addEventListener(invokeEvent, listener);
+    const handleKeyUp = (ev: KeyboardEvent) => {
+      activeKeys.current.delete(ev.key);
+
+      if (activeKeys.current.size === 0) {
+        clearDelayTimeout();
+      }
+    };
+
+    doc?.addEventListener(invokeEvent, handleInvokeEvent);
+    doc?.addEventListener('keyup', handleKeyUp);
     return () => {
-      doc?.removeEventListener(invokeEvent, listener);
+      doc?.removeEventListener(invokeEvent, handleInvokeEvent);
+      doc?.removeEventListener('keyup', handleKeyUp);
+      clearDelayTimeout();
     };
   }, [hotkeys, doc]);
 };
