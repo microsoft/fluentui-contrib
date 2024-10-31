@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: do not show keytips for disabled targets",
+  "packageName": "@fluentui-contrib/react-keytips",
+  "email": "vgenaev@gmail.com",
+  "dependentChangeType": "patch"
+}
