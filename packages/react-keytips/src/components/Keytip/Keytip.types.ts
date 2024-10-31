@@ -5,6 +5,7 @@ import type {
   ComponentState,
   Slot,
 } from '@fluentui/react-components';
+import type { InvokeEvent } from '../Keytips/Keytips.types';
 
 /**
  * Slot properties for Keytip
@@ -17,13 +18,13 @@ export type KeytipSlots = {
 };
 
 export type ExecuteKeytipEventHandler<E = HTMLElement> = EventHandler<
-  EventData<'keydown', KeyboardEvent> & {
+  EventData<InvokeEvent, KeyboardEvent> & {
     targetElement: E;
   }
 >;
 
 export type ReturnKeytipEventHandler<E = HTMLElement> = EventHandler<
-  EventData<'keydown', KeyboardEvent> & {
+  EventData<InvokeEvent, KeyboardEvent> & {
     targetElement: E;
   }
 >;

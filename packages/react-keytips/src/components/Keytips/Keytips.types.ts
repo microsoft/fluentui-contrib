@@ -11,6 +11,8 @@ export type KeytipsSlots = {
   root: Slot<'div'>;
 };
 
+export type InvokeEvent = 'keydown' | 'keyup';
+
 type OnExitKeytipsModeData = EventData<'keydown', KeyboardEvent>;
 type OnEnterKeytipsModeData = EventData<'keydown', KeyboardEvent>;
 
@@ -57,7 +59,7 @@ export type KeytipsProps = ComponentProps<KeytipsSlots> &
      * Event responsible for invoking keytips.
      * @default 'keydown'
      * */
-    invokeEvent?: 'keydown' | 'keyup';
+    invokeEvent?: InvokeEvent;
   };
 
 /**

@@ -5,6 +5,7 @@ import {
   KeytipsTabsExample,
   KeytipsOverflowMenuExample,
   KeytipsDynamicExample,
+  KeytipsDisabledTargetExample,
 } from './KeytipsExamples.component-browser-spec';
 
 test.use({ viewport: { width: 500, height: 500 } });
@@ -18,6 +19,18 @@ test.describe('enter and exit from keytip mode interactions', () => {
     await expect(tooltip).toBeVisible();
     await component.press('Alt+Escape');
     await expect(tooltip).toBeHidden();
+  });
+
+  test('should not show keytip for disabled target', async ({
+    mount,
+    page,
+  }) => {
+    const component = await mount(<KeytipsDisabledTargetExample />);
+    const tooltip = page.getByRole('tooltip');
+    await expect(tooltip).toBeHidden();
+    await component.press('Alt+Meta');
+    await expect(page.getByRole('tooltip', { name: 'B1' })).toBeVisible();
+    await expect(page.getByRole('tooltip', { name: 'A1' })).toBeHidden();
   });
 
   test('should enter and exit with custom start and exit sequences', async ({

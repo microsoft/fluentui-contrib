@@ -77,7 +77,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
         if (currentKeytip.target) {
           currentKeytip?.onReturn?.(ev, {
             event: ev,
-            type: 'keydown',
+            type: invokeEvent,
             targetElement: currentKeytip.target,
           });
         }
@@ -165,10 +165,10 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     (ev: KeyboardEvent, node: KeytipTreeNode) => {
       tree.currentKeytip.current = node;
 
-      if (node.target) {
+      if (node.target && !node.target.hasAttribute('disabled')) {
         node.onExecute?.(ev, {
           event: ev,
-          type: 'keydown',
+          type: invokeEvent,
           targetElement: node.target,
         });
       }

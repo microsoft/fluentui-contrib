@@ -95,6 +95,34 @@ export const KeytipsBasicExample = (props: KeytipsProps) => {
   );
 };
 
+export const KeytipsDisabledTargetExample = (props: KeytipsProps) => {
+  const onExecute: ExecuteKeytipEventHandler = (_, { targetElement }) => {
+    if (targetElement) targetElement.click();
+  };
+
+  const disabledKeytipTarget = useKeytipRef({
+    keySequences: ['a'],
+    content: 'A1',
+    onExecute,
+  });
+
+  const keytipTarget = useKeytipRef({
+    keySequences: ['b'],
+    content: 'B1',
+    onExecute,
+  });
+
+  return (
+    <FluentProvider>
+      <Keytips {...props} />
+      <Button ref={disabledKeytipTarget} disabled>
+        Disabled Button
+      </Button>
+      <Button ref={keytipTarget}>Normal Button</Button>
+    </FluentProvider>
+  );
+};
+
 export const KeytipsTabsExample = (props: KeytipsProps) => {
   const [selectedValue, setSelectedValue] = React.useState<TabValue>('1');
 
