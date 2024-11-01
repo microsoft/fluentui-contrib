@@ -1,6 +1,6 @@
 {
   "name": "@fluentui-contrib/react-interactive-tab",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "dependencies": {
     "@fluentui/react-jsx-runtime": "^9.0.29",
     "@swc/helpers": "~0.5.2"

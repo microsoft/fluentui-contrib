@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-interactive-tab",
   "entries": [
     {
+      "date": "Fri, 01 Nov 2024 18:43:13 GMT",
+      "tag": "@fluentui-contrib/react-interactive-tab_v0.1.1",
+      "version": "0.1.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "soniaboller@gmail.com",
+            "package": "@fluentui-contrib/react-interactive-tab",
+            "commit": "a781bbcb7a0f15e7f191b3501b15c6e556cea53a",
+            "comment": "refactor: export all types and hooks from barrel file"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 16 Oct 2024 11:04:29 GMT",
       "tag": "@fluentui-contrib/react-interactive-tab_v0.1.0",
       "version": "0.1.0",

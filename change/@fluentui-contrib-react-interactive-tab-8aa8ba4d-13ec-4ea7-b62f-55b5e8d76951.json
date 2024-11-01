@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "refactor: export all types and hooks from barrel file",
-  "packageName": "@fluentui-contrib/react-interactive-tab",
-  "email": "soniaboller@gmail.com",
-  "dependentChangeType": "patch"
-}
