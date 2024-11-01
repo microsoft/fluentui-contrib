@@ -3,6 +3,7 @@ import {
   Keytips,
   ExecuteKeytipEventHandler,
   useKeytipRef,
+  KeytipsProps,
 } from '@fluentui-contrib/react-keytips';
 import {
   makeStyles,
@@ -16,12 +17,13 @@ import {
   tokens,
   mergeClasses,
   Overflow,
-  OverflowItem,
   OverflowItemProps,
+  OverflowItem,
   useIsOverflowItemVisible,
   useOverflowMenu,
   useMergedRefs,
 } from '@fluentui/react-components';
+import description from './OverflowMenu.stories.md';
 
 const useStyles = makeStyles({
   container: {
@@ -110,7 +112,7 @@ const SubMenu = () => {
   );
 };
 
-const OverflowMenuItem: React.FC<Pick<OverflowItemProps, 'id'>> = (props) => {
+const OverflowMenuItem = (props: Pick<OverflowItemProps, 'id'>) => {
   const { id } = props;
   const isVisible = useIsOverflowItemVisible(id);
 
@@ -121,7 +123,7 @@ const OverflowMenuItem: React.FC<Pick<OverflowItemProps, 'id'>> = (props) => {
   return <MenuItem>Item {id}</MenuItem>;
 };
 
-const OverflowMenu: React.FC<{ itemIds: string[] }> = ({ itemIds }) => {
+const OverflowMenu = ({ itemIds }: { itemIds: string[] }) => {
   const { ref, overflowCount, isOverflowing } =
     useOverflowMenu<HTMLButtonElement>();
 
@@ -176,4 +178,12 @@ export const OverflowStory = () => {
       </Overflow>
     </>
   );
+};
+
+OverflowStory.parameters = {
+  docs: {
+    description: {
+      story: description,
+    },
+  },
 };

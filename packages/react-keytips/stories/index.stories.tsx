@@ -1,8 +1,8 @@
 import * as React from 'react';
+import description from '../README.md';
 
 import { Meta } from '@storybook/react';
 import { Keytips } from '@fluentui-contrib/react-keytips';
-import description from '../README.md';
 export { DefaultStory as Default } from './Default.stories';
 export { WithTabsStory as WithTabs } from './WithTabs.stories';
 export { DynamicStory as Dynamic } from './Dynamic.stories';

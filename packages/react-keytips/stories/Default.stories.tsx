@@ -18,6 +18,7 @@ import {
   MenuButtonProps,
   useMergedRefs,
 } from '@fluentui/react-components';
+import description from './Default.stories.md';
 
 const useStyles = makeStyles({
   splitButtonWrapper: {
@@ -161,4 +162,12 @@ export const DefaultStory = () => {
       </div>
     </>
   );
+};
+
+DefaultStory.parameters = {
+  docs: {
+    description: {
+      story: description,
+    },
+  },
 };
