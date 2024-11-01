@@ -2,7 +2,6 @@ export type {
   InteractiveTabProps,
   InteractiveTabSlots,
   InteractiveTabState,
-  InteractiveTabInternalSlots,
 } from './components/InteractiveTab';
 export {
   InteractiveTab,
