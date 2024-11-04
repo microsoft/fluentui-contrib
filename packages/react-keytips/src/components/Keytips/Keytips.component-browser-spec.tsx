@@ -6,6 +6,7 @@ import {
   KeytipsOverflowMenuExample,
   KeytipsDynamicExample,
   KeytipsDisabledTargetExample,
+  KeytipsDisabledMenuTargetExample,
 } from './KeytipsExamples.component-browser-spec';
 
 test.use({ viewport: { width: 500, height: 500 } });
@@ -29,8 +30,26 @@ test.describe('enter and exit from keytip mode interactions', () => {
     const tooltip = page.getByRole('tooltip');
     await expect(tooltip).toBeHidden();
     await component.press('Alt+Meta');
-    await expect(page.getByRole('tooltip', { name: 'B1' })).toBeVisible();
-    await expect(page.getByRole('tooltip', { name: 'A1' })).toBeHidden();
+
+    await expect(page.getByRole('tooltip', { name: 'B' })).toBeVisible();
+    await expect(page.getByRole('tooltip', { name: 'A' })).toBeHidden();
+  });
+
+  test('should not show keytip for disabled target in menu', async ({
+    mount,
+    page,
+  }) => {
+    const component = await mount(<KeytipsDisabledMenuTargetExample />);
+    const tooltip = page.getByRole('tooltip');
+    await expect(tooltip).toBeHidden();
+    await component.press('Alt+Meta');
+
+    await expect(page.getByRole('tooltip', { name: 'A' })).toBeVisible();
+
+    await page.keyboard.press('a');
+
+    await expect(page.getByRole('tooltip', { name: 'C' })).toBeVisible();
+    await expect(page.getByRole('tooltip', { name: 'B' })).toBeHidden();
   });
 
   test('should enter and exit with custom start and exit sequences', async ({
@@ -70,7 +89,7 @@ test.describe('enter and exit from keytip mode interactions', () => {
 test.describe('test keytip navigation', () => {
   test('should work with tabs', async ({ mount, page }) => {
     const component = await mount(<KeytipsTabsExample />);
-    // should shoow first level of keytips
+    // should show first level of keytips
     await component.press('Alt+Meta');
 
     expect(await page.getByRole('tooltip').count()).toBe(2);
@@ -100,7 +119,7 @@ test.describe('test keytip navigation', () => {
 
     await expect(page.getByRole('tooltip', { name: 'A' })).toBeVisible();
     // should open nested menus and show next keytip
-    await component.press('a');
+    await page.keyboard.press('a');
     await expect(page.getByRole('menuitem', { name: 'Item 7' })).toBeVisible();
     await expect(page.getByRole('tooltip', { name: 'B' })).toBeVisible();
 

@@ -102,24 +102,68 @@ export const KeytipsDisabledTargetExample = (props: KeytipsProps) => {
 
   const disabledKeytipTarget = useKeytipRef({
     keySequences: ['a'],
-    content: 'A1',
+    content: 'A',
     onExecute,
   });
 
   const keytipTarget = useKeytipRef({
     keySequences: ['b'],
-    content: 'B1',
+    content: 'B',
     onExecute,
   });
 
   return (
-    <FluentProvider>
+    <>
       <Keytips {...props} />
       <Button ref={disabledKeytipTarget} disabled>
         Disabled Button
       </Button>
       <Button ref={keytipTarget}>Normal Button</Button>
-    </FluentProvider>
+    </>
+  );
+};
+
+export const KeytipsDisabledMenuTargetExample = (props: KeytipsProps) => {
+  const onExecute: ExecuteKeytipEventHandler = (_, { targetElement }) => {
+    if (targetElement) targetElement.click();
+  };
+
+  const keytipMenu = useKeytipRef({
+    keySequences: ['a'],
+    content: 'A',
+    onExecute,
+  });
+
+  const keytipMenuDisabled = useKeytipRef<HTMLDivElement>({
+    keySequences: ['a', 'b'],
+    content: 'B',
+    onExecute,
+  });
+
+  const keytipMenuEnabled = useKeytipRef<HTMLDivElement>({
+    keySequences: ['a', 'c'],
+    content: 'C',
+    onExecute,
+  });
+
+  return (
+    <>
+      <Keytips {...props} />
+      <Menu>
+        <MenuTrigger disableButtonEnhancement>
+          <Button ref={keytipMenu}>Toggle menu</Button>
+        </MenuTrigger>
+
+        <MenuPopover>
+          <MenuList>
+            <MenuItem ref={keytipMenuEnabled}>New </MenuItem>
+            <MenuItem disabled ref={keytipMenuDisabled}>
+              Open Folder
+            </MenuItem>
+          </MenuList>
+        </MenuPopover>
+      </Menu>
+    </>
   );
 };
 
