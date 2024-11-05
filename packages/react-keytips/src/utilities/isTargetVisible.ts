@@ -1,10 +1,12 @@
-import type { PositioningProps } from '@fluentui/react-positioning';
+import { isDisabled } from './isDisabled';
 
 export const isTargetVisible = (
-  target?: PositioningProps['target'],
+  target?: HTMLElement,
   win?: Document['defaultView']
 ): boolean => {
   if (!target || !win) return false;
-  const style = win.getComputedStyle(target as HTMLElement);
+  if (isDisabled(target)) return false;
+
+  const style = win.getComputedStyle(target);
   return style.display !== 'none' && style.visibility !== 'hidden';
 };

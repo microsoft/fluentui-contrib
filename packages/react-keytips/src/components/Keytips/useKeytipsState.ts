@@ -63,8 +63,9 @@ const stateReducer: React.Reducer<KeytipsState, KeytipsAction> = (
         ...state,
         keytips: Object.keys(state.keytips).reduce((acc, key) => {
           const keytip = state.keytips[key];
+
           const isVisibleInDocument = isTargetVisible(
-            keytip.positioning?.target,
+            keytip.positioning?.target as HTMLElement,
             action.targetDocument?.defaultView
           );
 

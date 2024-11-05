@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {
-  Keytips,
   ExecuteKeytipEventHandler,
   useKeytipRef,
 } from '@fluentui-contrib/react-keytips';
@@ -164,7 +163,6 @@ export const OverflowStory = () => {
 
   return (
     <>
-      <Keytips content="Alt Control" />
       <Overflow>
         <div className={mergeClasses(styles.container, styles.resizableArea)}>
           {itemIds.map((i) => (

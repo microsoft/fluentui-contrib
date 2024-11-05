@@ -10,7 +10,7 @@ import { EVENTS, VISUALLY_HIDDEN_STYLES, ACTIONS } from '../../constants';
 import type { KeytipWithId } from '../Keytip';
 import { Keytip } from '../Keytip';
 import { useEventService } from '../../hooks/useEventService';
-import { sequencesToID } from '../../utilities/index';
+import { sequencesToID, isDisabled } from '../../utilities/index';
 import { useTree } from '../../hooks/useTree';
 import type { KeytipTreeNode } from '../../hooks/useTree';
 import type { Hotkey } from '../../hooks/useHotkeys';
@@ -77,7 +77,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
         if (currentKeytip.target) {
           currentKeytip?.onReturn?.(ev, {
             event: ev,
-            type: 'keydown',
+            type: invokeEvent,
             targetElement: currentKeytip.target,
           });
         }
@@ -165,10 +165,10 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     (ev: KeyboardEvent, node: KeytipTreeNode) => {
       tree.currentKeytip.current = node;
 
-      if (node.target) {
+      if (node.target && !isDisabled(node.target)) {
         node.onExecute?.(ev, {
           event: ev,
-          type: 'keydown',
+          type: invokeEvent,
           targetElement: node.target,
         });
       }

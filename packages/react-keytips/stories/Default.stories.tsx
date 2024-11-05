@@ -39,7 +39,9 @@ const useStyles = makeStyles({
 });
 
 const onExecute: ExecuteKeytipEventHandler = (_, { targetElement }) => {
-  if (targetElement) targetElement.click();
+  if (targetElement) {
+    targetElement.click();
+  }
 };
 
 const SplitButtonComponent = () => {
@@ -124,6 +126,12 @@ const MenuButtonComponent = () => {
 export const DefaultStory = () => {
   const classes = useStyles();
 
+  const disabledButton = useKeytipRef({
+    keySequences: ['b0'],
+    content: 'B0',
+    onExecute,
+  });
+
   const normalButton = useKeytipRef({
     keySequences: ['b1'],
     content: 'B1',
@@ -147,6 +155,9 @@ export const DefaultStory = () => {
     <>
       <div className={classes.column}>
         <div className={classes.row}>
+          <Button ref={disabledButton} disabled>
+            Disabled Button
+          </Button>
           <Button ref={normalButton}>Button</Button>
           <CompoundButton
             ref={compoundButton}
