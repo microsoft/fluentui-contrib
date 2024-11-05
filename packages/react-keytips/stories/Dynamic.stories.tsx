@@ -4,7 +4,7 @@ import {
   useKeytipRef,
 } from '@fluentui-contrib/react-keytips';
 import { makeStyles, Button } from '@fluentui/react-components';
-import description from './Dynamic.stories.md';
+import description from './Dynamic.md';
 
 const useStyles = makeStyles({
   column: {

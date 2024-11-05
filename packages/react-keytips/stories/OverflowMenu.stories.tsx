@@ -3,7 +3,6 @@ import {
   Keytips,
   ExecuteKeytipEventHandler,
   useKeytipRef,
-  KeytipsProps,
 } from '@fluentui-contrib/react-keytips';
 import {
   makeStyles,
@@ -23,7 +22,7 @@ import {
   useOverflowMenu,
   useMergedRefs,
 } from '@fluentui/react-components';
-import description from './OverflowMenu.stories.md';
+import description from './OverflowMenu.md';
 
 const useStyles = makeStyles({
   container: {
