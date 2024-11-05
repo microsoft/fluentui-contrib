@@ -122,6 +122,7 @@ The keytip is positioned below and centered to the target element by default.
 | `onExitKeytipsMode`  | `EventHandler<OnExitKeytipsModeData>`  |             | Callback function triggered when keytip mode is exited.                                                                                                               |
 | `onEnterKeytipsMode` | `EventHandler<OnEnterKeytipsModeData>` |             | Callback function triggered when keytip mode is entered.                                                                                                              |
 | `startDelay`         | `number`                               | `0`         | Timeout in milliseconds for keytips enter mode to be on, use if you'd like to have a more clear intent that keytips need to be shown. Values < 0 disable the feature. |
+| `invokeEvent`        | `keydown \| keyup`                     | `keydown`   | The event is responsible for invoking event.                                                                                                                          |
 
 ## useKeytipRef
 

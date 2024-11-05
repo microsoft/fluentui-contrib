@@ -2,6 +2,7 @@ import * as React from 'react';
 import {
   ExecuteKeytipEventHandler,
   useKeytipRef,
+  KeytipsProps,
 } from '@fluentui-contrib/react-keytips';
 import {
   makeStyles,
@@ -138,4 +139,12 @@ export const WithTabsStory = () => {
       </div>
     </>
   );
+};
+
+WithTabsStory.parameters = {
+  docs: {
+    description: {
+      story: `For Tabs, Keytips will first show keytip for each tab, after selecting a tab, the keytips foor it's content are shown.`,
+    },
+  },
 };
