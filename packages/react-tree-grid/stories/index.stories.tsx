@@ -4,6 +4,7 @@ import description from '../README.md';
 
 export { Default } from './Default.stories';
 export { Meet } from './Meet.stories';
+export { LiveMeetingsList } from './LiveMeetingsList.stories';
 export { Virtualization } from './Virtualization.stories';
 export { EmailInbox } from './EmailInbox.stories';
 export { Calls } from './Calls.stories';
