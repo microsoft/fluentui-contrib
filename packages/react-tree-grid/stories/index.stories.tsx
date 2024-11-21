@@ -1,6 +1,7 @@
 import { Meta } from '@storybook/react';
 import { TreeGrid } from '@fluentui-contrib/react-tree-grid';
 import description from '../README.md';
+import a11y from './a11y.md';
 
 export { Default } from './Default.stories';
 export { Meet } from './Meet.stories';
@@ -15,7 +16,7 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: description,
+        component: [description, a11y].join('\n'),
       },
     },
   },
