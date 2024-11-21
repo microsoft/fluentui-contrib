@@ -1,10 +1,10 @@
 export { DataGridBody } from './components/DataGridBody';
 export { DataGrid } from './components/DataGrid';
 export { DataGridRow } from './components/DataGridRow';
+export { DataGridHeader } from './components/DataGridHeader';
 
 export {
   DataGridCell,
-  DataGridHeader,
   DataGridHeaderCell,
   DataGridSelectionCell,
 } from '@fluentui/react-components';

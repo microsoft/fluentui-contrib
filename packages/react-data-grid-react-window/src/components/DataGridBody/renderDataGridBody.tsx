@@ -22,6 +22,7 @@ export const renderDataGridBody_unstable = (state: DataGridBodyState) => {
         height={state.height}
         itemCount={state.rows.length}
         direction={dir}
+        outerRef={state.outerRef}
         {...state.listProps}
       >
         {state.virtualizedRow}
