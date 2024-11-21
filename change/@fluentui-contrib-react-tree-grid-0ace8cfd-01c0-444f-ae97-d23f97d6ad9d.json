@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "docs(react-tree-grid): add a11y section to documentation",
-  "packageName": "@fluentui-contrib/react-tree-grid",
-  "email": "bernardo.sunderhus@gmail.com",
-  "dependentChangeType": "patch"
-}

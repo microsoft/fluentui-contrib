@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-tree-grid",
   "entries": [
     {
+      "date": "Thu, 21 Nov 2024 13:13:06 GMT",
+      "tag": "@fluentui-contrib/react-tree-grid_v0.1.3",
+      "version": "0.1.3",
+      "comments": {
+        "patch": [
+          {
+            "author": "bernardo.sunderhus@gmail.com",
+            "package": "@fluentui-contrib/react-tree-grid",
+            "commit": "07c046d2408f21e2b08422b2eaea1076a376ff43",
+            "comment": "docs(react-tree-grid): add a11y section to documentation"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 30 Oct 2024 16:51:34 GMT",
       "tag": "@fluentui-contrib/react-tree-grid_v0.1.2",
       "version": "0.1.2",

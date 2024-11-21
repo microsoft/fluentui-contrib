@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "keep custom colors",
-  "packageName": "@fluentui-contrib/variant-theme",
-  "email": "rongqizhou@microsoft.com",
-  "dependentChangeType": "patch"
-}
