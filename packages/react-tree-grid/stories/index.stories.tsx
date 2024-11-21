@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react';
 import { TreeGrid } from '@fluentui-contrib/react-tree-grid';
 import description from '../README.md';
-import a11y from './a11y.md'
+import a11y from './a11y.md';
 
 export { Default } from './Default.stories';
 export { Meet } from './Meet.stories';
