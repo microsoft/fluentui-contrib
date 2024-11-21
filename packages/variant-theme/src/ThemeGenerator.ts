@@ -214,7 +214,11 @@ function getStrongVariant(
   // Todo: dark mode support
   setNeutralWithBrand(theme, brand);
 
-  const alphas: Record<AlphaColors, string> = contrast(hex_to_sRGB(newBrandColor), hex_to_sRGB(black)) > contrast(hex_to_sRGB(newBrandColor), hex_to_sRGB(white)) ? whiteAlpha : blackAlpha;
+  const alphas: Record<AlphaColors, string> =
+    contrast(hex_to_sRGB(newBrandColor), hex_to_sRGB(black)) >
+    contrast(hex_to_sRGB(newBrandColor), hex_to_sRGB(white))
+      ? whiteAlpha
+      : blackAlpha;
   setColorsOnBrand(theme, brand, newBrandColor, alphas, isInverted);
 }
 
