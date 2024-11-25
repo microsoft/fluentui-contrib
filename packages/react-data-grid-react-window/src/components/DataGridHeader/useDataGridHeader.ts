@@ -3,17 +3,10 @@ import {
   useDataGridHeader_unstable as useBaseState,
   DataGridHeaderProps,
   DataGridHeaderState,
+  useMergedRefs,
 } from '@fluentui/react-components';
 import { useBodyRefContext } from '../../contexts/bodyRefContext';
 import { useHeaderRefContext } from '../../contexts/headerRefContext';
-
-const setRef = (ref: React.Ref<HTMLElement>, value: HTMLElement | null) => {
-  if (typeof ref === 'function') {
-    ref(value);
-  } else if (ref) {
-    (ref as React.MutableRefObject<HTMLElement | null>).current = value;
-  }
-};
 
 /**
  * Create the state required to render DataGridHeader.
@@ -40,8 +33,7 @@ export const useDataGridHeader_unstable = (
     }
   }, []);
 
-  const setupRef = React.useCallback((element: HTMLElement | null) => {
-    setRef(ref, element);
+  const setupScrollRef = React.useCallback((element: HTMLElement | null) => {
     headerRef.current?.removeEventListener('scroll', onScroll);
 
     headerRef.current = element;
@@ -50,9 +42,9 @@ export const useDataGridHeader_unstable = (
     }
   }, []);
 
-  const baseState = useBaseState(props, setupRef);
+  const baseState = useBaseState(props, ref);
 
-  return {
-    ...baseState,
-  };
+  baseState.root.ref = useMergedRefs(baseState.root.ref, setupScrollRef);
+
+  return baseState;
 };
