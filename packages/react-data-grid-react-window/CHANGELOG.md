@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-data-grid-react-window
 
-This log was last generated on Fri, 21 Jun 2024 06:08:36 GMT and should not be manually modified.
+This log was last generated on Tue, 03 Dec 2024 12:55:55 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 1.3.0
+
+Tue, 03 Dec 2024 12:55:55 GMT
+
+### Minor changes
+
+- Keep header and body in sync when the DataGrid columns are overflowing #176 (reubenrakete@microsoft.com)
 
 ## 1.2.0
 

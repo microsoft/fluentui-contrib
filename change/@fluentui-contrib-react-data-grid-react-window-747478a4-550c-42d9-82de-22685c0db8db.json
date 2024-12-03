@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "Keep header and body in sync when the DataGrid columns are overflowing #176",
-  "packageName": "@fluentui-contrib/react-data-grid-react-window",
-  "email": "reubenrakete@microsoft.com",
-  "dependentChangeType": "patch"
-}
