@@ -10,6 +10,7 @@ import type { KeytipsProps, KeytipsState } from './Keytips.types';
 import { useHotkeys, parseHotkey } from '../../hooks/useHotkeys';
 import {
   KTP_SEPARATOR,
+  EXIT_KEYS,
   EVENTS,
   VISUALLY_HIDDEN_STYLES,
   ACTIONS,
@@ -53,7 +54,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
       if (!state.inKeytipMode) {
         tree.currentKeytip.current = tree.root;
         dispatch({ type: ACTIONS.ENTER_KEYTIP_MODE });
-        onEnterKeytipsMode?.(ev, { event: ev, type: 'keydown' });
+        onEnterKeytipsMode?.(ev, { event: ev, type: invokeEvent });
         showKeytips(tree.getChildren());
       } else {
         dispatch({ type: ACTIONS.EXIT_KEYTIP_MODE });
@@ -69,7 +70,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
         tree.currentKeytip.current = tree.root;
         dispatch({ type: ACTIONS.SET_SEQUENCE, value: '' });
         dispatch({ type: ACTIONS.EXIT_KEYTIP_MODE });
-        onExitKeytipsMode?.(ev, { event: ev, type: 'keydown' });
+        onExitKeytipsMode?.(ev, { event: ev, type: invokeEvent });
         showKeytips([]);
       }
     },
@@ -100,9 +101,8 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
 
   const exitSequences = [
     exitSequence,
-    'enter',
-    'space',
-    state.inKeytipMode ? 'tab' : '',
+    ...EXIT_KEYS,
+    state.inKeytipMode ? 'Tab' : '',
   ];
 
   useHotkeys(
@@ -269,6 +269,8 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
           type: invokeEvent,
           targetElement: treeNode.target,
         });
+
+        handleExitKeytipMode(ev);
       }
     },
     [handleExitKeytipMode]

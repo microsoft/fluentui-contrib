@@ -39,7 +39,6 @@ export const VISUALLY_HIDDEN_STYLES = {
 } as React.CSSProperties;
 
 export const EXIT_KEYS = [
-  Tab,
   Enter,
   Space,
   ArrowUp,

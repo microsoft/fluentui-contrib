@@ -29,7 +29,7 @@ export const useKeytipRef = <
         ...keytip.positioning,
       },
     }),
-    [keytip, ktpId, node]
+    [keytip, node]
   );
 
   const shortcut = React.useMemo(
@@ -40,7 +40,7 @@ export const useKeytipRef = <
       isShortcut: true,
       content: '',
     }),
-    [keytip, shortcutId]
+    [keytip]
   );
 
   const prevKeytip = usePrevious(ktp);
