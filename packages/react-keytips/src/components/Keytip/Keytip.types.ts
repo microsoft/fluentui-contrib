@@ -60,10 +60,10 @@ export type KeytipProps = ComponentProps<KeytipSlots> & {
   /**
    * Whether this Keytip can be accessed at the root level.
    */
-  shortcut?: boolean;
+  isShortcut?: boolean;
   /**
-   * Whether or not this Keytip belongs to a component that has a menu Keytip mode will stay on when a menu is opened,
-   * even if the items in that menu have no keytips.
+   * Whether or not this Keytip belongs to a component that has a menu. Keytip mode will stay on when a menu is opened,
+   * even if the items in that menu have no keytips. If this is
    */
   hasMenu?: boolean;
 };

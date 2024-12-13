@@ -1,4 +1,4 @@
-import { useCallback, useRef, useEffect } from 'react';
+import * as React from 'react';
 import { useFluent } from '@fluentui/react-components';
 import { EVENTS } from '../constants';
 import type { KeytipWithId } from '../components/Keytip';
@@ -13,8 +13,6 @@ type PayloadDefinition = {
   [EVENTS.KEYTIP_ADDED]: KeytipWithId;
   [EVENTS.KEYTIP_REMOVED]: KeytipWithId;
   [EVENTS.KEYTIP_EXECUTED]: KeytipTreeNode;
-  [EVENTS.SHORTCUT_ADDED]: KeytipWithId;
-  [EVENTS.SHORTCUT_REMOVED]: KeytipWithId;
   [EVENTS.SHORTCUT_EXECUTED]: KeytipTreeNode;
 };
 
@@ -35,9 +33,11 @@ function createEventHandler<T>(
 
 export function useEventService() {
   const { targetDocument } = useFluent();
-  const controller = useRef<AbortController | null>(new AbortController());
+  const controller = React.useRef<AbortController | null>(
+    new AbortController()
+  );
 
-  const dispatch = useCallback(
+  const dispatch = React.useCallback(
     <T extends EventType>(eventName: T, payload?: PayloadDefinition[T]) => {
       const event = payload
         ? new CustomEvent(eventName, { detail: payload })
@@ -47,7 +47,7 @@ export function useEventService() {
     [targetDocument]
   );
 
-  const subscribe = useCallback(
+  const subscribe = React.useCallback(
     <T extends EventType>(
       event: T,
       handler: (payload: PayloadDefinition[T]) => void
@@ -69,14 +69,14 @@ export function useEventService() {
     [targetDocument]
   );
 
-  const reset = useCallback(() => {
+  const reset = React.useCallback(() => {
     if (controller.current) {
       controller.current.abort();
       controller.current = null;
     }
   }, []);
 
-  useEffect(() => {
+  React.useEffect(() => {
     return () => {
       reset();
     };

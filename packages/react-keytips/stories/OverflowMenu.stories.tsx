@@ -57,6 +57,7 @@ const useStyles = makeStyles({
 
 const onExecute: ExecuteKeytipEventHandler = (_, { targetElement }) => {
   if (targetElement) {
+    console.info(targetElement);
     targetElement.focus();
     targetElement.click();
   }
@@ -75,6 +76,7 @@ const OverflowItemWrapper = React.forwardRef<
   { keytipProps: KeytipProps & { id: string } }
 >(({ keytipProps }, ref) => {
   const keytipRef = useKeytipRef<HTMLElement>(keytipProps);
+
   const mergedRefs = useMergedRefs(ref, keytipRef);
 
   return (
@@ -89,15 +91,14 @@ const OverflowMenuItemWrapper = React.forwardRef<
   { keytipProps: KeytipProps & { id: string } }
 >(({ keytipProps }, ref) => {
   const isVisible = useIsOverflowItemVisible(keytipProps.id);
-
-  const sequences = !isVisible
-    ? ['d', ...keytipProps.keySequences]
-    : keytipProps.keySequences;
+  false;
 
   const keytipRef = useKeytipRef<HTMLDivElement>({
     ...keytipProps,
-    shortcut: !isVisible,
-    keySequences: sequences,
+    isShortcut: !isVisible,
+    keySequences: !isVisible
+      ? ['d', ...keytipProps.keySequences]
+      : keytipProps.keySequences,
   });
 
   const mergedRefs = useMergedRefs(ref, keytipRef);
@@ -107,7 +108,7 @@ const OverflowMenuItemWrapper = React.forwardRef<
   }
 
   return (
-    <MenuItem id={keytipProps.id} ref={mergedRefs}>
+    <MenuItem id={keytipProps.id} ref={mergedRefs} persistOnClick>
       Item {keytipProps.id}
     </MenuItem>
   );
@@ -145,14 +146,13 @@ const OverflowMenu = ({
   const menuRef = useKeytipRef<HTMLElement>({
     keySequences: ['d'],
     content: 'D',
-    shortcut: true,
     onExecute,
   });
 
   const subMenuRef = useKeytipRef<HTMLDivElement>({
     keySequences: ['d', 'y'],
     content: 'Y',
-    shortcut: true,
+    isShortcut: true,
     hasMenu: true,
     onExecute,
   });

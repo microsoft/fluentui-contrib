@@ -4,25 +4,20 @@ import { KeytipWithId } from '../components/Keytip/Keytip.types';
 
 export const createNode = ({
   keySequences,
-  uniqueId,
   onExecute,
   onReturn,
   dynamic,
-  isShortcut,
   nodeMap,
   hasMenu,
   positioning,
-  dependentKeys = [],
+  uniqueId,
 }: KeytipWithId & {
   nodeMap: Map<string, KeytipTreeNode>;
-  isShortcut?: boolean;
-  dependentKeys?: string[];
 }): KeytipTreeNode => {
   const id = sequencesToID(keySequences);
+
   const parent =
-    keySequences.length > 0
-      ? sequencesToID(keySequences.slice(0, keySequences.length - 1))
-      : '';
+    keySequences.length > 0 ? sequencesToID(keySequences.slice(0, -1)) : '';
 
   const children = new Set<string>();
 
@@ -39,13 +34,12 @@ export const createNode = ({
     target: positioning?.target as HTMLElement,
     parent,
     children,
-    dependentKeys,
-    keySequences: keySequences.map((key) => key.toLowerCase()),
-    onExecute,
-    onReturn,
+    isShortcut: false,
     hasMenu,
     dynamic,
-    isShortcut,
+    keySequences,
+    onExecute,
+    onReturn,
   };
 
   return node;

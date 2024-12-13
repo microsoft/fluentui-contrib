@@ -22,6 +22,8 @@ export {
 
 export { EVENTS } from './constants';
 
+export { sequencesToID } from './utilities';
+
 export type { KeytipsProps, KeytipsSlots, KeytipsState } from './Keytips';
 
 export { useKeytipRef } from './hooks/useKeytipRef';

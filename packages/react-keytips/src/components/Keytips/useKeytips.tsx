@@ -2,7 +2,6 @@ import * as React from 'react';
 import {
   getIntrinsicElementProps,
   slot,
-  useIsomorphicLayoutEffect,
   useFluent,
   useTimeout,
 } from '@fluentui/react-components';
@@ -63,7 +62,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     },
     [state.inKeytipMode, onEnterKeytipsMode]
   );
-  //
+
   const handleExitKeytipMode = React.useCallback(
     (ev: KeyboardEvent) => {
       if (state.inKeytipMode) {
@@ -81,6 +80,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     (ev: KeyboardEvent) => {
       if (!state.inKeytipMode) return;
       const currentKeytip = tree.currentKeytip.current;
+
       if (currentKeytip && currentKeytip.target) {
         currentKeytip?.onReturn?.(ev, {
           event: ev,
@@ -114,21 +114,14 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     invokeEvent
   );
 
-  useIsomorphicLayoutEffect(() => {
+  React.useEffect(() => {
     const handleKeytipAdded = (keytip: KeytipWithId) => {
       tree.addNode(keytip);
 
-      if (keytip.isShortcut) {
-        dispatch({
-          type: ACTIONS.ADD_SHORTCUT,
-          shortcut: keytip,
-        });
-      } else {
-        dispatch({
-          type: ACTIONS.ADD_KEYTIP,
-          keytip,
-        });
-      }
+      dispatch({
+        type: ACTIONS.ADD_KEYTIP,
+        keytip,
+      });
 
       if (state.inKeytipMode && tree.isCurrentKeytipParent(keytip)) {
         showKeytips(tree.getChildren());
@@ -138,11 +131,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     const handleKeytipRemoved = (keytip: KeytipWithId) => {
       tree.removeNode(keytip.uniqueId);
 
-      if (keytip.isShortcut) {
-        dispatch({ type: ACTIONS.REMOVE_SHORTCUT, id: keytip.uniqueId });
-      } else {
-        dispatch({ type: ACTIONS.REMOVE_KEYTIP, id: keytip.uniqueId });
-      }
+      dispatch({ type: ACTIONS.REMOVE_KEYTIP, id: keytip.uniqueId });
     };
 
     const handleKeytipUpdated = (keytip: KeytipWithId) => {
@@ -152,17 +141,15 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     };
 
     subscribe(EVENTS.KEYTIP_ADDED, handleKeytipAdded);
-    subscribe(EVENTS.SHORTCUT_ADDED, handleKeytipAdded);
     subscribe(EVENTS.KEYTIP_UPDATED, handleKeytipUpdated);
     subscribe(EVENTS.KEYTIP_REMOVED, handleKeytipRemoved);
-    subscribe(EVENTS.SHORTCUT_REMOVED, handleKeytipRemoved);
 
     return () => {
       reset();
     };
   }, [state.inKeytipMode]);
 
-  useIsomorphicLayoutEffect(() => {
+  React.useEffect(() => {
     const controller = new AbortController();
     const { signal } = controller;
 
@@ -200,6 +187,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
 
         dispatchEvent(EVENTS.KEYTIP_EXECUTED, node);
       }
+
       const currentChildren = tree.getChildren(node);
       const shouldExitKeytipMode =
         currentChildren.length === 0 && !node.dynamic;
@@ -219,13 +207,11 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
   // executes keytip that was triggered via shortcut
   const handleShortcutExecution = React.useCallback(
     async (ev: KeyboardEvent, node: KeytipTreeNode) => {
-      const { dependentKeys, keySequences } = node;
+      const { keySequences } = node;
 
       if (!targetDocument) return;
 
-      const fullPath = [...dependentKeys, ...node.keySequences].reduce<
-        string[]
-      >((acc, key, idx) => {
+      const fullPath = keySequences.reduce<string[]>((acc, key, idx) => {
         if (idx === 0) acc.push(sequencesToID([key]));
         else
           acc.push(
@@ -234,7 +220,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
         return acc;
       }, []);
 
-      const nodeId = sequencesToID([...dependentKeys, ...keySequences]);
+      const nodeId = sequencesToID(keySequences);
       const treeNode = tree.getNode(nodeId);
 
       // if the node has menu, trigger overflow keytip and current keytip to show the menu
@@ -286,7 +272,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     }
   }, []);
 
-  useIsomorphicLayoutEffect(() => {
+  React.useEffect(() => {
     if (!targetDocument) return;
 
     const handleInvokeEvent = (ev: KeyboardEvent) => {
@@ -330,15 +316,16 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
       <Keytip key={keytipId} {...keytipProps} />
     ));
 
-  const hiddenKeytips = Object.values(state.keytips).map(({ keySequences }) => (
-    <span
-      key={sequencesToID(keySequences)}
-      id={sequencesToID(keySequences)}
-      style={VISUALLY_HIDDEN_STYLES}
-    >
-      {keySequences.join(', ')}
-    </span>
-  ));
+  const hiddenKeytips = Object.values(state.keytips).map(
+    ({ keySequences, uniqueId }) => {
+      const id = sequencesToID(keySequences);
+      return (
+        <span key={uniqueId} id={id} style={VISUALLY_HIDDEN_STYLES}>
+          {keySequences.join(', ')}
+        </span>
+      );
+    }
+  );
 
   return {
     components: {

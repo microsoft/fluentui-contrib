@@ -3,7 +3,13 @@ import type { KeytipProps, KeytipWithId } from '../Keytip';
 import { isTargetVisible, omit } from '../../utilities';
 import { ACTIONS } from '../../constants';
 
-type Keytips = Record<string, KeytipProps & { visibleInternal?: boolean }>;
+type Keytips = Record<
+  string,
+  KeytipProps & {
+    visibleInternal?: boolean;
+    uniqueId: string;
+  }
+>;
 
 type KeytipsState = {
   inKeytipMode: boolean;
@@ -17,8 +23,6 @@ type KeytipsAction =
   | { type: typeof ACTIONS.ADD_KEYTIP; keytip: KeytipWithId }
   | { type: typeof ACTIONS.UPDATE_KEYTIP; keytip: KeytipWithId }
   | { type: typeof ACTIONS.REMOVE_KEYTIP; id: string }
-  | { type: typeof ACTIONS.ADD_SHORTCUT; shortcut: KeytipWithId }
-  | { type: typeof ACTIONS.REMOVE_SHORTCUT; id: string }
   | {
       type: typeof ACTIONS.SET_VISIBLE_KEYTIPS;
       ids: string[];

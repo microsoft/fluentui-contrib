@@ -11,19 +11,22 @@ const isEqualArray = (a: string[], b: string[]) => {
 
 export const useKeytipRef = <
   T extends HTMLElement = HTMLButtonElement | HTMLAnchorElement
->(
-  keytip: Omit<KeytipProps, 'uniqueId'>
-): React.Dispatch<React.SetStateAction<T | null>> => {
-  const ktpId = React.useId();
-  const shortcutId = React.useId();
+>({
+  ...keytip
+}: KeytipProps): React.Dispatch<React.SetStateAction<T | null>> => {
   const [node, setNode] = React.useState<T | null>(null);
   const { dispatch } = useEventService();
+
+  const uniqueId = React.useId();
+  const keySequences = keytip.keySequences.map((k) => k.toLowerCase());
+  const id = sequencesToID(keySequences);
 
   const ktp = React.useMemo(
     () => ({
       ...keytip,
-      uniqueId: ktpId,
-      id: sequencesToID(keytip.keySequences),
+      id,
+      uniqueId,
+      keySequences,
       positioning: {
         target: node,
         ...keytip.positioning,
@@ -32,18 +35,7 @@ export const useKeytipRef = <
     [keytip, node]
   );
 
-  const shortcut = React.useMemo(
-    () => ({
-      uniqueId: shortcutId,
-      dependentKeys: keytip.keySequences.slice(0, -1),
-      keySequences: keytip.keySequences.slice(-1),
-      isShortcut: true,
-      content: '',
-    }),
-    [keytip]
-  );
-
-  const prevKeytip = usePrevious(ktp);
+  const prevKeytip = usePrevious(keytip);
 
   // this will run on every render, in order to update the keytip if the keySequences change
   React.useEffect(() => {
@@ -56,11 +48,9 @@ export const useKeytipRef = <
 
   React.useEffect(() => {
     dispatch(EVENTS.KEYTIP_ADDED, ktp);
-    if (ktp.shortcut) dispatch(EVENTS.SHORTCUT_ADDED, shortcut);
 
     return () => {
       dispatch(EVENTS.KEYTIP_REMOVED, ktp);
-      if (ktp.shortcut) dispatch(EVENTS.SHORTCUT_REMOVED, shortcut);
     };
   }, [node]);
 

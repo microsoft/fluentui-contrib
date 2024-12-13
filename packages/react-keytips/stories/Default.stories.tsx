@@ -135,13 +135,13 @@ export const DefaultStory = () => {
   });
 
   const normalButton = useKeytipRef({
-    keySequences: ['1C'],
+    keySequences: ['1c'],
     content: '1C',
     onExecute,
   });
 
   const compoundButton = useKeytipRef({
-    keySequences: ['1E'],
+    keySequences: ['1e'],
     content: '1E',
     onExecute,
   });
