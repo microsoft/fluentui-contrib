@@ -1,4 +1,4 @@
-Keytips with `Overflow` and `Menu` components offer special options, that can be used:
+Keytips with `Overflow` and `Menu` components offer special options:
 
 `isShortcut` - a Keytip can be a shortcut, that can be accessed from the top overflow level. A shortcut to a normal Button will trigger it immediately,
 if it's attached to a Menu, it will open a Menu, even if Keytip does not have a child Keytip to show.
