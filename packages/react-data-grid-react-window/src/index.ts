@@ -1,7 +1,24 @@
-export { DataGridBody } from './components/DataGridBody';
-export { DataGrid } from './components/DataGrid';
-export { DataGridRow } from './components/DataGridRow';
-export { DataGridHeader } from './components/DataGridHeader';
+export {
+  DataGridBody,
+  renderDataGridBody_unstable,
+  useDataGridBody_unstable,
+  useDataGridBodyStyles_unstable,
+} from './components/DataGridBody';
+export {
+  DataGrid,
+  renderDataGrid_unstable,
+  useDataGrid_unstable,
+} from './components/DataGrid';
+export {
+  DataGridRow,
+  useDataGridRow_unstable,
+  useDataGridRowStyles_unstable,
+} from './components/DataGridRow';
+export {
+  DataGridHeader,
+  useDataGridHeader_unstable,
+  useDataGridHeaderStyles_unstable,
+} from './components/DataGridHeader';
 
 export {
   DataGridCell,
@@ -18,4 +35,9 @@ export type {
   DataGridProps,
 } from '@fluentui/react-components';
 
-export type { DataGridBodyProps, RowRenderer } from './components/DataGridBody';
+export type {
+  DataGridBodyProps,
+  DataGridBodyState,
+  RowRenderer,
+} from './components/DataGridBody';
+export type { DataGridState } from './components/DataGrid';
