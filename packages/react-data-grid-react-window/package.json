@@ -1,6 +1,6 @@
 {
   "name": "@fluentui-contrib/react-data-grid-react-window",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "dependencies": {
     "react-window": "^1.8.5"
   },

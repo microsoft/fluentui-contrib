@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "refactor (react-data-grid-react-window): export all types and hooks",
-  "packageName": "@fluentui-contrib/react-data-grid-react-window",
-  "email": "alton@microsoft.com",
-  "dependentChangeType": "patch"
-}
