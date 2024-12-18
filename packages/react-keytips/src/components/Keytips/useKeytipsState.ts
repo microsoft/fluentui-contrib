@@ -87,6 +87,7 @@ const stateReducer: React.Reducer<KeytipsState, KeytipsAction> = (
             ...state.keytips[key],
             visibleInternal: action.ids.includes(key) && isVisibleInDocument,
           };
+
           return acc;
         }, {} as Keytips),
       };
