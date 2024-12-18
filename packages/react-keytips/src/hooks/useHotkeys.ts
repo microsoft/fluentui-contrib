@@ -1,10 +1,5 @@
 import * as React from 'react';
-
-import {
-  useIsomorphicLayoutEffect,
-  useFluent,
-  useTimeout,
-} from '@fluentui/react-components';
+import { useFluent, useTimeout } from '@fluentui/react-components';
 import { KeytipsProps } from '../components/Keytips/Keytips.types';
 
 type Options = {
@@ -73,7 +68,7 @@ export const useHotkeys = (
   const doc = target ?? targetDocument;
   const activeKeys = React.useRef<Set<string>>(new Set());
 
-  useIsomorphicLayoutEffect(() => {
+  React.useEffect(() => {
     const handleInvokeEvent = (ev: KeyboardEvent) => {
       hotkeys.forEach(
         ([hotkey, handler, options = { preventDefault: true }]) => {

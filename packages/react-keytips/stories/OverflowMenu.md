@@ -1,14 +1,23 @@
-Keytips with Overflow require `dynamic` prop to be passed with `useKeytipRef`. You can also register
-a `persisted` keytip, that can be accessed from the top level as a shortcut. A shortcut to a normal Button
-will trigger the Button, shortcut to a MenuButton will open a menu. In this example, firing `B` and `C`
-will show this functionality.
+Keytips with `Overflow` and `Menu` components offer special options:
+
+`isShortcut` - a Keytip can be a shortcut, that can be accessed from the top overflow level. A shortcut to a normal Button will trigger it immediately,
+if it's attached to a Menu, it will open a Menu, even if Keytip does not have a child Keytip to show.
+
+In this example, firing `T`, `Y` and `R` will show this functionality.
 
 ```tsx
 const subMenuRef = useKeytipRef<HTMLDivElement>({
-  keySequences: ['a', 'b'],
-  content: 'B',
-  dynamic: true,
-  persited: true,
+  keySequences: ['y'],
+  content: 'Y',
+  hasMenu: true,
+  isShortcut: true,
+  onExecute,
+});
+
+const subMenuRefItem = useKeytipRef<HTMLDivElement>({
+  keySequences: ['t'],
+  content: 'T',
+  isShortcut: true,
   onExecute,
 });
 ```

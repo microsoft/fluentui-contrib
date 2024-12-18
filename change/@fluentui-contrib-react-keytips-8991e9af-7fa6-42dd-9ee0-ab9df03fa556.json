@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "feat: add support for shortcuts",
+  "packageName": "@fluentui-contrib/react-keytips",
+  "email": "vgenaev@gmail.com",
+  "dependentChangeType": "patch"
+}

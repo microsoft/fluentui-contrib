@@ -3,7 +3,13 @@ import type { KeytipProps, KeytipWithId } from '../Keytip';
 import { isTargetVisible, omit } from '../../utilities';
 import { ACTIONS } from '../../constants';
 
-type Keytips = Record<string, KeytipProps & { visibleInternal?: boolean }>;
+type Keytips = Record<
+  string,
+  KeytipProps & {
+    visibleInternal?: boolean;
+    uniqueId: string;
+  }
+>;
 
 type KeytipsState = {
   inKeytipMode: boolean;
@@ -12,13 +18,17 @@ type KeytipsState = {
 };
 
 type KeytipsAction =
-  | { type: 'ENTER_KEYTIP_MODE' }
-  | { type: 'EXIT_KEYTIP_MODE' }
-  | { type: 'ADD_KEYTIP'; keytip: KeytipWithId }
-  | { type: 'UPDATE_KEYTIP'; keytip: KeytipWithId }
-  | { type: 'REMOVE_KEYTIP'; id: string }
-  | { type: 'SET_VISIBLE_KEYTIPS'; ids: string[]; targetDocument?: Document }
-  | { type: 'SET_SEQUENCE'; value: string };
+  | { type: typeof ACTIONS.ENTER_KEYTIP_MODE }
+  | { type: typeof ACTIONS.EXIT_KEYTIP_MODE }
+  | { type: typeof ACTIONS.ADD_KEYTIP; keytip: KeytipWithId }
+  | { type: typeof ACTIONS.UPDATE_KEYTIP; keytip: KeytipWithId }
+  | { type: typeof ACTIONS.REMOVE_KEYTIP; id: string }
+  | {
+      type: typeof ACTIONS.SET_VISIBLE_KEYTIPS;
+      ids: string[];
+      targetDocument?: Document;
+    }
+  | { type: typeof ACTIONS.SET_SEQUENCE; value: string };
 
 const stateReducer: React.Reducer<KeytipsState, KeytipsAction> = (
   state,
@@ -29,7 +39,11 @@ const stateReducer: React.Reducer<KeytipsState, KeytipsAction> = (
       return { ...state, inKeytipMode: true };
     }
     case ACTIONS.EXIT_KEYTIP_MODE: {
-      return { ...state, inKeytipMode: false, currentSequence: '' };
+      return {
+        ...state,
+        inKeytipMode: false,
+        currentSequence: '',
+      };
     }
     case ACTIONS.ADD_KEYTIP: {
       return {

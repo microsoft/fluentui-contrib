@@ -2,7 +2,6 @@ import {
   ArrowLeft,
   Enter,
   Space,
-  Tab,
   ArrowUp,
   ArrowDown,
   ArrowRight,
@@ -13,12 +12,15 @@ export const KTP_SEPARATOR = '-';
 export const DATAKTP_TARGET = 'data-ktp-target';
 export const KTP_ROOT_ID = 'ktp';
 export const KEYTIP_BORDER_RADIUS = 4;
-export const SHOW_DELAY = 250;
+export const SHOW_DELAY = 30;
+export const INVISIBLE_KEYTIPS_ID = 'invisible-keytips-wrapper';
 
 export const EVENTS = {
   KEYTIP_ADDED: 'fui-keytip-added',
   KEYTIP_REMOVED: 'fui-keytip-removed',
   KEYTIP_UPDATED: 'fui-keytip-updated',
+  KEYTIP_EXECUTED: 'fui-keytip-executed',
+  SHORTCUT_EXECUTED: 'fui-keytip-executed',
   ENTER_KEYTIP_MODE: 'fui-enter-keytip-mode',
   EXIT_KEYTIP_MODE: 'fui-exit-keytip-mode',
 } as const;
@@ -34,7 +36,6 @@ export const VISUALLY_HIDDEN_STYLES = {
 } as React.CSSProperties;
 
 export const EXIT_KEYS = [
-  Tab,
   Enter,
   Space,
   ArrowUp,

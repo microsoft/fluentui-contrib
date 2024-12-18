@@ -135,6 +135,8 @@ The keytip is positioned below and centered to the target element by default.
 | `dynamic`      | `boolean`                   |                                          | Whether or not this keytip will have dynamic content: children keytips that are dynamically created (DOM is generated on keytip activation), Menu, Tabs or Modal. |
 | `visible`      | `boolean`                   | `false`                                  | Control the Keytip's visibility programmatically.                                                                                                                 |
 | `content`      | `string`                    |                                          | The text content of the Keytip.                                                                                                                                   |
+| `isShortcut`   | `boolean`                   | `false`                                  | Registers keytip as a shortcut, will try to invoke the full sequence until it will reach the target keytip.                                                       |
+| `hasMenu`      | `boolean`                   | `false`                                  | Whether or not this keytip belongs to a component that has a menu Keytip mode will stay on when a menu is opened, even if the items in that menu have no keytips. |
 
 ## Structure
 

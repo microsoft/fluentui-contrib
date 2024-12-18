@@ -20,8 +20,10 @@ This Migration guide is a work in progress and is not yet ready for use.
 - `useKeytipRef`:
   - `offset` - Changed. Instead use [positioning.offset](https://react.fluentui.dev/?path=/docs/concepts-developer-positioning-components--docs#offset-value).
   - `styles` - Not supported.
-  - `theme` - Not supported.
+  - `theme` - Not supported. `Keytip` theme depends on the values passed to `css` variables.
   - `disabled` - Not supported. `Keytip` won't appear for disabled target.
     `callOutProps` -> Not supported. Instead there are multiple props available, that has to be used individually: `positioning`, `visible`, `content`.
-  - `hasDynamicChildren` and `hasMenu` - merged into `dynamic` prop. If `Keytip` triggers dynamic content: Menu, Modal, Tabs or any other item that
+  - `hasDynamicChildren` became `dynamic` prop. If `Keytip` triggers dynamic content: Menu, Modal, Tabs or any other item that
     that has keytips, set `dynamic` to `true`.
+  - `overflowSetSequence` - Not supported.
+  - `hasOverflowSubMenu` -> Changed. Instead use `hasMenu`.

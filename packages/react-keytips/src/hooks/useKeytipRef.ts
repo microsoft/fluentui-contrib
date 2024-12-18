@@ -11,27 +11,31 @@ const isEqualArray = (a: string[], b: string[]) => {
 
 export const useKeytipRef = <
   T extends HTMLElement = HTMLButtonElement | HTMLAnchorElement
->(
-  keytip: Omit<KeytipProps, 'uniqueId'>
-): React.Dispatch<React.SetStateAction<T | null>> => {
-  const uniqueId = React.useId();
+>({
+  ...keytip
+}: KeytipProps): React.Dispatch<React.SetStateAction<T | null>> => {
   const [node, setNode] = React.useState<T | null>(null);
   const { dispatch } = useEventService();
+
+  const uniqueId = React.useId();
+  const keySequences = keytip.keySequences.map((k) => k.toLowerCase());
+  const id = sequencesToID(keySequences);
 
   const ktp = React.useMemo(
     () => ({
       ...keytip,
+      id,
       uniqueId,
-      id: sequencesToID(keytip.keySequences),
+      keySequences,
       positioning: {
         target: node,
         ...keytip.positioning,
       },
     }),
-    [keytip, uniqueId, node]
+    [keytip, node]
   );
 
-  const prevKeytip = usePrevious(ktp);
+  const prevKeytip = usePrevious(keytip);
 
   // this will run on every render, in order to update the keytip if the keySequences change
   React.useEffect(() => {
