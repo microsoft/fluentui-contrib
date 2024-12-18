@@ -181,8 +181,13 @@ export function useTree() {
     return currentKeytip.current.id === parentID;
   }, []);
 
-  const getNode = (id: string) =>
-    [...nodeMap.current.values()].find((node) => node.id === id);
+  const getNode = (id: string) => {
+    for (const node of nodeMap.current.values()) {
+      if (node.id === id) {
+        return node;
+      }
+    }
+  };
 
   return {
     nodeMap,

@@ -20,7 +20,7 @@ export const EVENTS = {
   KEYTIP_REMOVED: 'fui-keytip-removed',
   KEYTIP_UPDATED: 'fui-keytip-updated',
   KEYTIP_EXECUTED: 'fui-keytip-executed',
-  SHORTCUT_EXECUTED: 'fui-shortcut-executed',
+  SHORTCUT_EXECUTED: 'fui-keytip-executed',
   ENTER_KEYTIP_MODE: 'fui-enter-keytip-mode',
   EXIT_KEYTIP_MODE: 'fui-exit-keytip-mode',
 } as const;
