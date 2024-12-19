@@ -270,25 +270,19 @@ const MeetingsSectionItem = (props: MeetingsSectionItemProps) => {
           </Tag>
         )}
       </TreeGridCell>
-      {props.tasks && (
-        <TreeGridCell className={styles.tasks}>{props.tasks}</TreeGridCell>
-      )}
-      {props.attachments && (
-        <TreeGridCell className={styles.attachments}>
-          {props.attachments}
-        </TreeGridCell>
-      )}
+      <TreeGridCell className={styles.tasks}>{props.tasks}</TreeGridCell>
+      <TreeGridCell className={styles.attachments}>
+        {props.attachments}
+      </TreeGridCell>
       <TreeGridCell className={styles.chat}>
         <Button size="small">Chat</Button>
       </TreeGridCell>
       <TreeGridCell className={styles.viewRecaps}>
         <Button size="small">View recaps</Button>
       </TreeGridCell>
-      {props.thumbnail && (
-        <TreeGridCell className={styles.thumbnail}>
-          {props.thumbnail}
-        </TreeGridCell>
-      )}
+      <TreeGridCell className={styles.thumbnail}>
+        {props.thumbnail}
+      </TreeGridCell>
     </TreeGridRow>
   );
 };
