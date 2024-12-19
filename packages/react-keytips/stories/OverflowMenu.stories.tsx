@@ -108,7 +108,7 @@ const OverflowMenuItemWrapper = React.forwardRef<
   }
 
   return (
-    <MenuItem id={keytipProps.id} ref={mergedRefs} persistOnClick>
+    <MenuItem id={keytipProps.id} ref={mergedRefs}>
       Item {keytipProps.id}
     </MenuItem>
   );
