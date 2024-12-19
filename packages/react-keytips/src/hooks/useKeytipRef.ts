@@ -50,7 +50,6 @@ export const useKeytipRef = <
     dispatch(EVENTS.KEYTIP_ADDED, ktp);
 
     return () => {
-      [];
       dispatch(EVENTS.KEYTIP_REMOVED, ktp);
     };
   }, [node]);
