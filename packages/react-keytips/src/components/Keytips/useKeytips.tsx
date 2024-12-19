@@ -123,13 +123,17 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
         keytip,
       });
 
-      if (state.inKeytipMode && tree.isCurrentKeytipParent(keytip)) {
+      if (tree.isCurrentKeytipParent(keytip)) {
         showKeytips(tree.getChildren());
       }
     };
 
     const handleKeytipRemoved = (keytip: KeytipWithId) => {
       tree.removeNode(keytip.uniqueId);
+      // nodemway mave an alias registered, if it's shortcut
+      if (keytip.isShortcut) {
+        tree.removeNode(`${keytip.uniqueId}-alias`);
+      }
 
       dispatch({ type: ACTIONS.REMOVE_KEYTIP, id: keytip.uniqueId });
     };
@@ -147,7 +151,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     return () => {
       reset();
     };
-  }, [state.inKeytipMode]);
+  }, []);
 
   React.useEffect(() => {
     const controller = new AbortController();
