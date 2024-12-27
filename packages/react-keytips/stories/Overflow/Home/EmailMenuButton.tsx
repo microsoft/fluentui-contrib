@@ -2,7 +2,6 @@ import * as React from 'react';
 import {
   Menu,
   useMergedRefs,
-  mergeCallbacks,
   MenuList,
   MenuItem,
   MenuPopover,
@@ -12,7 +11,7 @@ import {
   type MenuButtonProps,
 } from '@fluentui/react-components';
 import { MailRegular } from '@fluentui/react-icons';
-import { keytipsMap } from './keytipsMap';
+import { homeKeytips as keytipsMap } from '../keytipsMap';
 import {
   useKeytipRef,
   type KeytipProps,
