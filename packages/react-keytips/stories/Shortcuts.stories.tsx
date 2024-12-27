@@ -21,7 +21,7 @@ import {
   tokens,
   useIsOverflowItemVisible,
 } from '@fluentui/react-components';
-import description from './OverflowMenu.md';
+import description from './Shortcuts.md';
 
 const useStyles = makeStyles({
   container: {
@@ -184,7 +184,7 @@ const OverflowMenu = ({
   );
 };
 
-export const OverflowStory = () => {
+export const ShortcutStory = () => {
   const styles = useStyles();
 
   return (
@@ -199,7 +199,7 @@ export const OverflowStory = () => {
   );
 };
 
-OverflowStory.parameters = {
+ShortcutStory.parameters = {
   docs: {
     description: {
       story: description,
