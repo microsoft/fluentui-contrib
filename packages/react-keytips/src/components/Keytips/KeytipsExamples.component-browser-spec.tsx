@@ -248,22 +248,11 @@ export const KeytipsTabsExample = (props: KeytipsProps) => {
   );
 };
 
-const SubMenu = () => {
-  const onExecute: ExecuteKeytipEventHandler = (_, el) => {
-    el.targetElement?.click();
-  };
-
-  const subMenuRef = useKeytipRef<HTMLDivElement>({
-    keySequences: ['a', 'b'],
-    content: 'B',
-    dynamic: true,
-    onExecute,
-  });
-
+const SubMenu = React.forwardRef<HTMLDivElement>((_, ref) => {
   return (
     <Menu>
       <MenuTrigger disableButtonEnhancement>
-        <MenuItem ref={subMenuRef}>Sub Menu</MenuItem>
+        <MenuItem ref={ref}>Sub Menu</MenuItem>
       </MenuTrigger>
 
       <MenuPopover>
@@ -275,7 +264,7 @@ const SubMenu = () => {
       </MenuPopover>
     </Menu>
   );
-};
+});
 
 const OverflowMenuItem: React.FC<Pick<OverflowItemProps, 'id'>> = (props) => {
   const { id } = props;
@@ -303,6 +292,14 @@ const OverflowMenu: React.FC<{ itemIds: string[] }> = ({ itemIds }) => {
     onExecute,
   });
 
+  const subMenuRef = useKeytipRef<HTMLDivElement>({
+    keySequences: ['a', 'b'],
+    content: 'B',
+    hasMenu: true,
+    isShortcut: true,
+    onExecute,
+  });
+
   const mergedRefs = useMergedRefs(ref, menuRef);
 
   if (!isOverflowing) {
@@ -320,7 +317,7 @@ const OverflowMenu: React.FC<{ itemIds: string[] }> = ({ itemIds }) => {
           {itemIds.map((i) => {
             return <OverflowMenuItem key={i} id={i} />;
           })}
-          <SubMenu />
+          <SubMenu ref={subMenuRef} />
         </MenuList>
       </MenuPopover>
     </Menu>

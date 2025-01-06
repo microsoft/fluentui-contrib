@@ -119,7 +119,7 @@ test.describe('test keytip navigation', () => {
 
     await expect(page.getByRole('tooltip', { name: 'A' })).toBeVisible();
     // should open nested menus and show next keytip
-    await page.keyboard.press('a');
+    await component.press('a');
     await expect(page.getByRole('menuitem', { name: 'Item 7' })).toBeVisible();
     await expect(page.getByRole('tooltip', { name: 'B' })).toBeVisible();
 
@@ -135,6 +135,15 @@ test.describe('test keytip navigation', () => {
     const component = await mount(<KeytipsOverflowMenuExample />);
     await component.press('Alt+Meta');
     await expect(page.getByRole('tooltip', { name: 'A' })).toBeHidden();
+  });
+
+  test('should have shortcut keytip', async ({ mount, page }) => {
+    const component = await mount(<KeytipsOverflowMenuExample />);
+    await component.press('Alt+Meta');
+
+    await expect(page.getByRole('tooltip', { name: 'A' })).toBeVisible();
+    await page.keyboard.press('b');
+    await expect(page.getByRole('menuitem', { name: '8' })).toBeVisible();
   });
 });
 
