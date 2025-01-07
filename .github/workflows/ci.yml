@@ -45,7 +45,8 @@ jobs:
       - run: yarn nx affected --target=type-check
       - run: yarn nx affected --target=lint
       - run: yarn nx affected --target=test
-      - run: yarn nx affected --target=component-test --skipInstall
+      - run: npx playwright clear-cache
+      - run: yarn nx affected --target=component-test --skipInstall --parallel 1
       - run: yarn nx format:check --base origin/main
 
       - name: 'Check for unstaged changes'
