@@ -40,25 +40,27 @@ const useStyles = makeStyles({
 
 const onExecute: ExecuteKeytipEventHandler = (_, { targetElement }) => {
   if (targetElement) {
+    console.info(targetElement.getAttribute('aria-3describedby'));
+    targetElement.focus();
     targetElement.click();
   }
 };
 
 const SplitButtonComponent = () => {
   const splitButton = useKeytipRef({
-    keySequences: ['b3'],
-    content: 'B3',
+    keySequences: ['1d'],
+    content: '1D',
     onExecute,
   });
 
   const menuItemA = useKeytipRef<HTMLDivElement>({
-    keySequences: ['b3', '1'],
+    keySequences: ['1d', '1'],
     content: '1',
     onExecute: () => alert('Item A'),
   });
 
   const menuItemB = useKeytipRef<HTMLDivElement>({
-    keySequences: ['b3', '2'],
+    keySequences: ['1d', '2'],
     content: '2',
     onExecute: () => alert('Item B'),
   });
@@ -90,19 +92,19 @@ const SplitButtonComponent = () => {
 
 const MenuButtonComponent = () => {
   const menuRef = useKeytipRef({
-    keySequences: ['2a'],
-    content: '2A',
+    keySequences: ['1b'],
+    content: '1B',
     onExecute,
   });
 
   const firstMenuItemRef = useKeytipRef<HTMLDivElement>({
-    keySequences: ['2a', 'e'],
+    keySequences: ['1b', 'e'],
     content: 'E',
     onExecute,
   });
 
   const secondMenuItemRef = useKeytipRef<HTMLDivElement>({
-    keySequences: ['2a', 'f'],
+    keySequences: ['1b', 'f'],
     content: 'F',
     onExecute,
   });
@@ -127,27 +129,27 @@ export const DefaultStory = () => {
   const classes = useStyles();
 
   const disabledButton = useKeytipRef({
-    keySequences: ['b0'],
-    content: 'B0',
+    keySequences: ['1a'],
+    content: '1A',
     onExecute,
   });
 
   const normalButton = useKeytipRef({
-    keySequences: ['b1'],
-    content: 'B1',
+    keySequences: ['1c'],
+    content: '1C',
     onExecute,
   });
 
   const compoundButton = useKeytipRef({
-    keySequences: ['b2'],
-    content: 'B2',
+    keySequences: ['1e'],
+    content: '1E',
     onExecute,
   });
 
   const offsetButton = useKeytipRef({
-    keySequences: ['b4'],
+    keySequences: ['ee'],
     positioning: { offset: { crossAxis: -50, mainAxis: 5 } },
-    content: 'B4',
+    content: 'EE',
     onExecute,
   });
 

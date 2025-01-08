@@ -6,7 +6,8 @@ import { Keytips } from '@fluentui-contrib/react-keytips';
 export { DefaultStory as Default } from './Default.stories';
 export { WithTabsStory as WithTabs } from './WithTabs.stories';
 export { DynamicStory as Dynamic } from './Dynamic.stories';
-export { OverflowStory as Overflow } from './OverflowMenu.stories';
+export { ShortcutStory as Shortcut } from './Shortcuts.stories';
+export { OverflowStory as Overflow } from './Overflow/Overflow.stories';
 
 const meta = {
   title: 'Packages/react-keytips',

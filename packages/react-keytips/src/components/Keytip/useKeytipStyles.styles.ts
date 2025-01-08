@@ -6,6 +6,7 @@ import {
 } from '@fluentui/react-components';
 import { KeytipSlots, KeytipState } from './Keytip.types';
 import { createSlideStyles } from '@fluentui/react-positioning';
+import { SHOW_DELAY } from '../../constants';
 
 export const keytipClassNames: SlotClassNames<KeytipSlots> = {
   content: 'fui-Keytip__content',
@@ -30,7 +31,7 @@ const useStyles = makeStyles({
     backgroundColor: tokens.colorNeutralBackgroundInverted,
     color: tokens.colorNeutralForegroundInverted,
     boxShadow: tokens.shadow16,
-    ...createSlideStyles(15),
+    ...createSlideStyles(SHOW_DELAY),
   },
 
   visible: {

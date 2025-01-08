@@ -5,7 +5,7 @@ import {
 } from '@fluentui/react-components';
 import { HeaderRefContextProvider } from '../../contexts/headerRefContext';
 import { BodyRefContextProvider } from '../../contexts/bodyRefContext';
-import { DataGridState } from './DataGridBody.types';
+import { DataGridState } from './DataGrid.types';
 
 /**
  * Render the final JSX of DataGrid

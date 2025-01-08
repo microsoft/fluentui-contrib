@@ -13,8 +13,8 @@ export type KeytipsSlots = {
 
 export type InvokeEvent = 'keydown' | 'keyup';
 
-type OnExitKeytipsModeData = EventData<'keydown', KeyboardEvent>;
-type OnEnterKeytipsModeData = EventData<'keydown', KeyboardEvent>;
+type OnExitKeytipsModeData = EventData<InvokeEvent, KeyboardEvent>;
+type OnEnterKeytipsModeData = EventData<InvokeEvent, KeyboardEvent>;
 
 export type KeytipsProps = ComponentProps<KeytipsSlots> &
   Pick<PortalProps, 'mountNode'> & {

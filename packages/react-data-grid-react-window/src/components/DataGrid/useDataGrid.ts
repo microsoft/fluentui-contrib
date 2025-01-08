@@ -4,7 +4,7 @@ import {
   DataGridProps,
 } from '@fluentui/react-components';
 import { useFluent, useScrollbarWidth } from '@fluentui/react-components';
-import { DataGridState } from './DataGridBody.types';
+import { DataGridState } from './DataGrid.types';
 
 const TABLE_SELECTION_CELL_WIDTH = 44;
 
