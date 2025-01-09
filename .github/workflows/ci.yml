@@ -45,7 +45,6 @@ jobs:
       - run: yarn nx affected --target=type-check
       - run: yarn nx affected --target=lint
       - run: yarn nx affected --target=test
-      - run: npx playwright clear-cache
       - run: yarn nx affected --target=component-test --skipInstall
       - run: yarn nx format:check --base origin/main
 
