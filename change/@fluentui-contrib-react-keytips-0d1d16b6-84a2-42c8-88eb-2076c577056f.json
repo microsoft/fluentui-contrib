@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: fix the issue with showing duplicates in Overflow",
-  "packageName": "@fluentui-contrib/react-keytips",
-  "email": "vgenaev@gmail.com",
-  "dependentChangeType": "patch"
-}

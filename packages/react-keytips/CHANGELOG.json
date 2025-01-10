@@ -2,6 +2,33 @@
   "name": "@fluentui-contrib/react-keytips",
   "entries": [
     {
+      "date": "Fri, 10 Jan 2025 11:59:12 GMT",
+      "tag": "@fluentui-contrib/react-keytips_v0.1.3",
+      "version": "0.1.3",
+      "comments": {
+        "patch": [
+          {
+            "author": "vgenaev@gmail.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "d0c919b192a57b5d11434538630d9efb9b012727",
+            "comment": "fix: fix the issue with showing duplicates in Overflow"
+          },
+          {
+            "author": "vgenaev@gmail.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "750409f1c4a0844faa996412632205e3eb363515",
+            "comment": "docs: add more detailed Overflow examples"
+          },
+          {
+            "author": "vgenaev@gmail.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "6fedbd5c30af63fdf79f90a2f8ceff3c695cc51b",
+            "comment": "feat: add support for shortcuts"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 21 Nov 2024 13:13:06 GMT",
       "tag": "@fluentui-contrib/react-keytips_v0.1.2",
       "version": "0.1.2",
