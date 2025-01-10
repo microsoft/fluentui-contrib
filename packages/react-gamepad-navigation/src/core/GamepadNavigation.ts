@@ -23,11 +23,11 @@ const syntheticKey = Symbol('synthetic');
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace React {
-    interface MouseEvent {
+    interface KeyboardEvent {
       readonly [syntheticKey]?: boolean;
     }
   }
-  interface MouseEvent {
+  interface KeyboardEvent {
     readonly [syntheticKey]?: boolean;
   }
 }
@@ -41,32 +41,21 @@ declare global {
 //     : !!evt.nativeEvent?.[syntheticKey];
 // };
 
-export const emitSyntheticMouseEvent = (event: string, target: HTMLElement) => {
-  const mouseEvent = new MouseEvent(event, {
-    bubbles: true,
-    cancelable: true,
-    view: window,
-    detail: 0,
-    screenX: undefined,
-    screenY: undefined,
-    clientX: undefined,
-    clientY: undefined,
-    ctrlKey: false,
-    altKey: false,
-    shiftKey: false,
-    metaKey: false,
-    button: 0,
-    buttons: 0,
-    relatedTarget: null,
+export const emitSyntheticKeyboardEvent = (
+  event: 'keydown' | 'keyup',
+  key: string
+) => {
+  const keyboardEvent = new KeyboardEvent(event, {
+    key: key,
   });
 
-  Object.defineProperty(mouseEvent, syntheticKey, {
+  Object.defineProperty(keyboardEvent, syntheticKey, {
     value: true,
     writable: false,
     enumerable: false,
   });
-
-  target.dispatchEvent(mouseEvent);
+  console.log(consolePrefix, `${key} ${event} triggered`);
+  document.activeElement?.dispatchEvent(keyboardEvent);
 };
 
 /*
@@ -310,6 +299,3 @@ export const deinitGamepadNavigation = (): void => {
 
   // clearInterval(gamepadScanInterval);
 };
-
-
-

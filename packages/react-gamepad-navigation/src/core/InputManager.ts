@@ -1,9 +1,10 @@
 /* eslint-disable no-restricted-globals */
 
 import { InputMode, isFocusDriven } from '../types/InputMode';
-import { GamepadAction, GamepadButton } from '../types/Keys';
+import { GamepadAction, GamepadButton, KeyboardKey } from '../types/Keys';
 import {
   consolePrefix,
+  emitSyntheticKeyboardEvent,
   startGamepadPolling,
   stopGamepadPolling,
 } from './GamepadNavigation';
@@ -107,7 +108,6 @@ export const setPollingEnabled = (enabled: boolean): void => {
 
     resetGamepadState(GamepadButton.A);
     startGamepadPolling();
-    // registerKeyboardEvents();
     if (isFocusDriven(defaultInputMode)) {
       setInputMode(defaultInputMode);
     }
@@ -116,8 +116,6 @@ export const setPollingEnabled = (enabled: boolean): void => {
 
     setInputMode(InputMode.Mouse);
     stopGamepadPolling();
-    // unregisterKeyboardEvents();
-    // clearAllTimeouts();
   }
 };
 
@@ -132,77 +130,64 @@ export const onButtonPress = (
   gamepadId: number
 ): void => {
   // const currentlyFocusedInteractable = getCurrentlyFocusedInteractable();
-  // const wasFocusDriven = isFocusDriven(inputMode);
-  // // We are going from touch/mouse to keyboard/gamepad. Only return if the currentlyFocusedInteractable
-  // // is on-screen. We want the user to be able to immediately start scrolling
-  // if (inputMode !== InputMode.Gamepad) {
-  //   setInputMode(InputMode.Gamepad, true);
-  //   if (button === GamepadButton.A) {
-  //     resetGamepadState(button, gamepadId);
-  //   }
-  // }
-  // if (!wasFocusDriven) {
-  //   return;
-  // }
-  // if (document.activeElement) {
-  //   emitSyntheticButtonEvent(button, action, document.activeElement);
-  // }
-  // switch (button) {
-  //   case GamepadButton.A:
-  //     switch (action) {
-  //       case GamepadAction.Down:
-  //         if (currentlyFocusedInteractable) {
-  //           emitSyntheticMouseEvent('mousedown', currentlyFocusedInteractable);
-  //         }
-  //         break;
-  //       case GamepadAction.Up:
-  //         if (currentlyFocusedInteractable) {
-  //           emitSyntheticMouseEvent('click', currentlyFocusedInteractable);
-  //           emitSyntheticMouseEvent('mouseup', currentlyFocusedInteractable);
-  //           if (shouldSubmitForm(currentlyFocusedInteractable)) {
-  //             getParentForm(currentlyFocusedInteractable)?.requestSubmit?.();
-  //           }
-  //         }
-  //         break;
-  //     }
-  //     break;
-  //   case GamepadButton.DpadUp:
-  //   case GamepadButton.DpadDown:
-  //   case GamepadButton.DpadLeft:
-  //   case GamepadButton.DpadRight: {
-  //     let direction = FocusDirection.None;
-  //     switch (button) {
-  //       case GamepadButton.DpadUp:
-  //         direction = FocusDirection.Up;
-  //         break;
-  //       case GamepadButton.DpadDown:
-  //         direction = FocusDirection.Down;
-  //         break;
-  //       case GamepadButton.DpadLeft:
-  //         direction = FocusDirection.Left;
-  //         break;
-  //       case GamepadButton.DpadRight:
-  //         direction = FocusDirection.Right;
-  //     }
-  //     switch (action) {
-  //       case GamepadAction.Down:
-  //         registerDirectionalInput(
-  //           direction,
-  //           DirectionalSource.Dpad,
-  //           gamepadId
-  //         );
-  //         break;
-  //       case GamepadAction.Up:
-  //         unregisterDirectionalInput(
-  //           direction,
-  //           DirectionalSource.Dpad,
-  //           gamepadId
-  //         );
-  //         break;
-  //     }
-  //     return;
-  //   }
-  // }
+
+  // We are going from touch/mouse to keyboard/gamepad. Only return if the currentlyFocusedInteractable
+  // is on-screen. We want the user to be able to immediately start scrolling
+  if (inputMode !== InputMode.Gamepad) {
+    setInputMode(InputMode.Gamepad, true);
+    if (button === GamepadButton.A) {
+      resetGamepadState(button, gamepadId);
+    }
+  }
+
+  if (document.activeElement) {
+    // emitSyntheticButtonEvent(button, action, document.activeElement);
+  }
+
+  switch (button) {
+    case GamepadButton.A:
+      switch (action) {
+        case GamepadAction.Down: {
+          emitSyntheticKeyboardEvent('keydown', KeyboardKey.Enter);
+          break;
+        }
+        case GamepadAction.Up: {
+          emitSyntheticKeyboardEvent('keyup', KeyboardKey.Enter);
+          break;
+        }
+      }
+      break;
+    case GamepadButton.DpadUp:
+    case GamepadButton.DpadDown:
+    case GamepadButton.DpadLeft:
+    case GamepadButton.DpadRight: {
+      let arrowDirection: KeyboardKey;
+      switch (button) {
+        case GamepadButton.DpadUp:
+          arrowDirection = KeyboardKey.ArrowUp;
+          break;
+        case GamepadButton.DpadDown:
+          arrowDirection = KeyboardKey.ArrowDown;
+          break;
+        case GamepadButton.DpadLeft:
+          arrowDirection = KeyboardKey.ArrowLeft;
+          break;
+        case GamepadButton.DpadRight:
+          arrowDirection = KeyboardKey.ArrowRight;
+      }
+      switch (action) {
+        case GamepadAction.Down: {
+          emitSyntheticKeyboardEvent('keydown', arrowDirection);
+          break;
+        }
+        case GamepadAction.Up: {
+          emitSyntheticKeyboardEvent('keyup', arrowDirection);
+          break;
+        }
+      }
+      return;
+    }
+  }
 };
 
 /*
@@ -212,9 +197,8 @@ export const onButtonPress = (
 // Lock for stick input so we don't navigate right away after receiving first gamepad input
 // If we don't have this set up, we would navigate first without a focus border present to show
 // the user what is happening
-// const leftStickLock = new Map<number, boolean>();
-
-// const leftStickDirections: Map<number, FocusDirection> = new Map();
+const leftStickLock = new Map<number, boolean>();
+const leftStickDirections: Map<number, KeyboardKey> = new Map();
 
 /**
  * Handles left stick navigation
@@ -229,51 +213,39 @@ export const onLeftStickInput = (
   gamepadId: number
 ): void => {
   // Check if joysticks pass our threshold
-  // if (
-  //   !leftStickLock.get(gamepadId) &&
-  //   (Math.abs(xAxis) > 0.8 || Math.abs(yAxis) > 0.8)
-  // ) {
-  //   const wasFocusDriven = isFocusDriven(inputMode);
-  //   setInputMode(InputMode.Gamepad);
-  //   if (!wasFocusDriven) {
-  //     return;
-  //   }
-  //   let newLeftStickDirection: FocusDirection;
-  //   if (Math.abs(yAxis) >= Math.abs(xAxis)) {
-  //     // y axis has greater strength, so lets use that value
-  //     newLeftStickDirection =
-  //       yAxis < 0 ? FocusDirection.Up : FocusDirection.Down;
-  //   } else {
-  //     newLeftStickDirection =
-  //       xAxis < 0 ? FocusDirection.Left : FocusDirection.Right;
-  //   }
-  //   const leftStickDirection = leftStickDirections.get(gamepadId);
-  //   if (leftStickDirection !== newLeftStickDirection) {
-  //     if (leftStickDirection) {
-  //       unregisterDirectionalInput(
-  //         leftStickDirection,
-  //         DirectionalSource.LeftStick,
-  //         gamepadId
-  //       );
-  //     }
-  //     leftStickDirections.set(gamepadId, newLeftStickDirection);
-  //   }
-  //   registerDirectionalInput(
-  //     newLeftStickDirection,
-  //     DirectionalSource.LeftStick,
-  //     gamepadId
-  //   );
-  // } else {
-  //   const leftStickDirection = leftStickDirections.get(gamepadId);
-  //   if (leftStickDirection) {
-  //     unregisterDirectionalInput(
-  //       leftStickDirection,
-  //       DirectionalSource.LeftStick,
-  //       gamepadId
-  //     );
-  //   }
-  // }
-  // if (Math.abs(xAxis) < 0.8 && Math.abs(yAxis) < 0.8) {
-  //   leftStickLock.set(gamepadId, false);
-  // }
+  if (
+    !leftStickLock.get(gamepadId) &&
+    (Math.abs(xAxis) > 0.8 || Math.abs(yAxis) > 0.8)
+  ) {
+    let newLeftStickDirection: KeyboardKey;
+    if (Math.abs(yAxis) >= Math.abs(xAxis)) {
+      // y axis has greater strength, so lets use that value
+      newLeftStickDirection =
+        yAxis < 0 ? KeyboardKey.ArrowUp : KeyboardKey.ArrowDown;
+    } else {
+      newLeftStickDirection =
+        xAxis < 0 ? KeyboardKey.ArrowLeft : KeyboardKey.ArrowRight;
+    }
+    const leftStickDirection = leftStickDirections.get(gamepadId);
+    if (leftStickDirection !== newLeftStickDirection) {
+      if (leftStickDirection) {
+        emitSyntheticKeyboardEvent('keyup', leftStickDirection);
+      }
+      leftStickDirections.set(gamepadId, newLeftStickDirection);
+    }
+    // registerDirectionalInput(
+    //   newLeftStickDirection,
+    //   DirectionalSource.LeftStick,
+    //   gamepadId
+    // );
+    emitSyntheticKeyboardEvent('keydown', newLeftStickDirection);
+  } else {
+    const leftStickDirection = leftStickDirections.get(gamepadId);
+    if (leftStickDirection) {
+      emitSyntheticKeyboardEvent('keyup', leftStickDirection);
+    }
+  }
+  if (Math.abs(xAxis) < 0.8 && Math.abs(yAxis) < 0.8) {
+    leftStickLock.set(gamepadId, false);
+  }
 };
