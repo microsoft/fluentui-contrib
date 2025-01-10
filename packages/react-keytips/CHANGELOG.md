@@ -1,8 +1,18 @@
 # Change Log - @fluentui-contrib/react-keytips
 
-This log was last generated on Thu, 21 Nov 2024 13:13:06 GMT and should not be manually modified.
+This log was last generated on Fri, 10 Jan 2025 11:59:12 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.1.3
+
+Fri, 10 Jan 2025 11:59:12 GMT
+
+### Patches
+
+- fix: fix the issue with showing duplicates in Overflow (vgenaev@gmail.com)
+- docs: add more detailed Overflow examples (vgenaev@gmail.com)
+- feat: add support for shortcuts (vgenaev@gmail.com)
 
 ## 0.1.2
 
