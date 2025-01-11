@@ -3,7 +3,6 @@
 import { InputMode } from '../types/InputMode';
 import { GamepadState } from '../types/Keys';
 import { getGamepadMappings } from './GamepadMappings';
-import { IntervalId } from './GamepadUtils';
 import {
   isPollingEnabled,
   setDefaultInputMode,
@@ -31,15 +30,6 @@ declare global {
     readonly [syntheticKey]?: boolean;
   }
 }
-
-// export const isSyntheticMouseEvent = (
-//   evt: React.MouseEvent<unknown, MouseEvent> | MouseEvent
-// ): boolean => {
-//   // TODO: Why does this get triggered twice when checking in an event callback?
-//   return evt instanceof MouseEvent
-//     ? !!evt?.[syntheticKey]
-//     : !!evt.nativeEvent?.[syntheticKey];
-// };
 
 export const emitSyntheticKeyboardEvent = (
   event: 'keydown' | 'keyup',
@@ -103,6 +93,7 @@ const updateGamepadState = () => {
 };
 
 let windowFocused = true;
+export type IntervalId = ReturnType<typeof setInterval> | undefined;
 export const shouldPollGamepads = () => windowFocused && isPollingEnabled();
 
 let scanInterval: IntervalId;

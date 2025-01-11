@@ -157,6 +157,18 @@ export const onButtonPress = (
         }
       }
       break;
+    case GamepadButton.B:
+      switch (action) {
+        case GamepadAction.Down: {
+          emitSyntheticKeyboardEvent('keydown', KeyboardKey.Escape);
+          break;
+        }
+        case GamepadAction.Up: {
+          emitSyntheticKeyboardEvent('keyup', KeyboardKey.Escape);
+          break;
+        }
+      }
+      break;
     case GamepadButton.DpadUp:
     case GamepadButton.DpadDown:
     case GamepadButton.DpadLeft:
@@ -233,11 +245,6 @@ export const onLeftStickInput = (
       }
       leftStickDirections.set(gamepadId, newLeftStickDirection);
     }
-    // registerDirectionalInput(
-    //   newLeftStickDirection,
-    //   DirectionalSource.LeftStick,
-    //   gamepadId
-    // );
     emitSyntheticKeyboardEvent('keydown', newLeftStickDirection);
   } else {
     const leftStickDirection = leftStickDirections.get(gamepadId);

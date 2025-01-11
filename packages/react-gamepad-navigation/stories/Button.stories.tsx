@@ -1,5 +1,30 @@
 import * as React from 'react';
-import { Button, makeStyles } from '@fluentui/react-components';
+import {
+  TextBoldRegular,
+  TextUnderlineRegular,
+  TextItalicRegular,
+  TextAlignLeftRegular,
+  TextAlignCenterRegular,
+  TextAlignRightRegular,
+  CopyRegular,
+  ClipboardPasteRegular,
+  CutRegular,
+  CalendarMonthRegular,
+  CalendarMonthFilled,
+} from '@fluentui/react-icons';
+import {
+  Button,
+  Input,
+  Label,
+  makeStyles,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  MenuPopover,
+  MenuTrigger,
+  useId,
+} from '@fluentui/react-components';
 import { userGamepadNavigationGroup } from '@fluentui-contrib/react-gamepad-navigation';
 
 const useStyles = makeStyles({
@@ -10,14 +35,50 @@ const useStyles = makeStyles({
     columnGap: '15px',
     display: 'flex',
   },
+  input: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '2px',
+    maxWidth: '400px',
+  },
 });
 
 export const TextButtons = () => {
   const styles = useStyles();
   const attributes = userGamepadNavigationGroup();
+  const inputId = useId('input');
 
   return (
     <div className={styles.container} {...attributes}>
+      <div className={styles.input}>
+        <Label htmlFor={inputId}>Sample input</Label>
+        <Input id={inputId} />
+      </div>
+      <br />
+      <div className={styles.row}>
+        <Button aria-label="Bold" icon={<TextBoldRegular />} />
+        <Button aria-label="Underline" icon={<TextUnderlineRegular />} />
+        <Button aria-label="Italic" icon={<TextItalicRegular />} />
+        <Button aria-label="Align Left" icon={<TextAlignLeftRegular />} />
+        <Button aria-label="Align Center" icon={<TextAlignCenterRegular />} />
+        <Button aria-label="Align Right" icon={<TextAlignRightRegular />} />
+        <Button aria-label="Copy" icon={<CopyRegular />} />
+        <Button aria-label="Cut" icon={<CutRegular />} />
+        <Button aria-label="Paste" icon={<ClipboardPasteRegular />} />
+      </div>
+      <br />
+      <div className={styles.row}>
+        <Button aria-label="Bold" icon={<TextBoldRegular />} />
+        <Button aria-label="Underline" icon={<TextUnderlineRegular />} />
+        <Button aria-label="Italic" icon={<TextItalicRegular />} />
+        <Button aria-label="Align Left" icon={<TextAlignLeftRegular />} />
+        <Button aria-label="Align Center" icon={<TextAlignCenterRegular />} />
+        <Button aria-label="Align Right" icon={<TextAlignRightRegular />} />
+        <Button aria-label="Copy" icon={<CopyRegular />} />
+        <Button aria-label="Cut" icon={<CutRegular />} />
+        <Button aria-label="Paste" icon={<ClipboardPasteRegular />} />
+      </div>
+      <br />
       <div className={styles.row}>
         <Button>Default</Button>
         <Button appearance="primary">Primary</Button>
@@ -32,6 +93,140 @@ export const TextButtons = () => {
         <Button appearance="outline">Outline</Button>
         <Button appearance="subtle">Subtle</Button>
         <Button appearance="transparent">Transparent</Button>
+      </div>
+      <br />
+      <div className={styles.row}>
+        <Menu>
+          <MenuTrigger disableButtonEnhancement>
+            <MenuButton icon={<CalendarMonthRegular />}>Default</MenuButton>
+          </MenuTrigger>
+
+          <MenuPopover>
+            <MenuList>
+              <MenuItem>Item a</MenuItem>
+              <MenuItem>Item b</MenuItem>
+            </MenuList>
+          </MenuPopover>
+        </Menu>
+        <Menu>
+          <MenuTrigger disableButtonEnhancement>
+            <MenuButton appearance="primary" icon={<CalendarMonthRegular />}>
+              Primary
+            </MenuButton>
+          </MenuTrigger>
+          <MenuPopover>
+            <MenuList>
+              <MenuItem>Item a</MenuItem>
+              <MenuItem>Item b</MenuItem>
+            </MenuList>
+          </MenuPopover>
+        </Menu>
+        <Menu>
+          <MenuTrigger disableButtonEnhancement>
+            <MenuButton appearance="outline" icon={<CalendarMonthFilled />}>
+              Outline
+            </MenuButton>
+          </MenuTrigger>
+          <MenuPopover>
+            <MenuList>
+              <MenuItem>Item a</MenuItem>
+              <MenuItem>Item b</MenuItem>
+            </MenuList>
+          </MenuPopover>
+        </Menu>
+        <Menu>
+          <MenuTrigger disableButtonEnhancement>
+            <MenuButton appearance="subtle" icon={<CalendarMonthFilled />}>
+              Subtle
+            </MenuButton>
+          </MenuTrigger>
+          <MenuPopover>
+            <MenuList>
+              <MenuItem>Item a</MenuItem>
+              <MenuItem>Item b</MenuItem>
+            </MenuList>
+          </MenuPopover>
+        </Menu>
+        <Menu>
+          <MenuTrigger disableButtonEnhancement>
+            <MenuButton appearance="transparent" icon={<CalendarMonthFilled />}>
+              Transparent
+            </MenuButton>
+          </MenuTrigger>
+          <MenuPopover>
+            <MenuList>
+              <MenuItem>Item a</MenuItem>
+              <MenuItem>Item b</MenuItem>
+            </MenuList>
+          </MenuPopover>
+        </Menu>
+      </div>
+      <br />
+      <div className={styles.row}>
+        <Menu>
+          <MenuTrigger disableButtonEnhancement>
+            <MenuButton icon={<CalendarMonthRegular />}>Default</MenuButton>
+          </MenuTrigger>
+
+          <MenuPopover>
+            <MenuList>
+              <MenuItem>Item a</MenuItem>
+              <MenuItem>Item b</MenuItem>
+            </MenuList>
+          </MenuPopover>
+        </Menu>
+        <Menu>
+          <MenuTrigger disableButtonEnhancement>
+            <MenuButton appearance="primary" icon={<CalendarMonthRegular />}>
+              Primary
+            </MenuButton>
+          </MenuTrigger>
+          <MenuPopover>
+            <MenuList>
+              <MenuItem>Item a</MenuItem>
+              <MenuItem>Item b</MenuItem>
+            </MenuList>
+          </MenuPopover>
+        </Menu>
+        <Menu>
+          <MenuTrigger disableButtonEnhancement>
+            <MenuButton appearance="outline" icon={<CalendarMonthFilled />}>
+              Outline
+            </MenuButton>
+          </MenuTrigger>
+          <MenuPopover>
+            <MenuList>
+              <MenuItem>Item a</MenuItem>
+              <MenuItem>Item b</MenuItem>
+            </MenuList>
+          </MenuPopover>
+        </Menu>
+        <Menu>
+          <MenuTrigger disableButtonEnhancement>
+            <MenuButton appearance="subtle" icon={<CalendarMonthFilled />}>
+              Subtle
+            </MenuButton>
+          </MenuTrigger>
+          <MenuPopover>
+            <MenuList>
+              <MenuItem>Item a</MenuItem>
+              <MenuItem>Item b</MenuItem>
+            </MenuList>
+          </MenuPopover>
+        </Menu>
+        <Menu>
+          <MenuTrigger disableButtonEnhancement>
+            <MenuButton appearance="transparent" icon={<CalendarMonthFilled />}>
+              Transparent
+            </MenuButton>
+          </MenuTrigger>
+          <MenuPopover>
+            <MenuList>
+              <MenuItem>Item a</MenuItem>
+              <MenuItem>Item b</MenuItem>
+            </MenuList>
+          </MenuPopover>
+        </Menu>
       </div>
     </div>
   );
