@@ -1,6 +1,5 @@
 /* eslint-disable no-restricted-globals */
 
-import { InputMode, isFocusDriven } from '../types/InputMode';
 import { GamepadAction, GamepadButton, KeyboardKey } from '../types/Keys';
 import {
   consolePrefix,
@@ -13,74 +12,6 @@ import { resetGamepadState } from './InputProcessor';
 /*
     General
 */
-
-let defaultInputMode: InputMode = InputMode.Mouse;
-
-export const getDefaultInputMode = (): InputMode => {
-  return defaultInputMode;
-};
-
-export const setDefaultInputMode = (newDefaultInputMode: InputMode): void => {
-  defaultInputMode = newDefaultInputMode;
-};
-
-// The last remembered input mode
-let inputMode: InputMode = InputMode.Mouse;
-
-/**
- * Getter for the current input mode
- *
- *  @returns the current input mode
- */
-export const getInputMode = (): InputMode => {
-  return inputMode;
-};
-
-/**
- * Sets the next input mode, and focuses on the last focused interactable, if specified
- *
- *  @param inputMode - the input mode to set
- *  @param changeFocus - whether we should change focus to the last known focused interactable
- */
-export const setInputMode = (
-  newInputMode: InputMode,
-  changeFocus = true
-): void => {
-  if (inputMode === newInputMode) {
-    return;
-  }
-
-  const actionRequired =
-    isFocusDriven(inputMode) !== isFocusDriven(newInputMode);
-
-  inputMode = newInputMode;
-  // GamepadEventEmitter.emit(InputModeEvent.Change, inputMode);
-
-  if (actionRequired) {
-    if (!isFocusDriven(inputMode)) {
-      document.body.classList.remove('gamepadmode');
-      if (changeFocus) {
-        // blurCurrentFocus();
-      }
-    } else {
-      document.body.classList.add('gamepadmode');
-      if (changeFocus && isPollingEnabled()) {
-        // const currentlyFocusedInteractable = getCurrentlyFocusedInteractable();
-        // if (currentlyFocusedInteractable) {
-        //   if (isViewOnParentContainer(currentlyFocusedInteractable)) {
-        //     currentlyFocusedInteractable.focus();
-        //     return;
-        //   } else {
-        //     clearCurrentFocus();
-        //     focusStartingPoint();
-        //   }
-        // } else {
-        //   focusStartingPoint();
-        // }
-      }
-    }
-  }
-};
 
 /*
     Polling Mode
@@ -105,16 +36,10 @@ export const setPollingEnabled = (enabled: boolean): void => {
 
   if (pollingEnabled) {
     console.log(consolePrefix, 'Enabling controller navigation');
-
     resetGamepadState(GamepadButton.A);
     startGamepadPolling();
-    if (isFocusDriven(defaultInputMode)) {
-      setInputMode(defaultInputMode);
-    }
   } else {
     console.log(consolePrefix, 'Disabling controller navigation');
-
-    setInputMode(InputMode.Mouse);
     stopGamepadPolling();
   }
 };
@@ -133,72 +58,40 @@ export const onButtonPress = (
 
   // We are going from touch/mouse to keyboard/gamepad. Only return if the currentlyFocusedInteractable
   // is on-screen. We want the user to be able to immediately start scrolling
-  if (inputMode !== InputMode.Gamepad) {
-    setInputMode(InputMode.Gamepad, true);
-    if (button === GamepadButton.A) {
-      resetGamepadState(button, gamepadId);
-    }
+  if (button === GamepadButton.A) {
+    resetGamepadState(button, gamepadId);
   }
 
   if (document.activeElement) {
     // emitSyntheticButtonEvent(button, action, document.activeElement);
   }
 
+  let keyboardKey: KeyboardKey | undefined;
   switch (button) {
     case GamepadButton.A:
-      switch (action) {
-        case GamepadAction.Down: {
-          emitSyntheticKeyboardEvent('keydown', KeyboardKey.Enter);
-          break;
-        }
-        case GamepadAction.Up: {
-          emitSyntheticKeyboardEvent('keyup', KeyboardKey.Enter);
-          break;
-        }
-      }
+      keyboardKey = KeyboardKey.Enter;
       break;
     case GamepadButton.B:
-      switch (action) {
-        case GamepadAction.Down: {
-          emitSyntheticKeyboardEvent('keydown', KeyboardKey.Escape);
-          break;
-        }
-        case GamepadAction.Up: {
-          emitSyntheticKeyboardEvent('keyup', KeyboardKey.Escape);
-          break;
-        }
-      }
+      keyboardKey = KeyboardKey.Escape;
       break;
     case GamepadButton.DpadUp:
+      keyboardKey = KeyboardKey.ArrowUp;
+      break;
     case GamepadButton.DpadDown:
+      keyboardKey = KeyboardKey.ArrowDown;
+      break;
     case GamepadButton.DpadLeft:
+      keyboardKey = KeyboardKey.ArrowLeft;
+      break;
     case GamepadButton.DpadRight: {
-      let arrowDirection: KeyboardKey;
-      switch (button) {
-        case GamepadButton.DpadUp:
-          arrowDirection = KeyboardKey.ArrowUp;
-          break;
-        case GamepadButton.DpadDown:
-          arrowDirection = KeyboardKey.ArrowDown;
-          break;
-        case GamepadButton.DpadLeft:
-          arrowDirection = KeyboardKey.ArrowLeft;
-          break;
-        case GamepadButton.DpadRight:
-          arrowDirection = KeyboardKey.ArrowRight;
-      }
-      switch (action) {
-        case GamepadAction.Down: {
-          emitSyntheticKeyboardEvent('keydown', arrowDirection);
-          break;
-        }
-        case GamepadAction.Up: {
-          emitSyntheticKeyboardEvent('keyup', arrowDirection);
-          break;
-        }
-      }
-      return;
+      keyboardKey = KeyboardKey.ArrowRight;
+      break;
     }
+  }
+
+  const actionType = action === GamepadAction.Down ? 'keydown' : 'keyup';
+  if (keyboardKey) {
+    emitSyntheticKeyboardEvent(actionType, keyboardKey);
   }
 };
 

@@ -1,14 +1,8 @@
 /* eslint-disable no-restricted-globals */
 
-import { InputMode } from '../types/InputMode';
 import { GamepadState } from '../types/Keys';
 import { getGamepadMappings } from './GamepadMappings';
-import {
-  isPollingEnabled,
-  setDefaultInputMode,
-  setInputMode,
-  setPollingEnabled,
-} from './InputManager';
+import { isPollingEnabled, setPollingEnabled } from './InputManager';
 import { handleGamepadInput } from './InputProcessor';
 
 export const consolePrefix = '[GamepadNavigation]';
@@ -37,6 +31,14 @@ export const emitSyntheticKeyboardEvent = (
 ) => {
   const keyboardEvent = new KeyboardEvent(event, {
     key: key,
+    bubbles: true,
+    cancelable: true,
+    view: window,
+    detail: 0,
+    ctrlKey: false,
+    altKey: false,
+    shiftKey: false,
+    metaKey: false,
   });
 
   Object.defineProperty(keyboardEvent, syntheticKey, {
@@ -180,7 +182,6 @@ const onWindowFocus = (): void => {
 
 export interface GamepadNavigationProps {
   pollingEnabled?: boolean;
-  defaultInputMode?: InputMode;
 }
 
 let gamepadInitialized = false;
@@ -204,13 +205,6 @@ export const initGamepadNavigation = async (
   gamepadInitialized = true;
 
   try {
-    if (props) {
-      if (props.defaultInputMode) {
-        setDefaultInputMode(props.defaultInputMode);
-        setInputMode(props.defaultInputMode);
-      }
-    }
-
     console.log(consolePrefix, 'Initializing gamepad navigation');
 
     /**
