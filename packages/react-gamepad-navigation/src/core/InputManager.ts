@@ -4,6 +4,7 @@ import { GamepadAction, GamepadButton, KeyboardKey } from '../types/Keys';
 import {
   consolePrefix,
   emitSyntheticKeyboardEvent,
+  emitSyntheticMouseEvent,
   startGamepadPolling,
   stopGamepadPolling,
 } from './GamepadNavigation';
@@ -44,6 +45,24 @@ export const setPollingEnabled = (enabled: boolean): void => {
   }
 };
 
+const shouldSubmitForm = (element: HTMLElement) =>
+  element instanceof HTMLInputElement &&
+  (element.type === 'password' ||
+    element.type === 'text' ||
+    element.type === 'email' ||
+    element.type === 'tel');
+
+export const getParentForm = (element: HTMLElement) => {
+  let current: HTMLElement | null = element.parentElement;
+  while (current != null && current != document.body) {
+    if (current instanceof HTMLFormElement) {
+      return current;
+    }
+    current = current.parentElement;
+  }
+  return null;
+};
+
 /*
     Buttons
 */
@@ -58,18 +77,20 @@ export const onButtonPress = (
 
   // We are going from touch/mouse to keyboard/gamepad. Only return if the currentlyFocusedInteractable
   // is on-screen. We want the user to be able to immediately start scrolling
-  if (button === GamepadButton.A) {
-    resetGamepadState(button, gamepadId);
-  }
+  // if (button === GamepadButton.A) {
+  //   resetGamepadState(button, gamepadId);
+  // }
 
-  if (document.activeElement) {
-    // emitSyntheticButtonEvent(button, action, document.activeElement);
-  }
+  // if (document.activeElement) {
+  //   // emitSyntheticButtonEvent(button, action, document.activeElement);
+  // }
 
   let keyboardKey: KeyboardKey | undefined;
+  let eventType: 'keyboard' | 'mouse' = 'keyboard';
   switch (button) {
     case GamepadButton.A:
-      keyboardKey = KeyboardKey.Enter;
+      // keyboardKey = KeyboardKey.Enter;
+      eventType = 'mouse';
       break;
     case GamepadButton.B:
       keyboardKey = KeyboardKey.Escape;
@@ -92,6 +113,18 @@ export const onButtonPress = (
   const actionType = action === GamepadAction.Down ? 'keydown' : 'keyup';
   if (keyboardKey) {
     emitSyntheticKeyboardEvent(actionType, keyboardKey);
+  } else if (eventType === 'mouse') {
+    if (actionType === 'keydown') {
+      emitSyntheticMouseEvent('mousedown');
+    } else {
+      emitSyntheticMouseEvent('click');
+      emitSyntheticMouseEvent('mouseup');
+      const currentlyFocusedInteractable =
+        document.activeElement as HTMLElement;
+      if (shouldSubmitForm(currentlyFocusedInteractable)) {
+        getParentForm(currentlyFocusedInteractable)?.requestSubmit?.();
+      }
+    }
   }
 };
 

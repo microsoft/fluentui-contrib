@@ -5,11 +5,7 @@ export {
 
 export type { GamepadNavigationProps } from './core/GamepadNavigation';
 
-export {
-  getInputMode,
-  isPollingEnabled,
-  setPollingEnabled,
-} from './core/InputManager';
+export { isPollingEnabled, setPollingEnabled } from './core/InputManager';
 
 export { resetGamepadState } from './core/InputProcessor';
 

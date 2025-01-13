@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-globals */
 
-import { GamepadState } from '../types/Keys';
+import { GamepadState, KeyboardKey } from '../types/Keys';
 import { getGamepadMappings } from './GamepadMappings';
 import { isPollingEnabled, setPollingEnabled } from './InputManager';
 import { handleGamepadInput } from './InputProcessor';
@@ -19,8 +19,14 @@ declare global {
     interface KeyboardEvent {
       readonly [syntheticKey]?: boolean;
     }
+    interface MouseEvent {
+      readonly [syntheticKey]?: boolean;
+    }
   }
   interface KeyboardEvent {
+    readonly [syntheticKey]?: boolean;
+  }
+  interface MouseEvent {
     readonly [syntheticKey]?: boolean;
   }
 }
@@ -31,7 +37,7 @@ export const emitSyntheticKeyboardEvent = (
 ) => {
   const keyboardEvent = new KeyboardEvent(event, {
     key: key,
-    bubbles: true,
+    bubbles: key === KeyboardKey.Escape,
     cancelable: true,
     view: window,
     detail: 0,
@@ -46,8 +52,38 @@ export const emitSyntheticKeyboardEvent = (
     writable: false,
     enumerable: false,
   });
-  console.log(consolePrefix, `${key} ${event} triggered`);
+  console.warn(consolePrefix, `${key} ${event} triggered`);
   document.activeElement?.dispatchEvent(keyboardEvent);
+};
+
+export const emitSyntheticMouseEvent = (
+  event: 'mousedown' | 'mouseup' | 'click'
+) => {
+  const mouseEvent = new MouseEvent(event, {
+    bubbles: true,
+    cancelable: true,
+    view: window,
+    detail: 0,
+    screenX: undefined,
+    screenY: undefined,
+    clientX: undefined,
+    clientY: undefined,
+    ctrlKey: false,
+    altKey: false,
+    shiftKey: false,
+    metaKey: false,
+    button: 0,
+    buttons: 0,
+    relatedTarget: null,
+  });
+
+  Object.defineProperty(mouseEvent, syntheticKey, {
+    value: true,
+    writable: false,
+    enumerable: false,
+  });
+  console.warn(consolePrefix, `${event.toUpperCase()} triggered`);
+  document.activeElement?.dispatchEvent(mouseEvent);
 };
 
 /*
@@ -180,9 +216,9 @@ const onWindowFocus = (): void => {
     Library Initialization/Deinitialization
 */
 
-export interface GamepadNavigationProps {
+export type GamepadNavigationProps = {
   pollingEnabled?: boolean;
-}
+};
 
 let gamepadInitialized = false;
 // let gamepadScanInterval: number;

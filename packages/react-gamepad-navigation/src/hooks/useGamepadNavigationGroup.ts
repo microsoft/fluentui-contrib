@@ -46,11 +46,8 @@ export const userGamepadNavigationGroup = (
   } = option;
 
   // TODO: handle gamepad navigation
-  // const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    initGamepadNavigation().then(() => {
-      // setIsLoading(false);
-    });
+    initGamepadNavigation();
   }, []);
 
   return useArrowNavigationGroup({ axis, circular, memorizeCurrent, tabbable });
