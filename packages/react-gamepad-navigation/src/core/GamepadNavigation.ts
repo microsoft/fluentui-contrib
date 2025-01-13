@@ -52,7 +52,10 @@ export const emitSyntheticKeyboardEvent = (
     writable: false,
     enumerable: false,
   });
-  console.warn(consolePrefix, `${key} ${event} triggered`);
+  console.warn(
+    consolePrefix,
+    `${key} ${event} triggered @ ${document.activeElement?.tagName}`
+  );
   document.activeElement?.dispatchEvent(keyboardEvent);
 };
 
@@ -82,7 +85,10 @@ export const emitSyntheticMouseEvent = (
     writable: false,
     enumerable: false,
   });
-  console.warn(consolePrefix, `${event.toUpperCase()} triggered`);
+  console.warn(
+    consolePrefix,
+    `${event.toUpperCase()} triggered @ ${document.activeElement?.tagName}`
+  );
   document.activeElement?.dispatchEvent(mouseEvent);
 };
 

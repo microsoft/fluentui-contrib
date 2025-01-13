@@ -1,6 +1,7 @@
 import {
   useArrowNavigationGroup,
   UseArrowNavigationGroupOptions,
+  useFocusFinders,
 } from '@fluentui/react-components';
 import { useEffect } from 'react';
 import { Types } from 'tabster';
@@ -38,6 +39,7 @@ export type UseGamepadNavigationGroupOptions =
 export const userGamepadNavigationGroup = (
   option: UseGamepadNavigationGroupOptions = {}
 ): Types.TabsterDOMAttribute => {
+  const { findFirstFocusable } = useFocusFinders();
   const {
     axis = 'grid',
     circular = false,
@@ -48,6 +50,8 @@ export const userGamepadNavigationGroup = (
   // TODO: handle gamepad navigation
   useEffect(() => {
     initGamepadNavigation();
+    // eslint-disable-next-line no-restricted-globals
+    findFirstFocusable(document.body)?.focus();
   }, []);
 
   return useArrowNavigationGroup({ axis, circular, memorizeCurrent, tabbable });

@@ -116,6 +116,7 @@ export const onButtonPress = (
   } else if (eventType === 'mouse') {
     if (actionType === 'keydown') {
       emitSyntheticMouseEvent('mousedown');
+      emitSyntheticKeyboardEvent('keydown', KeyboardKey.Enter);
     } else {
       emitSyntheticMouseEvent('click');
       emitSyntheticMouseEvent('mouseup');
