@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: Add null guard for depth check",
+  "packageName": "@fluentui-contrib/stylelint-plugin",
+  "email": "lingfangao@hotmail.com",
+  "dependentChangeType": "patch"
+}
