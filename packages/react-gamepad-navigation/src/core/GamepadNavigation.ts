@@ -12,23 +12,24 @@ export const consolePrefix = '[GamepadNavigation]';
     Synthetic Events
 */
 
-export const emitSyntheticTabsterEvent = (
-  key?: Types.MoverKey,
-  action?: Types.GroupperMoveFocusAction
+export const emitSyntheticMoverMoveFocusEvent = (
+  key: Types.MoverKey,
+  targetDocument?: Document
 ) => {
-  let tabsterEvent: MoverMoveFocusEvent | GroupperMoveFocusEvent | undefined;
-  if (key) {
-    tabsterEvent = new MoverMoveFocusEvent({ key });
-  } else if (action) {
-    tabsterEvent = new GroupperMoveFocusEvent({ action });
-  }
-  if (tabsterEvent) {
-    document.activeElement?.dispatchEvent(tabsterEvent);
-    console.warn(
-      consolePrefix,
-      `${key ?? action} TabsterCustomEvent @ ${JSON.stringify(tabsterEvent)}`
-    );
-  }
+  targetDocument?.activeElement?.dispatchEvent(
+    new MoverMoveFocusEvent({ key })
+  );
+  console.log(consolePrefix, `${key} Mover Move}`);
+};
+
+export const emitSyntheticGroupperMoveFocusEvent = (
+  action: Types.GroupperMoveFocusAction,
+  targetDocument?: Document
+) => {
+  targetDocument?.activeElement?.dispatchEvent(
+    new GroupperMoveFocusEvent({ action })
+  );
+  console.warn(consolePrefix, `${action} Groupper Move @`);
 };
 
 /*
@@ -118,7 +119,7 @@ const pollGamepads = () => {
 
 export const startGamepadPolling = (): void => {
   if (!scanInterval) {
-    scanInterval = setInterval(pollGamepads, 50);
+    scanInterval = setInterval(pollGamepads, 100);
   }
 };
 
@@ -157,12 +158,21 @@ const onWindowFocus = (): void => {
   }
 };
 
+let targetDocument: Document | undefined;
+/**
+ *
+ * @returns The current target document, if any
+ */
+export const getCurrentTargetDocument = (): Document | undefined => {
+  return targetDocument;
+};
 /*
     Library Initialization/Deinitialization
 */
 
 export type GamepadNavigationProps = {
   pollingEnabled?: boolean;
+  targetDocument?: Document | undefined;
 };
 
 let gamepadInitialized = false;
@@ -186,6 +196,11 @@ export const initGamepadNavigation = async (
   gamepadInitialized = true;
 
   try {
+    if (props) {
+      if (props.targetDocument) {
+        targetDocument = props.targetDocument;
+      }
+    }
     console.log(consolePrefix, 'Initializing gamepad navigation');
 
     /**

@@ -37,7 +37,12 @@ import { userGamepadNavigationGroup } from '@fluentui-contrib/react-gamepad-navi
 
 const useStyles = makeStyles({
   container: {
+    margin: '20px',
     padding: '20px',
+    border: '4px dashed black',
+    display: 'flex',
+    flexDirection: 'column',
+    width: '660px',
   },
   row: {
     columnGap: '15px',
@@ -67,7 +72,7 @@ const useStyles = makeStyles({
 
 export const Default = () => {
   const styles = useStyles();
-  const attributes = userGamepadNavigationGroup();
+  const tabsterAttributes = userGamepadNavigationGroup();
   const inputId = useId('input');
   const [option1, setOption1] = React.useState(false);
   const [option2, setOption2] = React.useState(true);
@@ -85,7 +90,7 @@ export const Default = () => {
   const selectId = useId('select-default');
 
   return (
-    <div className={styles.container} {...attributes}>
+    <div className={styles.container} {...tabsterAttributes}>
       <div className={styles.input}>
         <Label htmlFor={inputId}>Sample input</Label>
         <Input id={inputId} />

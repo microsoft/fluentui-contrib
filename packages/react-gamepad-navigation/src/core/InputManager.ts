@@ -4,7 +4,9 @@ import { GroupperMoveFocusActions, MoverKeys, Types } from 'tabster';
 import { GamepadAction, GamepadButton } from '../types/Keys';
 import {
   consolePrefix,
-  emitSyntheticTabsterEvent,
+  emitSyntheticGroupperMoveFocusEvent,
+  emitSyntheticMoverMoveFocusEvent,
+  getCurrentTargetDocument,
   startGamepadPolling,
   stopGamepadPolling,
 } from './GamepadNavigation';
@@ -55,7 +57,7 @@ export const onButtonPress = (
   action: GamepadAction,
   gamepadId: number
 ): void => {
-  // const currentlyFocusedInteractable = getCurrentlyFocusedInteractable();
+  const targetDocument = getCurrentTargetDocument();
 
   // We are going from touch/mouse to keyboard/gamepad. Only return if the currentlyFocusedInteractable
   // is on-screen. We want the user to be able to immediately start scrolling
@@ -92,9 +94,9 @@ export const onButtonPress = (
   }
 
   if (keyboardKey && action === GamepadAction.Down) {
-    emitSyntheticTabsterEvent(keyboardKey, undefined);
+    emitSyntheticMoverMoveFocusEvent(keyboardKey, targetDocument);
   } else if (focusAction && action === GamepadAction.Up) {
-    emitSyntheticTabsterEvent(undefined, focusAction);
+    emitSyntheticGroupperMoveFocusEvent(focusAction, targetDocument);
   }
 };
 
@@ -141,7 +143,8 @@ export const onLeftStickInput = (
       }
       leftStickDirections.set(gamepadId, newLeftStickDirection);
     }
-    emitSyntheticTabsterEvent(newLeftStickDirection);
+    const targetDocument = getCurrentTargetDocument();
+    emitSyntheticMoverMoveFocusEvent(newLeftStickDirection, targetDocument);
   } else {
     const leftStickDirection = leftStickDirections.get(gamepadId);
     if (leftStickDirection) {

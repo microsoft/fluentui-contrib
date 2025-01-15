@@ -1,6 +1,7 @@
 import {
   useArrowNavigationGroup,
   UseArrowNavigationGroupOptions,
+  useFluent,
   useFocusFinders,
 } from '@fluentui/react-components';
 import { useEffect } from 'react';
@@ -39,19 +40,21 @@ export type UseGamepadNavigationGroupOptions =
 export const userGamepadNavigationGroup = (
   option: UseGamepadNavigationGroupOptions = {}
 ): Types.TabsterDOMAttribute => {
-  // const { findFirstFocusable } = useFocusFinders();
   const {
     axis = 'grid',
     circular = false,
     memorizeCurrent = true,
     tabbable = true,
   } = option;
+  const { findFirstFocusable } = useFocusFinders();
+  const { targetDocument } = useFluent();
 
+  const gpnProps = { targetDocument };
   // TODO: handle gamepad navigation
   useEffect(() => {
-    initGamepadNavigation();
-    // eslint-disable-next-line no-restricted-globals
-    // findFirstFocusable(document.body)?.focus();
+    // we shuld only initialize once, but we need to wait for the targetDocument to be set
+    findFirstFocusable(targetDocument?.activeElement as HTMLElement)?.focus();
+    initGamepadNavigation(gpnProps);
   }, []);
 
   return useArrowNavigationGroup({ axis, circular, memorizeCurrent, tabbable });
