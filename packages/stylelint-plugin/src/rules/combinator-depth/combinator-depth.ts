@@ -53,6 +53,7 @@ export default createRule({
       ).length;
 
       if (
+        tokenizedSelector.length > 1 &&
         tokenizedSelector[1].type === 'pseudo-class' &&
         [':hover', ':active'].includes(tokenizedSelector[1].content) &&
         combinatorCount <= allowedDepth + 1

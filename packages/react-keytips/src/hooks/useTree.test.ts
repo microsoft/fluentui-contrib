@@ -128,6 +128,23 @@ describe('useTree', () => {
       expect(Object.keys(result.current.nodeMap)).toHaveLength(1);
     });
 
+    it('should add shortcut node', () => {
+      const { result } = renderHook(() => useTree());
+
+      const uniqueId = 'keytip-shortcut';
+
+      result.current.addNode({
+        uniqueId,
+        isShortcut: true,
+        keySequences: ['a', 'b'],
+        content: 'B',
+      });
+
+      // should register alias node
+      const aliasNode = result.current.nodeMap.current.get(`${uniqueId}-alias`);
+      expect(aliasNode?.id).toBe('ktp-b');
+    });
+
     it('should add node under root', () => {
       const { result } = renderHook(() => useTree());
 

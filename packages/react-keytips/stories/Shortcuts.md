@@ -1,7 +1,7 @@
 Keytips with `Overflow` and `Menu` components offer special options:
 
-`isShortcut` - a Keytip can be a shortcut, that can be accessed from the top overflow level. A shortcut to a normal Button will trigger it immediately,
-if it's attached to a Menu, it will open a Menu, even if Keytip does not have a child Keytip to show.
+`isShortcut` - Enables shortcut behavior for the Keytip, allowing it to be triggered directly from the menu top-level.
+`hasMenu` - Indicates that the Keytip opens a submenu. If hasMenu is not provided, the Keytip will trigger `onExecute` directly instead of displaying a submenu.
 
 In this example, firing `T`, `Y` and `R` will show this functionality.
 
