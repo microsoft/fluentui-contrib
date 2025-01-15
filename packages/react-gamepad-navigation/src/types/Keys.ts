@@ -31,29 +31,3 @@ export enum GamepadAction {
   Down = 'gamepadDown',
   Up = 'gamepadUp',
 }
-
-/*
-    Keyboard Keys, State, & Actions
-*/
-
-export enum KeyboardKey {
-  Enter = 'Enter',
-  Escape = 'Escape',
-  ArrowUp = 'ArrowUp',
-  ArrowDown = 'ArrowDown',
-  ArrowLeft = 'ArrowLeft',
-  ArrowRight = 'ArrowRight',
-}
-
-const NamedKeys = Object.values(KeyboardKey);
-
-export const getIsNamedKey = (key: string): boolean =>
-  NamedKeys.includes(key as KeyboardKey);
-
-export type KeyboardState = Record<string, KeyPressState>;
-
-export enum KeyboardAction {
-  Down = 'keyboardDown',
-  Up = 'keyboardUp',
-  Repeat = 'keyboardRepeat',
-}

@@ -9,11 +9,6 @@ export { isPollingEnabled, setPollingEnabled } from './core/InputManager';
 
 export { resetGamepadState } from './core/InputProcessor';
 
-export {
-  GamepadAction,
-  GamepadButton,
-  KeyboardAction,
-  KeyboardKey,
-} from './types/Keys';
+export { GamepadAction, GamepadButton } from './types/Keys';
 
 export { userGamepadNavigationGroup } from './hooks/useGamepadNavigationGroup';

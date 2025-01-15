@@ -1,6 +1,7 @@
 /* eslint-disable no-restricted-globals */
 
-import { GamepadState, KeyboardKey } from '../types/Keys';
+import { GroupperMoveFocusEvent, MoverMoveFocusEvent, Types } from 'tabster';
+import { GamepadState } from '../types/Keys';
 import { getGamepadMappings } from './GamepadMappings';
 import { isPollingEnabled, setPollingEnabled } from './InputManager';
 import { handleGamepadInput } from './InputProcessor';
@@ -11,85 +12,23 @@ export const consolePrefix = '[GamepadNavigation]';
     Synthetic Events
 */
 
-const syntheticKey = Symbol('synthetic');
-
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace React {
-    interface KeyboardEvent {
-      readonly [syntheticKey]?: boolean;
-    }
-    interface MouseEvent {
-      readonly [syntheticKey]?: boolean;
-    }
-  }
-  interface KeyboardEvent {
-    readonly [syntheticKey]?: boolean;
-  }
-  interface MouseEvent {
-    readonly [syntheticKey]?: boolean;
-  }
-}
-
-export const emitSyntheticKeyboardEvent = (
-  event: 'keydown' | 'keyup',
-  key: string
+export const emitSyntheticTabsterEvent = (
+  key?: Types.MoverKey,
+  action?: Types.GroupperMoveFocusAction
 ) => {
-  const keyboardEvent = new KeyboardEvent(event, {
-    key: key,
-    bubbles: key === KeyboardKey.Escape,
-    cancelable: true,
-    view: window,
-    detail: 0,
-    ctrlKey: false,
-    altKey: false,
-    shiftKey: false,
-    metaKey: false,
-  });
-
-  Object.defineProperty(keyboardEvent, syntheticKey, {
-    value: true,
-    writable: false,
-    enumerable: false,
-  });
-  console.warn(
-    consolePrefix,
-    `${key} ${event} triggered @ ${document.activeElement?.tagName}`
-  );
-  document.activeElement?.dispatchEvent(keyboardEvent);
-};
-
-export const emitSyntheticMouseEvent = (
-  event: 'mousedown' | 'mouseup' | 'click'
-) => {
-  const mouseEvent = new MouseEvent(event, {
-    bubbles: true,
-    cancelable: true,
-    view: window,
-    detail: 0,
-    screenX: undefined,
-    screenY: undefined,
-    clientX: undefined,
-    clientY: undefined,
-    ctrlKey: false,
-    altKey: false,
-    shiftKey: false,
-    metaKey: false,
-    button: 0,
-    buttons: 0,
-    relatedTarget: null,
-  });
-
-  Object.defineProperty(mouseEvent, syntheticKey, {
-    value: true,
-    writable: false,
-    enumerable: false,
-  });
-  console.warn(
-    consolePrefix,
-    `${event.toUpperCase()} triggered @ ${document.activeElement?.tagName}`
-  );
-  document.activeElement?.dispatchEvent(mouseEvent);
+  let tabsterEvent: MoverMoveFocusEvent | GroupperMoveFocusEvent | undefined;
+  if (key) {
+    tabsterEvent = new MoverMoveFocusEvent({ key });
+  } else if (action) {
+    tabsterEvent = new GroupperMoveFocusEvent({ action });
+  }
+  if (tabsterEvent) {
+    document.activeElement?.dispatchEvent(tabsterEvent);
+    console.warn(
+      consolePrefix,
+      `${key ?? action} TabsterCustomEvent @ ${JSON.stringify(tabsterEvent)}`
+    );
+  }
 };
 
 /*

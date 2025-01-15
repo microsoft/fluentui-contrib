@@ -1,10 +1,10 @@
 /* eslint-disable no-restricted-globals */
 
-import { GamepadAction, GamepadButton, KeyboardKey } from '../types/Keys';
+import { GroupperMoveFocusActions, MoverKeys, Types } from 'tabster';
+import { GamepadAction, GamepadButton } from '../types/Keys';
 import {
   consolePrefix,
-  emitSyntheticKeyboardEvent,
-  emitSyntheticMouseEvent,
+  emitSyntheticTabsterEvent,
   startGamepadPolling,
   stopGamepadPolling,
 } from './GamepadNavigation';
@@ -45,24 +45,6 @@ export const setPollingEnabled = (enabled: boolean): void => {
   }
 };
 
-const shouldSubmitForm = (element: HTMLElement) =>
-  element instanceof HTMLInputElement &&
-  (element.type === 'password' ||
-    element.type === 'text' ||
-    element.type === 'email' ||
-    element.type === 'tel');
-
-export const getParentForm = (element: HTMLElement) => {
-  let current: HTMLElement | null = element.parentElement;
-  while (current != null && current != document.body) {
-    if (current instanceof HTMLFormElement) {
-      return current;
-    }
-    current = current.parentElement;
-  }
-  return null;
-};
-
 /*
     Buttons
 */
@@ -85,47 +67,34 @@ export const onButtonPress = (
   //   // emitSyntheticButtonEvent(button, action, document.activeElement);
   // }
 
-  let keyboardKey: KeyboardKey | undefined;
-  let eventType: 'keyboard' | 'mouse' = 'keyboard';
+  let keyboardKey: Types.MoverKey | undefined;
+  let focusAction: Types.GroupperMoveFocusAction | undefined;
   switch (button) {
     case GamepadButton.A:
-      // keyboardKey = KeyboardKey.Enter;
-      eventType = 'mouse';
+      focusAction = GroupperMoveFocusActions.Enter;
       break;
     case GamepadButton.B:
-      keyboardKey = KeyboardKey.Escape;
+      focusAction = GroupperMoveFocusActions.Escape;
       break;
     case GamepadButton.DpadUp:
-      keyboardKey = KeyboardKey.ArrowUp;
+      keyboardKey = MoverKeys.ArrowUp;
       break;
     case GamepadButton.DpadDown:
-      keyboardKey = KeyboardKey.ArrowDown;
+      keyboardKey = MoverKeys.ArrowDown;
       break;
     case GamepadButton.DpadLeft:
-      keyboardKey = KeyboardKey.ArrowLeft;
+      keyboardKey = MoverKeys.ArrowLeft;
       break;
     case GamepadButton.DpadRight: {
-      keyboardKey = KeyboardKey.ArrowRight;
+      keyboardKey = MoverKeys.ArrowRight;
       break;
     }
   }
 
-  const actionType = action === GamepadAction.Down ? 'keydown' : 'keyup';
-  if (keyboardKey) {
-    emitSyntheticKeyboardEvent(actionType, keyboardKey);
-  } else if (eventType === 'mouse') {
-    if (actionType === 'keydown') {
-      emitSyntheticMouseEvent('mousedown');
-      emitSyntheticKeyboardEvent('keydown', KeyboardKey.Enter);
-    } else {
-      emitSyntheticMouseEvent('click');
-      emitSyntheticMouseEvent('mouseup');
-      const currentlyFocusedInteractable =
-        document.activeElement as HTMLElement;
-      if (shouldSubmitForm(currentlyFocusedInteractable)) {
-        getParentForm(currentlyFocusedInteractable)?.requestSubmit?.();
-      }
-    }
+  if (keyboardKey && action === GamepadAction.Down) {
+    emitSyntheticTabsterEvent(keyboardKey, undefined);
+  } else if (focusAction && action === GamepadAction.Up) {
+    emitSyntheticTabsterEvent(undefined, focusAction);
   }
 };
 
@@ -137,7 +106,7 @@ export const onButtonPress = (
 // If we don't have this set up, we would navigate first without a focus border present to show
 // the user what is happening
 const leftStickLock = new Map<number, boolean>();
-const leftStickDirections: Map<number, KeyboardKey> = new Map();
+const leftStickDirections: Map<number, Types.MoverKey> = new Map();
 
 /**
  * Handles left stick navigation
@@ -156,27 +125,27 @@ export const onLeftStickInput = (
     !leftStickLock.get(gamepadId) &&
     (Math.abs(xAxis) > 0.8 || Math.abs(yAxis) > 0.8)
   ) {
-    let newLeftStickDirection: KeyboardKey;
+    let newLeftStickDirection: Types.MoverKey;
     if (Math.abs(yAxis) >= Math.abs(xAxis)) {
       // y axis has greater strength, so lets use that value
       newLeftStickDirection =
-        yAxis < 0 ? KeyboardKey.ArrowUp : KeyboardKey.ArrowDown;
+        yAxis < 0 ? MoverKeys.ArrowUp : MoverKeys.ArrowDown;
     } else {
       newLeftStickDirection =
-        xAxis < 0 ? KeyboardKey.ArrowLeft : KeyboardKey.ArrowRight;
+        xAxis < 0 ? MoverKeys.ArrowLeft : MoverKeys.ArrowRight;
     }
     const leftStickDirection = leftStickDirections.get(gamepadId);
     if (leftStickDirection !== newLeftStickDirection) {
       if (leftStickDirection) {
-        emitSyntheticKeyboardEvent('keyup', leftStickDirection);
+        // emitSyntheticKeyboardEvent('keyup', leftStickDirection);
       }
       leftStickDirections.set(gamepadId, newLeftStickDirection);
     }
-    emitSyntheticKeyboardEvent('keydown', newLeftStickDirection);
+    emitSyntheticTabsterEvent(newLeftStickDirection);
   } else {
     const leftStickDirection = leftStickDirections.get(gamepadId);
     if (leftStickDirection) {
-      emitSyntheticKeyboardEvent('keyup', leftStickDirection);
+      // emitSyntheticKeyboardEvent('keyup', leftStickDirection);
     }
   }
   if (Math.abs(xAxis) < 0.8 && Math.abs(yAxis) < 0.8) {
