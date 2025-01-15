@@ -39,7 +39,7 @@
     "@nx/eslint-plugin": "19.8.14",
     "@nx/jest": "19.8.14",
     "@nx/js": "19.8.14",
-    "@nx/linter": "19.8.14",
+    "@nx/eslint": "19.8.14",
     "@nx/playwright": "19.8.14",
     "@nx/plugin": "19.8.14",
     "@nx/react": "19.8.14",
