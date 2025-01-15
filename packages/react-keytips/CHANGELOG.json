@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-keytips",
   "entries": [
     {
+      "date": "Wed, 15 Jan 2025 10:59:44 GMT",
+      "tag": "@fluentui-contrib/react-keytips_v0.1.3",
+      "version": "0.1.3",
+      "comments": {
+        "none": [
+          {
+            "author": "vgenaev@gmail.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "601d3c117035ae3f0563c1acd4fe05dc69abf0e7",
+            "comment": "test: add test for shortcut keytip"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 10 Jan 2025 11:59:12 GMT",
       "tag": "@fluentui-contrib/react-keytips_v0.1.3",
       "version": "0.1.3",
