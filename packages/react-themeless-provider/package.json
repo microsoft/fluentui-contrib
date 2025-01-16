@@ -8,10 +8,6 @@
     "@griffel/react": "^1.5.14",
     "@swc/helpers": "~0.5.2"
   },
-  "devDependencies": {
-    "@fluentui/react-jsx-runtime": "^9.0.32",
-    "@fluentui-contrib/react-shadow": "^0.1.0"
-  },
   "peerDependencies": {
     "@fluentui/react-components": ">=9.46.3 <10.0.0",
     "@fluentui/react-icons": ">=2.0.204 <3.0.0",
