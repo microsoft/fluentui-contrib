@@ -1,0 +1,7 @@
+{
+  "type": "none",
+  "comment": "chore: remove unwanted lock files in projects",
+  "packageName": "@fluentui-contrib/azure-theme",
+  "email": "hochelmartin@gmail.com",
+  "dependentChangeType": "none"
+}
