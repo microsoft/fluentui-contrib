@@ -1,6 +1,10 @@
 /* eslint-disable no-restricted-globals */
 
-import { GroupperMoveFocusActions, MoverKeys, Types } from 'tabster';
+import {
+  GroupperMoveFocusActions,
+  MoverKeys,
+  TabsterTypes,
+} from '@fluentui/react-tabster';
 import { GamepadAction, GamepadButton } from '../types/Keys';
 import {
   consolePrefix,
@@ -69,8 +73,8 @@ export const onButtonPress = (
   //   // emitSyntheticButtonEvent(button, action, document.activeElement);
   // }
 
-  let keyboardKey: Types.MoverKey | undefined;
-  let focusAction: Types.GroupperMoveFocusAction | undefined;
+  let keyboardKey: TabsterTypes.MoverKey | undefined;
+  let focusAction: TabsterTypes.GroupperMoveFocusAction | undefined;
   switch (button) {
     case GamepadButton.A:
       focusAction = GroupperMoveFocusActions.Enter;
@@ -108,7 +112,7 @@ export const onButtonPress = (
 // If we don't have this set up, we would navigate first without a focus border present to show
 // the user what is happening
 const leftStickLock = new Map<number, boolean>();
-const leftStickDirections: Map<number, Types.MoverKey> = new Map();
+const leftStickDirections: Map<number, TabsterTypes.MoverKey> = new Map();
 
 /**
  * Handles left stick navigation
@@ -127,7 +131,7 @@ export const onLeftStickInput = (
     !leftStickLock.get(gamepadId) &&
     (Math.abs(xAxis) > 0.8 || Math.abs(yAxis) > 0.8)
   ) {
-    let newLeftStickDirection: Types.MoverKey;
+    let newLeftStickDirection: TabsterTypes.MoverKey;
     if (Math.abs(yAxis) >= Math.abs(xAxis)) {
       // y axis has greater strength, so lets use that value
       newLeftStickDirection =

@@ -39,10 +39,13 @@ const useStyles = makeStyles({
   container: {
     margin: '20px',
     padding: '20px',
-    border: '4px dashed black',
+    border: '4px dashed #D3D3D3',
     display: 'flex',
     flexDirection: 'column',
     width: '660px',
+    ':focus-within': {
+      border: '4px dashed red',
+    },
   },
   row: {
     columnGap: '15px',

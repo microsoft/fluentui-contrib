@@ -1,6 +1,10 @@
 /* eslint-disable no-restricted-globals */
 
-import { GroupperMoveFocusEvent, MoverMoveFocusEvent, Types } from 'tabster';
+import {
+  GroupperMoveFocusEvent,
+  MoverMoveFocusEvent,
+  TabsterTypes,
+} from '@fluentui/react-tabster';
 import { GamepadState } from '../types/Keys';
 import { getGamepadMappings } from './GamepadMappings';
 import { isPollingEnabled, setPollingEnabled } from './InputManager';
@@ -13,7 +17,7 @@ export const consolePrefix = '[GamepadNavigation]';
 */
 
 export const emitSyntheticMoverMoveFocusEvent = (
-  key: Types.MoverKey,
+  key: TabsterTypes.MoverKey,
   targetDocument?: Document
 ) => {
   targetDocument?.activeElement?.dispatchEvent(
@@ -23,7 +27,7 @@ export const emitSyntheticMoverMoveFocusEvent = (
 };
 
 export const emitSyntheticGroupperMoveFocusEvent = (
-  action: Types.GroupperMoveFocusAction,
+  action: TabsterTypes.GroupperMoveFocusAction,
   targetDocument?: Document
 ) => {
   targetDocument?.activeElement?.dispatchEvent(

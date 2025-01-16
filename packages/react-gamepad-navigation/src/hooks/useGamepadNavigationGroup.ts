@@ -1,11 +1,13 @@
 import {
-  useArrowNavigationGroup,
   UseArrowNavigationGroupOptions,
   useFluent,
   useFocusFinders,
 } from '@fluentui/react-components';
 import { useEffect } from 'react';
-import { Types } from 'tabster';
+import {
+  TabsterDOMAttribute,
+  useArrowNavigationGroup,
+} from '@fluentui/react-tabster';
 import { initGamepadNavigation } from '../core/GamepadNavigation';
 
 export type UseGamepadNavigationGroupOptions =
@@ -39,7 +41,7 @@ export type UseGamepadNavigationGroupOptions =
  */
 export const userGamepadNavigationGroup = (
   option: UseGamepadNavigationGroupOptions = {}
-): Types.TabsterDOMAttribute => {
+): TabsterDOMAttribute => {
   const {
     axis = 'grid',
     circular = false,
