@@ -4,8 +4,8 @@ import {
   shorthands,
   tokens,
 } from '@fluentui/react-components';
+import type { SlotClassNames } from '@fluentui/react-components';
 import type { ChatMessageSlots, ChatMessageState } from './ChatMessage.types';
-import type { SlotClassNames } from '@fluentui/react-utilities';
 import {
   bodyBaseStyles,
   reactionsBaseStyles,

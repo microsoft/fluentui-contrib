@@ -3,30 +3,18 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/react-gamepad-navigation/src",
   "projectType": "library",
-  "release": {
-    "version": {
-      "generatorOptions": {
-        "packageRoot": "dist\\{projectRoot}",
-        "currentVersionResolver": "git-tag"
-      }
-    }
-  },
   "tags": [],
   "targets": {
     "build": {
       "executor": "@fluentui-contrib/nx-plugin:build"
-    },
-    "nx-release-publish": {
-      "options": {
-        "packageRoot": "dist\\{projectRoot}"
-      }
     },
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": [
           "packages/react-gamepad-navigation/**/*.ts",
-          "packages/react-gamepad-navigation/**/*.tsx"
+          "packages/react-gamepad-navigation/**/*.tsx",
+          "packages/nx-plugin/package.json"
         ]
       }
     },
