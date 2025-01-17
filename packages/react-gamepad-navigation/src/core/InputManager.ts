@@ -51,6 +51,24 @@ export const setPollingEnabled = (enabled: boolean): void => {
   }
 };
 
+export const shouldSubmitForm = (element: Element | null | undefined) =>
+  element instanceof HTMLInputElement &&
+  (element.type === 'password' ||
+    element.type === 'text' ||
+    element.type === 'email' ||
+    element.type === 'tel');
+
+export const getParentForm = (element: Element | null | undefined) => {
+  let current = element?.parentElement;
+  while (current && current != document.body) {
+    if (current instanceof HTMLFormElement) {
+      return current;
+    }
+    current = current.parentElement;
+  }
+  return null;
+};
+
 /*
     Buttons
 */
@@ -61,7 +79,7 @@ export const onButtonPress = (
   action: GamepadAction,
   gamepadId: number
 ): void => {
-  const targetDocument = getCurrentTargetDocument();
+  const activeElement = getCurrentTargetDocument()?.activeElement;
 
   // We are going from touch/mouse to keyboard/gamepad. Only return if the currentlyFocusedInteractable
   // is on-screen. We want the user to be able to immediately start scrolling
@@ -98,9 +116,9 @@ export const onButtonPress = (
   }
 
   if (keyboardKey && action === GamepadAction.Down) {
-    emitSyntheticMoverMoveFocusEvent(keyboardKey, targetDocument);
-  } else if (focusAction && action === GamepadAction.Up) {
-    emitSyntheticGroupperMoveFocusEvent(focusAction, targetDocument);
+    emitSyntheticMoverMoveFocusEvent(keyboardKey, activeElement);
+  } else if (focusAction) {
+    emitSyntheticGroupperMoveFocusEvent(focusAction, action, activeElement);
   }
 };
 
@@ -147,8 +165,8 @@ export const onLeftStickInput = (
       }
       leftStickDirections.set(gamepadId, newLeftStickDirection);
     }
-    const targetDocument = getCurrentTargetDocument();
-    emitSyntheticMoverMoveFocusEvent(newLeftStickDirection, targetDocument);
+    const activeElement = getCurrentTargetDocument()?.activeElement;
+    emitSyntheticMoverMoveFocusEvent(newLeftStickDirection, activeElement);
   } else {
     const leftStickDirection = leftStickDirections.get(gamepadId);
     if (leftStickDirection) {

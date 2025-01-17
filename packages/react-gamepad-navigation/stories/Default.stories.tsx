@@ -33,7 +33,7 @@ import {
   Select,
   Switch,
 } from '@fluentui/react-components';
-import { userGamepadNavigationGroup } from '@fluentui-contrib/react-gamepad-navigation';
+import { useGamepadNavigationGroup } from '@fluentui-contrib/react-gamepad-navigation';
 
 const useStyles = makeStyles({
   container: {
@@ -75,7 +75,7 @@ const useStyles = makeStyles({
 
 export const Default = () => {
   const styles = useStyles();
-  const tabsterAttributes = userGamepadNavigationGroup();
+  const tabsterAttributes = useGamepadNavigationGroup();
   const inputId = useId('input');
   const [option1, setOption1] = React.useState(false);
   const [option2, setOption2] = React.useState(true);

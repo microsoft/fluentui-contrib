@@ -11,4 +11,6 @@ export { resetGamepadState } from './core/InputProcessor';
 
 export { GamepadAction, GamepadButton } from './types/Keys';
 
-export { userGamepadNavigationGroup } from './hooks/useGamepadNavigationGroup';
+export { useGamepadNavigationGroup } from './hooks/useGamepadNavigationGroup';
+
+export type { UseGamepadNavigationGroupOptions } from './hooks/useGamepadNavigationGroup';

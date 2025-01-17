@@ -1,13 +1,19 @@
 /* eslint-disable no-restricted-globals */
 
 import {
+  GroupperMoveFocusActions,
   GroupperMoveFocusEvent,
   MoverMoveFocusEvent,
   TabsterTypes,
 } from '@fluentui/react-tabster';
-import { GamepadState } from '../types/Keys';
+import { GamepadAction, GamepadState } from '../types/Keys';
 import { getGamepadMappings } from './GamepadMappings';
-import { isPollingEnabled, setPollingEnabled } from './InputManager';
+import {
+  getParentForm,
+  isPollingEnabled,
+  setPollingEnabled,
+  shouldSubmitForm,
+} from './InputManager';
 import { handleGamepadInput } from './InputProcessor';
 
 export const consolePrefix = '[GamepadNavigation]';
@@ -15,25 +21,145 @@ export const consolePrefix = '[GamepadNavigation]';
 /*
     Synthetic Events
 */
+const syntheticKey = Symbol('synthetic');
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace React {
+    interface KeyboardEvent {
+      readonly [syntheticKey]?: boolean;
+    }
+    interface MouseEvent {
+      readonly [syntheticKey]?: boolean;
+    }
+  }
+  interface KeyboardEvent {
+    readonly [syntheticKey]?: boolean;
+  }
+  interface MouseEvent {
+    readonly [syntheticKey]?: boolean;
+  }
+}
+
+export const emitSyntheticKeyboardEvent = (
+  event: 'keydown' | 'keyup',
+  key: string,
+  bubbles: boolean,
+  activeElement?: Element | null | undefined
+) => {
+  const keyboardEvent = new KeyboardEvent(event, {
+    key: key,
+    bubbles,
+    cancelable: true,
+    view: window,
+    detail: 0,
+    ctrlKey: false,
+    altKey: false,
+    shiftKey: false,
+    metaKey: false,
+  });
+  Object.defineProperty(keyboardEvent, syntheticKey, {
+    value: true,
+    writable: false,
+    enumerable: false,
+  });
+  activeElement?.dispatchEvent(keyboardEvent);
+  console.log(
+    consolePrefix,
+    `${event}: ${key} KeyboardEvent @ ${activeElement?.tagName} bubbles:${bubbles}`
+  );
+};
+
+export const emitSyntheticMouseEvent = (
+  event: 'mousedown' | 'mouseup' | 'click',
+  bubbles: boolean,
+  activeElement?: Element | null | undefined
+) => {
+  const mouseEvent = new MouseEvent(event, {
+    bubbles,
+    cancelable: true,
+    view: window,
+    detail: 0,
+    screenX: undefined,
+    screenY: undefined,
+    clientX: undefined,
+    clientY: undefined,
+    ctrlKey: false,
+    altKey: false,
+    shiftKey: false,
+    metaKey: false,
+    button: 0,
+    buttons: 0,
+    relatedTarget: null,
+  });
+  Object.defineProperty(mouseEvent, syntheticKey, {
+    value: true,
+    writable: false,
+    enumerable: false,
+  });
+  activeElement?.dispatchEvent(mouseEvent);
+  console.log(
+    consolePrefix,
+    `${event} MouseEvent @ ${activeElement?.tagName} bubbles:${bubbles} from ${activeElement} ariaExpanded:${activeElement?.ariaExpanded} children:${activeElement?.childElementCount}`
+  );
+};
 
 export const emitSyntheticMoverMoveFocusEvent = (
   key: TabsterTypes.MoverKey,
-  targetDocument?: Document
+  activeElement?: Element | null | undefined
 ) => {
-  targetDocument?.activeElement?.dispatchEvent(
-    new MoverMoveFocusEvent({ key })
+  const ariaExpanded = activeElement?.parentElement?.ariaExpanded ?? false;
+  const childElementCount =
+    activeElement?.parentElement?.childElementCount ?? -1;
+  // if (ariaExpanded && childElementCount > 0) {
+  //   console.log('IS EXPANDED', activeElement?.childElementCount);
+  //   emitSyntheticKeyboardEvent('keydown', 'ArrowDown', true, activeElement);
+  // } else {
+  activeElement?.dispatchEvent(new MoverMoveFocusEvent({ key }));
+  console.log(
+    consolePrefix,
+    `${key} Mover ${activeElement?.tagName} ariaExpanded:${ariaExpanded} children:${childElementCount}`
   );
-  console.log(consolePrefix, `${key} Mover Move}`);
+  // }
 };
 
 export const emitSyntheticGroupperMoveFocusEvent = (
   action: TabsterTypes.GroupperMoveFocusAction,
-  targetDocument?: Document
+  gamepadAction: GamepadAction,
+  activeElement?: Element | null | undefined
 ) => {
-  targetDocument?.activeElement?.dispatchEvent(
-    new GroupperMoveFocusEvent({ action })
-  );
-  console.warn(consolePrefix, `${action} Groupper Move @`);
+  const shouldBubble = activeElement?.tagName === 'DIV';
+  const keyVallue =
+    action === GroupperMoveFocusActions.Enter ? 'Enter' : 'Escape';
+
+  if (keyVallue === 'Enter') {
+    if (gamepadAction === GamepadAction.Down) {
+      // activeElement?.dispatchEvent(new GroupperMoveFocusEvent({ action }));
+      // console.warn(
+      //   consolePrefix,
+      //   `${keyVallue} Groupper @ ${activeElement?.tagName} bubbles:${shouldBubble} ariaExpanded:${activeElement?.ariaExpanded} children:${activeElement?.childElementCount}`
+      // );
+      // emitSyntheticMouseEvent('mousedown', true, activeElement);
+      emitSyntheticMouseEvent('click', true, activeElement);
+      // emitSyntheticKeyboardEvent('keydown', 'Enter', true, activeElement);
+      // submit the form if the active element is a submit button or an input with type="submit"
+      if (shouldSubmitForm(activeElement)) {
+        getParentForm(activeElement)?.requestSubmit?.();
+      }
+    } else {
+      // emitSyntheticMouseEvent('mouseup', true, activeElement);
+    }
+  } else {
+    if (gamepadAction === GamepadAction.Down) {
+      emitSyntheticKeyboardEvent(
+        'keydown',
+        keyVallue,
+        shouldBubble,
+        activeElement
+      );
+    } else {
+      // emitSyntheticKeyboardEvent('keyup', keyVallue, targetDocument);
+    }
+  }
 };
 
 /*
