@@ -17,7 +17,8 @@
       "options": {
         "lintFilePatterns": [
           "packages/pierce-dom/**/*.ts",
-          "packages/pierce-dom/**/*.tsx"
+          "packages/pierce-dom/**/*.tsx",
+          "packages/pierce-dom/package.json"
         ]
       }
     },

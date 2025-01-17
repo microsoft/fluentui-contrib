@@ -16,7 +16,8 @@
       "options": {
         "lintFilePatterns": [
           "packages/azure-theme/**/*.ts",
-          "packages/azure-theme/**/*.tsx"
+          "packages/azure-theme/**/*.tsx",
+          "packages/azure-theme/package.json"
         ]
       }
     },

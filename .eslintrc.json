@@ -44,6 +44,7 @@
         "*.component-browser-test.tsx",
         "*.stories.ts",
         "*.stories.tsx",
+        "**/stories/**",
         "**/generators/**/files/**",
         "**/.storybook/**",
         "**/playwright.config.ts",
