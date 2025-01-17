@@ -17,7 +17,8 @@
       "options": {
         "lintFilePatterns": [
           "packages/react-chat/**/*.ts",
-          "packages/react-chat/**/*.tsx"
+          "packages/react-chat/**/*.tsx",
+          "packages/react-chat/package.json"
         ]
       }
     },

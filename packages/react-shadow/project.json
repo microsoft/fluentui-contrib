@@ -17,7 +17,8 @@
       "options": {
         "lintFilePatterns": [
           "packages/react-shadow/**/*.ts",
-          "packages/react-shadow/**/*.tsx"
+          "packages/react-shadow/**/*.tsx",
+          "packages/react-shadow/package.json"
         ]
       }
     },

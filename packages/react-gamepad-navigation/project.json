@@ -14,7 +14,7 @@
         "lintFilePatterns": [
           "packages/react-gamepad-navigation/**/*.ts",
           "packages/react-gamepad-navigation/**/*.tsx",
-          "packages/nx-plugin/package.json"
+          "packages/react-gamepad-navigation/package.json"
         ]
       }
     },

@@ -74,6 +74,7 @@ module.exports = [
       '**/*.test.[jt]s?(x)',
       '**/*.spec.[jt]s?(x)',
       '**/*.stories.[jt]s?(x)',
+      '**/stories/**',
       '**/*.component-browser-spec.tsx',
       '**/generators/**/files/**',
       '**/.storybook/**',

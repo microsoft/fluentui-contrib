@@ -18,7 +18,8 @@
       "options": {
         "lintFilePatterns": [
           "packages/react-resize-handle/**/*.ts",
-          "packages/react-resize-handle/**/*.tsx"
+          "packages/react-resize-handle/**/*.tsx",
+          "packages/react-resize-handle/package.json"
         ]
       }
     },

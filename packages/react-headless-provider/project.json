@@ -17,7 +17,8 @@
       "options": {
         "lintFilePatterns": [
           "packages/react-headless-provider/**/*.ts",
-          "packages/react-headless-provider/**/*.tsx"
+          "packages/react-headless-provider/**/*.tsx",
+          "packages/react-headless-provider/package.json"
         ]
       }
     },
