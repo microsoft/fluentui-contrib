@@ -35,5 +35,4 @@ export const npmScope = '@fluentui-contrib';
 // nx @private API's re-exports for internal usage
 // =================================================
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 export { type PackageJson } from 'nx/src/utils/package-json';
