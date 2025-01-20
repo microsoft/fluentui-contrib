@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "nx affected --target=build",
-    "change": "beachball change",
+    "change": "nx release plan",
     "check-dependencies": "syncpack list-mismatches",
     "lint": "nx affected --target=lint",
     "test": "nx affected --target=test",
