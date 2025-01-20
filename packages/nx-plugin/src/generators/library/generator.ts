@@ -133,8 +133,8 @@ async function invokeNxGenerators(tree: Tree, options: LibraryGeneratorSchema) {
   );
 
   // remove unwanted release.version.preVersionCommand override @see https://github.com/nrwl/nx/blob/master/packages/js/src/generators/library/library.ts#L1252
-  const nxJson = readNxJson(tree);
-  if (currentNxJson?.release?.version) {
+  const nxJson = readNxJson(tree) ?? {};
+  if (currentNxJson?.release?.version && nxJson?.release?.version) {
     nxJson.release.version = currentNxJson.release.version;
   } else {
     delete nxJson?.release?.version;
