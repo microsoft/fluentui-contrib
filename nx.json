@@ -86,7 +86,8 @@
         "**/*.md",
         "**/*.babelrc",
         "**/playwright/**",
-        "**/.storybook/**"
+        "**/.storybook/**",
+        "**/stories/**"
       ]
     },
     "projectsRelationship": "independent"

@@ -3,6 +3,22 @@
 pr: none
 trigger: none
 
+parameters:
+  - name: dry_run
+    displayName: Dry run mode
+    type: boolean
+    default: true
+  # This is handy in scenario where actual `npm publish` failed on previous run. This can be used repeatedly until all assets are released to npm to mitigate out of sync publish state
+  - name: publish_only
+    displayName: Re-trigger npm publish only
+    type: boolean
+    default: false
+  # Projects to include within release. (comma/space delimited project names and/or patterns). See `--project` flag for more details https://nx.dev/nx-api/nx/documents/release#publish
+  - name: projects
+    displayName: Projects to release (defaults to all)
+    type: string
+    default: ''
+
 variables:
   - name: NX_PARALLEL
     value: 8
@@ -64,14 +80,40 @@ extends:
                 displayName: Install dependencies
 
               - script: |
+                  yarn nx run-many -t build,test,lint,type-check -p ${{ parameters.projects }} --nxBail
+                condition: eq(parameters.dry_run, false)
+                displayName: Verify publishable Assets
+
+              - script: |
                   git config user.name "Fluent UI Build"
                   git config user.email "fluentui-internal@service.microsoft.com"
                   git remote set-url origin https://$(githubUser):$(githubPAT)@github.com/microsoft/fluentui-contrib.git
+                condition: or(eq(parameters.dry_run, false), eq(parameters.publish_only, false))
                 displayName: Authenticate git for pushes
 
               - script: |
-                  yarn beachball publish -b origin/main --access public -y -n $(npmToken)
-                  git reset --hard origin/main
+                  yarn nx release --skip-publish -p ${{ parameters.projects }} --dry-run ${{ parameters.dry_run }}
+                condition: eq(parameters.publish_only, false)
+                displayName: Bump versions and generate Changelogs
+
+              # NOTE: this step needs PAT - will be mitigate with new architecture
+              - script:
+                  | # TODO: check if NX release uses annotated or lightweight tags - if annotated can be simplified to `git push origin --follow-tags`
+                  git push origin && git push origin --tags
+                condition: or(eq(parameters.dry_run, false), eq(parameters.publish_only, false))
+                displayName: Propagate Release to GitHub
                 env:
                   GITHUB_PAT: $(githubPAT)
-                displayName: Publish to NPM & bump versions
+
+              #  NOTE: this will not use cache from previous steps as package.json file changed during version bump
+              - script: |
+                  yarn nx run-many -t build -p ${{ parameters.projects }} --nxBail
+                displayName: Prepare publish Assets
+
+              # TODO: move this to separate job so in case of npm failure we can re-trigger until everything is successfully published
+              - script: |
+                  yarn nx release publish -p ${{ parameters.projects }} --access public --dry-run ${{ parameters.dry_run }}
+                condition: succeeded()
+                displayName: Publish to NPM
+                env:
+                  NODE_AUTH_TOKEN: $(npmToken)
