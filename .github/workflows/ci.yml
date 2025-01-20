@@ -34,7 +34,13 @@ jobs:
       - name: 'Check duplicates in yarn.lock'
         run: yarn run dedupe --list --fail
 
+      - name: 'Check duplicates in yarn.lock'
+        run: yarn run dedupe --list --fail
+
       - run: yarn check-dependencies
+
+      - name: 'Check version plans'
+        run: yarn nx release plan:check
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
