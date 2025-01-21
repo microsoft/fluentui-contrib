@@ -136,10 +136,6 @@ module.exports = [
     ...config,
     files: ['**/*.component-browser-spec.tsx'],
   })),
-  ...compat.extends('plugin:playwright/recommended').map((config) => ({
-    ...config,
-    files: ['**/*.component-browser-@(spec|test).tsx'],
-  })),
   {
     files: ['**/*.json'],
     languageOptions: {
