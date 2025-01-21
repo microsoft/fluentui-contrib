@@ -67,13 +67,13 @@ export const useGamepadNavigationGroup = (
     tabBehavior = 'limited-trap-focus',
     ignoreDefaultKeydown = {},
   } = option;
-  // const { findFirstFocusable } = useFocusFinders();
+  const { findFirstFocusable } = useFocusFinders();
   const { targetDocument } = useFluent();
   const gpnProps = { targetDocument };
 
   useEffect(() => {
     // we shuld only initialize once, but we need to wait for the targetDocument to be set
-    // findFirstFocusable(targetDocument?.activeElement as HTMLElement)?.focus();
+    findFirstFocusable(targetDocument?.activeElement as HTMLElement)?.focus();
     initGamepadNavigation(gpnProps);
   }, []);
 

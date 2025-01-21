@@ -8,17 +8,15 @@ import {
 import { GamepadAction, GamepadButton } from '../types/Keys';
 import {
   consolePrefix,
-  emitSyntheticGroupperMoveFocusEvent,
-  emitSyntheticMoverMoveFocusEvent,
   getCurrentTargetDocument,
   startGamepadPolling,
   stopGamepadPolling,
 } from './GamepadNavigation';
 import { resetGamepadState } from './InputProcessor';
-
-/*
-    General
-*/
+import {
+  emitSyntheticGroupperMoveFocusEvent,
+  emitSyntheticMoverMoveFocusEvent,
+} from './GamepadEvents';
 
 /*
     Polling Mode
@@ -49,24 +47,6 @@ export const setPollingEnabled = (enabled: boolean): void => {
     console.log(consolePrefix, 'Disabling controller navigation');
     stopGamepadPolling();
   }
-};
-
-export const shouldSubmitForm = (element: Element | null | undefined) =>
-  element instanceof HTMLInputElement &&
-  (element.type === 'password' ||
-    element.type === 'text' ||
-    element.type === 'email' ||
-    element.type === 'tel');
-
-export const getParentForm = (element: Element | null | undefined) => {
-  let current = element?.parentElement;
-  while (current && current != document.body) {
-    if (current instanceof HTMLFormElement) {
-      return current;
-    }
-    current = current.parentElement;
-  }
-  return null;
 };
 
 /*
@@ -115,10 +95,18 @@ export const onButtonPress = (
     }
   }
 
-  if (keyboardKey && action === GamepadAction.Down) {
-    emitSyntheticMoverMoveFocusEvent(keyboardKey, activeElement);
-  } else if (focusAction) {
-    emitSyntheticGroupperMoveFocusEvent(focusAction, action, activeElement);
+  // only handle botton down events
+  if (action === GamepadAction.Down) {
+    console.log(
+      '+++ onButtonPress  +++ ',
+      button,
+      `tag:${activeElement?.tagName} role:${activeElement?.role} ariaExpanded:${activeElement?.ariaExpanded} children:${activeElement?.childElementCount}`
+    );
+    if (keyboardKey) {
+      emitSyntheticMoverMoveFocusEvent(keyboardKey, activeElement);
+    } else if (focusAction) {
+      emitSyntheticGroupperMoveFocusEvent(focusAction, activeElement);
+    }
   }
 };
 
