@@ -4,13 +4,16 @@ pr: none
 trigger: none
 
 variables:
-  NX_PARALLEL: 8
-  NX_PREFER_TS_NODE: true
-  NX_VERBOSE_LOGGING: true
-  - group: 'Github and NPM secrets'
-  - group: InfoSec-SecurityResults
+  - name: NX_PARALLEL
+    value: 8
+  - name: NX_PREFER_TS_NODE
+    value: true
+  - name: NX_VERBOSE_LOGGING
+    value: true
   - name: tags
     value: production,externalfacing
+  - group: 'Github and NPM secrets'
+  - group: InfoSec-SecurityResults
 
 resources:
   repositories:
