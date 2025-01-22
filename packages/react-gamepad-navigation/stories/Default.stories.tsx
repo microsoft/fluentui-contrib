@@ -573,7 +573,7 @@ export const Default = () => {
       </h3>
       <div className={styles.row}>
         <Switch label="A" />
-        <Switch label="B" />
+        <Switch label="B" defaultChecked />
         <Switch label="C" />
         <Switch label="D" />
         <Switch label="E" />
