@@ -26,7 +26,6 @@ const OverflowMenuItemWrapper = React.forwardRef<
   }>
 >(({ keytipProps, overflowSequence, id, children, ...props }, ref) => {
   const isVisible = useIsOverflowItemVisible(id);
-  false;
 
   const keytipRef = useKeytipRef<HTMLDivElement>({
     ...keytipProps,

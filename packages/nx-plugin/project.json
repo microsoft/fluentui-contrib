@@ -44,7 +44,8 @@
           "packages/nx-plugin/**/*.ts",
           "packages/nx-plugin/package.json",
           "packages/nx-plugin/generators.json",
-          "packages/nx-plugin/executors.json"
+          "packages/nx-plugin/executors.json",
+          "packages/nx-plugin/package.json"
         ]
       }
     },

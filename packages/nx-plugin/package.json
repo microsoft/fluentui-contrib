@@ -10,6 +10,11 @@
     "semver": "^7.5.2",
     "@nx/storybook": "^19.3.2",
     "@nx/js": "^19.3.2",
-    "@nx/playwright": "^19.3.2"
+    "@nx/playwright": "^19.3.2",
+    "tslib": "^2.3.0"
+  },
+  "peerDependencies": {
+    "@playwright/experimental-ct-react": "^1.49.1",
+    "nx": ">= 19 <= 21"
   }
 }

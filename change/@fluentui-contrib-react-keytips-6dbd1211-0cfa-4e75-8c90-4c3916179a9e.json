@@ -1,7 +1,7 @@
 {
   "type": "none",
   "comment": "chore: sync failed release pipeline with git",
-  "packageName": "@fluentui-contrib/stylelint-plugin",
+  "packageName": "@fluentui-contrib/react-keytips",
   "email": "hochelmartin@gmail.com",
   "dependentChangeType": "none"
 }
