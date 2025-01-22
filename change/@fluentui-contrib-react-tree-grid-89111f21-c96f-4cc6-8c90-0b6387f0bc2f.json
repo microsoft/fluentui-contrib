@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "bugfix: next/previous row unfocusable in cell",
+  "packageName": "@fluentui-contrib/react-tree-grid",
+  "email": "bernardo.sunderhus@gmail.com",
+  "dependentChangeType": "patch"
+}
