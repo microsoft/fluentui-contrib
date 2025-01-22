@@ -33,3 +33,7 @@ export const isMenuItemElement = (element: Element | null | undefined) => {
 export const isSelectElement = (element: Element | null | undefined) => {
   return element?.tagName === 'SELECT';
 };
+
+export const isRadioGroupElement = (element: Element | null | undefined) => {
+  return element instanceof HTMLInputElement && element?.type === 'radio';
+};

@@ -115,8 +115,12 @@ export const emitSyntheticMoverMoveFocusEvent = (
         ? 'ArrowLeft'
         : 'ArrowRight';
     emitSyntheticKeyboardEvent('keydown', button, true, activeElement);
-  } else if (isSelectElement(activeElement)) {
+
     // TODO: Implement select element navigation
+    // } else if (isSelectElement(activeElement)) {
+
+    // TODO: Implement radio element navigation
+    // } else if (isRadioGroupElement(activeElement)) {
   } else {
     activeElement?.dispatchEvent(new MoverMoveFocusEvent({ key }));
     console.log(

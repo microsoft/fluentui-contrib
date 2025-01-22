@@ -1,15 +1,21 @@
 import * as React from 'react';
 import {
-  TextBoldRegular,
-  TextUnderlineRegular,
-  TextItalicRegular,
-  TextAlignLeftRegular,
-  TextAlignCenterRegular,
-  TextAlignRightRegular,
-  CopyRegular,
-  ClipboardPasteRegular,
-  CutRegular,
   CalendarMonthRegular,
+  CheckmarkCircle20Filled,
+  ClipboardPaste20Regular,
+  ClipboardPasteRegular,
+  CopyRegular,
+  Cut20Regular,
+  CutRegular,
+  DismissCircle20Filled,
+  Edit20Regular,
+  ErrorCircle20Filled,
+  TextAlignCenterRegular,
+  TextAlignLeftRegular,
+  TextAlignRightRegular,
+  TextBoldRegular,
+  TextItalicRegular,
+  TextUnderlineRegular,
 } from '@fluentui/react-icons';
 import {
   Button,
@@ -32,6 +38,15 @@ import {
   Dropdown,
   Select,
   Switch,
+  Link,
+  MenuItemLink,
+  MenuGroup,
+  MenuGroupHeader,
+  MenuDivider,
+  SpinButton,
+  Field,
+  RadioGroup,
+  Radio,
 } from '@fluentui/react-components';
 import { useGamepadNavigationGroup } from '@fluentui-contrib/react-gamepad-navigation';
 
@@ -76,7 +91,12 @@ const useStyles = makeStyles({
 export const Default = () => {
   const styles = useStyles();
   const gamepadNavigationAttributes = useGamepadNavigationGroup();
+  const onClick = () => alert('Clicked');
+  const primaryActionButtonProps = {
+    onClick,
+  };
   const inputId = useId('input');
+  const spinId = useId('spin-button');
   const [option1, setOption1] = React.useState(false);
   const [option2, setOption2] = React.useState(true);
   const [option3, setOption3] = React.useState(false);
@@ -94,31 +114,79 @@ export const Default = () => {
 
   return (
     <div className={styles.container} {...gamepadNavigationAttributes}>
+      <h3>
+        Input <CheckmarkCircle20Filled color="#6bb700" />
+      </h3>
       <div className={styles.input}>
         <Label htmlFor={inputId}>Sample input</Label>
         <Input id={inputId} />
       </div>
-      <br />
+      <hr />
+      <h3>
+        Image Button <CheckmarkCircle20Filled color="#6bb700" />
+      </h3>
       <div className={styles.row}>
-        <Button aria-label="Bold" icon={<TextBoldRegular />} />
-        <Button aria-label="Underline" icon={<TextUnderlineRegular />} />
-        <Button aria-label="Italic" icon={<TextItalicRegular />} />
-        <Button aria-label="Align Left" icon={<TextAlignLeftRegular />} />
-        <Button aria-label="Align Center" icon={<TextAlignCenterRegular />} />
-        <Button aria-label="Align Right" icon={<TextAlignRightRegular />} />
-        <Button aria-label="Copy" icon={<CopyRegular />} />
-        <Button aria-label="Cut" icon={<CutRegular />} />
-        <Button aria-label="Paste" icon={<ClipboardPasteRegular />} />
+        <Button
+          aria-label="Bold"
+          icon={<TextBoldRegular />}
+          onClick={onClick}
+        />
+        <Button
+          aria-label="Underline"
+          icon={<TextUnderlineRegular />}
+          onClick={onClick}
+        />
+        <Button
+          aria-label="Italic"
+          icon={<TextItalicRegular />}
+          onClick={onClick}
+        />
+        <Button
+          aria-label="Align Left"
+          icon={<TextAlignLeftRegular />}
+          onClick={onClick}
+        />
+        <Button
+          aria-label="Align Center"
+          icon={<TextAlignCenterRegular />}
+          onClick={onClick}
+        />
+        <Button
+          aria-label="Align Right"
+          icon={<TextAlignRightRegular />}
+          onClick={onClick}
+        />
+        <Button aria-label="Copy" icon={<CopyRegular />} onClick={onClick} />
+        <Button aria-label="Cut" icon={<CutRegular />} onClick={onClick} />
+        <Button
+          aria-label="Paste"
+          icon={<ClipboardPasteRegular />}
+          onClick={onClick}
+        />
       </div>
-      <br />
+      <hr />
+      <h3>
+        Text Button <CheckmarkCircle20Filled color="#6bb700" />
+      </h3>
       <div className={styles.row}>
-        <Button>Default</Button>
-        <Button appearance="primary">Primary</Button>
-        <Button appearance="outline">Outline</Button>
-        <Button appearance="subtle">Subtle</Button>
-        <Button appearance="transparent">Transparent</Button>
+        <Button onClick={onClick}>Default</Button>
+        <Button appearance="primary" onClick={onClick}>
+          Primary
+        </Button>
+        <Button appearance="outline" onClick={onClick}>
+          Outline
+        </Button>
+        <Button appearance="subtle" onClick={onClick}>
+          Subtle
+        </Button>
+        <Button appearance="transparent" onClick={onClick}>
+          Transparent
+        </Button>
       </div>
-      <br />
+      <hr />
+      <h3>
+        Menu Button <CheckmarkCircle20Filled color="#6bb700" />
+      </h3>
       <div className={styles.row}>
         <Menu>
           <MenuTrigger disableButtonEnhancement>
@@ -188,15 +256,23 @@ export const Default = () => {
           </MenuPopover>
         </Menu>
       </div>
-      <br />
+      <hr />
+      <h3>
+        {' '}
+        Split Button <CheckmarkCircle20Filled color="#6bb700" />
+      </h3>
       <div className={styles.row}>
         <Menu positioning="below-end">
           <MenuTrigger disableButtonEnhancement>
             {(triggerProps: MenuButtonProps) => (
-              <SplitButton menuButton={triggerProps}>Default</SplitButton>
+              <SplitButton
+                menuButton={triggerProps}
+                primaryActionButton={primaryActionButtonProps}
+              >
+                Default
+              </SplitButton>
             )}
           </MenuTrigger>
-
           <MenuPopover>
             <MenuList>
               <MenuItem>Item a</MenuItem>
@@ -204,16 +280,18 @@ export const Default = () => {
             </MenuList>
           </MenuPopover>
         </Menu>
-
         <Menu positioning="below-end">
           <MenuTrigger disableButtonEnhancement>
             {(triggerProps: MenuButtonProps) => (
-              <SplitButton menuButton={triggerProps} appearance="primary">
+              <SplitButton
+                menuButton={triggerProps}
+                primaryActionButton={primaryActionButtonProps}
+                appearance="primary"
+              >
                 Primary
               </SplitButton>
             )}
           </MenuTrigger>
-
           <MenuPopover>
             <MenuList>
               <MenuItem>Item a</MenuItem>
@@ -221,16 +299,18 @@ export const Default = () => {
             </MenuList>
           </MenuPopover>
         </Menu>
-
         <Menu positioning="below-end">
           <MenuTrigger disableButtonEnhancement>
             {(triggerProps: MenuButtonProps) => (
-              <SplitButton menuButton={triggerProps} appearance="outline">
+              <SplitButton
+                menuButton={triggerProps}
+                primaryActionButton={primaryActionButtonProps}
+                appearance="outline"
+              >
                 Outline
               </SplitButton>
             )}
           </MenuTrigger>
-
           <MenuPopover>
             <MenuList>
               <MenuItem>Item a</MenuItem>
@@ -238,16 +318,18 @@ export const Default = () => {
             </MenuList>
           </MenuPopover>
         </Menu>
-
         <Menu positioning="below-end">
           <MenuTrigger disableButtonEnhancement>
             {(triggerProps: MenuButtonProps) => (
-              <SplitButton menuButton={triggerProps} appearance="subtle">
+              <SplitButton
+                menuButton={triggerProps}
+                primaryActionButton={primaryActionButtonProps}
+                appearance="subtle"
+              >
                 Subtle
               </SplitButton>
             )}
           </MenuTrigger>
-
           <MenuPopover>
             <MenuList>
               <MenuItem>Item a</MenuItem>
@@ -255,16 +337,18 @@ export const Default = () => {
             </MenuList>
           </MenuPopover>
         </Menu>
-
         <Menu positioning="below-end">
           <MenuTrigger disableButtonEnhancement>
             {(triggerProps: MenuButtonProps) => (
-              <SplitButton menuButton={triggerProps} appearance="transparent">
+              <SplitButton
+                menuButton={triggerProps}
+                primaryActionButton={primaryActionButtonProps}
+                appearance="transparent"
+              >
                 Transparent
               </SplitButton>
             )}
           </MenuTrigger>
-
           <MenuPopover>
             <MenuList>
               <MenuItem>Item a</MenuItem>
@@ -273,7 +357,19 @@ export const Default = () => {
           </MenuPopover>
         </Menu>
       </div>
-      <br />
+      <hr />
+      <h3>
+        {' '}
+        Splin Button <DismissCircle20Filled color="#c50f1f" />
+      </h3>
+      <div className={styles.row}>
+        <Label htmlFor={spinId}>Default SpinButton</Label>
+        <SpinButton defaultValue={10} min={0} max={20} id={spinId} />
+      </div>
+      <hr />
+      <h3>
+        Checkbox <CheckmarkCircle20Filled color="#6bb700" />
+      </h3>
       <div className={styles.row}>
         <Checkbox
           checked={
@@ -307,6 +403,10 @@ export const Default = () => {
           label="Option 3"
         />
       </div>
+      <hr />
+      <h3>
+        Combobox <CheckmarkCircle20Filled color="#6bb700" />
+      </h3>
       <div className={styles.row}>
         <div className={styles.combobox}>
           <label id={comboId}>Best pet</label>
@@ -339,7 +439,10 @@ export const Default = () => {
           ) : null}
         </div>
       </div>
-      <br />
+      <hr />
+      <h3>
+        Dropdown <CheckmarkCircle20Filled color="#6bb700" />
+      </h3>
       <div className={styles.row}>
         <div className={styles.dropdown}>
           <label id={dropdownId}>Best pet</label>
@@ -366,7 +469,94 @@ export const Default = () => {
           </Dropdown>
         </div>
       </div>
-      <br />
+      <hr />
+      <h3>
+        Link <CheckmarkCircle20Filled color="#6bb700" />
+      </h3>
+      <div className={styles.row}>
+        <Link href="https://www.bing.com">This is a link</Link>
+        <Link href="https://www.bing.com">Another link</Link>
+        <Link href="https://www.bing.com">One last link</Link>
+      </div>
+      <hr />
+      <h3>
+        Menu <CheckmarkCircle20Filled color="#6bb700" />
+      </h3>
+      <div className={styles.row}>
+        <Menu>
+          <MenuTrigger disableButtonEnhancement>
+            <Button>Menu Item Link </Button>
+          </MenuTrigger>
+          <MenuPopover>
+            <MenuList>
+              <MenuItemLink href="https://www.microsoft.com" target="_blank">
+                Home
+              </MenuItemLink>
+              <MenuItemLink href="https://www.microsoft.com">
+                Online shop
+              </MenuItemLink>
+              <MenuItemLink href="https://www.microsoft.com">
+                Contact us
+              </MenuItemLink>
+              <MenuItemLink href="https://www.microsoft.com">
+                About
+              </MenuItemLink>
+            </MenuList>
+          </MenuPopover>
+        </Menu>
+        <Menu>
+          <MenuTrigger disableButtonEnhancement>
+            <Button>Menu with Icons</Button>
+          </MenuTrigger>
+          <MenuPopover>
+            <MenuList>
+              <MenuItem icon={<Cut20Regular />}>Cut</MenuItem>
+              <MenuItem icon={<ClipboardPaste20Regular />}>Paste</MenuItem>
+              <MenuItem icon={<Edit20Regular />}>Edit</MenuItem>
+            </MenuList>
+          </MenuPopover>
+        </Menu>
+        <Menu>
+          <MenuTrigger disableButtonEnhancement>
+            <Button>Toggle menu</Button>
+          </MenuTrigger>
+          <MenuPopover>
+            <MenuList>
+              <MenuGroup>
+                <MenuGroupHeader>Section header</MenuGroupHeader>
+                <MenuItem icon={<Cut20Regular />}>Cut</MenuItem>
+                <MenuItem icon={<ClipboardPaste20Regular />}>Paste</MenuItem>
+                <MenuItem icon={<Edit20Regular />}>Edit</MenuItem>
+              </MenuGroup>
+              <MenuDivider />
+              <MenuGroup>
+                <MenuGroupHeader>Section header</MenuGroupHeader>
+                <MenuItem icon={<Cut20Regular />}>Cut</MenuItem>
+                <MenuItem icon={<ClipboardPaste20Regular />}>Paste</MenuItem>
+                <MenuItem icon={<Edit20Regular />}>Edit</MenuItem>
+              </MenuGroup>
+            </MenuList>
+          </MenuPopover>
+        </Menu>
+      </div>
+      <hr />
+      <h3>
+        Radio Group <ErrorCircle20Filled color="#fce100" />
+      </h3>
+      <div className={styles.row}>
+        <Field label="Favorite Fruit">
+          <RadioGroup layout="horizontal">
+            <Radio value="apple" label="Apple" />
+            <Radio value="pear" label="Pear" />
+            <Radio value="banana" label="Banana" />
+            <Radio value="orange" label="Orange" />
+          </RadioGroup>
+        </Field>
+      </div>
+      <hr />
+      <h3>
+        Select <ErrorCircle20Filled color="#fce100" />
+      </h3>
       <div className={styles.row}>
         <label htmlFor={selectId}>Color</label>
         <Select id={selectId}>
@@ -377,7 +567,10 @@ export const Default = () => {
           <option>Orange</option>
         </Select>
       </div>
-      <br />
+      <hr />
+      <h3>
+        Switch <CheckmarkCircle20Filled color="#6bb700" />
+      </h3>
       <div className={styles.row}>
         <Switch label="A" />
         <Switch label="B" />
