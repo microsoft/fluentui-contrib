@@ -1,7 +1,0 @@
-{
-  "type": "none",
-  "comment": "chore: resolve invalid ts config and devDep",
-  "packageName": "@fluentui-contrib/react-themeless-provider",
-  "email": "hochelmartin@gmail.com",
-  "dependentChangeType": "none"
-}
