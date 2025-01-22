@@ -1,16 +1,3 @@
-export {
-  deinitGamepadNavigation,
-  initGamepadNavigation,
-} from './core/GamepadNavigation';
-
-export type { GamepadNavigationProps } from './core/GamepadNavigation';
-
-export { isPollingEnabled, setPollingEnabled } from './core/InputManager';
-
-export { resetGamepadState } from './core/InputProcessor';
-
-export { GamepadAction, GamepadButton } from './types/Keys';
-
 export { useGamepadNavigationGroup } from './hooks/useGamepadNavigationGroup';
-
 export type { UseGamepadNavigationGroupOptions } from './hooks/useGamepadNavigationGroup';
+export type { TabsterDOMAttribute } from '@fluentui/react-tabster';

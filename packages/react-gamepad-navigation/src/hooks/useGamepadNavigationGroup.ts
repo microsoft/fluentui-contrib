@@ -13,6 +13,9 @@ import {
 } from '@fluentui/react-tabster';
 import { initGamepadNavigation } from '../core/GamepadNavigation';
 
+/**
+ * Options to configure gamepad navigation, extends UseArrowNavigationGroupOptions
+ */
 export type UseGamepadNavigationGroupOptions =
   Partial<UseArrowNavigationGroupOptions> & {
     /**
@@ -42,7 +45,7 @@ export type UseGamepadNavigationGroupOptions =
 
     /**
      * Behavior for the Tab key.
-     * @default 'unlimited'
+     * @default 'limited-trap-focus'
      */
     tabBehavior?: 'unlimited' | 'limited' | 'limited-trap-focus';
 

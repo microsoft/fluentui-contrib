@@ -75,7 +75,7 @@ const useStyles = makeStyles({
 
 export const Default = () => {
   const styles = useStyles();
-  const tabsterAttributes = useGamepadNavigationGroup();
+  const gamepadNavigationAttributes = useGamepadNavigationGroup();
   const inputId = useId('input');
   const [option1, setOption1] = React.useState(false);
   const [option2, setOption2] = React.useState(true);
@@ -93,7 +93,7 @@ export const Default = () => {
   const selectId = useId('select-default');
 
   return (
-    <div className={styles.container} {...tabsterAttributes}>
+    <div className={styles.container} {...gamepadNavigationAttributes}>
       <div className={styles.input}>
         <Label htmlFor={inputId}>Sample input</Label>
         <Input id={inputId} />
