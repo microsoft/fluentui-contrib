@@ -1,4 +1,5 @@
-import { GamepadButton } from '../types/Keys';
+import { TabsterTypes } from '@fluentui/react-tabster';
+import { GamepadButton, KeyboardKey } from '../types/Keys';
 import { consolePrefix } from './GamepadNavigation';
 
 type ControllerIndex = {
@@ -72,3 +73,14 @@ export const getGamepadMappings = () => {
 
   return gamepadMappings;
 };
+
+const moverKeyToKeyboardKeyMapping: Map<TabsterTypes.MoverKey, KeyboardKey> =
+  new Map([
+    [TabsterTypes.MoverKeys.ArrowLeft, KeyboardKey.ArrowLeft],
+    [TabsterTypes.MoverKeys.ArrowRight, KeyboardKey.ArrowRight],
+    [TabsterTypes.MoverKeys.ArrowUp, KeyboardKey.ArrowUp],
+    [TabsterTypes.MoverKeys.ArrowDown, KeyboardKey.ArrowDown],
+  ]);
+
+export const getMoverKeyToKeyboardKeyMapping = (key: TabsterTypes.MoverKey) =>
+  moverKeyToKeyboardKeyMapping.get(key) ?? KeyboardKey.None;

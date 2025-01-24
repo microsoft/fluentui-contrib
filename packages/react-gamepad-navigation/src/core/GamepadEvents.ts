@@ -1,11 +1,10 @@
 /* eslint-disable no-restricted-globals */
 import {
   GroupperMoveFocusActions,
-  MoverKeys,
+  GroupperMoveFocusEvent,
   MoverMoveFocusEvent,
   TabsterTypes,
 } from '@fluentui/react-tabster';
-import { consolePrefix } from './GamepadNavigation';
 import {
   getParentForm,
   isComboboxElement,
@@ -13,6 +12,8 @@ import {
   isSelectElement,
   shouldSubmitForm,
 } from './GamepadUtils';
+import { getMoverKeyToKeyboardKeyMapping } from './GamepadMappings';
+import { KeyboardKey } from '../types/Keys';
 
 /*
     Synthetic Events
@@ -36,9 +37,17 @@ declare global {
   }
 }
 
+export const isSyntheticMouseEvent = (
+  evt: React.MouseEvent<unknown, MouseEvent> | MouseEvent
+): boolean => {
+  return evt instanceof MouseEvent
+    ? !!evt?.[syntheticKey]
+    : !!evt.nativeEvent?.[syntheticKey];
+};
+
 export const emitSyntheticKeyboardEvent = (
   event: 'keydown' | 'keyup',
-  key: string,
+  key: KeyboardKey,
   bubbles: boolean,
   activeElement?: Element | null | undefined
 ) => {
@@ -59,10 +68,6 @@ export const emitSyntheticKeyboardEvent = (
     enumerable: false,
   });
   activeElement?.dispatchEvent(keyboardEvent);
-  console.log(
-    consolePrefix,
-    `${event}: ${key} KeyboardEvent  @ tag:${activeElement?.tagName} role:${activeElement?.role} bubbles:${bubbles} ariaExpanded:${activeElement?.ariaExpanded} children:${activeElement?.childElementCount}`
-  );
 };
 
 export const emitSyntheticMouseEvent = (
@@ -93,77 +98,58 @@ export const emitSyntheticMouseEvent = (
     enumerable: false,
   });
   activeElement?.dispatchEvent(mouseEvent);
-  console.log(
-    consolePrefix,
-    `${event} MouseEvent @ tag:${activeElement?.tagName} role:${activeElement?.role} bubbles:${bubbles} ariaExpanded:${activeElement?.ariaExpanded} children:${activeElement?.childElementCount}`
-  );
 };
 
 export const emitSyntheticMoverMoveFocusEvent = (
   key: TabsterTypes.MoverKey,
   activeElement?: Element | null | undefined
 ) => {
-  const ariaExpanded = activeElement?.ariaExpanded ?? false;
-  const childElementCount = activeElement?.childElementCount ?? -1;
   if (isComboboxElement(activeElement)) {
-    const button =
-      key === MoverKeys.ArrowUp
-        ? 'ArrowUp'
-        : key === MoverKeys.ArrowDown
-        ? 'ArrowDown'
-        : key === MoverKeys.ArrowLeft
-        ? 'ArrowLeft'
-        : 'ArrowRight';
+    const button = getMoverKeyToKeyboardKeyMapping(key);
     emitSyntheticKeyboardEvent('keydown', button, true, activeElement);
 
     // TODO: Implement select element navigation
     // } else if (isSelectElement(activeElement)) {
-
-    // TODO: Implement radio element navigation
-    // } else if (isRadioGroupElement(activeElement)) {
   } else {
     activeElement?.dispatchEvent(new MoverMoveFocusEvent({ key }));
-    console.log(
-      consolePrefix,
-      `${key} Mover MoverFocusEvent @ tag:${activeElement?.tagName} role:${activeElement?.role} ariaExpanded:${ariaExpanded} children:${childElementCount}`
-    );
   }
 };
 
 export const emitSyntheticGroupperMoveFocusEvent = (
-  action: TabsterTypes.GroupperMoveFocusAction,
+  action: KeyboardKey,
   activeElement?: Element | null | undefined
 ) => {
-  const keyVallue =
-    action === GroupperMoveFocusActions.Enter ? 'Enter' : 'Escape';
-
-  if (keyVallue === 'Enter') {
-    // activeElement?.dispatchEvent(new GroupperMoveFocusEvent({ action }));
-    // console.warn(
-    //   consolePrefix,
-    //   `${keyVallue} Groupper @ ${activeElement?.tagName} bubbles:${shouldBubble} ariaExpanded:${activeElement?.ariaExpanded} children:${activeElement?.childElementCount}`
-    // );
+  if (action === KeyboardKey.Enter) {
+    // Note: GroupperMoveFocusActions.Enter has no effect on components
+    // activeElement?.dispatchEvent(new GroupperMoveFocusEvent({ action: GroupperMoveFocusActions.Enter }));
 
     if (isComboboxElement(activeElement)) {
-      emitSyntheticKeyboardEvent('keydown', 'Enter', true, activeElement);
+      emitSyntheticKeyboardEvent('keydown', action, true, activeElement);
     } else if (activeElement?.tagName === 'SELECT') {
       // emitSyntheticMouseEvent('mousedown', true, activeElement);
-      // activeElement?.dispatchEvent(new GroupperMoveFocusEvent({ action }));
       (activeElement as HTMLSelectElement)?.showPicker();
     } else {
       emitSyntheticMouseEvent('click', true, activeElement);
     }
-    // submit the form if the active element is a submit button or an input with type="submit"
+
     if (shouldSubmitForm(activeElement)) {
       getParentForm(activeElement)?.requestSubmit?.();
     }
   } else {
-    const shouldBubble = isMenuItemElement(activeElement);
-    emitSyntheticKeyboardEvent(
-      'keydown',
-      keyVallue,
-      shouldBubble,
-      activeElement
-    );
+    if (isSelectElement(activeElement)) {
+      activeElement?.dispatchEvent(
+        new GroupperMoveFocusEvent({ action: GroupperMoveFocusActions.Escape })
+      );
+    } else if (isComboboxElement(activeElement)) {
+      emitSyntheticMouseEvent('click', true, activeElement);
+    } else {
+      const shouldBubble = isMenuItemElement(activeElement);
+      emitSyntheticKeyboardEvent(
+        'keydown',
+        action,
+        shouldBubble,
+        activeElement
+      );
+    }
   }
 };

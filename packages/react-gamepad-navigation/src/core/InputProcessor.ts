@@ -182,7 +182,6 @@ export const handleGamepadInput = (
   }
 
   if (!sameLeftStickX || !sameLeftStickY) {
-    console.log(`leftStickX: ${leftStickX}, leftStickY: ${leftStickY}`);
     onLeftStickInput(leftStickX, leftStickY, gamepadId);
   }
 };

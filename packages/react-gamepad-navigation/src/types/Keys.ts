@@ -1,9 +1,3 @@
-export enum KeyPressState {
-  Down = 1,
-  Up = 0,
-  Reset = -1,
-}
-
 /*
     Gamepad Buttons, State, & Actions
 */
@@ -21,6 +15,12 @@ export enum GamepadButton {
   DpadRight = 'DpadRight',
 }
 
+export enum KeyPressState {
+  Down = 1,
+  Up = 0,
+  Reset = -1,
+}
+
 export type GamepadState = {
   [key in GamepadButton]: KeyPressState;
 } & {
@@ -30,4 +30,18 @@ export type GamepadState = {
 export enum GamepadAction {
   Down = 'gamepadDown',
   Up = 'gamepadUp',
+}
+
+/*
+    Keyboard Keys
+*/
+
+export enum KeyboardKey {
+  Enter = 'Enter',
+  ArrowUp = 'ArrowUp',
+  ArrowDown = 'ArrowDown',
+  ArrowLeft = 'ArrowLeft',
+  ArrowRight = 'ArrowRight',
+  Escape = 'Escape',
+  None = 'None',
 }

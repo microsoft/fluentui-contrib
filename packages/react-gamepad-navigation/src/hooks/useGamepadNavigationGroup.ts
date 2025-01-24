@@ -1,9 +1,9 @@
+import { useEffect } from 'react';
 import {
   UseArrowNavigationGroupOptions,
   useFluent,
   useFocusFinders,
 } from '@fluentui/react-components';
-import { useEffect } from 'react';
 import {
   TabsterDOMAttribute,
   TabsterTypes,
@@ -26,14 +26,20 @@ export type UseGamepadNavigationGroupOptions =
 
     /**
      * Focus will cycle to the first/last elements of the group without stopping
-     * @defaultValue false
+     * @defaultValue true
      */
     circular?: boolean;
 
     /**
+     * First focusable element in the group will be focused when the group is focused
+     * @defaultValue false
+     */
+    focusFirstElement?: boolean;
+
+    /**
      * Last focused element in the group will be remembered and focused (if still
      * available) when tabbing from outside of the group
-     * @default true
+     * @defaultValue true
      */
     memorizeCurrent?: boolean;
 
@@ -45,7 +51,7 @@ export type UseGamepadNavigationGroupOptions =
 
     /**
      * Behavior for the Tab key.
-     * @default 'limited-trap-focus'
+     * @defaultValue 'limited-trap-focus'
      */
     tabBehavior?: 'unlimited' | 'limited' | 'limited-trap-focus';
 
@@ -65,6 +71,7 @@ export const useGamepadNavigationGroup = (
   const {
     axis = 'grid',
     circular = false,
+    focusFirstElement = true,
     memorizeCurrent = true,
     tabbable = true,
     tabBehavior = 'limited-trap-focus',
@@ -75,8 +82,9 @@ export const useGamepadNavigationGroup = (
   const gpnProps = { targetDocument };
 
   useEffect(() => {
-    // we shuld only initialize once, but we need to wait for the targetDocument to be set
-    findFirstFocusable(targetDocument?.activeElement as HTMLElement)?.focus();
+    if (focusFirstElement) {
+      findFirstFocusable(targetDocument?.activeElement as HTMLElement)?.focus();
+    }
     initGamepadNavigation(gpnProps);
   }, []);
 

@@ -1,7 +1,14 @@
 /* eslint-disable no-restricted-globals */
+import { InputMode } from '../types/InputMode';
 import { GamepadState } from '../types/Keys';
+import { isSyntheticMouseEvent } from './GamepadEvents';
 import { getGamepadMappings } from './GamepadMappings';
-import { isPollingEnabled, setPollingEnabled } from './InputManager';
+import { IntervalId } from './GamepadUtils';
+import {
+  isPollingEnabled,
+  setInputMode,
+  setPollingEnabled,
+} from './InputManager';
 import { handleGamepadInput } from './InputProcessor';
 
 export const consolePrefix = '[GamepadNavigation]';
@@ -51,7 +58,6 @@ const updateGamepadState = () => {
 };
 
 let windowFocused = true;
-export type IntervalId = ReturnType<typeof setInterval> | undefined;
 export const shouldPollGamepads = () => windowFocused && isPollingEnabled();
 
 let scanInterval: IntervalId;
@@ -93,7 +99,7 @@ const pollGamepads = () => {
 
 export const startGamepadPolling = (): void => {
   if (!scanInterval) {
-    scanInterval = setInterval(pollGamepads, 100);
+    scanInterval = setInterval(pollGamepads, 50);
   }
 };
 
@@ -116,10 +122,20 @@ const onGamepadDisconnect = (evt: GamepadEvent) => {
   }
 };
 
+const onTouchInput = (_: TouchEvent) => {
+  setInputMode(InputMode.Touch);
+};
+
+const onMouseInput = (evt: MouseEvent) => {
+  // Make sure this isn't the fake event we triggered on button a press
+  if (!isSyntheticMouseEvent(evt)) {
+    setInputMode(InputMode.Mouse);
+  }
+};
+
 /*
     General Events
 */
-
 const onWindowBlur = (): void => {
   windowFocused = false;
   stopGamepadPolling();
@@ -132,13 +148,17 @@ const onWindowFocus = (): void => {
   }
 };
 
-let targetDocument: Document | undefined;
+let targetDocument: Document = document;
 /**
  *
  * @returns The current target document, if any
  */
-export const getCurrentTargetDocument = (): Document | undefined => {
-  return targetDocument;
+export const getTargetDocument = (): Document => {
+  return targetDocument ?? document;
+};
+
+export const getCurrentActiveElement = (): Element | null | undefined => {
+  return targetDocument?.activeElement;
 };
 /*
     Library Initialization/Deinitialization
@@ -199,6 +219,13 @@ export const initGamepadNavigation = async (
       }
     }
 
+    targetDocument.addEventListener('touchstart', onTouchInput, {
+      passive: false,
+    });
+    targetDocument.addEventListener('mousedown', onMouseInput, {
+      passive: false,
+    });
+
     const haveEvents = 'GamepadEvent' in window;
     const haveWebkitEvents = 'WebKitGamepadEvent' in window;
 
@@ -241,6 +268,9 @@ export const deinitGamepadNavigation = (): void => {
 
   setPollingEnabled(false);
 
+  targetDocument.removeEventListener('touchstart', onTouchInput);
+  targetDocument.removeEventListener('mousedown', onMouseInput);
+
   window.removeEventListener(
     'webkitgamepadconnected',
     onGamepadConnect as EventListener
@@ -251,6 +281,6 @@ export const deinitGamepadNavigation = (): void => {
   );
   window.removeEventListener('gamepadconnected', onGamepadConnect);
   window.removeEventListener('gamepaddisconnected', onGamepadDisconnect);
-
-  // clearInterval(gamepadScanInterval);
+  window.removeEventListener('blur', onWindowBlur);
+  window.removeEventListener('focus', onWindowFocus);
 };

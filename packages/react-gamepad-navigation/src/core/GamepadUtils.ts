@@ -1,4 +1,7 @@
 /* eslint-disable no-restricted-globals */
+export type TimeoutId = ReturnType<typeof setTimeout> | undefined;
+export type IntervalId = ReturnType<typeof setInterval> | undefined;
+
 export const shouldSubmitForm = (element: Element | null | undefined) =>
   element instanceof HTMLInputElement &&
   (element.type === 'password' ||
@@ -18,22 +21,13 @@ export const getParentForm = (element: Element | null | undefined) => {
 };
 
 export const isComboboxElement = (element: Element | null | undefined) => {
-  return (
-    (element?.tagName === 'INPUT' || element?.tagName === 'BUTTON') &&
-    element?.getAttribute('role') === 'combobox'
-  );
+  return element?.getAttribute('role') === 'combobox';
 };
 
 export const isMenuItemElement = (element: Element | null | undefined) => {
-  return (
-    element?.tagName === 'DIV' && element?.getAttribute('role') === 'menuitem'
-  );
+  return element?.getAttribute('role') === 'menuitem';
 };
 
 export const isSelectElement = (element: Element | null | undefined) => {
   return element?.tagName === 'SELECT';
-};
-
-export const isRadioGroupElement = (element: Element | null | undefined) => {
-  return element instanceof HTMLInputElement && element?.type === 'radio';
 };
