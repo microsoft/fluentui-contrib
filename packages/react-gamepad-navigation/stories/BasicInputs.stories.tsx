@@ -32,6 +32,7 @@ import {
   MenuPopover,
   MenuTrigger,
   SplitButton,
+  SpinButton,
   useId,
   Option,
   ComboboxProps,
@@ -43,7 +44,6 @@ import {
   MenuGroup,
   MenuGroupHeader,
   MenuDivider,
-  SpinButton,
   Field,
   RadioGroup,
   Radio,
@@ -360,7 +360,7 @@ export const BasicInputs = () => {
       </div>
       <hr />
       <h3>
-        Splin Button <DismissCircle20Filled color="#c50f1f" />
+        Spin Button <DismissCircle20Filled color="#c50f1f" />
       </h3>
       <div className={styles.row}>
         <Label htmlFor={spinId}>Default SpinButton</Label>
