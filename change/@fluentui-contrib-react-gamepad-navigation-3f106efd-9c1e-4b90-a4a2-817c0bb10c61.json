@@ -1,6 +1,6 @@
 {
   "type": "major",
-  "comment": "Initial implementation for gamepad navigation package",
+  "comment": "Implementation for gamepad navigation package",
   "packageName": "@fluentui-contrib/react-gamepad-navigation",
   "email": "hectorjimenez@outlook.com",
   "dependentChangeType": "patch"
