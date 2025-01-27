@@ -169,7 +169,7 @@ See [MIGRATION.md](./MIGRATION.md).
 
 ## Entering and Exiting Keytips Mode
 
-- When the `startSequence` is pressed, the keytips component will enter keytips mode. By default the `startSequence` is `'alt+meta'` (option+control on macOS).
+- When the `startSequence` is pressed, the keytips component will enter keytips mode. By default the `startSequence` is `'alt+meta'` (option+control on macOS, alt+windows on Windows).
   After entering keytips mode, the root Keytips will be visible (the ones that have no parent Keytip).
 
 - When the `returnSequence` is pressed, the parent keytips of current keytip will be shown, if it's the first (root) level of keytip, then the keytips mode will be exited.

@@ -3,6 +3,12 @@
 ## Installation
 
 ```bash
+npm install @fluentui-contrib/react-keytips
+```
+
+or
+
+```bash
 yarn add @fluentui-contrib/react-keytips
 ```
 
