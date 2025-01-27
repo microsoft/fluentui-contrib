@@ -19,26 +19,26 @@ import { initGamepadNavigation } from '../core/GamepadNavigation';
 export type UseGamepadNavigationGroupOptions =
   Partial<UseArrowNavigationGroupOptions> & {
     /**
-     * Focus will navigate vertically, horizontally or in both directions (grid), defaults to horizontally
+     * Focus will navigate vertically, horizontally or in both directions (grid).
      * @defaultValue grid
      */
     axis?: 'vertical' | 'horizontal' | 'grid' | 'grid-linear' | 'both';
 
     /**
-     * Focus will cycle to the first/last elements of the group without stopping
+     * Focus will cycle to the first/last elements of the group without stopping.
      * @defaultValue true
      */
     circular?: boolean;
 
     /**
-     * First focusable element in the group will be focused when the group is focused
+     * First focusable element in the group will be focused when the group is focused for the first time.
      * @defaultValue false
      */
     focusFirstElement?: boolean;
 
     /**
      * Last focused element in the group will be remembered and focused (if still
-     * available) when tabbing from outside of the group
+     * available) when tabbing from outside of the group.
      * @defaultValue true
      */
     memorizeCurrent?: boolean;
@@ -56,7 +56,7 @@ export type UseGamepadNavigationGroupOptions =
     tabBehavior?: 'unlimited' | 'limited' | 'limited-trap-focus';
 
     /**
-     * Tabster can ignore default handling of keydown events
+     * Tabster can ignore default handling of keydown events.
      */
     ignoreDefaultKeydown?: TabsterTypes.FocusableProps['ignoreKeydown'];
   };

@@ -47,6 +47,7 @@ import {
   Field,
   RadioGroup,
   Radio,
+  Textarea,
 } from '@fluentui/react-components';
 import { useGamepadNavigationGroup } from '@fluentui-contrib/react-gamepad-navigation';
 
@@ -122,6 +123,14 @@ export const BasicInputs = () => {
       <div className={styles.input}>
         <Label htmlFor={inputId}>Sample input</Label>
         <Input id={inputId} />
+      </div>
+      <h3>
+        Textarea <CheckmarkCircle20Filled color="#6bb700" />
+      </h3>
+      <div className={styles.input}>
+        <Field label="Default Textarea">
+          <Textarea />
+        </Field>
       </div>
       <hr />
       <h3>
