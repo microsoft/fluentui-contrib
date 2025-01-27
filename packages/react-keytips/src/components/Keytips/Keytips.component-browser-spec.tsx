@@ -58,13 +58,13 @@ test.describe('enter and exit from keytip mode interactions', () => {
   }) => {
     const component = await mount(
       <KeytipsBasicExample
-        startSequence="alt+control"
+        startSequence="shift+control+m"
         exitSequence="alt+enter"
       />
     );
     const tooltip = page.getByRole('tooltip');
     await expect(tooltip).toBeHidden();
-    await component.press('Alt+Control');
+    await component.press('Shift+Control+M');
     await expect(tooltip).toBeVisible();
     await component.press('Alt+Enter');
     await expect(tooltip).toBeHidden();
