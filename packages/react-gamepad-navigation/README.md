@@ -3,9 +3,10 @@
 This package provides gamepad navigation support for Fluent UI Components.
 Any gaming controller implementing the [Gamepad API](https://w3c.github.io/gamepad/) is supported. Major brand controllers such as Xbox, PlayStation, Nintendo, 8bit, etc. are supported.
 
-This hook leverages the [useArrowNavigationGroup](https://react.fluentui.dev/?path=/docs/utilities-focus-management-usearrownavigationgroup--docs) and [useFocusableGroup](https://react.fluentui.dev/?path=/docs/utilities-focus-management-usefocusablegroup--docs) implementation and API.
+This hook calls [useArrowNavigationGroup](https://react.fluentui.dev/?path=/docs/utilities-focus-management-usearrownavigationgroup--docs) and [useFocusableGroup](https://react.fluentui.dev/?path=/docs/utilities-focus-management-usefocusablegroup--docs) internally.
+For that reason, 'useGamepadNavigationGroup' hook uses the same API and configuration as those two previous hooks.
 
-In addition to gamepad navigation, arrow key navigation is available by calling this hook, so there is no need to call useArrowNavigationGroup separately.
+In addition to gamepad navigation, arrow key navigation is available by calling this hook, so there is no need to call `useArrowNavigationGroup` separately.
 
 ## Installation
 
@@ -15,7 +16,7 @@ yarn add @fluentui-contrib/react-gamepad-navigation
 
 ## Mappings
 
-| Controller Input | Mapped Behavier                       |
+| Controller Input | Mapped Behavior                       |
 | ---------------- | ------------------------------------- |
 | 'A' Button       | 'Enter' keydown behavior              |
 | 'B' Button       | 'Escape' keydown behavior             |
@@ -48,7 +49,7 @@ yarn add @fluentui-contrib/react-gamepad-navigation
 
 ### To import Hook:
 
-```js
+```ts
 import { useGamepadNavigationGroup } from '@fluentui-contrib/react-gamepad-navigation';
 ```
 
@@ -64,6 +65,8 @@ export const SampleApp = () => {
 ```
 
 ## Options
+
+The default configuration provides the closest behavior to a console navigation experience. However, All the configurations from `useArrowNavigationGroup` and `useFocusableGroup` hooks are available as part of the options for `useGamepadNavigationGroup`
 
 ### Hook Options
 
