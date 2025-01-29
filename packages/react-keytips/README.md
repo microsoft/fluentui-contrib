@@ -23,8 +23,6 @@ hook to attach a Keytip to a specific target element.
 Users can toggle Keytip mode using the `startSequence` (Option+Command on macOS, Alt+Windows (Meta) on Windows, by default).
 To navigate back to the previous level of Keytips, the `returnSequence` (Esc by default) is used.
 
-````tsx
-
 ## Usage
 
 ```tsx
@@ -51,6 +49,6 @@ export const App = () => {
     </>
   );
 };
-````
+```
 
 Follow up on the [Storybook](https://microsoft.github.io/fluentui-contrib/react-keytips) for examples on how to use the components provided by this package.
