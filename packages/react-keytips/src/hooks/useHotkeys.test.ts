@@ -9,12 +9,12 @@ describe('useHotkeys', () => {
 
     renderHook(() =>
       useHotkeys([
-        ['alt+control', handlerFirst],
+        ['shift+control+m', handlerFirst],
         ['alt+x', handlerSecond],
       ])
     );
 
-    await userEvent.keyboard('{Alt>}{Control}');
+    await userEvent.keyboard('{Shift>}{Control>}{m}');
     expect(handlerFirst).toHaveBeenCalledTimes(1);
     expect(handlerSecond).not.toHaveBeenCalled();
 
@@ -36,9 +36,9 @@ describe('useHotkeys', () => {
 
     const cb = jest.fn();
 
-    renderHook(() => useHotkeys([['alt+control', cb, { delay: 1000 }]]));
+    renderHook(() => useHotkeys([['alt+meta', cb, { delay: 1000 }]]));
 
-    await user.keyboard('{Alt>}{Control>}');
+    await user.keyboard('{Alt>}{Meta>}');
 
     expect(cb).toHaveBeenCalledTimes(0);
 

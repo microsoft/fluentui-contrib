@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useFluent, useTimeout } from '@fluentui/react-components';
 import { KeytipsProps } from '../components/Keytips/Keytips.types';
+import { Space } from '@fluentui/keyboard-keys';
 
 type Options = {
   preventDefault?: boolean;
@@ -11,12 +12,11 @@ type Options = {
 export type Hotkey = [string, (ev: KeyboardEvent) => void, Options?];
 
 export type InputHotkey = {
-  alt: boolean;
-  shift: boolean;
   key?: string;
+  modifiers: string[];
 };
 
-const RESERVED = ['shift', 'alt'];
+const MODIFIERS = ['shift', 'alt', 'control'];
 
 export const parseHotkey = (hotkey: string) => {
   const keys = hotkey
@@ -24,15 +24,11 @@ export const parseHotkey = (hotkey: string) => {
     .split('+')
     .map((key) => key.trim());
 
-  const modifiers = {
-    alt: keys.includes('alt'),
-    shift: keys.includes('shift'),
-  };
-
-  const key = keys.find((k) => !RESERVED.includes(k));
+  const modifiers = keys.filter((key) => MODIFIERS.includes(key));
+  const key = keys.find((k) => !modifiers.includes(k));
 
   return {
-    ...modifiers,
+    modifiers,
     key,
   };
 };
@@ -41,21 +37,26 @@ const isKeyMatchingKeyboardEvent = (
   hotkey: InputHotkey,
   event: KeyboardEvent
 ) => {
-  const { altKey, shiftKey, key: eventKey } = event;
-  const { alt, shift } = hotkey;
+  const { key: eventKey } = event;
+  const { modifiers, key } = hotkey;
 
-  const key = hotkey.key === '' ? 'space' : hotkey.key?.toLowerCase();
-  const pressedKey = eventKey === ' ' ? 'space' : eventKey.toLowerCase();
+  const pressedModifiers = [
+    event.altKey && 'alt',
+    event.shiftKey && 'shift',
+    event.ctrlKey && 'control',
+  ].filter(Boolean);
 
-  if (alt !== altKey || shift !== shiftKey) {
+  const pressedKey = event.code === Space ? 'space' : eventKey.toLowerCase();
+
+  const modifiersMatch =
+    modifiers.length === pressedModifiers.length &&
+    modifiers.every((mod) => pressedModifiers.includes(mod));
+
+  if (!modifiersMatch) {
     return false;
   }
 
-  if (pressedKey === key || event.code.replace('Key', '') === key) {
-    return true;
-  }
-
-  return false;
+  return key === pressedKey;
 };
 
 export const useHotkeys = (
