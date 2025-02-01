@@ -44,7 +44,7 @@ export type KeytipsProps = ComponentProps<KeytipsSlots> &
     /**
      * Timeout in milliseconds for keytips enter mode to be on,
      * use if you'd like to have a more clear intent that keytips need to be shown.
-     * Values < 0 disable the feature.
+     * Values < 0 disable the feature. Press and hold the start sequence.
      * @default 0
      */
     startDelay?: number;

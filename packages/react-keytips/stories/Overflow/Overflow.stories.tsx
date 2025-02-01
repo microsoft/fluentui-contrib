@@ -89,17 +89,13 @@ export const OverflowStory = () => {
           </div>
         )}
         {selectedValue === 'View' && (
-          <div role="tabpanel">
-            <div className={classes.panel} role="tabpanel">
-              <View />
-            </div>
+          <div className={classes.panel} role="tabpanel">
+            <View />
           </div>
         )}
         {selectedValue === 'Help' && (
-          <div role="tabpanel">
-            <div className={classes.panel} role="tabpanel">
-              <Help />
-            </div>
+          <div className={classes.panel} role="tabpanel">
+            <Help />
           </div>
         )}
       </div>

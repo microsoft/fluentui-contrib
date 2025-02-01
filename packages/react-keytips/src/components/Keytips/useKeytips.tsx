@@ -29,9 +29,12 @@ import { useKeytipsState } from './useKeytipsState';
  */
 export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
   const { targetDocument } = useFluent();
+  const platform = targetDocument?.defaultView?.navigator.platform || 'Windows';
+  const isMac = /Mac|iPod|iPhone|iPad/.test(platform);
+
   const {
     content = 'Alt Meta',
-    startSequence = 'alt+meta',
+    startSequence = isMac ? 'alt+control' : 'alt+meta',
     exitSequence = 'alt+escape',
     returnSequence = 'escape',
     onEnterKeytipsMode,
@@ -99,11 +102,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     [state.inKeytipMode]
   );
 
-  const exitSequences = [
-    exitSequence,
-    ...EXIT_KEYS,
-    state.inKeytipMode ? 'Tab' : '',
-  ];
+  const exitSequences = state.inKeytipMode ? [...EXIT_KEYS, exitSequence] : [];
 
   useHotkeys(
     [
@@ -111,7 +110,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
       [returnSequence, handleReturnSequence],
       ...exitSequences.map((key) => [key, handleExitKeytipMode] as Hotkey),
     ],
-    invokeEvent
+    { invokeEvent }
   );
 
   React.useEffect(() => {
@@ -277,12 +276,10 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
   }, []);
 
   React.useEffect(() => {
-    if (!targetDocument) return;
+    if (!targetDocument || !state.inKeytipMode) return;
 
     const handleInvokeEvent = (ev: KeyboardEvent) => {
       ev.stopPropagation();
-
-      if (!state.inKeytipMode) return;
 
       const { key } = parseHotkey(ev.key.toLowerCase());
       const currSeq = state.currentSequence + key?.toLowerCase();
