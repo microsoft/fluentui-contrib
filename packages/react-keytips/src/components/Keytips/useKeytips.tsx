@@ -33,7 +33,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
   const isMac = /Mac|iPod|iPhone|iPad/.test(platform);
 
   const {
-    content = 'Alt Meta',
+    content = isMac ? 'Alt Control' : 'Alt Meta',
     startSequence = isMac ? 'alt+control' : 'alt+meta',
     exitSequence = 'alt+escape',
     returnSequence = 'escape',
