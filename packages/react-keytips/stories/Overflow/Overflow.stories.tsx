@@ -15,7 +15,6 @@ import Help from './Help';
 
 const useStyles = makeStyles({
   root: {
-    height: '100vh',
     backgroundColor: tokens.colorNeutralBackground6,
   },
   panels: {
