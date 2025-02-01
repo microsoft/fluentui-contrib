@@ -21,7 +21,7 @@ It provides `KeytipLayer` and `useKeytipRef` to manage the keytips.
 
 ```tsx
 export default function App() {
-  // default is 'Alt-Meta'
+  // default is 'Alt Meta' on Windows, 'Alt Control' on MacOS.
   return <KeytipLayer content="Alt Meta" />;
 }
 ```
@@ -112,17 +112,17 @@ The keytip is positioned below and centered to the target element by default.
 
 ### Keytips
 
-| Prop Name            | Type                                   | Default     | Description                                                                                                                                                           |
-| -------------------- | -------------------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `content`            | `string`                               | `Alt Meta`  | String to put inside the `Portal`to be used for the aria-describedby for the component with the keytip. Should be one of the starting sequences.                      |
-| `mountNode`          |                                        |             | Where the Portal children are mounted on DOM.                                                                                                                         |
-| `startSequence`      | `string`                               | `'alt+meta` | Key sequence that will start keytips mode.                                                                                                                            |
-| `returnSequence`     | `string`                               | `'escape'`  | Key sequences that execute the return functionality in keytips.                                                                                                       |
-| `exitSequence`       | `string`                               |             | Key sequences that will exit keytips mode.                                                                                                                            |
-| `onExitKeytipsMode`  | `EventHandler<OnExitKeytipsModeData>`  |             | Callback function triggered when keytip mode is exited.                                                                                                               |
-| `onEnterKeytipsMode` | `EventHandler<OnEnterKeytipsModeData>` |             | Callback function triggered when keytip mode is entered.                                                                                                              |
-| `startDelay`         | `number`                               | `0`         | Timeout in milliseconds for keytips enter mode to be on, use if you'd like to have a more clear intent that keytips need to be shown. Values < 0 disable the feature. |
-| `invokeEvent`        | `keydown \| keyup`                     | `keydown`   | The event is responsible for invoking event.                                                                                                                          |
+| Prop Name            | Type                                   | Default                                         | Description                                                                                                                                                           |
+| -------------------- | -------------------------------------- | ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `content`            | `string`                               | `Alt Meta` on Windows, `Alt Control` on MacOS   | String to put inside the `Portal`to be used for the aria-describedby for the component with the keytip. Should be one of the starting sequences.                      |
+| `mountNode`          |                                        |                                                 | Where the Portal children are mounted on DOM.                                                                                                                         |
+| `startSequence`      | `string`                               | `'alt+meta` on Windows, `'alt+control` on MacOS | Key sequence that will start keytips mode.                                                                                                                            |
+| `returnSequence`     | `string`                               | `'escape'`                                      | Key sequences that execute the return functionality in keytips.                                                                                                       |
+| `exitSequence`       | `string`                               |                                                 | Key sequences that will exit keytips mode.                                                                                                                            |
+| `onExitKeytipsMode`  | `EventHandler<OnExitKeytipsModeData>`  |                                                 | Callback function triggered when keytip mode is exited.                                                                                                               |
+| `onEnterKeytipsMode` | `EventHandler<OnEnterKeytipsModeData>` |                                                 | Callback function triggered when keytip mode is entered.                                                                                                              |
+| `startDelay`         | `number`                               | `0`                                             | Timeout in milliseconds for keytips enter mode to be on, use if you'd like to have a more clear intent that keytips need to be shown. Values < 0 disable the feature. |
+| `invokeEvent`        | `keydown \| keyup`                     | `keydown`                                       | The event is responsible for invoking event.                                                                                                                          |
 
 ## useKeytipRef
 
@@ -169,7 +169,7 @@ See [MIGRATION.md](./MIGRATION.md).
 
 ## Entering and Exiting Keytips Mode
 
-- When the `startSequence` is pressed, the keytips component will enter keytips mode. By default the `startSequence` is `'alt+meta'` (option+control on macOS, alt+windows on Windows).
+- When the `startSequence` is pressed, the keytips component will enter keytips mode. By default the `startSequence` is `'alt+meta'` on Windows and `'alt+control'` (option+control on MacOS).
   After entering keytips mode, the root Keytips will be visible (the ones that have no parent Keytip).
 
 - When the `returnSequence` is pressed, the parent keytips of current keytip will be shown, if it's the first (root) level of keytip, then the keytips mode will be exited.
