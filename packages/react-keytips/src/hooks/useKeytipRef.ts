@@ -18,7 +18,11 @@ export const useKeytipRef = <
   const { dispatch } = useEventService();
 
   const uniqueId = React.useId();
-  const keySequences = keytip.keySequences.map((k) => k.toLowerCase());
+  const keySequences = keytip.keySequences.map((k) =>
+    // according to spec sequence should have max 3 chars length
+    k.substring(0, 3).toLowerCase()
+  );
+
   const id = sequencesToID(keySequences);
 
   const ktp = React.useMemo(
