@@ -122,7 +122,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
         keytip,
       });
 
-      if (tree.isCurrentKeytipParent(keytip)) {
+      if (tree.isCurrentKeytipParent(keytip) && state.inKeytipMode) {
         showKeytips(tree.getChildren());
       }
     };
@@ -150,7 +150,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     return () => {
       reset();
     };
-  }, []);
+  }, [state.inKeytipMode]);
 
   React.useEffect(() => {
     const controller = new AbortController();
