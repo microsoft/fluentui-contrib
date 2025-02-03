@@ -48,6 +48,7 @@ import {
   RadioGroup,
   Radio,
   Textarea,
+  Slider,
 } from '@fluentui/react-components';
 import { useGamepadNavigationGroup } from '@fluentui-contrib/react-gamepad-navigation';
 
@@ -87,9 +88,19 @@ const useStyles = makeStyles({
     gap: '2px',
     maxWidth: '400px',
   },
+  support: {
+    fontSize: '12px',
+    fontWeight: 400,
+    display: 'inline-flex',
+    width: '100px',
+    float: 'right',
+    '& svg': {
+      marginLeft: '10px',
+    },
+  },
 });
 
-export const BasicInputs = () => {
+export const SingleElements = () => {
   const gamepadNavigationAttributes = useGamepadNavigationGroup();
 
   const styles = useStyles();
@@ -112,20 +123,29 @@ export const BasicInputs = () => {
   const labelledBy =
     selectedOptions.length > 0 ? `${comboId} ${selectedListId}` : comboId;
   const dropdownId = useId('dropdown-default');
+  const sliderId = useId('slider-default');
   const selectId = useId('select-default');
 
   return (
     <div className={styles.container} {...gamepadNavigationAttributes}>
-      <h1>Navigation with Basic Input Components</h1>
+      <h1>Navigation with Single Input Elements</h1>
       <h3>
-        Input <CheckmarkCircle20Filled color="#6bb700" />
+        Input
+        <span className={styles.support}>
+          Support:
+          <CheckmarkCircle20Filled color="#6bb700" />
+        </span>
       </h3>
       <div className={styles.input}>
         <Label htmlFor={inputId}>Sample input</Label>
         <Input id={inputId} />
       </div>
       <h3>
-        Textarea <CheckmarkCircle20Filled color="#6bb700" />
+        Textarea
+        <span className={styles.support}>
+          Support:
+          <CheckmarkCircle20Filled color="#6bb700" />
+        </span>
       </h3>
       <div className={styles.input}>
         <Field label="Default Textarea">
@@ -134,7 +154,11 @@ export const BasicInputs = () => {
       </div>
       <hr />
       <h3>
-        Image Button <CheckmarkCircle20Filled color="#6bb700" />
+        Image Button
+        <span className={styles.support}>
+          Support:
+          <CheckmarkCircle20Filled color="#6bb700" />
+        </span>
       </h3>
       <div className={styles.row}>
         <Button
@@ -177,7 +201,11 @@ export const BasicInputs = () => {
       </div>
       <hr />
       <h3>
-        Text Button <CheckmarkCircle20Filled color="#6bb700" />
+        Text Button
+        <span className={styles.support}>
+          Support:
+          <CheckmarkCircle20Filled color="#6bb700" />
+        </span>
       </h3>
       <div className={styles.row}>
         <Button onClick={onClick}>Default</Button>
@@ -196,7 +224,11 @@ export const BasicInputs = () => {
       </div>
       <hr />
       <h3>
-        Menu Button <CheckmarkCircle20Filled color="#6bb700" />
+        Menu Button
+        <span className={styles.support}>
+          Support:
+          <CheckmarkCircle20Filled color="#6bb700" />
+        </span>
       </h3>
       <div className={styles.row}>
         <Menu>
@@ -269,7 +301,11 @@ export const BasicInputs = () => {
       </div>
       <hr />
       <h3>
-        Split Button <CheckmarkCircle20Filled color="#6bb700" />
+        Split Button
+        <span className={styles.support}>
+          Support:
+          <CheckmarkCircle20Filled color="#6bb700" />
+        </span>
       </h3>
       <div className={styles.row}>
         <Menu positioning="below-end">
@@ -369,7 +405,23 @@ export const BasicInputs = () => {
       </div>
       <hr />
       <h3>
-        Spin Button <DismissCircle20Filled color="#c50f1f" />
+        Slider
+        <span className={styles.support}>
+          Support:
+          <DismissCircle20Filled color="#c50f1f" />
+        </span>
+      </h3>
+      <div className={styles.row}>
+        <Label htmlFor={sliderId}>Basic Example</Label>
+        <Slider defaultValue={20} id={sliderId} />
+      </div>
+      <hr />
+      <h3>
+        Spin Button
+        <span className={styles.support}>
+          Support:
+          <DismissCircle20Filled color="#c50f1f" />
+        </span>
       </h3>
       <div className={styles.row}>
         <Label htmlFor={spinId}>Default SpinButton</Label>
@@ -377,7 +429,11 @@ export const BasicInputs = () => {
       </div>
       <hr />
       <h3>
-        Checkbox <CheckmarkCircle20Filled color="#6bb700" />
+        Checkbox
+        <span className={styles.support}>
+          Support:
+          <CheckmarkCircle20Filled color="#6bb700" />
+        </span>
       </h3>
       <div className={styles.row}>
         <Checkbox
@@ -414,7 +470,11 @@ export const BasicInputs = () => {
       </div>
       <hr />
       <h3>
-        Combobox <CheckmarkCircle20Filled color="#6bb700" />
+        Combobox
+        <span className={styles.support}>
+          Support:
+          <CheckmarkCircle20Filled color="#6bb700" />
+        </span>
       </h3>
       <div className={styles.row}>
         <div className={styles.combobox}>
@@ -450,7 +510,11 @@ export const BasicInputs = () => {
       </div>
       <hr />
       <h3>
-        Dropdown <CheckmarkCircle20Filled color="#6bb700" />
+        Dropdown
+        <span className={styles.support}>
+          Support:
+          <CheckmarkCircle20Filled color="#6bb700" />
+        </span>
       </h3>
       <div className={styles.row}>
         <div className={styles.dropdown}>
@@ -480,7 +544,11 @@ export const BasicInputs = () => {
       </div>
       <hr />
       <h3>
-        Link <CheckmarkCircle20Filled color="#6bb700" />
+        Link
+        <span className={styles.support}>
+          Support:
+          <CheckmarkCircle20Filled color="#6bb700" />
+        </span>
       </h3>
       <div className={styles.row}>
         <Link href="https://www.bing.com">This is a link</Link>
@@ -489,7 +557,11 @@ export const BasicInputs = () => {
       </div>
       <hr />
       <h3>
-        Menu <CheckmarkCircle20Filled color="#6bb700" />
+        Menu
+        <span className={styles.support}>
+          Support:
+          <CheckmarkCircle20Filled color="#6bb700" />
+        </span>
       </h3>
       <div className={styles.row}>
         <Menu>
@@ -550,7 +622,11 @@ export const BasicInputs = () => {
       </div>
       <hr />
       <h3>
-        Radio Group <ErrorCircle20Filled color="#fce100" />
+        Radio Group
+        <span className={styles.support}>
+          Support:
+          <ErrorCircle20Filled color="#fce100" />
+        </span>
       </h3>
       <div className={styles.row}>
         <Field label="Favorite Fruit">
@@ -564,7 +640,11 @@ export const BasicInputs = () => {
       </div>
       <hr />
       <h3>
-        Select <ErrorCircle20Filled color="#fce100" />
+        Select
+        <span className={styles.support}>
+          Support:
+          <ErrorCircle20Filled color="#fce100" />
+        </span>
       </h3>
       <div className={styles.row}>
         <label htmlFor={selectId}>Color</label>
@@ -578,7 +658,11 @@ export const BasicInputs = () => {
       </div>
       <hr />
       <h3>
-        Switch <CheckmarkCircle20Filled color="#6bb700" />
+        Switch
+        <span className={styles.support}>
+          Support:
+          <CheckmarkCircle20Filled color="#6bb700" />
+        </span>
       </h3>
       <div className={styles.row}>
         <Switch label="A" />

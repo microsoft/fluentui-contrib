@@ -30,6 +30,8 @@ yarn add @fluentui-contrib/react-gamepad-navigation
 
 ## Components Support
 
+### Single Elements
+
 | Component  | Support            |
 | ---------- | ------------------ |
 | Button     | ✅ Supported       |
@@ -41,9 +43,25 @@ yarn add @fluentui-contrib/react-gamepad-navigation
 | Menu       | ✅ Supported       |
 | RadioGroup | ⚠️ Partial Support |
 | Select     | ⚠️ Partial Support |
+| Slider     | ⛔ Not Supported   |
 | SpinButton | ⛔ Not Supported   |
 | Switch     | ✅ Supported       |
 | Textarea   | ✅ Supported       |
+
+### Composed Elements
+
+| Component       | Support            |
+| --------------- | ------------------ |
+| Accordion       | ✅ Supported       |
+| Breadcrumb      | ✅ Supported       |
+| DataGrid        | ✅ Supported       |
+| InteractionTag  | ✅ Supported       |
+| SwatchPicker    | ✅ Supported       |
+| TabList         | ✅ Supported       |
+| TagPicker       | ⚠️ Partial Support |
+| TeachingPopover | ?                  |
+| Toolbar         | ?                  |
+| Tree            | ?                  |
 
 ## Usage
 

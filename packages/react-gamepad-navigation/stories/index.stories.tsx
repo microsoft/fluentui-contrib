@@ -2,7 +2,8 @@ import { Meta } from '@storybook/react';
 import description from '../README.md';
 
 export { Default } from './Default.stories';
-export { BasicInputs } from './BasicInputs.stories';
+export { SingleElements } from './SingleElements.stories';
+export { ComposedElements } from './ComposedElements.stories';
 export { MultipleGroups } from './MultipleGroups.stories';
 
 const meta: Meta = {
