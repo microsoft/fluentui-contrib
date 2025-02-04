@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/stylelint-plugin",
   "entries": [
     {
+      "date": "Wed, 22 Jan 2025 09:16:56 GMT",
+      "tag": "@fluentui-contrib/stylelint-plugin_v0.2.1",
+      "version": "0.2.1",
+      "comments": {
+        "none": [
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "@fluentui-contrib/stylelint-plugin",
+            "commit": "fd9525da4bb93ad6e74db027fbb3fd47f67b2ea9",
+            "comment": "chore: sync failed release pipeline with git"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 15 Jan 2025 10:59:44 GMT",
       "tag": "@fluentui-contrib/stylelint-plugin_v0.2.1",
       "version": "0.2.1",

@@ -26,12 +26,13 @@ export type KeytipsProps = ComponentProps<KeytipsSlots> &
      */
     content?: string;
     /**
-     * Key sequence that will start keytips mode
+     * Key sequence that will start keytips mode. Should be a combination of modifier
+     * or modifiers and a key.
      * @default 'alt+meta'.
      */
     startSequence?: string;
     /**
-     * Key sequences that execute the return functionality in keytips
+     * Key sequence that execute the return functionality in keytips
      * (going back to the previous level of keytips).
      * @default 'escape'
      */

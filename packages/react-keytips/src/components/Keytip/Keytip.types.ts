@@ -49,7 +49,7 @@ export type KeytipProps = ComponentProps<KeytipSlots> & {
   onReturn?: ReturnKeytipEventHandler;
   /**
    * Array of KeySequences which is the full key sequence to trigger this keytip
-   * Should not include initial 'start' key sequence
+   * Should not include initial 'start' key sequence.
    */
   keySequences: string[];
   /**
@@ -63,7 +63,7 @@ export type KeytipProps = ComponentProps<KeytipSlots> & {
   isShortcut?: boolean;
   /**
    * Whether or not this Keytip belongs to a component that has a menu. Keytip mode will stay on when a menu is opened,
-   * even if the items in that menu have no keytips. If this is
+   * even if the items in that menu have no keytips.
    */
   hasMenu?: boolean;
 };

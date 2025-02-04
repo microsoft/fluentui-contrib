@@ -6,7 +6,12 @@ export const isTargetVisible = (
 ): boolean => {
   if (!target || !win) return false;
   if (isDisabled(target)) return false;
+  if (
+    target?.hasAttribute('data-overflowing') ||
+    target?.parentElement?.hasAttribute('data-overflowing')
+  )
+    return false;
 
   const style = win.getComputedStyle(target);
-  return style.display !== 'none' && style.visibility !== 'hidden';
+  return style.display !== 'none' || style.visibility !== 'hidden';
 };

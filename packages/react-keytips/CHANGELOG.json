@@ -2,6 +2,44 @@
   "name": "@fluentui-contrib/react-keytips",
   "entries": [
     {
+      "date": "Fri, 31 Jan 2025 07:26:15 GMT",
+      "tag": "@fluentui-contrib/react-keytips_v0.1.5",
+      "version": "0.1.5",
+      "comments": {
+        "none": [
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "94ef3e2d4459dffd3d03590ebf19ac87fa357e25",
+            "comment": "chore: sync failed release pipeline with git"
+          }
+        ],
+        "patch": [
+          {
+            "author": "vgenaev@gmail.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "7a69a125146bfaac428a552b7de722f8016c20b7",
+            "comment": "fix: useHotkeys hook to accept several modifiers"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Wed, 22 Jan 2025 13:30:17 GMT",
+      "tag": "@fluentui-contrib/react-keytips_v0.1.4",
+      "version": "0.1.4",
+      "comments": {
+        "patch": [
+          {
+            "author": "vgenaev@gmail.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "8257079c7268b184aca53caaa93717a0a89f52dd",
+            "comment": "fix: do not show overflowing keytips"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 15 Jan 2025 10:59:44 GMT",
       "tag": "@fluentui-contrib/react-keytips_v0.1.3",
       "version": "0.1.3",
