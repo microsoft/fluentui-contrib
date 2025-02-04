@@ -40,7 +40,7 @@ const useStyles = makeStyles({
 
 const onExecute: ExecuteKeytipEventHandler = (_, { targetElement }) => {
   if (targetElement) {
-    console.info(targetElement.getAttribute('aria-3describedby'));
+    console.info(targetElement.getAttribute('aria-describedby'));
     targetElement.focus();
     targetElement.click();
   }
@@ -147,9 +147,9 @@ export const DefaultStory = () => {
   });
 
   const offsetButton = useKeytipRef({
-    keySequences: ['ee'],
+    keySequences: ['2ee'],
     positioning: { offset: { crossAxis: -50, mainAxis: 5 } },
-    content: 'EE',
+    content: '2EE',
     onExecute,
   });
 

@@ -22,29 +22,30 @@ export type KeytipsProps = ComponentProps<KeytipsSlots> &
      * String to put inside the Portal to be used for the aria-describedby
      * for the component with the keytip.
      * Should be one of the starting sequences.
-     * @default 'Alt+Meta'
+     * @default 'Alt Meta' on Windows, 'Alt Control' on MacOS.
      */
     content?: string;
     /**
      * Key sequence that will start keytips mode. Should be a combination of modifier
      * or modifiers and a key.
-     * @default 'alt+meta'.
+     * @default 'alt+meta' on Windows, 'alt+control (option and control)' on MacOS.
      */
     startSequence?: string;
     /**
      * Key sequence that execute the return functionality in keytips
      * (going back to the previous level of keytips).
-     * @default 'escape'
+     * @default 'escape'.
      */
     returnSequence?: string;
     /**
      * Key sequences that will exit keytips mode.
+     * @default 'alt+escape'.
      */
     exitSequence?: string;
     /**
      * Timeout in milliseconds for keytips enter mode to be on,
      * use if you'd like to have a more clear intent that keytips need to be shown.
-     * Values < 0 disable the feature.
+     * Values < 0 disable the feature. Press and hold the start sequence.
      * @default 0
      */
     startDelay?: number;

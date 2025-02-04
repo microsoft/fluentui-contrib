@@ -27,31 +27,8 @@ const useStyles = makeStyles({
   container: {
     display: 'flex',
     flexWrap: 'nowrap',
-    minWidth: 0,
+    maxWidth: '300px',
     overflow: 'hidden',
-  },
-
-  resizableArea: {
-    minWidth: '200px',
-    maxWidth: '500px',
-    border: `2px solid ${tokens.colorBrandBackground}`,
-    padding: '20px 10px 10px 10px',
-    position: 'relative',
-    resize: 'horizontal',
-    '::after': {
-      content: `'Resizable Area'`,
-      position: 'absolute',
-      padding: '1px 4px 1px',
-      top: '-2px',
-      left: '-2px',
-      fontFamily: 'monospace',
-      fontSize: '15px',
-      fontWeight: 900,
-      lineHeight: 1,
-      letterSpacing: '1px',
-      color: tokens.colorNeutralForegroundOnBrand,
-      backgroundColor: tokens.colorBrandBackground,
-    },
   },
 });
 
@@ -187,8 +164,8 @@ export const ShortcutStory = () => {
   const styles = useStyles();
 
   return (
-    <Overflow minimumVisible={3}>
-      <div className={mergeClasses(styles.container, styles.resizableArea)}>
+    <Overflow minimumVisible={2}>
+      <div className={styles.container}>
         {Object.entries(menuItems).map(([, props]) => (
           <OverflowItemWrapper key={props.id} keytipProps={props} />
         ))}
