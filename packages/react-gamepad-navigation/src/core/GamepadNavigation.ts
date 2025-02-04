@@ -122,6 +122,7 @@ const onGamepadDisconnect = (evt: GamepadEvent) => {
   }
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const onTouchInput = (_: TouchEvent) => {
   setInputMode(InputMode.Touch);
 };
