@@ -19,6 +19,7 @@ packages/azure-theme/ @microsoft/azure-ux-design-engineering
 packages/variant-theme @microsoft/fluentui-variant-theme
 packages/react-keytips @microsoft/cxe-prg @mainframev
 packages/react-interactive-tab @microsoft/cxe-prg @dmytrokirpa
+packages/react-gamepad-navigation @microsoft/cxe-prg @hectorjjb
 # <%= NX-CODEOWNER-PLACEHOLDER %>
 
 #### Build/Infra
