@@ -1,3 +1,5 @@
+import { selectOptionsVisibleAttribute } from './Constants';
+
 /* eslint-disable no-restricted-globals */
 export type TimeoutId = ReturnType<typeof setTimeout> | undefined;
 export type IntervalId = ReturnType<typeof setInterval> | undefined;
@@ -30,4 +32,10 @@ export const isMenuItemElement = (element: Element | null | undefined) => {
 
 export const isSelectElement = (element: Element | null | undefined) => {
   return element?.tagName === 'SELECT';
+};
+
+export const hidePickerOnSeLectElement = (selectElement: HTMLSelectElement) => {
+  selectElement.blur();
+  selectElement.focus();
+  selectElement.removeAttribute(selectOptionsVisibleAttribute);
 };

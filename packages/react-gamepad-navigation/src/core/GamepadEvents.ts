@@ -1,12 +1,8 @@
 /* eslint-disable no-restricted-globals */
-import {
-  GroupperMoveFocusActions,
-  GroupperMoveFocusEvent,
-  MoverMoveFocusEvent,
-  TabsterTypes,
-} from '@fluentui/react-tabster';
+import { MoverMoveFocusEvent, TabsterTypes } from '@fluentui/react-tabster';
 import {
   getParentForm,
+  hidePickerOnSeLectElement,
   isComboboxElement,
   isMenuItemElement,
   isSelectElement,
@@ -14,6 +10,7 @@ import {
 } from './GamepadUtils';
 import { getMoverKeyToKeyboardKeyMapping } from './GamepadMappings';
 import { KeyboardKey } from '../types/Keys';
+import { selectOptionsVisibleAttribute } from './Constants';
 
 /*
     Synthetic Events
@@ -107,9 +104,30 @@ export const emitSyntheticMoverMoveFocusEvent = (
   if (isComboboxElement(activeElement)) {
     const button = getMoverKeyToKeyboardKeyMapping(key);
     emitSyntheticKeyboardEvent('keydown', button, true, activeElement);
+  } else if (isSelectElement(activeElement)) {
+    const selectElement = activeElement as HTMLSelectElement;
+    const areOptionsVisible = selectElement.hasAttribute(
+      selectOptionsVisibleAttribute
+    );
 
-    // TODO: Implement select element navigation
-    // } else if (isSelectElement(activeElement)) {
+    if (
+      (areOptionsVisible && key === TabsterTypes.MoverKeys.ArrowDown) ||
+      (!areOptionsVisible && key === TabsterTypes.MoverKeys.ArrowRight)
+    ) {
+      if (selectElement.selectedIndex < selectElement.options.length - 1) {
+        selectElement.selectedIndex++;
+      }
+    } else if (
+      (areOptionsVisible && key === TabsterTypes.MoverKeys.ArrowUp) ||
+      (!areOptionsVisible && key === TabsterTypes.MoverKeys.ArrowLeft)
+    ) {
+      if (selectElement.selectedIndex > 0) {
+        selectElement.selectedIndex--;
+      }
+    } else {
+      const button = getMoverKeyToKeyboardKeyMapping(key);
+      emitSyntheticKeyboardEvent('keydown', button, true, activeElement);
+    }
   } else {
     activeElement?.dispatchEvent(new MoverMoveFocusEvent({ key }));
   }
@@ -126,20 +144,35 @@ export const emitSyntheticGroupperMoveFocusEvent = (
     if (isComboboxElement(activeElement)) {
       emitSyntheticKeyboardEvent('keydown', action, true, activeElement);
     } else if (activeElement?.tagName === 'SELECT') {
-      // emitSyntheticMouseEvent('mousedown', true, activeElement);
-      (activeElement as HTMLSelectElement)?.showPicker();
+      const selectElement = activeElement as HTMLSelectElement;
+      const areOptionsVisible = selectElement.hasAttribute(
+        selectOptionsVisibleAttribute
+      );
+      if (areOptionsVisible) {
+        hidePickerOnSeLectElement(selectElement);
+      } else {
+        selectElement.showPicker();
+        selectElement.setAttribute(selectOptionsVisibleAttribute, '_self');
+      }
     } else {
       emitSyntheticMouseEvent('click', true, activeElement);
     }
-
     if (shouldSubmitForm(activeElement)) {
       getParentForm(activeElement)?.requestSubmit?.();
     }
   } else {
+    // Note: GroupperMoveFocusActions.Escape has no difference with KeyboardKey.Escape
+
     if (isSelectElement(activeElement)) {
-      activeElement?.dispatchEvent(
-        new GroupperMoveFocusEvent({ action: GroupperMoveFocusActions.Escape })
+      const selectElement = activeElement as HTMLSelectElement;
+      const areOptionsVisible = selectElement.hasAttribute(
+        selectOptionsVisibleAttribute
       );
+      if (areOptionsVisible) {
+        hidePickerOnSeLectElement(selectElement);
+      } else {
+        emitSyntheticKeyboardEvent('keydown', action, true, activeElement);
+      }
     } else if (isComboboxElement(activeElement)) {
       emitSyntheticMouseEvent('click', true, activeElement);
     } else {

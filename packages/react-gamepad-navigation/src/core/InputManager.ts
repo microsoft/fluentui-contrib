@@ -15,6 +15,7 @@ import { FocusDirection } from '../types/FocusDirection';
 import { IntervalId, TimeoutId } from './GamepadUtils';
 import { navigate } from './NavigationManager';
 import { InputMode, isFocusDriven } from '../types/InputMode';
+import { selectOptionsVisibleAttribute } from './Constants';
 
 /*
     General
@@ -66,6 +67,9 @@ export const setInputMode = (newInputMode: InputMode): void => {
     const targetdocument = getTargetDocument();
     if (!isFocusDriven(inputMode)) {
       targetdocument.body.classList.remove('gamepadmode');
+      Array.from(targetdocument.body.querySelectorAll('select')).map((e) =>
+        e.removeAttribute(selectOptionsVisibleAttribute)
+      );
     } else {
       targetdocument.body.classList.add('gamepadmode');
     }
