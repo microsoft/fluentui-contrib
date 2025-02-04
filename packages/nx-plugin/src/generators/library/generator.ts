@@ -97,7 +97,6 @@ async function invokeNxGenerators(tree: Tree, options: LibraryGeneratorSchema) {
   await libraryGenerator(tree, {
     name,
     directory: `packages/${name}`,
-    projectNameAndRootFormat: 'as-provided',
     publishable: true,
     compiler: 'swc',
     testEnvironment: options.testEnvironment,

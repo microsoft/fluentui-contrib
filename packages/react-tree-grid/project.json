@@ -17,7 +17,8 @@
       "options": {
         "lintFilePatterns": [
           "packages/react-tree-grid/**/*.ts",
-          "packages/react-tree-grid/**/*.tsx"
+          "packages/react-tree-grid/**/*.tsx",
+          "packages/react-tree-grid/package.json"
         ]
       }
     },

@@ -24,7 +24,6 @@ export default async function (
 
   await configurationGenerator(tree, {
     project: name,
-    configureCypress: false,
     uiFramework: '@storybook/react-webpack5',
     tsConfiguration: true,
     interactionTests: false,

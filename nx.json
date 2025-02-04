@@ -101,5 +101,6 @@
   },
   "parallel": 3,
   "defaultBase": "main",
-  "useInferencePlugins": false
+  "useInferencePlugins": false,
+  "useLegacyCache": true
 }
