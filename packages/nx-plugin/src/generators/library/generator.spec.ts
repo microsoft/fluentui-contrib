@@ -44,7 +44,7 @@ describe('create-package generator', () => {
           ".swcrc",
           "package.json",
           "project.json",
-          ".eslintrc.json",
+          "eslint.config.js",
           "jest.config.ts",
           "tsconfig.spec.json",
         ]
