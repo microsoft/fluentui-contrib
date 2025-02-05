@@ -9,52 +9,50 @@
       "name": "update-19-6-0-add-nx-packages"
     },
     {
-      "cli": "nx",
-      "version": "19.6.0-beta.0",
-      "description": "Use serve-static or preview for webServerCommand.",
-      "implementation": "./src/migrations/update-19-6-0/use-serve-static-preview-for-command",
-      "package": "@nx/playwright",
-      "name": "19-6-0-use-serve-static-preview-for-command"
+      "version": "20.0.0-beta.7",
+      "description": "Migration for v20.0.0-beta.7",
+      "implementation": "./src/migrations/update-20-0-0/move-use-daemon-process",
+      "package": "nx",
+      "name": "move-use-daemon-process"
+    },
+    {
+      "version": "20.0.1",
+      "description": "Set `useLegacyCache` to true for migrating workspaces",
+      "implementation": "./src/migrations/update-20-0-1/use-legacy-cache",
+      "x-repair-skip": true,
+      "package": "nx",
+      "name": "use-legacy-cache"
     },
     {
       "cli": "nx",
-      "version": "19.6.0-beta.1",
-      "description": "Add inferred ciTargetNames to targetDefaults with dependsOn to ensure dependent application builds are scheduled before atomized tasks.",
-      "implementation": "./src/migrations/update-19-6-0/add-e2e-ci-target-defaults",
-      "package": "@nx/playwright",
-      "name": "update-19-6-0-add-e2e-ci-target-defaults"
-    },
-    {
-      "cli": "nx",
-      "version": "19.6.3-beta.0",
-      "description": "Migrate proxy config files to match new format from webpack-dev-server v5.",
-      "implementation": "./src/migrations/update-19-6-3/proxy-config",
-      "package": "@nx/webpack",
-      "name": "update-19-6-3-proxy-config"
-    },
-    {
-      "cli": "nx",
-      "version": "19.6.0-beta.4",
-      "description": "Ensure Module Federation DTS is turned off by default.",
-      "factory": "./src/migrations/update-19-6-0/turn-off-dts-by-default",
+      "version": "20.2.0-beta.2",
+      "description": "Update the ModuleFederationConfig import use @nx/module-federation.",
+      "factory": "./src/migrations/update-20-2-0/migrate-mf-imports-to-new-package",
       "package": "@nx/react",
-      "name": "update-19-6-0-turn-module-federation-dts-off"
+      "name": "update-20-2-0-update-module-federation-config-import"
     },
     {
       "cli": "nx",
-      "version": "19.6.0-beta.4",
-      "description": "Update the server file for Module Federation SSR port value to be the same as the 'serve' target port value.",
-      "factory": "./src/migrations/update-19-6-0/update-ssr-server-port",
+      "version": "20.2.0-beta.2",
+      "description": "Update the withModuleFederation import use @nx/module-federation/webpack.",
+      "factory": "./src/migrations/update-20-2-0/migrate-with-mf-import-to-new-package",
       "package": "@nx/react",
-      "name": "update-module-federation-ssr-server-file"
+      "name": "update-20-2-0-update-with-module-federation-import"
+    },
+    {
+      "version": "20.2.0-beta.5",
+      "description": "Update TypeScript ESLint packages to v8.13.0 if they are already on v8",
+      "implementation": "./src/migrations/update-20-2-0/update-typescript-eslint-v8-13-0",
+      "package": "@nx/eslint",
+      "name": "update-typescript-eslint-v8.13.0"
     },
     {
       "cli": "nx",
-      "version": "19.6.1-beta.0",
-      "description": "Ensure Target Defaults are set correctly for Module Federation.",
-      "factory": "./src/migrations/update-19-6-1/ensure-depends-on-for-mf",
-      "package": "@nx/react",
-      "name": "update-19-6-1-ensure-module-federation-target-defaults"
+      "version": "20.0.0-beta.5",
+      "description": "replace getJestProjects with getJestProjectsAsync",
+      "implementation": "./src/migrations/update-20-0-0/replace-getJestProjects-with-getJestProjectsAsync",
+      "package": "@nx/jest",
+      "name": "replace-getJestProjects-with-getJestProjectsAsync"
     }
   ]
 }
