@@ -86,7 +86,7 @@ const App = () => {
 
   return (
     <>
-      {/* Should be added once at the top level of your app */}
+      {/* Should be added once under the root-most FluentProvider of the app */}
       <Keytips />
       <Checkbox label="checkbox" ref={checkboxRef} />
     </>

@@ -27,8 +27,8 @@ export type KeytipsProps = ComponentProps<KeytipsSlots> &
     content?: string;
     /**
      * Key sequence that will start keytips mode. Should be a combination of modifier
-     * or modifiers and a key.
-     * @default 'alt+meta'.
+     * or modifiers and a key. Defaults to `alt + ctrl` on Windows and `option + cmd` on macOS.
+     * @default 'alt+meta'
      */
     startSequence?: string;
     /**
