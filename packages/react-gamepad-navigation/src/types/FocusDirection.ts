@@ -1,4 +1,4 @@
-import { MoverKeys } from '@fluentui/react-tabster';
+import { MoverKeys } from './Keys';
 
 export enum FocusDirection {
   None = 0,

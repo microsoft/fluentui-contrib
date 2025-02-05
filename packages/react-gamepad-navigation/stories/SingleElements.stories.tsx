@@ -412,8 +412,18 @@ export const SingleElements = () => {
         </span>
       </h3>
       <div className={styles.row}>
-        <Label htmlFor={sliderId}>Basic Example</Label>
-        <Slider defaultValue={20} id={sliderId} />
+        <div>
+          <Label htmlFor={sliderId}>Basic Example</Label>
+          <Slider defaultValue={20} id={sliderId} />
+        </div>
+        <div>
+          <Label htmlFor={sliderId}>Default Example</Label>
+          <Slider defaultValue={10} id={sliderId} />
+        </div>
+        <div>
+          <Label htmlFor={sliderId}>Basic Example</Label>
+          <Slider defaultValue={30} id={sliderId} />
+        </div>
       </div>
       <hr />
       <h3>
@@ -424,8 +434,18 @@ export const SingleElements = () => {
         </span>
       </h3>
       <div className={styles.row}>
-        <Label htmlFor={spinId}>Default SpinButton</Label>
-        <SpinButton defaultValue={10} min={0} max={20} id={spinId} />
+        <div>
+          <Label htmlFor={spinId}>Basic SpinButton</Label>
+          <SpinButton defaultValue={10} min={0} max={20} id={spinId} />
+        </div>
+        <div>
+          <Label htmlFor={spinId}>Default SpinButton</Label>
+          <SpinButton defaultValue={20} min={20} max={30} id={spinId} />
+        </div>
+        <div>
+          <Label htmlFor={spinId}>Default SpinButton</Label>
+          <SpinButton defaultValue={38} min={30} max={40} id={spinId} />
+        </div>
       </div>
       <hr />
       <h3>
@@ -647,14 +667,26 @@ export const SingleElements = () => {
         </span>
       </h3>
       <div className={styles.row}>
-        <label htmlFor={selectId}>Color</label>
-        <Select id={selectId}>
-          <option>Red</option>
-          <option>Green</option>
-          <option>Blue</option>
-          <option>Yellow</option>
-          <option>Orange</option>
-        </Select>
+        <div>
+          <label htmlFor={selectId}>Color</label>
+          <Select id={selectId}>
+            <option>Red</option>
+            <option>Green</option>
+            <option>Blue</option>
+            <option>Yellow</option>
+            <option>Orange</option>
+          </Select>
+        </div>
+        <div>
+          <label htmlFor={selectId}>Number</label>
+          <Select id={selectId}>
+            <option>One</option>
+            <option>Two</option>
+            <option>Three</option>
+            <option>Four</option>
+            <option>Five</option>
+          </Select>
+        </div>
       </div>
       <hr />
       <h3>

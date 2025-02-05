@@ -1,3 +1,5 @@
+import { TabsterTypes } from '@fluentui/react-tabster';
+
 /*
     Gamepad Buttons, State, & Actions
 */
@@ -45,3 +47,7 @@ export enum KeyboardKey {
   Escape = 'Escape',
   None = 'None',
 }
+
+export type MoverKey = TabsterTypes.MoverKey;
+
+export const MoverKeys = TabsterTypes.MoverKeys;

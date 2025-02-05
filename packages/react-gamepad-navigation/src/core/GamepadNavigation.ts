@@ -1,17 +1,18 @@
 /* eslint-disable no-restricted-globals */
+import { FocusFinderFunctions } from '../types/FocusFinders';
 import { InputMode } from '../types/InputMode';
 import { GamepadState } from '../types/Keys';
+import { consolePrefix } from './Constants';
 import { isSyntheticMouseEvent } from './GamepadEvents';
 import { getGamepadMappings } from './GamepadMappings';
 import { IntervalId } from './GamepadUtils';
 import {
   isPollingEnabled,
+  setDefaultInputMode,
   setInputMode,
   setPollingEnabled,
 } from './InputManager';
 import { handleGamepadInput } from './InputProcessor';
-
-export const consolePrefix = '[GamepadNavigation]';
 
 /*
     Gamepad State & Polling
@@ -149,11 +150,14 @@ const onWindowFocus = (): void => {
   }
 };
 
+let focusFinderFns: FocusFinderFunctions;
 let targetDocument: Document = document;
-/**
- *
- * @returns The current target document, if any
- */
+let gamepadInitialized = false;
+
+export const getFocusFinderFns = (): FocusFinderFunctions => {
+  return focusFinderFns;
+};
+
 export const getTargetDocument = (): Document => {
   return targetDocument ?? document;
 };
@@ -161,17 +165,34 @@ export const getTargetDocument = (): Document => {
 export const getCurrentActiveElement = (): Element | null | undefined => {
   return targetDocument?.activeElement;
 };
+
 /*
     Library Initialization/Deinitialization
 */
 
 export type GamepadNavigationProps = {
-  pollingEnabled?: boolean;
-  targetDocument?: Document | undefined;
-};
+  /**
+   * The focus finder functions to use for gamepad navigation
+   * */
+  focusFinderFns: FocusFinderFunctions;
 
-let gamepadInitialized = false;
-// let gamepadScanInterval: number;
+  /**
+   * The default input mode to use when lib is initialized
+   * @defaultValue InputMode.Mouse
+   * */
+  defaultInputMode?: InputMode;
+
+  /**
+   * Whether to enable polling for gamepad input. If false, the library will not poll for gamepad input
+   */
+  pollingEnabled?: boolean;
+
+  /**
+   * The document to listen for gamepad navigation events on. Defaults to the global document object
+   * @defaultValue document
+   * */
+  targetDocument?: Document;
+};
 
 export const initGamepadNavigation = async (
   props?: GamepadNavigationProps
@@ -192,8 +213,21 @@ export const initGamepadNavigation = async (
 
   try {
     if (props) {
+      if (props.focusFinderFns) {
+        focusFinderFns = props.focusFinderFns;
+      } else {
+        throw new Error(
+          'focusFinderFns is required to initialize gamepad navigation'
+        );
+      }
+
       if (props.targetDocument) {
         targetDocument = props.targetDocument;
+      }
+
+      if (props.defaultInputMode) {
+        setDefaultInputMode(props.defaultInputMode);
+        setInputMode(props.defaultInputMode);
       }
     }
     console.log(consolePrefix, 'Initializing gamepad navigation');

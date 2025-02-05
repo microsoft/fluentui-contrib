@@ -1,5 +1,5 @@
-import { TabsterTypes } from '@fluentui/react-tabster';
 import { FocusDirection } from '../types/FocusDirection';
+import { MoverKey } from '../types/Keys';
 import { emitSyntheticMoverMoveFocusEvent } from './GamepadEvents';
 import { getCurrentActiveElement } from './GamepadNavigation';
 
@@ -12,9 +12,6 @@ export const navigate = (direction: FocusDirection) => {
   const finalDirection = !activeElement ? FocusDirection.None : direction;
 
   if (finalDirection !== FocusDirection.None) {
-    emitSyntheticMoverMoveFocusEvent(
-      finalDirection as TabsterTypes.MoverKey,
-      activeElement
-    );
+    emitSyntheticMoverMoveFocusEvent(finalDirection as MoverKey, activeElement);
   }
 };

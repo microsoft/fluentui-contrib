@@ -1,8 +1,6 @@
 /* eslint-disable no-restricted-globals */
-
 import { GamepadAction, GamepadButton, KeyboardKey } from '../types/Keys';
 import {
-  consolePrefix,
   getCurrentActiveElement,
   getTargetDocument,
   startGamepadPolling,
@@ -15,7 +13,7 @@ import { FocusDirection } from '../types/FocusDirection';
 import { IntervalId, TimeoutId } from './GamepadUtils';
 import { navigate } from './NavigationManager';
 import { InputMode, isFocusDriven } from '../types/InputMode';
-import { selectOptionsVisibleAttribute } from './Constants';
+import { consolePrefix, selectOptionsVisibleAttribute } from './Constants';
 
 /*
     General
@@ -40,7 +38,7 @@ export const setDefaultInputMode = (newDefaultInputMode: InputMode): void => {
 let inputMode: InputMode = InputMode.Mouse;
 
 /**
- * Getter for the current input mode
+ * Getter for the last remembered input mode
  *
  *  @returns the current input mode
  */
