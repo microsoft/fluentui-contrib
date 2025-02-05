@@ -22,6 +22,7 @@ import { useTree } from '../../hooks/useTree';
 import type { KeytipTreeNode } from '../../hooks/useTree';
 import type { Hotkey } from '../../hooks/useHotkeys';
 import { useKeytipsState } from './useKeytipsState';
+import { useIsMacOS } from '../../hooks/useIsMacOS';
 
 /**
  * Create the state required to render Keytips.
@@ -29,8 +30,7 @@ import { useKeytipsState } from './useKeytipsState';
  */
 export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
   const { targetDocument } = useFluent();
-  const platform = targetDocument?.defaultView?.navigator.platform || 'Windows';
-  const isMac = /Mac|iPod|iPhone|iPad/.test(platform);
+  const isMac = useIsMacOS();
 
   const {
     content = isMac ? 'Alt Control' : 'Alt Meta',
