@@ -3,6 +3,16 @@
 pr: none
 trigger: none
 
+parameters:
+ - name: dry_run
+    displayName: Dry run mode
+    type: boolean
+    default: true
+ - name: projects # Projects to include within release. (comma/space delimited project names and/or patterns). See
+    displayName: Projects to release (defaults to all)
+    type: string
+    default: ''
+
 variables:
   - name: NX_PARALLEL
     value: 8
@@ -45,6 +55,9 @@ extends:
                   targetPath: $(System.DefaultWorkingDirectory)/packages
                   artifactName: output
             steps:
+              - checkout: self
+                persistCredentials: true
+
               # For multiline scripts, we want the whole task to fail if any line of the script fails.
               # ADO doesn't have bash configured this way by default. To fix we override the SHELLOPTS built-in variable.
               # https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html
@@ -64,14 +77,25 @@ extends:
                 displayName: Install dependencies
 
               - script: |
+                  yarn nx run-many -t build,test,lint,type-check -p ${{ parameters.projects }} -nxBail
+                displayName: Verify publish Assets
+
+              - script: |
                   git config user.name "Fluent UI Build"
                   git config user.email "fluentui-internal@service.microsoft.com"
-                  git remote set-url origin https://$(githubUser):$(githubPAT)@github.com/microsoft/fluentui-contrib.git
                 displayName: Authenticate git for pushes
 
               - script: |
-                  yarn beachball publish -b origin/main --access public -y -n $(npmToken)
-                  git reset --hard origin/main
-                env:
-                  GITHUB_PAT: $(githubPAT)
-                displayName: Publish to NPM & bump versions
+                  yarn nx release --skip-publish -p ${{ parameters.projects }} --dry-run ${{ parameters.dry_run }}
+                displayName: Bump versions and generate Changelogs
+
+              #  NOTE: this will not use cache from previous steps as package.json file changed during version bump
+              - script: |
+                  yarn nx run-many -t build -p ${{ parameters.projects }}
+                displayName: Prepare publish Assets
+
+              # TODO: move this to separate job so in case of npm failure we can re-trigger until everything is successfully published
+              - script: |
+                  yarn nx release publish -p ${{ parameters.projects }} --dry-run ${{ parameters.dry_run }}
+                condition: succeeded()
+                displayName: Publish to NPM
