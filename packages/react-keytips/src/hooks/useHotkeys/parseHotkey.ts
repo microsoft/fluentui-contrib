@@ -1,4 +1,4 @@
-const MODIFIERS = ['shift', 'alt', 'control', 'meta', 'mod'];
+const MODIFIERS = new Set(['shift', 'alt', 'control', 'meta', 'mod']);
 
 export function parseHotkey(hotkey: string) {
   const keys = hotkey.toLowerCase().split('+');
@@ -11,7 +11,7 @@ export function parseHotkey(hotkey: string) {
     mod: keys.includes('mod'),
   };
 
-  const key = keys.find((k) => !MODIFIERS.includes(k));
+  const key = keys.find((k) => !MODIFIERS.has(k));
 
   return {
     ...modifiers,
