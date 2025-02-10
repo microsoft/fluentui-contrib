@@ -4,11 +4,13 @@ import { createStrictClass } from './createStrictClass';
 import { validateStrictClasses } from './validateStrictClasses';
 
 export const mergeStrictClassesImpl: MergeStrictClasses = (
-  ...strictClasses: StrictCssClass[]
+  ...strictClasses: (StrictCssClass | false | undefined)[]
 ) => {
   strictClasses.forEach(validateStrictClasses);
 
-  const mergedClasses = mergeClasses(...strictClasses.map((x) => x.toString()));
+  const mergedClasses = mergeClasses(
+    ...strictClasses.map((x) => x?.toString())
+  );
   return createStrictClass(mergedClasses);
 };
 

@@ -12,6 +12,14 @@ describe('validateStrictClasses', () => {
     expect(() => validateStrictClasses(validClass)).not.toThrow();
   });
 
+  it('should not throw an error if className is undefined', () => {
+    expect(() => validateStrictClasses(undefined)).not.toThrow();
+  });
+
+  it('should not throw an error if className is false', () => {
+    expect(() => validateStrictClasses(false)).not.toThrow();
+  });
+
   it('should throw an error if className does not have the correct STRICT_SYMBOL', () => {
     const invalidClass = {
       toString: () => 'invalidClass',

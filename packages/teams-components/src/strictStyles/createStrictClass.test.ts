@@ -12,12 +12,6 @@ describe('createStrictClass', () => {
     const className = 'test-class';
     const strictClass = createStrictClass(className);
     expect(strictClass.DO_NOT_USE_OR_YOU_WILL_BE_FIRED).toBe(STRICT_SYMBOL);
-  });
-
-  it('should return an object with the correct structure', () => {
-    const className = 'test-class';
-    const strictClass = createStrictClass(className);
     expect(strictClass).toHaveProperty('toString');
-    expect(strictClass).toHaveProperty('DO_NOT_USE_OR_YOU_WILL_BE_FIRED');
   });
 });

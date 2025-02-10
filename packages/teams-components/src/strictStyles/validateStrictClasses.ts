@@ -1,7 +1,9 @@
 import { STRICT_SYMBOL } from './STRICT_SYMBOL';
 import type { StrictCssClass } from './types';
 
-export const validateStrictClasses = (className?: StrictCssClass) => {
+export const validateStrictClasses = (
+  className?: StrictCssClass | false | undefined
+) => {
   if (!className) {
     return;
   }
