@@ -32,7 +32,6 @@ export function useTree() {
       id: KTP_ROOT_ID,
       uniqueId: KTP_ROOT_ID,
       children: new Set(),
-      isShortcut: false,
       target: null,
       parent: '',
       hasMenu: false,

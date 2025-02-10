@@ -184,7 +184,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
       controller.abort();
     };
   }, [targetDocument, handleDismiss]);
-  // executes any normal keytip
+
   const handleKeytipExecution = React.useCallback(
     (ev: KeyboardEvent, node: KeytipTreeNode) => {
       tree.currentKeytip.current = node;
@@ -203,7 +203,6 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
       const shouldExitKeytipMode =
         currentChildren.length === 0 && !(node.dynamic || node.hasMenu);
 
-      // To exit keytipMode after executing the keytip it must not have have dynamic children
       if (shouldExitKeytipMode) {
         handleExitKeytipMode(ev);
       } else {
@@ -276,7 +275,6 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
       const node = tree.getMatchingNode(currSeq);
 
       if (node) {
-        // if it's a normal node and it's visible -> execute it
         if (isTargetVisible(node.target, targetDocument?.defaultView)) {
           handleKeytipExecution(ev, node);
         } else {
@@ -292,6 +290,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     targetDocument?.addEventListener(invokeEvent, handleInvokeEvent);
     return () => {
       targetDocument?.removeEventListener(invokeEvent, handleInvokeEvent);
+      clearShortcutTimeout();
     };
   }, [
     state.inKeytipMode,
