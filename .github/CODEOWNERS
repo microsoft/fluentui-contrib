@@ -20,6 +20,7 @@ packages/variant-theme @microsoft/fluentui-variant-theme
 packages/react-keytips @microsoft/cxe-prg @mainframev
 packages/react-interactive-tab @microsoft/cxe-prg @dmytrokirpa
 packages/react-gamepad-navigation @microsoft/cxe-prg @hectorjjb
+packages/teams-components @microsoft/teams-prg
 # <%= NX-CODEOWNER-PLACEHOLDER %>
 
 #### Build/Infra
