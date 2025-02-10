@@ -22,8 +22,6 @@ export type StrictStyles = Pick<
   | 'marginBlockEnd'
   | 'opacity'
   | 'visibility'
-  | 'display'
-  | 'position'
   | 'alignSelf'
 >;
 
