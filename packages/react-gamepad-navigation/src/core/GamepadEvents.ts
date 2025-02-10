@@ -136,7 +136,7 @@ export const emitSyntheticGroupperMoveFocusEvent = (
 
     if (isComboboxElement(activeElement)) {
       emitSyntheticKeyboardEvent('keydown', action, true, activeElement);
-    } else if (activeElement?.tagName === 'SELECT') {
+    } else if (isSelectElement(activeElement)) {
       const htmlSelect = activeElement as HTMLSelectElement;
       const openOptions = htmlSelect.hasAttribute(
         selectOptionsVisibleAttribute

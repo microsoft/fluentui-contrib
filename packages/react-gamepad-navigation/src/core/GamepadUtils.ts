@@ -30,6 +30,10 @@ export const isMenuItemElement = (element: Element | null | undefined) => {
   return element?.getAttribute('role') === 'menuitem';
 };
 
+export const isRadioElement = (element: Element | null | undefined) => {
+  return element?.getAttribute('type') === 'radio';
+};
+
 export const isSelectElement = (element: Element | null | undefined) => {
   return element?.tagName === 'SELECT';
 };
