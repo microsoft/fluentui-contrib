@@ -1,6 +1,6 @@
 import type { KeytipProps, KeytipWithId } from '../components/Keytip';
 import * as React from 'react';
-import { sequencesToID, createNode, createAliasNode } from '../utilities/index';
+import { sequencesToID, createNode } from '../utilities/index';
 import { KTP_ROOT_ID } from '../constants';
 import { useFluent } from '@fluentui/react-components';
 
@@ -11,7 +11,7 @@ export type KeytipTreeNode = Pick<
   | 'onReturn'
   | 'dynamic'
   | 'hasMenu'
-  | 'isShortcut'
+  | 'overflowSequence'
 > & {
   id: string;
   uniqueId: string;
@@ -32,7 +32,6 @@ export function useTree() {
       id: KTP_ROOT_ID,
       uniqueId: KTP_ROOT_ID,
       children: new Set(),
-      isShortcut: false,
       target: null,
       parent: '',
       hasMenu: false,
@@ -48,14 +47,6 @@ export function useTree() {
   const currentKeytip = React.useRef<KeytipTreeNode | undefined>();
 
   const addNode = React.useCallback((newNode: KeytipWithId) => {
-    // if newNode has isShortcut:true, create alias node under the root
-    if (newNode.isShortcut) {
-      const alias = createAliasNode(newNode);
-      nodeMap.current.set(alias.uniqueId, alias);
-      const root = nodeMap.current.get(KTP_ROOT_ID);
-      root?.children.add(alias.uniqueId);
-    }
-
     const node = createNode({
       ...newNode,
       nodeMap: nodeMap.current,
@@ -153,6 +144,7 @@ export function useTree() {
       const parent = Array.from(nodeMap.current.values()).find(
         (n) => n.id === currentKeytip.current?.parent
       );
+
       if (parent) {
         currentKeytip.current = parent;
       } else {
