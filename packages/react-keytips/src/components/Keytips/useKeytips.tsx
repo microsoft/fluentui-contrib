@@ -113,8 +113,8 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     { invokeEvent }
   );
 
-  React.useEffect(() => {
-    const handleKeytipAdded = (keytip: KeytipWithId) => {
+  const handleKeytipAdded = React.useCallback(
+    (keytip: KeytipWithId) => {
       tree.addNode(keytip);
 
       dispatch({
@@ -122,27 +122,38 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
         keytip,
       });
 
-      if (tree.isCurrentKeytipParent(keytip) && state.inKeytipMode) {
+      const { current: currentKeytip } = tree.currentKeytip;
+
+      if (!currentKeytip) return;
+
+      if (state.inKeytipMode && tree.isCurrentKeytipParent(keytip)) {
         showKeytips(tree.getChildren());
       }
-    };
+    },
+    [state.inKeytipMode]
+  );
 
-    const handleKeytipRemoved = (keytip: KeytipWithId) => {
-      tree.removeNode(keytip.uniqueId);
-      // nodemway mave an alias registered, if it's shortcut
-      if (keytip.isShortcut) {
-        tree.removeNode(`${keytip.uniqueId}-alias`);
+  const handleKeytipRemoved = React.useCallback((keytip: KeytipWithId) => {
+    tree.removeNode(keytip.uniqueId);
+    dispatch({ type: ACTIONS.REMOVE_KEYTIP, id: keytip.uniqueId });
+  }, []);
+
+  const handleKeytipUpdated = React.useCallback((keytip: KeytipWithId) => {
+    tree.updateNode(keytip);
+    dispatch({ type: ACTIONS.UPDATE_KEYTIP, keytip });
+    showKeytips(tree.getChildren());
+  }, []);
+
+  const handleDismiss = React.useCallback(
+    (ev: Event) => {
+      if (state.inKeytipMode) {
+        handleExitKeytipMode(ev as KeyboardEvent);
       }
+    },
+    [state.inKeytipMode]
+  );
 
-      dispatch({ type: ACTIONS.REMOVE_KEYTIP, id: keytip.uniqueId });
-    };
-
-    const handleKeytipUpdated = (keytip: KeytipWithId) => {
-      tree.updateNode(keytip);
-      dispatch({ type: ACTIONS.UPDATE_KEYTIP, keytip });
-      showKeytips(tree.getChildren());
-    };
-
+  React.useLayoutEffect(() => {
     subscribe(EVENTS.KEYTIP_ADDED, handleKeytipAdded);
     subscribe(EVENTS.KEYTIP_UPDATED, handleKeytipUpdated);
     subscribe(EVENTS.KEYTIP_REMOVED, handleKeytipRemoved);
@@ -150,17 +161,11 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     return () => {
       reset();
     };
-  }, [state.inKeytipMode]);
+  }, [reset, handleKeytipAdded, handleKeytipUpdated, handleKeytipRemoved]);
 
   React.useEffect(() => {
     const controller = new AbortController();
     const { signal } = controller;
-
-    const handleDismiss = (ev: Event) => {
-      if (state.inKeytipMode) {
-        handleExitKeytipMode(ev as KeyboardEvent);
-      }
-    };
 
     targetDocument?.addEventListener('mousedown', handleDismiss, { signal });
     targetDocument?.addEventListener('mouseup', handleDismiss, { signal });
@@ -174,7 +179,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     return () => {
       controller.abort();
     };
-  }, [state.inKeytipMode, targetDocument, handleExitKeytipMode]);
+  }, [targetDocument, handleExitKeytipMode, handleDismiss]);
 
   // executes any normal keytip, except shortcuts
   const handleKeytipExecution = React.useCallback(

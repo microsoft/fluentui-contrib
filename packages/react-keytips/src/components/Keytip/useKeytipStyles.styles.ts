@@ -28,7 +28,7 @@ const useStyles = makeStyles({
     lineHeight: tokens.lineHeightBase200,
     borderRadius: tokens.borderRadiusMedium,
     border: `${tokens.strokeWidthThin} solid ${tokens.colorTransparentStroke}`,
-    padding: `calc(${tokens.spacingHorizontalXS} - 1px)`,
+    padding: `calc(${tokens.spacingHorizontalXS} - ${tokens.strokeWidthThin})`,
     backgroundColor: tokens.colorNeutralBackgroundInverted,
     color: tokens.colorNeutralForegroundInverted,
     boxShadow: tokens.shadow16,
