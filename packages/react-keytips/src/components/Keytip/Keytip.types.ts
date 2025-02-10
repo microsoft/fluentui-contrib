@@ -58,14 +58,14 @@ export type KeytipProps = ComponentProps<KeytipSlots> & {
    */
   dynamic?: boolean;
   /**
-   * Whether this Keytip can be accessed at the root level.
-   */
-  isShortcut?: boolean;
-  /**
    * Whether or not this Keytip belongs to a component that has a menu. Keytip mode will stay on when a menu is opened,
    * even if the items in that menu have no keytips.
    */
   hasMenu?: boolean;
+  /**
+   * If this keytip is inside OverflowMenu, you might need to add the overflowSequence to make shortcuts available.
+   */
+  overflowSequence?: string[];
 };
 
 /** @internal */

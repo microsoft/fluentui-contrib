@@ -1,9 +1,5 @@
 import * as React from 'react';
-import {
-  mergeClasses,
-  Overflow,
-  OverflowItem,
-} from '@fluentui/react-components';
+import { Overflow, Toolbar, OverflowItem } from '@fluentui/react-components';
 import {
   DeleteRegular,
   ArchiveRegular,
@@ -19,7 +15,6 @@ import {
 import { EmailMenu } from './EmailMenuButton';
 import { homeKeytips as keytipsMap } from '../keytipsMap';
 import { OverflowItemCustom } from '../OverflowItemCustom';
-import { useStyles } from '../useStyles';
 import { OverflowMenu } from '../OverflowMenu';
 
 const menuItems = [
@@ -97,11 +92,9 @@ const menuItems = [
 ];
 
 export default function Home() {
-  const classes = useStyles();
-
   return (
     <Overflow minimumVisible={1}>
-      <div className={mergeClasses(classes.container, classes.resizable)}>
+      <Toolbar>
         <OverflowItem id="1">
           <EmailMenu />
         </OverflowItem>
@@ -115,7 +108,7 @@ export default function Home() {
           overflowKeytipProps={keytipsMap.overflowButton}
           overflowSequence={['h', '00']}
         />
-      </div>
+      </Toolbar>
     </Overflow>
   );
 }
