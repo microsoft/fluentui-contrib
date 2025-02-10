@@ -60,6 +60,9 @@
       "@fluentui-contrib/stylelint-plugin": [
         "packages/stylelint-plugin/src/index.ts"
       ],
+      "@fluentui-contrib/teams-components": [
+        "packages/teams-components/src/index.ts"
+      ],
       "@fluentui-contrib/variant-theme": ["packages/variant-theme/src/index.ts"]
     }
   },

@@ -41,7 +41,7 @@ export const App = () => {
 
   return (
     <>
-      {/* Keytips must be added once at the root level of the app */}
+      {/* Keytips must be added once under the root-most FluentProvider of the app */}
       <Keytips />
       <Button ref={keytipRefA}>Button A</Button>
       <Button ref={keytipRefB}>Button B</Button>
