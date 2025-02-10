@@ -1,6 +1,7 @@
 import { mergeStrictClasses } from './mergeStrictClasses';
 import { createStrictClass } from './createStrictClass';
 import { STRICT_SYMBOL } from './STRICT_SYMBOL';
+import { StrictCssClass } from './types';
 
 describe('mergeStrictClasses', () => {
   it('should merge multiple StrictCssClass instances into one', () => {
@@ -25,5 +26,11 @@ describe('mergeStrictClasses', () => {
 
     expect(mergedClass.toString()).toBe('');
     expect(mergedClass.DO_NOT_USE_OR_YOU_WILL_BE_FIRED).toBe(STRICT_SYMBOL);
+  });
+
+  it('should throw on invalid classes', () => {
+    expect(() =>
+      mergeStrictClasses('foo' as unknown as StrictCssClass)
+    ).toThrow();
   });
 });
