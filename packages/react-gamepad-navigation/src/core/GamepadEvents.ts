@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-globals */
 import { MoverMoveFocusEvent } from '@fluentui/react-tabster';
 import {
   getParentForm,
@@ -137,6 +136,7 @@ export const emitSyntheticGroupperMoveFocusEvent = (
     if (isComboboxElement(activeElement)) {
       emitSyntheticKeyboardEvent('keydown', action, true, activeElement);
     } else if (isSelectElement(activeElement)) {
+      // TODO: move this into a function
       const htmlSelect = activeElement as HTMLSelectElement;
       const openOptions = htmlSelect.hasAttribute(
         selectOptionsVisibleAttribute

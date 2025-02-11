@@ -1,11 +1,10 @@
-/* eslint-disable no-restricted-globals */
 import { GamepadAction, GamepadButton, KeyboardKey } from '../types/Keys';
 import {
   getCurrentActiveElement,
   getTargetDocument,
   startGamepadPolling,
   stopGamepadPolling,
-} from './GamepadNavigation';
+} from '../hooks/useGamepadNavigation';
 import { resetGamepadState } from './InputProcessor';
 import { emitSyntheticGroupperMoveFocusEvent } from './GamepadEvents';
 import { DirectionalSource } from '../types/DirectionalSource';
@@ -64,12 +63,12 @@ export const setInputMode = (newInputMode: InputMode): void => {
   if (actionRequired) {
     const targetdocument = getTargetDocument();
     if (!isFocusDriven(inputMode)) {
-      targetdocument.body.classList.remove('gamepadmode');
+      targetdocument.body.classList.remove('fui-gamepad-mode');
       Array.from(targetdocument.body.querySelectorAll('select')).map((e) =>
         e.removeAttribute(selectOptionsVisibleAttribute)
       );
     } else {
-      targetdocument.body.classList.add('gamepadmode');
+      targetdocument.body.classList.add('fui-gamepad-mode');
     }
   }
 };

@@ -42,7 +42,7 @@ export const Default = () => {
   const passId = useId('input');
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert('Form submitted');
+    alert('Form submitted'); // TODO: replace with message in the UI
   };
 
   return (

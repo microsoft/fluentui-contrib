@@ -3,16 +3,16 @@ import {
   UseArrowNavigationGroupOptions,
   useFluent,
   useFocusFinders,
+  useTimeout,
 } from '@fluentui/react-components';
 import {
   TabsterDOMAttribute,
-  TabsterTypes,
   useArrowNavigationGroup,
   useFocusableGroup,
   UseFocusableGroupOptions,
   useMergedTabsterAttributes_unstable,
 } from '@fluentui/react-tabster';
-import { initGamepadNavigation } from '../core/GamepadNavigation';
+import { useGamepadNavigation } from './useGamepadNavigation';
 
 /**
  * Options to configure gamepad navigation, extends UseArrowNavigationGroupOptions
@@ -21,46 +21,10 @@ export type UseGamepadNavigationGroupOptions =
   Partial<UseArrowNavigationGroupOptions> &
     Partial<UseFocusableGroupOptions> & {
       /**
-       * Focus will navigate vertically, horizontally or in both directions (grid).
-       * @defaultValue grid
-       */
-      axis?: 'vertical' | 'horizontal' | 'grid' | 'grid-linear' | 'both';
-
-      /**
-       * Focus will cycle to the first/last elements of the group without stopping.
-       * @defaultValue true
-       */
-      circular?: boolean;
-
-      /**
        * First focusable element in the group will be focused when the group is focused for the first time.
        * @defaultValue false
        */
       focusFirstElement?: boolean;
-
-      /**
-       * Last focused element in the group will be remembered and focused (if still
-       * available) when tabbing from outside of the group.
-       * @defaultValue true
-       */
-      memorizeCurrent?: boolean;
-
-      /**
-       * Allow tabbing within the arrow navigation group items.
-       * @defaultValue true
-       */
-      tabbable?: boolean;
-
-      /**
-       * Behavior for the Tab key.
-       * @defaultValue 'limited-trap-focus'
-       */
-      tabBehavior?: 'unlimited' | 'limited' | 'limited-trap-focus';
-
-      /**
-       * Tabster can ignore default handling of keydown events.
-       */
-      ignoreDefaultKeydown?: TabsterTypes.FocusableProps['ignoreKeydown'];
     };
 
 /**
@@ -68,7 +32,7 @@ export type UseGamepadNavigationGroupOptions =
  * @param options - Options to configure keyboard navigation
  */
 export const useGamepadNavigationGroup = (
-  option: UseGamepadNavigationGroupOptions = {}
+  options: UseGamepadNavigationGroupOptions = {}
 ): TabsterDOMAttribute => {
   const {
     axis = 'grid',
@@ -79,10 +43,13 @@ export const useGamepadNavigationGroup = (
     tabBehavior = 'limited-trap-focus',
     ignoreDefaultKeydown = {},
     unstable_hasDefault,
-  } = option;
+  } = options;
   const focusFinderFns = useFocusFinders();
   const { targetDocument } = useFluent();
-  const gpnProps = { focusFinderFns, targetDocument };
+  const gpnProps = {
+    focusFinderFns,
+    targetDocument,
+  };
 
   useEffect(() => {
     if (focusFirstElement) {
@@ -90,7 +57,11 @@ export const useGamepadNavigationGroup = (
         .findFirstFocusable(targetDocument?.activeElement as HTMLElement)
         ?.focus();
     }
-    initGamepadNavigation(gpnProps);
+    const cleanupGamepadNavigation = useGamepadNavigation(gpnProps);
+
+    return () => {
+      cleanupGamepadNavigation();
+    };
   }, []);
 
   const moverAttr = useArrowNavigationGroup({

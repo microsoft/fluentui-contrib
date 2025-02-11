@@ -1,7 +1,8 @@
 import { selectOptionsVisibleAttribute } from './Constants';
 
-/* eslint-disable no-restricted-globals */
+// eslint-disable-next-line no-restricted-globals
 export type TimeoutId = ReturnType<typeof setTimeout> | undefined;
+// eslint-disable-next-line no-restricted-globals
 export type IntervalId = ReturnType<typeof setInterval> | undefined;
 
 export const shouldSubmitForm = (element: Element | null | undefined) =>
@@ -11,9 +12,12 @@ export const shouldSubmitForm = (element: Element | null | undefined) =>
     element.type === 'email' ||
     element.type === 'tel');
 
-export const getParentForm = (element: Element | null | undefined) => {
+export const getParentForm = (
+  element: Element | null | undefined,
+  body: HTMLElement
+) => {
   let current = element?.parentElement;
-  while (current && current != document.body) {
+  while (current && current != body) {
     if (current instanceof HTMLFormElement) {
       return current;
     }

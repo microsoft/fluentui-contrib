@@ -1,7 +1,7 @@
 import { FocusDirection } from '../types/FocusDirection';
 import { MoverKey } from '../types/Keys';
 import { emitSyntheticMoverMoveFocusEvent } from './GamepadEvents';
-import { getCurrentActiveElement } from './GamepadNavigation';
+import { getCurrentActiveElement } from '../hooks/useGamepadNavigation';
 
 /**
  * Navigates in the given direction if possible. This is the entry point to all navigation logic

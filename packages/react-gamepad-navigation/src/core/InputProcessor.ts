@@ -8,7 +8,7 @@ import {
   ControllerMapping,
   getControllerMappingKeyFromGamepadButton,
 } from './GamepadMappings';
-import { getGamepadStates } from './GamepadNavigation';
+import { getGamepadStates } from '../hooks/useGamepadNavigation';
 import { onButtonPress, onLeftStickInput } from './InputManager';
 
 /*

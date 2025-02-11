@@ -1,18 +1,23 @@
-/* eslint-disable no-restricted-globals */
 import { FocusFinderFunctions } from '../types/FocusFinders';
 import { InputMode } from '../types/InputMode';
 import { GamepadState } from '../types/Keys';
-import { consolePrefix } from './Constants';
-import { isSyntheticMouseEvent } from './GamepadEvents';
-import { getGamepadMappings } from './GamepadMappings';
-import { IntervalId } from './GamepadUtils';
+import { consolePrefix } from '../core/Constants';
+import { isSyntheticMouseEvent } from '../core/GamepadEvents';
+import { getGamepadMappings } from '../core/GamepadMappings';
+import { IntervalId } from '../core/GamepadUtils';
 import {
   isPollingEnabled,
   setDefaultInputMode,
   setInputMode,
   setPollingEnabled,
-} from './InputManager';
-import { handleGamepadInput } from './InputProcessor';
+} from '../core/InputManager';
+import { handleGamepadInput } from '../core/InputProcessor';
+import { useEffect, useRef } from 'react';
+import {
+  useFluent,
+  useFocusFinders,
+  useTimeout,
+} from '@fluentui/react-components';
 
 /*
     Gamepad State & Polling
@@ -150,32 +155,27 @@ const onWindowFocus = (): void => {
   }
 };
 
-let focusFinderFns: FocusFinderFunctions;
-let targetDocument: Document = document;
-let gamepadInitialized = false;
+// let focusFinderFns: FocusFinderFunctions;
+// let targetDocument: Document = document;
+// let gamepadInitialized = false;
 
-export const getFocusFinderFns = (): FocusFinderFunctions => {
-  return focusFinderFns;
-};
+// export const getFocusFinderFns = (): FocusFinderFunctions => {
+//   return focusFinderFns;
+// };
 
-export const getTargetDocument = (): Document => {
-  return targetDocument ?? document;
-};
+// export const getTargetDocument = (): Document => {
+//   return targetDocument ?? document;
+// };
 
-export const getCurrentActiveElement = (): Element | null | undefined => {
-  return targetDocument?.activeElement;
-};
+// export const getCurrentActiveElement = (): Element | null | undefined => {
+//   return targetDocument?.activeElement;
+// };
 
 /*
     Library Initialization/Deinitialization
 */
 
-export type GamepadNavigationProps = {
-  /**
-   * The focus finder functions to use for gamepad navigation
-   * */
-  focusFinderFns: FocusFinderFunctions;
-
+export type GamepadNavigationOptions = {
   /**
    * The default input mode to use when lib is initialized
    * @defaultValue InputMode.Mouse
@@ -186,52 +186,58 @@ export type GamepadNavigationProps = {
    * Whether to enable polling for gamepad input. If false, the library will not poll for gamepad input
    */
   pollingEnabled?: boolean;
-
-  /**
-   * The document to listen for gamepad navigation events on. Defaults to the global document object
-   * @defaultValue document
-   * */
-  targetDocument?: Document;
 };
 
-export const initGamepadNavigation = async (
-  props?: GamepadNavigationProps
-): Promise<void> => {
-  if (typeof window === 'undefined' || typeof document === 'undefined') {
-    console.warn(
-      consolePrefix,
+/**
+ * @internal
+ * Initialize gamepad navigation
+ * @param options {GamepadNavigationOptions} - The options to use for gamepad navigation
+ * @returns cleanup function
+ */
+export const useGamepadNavigation = (
+  options: GamepadNavigationOptions
+): (() => void) => {
+  const { targetDocument } = useFluent();
+  const targetDocRef = useRef(targetDocument);
+  const defaultView = targetDocument?.defaultView || undefined;
+  const focusFinderFns = useFocusFinders();
+  const [setGPNTimeout, clearGPNTimeout] = useTimeout();
+  const gamepadInitialized = useRef(false);
+
+  if (
+    typeof targetDocument === 'undefined' ||
+    typeof defaultView === 'undefined'
+  ) {
+    throw new Error(
       'Unable to initialize gamepad navigation in a non-browser environment'
     );
-    return;
+  } else {
+    targetDocRef.current = targetDocument;
+  }
+
+  if (options.defaultInputMode) {
+    setDefaultInputMode(options.defaultInputMode);
+    setInputMode(options.defaultInputMode);
+  }
+
+  try {
+    console.log(consolePrefix, 'Initializing gamepad navigation');
+  } catch (error) {
+    console.error(
+      consolePrefix,
+      'Encountered error while initializing gamepad navigation',
+      error
+    );
   }
 
   // Don't try to initialize multiple times
-  if (gamepadInitialized) {
-    return;
+  if (gamepadInitialized.current) {
+    return () => null;
+  } else {
+    gamepadInitialized.current = true;
   }
-  gamepadInitialized = true;
 
-  try {
-    if (props) {
-      if (props.focusFinderFns) {
-        focusFinderFns = props.focusFinderFns;
-      } else {
-        throw new Error(
-          'focusFinderFns is required to initialize gamepad navigation'
-        );
-      }
-
-      if (props.targetDocument) {
-        targetDocument = props.targetDocument;
-      }
-
-      if (props.defaultInputMode) {
-        setDefaultInputMode(props.defaultInputMode);
-        setInputMode(props.defaultInputMode);
-      }
-    }
-    console.log(consolePrefix, 'Initializing gamepad navigation');
-
+  useEffect(() => {
     /**
      * Add an initial list of gamepads. For platforms like smart TV,
      * if the user connects their controller before they open the Xbox app and
@@ -239,8 +245,12 @@ export const initGamepadNavigation = async (
      * and we never add the gamepad to our list. To fix this, on gamepad navigation initialization,
      * we look through the window.navigator's current gamepads and add those to our list to start.
      */
-    if (window.navigator && window.navigator.getGamepads) {
-      const gamepadsList = window.navigator.getGamepads();
+    if (
+      targetDocRef.current?.defaultView?.navigator &&
+      targetDocRef.current?.defaultView?.navigator.getGamepads
+    ) {
+      const gamepadsList =
+        targetDocRef.current?.defaultView?.navigator.getGamepads();
 
       for (const gamepad of gamepadsList) {
         // Make sure the gamepad is connected and matches our provided filter before adding it
@@ -254,46 +264,55 @@ export const initGamepadNavigation = async (
       }
     }
 
-    targetDocument.addEventListener('touchstart', onTouchInput, {
+    targetDocRef.current?.addEventListener('touchstart', onTouchInput, {
       passive: false,
     });
-    targetDocument.addEventListener('mousedown', onMouseInput, {
+    targetDocRef.current?.addEventListener('mousedown', onMouseInput, {
       passive: false,
     });
 
-    const haveEvents = 'GamepadEvent' in window;
-    const haveWebkitEvents = 'WebKitGamepadEvent' in window;
+    const haveEvents =
+      targetDocRef.current?.defaultView &&
+      targetDocRef.current.defaultView &&
+      'GamepadEvent' in targetDocRef.current.defaultView;
+    const haveWebkitEvents =
+      targetDocRef.current?.defaultView &&
+      'WebKitGamepadEvent' in targetDocRef.current.defaultView;
 
     if (haveEvents) {
-      window.addEventListener('gamepadconnected', onGamepadConnect);
-      window.addEventListener('gamepaddisconnected', onGamepadDisconnect);
+      targetDocRef.current?.defaultView?.addEventListener(
+        'gamepadconnected',
+        onGamepadConnect
+      );
+      targetDocRef.current?.defaultView?.addEventListener(
+        'gamepaddisconnected',
+        onGamepadDisconnect
+      );
     } else if (haveWebkitEvents) {
-      window.addEventListener(
+      targetDocRef.current?.defaultView?.addEventListener(
         'webkitgamepadconnected',
         onGamepadConnect as EventListener
       );
-      window.addEventListener(
+      targetDocRef.current?.defaultView?.addEventListener(
         'webkitgamepaddisconnected',
         onGamepadDisconnect as EventListener
       );
     }
 
-    window.addEventListener('blur', onWindowBlur);
-    window.addEventListener('focus', onWindowFocus);
+    targetDocRef.current?.defaultView?.addEventListener('blur', onWindowBlur);
+    targetDocRef.current?.defaultView?.addEventListener('focus', onWindowFocus);
 
-    setPollingEnabled(props?.pollingEnabled ?? true);
-  } catch (error) {
-    console.error(
-      consolePrefix,
-      'Encountered error while initializing gamepad navigation',
-      error
-    );
+    setPollingEnabled(options?.pollingEnabled ?? true);
+  }, [defaultView]);
 
-    deinitGamepadNavigation();
-  }
+  return () =>
+    cleanupGamepadNavigation(targetDocRef.current, gamepadInitialized.current);
 };
 
-export const deinitGamepadNavigation = (): void => {
+export const cleanupGamepadNavigation = (
+  targetDocument: Document | undefined | null,
+  gamepadInitialized: boolean
+): void => {
   if (!gamepadInitialized) {
     return;
   }
@@ -303,19 +322,25 @@ export const deinitGamepadNavigation = (): void => {
 
   setPollingEnabled(false);
 
-  targetDocument.removeEventListener('touchstart', onTouchInput);
-  targetDocument.removeEventListener('mousedown', onMouseInput);
+  targetDocument?.removeEventListener('touchstart', onTouchInput);
+  targetDocument?.removeEventListener('mousedown', onMouseInput);
 
-  window.removeEventListener(
+  targetDocument?.defaultView?.removeEventListener(
     'webkitgamepadconnected',
     onGamepadConnect as EventListener
   );
-  window.removeEventListener(
+  targetDocument?.defaultView?.removeEventListener(
     'webkitgamepaddisconnected',
     onGamepadDisconnect as EventListener
   );
-  window.removeEventListener('gamepadconnected', onGamepadConnect);
-  window.removeEventListener('gamepaddisconnected', onGamepadDisconnect);
-  window.removeEventListener('blur', onWindowBlur);
-  window.removeEventListener('focus', onWindowFocus);
+  targetDocument?.defaultView?.removeEventListener(
+    'gamepadconnected',
+    onGamepadConnect
+  );
+  targetDocument?.defaultView?.removeEventListener(
+    'gamepaddisconnected',
+    onGamepadDisconnect
+  );
+  targetDocument?.defaultView?.removeEventListener('blur', onWindowBlur);
+  targetDocument?.defaultView?.removeEventListener('focus', onWindowFocus);
 };
