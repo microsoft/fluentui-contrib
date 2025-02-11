@@ -1,7 +1,5 @@
 import { GamepadAction, GamepadButton, KeyboardKey } from '../types/Keys';
 import {
-  getCurrentActiveElement,
-  getTargetDocument,
   startGamepadPolling,
   stopGamepadPolling,
 } from '../hooks/useGamepadNavigation';
@@ -12,14 +10,14 @@ import { FocusDirection } from '../types/FocusDirection';
 import { IntervalId, TimeoutId } from './GamepadUtils';
 import { navigate } from './NavigationManager';
 import { InputMode, isFocusDriven } from '../types/InputMode';
-import { consolePrefix, selectOptionsVisibleAttribute } from './Constants';
+import { selectOptionsVisibleAttribute } from './Constants';
 
 /*
     General
 */
 
-const clearAllTimeouts = () => {
-  clearDirectionRepeats();
+const clearAllTimeouts = (targetDocument: Document) => {
+  clearDirectionRepeats(targetDocument);
   clearDirectionalInputStack();
 };
 
@@ -50,7 +48,10 @@ export const getInputMode = (): InputMode => {
  *
  *  @param inputMode - the input mode to set
  */
-export const setInputMode = (newInputMode: InputMode): void => {
+export const setInputMode = (
+  newInputMode: InputMode,
+  targetDocument: Document
+): void => {
   if (inputMode === newInputMode) {
     return;
   }
@@ -61,14 +62,13 @@ export const setInputMode = (newInputMode: InputMode): void => {
   inputMode = newInputMode;
 
   if (actionRequired) {
-    const targetdocument = getTargetDocument();
     if (!isFocusDriven(inputMode)) {
-      targetdocument.body.classList.remove('fui-gamepad-mode');
-      Array.from(targetdocument.body.querySelectorAll('select')).map((e) =>
+      targetDocument.body.classList.remove('fui-gamepad-mode');
+      Array.from(targetDocument.body.querySelectorAll('select')).map((e) =>
         e.removeAttribute(selectOptionsVisibleAttribute)
       );
     } else {
-      targetdocument.body.classList.add('fui-gamepad-mode');
+      targetDocument.body.classList.add('fui-gamepad-mode');
     }
   }
 };
@@ -87,26 +87,28 @@ export const isPollingEnabled = (): boolean => {
  * Sets whether polling is enabled for the library
  *
  *  @param enabled - whether gamepad navigation polling should now be enabled
+ * @param targetDocument - the document to dispatch the event to
  */
-export const setPollingEnabled = (enabled: boolean): void => {
+export const setPollingEnabled = (
+  enabled: boolean,
+  targetDocument: Document
+): void => {
   if (pollingEnabled === enabled) {
     return;
   }
   pollingEnabled = enabled;
 
   if (pollingEnabled) {
-    console.log(consolePrefix, 'Enabling controller navigation');
     resetGamepadState(GamepadButton.A);
-    startGamepadPolling();
+    startGamepadPolling(targetDocument);
 
     if (isFocusDriven(defaultInputMode)) {
-      setInputMode(defaultInputMode);
+      setInputMode(defaultInputMode, targetDocument);
     }
   } else {
-    console.log(consolePrefix, 'Disabling controller navigation');
-    setInputMode(InputMode.Mouse);
-    stopGamepadPolling();
-    clearAllTimeouts();
+    setInputMode(InputMode.Mouse, targetDocument);
+    stopGamepadPolling(targetDocument);
+    clearAllTimeouts(targetDocument);
   }
 };
 
@@ -118,15 +120,15 @@ export const setPollingEnabled = (enabled: boolean): void => {
 export const onButtonPress = (
   button: GamepadButton,
   action: GamepadAction,
-  gamepadId: number
+  gamepadId: number,
+  targetDocument: Document
 ): void => {
-  const activeElement = getCurrentActiveElement();
   const wasFocusDriven = isFocusDriven(inputMode);
 
   // We are going from touch/mouse to keyboard/gamepad. Only return if the currentlyFocusedInteractable
   // is on-screen. We want the user to be able to immediately start scrolling
   if (inputMode !== InputMode.Gamepad) {
-    setInputMode(InputMode.Gamepad);
+    setInputMode(InputMode.Gamepad, targetDocument);
     if (button === GamepadButton.A) {
       resetGamepadState(button, gamepadId);
     }
@@ -161,17 +163,19 @@ export const onButtonPress = (
 
   // only handle botton down events
   if (action === GamepadAction.Down && focusAction) {
-    emitSyntheticGroupperMoveFocusEvent(focusAction, activeElement);
+    emitSyntheticGroupperMoveFocusEvent(focusAction, targetDocument);
   }
   if (focusDirection !== FocusDirection.None) {
     if (action === GamepadAction.Down) {
       registerDirectionalInput(
+        targetDocument,
         focusDirection,
         DirectionalSource.Dpad,
         gamepadId
       );
     } else {
       unregisterDirectionalInput(
+        targetDocument,
         focusDirection,
         DirectionalSource.Dpad,
         gamepadId
@@ -196,11 +200,13 @@ const leftStickDirections: Map<number, FocusDirection> = new Map();
  *  @param xAxis - the x axis value, -1 to 1
  *  @param yAxis - the y axis value, -1 to 1
  *  @param gamepadId - the key of the gamepad whose input we're processing
+ * @param targetDocument - the document to dispatch the event to
  */
 export const onLeftStickInput = (
   xAxis: number,
   yAxis: number,
-  gamepadId: number
+  gamepadId: number,
+  targetDocument: Document
 ): void => {
   // Check if joysticks pass our threshold
   if (
@@ -209,7 +215,7 @@ export const onLeftStickInput = (
   ) {
     const wasFocusDriven = isFocusDriven(inputMode);
 
-    setInputMode(InputMode.Gamepad);
+    setInputMode(InputMode.Gamepad, targetDocument);
 
     if (!wasFocusDriven) {
       return;
@@ -229,6 +235,7 @@ export const onLeftStickInput = (
     if (leftStickDirection !== newLeftStickDirection) {
       if (leftStickDirection) {
         unregisterDirectionalInput(
+          targetDocument,
           leftStickDirection,
           DirectionalSource.LeftStick,
           gamepadId
@@ -238,6 +245,7 @@ export const onLeftStickInput = (
     }
 
     registerDirectionalInput(
+      targetDocument,
       newLeftStickDirection,
       DirectionalSource.LeftStick,
       gamepadId
@@ -246,6 +254,7 @@ export const onLeftStickInput = (
     const leftStickDirection = leftStickDirections.get(gamepadId);
     if (leftStickDirection) {
       unregisterDirectionalInput(
+        targetDocument,
         leftStickDirection,
         DirectionalSource.LeftStick,
         gamepadId
@@ -297,9 +306,9 @@ let inputStack: InputStackItem[] = [];
  * Clears any ongoing input direction repetitions.
  * This is typically used to reset the state of repeated navigations.
  */
-export const clearDirectionRepeats = () => {
-  clearTimeout(directionDelayTimer);
-  clearInterval(directionRepeatInterval);
+export const clearDirectionRepeats = (targetDocument: Document) => {
+  targetDocument.defaultView?.clearTimeout(directionDelayTimer);
+  targetDocument.defaultView?.clearInterval(directionRepeatInterval);
   directionRepeatCount = 0;
 };
 
@@ -310,9 +319,13 @@ export const clearDirectionalInputStack = () => {
 /**
  * Handles the disconnection of a gamepad.
  * Removes all inputs associated with the disconnected gamepad from the input stack.
+ * @param targetDocument - The document to dispatch the event to.
  * @param gamepadId - The identifier of the disconnected gamepad.
  */
-export const handleGamepadDisconnect = (gamepadId: number) => {
+export const handleGamepadDisconnect = (
+  targetDocument: Document,
+  gamepadId: number
+) => {
   const previousDirection = getCurrentFocusDirection();
 
   // Filter out all entries with the disconnected gamepadId
@@ -325,18 +338,20 @@ export const handleGamepadDisconnect = (gamepadId: number) => {
 
   // Trigger directional input action if the focus direction has changed
   if (previousDirection !== currentDirection) {
-    onDirectionalInput(currentDirection);
+    onDirectionalInput(targetDocument, currentDirection);
   }
 };
 
 /**
  * Registers a directional input into the input stack.
  * Prevents adding duplicate inputs (same direction, source, and gamepadId) to the stack.
+ * @param targetDocument - The document to dispatch the event to.
  * @param direction - The direction of the input.
  * @param source - The source of the input.
  * @param gamepadId - The gamepad identifier.
  */
 const registerDirectionalInput = (
+  targetDocument: Document,
   direction: FocusDirection,
   source: DirectionalSource,
   gamepadId = 0
@@ -367,17 +382,19 @@ const registerDirectionalInput = (
 
   // Trigger directional input action if the focus direction has changed
   if (previousDirection !== direction) {
-    onDirectionalInput(direction);
+    onDirectionalInput(targetDocument, direction);
   }
 };
 
 /**
  * Unregisters a directional input from the input stack.
+ * @param targetDocument - The document to dispatch the event to.
  * @param direction - The direction of the input to be removed.
  * @param source - The source of the input to be removed.
  * @param gamepadId - The gamepad identifier.
  */
 const unregisterDirectionalInput = (
+  targetDocument: Document,
   direction: FocusDirection,
   source: DirectionalSource,
   gamepadId = 0
@@ -402,7 +419,7 @@ const unregisterDirectionalInput = (
   const currentDirection = getCurrentFocusDirection();
 
   if (previousDirection !== currentDirection) {
-    onDirectionalInput(currentDirection);
+    onDirectionalInput(targetDocument, currentDirection);
   }
 };
 
@@ -420,8 +437,11 @@ const getCurrentFocusDirection = (): FocusDirection | undefined => {
  * Handles directional input actions and sets up repetition behavior.
  * @param direction - The current focus direction to navigate.
  */
-const onDirectionalInput = (direction?: FocusDirection) => {
-  clearDirectionRepeats();
+const onDirectionalInput = (
+  targetDocument: Document,
+  direction?: FocusDirection
+) => {
+  clearDirectionRepeats(targetDocument);
 
   // If there's no direction, no further action is needed
   if (!direction) {
@@ -429,24 +449,24 @@ const onDirectionalInput = (direction?: FocusDirection) => {
   }
 
   // Initial navigation in the specified direction
-  navigate(direction);
+  navigate(direction, targetDocument);
 
   // Setting up repeating navigation based on the direction
   const isHorizontal =
     direction === FocusDirection.Left || direction === FocusDirection.Right;
 
-  directionDelayTimer = setTimeout(() => {
-    directionRepeatInterval = setInterval(
+  directionDelayTimer = targetDocument.defaultView?.setTimeout(() => {
+    directionRepeatInterval = targetDocument.defaultView?.setInterval(
       () => {
         directionRepeatCount += 1;
-        navigate(direction);
+        navigate(direction, targetDocument);
 
         // After reaching a threshold, increase the repeat rate
         if (directionRepeatCount >= DIRECTION_REPEAT_THRESHOLD) {
-          clearInterval(directionRepeatInterval);
-          directionRepeatInterval = setInterval(
+          targetDocument.defaultView?.clearInterval(directionRepeatInterval);
+          directionRepeatInterval = targetDocument.defaultView?.setInterval(
             () => {
-              navigate(direction);
+              navigate(direction, targetDocument);
             },
             isHorizontal
               ? REPEAT_KEY_DELAY_FAST_MS_HORIZONTAL

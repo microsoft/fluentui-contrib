@@ -1,7 +1,8 @@
 import { MoverMoveFocusEvent } from '@fluentui/react-tabster';
 import {
   getParentForm,
-  hidePickerOnSeLectElement,
+  handleSelectOnEnter,
+  handleSelectOnEscape,
   isComboboxElement,
   isMenuItemElement,
   isSelectElement,
@@ -45,13 +46,14 @@ export const emitSyntheticKeyboardEvent = (
   event: 'keydown' | 'keyup',
   key: KeyboardKey,
   bubbles: boolean,
-  activeElement?: Element | null | undefined
+  targetDocument: Document
 ) => {
+  const activeElement = targetDocument.activeElement;
   const keyboardEvent = new KeyboardEvent(event, {
     key: key,
     bubbles,
     cancelable: true,
-    view: window,
+    view: targetDocument.defaultView,
     detail: 0,
     ctrlKey: false,
     altKey: false,
@@ -69,12 +71,13 @@ export const emitSyntheticKeyboardEvent = (
 export const emitSyntheticMouseEvent = (
   event: 'mousedown' | 'mouseup' | 'click',
   bubbles: boolean,
-  activeElement?: Element | null | undefined
+  targetDocument: Document
 ) => {
+  const activeElement = targetDocument.activeElement;
   const mouseEvent = new MouseEvent(event, {
     bubbles,
     cancelable: true,
-    view: window,
+    view: targetDocument.defaultView,
     detail: 0,
     screenX: undefined,
     screenY: undefined,
@@ -98,11 +101,12 @@ export const emitSyntheticMouseEvent = (
 
 export const emitSyntheticMoverMoveFocusEvent = (
   key: MoverKey,
-  activeElement?: Element | null | undefined
+  targetDocument: Document
 ) => {
+  const activeElement = targetDocument.activeElement;
   if (isComboboxElement(activeElement)) {
     const button = getMoverKeyToKeyboardKeyMapping(key);
-    emitSyntheticKeyboardEvent('keydown', button, true, activeElement);
+    emitSyntheticKeyboardEvent('keydown', button, true, targetDocument);
   } else if (isSelectElement(activeElement)) {
     const htmlSelect = activeElement as HTMLSelectElement;
     const openOptions = htmlSelect.hasAttribute(selectOptionsVisibleAttribute);
@@ -117,7 +121,7 @@ export const emitSyntheticMoverMoveFocusEvent = (
       }
     } else if (!openOptions) {
       const button = getMoverKeyToKeyboardKeyMapping(key);
-      emitSyntheticKeyboardEvent('keydown', button, true, activeElement);
+      emitSyntheticKeyboardEvent('keydown', button, true, targetDocument);
     }
     // TODO: account for navigation to active select sibling elements vs options
   } else {
@@ -127,54 +131,36 @@ export const emitSyntheticMoverMoveFocusEvent = (
 
 export const emitSyntheticGroupperMoveFocusEvent = (
   action: KeyboardKey,
-  activeElement?: Element | null | undefined
+  targetDocument: Document
 ) => {
+  const activeElement = targetDocument.activeElement;
   if (action === KeyboardKey.Enter) {
     // Note: GroupperMoveFocusActions.Enter has no effect on components
     // activeElement?.dispatchEvent(new GroupperMoveFocusEvent({ action: GroupperMoveFocusActions.Enter }));
 
     if (isComboboxElement(activeElement)) {
-      emitSyntheticKeyboardEvent('keydown', action, true, activeElement);
+      emitSyntheticKeyboardEvent('keydown', action, true, targetDocument);
     } else if (isSelectElement(activeElement)) {
-      // TODO: move this into a function
-      const htmlSelect = activeElement as HTMLSelectElement;
-      const openOptions = htmlSelect.hasAttribute(
-        selectOptionsVisibleAttribute
-      );
-      if (openOptions) {
-        hidePickerOnSeLectElement(htmlSelect);
-      } else {
-        htmlSelect.showPicker();
-        htmlSelect.setAttribute(selectOptionsVisibleAttribute, '_self');
-      }
+      handleSelectOnEnter(activeElement);
     } else {
-      emitSyntheticMouseEvent('click', true, activeElement);
+      emitSyntheticMouseEvent('click', true, targetDocument);
     }
     if (shouldSubmitForm(activeElement)) {
-      getParentForm(activeElement)?.requestSubmit?.();
+      getParentForm(activeElement, targetDocument.body)?.requestSubmit?.();
     }
   } else {
-    // Note: GroupperMoveFocusActions.Escape has no difference with KeyboardKey.Escape
-
+    // Note: GroupperMoveFocusActions.Escape has no difference to KeyboardKey.Escape
     if (isSelectElement(activeElement)) {
-      const htmlSelect = activeElement as HTMLSelectElement;
-      const openOptions = htmlSelect.hasAttribute(
-        selectOptionsVisibleAttribute
-      );
-      if (openOptions) {
-        hidePickerOnSeLectElement(htmlSelect);
-      } else {
-        emitSyntheticKeyboardEvent('keydown', action, true, activeElement);
-      }
+      handleSelectOnEscape(targetDocument);
     } else if (isComboboxElement(activeElement)) {
-      emitSyntheticMouseEvent('click', true, activeElement);
+      emitSyntheticMouseEvent('click', true, targetDocument);
     } else {
       const shouldBubble = isMenuItemElement(activeElement);
       emitSyntheticKeyboardEvent(
         'keydown',
         action,
         shouldBubble,
-        activeElement
+        targetDocument
       );
     }
   }

@@ -3,7 +3,6 @@ import {
   UseArrowNavigationGroupOptions,
   useFluent,
   useFocusFinders,
-  useTimeout,
 } from '@fluentui/react-components';
 import {
   TabsterDOMAttribute,
@@ -47,9 +46,11 @@ export const useGamepadNavigationGroup = (
   const focusFinderFns = useFocusFinders();
   const { targetDocument } = useFluent();
   const gpnProps = {
-    focusFinderFns,
     targetDocument,
   };
+  console.log('window', targetDocument?.defaultView?.name);
+
+  useGamepadNavigation(gpnProps);
 
   useEffect(() => {
     if (focusFirstElement) {
@@ -57,11 +58,6 @@ export const useGamepadNavigationGroup = (
         .findFirstFocusable(targetDocument?.activeElement as HTMLElement)
         ?.focus();
     }
-    const cleanupGamepadNavigation = useGamepadNavigation(gpnProps);
-
-    return () => {
-      cleanupGamepadNavigation();
-    };
   }, []);
 
   const moverAttr = useArrowNavigationGroup({

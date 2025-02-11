@@ -1,5 +1,4 @@
 import { GamepadButton, KeyboardKey, MoverKey, MoverKeys } from '../types/Keys';
-import { consolePrefix } from './Constants';
 
 type ControllerIndex = {
   index: number;
@@ -67,7 +66,6 @@ export const getGamepadMappings = () => {
     return gamepadMappings;
   }
 
-  console.log(consolePrefix, 'Using default mappings for gamepad navigation');
   gamepadMappings = defaultMapping;
 
   return gamepadMappings;

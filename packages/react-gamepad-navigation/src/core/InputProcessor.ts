@@ -52,7 +52,8 @@ const handleGamepadButton = (
   gamepadMappings: ControllerMapping,
   gamepadState: GamepadState,
   gamepadButton: GamepadButton,
-  nextGamepadButtonState: KeyPressState
+  nextGamepadButtonState: KeyPressState,
+  targetDocument: Document
 ) => {
   const controllerMappingKey =
     getControllerMappingKeyFromGamepadButton(gamepadButton);
@@ -67,13 +68,18 @@ const handleGamepadButton = (
     ) {
       gamepadState[gamepadButton] = KeyPressState.Down;
 
-      onButtonPress(gamepadButton, GamepadAction.Down, gamepadId);
+      onButtonPress(
+        gamepadButton,
+        GamepadAction.Down,
+        gamepadId,
+        targetDocument
+      );
     } else if (
       gamepadState[gamepadButton] === KeyPressState.Down &&
       nextGamepadButtonState === KeyPressState.Up
     ) {
       gamepadState[gamepadButton] = KeyPressState.Up;
-      onButtonPress(gamepadButton, GamepadAction.Up, gamepadId);
+      onButtonPress(gamepadButton, GamepadAction.Up, gamepadId, targetDocument);
     } else if (
       gamepadState[gamepadButton] === KeyPressState.Reset &&
       nextGamepadButtonState === KeyPressState.Up
@@ -87,7 +93,8 @@ export const handleGamepadInput = (
   gamepad: Gamepad,
   gamepadId: number,
   gamepadMappings: ControllerMapping,
-  gamepadState: GamepadState
+  gamepadState: GamepadState,
+  targetDocument: Document
 ) => {
   /*
         Buttons
@@ -142,7 +149,8 @@ export const handleGamepadInput = (
         gamepadMappings,
         gamepadState,
         gamepadButton,
-        nextGamepadButtonState
+        nextGamepadButtonState,
+        targetDocument
       );
     }
   }
@@ -182,6 +190,6 @@ export const handleGamepadInput = (
   }
 
   if (!sameLeftStickX || !sameLeftStickY) {
-    onLeftStickInput(leftStickX, leftStickY, gamepadId);
+    onLeftStickInput(leftStickX, leftStickY, gamepadId, targetDocument);
   }
 };

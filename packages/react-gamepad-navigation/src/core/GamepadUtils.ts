@@ -1,9 +1,11 @@
+import { useId } from '@fluentui/react-components';
+import { WindowWithFluentGPNShadowDOMAPI } from '../types/FluentGPNShadowDOMAPI';
+import { KeyboardKey } from '../types/Keys';
 import { selectOptionsVisibleAttribute } from './Constants';
+import { emitSyntheticKeyboardEvent } from './GamepadEvents';
 
-// eslint-disable-next-line no-restricted-globals
-export type TimeoutId = ReturnType<typeof setTimeout> | undefined;
-// eslint-disable-next-line no-restricted-globals
-export type IntervalId = ReturnType<typeof setInterval> | undefined;
+export type TimeoutId = number | undefined;
+export type IntervalId = number | undefined;
 
 export const shouldSubmitForm = (element: Element | null | undefined) =>
   element instanceof HTMLInputElement &&
@@ -46,4 +48,45 @@ export const hidePickerOnSeLectElement = (selectElement: HTMLSelectElement) => {
   selectElement.blur();
   selectElement.focus();
   selectElement.removeAttribute(selectOptionsVisibleAttribute);
+};
+
+export const handleSelectOnEnter = (activeElement: Element | null) => {
+  const htmlSelect = activeElement as HTMLSelectElement;
+  const openOptions = htmlSelect.hasAttribute(selectOptionsVisibleAttribute);
+  if (openOptions) {
+    hidePickerOnSeLectElement(htmlSelect);
+  } else {
+    htmlSelect.showPicker();
+    htmlSelect.setAttribute(selectOptionsVisibleAttribute, '_self');
+  }
+};
+
+export const handleSelectOnEscape = (targetDocument: Document) => {
+  const htmlSelect = targetDocument?.activeElement as HTMLSelectElement;
+  const openOptions = htmlSelect.hasAttribute(selectOptionsVisibleAttribute);
+  if (openOptions) {
+    hidePickerOnSeLectElement(htmlSelect);
+  } else {
+    emitSyntheticKeyboardEvent(
+      'keydown',
+      KeyboardKey.Escape,
+      true,
+      targetDocument
+    );
+  }
+};
+
+export const getshadowDOMAPI = (targetDocument: Document | undefined) => {
+  const defaultView = targetDocument?.defaultView;
+  let shadowDOMAPI = (defaultView as WindowWithFluentGPNShadowDOMAPI)
+    ?.__FluentGPNShadowDOMAPI;
+  if (!shadowDOMAPI) {
+    shadowDOMAPI = {
+      gamepadInitialized: false,
+      windowId: useId('window'),
+    };
+    (defaultView as WindowWithFluentGPNShadowDOMAPI).__FluentGPNShadowDOMAPI =
+      shadowDOMAPI;
+  }
+  return shadowDOMAPI;
 };
