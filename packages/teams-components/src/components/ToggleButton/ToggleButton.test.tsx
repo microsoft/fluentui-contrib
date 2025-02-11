@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { fireEvent, render, screen, act } from '@testing-library/react';
+import { Menu, MenuPopover, MenuTrigger } from '@fluentui/react-components';
 import { ToggleButton } from './ToggleButton';
 
 describe('ToggleButton', () => {
@@ -37,5 +38,18 @@ describe('ToggleButton', () => {
     expect(tooltip).not.toBeNull();
 
     expect(tooltip?.textContent).toEqual(button.getAttribute('aria-label'));
+  });
+
+  it('should error when attempting to wrap with a menu', () => {
+    expect(() =>
+      render(
+        <Menu>
+          <MenuTrigger>
+            <ToggleButton checked={false} icon={<i>X</i>} />
+          </MenuTrigger>
+          <MenuPopover></MenuPopover>
+        </Menu>
+      )
+    ).toThrow('Icon button must have a tooltip');
   });
 });

@@ -8,7 +8,7 @@ import {
 } from '@fluentui/react-components';
 import { validateStrictClasses, type StrictCssClass } from '../../strictStyles';
 import type { StrictSlot } from '../../strictSlot';
-import { validateIconButton } from '../Button/validateIconButton';
+import { validateIconButton, validateMenuButton } from '../Button';
 
 export interface ToggleButtonProps
   extends Pick<
@@ -64,4 +64,5 @@ export const ToggleButton = React.forwardRef<
 const validateProps = (props: ToggleButtonProps) => {
   validateStrictClasses(props.className);
   validateIconButton(props);
+  validateMenuButton(props);
 };

@@ -1,18 +1,18 @@
 import * as React from 'react';
 import {
-  useButton_unstable,
-  useButtonStyles_unstable,
-  renderButton_unstable,
-  type ButtonProps as ButtonPropsBase,
+  useMenuButton_unstable,
+  useMenuButtonStyles_unstable,
+  renderMenuButton_unstable,
+  type MenuButtonProps as MenuButtonPropsBase,
   Tooltip,
 } from '@fluentui/react-components';
-import { validateIconButton, validateMenuButton } from './validateProps';
+import { validateIconButton } from '../Button';
 import { type StrictCssClass, validateStrictClasses } from '../../strictStyles';
 import { type StrictSlot } from '../../strictSlot';
 
-export interface ButtonProps
+export interface MenuButtonProps
   extends Pick<
-    ButtonPropsBase,
+    MenuButtonPropsBase,
     | 'aria-label'
     | 'aria-labelledby'
     | 'aria-describedby'
@@ -28,24 +28,23 @@ export interface ButtonProps
   tooltip?: StrictSlot;
 }
 
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+export const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>(
   (userProps, ref) => {
     if (process.env.NODE_ENV !== 'production') {
       validateProps(userProps);
     }
 
     const { className, icon, tooltip, ...restProps } = userProps;
-    const props: ButtonPropsBase = {
+    const props: MenuButtonPropsBase = {
       ...restProps,
       className: className?.toString(),
-      iconPosition: 'before',
       icon,
     };
 
-    let state = useButton_unstable(props, ref);
-    state = useButtonStyles_unstable(state);
+    let state = useMenuButton_unstable(props, ref);
+    state = useMenuButtonStyles_unstable(state);
 
-    const button = renderButton_unstable(state);
+    const button = renderMenuButton_unstable(state);
 
     if (tooltip) {
       return (
@@ -59,8 +58,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   }
 );
 
-const validateProps = (props: ButtonProps) => {
+const validateProps = (props: MenuButtonProps) => {
   validateStrictClasses(props.className);
   validateIconButton(props);
-  validateMenuButton(props);
 };

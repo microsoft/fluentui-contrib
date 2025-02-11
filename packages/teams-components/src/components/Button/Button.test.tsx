@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { fireEvent, render, screen, act } from '@testing-library/react';
+import { Menu, MenuPopover, MenuTrigger } from '@fluentui/react-components';
 import { Button } from './Button';
 
 describe('Button', () => {
@@ -8,7 +9,6 @@ describe('Button', () => {
   });
 
   it('should throw error for icon button if no tooltip or aria-label is provided', () => {
-    console.error = jest.fn();
     expect(() => render(<Button icon={<i>X</i>} />)).toThrow(
       'Icon button must have a tooltip'
     );
@@ -37,5 +37,18 @@ describe('Button', () => {
     expect(tooltip).not.toBeNull();
 
     expect(tooltip?.textContent).toEqual(button.getAttribute('aria-label'));
+  });
+
+  it('should error when attempting to wrap with a menu', () => {
+    expect(() =>
+      render(
+        <Menu>
+          <MenuTrigger>
+            <Button icon={<i>X</i>} />
+          </MenuTrigger>
+          <MenuPopover></MenuPopover>
+        </Menu>
+      )
+    ).toThrow('Icon button must have a tooltip');
   });
 });
