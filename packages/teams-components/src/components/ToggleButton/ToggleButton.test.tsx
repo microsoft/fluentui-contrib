@@ -7,11 +7,18 @@ describe('ToggleButton', () => {
     console.error = jest.fn();
   });
 
-  it('should throw error for icon button if no tooltip is provided', () => {
+  it('should throw error for icon button if no tooltip or aria-label is provided', () => {
     console.error = jest.fn();
     expect(() => render(<ToggleButton checked icon={<i>X</i>} />)).toThrow(
       'Icon button must have a tooltip'
     );
+  });
+
+  it('should not throw error for icon button if aria-label is provided', () => {
+    console.error = jest.fn();
+    expect(() =>
+      render(<ToggleButton checked aria-label="label" icon={<i>X</i>} />)
+    ).not.toThrow();
   });
 
   it('should render tooltip', () => {

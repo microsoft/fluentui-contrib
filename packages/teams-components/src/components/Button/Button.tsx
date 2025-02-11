@@ -61,9 +61,14 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 const validateProps = (props: ButtonProps) => {
   validateStrictClasses(props.className);
 
-  if (!props.children && props.icon && !props.tooltip) {
+  if (
+    !props.children &&
+    props.icon &&
+    !props.tooltip &&
+    !(props['aria-label'] || props['aria-labelledby'])
+  ) {
     throw new Error(
-      '@fluentui-contrib/teams-components::Icon button must have a tooltip'
+      '@fluentui-contrib/teams-components::Icon button must have a tooltip or aria label'
     );
   }
 };
