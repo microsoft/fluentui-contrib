@@ -6,26 +6,10 @@ import {
   renderToggleButton_unstable,
   Tooltip,
 } from '@fluentui/react-components';
-import { validateStrictClasses, type StrictCssClass } from '../../strictStyles';
-import type { StrictSlot } from '../../strictSlot';
-import { validateIconButton, validateMenuButton } from '../Button';
+import { validateStrictClasses } from '../../strictStyles';
+import { ButtonProps, validateIconButton, validateMenuButton } from '../Button';
 
-export interface ToggleButtonProps
-  extends Pick<
-    ToggleButtonPropsBase,
-    | 'aria-label'
-    | 'aria-labelledby'
-    | 'aria-describedby'
-    | 'size'
-    | 'children'
-    | 'disabled'
-    | 'disabledFocusable'
-  > {
-  appearance?: 'transparent' | 'primary';
-  className?: StrictCssClass;
-  icon?: StrictSlot;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  tooltip?: StrictSlot;
+export interface ToggleButtonProps extends ButtonProps {
   checked: boolean;
 }
 
@@ -37,7 +21,7 @@ export const ToggleButton = React.forwardRef<
     validateProps(userProps);
   }
 
-  const { className, icon, tooltip, ...restProps } = userProps;
+  const { className, icon, title, ...restProps } = userProps;
   const props: ToggleButtonPropsBase = {
     ...restProps,
     className: className?.toString(),
@@ -50,9 +34,9 @@ export const ToggleButton = React.forwardRef<
 
   const button = renderToggleButton_unstable(state);
 
-  if (tooltip) {
+  if (title) {
     return (
-      <Tooltip content={tooltip} relationship="label">
+      <Tooltip content={title} relationship="label">
         {button}
       </Tooltip>
     );

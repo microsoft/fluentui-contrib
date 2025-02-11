@@ -6,35 +6,16 @@ import {
   type MenuButtonProps as MenuButtonPropsBase,
   Tooltip,
 } from '@fluentui/react-components';
-import { validateIconButton } from '../Button';
-import { type StrictCssClass, validateStrictClasses } from '../../strictStyles';
-import { type StrictSlot } from '../../strictSlot';
+import { ButtonProps, validateIconButton } from '../Button';
+import { validateStrictClasses } from '../../strictStyles';
 
-export interface MenuButtonProps
-  extends Pick<
-    MenuButtonPropsBase,
-    | 'aria-label'
-    | 'aria-labelledby'
-    | 'aria-describedby'
-    | 'size'
-    | 'children'
-    | 'disabled'
-    | 'disabledFocusable'
-  > {
-  appearance?: 'transparent' | 'primary';
-  className?: StrictCssClass;
-  icon?: StrictSlot;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  tooltip?: StrictSlot;
-}
-
-export const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>(
+export const MenuButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (userProps, ref) => {
     if (process.env.NODE_ENV !== 'production') {
       validateProps(userProps);
     }
 
-    const { className, icon, tooltip, ...restProps } = userProps;
+    const { className, icon, title, ...restProps } = userProps;
     const props: MenuButtonPropsBase = {
       ...restProps,
       className: className?.toString(),
@@ -46,9 +27,9 @@ export const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>(
 
     const button = renderMenuButton_unstable(state);
 
-    if (tooltip) {
+    if (title) {
       return (
-        <Tooltip content={tooltip} relationship="label">
+        <Tooltip content={title} relationship="label">
           {button}
         </Tooltip>
       );
@@ -58,7 +39,7 @@ export const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>(
   }
 );
 
-const validateProps = (props: MenuButtonProps) => {
+const validateProps = (props: ButtonProps) => {
   validateStrictClasses(props.className);
   validateIconButton(props);
 };

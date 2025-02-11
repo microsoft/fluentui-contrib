@@ -8,10 +8,10 @@ describe('ToggleButton', () => {
     console.error = jest.fn();
   });
 
-  it('should throw error for icon button if no tooltip or aria-label is provided', () => {
+  it('should throw error for icon button if no title or aria-label is provided', () => {
     console.error = jest.fn();
     expect(() => render(<ToggleButton checked icon={<i>X</i>} />)).toThrow(
-      'Icon button must have a tooltip'
+      'Icon button must have a title'
     );
   });
 
@@ -22,10 +22,10 @@ describe('ToggleButton', () => {
     ).not.toThrow();
   });
 
-  it('should render tooltip', () => {
+  it('should render title', () => {
     jest.useFakeTimers();
     const { getByRole } = render(
-      <ToggleButton checked icon={<i>X</i>} tooltip={'Tooltip'} />
+      <ToggleButton checked icon={<i>X</i>} title={'Tooltip'} />
     );
 
     const button = getByRole('button');
@@ -34,10 +34,10 @@ describe('ToggleButton', () => {
       jest.runOnlyPendingTimers();
     });
 
-    const tooltip = screen.queryByText('Tooltip');
-    expect(tooltip).not.toBeNull();
+    const title = screen.queryByText('Tooltip');
+    expect(title).not.toBeNull();
 
-    expect(tooltip?.textContent).toEqual(button.getAttribute('aria-label'));
+    expect(title?.textContent).toEqual(button.getAttribute('aria-label'));
   });
 
   it('should error when attempting to wrap with a menu', () => {
@@ -50,6 +50,6 @@ describe('ToggleButton', () => {
           <MenuPopover></MenuPopover>
         </Menu>
       )
-    ).toThrow('Icon button must have a tooltip');
+    ).toThrow('Icon button must have a title');
   });
 });

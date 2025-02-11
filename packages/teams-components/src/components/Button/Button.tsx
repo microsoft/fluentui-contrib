@@ -25,7 +25,7 @@ export interface ButtonProps
   className?: StrictCssClass;
   icon?: StrictSlot;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  tooltip?: StrictSlot;
+  title?: StrictSlot;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -34,7 +34,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       validateProps(userProps);
     }
 
-    const { className, icon, tooltip, ...restProps } = userProps;
+    const { className, icon, title, ...restProps } = userProps;
     const props: ButtonPropsBase = {
       ...restProps,
       className: className?.toString(),
@@ -47,9 +47,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const button = renderButton_unstable(state);
 
-    if (tooltip) {
+    if (title) {
       return (
-        <Tooltip content={tooltip} relationship="label">
+        <Tooltip content={title} relationship="label">
           {button}
         </Tooltip>
       );

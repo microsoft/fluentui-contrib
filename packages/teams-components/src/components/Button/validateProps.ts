@@ -4,18 +4,18 @@
 export const validateIconButton = (props: {
   icon?: unknown;
   children?: unknown;
-  tooltip?: unknown;
+  title?: unknown;
   'aria-label'?: string;
   'aria-labelledby'?: string;
 }) => {
   if (
     !props.children &&
     props.icon &&
-    !props.tooltip &&
+    !props.title &&
     !(props['aria-label'] || props['aria-labelledby'])
   ) {
     throw new Error(
-      '@fluentui-contrib/teams-components::Icon button must have a tooltip or aria label'
+      '@fluentui-contrib/teams-components::Icon button must have a title or aria label'
     );
   }
 };
