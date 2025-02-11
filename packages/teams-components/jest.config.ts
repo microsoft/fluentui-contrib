@@ -24,7 +24,6 @@ export default {
   transform: {
     '^.+\\.[tj]s$': ['@swc/jest', swcJestConfig],
   },
-  moduleFileExtensions: ['ts', 'js', 'html'],
-  testEnvironment: 'jsdom',
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'html'],
   coverageDirectory: '../../coverage/packages/teams-components',
 };
