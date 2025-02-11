@@ -1,4 +1,4 @@
-export { MenuButton, type MenuButtonProps } from './components/MenuButton';
+export { MenuButton } from './components/MenuButton';
 export {
   ToggleButton,
   type ToggleButtonProps,
