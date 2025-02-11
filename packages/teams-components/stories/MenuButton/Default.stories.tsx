@@ -37,7 +37,7 @@ export const Default = () => {
       {withMenu(
         <MenuButton icon={{ children: <CalendarIcon /> }}>Menu</MenuButton>
       )}
-      {withMenu(<MenuButton icon={<CalendarIcon />} tooltip="Calendar" />)}
+      {withMenu(<MenuButton icon={<CalendarIcon />} title="Calendar" />)}
 
       {withMenu(<MenuButton appearance="transparent">Menu</MenuButton>)}
       {withMenu(
@@ -49,7 +49,7 @@ export const Default = () => {
         <MenuButton
           appearance="transparent"
           icon={<CalendarIcon />}
-          tooltip="Calendar"
+          title="Calendar"
         />
       )}
 
@@ -63,7 +63,7 @@ export const Default = () => {
         <MenuButton
           appearance="primary"
           icon={<CalendarIcon />}
-          tooltip="Calendar"
+          title="Calendar"
         />
       )}
     </div>

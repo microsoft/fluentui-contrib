@@ -27,7 +27,7 @@ export const Default = () => {
     <div className={styles.sampleContainer}>
       <Button>Button</Button>
       <Button icon={{ children: <CalendarIcon /> }}>Button</Button>
-      <Button icon={<CalendarIcon />} tooltip="Calendar" />
+      <Button icon={<CalendarIcon />} title="Calendar" />
 
       <Button appearance="transparent">Button</Button>
       <Button appearance="transparent" icon={<CalendarIcon />}>
@@ -36,14 +36,14 @@ export const Default = () => {
       <Button
         appearance="transparent"
         icon={<CalendarIcon />}
-        tooltip="Calendar"
+        title="Calendar"
       />
 
       <Button appearance="primary">Button</Button>
       <Button appearance="primary" icon={<CalendarIcon />}>
         Button
       </Button>
-      <Button appearance="primary" icon={<CalendarIcon />} tooltip="Calendar" />
+      <Button appearance="primary" icon={<CalendarIcon />} title="Calendar" />
     </div>
   );
 };

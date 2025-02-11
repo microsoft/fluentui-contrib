@@ -22,8 +22,9 @@ export default {
   displayName: 'teams-components',
   preset: '../../jest.preset.js',
   transform: {
-    '^.+\\.[tj]s$': ['@swc/jest', swcJestConfig],
+    '^.+\\.[tj]sx?$': ['@swc/jest', swcJestConfig],
   },
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'html'],
+  moduleFileExtensions: ['ts', 'js', 'html'],
+  testEnvironment: 'jsdom',
   coverageDirectory: '../../coverage/packages/teams-components',
 };

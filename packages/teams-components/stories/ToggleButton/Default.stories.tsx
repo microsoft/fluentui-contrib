@@ -54,7 +54,7 @@ export const Default = () => {
         onClick={createOnClick(3)}
         checked={isChecked(3)}
         icon={<CalendarIcon />}
-        tooltip="Calendar"
+        title="Calendar"
       />
 
       <ToggleButton
@@ -77,7 +77,7 @@ export const Default = () => {
         checked={isChecked(6)}
         appearance="transparent"
         icon={<CalendarIcon />}
-        tooltip="Calendar"
+        title="Calendar"
       />
 
       <ToggleButton
@@ -100,7 +100,7 @@ export const Default = () => {
         onClick={createOnClick(9)}
         appearance="primary"
         icon={<CalendarIcon />}
-        tooltip="Calendar"
+        title="Calendar"
       />
     </div>
   );
