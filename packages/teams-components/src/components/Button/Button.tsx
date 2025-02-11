@@ -6,6 +6,7 @@ import {
   type ButtonProps as ButtonPropsBase,
   Tooltip,
 } from '@fluentui/react-components';
+import { validateIconButton } from './validateIconButton';
 import { type StrictCssClass, validateStrictClasses } from '../../strictStyles';
 import { type StrictSlot } from '../../strictSlot';
 
@@ -60,15 +61,5 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
 const validateProps = (props: ButtonProps) => {
   validateStrictClasses(props.className);
-
-  if (
-    !props.children &&
-    props.icon &&
-    !props.tooltip &&
-    !(props['aria-label'] || props['aria-labelledby'])
-  ) {
-    throw new Error(
-      '@fluentui-contrib/teams-components::Icon button must have a tooltip or aria label'
-    );
-  }
+  validateIconButton(props);
 };

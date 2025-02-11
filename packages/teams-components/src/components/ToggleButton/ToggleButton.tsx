@@ -8,6 +8,7 @@ import {
 } from '@fluentui/react-components';
 import { validateStrictClasses, type StrictCssClass } from '../../strictStyles';
 import type { StrictSlot } from '../../strictSlot';
+import { validateIconButton } from '../Button/validateIconButton';
 
 export interface ToggleButtonProps
   extends Pick<
@@ -62,15 +63,5 @@ export const ToggleButton = React.forwardRef<
 
 const validateProps = (props: ToggleButtonProps) => {
   validateStrictClasses(props.className);
-
-  if (
-    !props.children &&
-    props.icon &&
-    !props.tooltip &&
-    !(props['aria-label'] || props['aria-labelledby'])
-  ) {
-    throw new Error(
-      '@fluentui-contrib/teams-components::Icon button must have a tooltip or aria label'
-    );
-  }
+  validateIconButton(props);
 };
