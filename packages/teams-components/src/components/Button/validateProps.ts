@@ -25,7 +25,12 @@ export const validateIconButton = (props: {
  * @throws Error if a menu is used
  */
 export const validateMenuButton = (props: unknown) => {
-  if (typeof props === 'object' && props && 'aria-haspopup' in props) {
+  if (
+    typeof props === 'object' &&
+    props &&
+    'aria-haspopup' in props &&
+    props['aria-haspopup'] === 'menu'
+  ) {
     throw new Error(
       '@fluentui-contrib/teams-components:: MenuButton should be used to open a Menu'
     );
