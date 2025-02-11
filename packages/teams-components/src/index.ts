@@ -1,4 +1,8 @@
 export {
+  ToggleButton,
+  type ToggleButtonProps,
+} from './components/ToggleButton';
+export {
   makeStrictStyles,
   mergeStrictClasses,
   type StrictCssClass,
