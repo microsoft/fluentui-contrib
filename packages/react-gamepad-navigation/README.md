@@ -1,5 +1,9 @@
 # @fluentui-contrib/react-gamepad-navigation
 
+**useGamepadNavigationGroup for [Fluent UI React](https://react.fluentui.dev/)**
+
+These are not production-ready components and **should never be used in product**. This space is useful for testing new components whose APIs might change before final release.
+
 This package provides gamepad navigation support for Fluent UI Components.
 Any gaming controller implementing the [Gamepad API](https://w3c.github.io/gamepad/) is supported. Major brand controllers such as Xbox, PlayStation, Nintendo, 8bit, etc. are supported.
 
