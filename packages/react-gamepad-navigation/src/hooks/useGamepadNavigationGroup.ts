@@ -59,9 +59,8 @@ export const useGamepadNavigationGroup = (
     defaultInputMode,
     pollingEnabled,
   };
-  console.log('window', targetDocument?.defaultView?.name);
 
-  const removeEventListener = useGamepadNavigation(gpnProps);
+  const removeNavEventListeners = useGamepadNavigation(gpnProps);
 
   useEffect(() => {
     if (focusFirstElement) {
@@ -86,6 +85,6 @@ export const useGamepadNavigationGroup = (
       moverAttr,
       groupperAttr
     ),
-    removeNavEventListeners: removeEventListener,
+    removeNavEventListeners,
   };
 };

@@ -294,7 +294,7 @@ export const useGamepadNavigation = (
     targetView?.addEventListener('focus', onTargetWindowFocus);
 
     setPollingEnabled(options?.pollingEnabled ?? true, targetDocument);
-    console.log(consolePrefix, 'Initializing gamepad navigation');
+    // console.log(consolePrefix, 'Initializing gamepad navigation');
 
     return removeEventListener;
   } catch (error) {
@@ -321,7 +321,7 @@ export const removeGamepadNavigationEventListener = (
     return;
   }
 
-  console.log(consolePrefix, 'Deinitializing gamepad navigation');
+  // console.log(consolePrefix, 'Deinitializing gamepad navigation');
 
   setPollingEnabled(false, targetDocument);
 

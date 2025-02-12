@@ -49,6 +49,15 @@ import {
   Radio,
   Textarea,
   Slider,
+  Dialog,
+  DialogTrigger,
+  DialogSurface,
+  DialogBody,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  useFocusFinders,
+  useFluent,
 } from '@fluentui/react-components';
 import { useGamepadNavigationGroup } from '@fluentui-contrib/react-gamepad-navigation';
 
@@ -67,12 +76,22 @@ const useStyles = makeStyles({
   row: {
     columnGap: '15px',
     display: 'flex',
+    padding: '10px',
+    border: '4px solid transparent',
+    ':focus-within': {
+      border: '4px dashed #F4F4F4',
+    },
   },
   input: {
     display: 'flex',
     flexDirection: 'column',
     gap: '2px',
+    padding: '12px',
     maxWidth: '400px',
+    border: '4px solid transparent',
+    ':focus-within': {
+      border: '4px dashed #F4F4F4',
+    },
   },
   combobox: {
     display: 'grid',
@@ -103,8 +122,16 @@ const useStyles = makeStyles({
 export const SingleElements = () => {
   const { gamepadNavAttributes } = useGamepadNavigationGroup();
 
+  const { targetDocument } = useFluent();
   const styles = useStyles();
-  const onClick = () => alert('Clicked');
+  const focusFuns = useFocusFinders();
+  const dialogBtn = React.useRef<HTMLButtonElement>(null);
+  const onClick = () => dialogBtn.current?.click();
+  const onCloseDialog = () => {
+    focusFuns
+      .findFirstFocusable(targetDocument?.activeElement as HTMLElement)
+      ?.focus();
+  };
   const primaryActionButtonProps = {
     onClick,
   };
@@ -702,6 +729,28 @@ export const SingleElements = () => {
         <Switch label="C" />
         <Switch label="D" />
         <Switch label="E" />
+      </div>
+      <div>
+        <Dialog>
+          <DialogTrigger disableButtonEnhancement>
+            <Button ref={dialogBtn}>Open dialog</Button>
+          </DialogTrigger>
+          <DialogSurface>
+            <DialogBody>
+              <DialogTitle>Click event</DialogTitle>
+              <DialogContent>
+                Element was triggered by click event.
+              </DialogContent>
+              <DialogActions>
+                <DialogTrigger disableButtonEnhancement>
+                  <Button appearance="secondary" onClick={onCloseDialog}>
+                    Close
+                  </Button>
+                </DialogTrigger>
+              </DialogActions>
+            </DialogBody>
+          </DialogSurface>
+        </Dialog>
       </div>
     </div>
   );

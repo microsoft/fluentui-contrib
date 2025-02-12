@@ -8,6 +8,7 @@ import {
   useId,
 } from '@fluentui/react-components';
 import { useGamepadNavigationGroup } from '@fluentui-contrib/react-gamepad-navigation';
+import { CheckmarkCircle20Filled } from '@fluentui/react-icons';
 
 const useStyles = makeStyles({
   container: {
@@ -37,12 +38,13 @@ const useStyles = makeStyles({
 export const Default = () => {
   const { gamepadNavAttributes } = useGamepadNavigationGroup();
 
+  const [submitted, setSubmited] = React.useState(false);
   const styles = useStyles();
   const emailId = useId('input');
   const passId = useId('input');
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert('Form submitted'); // TODO: replace with message in the UI
+    setSubmited(true);
   };
 
   return (
@@ -68,6 +70,13 @@ export const Default = () => {
           Login
         </Button>
       </form>
+      <hr />
+      {submitted && (
+        <div>
+          Form successfully submitted:
+          <CheckmarkCircle20Filled color="#6bb700" />
+        </div>
+      )}
     </div>
   );
 };
