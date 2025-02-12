@@ -1,10 +1,11 @@
 import * as React from 'react';
 import {
   useDataGrid_unstable as useBaseState,
-  DataGridProps,
-  DataGridState,
+  useMergedRefs,
 } from '@fluentui/react-components';
 import { useFluent, useScrollbarWidth } from '@fluentui/react-components';
+import { DataGridProps, DataGridState } from './DataGrid.types';
+import { VariableSizeGrid, VariableSizeList } from 'react-window';
 
 const TABLE_SELECTION_CELL_WIDTH = 44;
 
@@ -33,8 +34,17 @@ export const useDataGrid_unstable = (
     containerWidthOffset -= scrollbarWidth || 0;
   }
 
-  return useBaseState(
+  const baseState = useBaseState(
     { ...props, 'aria-rowcount': props.items.length, containerWidthOffset },
     ref
   );
+
+  const innerBodyRef = React.useRef<VariableSizeGrid>(null);
+  const innerHeaderRef = React.useRef<VariableSizeList>(null);
+
+  return {
+    ...baseState,
+    bodyRef: useMergedRefs(props.bodyRef, innerBodyRef),
+    headerRef: useMergedRefs(props.headerRef, innerHeaderRef),
+  };
 };

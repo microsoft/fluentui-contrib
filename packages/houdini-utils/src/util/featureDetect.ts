@@ -30,6 +30,8 @@ export type AsyncFeatureDetectFn = () => Promise<boolean>;
  * @returns `true` if the browser supports the necessary APIs, `false` otherwise.
  */
 export const hasMozElement: FeatureDetectFn = () => {
+  // This will hold regardless of the specific `document` object
+  // eslint-disable-next-line no-restricted-globals
   return typeof document?.mozSetImageElement === 'function';
 };
 
@@ -38,6 +40,8 @@ export const hasMozElement: FeatureDetectFn = () => {
  * @returns `true` if the browser supports the necessary APIs, `false` otherwise.
  */
 export const hasWebkitCanvas: FeatureDetectFn = () => {
+  // This will hold regardless of the specific `document` object
+  // eslint-disable-next-line no-restricted-globals
   return typeof document?.getCSSCanvasContext === 'function';
 };
 
@@ -48,7 +52,11 @@ export const hasWebkitCanvas: FeatureDetectFn = () => {
  */
 export const hasHoudini: FeatureDetectFn = () => {
   return (
+    // This will hold regardless of the specific `window` object
+    // eslint-disable-next-line no-restricted-globals
     typeof window !== 'undefined' &&
+    // This will hold regardless of the specific `window` object
+    // eslint-disable-next-line no-restricted-globals
     window.CSS &&
     'paintWorklet' in CSS &&
     'registerProperty' in CSS

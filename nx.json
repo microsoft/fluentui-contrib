@@ -1,42 +1,28 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "npmScope": "fluentui-contrib",
-  "cli": {
-    "defaultCollection": "@fluentui-contrib/nx-plugin"
-  },
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "nx/tasks-runners/default",
-      "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e",
-          "build-storybook"
-        ]
-      }
-    }
-  },
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"],
-      "inputs": ["production", "^production"]
+      "inputs": ["production", "^production"],
+      "cache": true
     },
     "lint": {
       "inputs": [
         "default",
         "{workspaceRoot}/.eslintrc.json",
         "{workspaceRoot}/.eslintignore"
-      ]
+      ],
+      "cache": true
     },
     "test": {
-      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"]
+      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
+      "cache": true
     },
     "build-storybook": {
       "inputs": [
         "default",
         "^production",
+        "{workspaceRoot}/.storybook/**",
         "{projectRoot}/.storybook/**/*",
         "{projectRoot}/tsconfig.storybook.json"
       ],
@@ -48,6 +34,14 @@
     "component-test": {
       "cache": true,
       "inputs": ["default", "^production", "{projectRoot}/playwright.config.ts"]
+    },
+    "e2e": {
+      "cache": true
+    },
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "dist/packages/{projectName}"
+      }
     }
   },
   "namedInputs": {
@@ -64,8 +58,49 @@
     ],
     "sharedGlobals": []
   },
+  "release": {
+    "projects": ["packages/**/*", "!tag:npm:private"],
+    "changelog": {
+      "projectChangelogs": {
+        "renderOptions": {
+          "authors": false,
+          "commitReferences": true,
+          "versionTitleDate": true
+        }
+      }
+    },
+    "version": {
+      "generatorOptions": {
+        "versionPrefix": "auto",
+        "currentVersionResolver": "disk"
+      }
+    },
+    "versionPlans": {
+      "ignorePatternsForPlanCheck": [
+        "**/*.test.tsx",
+        "**/*.test.ts",
+        "**/*.spec.tsx",
+        "**/*.spec.ts",
+        "**/*.component-browser-spec.tsx",
+        "**/*.stories.tsx",
+        "**/.eslintrc.json",
+        "**/jest.config.js",
+        "**/playwright.config.ts",
+        "**/project.json",
+        "**/*.md",
+        "**/*.babelrc",
+        "**/playwright/**",
+        "**/.storybook/**"
+      ]
+    },
+    "projectsRelationship": "independent"
+  },
   "workspaceLayout": {
     "appsDir": "packages",
     "libsDir": "packages"
-  }
+  },
+  "parallel": 3,
+  "defaultBase": "main",
+  "useInferencePlugins": false,
+  "useLegacyCache": true
 }

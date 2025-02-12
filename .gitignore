@@ -7,6 +7,8 @@ tmp
 
 # dependencies
 node_modules
+# we use yarn
+package-lock.json
 
 # IDEs and editors
 /.idea
@@ -40,6 +42,7 @@ Thumbs.db
 
 # nx
 .nx/cache
+.nx/workspace-data
 
 # playwright
 **/test-results/

@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-chat
 
-This log was last generated on Fri, 23 Feb 2024 12:49:25 GMT and should not be manually modified.
+This log was last generated on Mon, 15 Jul 2024 16:29:30 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.1.10
+
+Mon, 15 Jul 2024 16:29:30 GMT
+
+### Patches
+
+- fix: Chat should be able to override tabster attributes (lingfangao@hotmail.com)
 
 ## 0.1.9
 

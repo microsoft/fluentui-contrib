@@ -27,15 +27,20 @@ export type {
   DataGridHeaderProps,
   DataGridSelectionCellProps,
   DataGridRowProps,
-  DataGridProps,
 } from '@fluentui/react-components';
+
+export type { DataGridProps, DataGridState } from './components/DataGrid';
 
 export type {
   DataGridBodyProps,
   CellRenderer,
 } from './components/DataGridBody';
 
+export { dataGridBodyGridClassName } from './components/DataGridBody';
+
 export type {
   DataGridHeaderRowProps,
   HeaderCellRenderer,
 } from './components/DataGridHeaderRow';
+
+export { dataGridHeaderListClassName } from './components/DataGridHeaderRow';

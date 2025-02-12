@@ -1,10 +1,10 @@
-import * as React from 'react';
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import { <%= componentName %> } from '<%= npmScope %>/<%= name %>';
 export { Default } from './Default.stories';
 
-const meta: Meta<typeof <%= componentName %>> = {
+const meta = {
+  title: 'Packages/<%= name %>/<%= componentName %>',
   component: <%= componentName %>,
-};
+} satisfies Meta<typeof <%= componentName %>>;
 
 export default meta;

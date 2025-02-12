@@ -1,4 +1,5 @@
 import { execSync, fork } from 'node:child_process';
+import * as path from 'node:path';
 import {
   type ExecutorContext,
   getPackageManagerCommand,
@@ -48,7 +49,7 @@ function playwrightCTExecutor(
       bodyLines: ['use --skipInstall to skip installation.'],
     });
     const pmc = getPackageManagerCommand();
-    execSync(`${pmc.exec} playwright install`, {
+    execSync(`${pmc.exec} playwright install --with-deps`, {
       cwd: workspaceRoot,
       stdio: 'inherit',
     });
@@ -114,7 +115,8 @@ function createArgs(
  */
 function runPlaywright(args: string[], cwd: string) {
   try {
-    const cli = require.resolve('@playwright/experimental-ct-core/cli');
+    const module = require.resolve('@playwright/experimental-ct-react');
+    const cli = path.join(path.dirname(module), 'cli.js');
 
     return fork(cli, ['test', ...args], {
       stdio: ['pipe', 'pipe', 'pipe', 'ipc'],

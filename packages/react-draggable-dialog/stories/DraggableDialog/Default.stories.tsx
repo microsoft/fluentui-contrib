@@ -1,9 +1,11 @@
 import * as React from 'react';
 import {
-  makeStyles,
   Button,
   DialogContent,
-  Avatar,
+  DialogTrigger,
+  DialogActions,
+  DialogBody,
+  DialogTitle,
 } from '@fluentui/react-components';
 
 import {
@@ -12,43 +14,36 @@ import {
   DraggableDialogHandle,
 } from '@fluentui-contrib/react-draggable-dialog';
 
-const useStyles = makeStyles({
-  dialog: {
-    width: '215px',
-    height: '120px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  handle: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    zIndex: 1,
-  },
-});
-
 export const Default = () => {
-  const styles = useStyles();
-  const [open, setOpen] = React.useState(false);
-
   return (
-    <DraggableDialog open={open} modalType="non-modal" margin={16}>
-      <Button onClick={() => setOpen((isOpen) => !isOpen)}>
-        Toggle dialog
-      </Button>
+    <DraggableDialog>
+      <DialogTrigger>
+        <Button>Toggle dialog</Button>
+      </DialogTrigger>
 
-      <DraggableDialogSurface className={styles.dialog}>
-        <DialogContent>
-          <DraggableDialogHandle className={styles.handle}>
-            <div></div>
+      <DraggableDialogSurface>
+        <DialogBody>
+          <DraggableDialogHandle>
+            <DialogTitle>Drag me</DialogTitle>
           </DraggableDialogHandle>
 
-          <Avatar initials="JD" color="brown" name="John Doe" size={48} />
-        </DialogContent>
+          <DialogContent>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+              exercitationem cumque repellendus eaque est dolor eius expedita
+              nulla ullam? Tenetur reprehenderit aut voluptatum impedit
+              voluptates in natus iure cumque eaque?
+            </p>
+          </DialogContent>
+
+          <DialogActions>
+            <DialogTrigger disableButtonEnhancement>
+              <Button appearance="secondary">Close</Button>
+            </DialogTrigger>
+
+            <Button appearance="primary">Do Something</Button>
+          </DialogActions>
+        </DialogBody>
       </DraggableDialogSurface>
     </DraggableDialog>
   );

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { StoryObj } from '@storybook/react';
 import { useResizeHandle } from '@fluentui-contrib/react-resize-handle';
 import {
   makeResetStyles,
@@ -9,7 +10,6 @@ import {
 } from '@fluentui/react-components';
 import { Handle } from './Handle';
 
-const NAV_INITIAL_WIDTH = 80;
 const NAV_SIZE_CSS_VAR = '--nav-size';
 const SIDE_SIZE_CSS_VAR = '--side-size';
 const FOOTER_SIZE_CSS_VAR = '--footer-size';
@@ -19,7 +19,7 @@ const usePageStyles = makeResetStyles({
 });
 
 const useMainWrapperStyles = makeResetStyles({
-  [NAV_SIZE_CSS_VAR]: `${NAV_INITIAL_WIDTH}px`,
+  [NAV_SIZE_CSS_VAR]: '0px',
   [SIDE_SIZE_CSS_VAR]: '120px',
   [FOOTER_SIZE_CSS_VAR]: '10%',
   display: 'grid',
@@ -28,7 +28,7 @@ const useMainWrapperStyles = makeResetStyles({
   gap: '16px',
   gridTemplate: `"nav sub-nav main side" minmax(0, 1fr)
   "nav sub-nav main-footer side" clamp(5%, var(${FOOTER_SIZE_CSS_VAR}), 30%)
-  / clamp(60px, var(${NAV_SIZE_CSS_VAR}), 40%)  150px 1fr var(${SIDE_SIZE_CSS_VAR})`,
+  / clamp(60px, calc(20% + var(${NAV_SIZE_CSS_VAR})), 40%)  150px 1fr var(${SIDE_SIZE_CSS_VAR})`,
 });
 
 const useStyles = makeStyles({
@@ -56,9 +56,9 @@ const useMainBoxStyles = makeResetStyles({
 
 type ComponentProps = {
   maxWidth: number;
-  onDragStart: (value: number) => void;
-  onDragEnd: (value: number) => void;
-  onChange: (value: number) => void;
+  onDragStart: (value: number, eventType: string) => void;
+  onDragEnd: (value: number, eventType: string) => void;
+  onChange: (value: number, eventType: string) => void;
 };
 
 const Component = (props: ComponentProps) => {
@@ -66,8 +66,6 @@ const Component = (props: ComponentProps) => {
   const wrapperStyles = useMainWrapperStyles();
   const boxStyles = useMainBoxStyles();
   const styles = useStyles();
-
-  const [maxValue, setMaxValue] = React.useState(400);
 
   const {
     handleRef: navHandleRef,
@@ -77,16 +75,15 @@ const Component = (props: ComponentProps) => {
   } = useResizeHandle({
     variableName: NAV_SIZE_CSS_VAR,
     growDirection: 'end',
-    minValue: 60,
-    maxValue: maxValue,
-    onChange: (value: number) => {
-      props.onChange(value);
+    relative: true,
+    onChange: (_, { value, type }) => {
+      props.onChange(value, String(type));
     },
-    onDragStart: (e, value: number) => {
-      props.onDragStart(value);
+    onDragStart: (_, { value, type }) => {
+      props.onDragStart(value, String(type));
     },
-    onDragEnd: (e, value: number) => {
-      props.onDragEnd(value);
+    onDragEnd: (_, { value, type }) => {
+      props.onDragEnd(value, String(type));
     },
   });
 
@@ -117,7 +114,7 @@ const Component = (props: ComponentProps) => {
   );
 
   const resetToInitial = () => {
-    setLeftColumnSize(NAV_INITIAL_WIDTH);
+    setLeftColumnSize(0);
   };
 
   return (
@@ -127,7 +124,6 @@ const Component = (props: ComponentProps) => {
           className={mergeClasses(boxStyles, styles.areaNav)}
           ref={navElementRef}
         >
-          <button onClick={() => setMaxValue(200)}>Set max 200</button>
           <Handle
             position="end"
             ref={navHandleRef}
@@ -153,7 +149,7 @@ const Component = (props: ComponentProps) => {
   );
 };
 
-export const Default = {
+export const Default: StoryObj<ComponentProps> = {
   render: (args) => {
     return <Component {...args} />;
   },

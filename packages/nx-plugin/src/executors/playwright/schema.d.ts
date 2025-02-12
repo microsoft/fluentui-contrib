@@ -8,10 +8,6 @@ export interface PlaywrightExecutorSchema extends NxPlaywrightExecutorSchema {
 
   // ============ BELOW API COPIED FROM https://github.com/nrwl/nx/blob/master/packages/playwright/src/executors/playwright/playwright.impl.ts ============
 
-  /*
-   * if 'projects' is configured then that name needs to be provided instead of
-   * all, chromium, firefox, webkit
-   **/
   browser?: 'all' | 'chromium' | 'firefox' | 'webkit' | string;
   config?: string;
   debug?: boolean;
@@ -54,6 +50,6 @@ export interface PlaywrightExecutorSchema extends NxPlaywrightExecutorSchema {
   updateSnapshots?: boolean;
   ui?: boolean;
   uiHost?: string;
-  uiPort?: string;
+  uiPort?: number;
   skipInstall?: boolean;
 }

@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/stylelint-plugin
 
-This log was last generated on Thu, 09 Nov 2023 13:33:19 GMT and should not be manually modified.
+This log was last generated on Wed, 15 Jan 2025 10:59:44 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.2.1
+
+Wed, 15 Jan 2025 10:59:44 GMT
+
+### Patches
+
+- fix: Add null guard for depth check (lingfangao@hotmail.com)
 
 ## 0.2.0
 

@@ -26,7 +26,11 @@ export type CellRenderer<TItem = unknown> = (
   /**
    * The index of each column
    */
-  columnIndex: number
+  columnIndex: number,
+  /**
+   * Indicates whether the grid is currently being scrolled.
+   */
+  isScrolling?: boolean | undefined
 ) => React.ReactNode;
 /**
  * DataGridBody Props
@@ -85,7 +89,7 @@ export type DataGridBodyState = Omit<DataGridBodyStateBase, 'renderRow'> &
     gridProps?: Partial<VariableSizeGridProps>;
 
     /**
-     * Ref of the virtualized list container ref
+     * Ref of the virtualized grid container ref
      */
     gridRef: React.RefObject<VariableSizeGrid>;
   };

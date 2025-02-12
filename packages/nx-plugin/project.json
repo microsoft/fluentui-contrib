@@ -37,14 +37,15 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
           "packages/nx-plugin/**/*.ts",
           "packages/nx-plugin/package.json",
           "packages/nx-plugin/generators.json",
-          "packages/nx-plugin/executors.json"
+          "packages/nx-plugin/executors.json",
+          "packages/nx-plugin/package.json"
         ]
       }
     },

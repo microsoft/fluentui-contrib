@@ -6,10 +6,15 @@
   "generators": "./generators.json",
   "executors": "./executors.json",
   "dependencies": {
+    "@nx/devkit": "^20.2.2",
     "semver": "^7.5.2",
-    "@nx/devkit": "^17.3.0",
-    "@nx/storybook": "^17.3.0",
-    "@nx/js": "^17.3.0",
-    "@nx/playwright": "^17.3.0"
+    "@nx/storybook": "^20.2.2",
+    "@nx/js": "^20.2.2",
+    "@nx/playwright": "^20.2.2",
+    "tslib": "^2.3.0"
+  },
+  "peerDependencies": {
+    "@playwright/experimental-ct-react": "^1.49.1",
+    "nx": ">= 20 <= 21"
   }
 }
