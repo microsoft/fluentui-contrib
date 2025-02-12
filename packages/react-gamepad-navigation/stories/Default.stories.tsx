@@ -35,7 +35,7 @@ const useStyles = makeStyles({
 });
 
 export const Default = () => {
-  const gamepadNavigationAttributes = useGamepadNavigationGroup();
+  const { gamepadNavAttributes } = useGamepadNavigationGroup();
 
   const styles = useStyles();
   const emailId = useId('input');
@@ -46,7 +46,7 @@ export const Default = () => {
   };
 
   return (
-    <div className={styles.container} {...gamepadNavigationAttributes}>
+    <div className={styles.container} {...gamepadNavAttributes}>
       <h1>Form Navigation</h1>
       <form className={styles.form} onSubmit={onSubmit}>
         <Label htmlFor={emailId} required>

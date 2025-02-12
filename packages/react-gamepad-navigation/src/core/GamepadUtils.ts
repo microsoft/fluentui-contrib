@@ -1,8 +1,8 @@
-import { useId } from '@fluentui/react-components';
 import { WindowWithFluentGPNShadowDOMAPI } from '../types/FluentGPNShadowDOMAPI';
-import { KeyboardKey } from '../types/Keys';
+import { KeyboardKey, MoverKey, MoverKeys } from '../types/Keys';
 import { selectOptionsVisibleAttribute } from './Constants';
 import { emitSyntheticKeyboardEvent } from './GamepadEvents';
+import { getMoverKeyToKeyboardKeyMapping } from './GamepadMappings';
 
 export type TimeoutId = number | undefined;
 export type IntervalId = number | undefined;
@@ -76,17 +76,30 @@ export const handleSelectOnEscape = (targetDocument: Document) => {
   }
 };
 
-export const getshadowDOMAPI = (targetDocument: Document | undefined) => {
-  const defaultView = targetDocument?.defaultView;
-  let shadowDOMAPI = (defaultView as WindowWithFluentGPNShadowDOMAPI)
-    ?.__FluentGPNShadowDOMAPI;
-  if (!shadowDOMAPI) {
-    shadowDOMAPI = {
-      gamepadInitialized: false,
-      windowId: useId('window'),
-    };
-    (defaultView as WindowWithFluentGPNShadowDOMAPI).__FluentGPNShadowDOMAPI =
-      shadowDOMAPI;
+export const handleSelectOnDirection = (
+  targetDocument: Document,
+  key: MoverKey
+) => {
+  const htmlSelect = targetDocument.activeElement as HTMLSelectElement;
+  const openOptions = htmlSelect.hasAttribute(selectOptionsVisibleAttribute);
+
+  // TODO: account for navigation to active select sibling elements vs options
+  if (openOptions && key === MoverKeys.ArrowDown) {
+    if (htmlSelect.selectedIndex < htmlSelect.options.length - 1) {
+      htmlSelect.selectedIndex++;
+    }
+  } else if (openOptions && key === MoverKeys.ArrowUp) {
+    if (htmlSelect.selectedIndex > 0) {
+      htmlSelect.selectedIndex--;
+    }
+  } else if (!openOptions) {
+    const button = getMoverKeyToKeyboardKeyMapping(key);
+    emitSyntheticKeyboardEvent('keydown', button, true, targetDocument);
   }
+};
+export const getShadowDOMAPI = (targetDocument: Document | undefined) => {
+  const defaultView = targetDocument?.defaultView;
+  const shadowDOMAPI = (defaultView as WindowWithFluentGPNShadowDOMAPI)
+    ?.__FluentGPNShadowDOMAPI;
   return shadowDOMAPI;
 };

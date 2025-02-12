@@ -1,6 +1,7 @@
 import { MoverMoveFocusEvent } from '@fluentui/react-tabster';
 import {
   getParentForm,
+  handleSelectOnDirection,
   handleSelectOnEnter,
   handleSelectOnEscape,
   isComboboxElement,
@@ -9,8 +10,7 @@ import {
   shouldSubmitForm,
 } from './GamepadUtils';
 import { getMoverKeyToKeyboardKeyMapping } from './GamepadMappings';
-import { KeyboardKey, MoverKey, MoverKeys } from '../types/Keys';
-import { selectOptionsVisibleAttribute } from './Constants';
+import { KeyboardKey, MoverKey } from '../types/Keys';
 
 /*
     Synthetic Events
@@ -108,22 +108,7 @@ export const emitSyntheticMoverMoveFocusEvent = (
     const button = getMoverKeyToKeyboardKeyMapping(key);
     emitSyntheticKeyboardEvent('keydown', button, true, targetDocument);
   } else if (isSelectElement(activeElement)) {
-    const htmlSelect = activeElement as HTMLSelectElement;
-    const openOptions = htmlSelect.hasAttribute(selectOptionsVisibleAttribute);
-
-    if (openOptions && key === MoverKeys.ArrowDown) {
-      if (htmlSelect.selectedIndex < htmlSelect.options.length - 1) {
-        htmlSelect.selectedIndex++;
-      }
-    } else if (openOptions && key === MoverKeys.ArrowUp) {
-      if (htmlSelect.selectedIndex > 0) {
-        htmlSelect.selectedIndex--;
-      }
-    } else if (!openOptions) {
-      const button = getMoverKeyToKeyboardKeyMapping(key);
-      emitSyntheticKeyboardEvent('keydown', button, true, targetDocument);
-    }
-    // TODO: account for navigation to active select sibling elements vs options
+    handleSelectOnDirection(targetDocument, key);
   } else {
     activeElement?.dispatchEvent(new MoverMoveFocusEvent({ key }));
   }
