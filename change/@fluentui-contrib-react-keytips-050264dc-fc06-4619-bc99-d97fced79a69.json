@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "docs: clarify startSequence value",
+  "packageName": "@fluentui-contrib/react-keytips",
+  "email": "seanmonahan@microsoft.com",
+  "dependentChangeType": "patch"
+}

@@ -35,6 +35,9 @@
       "@fluentui-contrib/react-draggable-dialog": [
         "packages/react-draggable-dialog/src/index.ts"
       ],
+      "@fluentui-contrib/react-gamepad-navigation": [
+        "packages/react-gamepad-navigation/src/index.ts"
+      ],
       "@fluentui-contrib/react-headless-provider": [
         "packages/react-headless-provider/src/index.ts"
       ],
@@ -56,6 +59,9 @@
       ],
       "@fluentui-contrib/stylelint-plugin": [
         "packages/stylelint-plugin/src/index.ts"
+      ],
+      "@fluentui-contrib/teams-components": [
+        "packages/teams-components/src/index.ts"
       ],
       "@fluentui-contrib/variant-theme": ["packages/variant-theme/src/index.ts"]
     }

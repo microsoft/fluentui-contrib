@@ -23,17 +23,21 @@ function sh(command) {
     let stdoutData = '';
 
     if (child.stdout) {
-      child.stdout.on('data', data => {
+      child.stdout.on('data', (data) => {
         stdoutData += data;
       });
     }
 
-    child.on('close', code => {
+    child.on('close', (code) => {
       if (code === 0) {
         resolve(stdoutData);
       }
 
-      reject(new Error([`child process exited with code ${code}`, stdoutData].join('\n')));
+      reject(
+        new Error(
+          [`child process exited with code ${code}`, stdoutData].join('\n')
+        )
+      );
     });
   });
 }
@@ -50,8 +54,8 @@ module.exports = {
   async prepublish() {
     // `beachball` runs this hook for every package, we want to run it only once.
     if (!completedPrepublish) {
-      await sh('yarn nx run-many --target=build --all --parallel --max-parallel=3');
-      await sh('yarn nx run-many --target=type-check --all --parallel --max-parallel=3');
+      await sh('yarn nx run-many --target=build --nxBail');
+      await sh('yarn nx run-many --target=type-check --nxBail');
       completedPrepublish = true;
     }
   },

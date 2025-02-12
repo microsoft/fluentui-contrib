@@ -209,15 +209,17 @@ function getStrongVariant(
   brand: BrandVariants,
   isInverted?: boolean
 ) {
+  const newBrandColor = theme.colorNeutralBackground1;
+
   // Todo: dark mode support
   setNeutralWithBrand(theme, brand);
-  const colorOnBrand: string = determineColorOnBrand(
-    theme.colorNeutralBackground1
-  );
-  const alphas: Record<AlphaColors, string> =
-    colorOnBrand === black ? blackAlpha : whiteAlpha;
 
-  setColorsOnBrand(theme, brand, colorOnBrand, alphas, isInverted);
+  const alphas: Record<AlphaColors, string> =
+    contrast(hex_to_sRGB(newBrandColor), hex_to_sRGB(black)) >
+    contrast(hex_to_sRGB(newBrandColor), hex_to_sRGB(white))
+      ? whiteAlpha
+      : blackAlpha;
+  setColorsOnBrand(theme, brand, newBrandColor, alphas, isInverted);
 }
 
 function setNeutralWithBrand(theme: Theme, brand: BrandVariants) {

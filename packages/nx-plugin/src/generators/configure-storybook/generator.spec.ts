@@ -59,30 +59,15 @@ describe('configure-storybook generator', () => {
     ).toMatchInlineSnapshot(`
       "import type { StorybookConfig } from '@storybook/react-webpack5';
 
+      // eslint-disable-next-line @nx/enforce-module-boundaries
+      import rootConfig from '../../../.storybook/main';
+
       const config: StorybookConfig = {
+        ...rootConfig,
         stories: ['../stories/**/index.stories.@(js|jsx|ts|tsx|mdx)'],
-        addons: [
-          '@nx/react/plugins/storybook',
-          {
-            name: '@storybook/addon-storysource',
-            options: {
-              loaderOptions: {
-                injectStoryParameters: true,
-              },
-            },
-          },
-        ],
-        framework: {
-          name: '@storybook/react-webpack5',
-          options: {},
-        },
       };
 
       export default config;
-
-      // To customize your webpack configuration you can use the webpackFinal field.
-      // Check https://storybook.js.org/docs/react/builders/webpack#extending-storybooks-webpack-config
-      // and https://nx.dev/packages/storybook/documents/custom-builder-configs
       "
     `);
 
@@ -92,20 +77,13 @@ describe('configure-storybook generator', () => {
         'utf-8'
       )
     ).toMatchInlineSnapshot(`
-      "import * as React from 'react';
+      "import type { Preview } from '@storybook/react';
 
-      import { Preview } from '@storybook/react';
-
-      import { FluentProvider, webLightTheme } from '@fluentui/react-components';
+      // eslint-disable-next-line @nx/enforce-module-boundaries
+      import rootPreview from '../../../.storybook/preview';
 
       const preview: Preview = {
-        decorators: [
-          (Story) => (
-            <FluentProvider theme={webLightTheme}>
-              <Story />
-            </FluentProvider>
-          ),
-        ],
+        ...rootPreview,
       };
 
       export default preview;

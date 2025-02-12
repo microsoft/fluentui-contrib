@@ -5,6 +5,8 @@ import {
   readJson,
   workspaceRoot,
   joinPathFragments,
+  readNxJson,
+  updateNxJson,
 } from '@nx/devkit';
 
 import generator from './generator';
@@ -22,6 +24,9 @@ describe('create-package generator', () => {
   beforeEach(() => {
     tree = createTreeWithEmptyWorkspace();
     setupWorkspaceDependencies(tree);
+    updateNxJson(tree, {
+      release: { projects: ['packages/**/*', '!tag:npm:private'] },
+    });
     createCodeowners(tree);
   });
 
@@ -32,9 +37,9 @@ describe('create-package generator', () => {
 
       expect(tree.children(config.root)).toMatchInlineSnapshot(`
         [
+          "tsconfig.lib.json",
           "tsconfig.json",
           "src",
-          "tsconfig.lib.json",
           "README.md",
           ".swcrc",
           "package.json",
@@ -175,6 +180,25 @@ describe('create-package generator', () => {
       expect(readJson(tree, '/package.json').devDependencies).not.toEqual(
         expect.objectContaining({ 'ts-jest': expect.any(String) })
       );
+    });
+
+    it(`should not update /project.json with release metadata`, async () => {
+      await generator(tree, options);
+
+      const project = readProjectConfiguration(tree, 'test');
+
+      expect(project.release).toEqual(undefined);
+      expect(project.targets?.['nx-release-publish']).toEqual(undefined);
+    });
+
+    it(`should not force update nx.json#release`, async () => {
+      await generator(tree, options);
+
+      const nxJson = readNxJson(tree);
+
+      expect(nxJson.release).toEqual({
+        projects: ['packages/**/*', '!tag:npm:private'],
+      });
     });
   });
 });

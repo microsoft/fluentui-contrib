@@ -72,4 +72,6 @@ export type DataGridBodyState = Omit<DataGridBodyStateBase, 'renderRow'> &
     virtualizedRow: (props: ListChildComponentProps) => React.ReactElement;
   } & {
     listProps?: Partial<FixedSizeListProps>;
+
+    outerRef?: React.Ref<unknown>;
   };

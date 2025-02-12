@@ -22,6 +22,7 @@
       "inputs": [
         "default",
         "^production",
+        "{workspaceRoot}/.storybook/**",
         "{projectRoot}/.storybook/**/*",
         "{projectRoot}/tsconfig.storybook.json"
       ],
@@ -36,6 +37,11 @@
     },
     "e2e": {
       "cache": true
+    },
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "dist/packages/{projectName}"
+      }
     }
   },
   "namedInputs": {
@@ -52,11 +58,49 @@
     ],
     "sharedGlobals": []
   },
+  "release": {
+    "projects": ["packages/**/*", "!tag:npm:private"],
+    "changelog": {
+      "projectChangelogs": {
+        "renderOptions": {
+          "authors": false,
+          "commitReferences": true,
+          "versionTitleDate": true
+        }
+      }
+    },
+    "version": {
+      "generatorOptions": {
+        "versionPrefix": "auto",
+        "currentVersionResolver": "disk"
+      }
+    },
+    "versionPlans": {
+      "ignorePatternsForPlanCheck": [
+        "**/*.test.tsx",
+        "**/*.test.ts",
+        "**/*.spec.tsx",
+        "**/*.spec.ts",
+        "**/*.component-browser-spec.tsx",
+        "**/*.stories.tsx",
+        "**/.eslintrc.json",
+        "**/jest.config.js",
+        "**/playwright.config.ts",
+        "**/project.json",
+        "**/*.md",
+        "**/*.babelrc",
+        "**/playwright/**",
+        "**/.storybook/**"
+      ]
+    },
+    "projectsRelationship": "independent"
+  },
   "workspaceLayout": {
     "appsDir": "packages",
     "libsDir": "packages"
   },
   "parallel": 3,
   "defaultBase": "main",
-  "useInferencePlugins": false
+  "useInferencePlugins": false,
+  "useLegacyCache": true
 }

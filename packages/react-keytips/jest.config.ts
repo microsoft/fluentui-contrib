@@ -22,9 +22,8 @@ export default {
   displayName: 'react-keytips',
   preset: '../../jest.preset.js',
   transform: {
-    '^.+\\.[tj]s$': ['@swc/jest', swcJestConfig],
+    '^.+\\.[tj]sx?$': ['@swc/jest', swcJestConfig],
   },
-  moduleFileExtensions: ['ts', 'js', 'html'],
-  testEnvironment: 'jsdom',
+  moduleFileExtensions: ['js', 'ts', 'tsx', 'html'],
   coverageDirectory: '../../coverage/packages/react-keytips',
 };

@@ -2,6 +2,36 @@
   "name": "@fluentui-contrib/azure-theme",
   "entries": [
     {
+      "date": "Wed, 22 Jan 2025 09:16:56 GMT",
+      "tag": "@fluentui-contrib/azure-theme_v0.0.3",
+      "version": "0.0.3",
+      "comments": {
+        "none": [
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "@fluentui-contrib/azure-theme",
+            "commit": "4fd45fcbe6264bf5fa6bfc9bd2d2ba83cb61fc01",
+            "comment": "chore: remove unwanted lock files in projects"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Wed, 25 Sep 2024 12:26:50 GMT",
+      "tag": "@fluentui-contrib/azure-theme_v0.0.3",
+      "version": "0.0.3",
+      "comments": {
+        "patch": [
+          {
+            "author": "microsoft/azure-ux-design-engineering",
+            "package": "@fluentui-contrib/azure-theme",
+            "commit": "6efefa08cb26e2479d00229e04995ddbe038f0d2",
+            "comment": "updated transparent value to fix card border, updated values of color palette to set to default when undefined"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 02 Aug 2024 14:44:26 GMT",
       "tag": "@fluentui-contrib/azure-theme_v0.0.2",
       "version": "0.0.2",

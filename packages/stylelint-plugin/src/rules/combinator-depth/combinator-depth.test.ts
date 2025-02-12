@@ -111,6 +111,27 @@ describe('combinator-depth', () => {
     expect(results[0].warnings[0].text).toContain(`maximum allowed depth of 0`);
   });
 
+  it.each(['.foo', '[data-foo]', '[data-foo="bar"]', '.foo[data-foo="bar"]'])(
+    'should not fail for singe level combinator %s',
+    async (selector) => {
+      const { errored, results } = await stylelint.lint({
+        code: `${selector} { color: red; }`,
+        config: {
+          pluginFunctions: {
+            [rule.ruleName]: rule,
+          },
+          rules: {
+            [rule.ruleName]: [0],
+          },
+        },
+      });
+
+      expect(errored).toBe(false);
+      expect(results.length).toBe(1);
+      expect(results[0].warnings.length).toBe(0);
+    }
+  );
+
   it.each([false, 'a', '%'])(
     'should throw an error if not configured with an %s',
     (allowedDepth) => {
