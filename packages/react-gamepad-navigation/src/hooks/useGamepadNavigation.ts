@@ -12,8 +12,9 @@ import {
 } from '../core/InputManager';
 import { handleGamepadInput } from '../core/InputProcessor';
 import { GamepadEventHandlers } from '../types/GamepadEventJHandlers';
-import { useFluent, useId } from '@fluentui/react-components';
+import { useId } from '@fluentui/react-components';
 import { WindowWithFluentGPNShadowDOMAPI } from '../types/FluentGPNShadowDOMAPI';
+import { useCallback } from 'react';
 
 /*
     Gamepad State & Polling
@@ -167,6 +168,11 @@ const onWindowFocus = (targetDocument: Document): void => {
 
 export type GamepadNavigationOptions = {
   /**
+   * The document to target for gamepad navigation
+   */
+  targetDocument: Document | undefined;
+
+  /**
    * The default input mode to use when lib is initialized
    * @defaultValue InputMode.Mouse
    * */
@@ -185,10 +191,8 @@ export type GamepadNavigationOptions = {
  * @param options {GamepadNavigationOptions} - The options to use for gamepad navigation
  * @returns cleanup function
  */
-export const useGamepadNavigation = (
-  options: GamepadNavigationOptions = {}
-) => {
-  const { targetDocument } = useFluent();
+export const useGamepadNavigation = (options: GamepadNavigationOptions) => {
+  const { targetDocument } = options;
   const defaultView = targetDocument?.defaultView;
   if (
     typeof targetDocument === 'undefined' ||
@@ -217,8 +221,10 @@ export const useGamepadNavigation = (
     onTargetWindowBlur,
     onTargetWindowFocus,
   };
-  const removeEventListener = () =>
-    removeGamepadNavigationEventListener(targetDocument, eventHandlers);
+  const removeEventListener = useCallback(
+    () => removeGamepadNavigationEventListener(targetDocument, eventHandlers),
+    [targetDocument]
+  );
 
   let shadowDOMAPI = getShadowDOMAPI(targetDocument);
   if (!shadowDOMAPI) {
@@ -230,7 +236,6 @@ export const useGamepadNavigation = (
     (defaultView as WindowWithFluentGPNShadowDOMAPI).__FluentGPNShadowDOMAPI =
       shadowDOMAPI;
   }
-  console.log('shadowDOMAPI', shadowDOMAPI);
   // Don't try to initialize multiple times
   if (shadowDOMAPI.gamepadInitialized) {
     return removeEventListener;

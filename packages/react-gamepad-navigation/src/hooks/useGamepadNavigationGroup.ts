@@ -38,8 +38,8 @@ export type UseGamepadNavigationGroupOptions =
 export const useGamepadNavigationGroup = (
   options: UseGamepadNavigationGroupOptions = {}
 ): {
-  gamepadNavAttributes: TabsterDOMAttribute;
-  removeNavEventListeners: () => void;
+  gamepadNavDOMAttributes: TabsterDOMAttribute;
+  removeGamepadNavEventListeners: () => void;
 } => {
   const {
     axis = 'grid',
@@ -53,20 +53,19 @@ export const useGamepadNavigationGroup = (
     defaultInputMode,
     pollingEnabled,
   } = options;
-  const focusFinderFns = useFocusFinders();
+  const { findFirstFocusable } = useFocusFinders();
   const { targetDocument } = useFluent();
   const gpnProps = {
+    targetDocument,
     defaultInputMode,
     pollingEnabled,
   };
 
-  const removeNavEventListeners = useGamepadNavigation(gpnProps);
+  const removeGamepadNavEventListeners = useGamepadNavigation(gpnProps);
 
   useEffect(() => {
     if (focusFirstElement) {
-      focusFinderFns
-        .findFirstFocusable(targetDocument?.activeElement as HTMLElement)
-        ?.focus();
+      findFirstFocusable(targetDocument?.activeElement as HTMLElement)?.focus();
     }
   }, []);
 
@@ -79,12 +78,13 @@ export const useGamepadNavigationGroup = (
     unstable_hasDefault,
   });
   const groupperAttr = useFocusableGroup({ tabBehavior, ignoreDefaultKeydown });
+  const gamepadNavDOMAttributes = useMergedTabsterAttributes_unstable(
+    moverAttr,
+    groupperAttr
+  );
 
   return {
-    gamepadNavAttributes: useMergedTabsterAttributes_unstable(
-      moverAttr,
-      groupperAttr
-    ),
-    removeNavEventListeners,
+    gamepadNavDOMAttributes,
+    removeGamepadNavEventListeners,
   };
 };

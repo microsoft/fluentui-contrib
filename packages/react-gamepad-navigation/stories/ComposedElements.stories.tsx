@@ -260,7 +260,7 @@ const tagOptions = [
 ];
 
 export const ComposedElements = () => {
-  const { gamepadNavAttributes } = useGamepadNavigationGroup();
+  const { gamepadNavDOMAttributes } = useGamepadNavigationGroup();
 
   const styles = useStyles();
   const CalendarMonth = bundleIcon(CalendarMonthRegular, CalendarMonthRegular);
@@ -283,7 +283,7 @@ export const ComposedElements = () => {
   );
 
   return (
-    <div className={styles.container} {...gamepadNavAttributes}>
+    <div className={styles.container} {...gamepadNavDOMAttributes}>
       <h1>Navigation with Composed focusable Elements</h1>
       <h3>
         Accordion

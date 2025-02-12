@@ -120,7 +120,7 @@ const useStyles = makeStyles({
 });
 
 export const SingleElements = () => {
-  const { gamepadNavAttributes } = useGamepadNavigationGroup();
+  const { gamepadNavDOMAttributes } = useGamepadNavigationGroup();
 
   const { targetDocument } = useFluent();
   const styles = useStyles();
@@ -154,7 +154,7 @@ export const SingleElements = () => {
   const selectId = useId('select-default');
 
   return (
-    <div className={styles.container} {...gamepadNavAttributes}>
+    <div className={styles.container} {...gamepadNavDOMAttributes}>
       <h1>Navigation with Single Input Elements</h1>
       <h3>
         Input
