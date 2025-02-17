@@ -8,7 +8,7 @@ import {
 } from '@fluentui/react-components';
 import { validateIconButton, validateMenuButton } from './validateProps';
 import { type StrictCssClass, validateStrictClasses } from '../../strictStyles';
-import { type StrictSlot } from '../../strictSlot';
+import { type StrictSlot, DataAttributeProps } from '../../strictSlot';
 
 export interface ButtonProps
   extends Pick<
@@ -34,9 +34,18 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       validateProps(userProps);
     }
 
-    const { className, icon, title, ...restProps } = userProps;
-    const props: ButtonPropsBase = {
+    const {
+      className,
+      icon,
+      title,
+      appearance = 'secondary',
+      ...restProps
+    } = userProps;
+
+    const props: ButtonPropsBase & DataAttributeProps = {
       ...restProps,
+      'data-appearance': appearance,
+      appearance,
       className: className?.toString(),
       iconPosition: 'before',
       icon,
