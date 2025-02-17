@@ -4,13 +4,10 @@ import { KeytipWithId } from '../components/Keytip/Keytip.types';
 
 export const createNode = ({
   keySequences,
-  onExecute,
-  onReturn,
-  dynamic,
   nodeMap,
-  hasMenu,
   positioning,
-  uniqueId,
+  overflowSequence = [],
+  ...props
 }: KeytipWithId & {
   nodeMap: Map<string, KeytipTreeNode>;
 }): KeytipTreeNode => {
@@ -29,17 +26,13 @@ export const createNode = ({
   }
 
   const node: KeytipTreeNode = {
+    ...props,
+    overflowSequence,
     id,
-    uniqueId,
     target: positioning?.target as HTMLElement,
+    keySequences,
     parent,
     children,
-    isShortcut: false,
-    hasMenu,
-    dynamic,
-    keySequences,
-    onExecute,
-    onReturn,
   };
 
   return node;
