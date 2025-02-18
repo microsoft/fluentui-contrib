@@ -1,10 +1,12 @@
 import {
+  Tab,
   ArrowLeft,
   Enter,
   Space,
   ArrowUp,
   ArrowDown,
   ArrowRight,
+  Shift,
 } from '@fluentui/keyboard-keys';
 
 export const KTP_PREFIX = 'ktp';
@@ -36,6 +38,8 @@ export const VISUALLY_HIDDEN_STYLES = {
 } as React.CSSProperties;
 
 export const EXIT_KEYS = [
+  Tab,
+  Shift,
   Enter,
   Space,
   ArrowUp,
