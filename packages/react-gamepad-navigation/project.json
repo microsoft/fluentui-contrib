@@ -16,10 +16,9 @@
     "build": {
       "executor": "@fluentui-contrib/nx-plugin:build"
     },
-    "nx-release-publish": {
-      "options": {
-        "packageRoot": "dist\\{projectRoot}"
-      }
+    "publish": {
+      "command": "node tools/scripts/publish.mjs react-gamepad-navigation {args.ver} {args.tag}",
+      "dependsOn": ["build"]
     },
     "lint": {
       "executor": "@nx/eslint:lint",
