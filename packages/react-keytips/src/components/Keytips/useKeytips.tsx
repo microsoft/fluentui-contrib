@@ -22,6 +22,7 @@ import { useTree } from '../../hooks/useTree';
 import type { KeytipTreeNode } from '../../hooks/useTree';
 import type { Hotkey } from '../../hooks/useHotkeys';
 import { useKeytipsState } from './useKeytipsState';
+import { useIsMacOS } from '../../hooks/useIsMacOS';
 
 /**
  * Create the state required to render Keytips.
@@ -29,9 +30,11 @@ import { useKeytipsState } from './useKeytipsState';
  */
 export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
   const { targetDocument } = useFluent();
+  const isMac = useIsMacOS();
+
   const {
-    content = 'Alt Meta',
-    startSequence = 'alt+meta',
+    content = isMac ? 'Alt Control' : 'Alt Meta',
+    startSequence = isMac ? 'alt+control' : 'alt+meta',
     exitSequence = 'alt+escape',
     returnSequence = 'escape',
     onEnterKeytipsMode,
@@ -99,11 +102,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     [state.inKeytipMode]
   );
 
-  const exitSequences = [
-    exitSequence,
-    ...EXIT_KEYS,
-    state.inKeytipMode ? 'Tab' : '',
-  ];
+  const exitSequences = state.inKeytipMode ? [...EXIT_KEYS, exitSequence] : [];
 
   useHotkeys(
     [
@@ -111,11 +110,11 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
       [returnSequence, handleReturnSequence],
       ...exitSequences.map((key) => [key, handleExitKeytipMode] as Hotkey),
     ],
-    invokeEvent
+    { invokeEvent }
   );
 
-  React.useEffect(() => {
-    const handleKeytipAdded = (keytip: KeytipWithId) => {
+  const handleKeytipAdded = React.useCallback(
+    (keytip: KeytipWithId) => {
       tree.addNode(keytip);
 
       dispatch({
@@ -123,27 +122,38 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
         keytip,
       });
 
-      if (tree.isCurrentKeytipParent(keytip)) {
+      const { current: currentKeytip } = tree.currentKeytip;
+
+      if (!currentKeytip) return;
+
+      if (state.inKeytipMode && tree.isCurrentKeytipParent(keytip)) {
         showKeytips(tree.getChildren());
       }
-    };
+    },
+    [state.inKeytipMode]
+  );
 
-    const handleKeytipRemoved = (keytip: KeytipWithId) => {
-      tree.removeNode(keytip.uniqueId);
-      // nodemway mave an alias registered, if it's shortcut
-      if (keytip.isShortcut) {
-        tree.removeNode(`${keytip.uniqueId}-alias`);
+  const handleKeytipRemoved = React.useCallback((keytip: KeytipWithId) => {
+    tree.removeNode(keytip.uniqueId);
+    dispatch({ type: ACTIONS.REMOVE_KEYTIP, id: keytip.uniqueId });
+  }, []);
+
+  const handleKeytipUpdated = React.useCallback((keytip: KeytipWithId) => {
+    tree.updateNode(keytip);
+    dispatch({ type: ACTIONS.UPDATE_KEYTIP, keytip });
+    showKeytips(tree.getChildren());
+  }, []);
+
+  const handleDismiss = React.useCallback(
+    (ev: Event) => {
+      if (state.inKeytipMode) {
+        handleExitKeytipMode(ev as KeyboardEvent);
       }
+    },
+    [state.inKeytipMode]
+  );
 
-      dispatch({ type: ACTIONS.REMOVE_KEYTIP, id: keytip.uniqueId });
-    };
-
-    const handleKeytipUpdated = (keytip: KeytipWithId) => {
-      tree.updateNode(keytip);
-      dispatch({ type: ACTIONS.UPDATE_KEYTIP, keytip });
-      showKeytips(tree.getChildren());
-    };
-
+  React.useLayoutEffect(() => {
     subscribe(EVENTS.KEYTIP_ADDED, handleKeytipAdded);
     subscribe(EVENTS.KEYTIP_UPDATED, handleKeytipUpdated);
     subscribe(EVENTS.KEYTIP_REMOVED, handleKeytipRemoved);
@@ -151,17 +161,11 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     return () => {
       reset();
     };
-  }, []);
+  }, [reset, handleKeytipAdded, handleKeytipUpdated, handleKeytipRemoved]);
 
   React.useEffect(() => {
     const controller = new AbortController();
     const { signal } = controller;
-
-    const handleDismiss = (ev: Event) => {
-      if (state.inKeytipMode) {
-        handleExitKeytipMode(ev as KeyboardEvent);
-      }
-    };
 
     targetDocument?.addEventListener('mousedown', handleDismiss, { signal });
     targetDocument?.addEventListener('mouseup', handleDismiss, { signal });
@@ -175,7 +179,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     return () => {
       controller.abort();
     };
-  }, [state.inKeytipMode, targetDocument, handleExitKeytipMode]);
+  }, [targetDocument, handleExitKeytipMode, handleDismiss]);
 
   // executes any normal keytip, except shortcuts
   const handleKeytipExecution = React.useCallback(
@@ -277,12 +281,10 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
   }, []);
 
   React.useEffect(() => {
-    if (!targetDocument) return;
+    if (!targetDocument || !state.inKeytipMode) return;
 
     const handleInvokeEvent = (ev: KeyboardEvent) => {
       ev.stopPropagation();
-
-      if (!state.inKeytipMode) return;
 
       const { key } = parseHotkey(ev.key.toLowerCase());
       const currSeq = state.currentSequence + key?.toLowerCase();

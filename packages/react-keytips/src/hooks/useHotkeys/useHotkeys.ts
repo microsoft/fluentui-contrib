@@ -1,70 +1,16 @@
 import * as React from 'react';
 import { useFluent, useTimeout } from '@fluentui/react-components';
-import { KeytipsProps } from '../components/Keytips/Keytips.types';
-import { Space } from '@fluentui/keyboard-keys';
-
-type Options = {
-  preventDefault?: boolean;
-  stopPropagation?: boolean;
-  delay?: number;
-};
-
-export type Hotkey = [string, (ev: KeyboardEvent) => void, Options?];
-
-export type InputHotkey = {
-  key?: string;
-  modifiers: string[];
-};
-
-const MODIFIERS = ['shift', 'alt', 'control'];
-
-export const parseHotkey = (hotkey: string) => {
-  const keys = hotkey
-    .toLowerCase()
-    .split('+')
-    .map((key) => key.trim());
-
-  const modifiers = keys.filter((key) => MODIFIERS.includes(key));
-  const key = keys.find((k) => !modifiers.includes(k));
-
-  return {
-    modifiers,
-    key,
-  };
-};
-
-const isKeyMatchingKeyboardEvent = (
-  hotkey: InputHotkey,
-  event: KeyboardEvent
-) => {
-  const { key: eventKey } = event;
-  const { modifiers, key } = hotkey;
-
-  const pressedModifiers = [
-    event.altKey && 'alt',
-    event.shiftKey && 'shift',
-    event.ctrlKey && 'control',
-  ].filter(Boolean);
-
-  const pressedKey = event.code === Space ? 'space' : eventKey.toLowerCase();
-
-  const modifiersMatch =
-    modifiers.length === pressedModifiers.length &&
-    modifiers.every((mod) => pressedModifiers.includes(mod));
-
-  if (!modifiersMatch) {
-    return false;
-  }
-
-  return key === pressedKey;
-};
+import { KeytipsProps } from '../../components/Keytips/Keytips.types';
+import type { Hotkey } from './useHotkeys.types';
+import { isKeyMatchingKeyboardEvent } from './isMatchingKeyboardEvent';
+import { parseHotkey } from './parseHotkey';
 
 export const useHotkeys = (
   hotkeys: Hotkey[],
-  invokeEvent: KeytipsProps['invokeEvent'] = 'keydown',
-  target?: Document
+  options?: { invokeEvent?: KeytipsProps['invokeEvent']; target?: Document }
 ) => {
   const { targetDocument } = useFluent();
+  const { target, invokeEvent = 'keydown' } = options ?? {};
   const [setDelayTimeout, clearDelayTimeout] = useTimeout();
   const doc = target ?? targetDocument;
   const activeKeys = React.useRef<Set<string>>(new Set());

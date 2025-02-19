@@ -11,7 +11,7 @@ This Migration guide is a work in progress and is not yet ready for use.
   - `keytipExitSequence` -> renamed to `exitSequence`, instead of `IKeytipTransitionKey[]`
     accepts a string value. Can be a single key or a combination of keys separated by "+".
   - `keytipStartSequence` -> renamed to `startSequence`, instead of `IKeytipTransitionKey[]`,
-    accepts a string value (default: "alt+meta (Alt+Win on Windows, Option+Command on MacOS)"). Can be a single key or a combination of keys separated by "+".
+    accepts a string value (default: "alt+meta" on Windows, "alt+control" on MacOS). Can be a single key or a combination of keys separated by "+".
   - `keytipReturnSequence` -> renamed to `returnSequence`, instead of `IKeytipTransitionKey[]`,
     accepts a string value. Can be a single key or a combination of keys separated by "+".
   - `styles` - Not supported.
