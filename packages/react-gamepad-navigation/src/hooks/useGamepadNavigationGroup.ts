@@ -12,7 +12,7 @@ import {
   useMergedTabsterAttributes_unstable,
 } from '@fluentui/react-tabster';
 import {
-  GamepadNavigationOptions,
+  type GamepadNavigationOptions,
   useGamepadNavigation,
 } from './useGamepadNavigation';
 
