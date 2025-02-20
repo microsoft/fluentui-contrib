@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import {
-  UseArrowNavigationGroupOptions,
+  type UseArrowNavigationGroupOptions,
   useFluent,
   useFocusFinders,
 } from '@fluentui/react-components';
