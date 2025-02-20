@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import {
-  UseArrowNavigationGroupOptions,
+  type UseArrowNavigationGroupOptions,
   useFluent,
   useFocusFinders,
 } from '@fluentui/react-components';
@@ -12,7 +12,7 @@ import {
   useMergedTabsterAttributes_unstable,
 } from '@fluentui/react-tabster';
 import {
-  GamepadNavigationOptions,
+  type GamepadNavigationOptions,
   useGamepadNavigation,
 } from './useGamepadNavigation';
 
