@@ -14,20 +14,6 @@ export const shouldSubmitForm = (element: Element | null | undefined) =>
     element.type === 'email' ||
     element.type === 'tel');
 
-export const getParentForm = (
-  element: Element | null | undefined,
-  body: HTMLElement
-) => {
-  let current = element?.parentElement;
-  while (current && current != body) {
-    if (current instanceof HTMLFormElement) {
-      return current;
-    }
-    current = current.parentElement;
-  }
-  return null;
-};
-
 export const isComboboxElement = (element: Element | null | undefined) => {
   return element?.getAttribute('role') === 'combobox';
 };

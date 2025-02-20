@@ -1,6 +1,5 @@
 import { MoverMoveFocusEvent } from '@fluentui/react-tabster';
 import {
-  getParentForm,
   handleSelectOnDirection,
   handleSelectOnEnter,
   handleSelectOnEscape,
@@ -131,7 +130,7 @@ export const emitSyntheticGroupperMoveFocusEvent = (
       emitSyntheticMouseEvent('click', true, targetDocument);
     }
     if (shouldSubmitForm(activeElement)) {
-      getParentForm(activeElement, targetDocument.body)?.requestSubmit?.();
+      activeElement?.closest('form')?.requestSubmit?.();
     }
   } else {
     // Note: GroupperMoveFocusActions.Escape has no difference to KeyboardKey.Escape
