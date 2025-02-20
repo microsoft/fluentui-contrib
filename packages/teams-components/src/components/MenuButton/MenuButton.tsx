@@ -8,13 +8,8 @@ import {
 } from '@fluentui/react-components';
 import { ButtonProps, validateIconButton } from '../Button';
 import { validateStrictClasses } from '../../strictStyles';
-import { StrictSlot } from '../../strictSlot';
 
-export interface MenuButtonProps extends ButtonProps {
-  menuIcon?: StrictSlot;
-}
-
-export const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>(
+export const MenuButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (userProps, ref) => {
     if (process.env.NODE_ENV !== 'production') {
       validateProps(userProps);

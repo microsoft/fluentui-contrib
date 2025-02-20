@@ -13,7 +13,7 @@ import {
   validateStrictClasses,
   type DefaultStrictStyles,
 } from '../../strictStyles';
-import { DataAttributeProps, type StrictSlot } from '../../strictSlot';
+import { type StrictSlot } from '../../strictSlot';
 
 export type ButtonStrictOverrides = Pick<
   GriffelStyle,
@@ -45,18 +45,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       validateProps(userProps);
     }
 
-    const {
-      className,
-      icon,
-      title,
-      appearance = 'secondary',
-      ...restProps
-    } = userProps;
-
-    const props: ButtonPropsBase & DataAttributeProps = {
+    const { className, icon, title, ...restProps } = userProps;
+    const props: ButtonPropsBase = {
       ...restProps,
-      'data-appearance': appearance,
-      appearance,
       className: className?.toString(),
       iconPosition: 'before',
       icon,
