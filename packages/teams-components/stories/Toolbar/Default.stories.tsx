@@ -35,8 +35,14 @@ import {
   MoreHorizontalFilled,
   DocumentOnePageMultipleRegular,
   DocumentOnePageMultipleFilled,
+  NumberSymbolRegular,
+  NumberSymbolFilled,
+  VideoRegular,
+  VideoFilled,
 } from '@fluentui/react-icons';
 
+const NumberSymbolIcon = bundleIcon(NumberSymbolFilled, NumberSymbolRegular);
+const VideoIcon = bundleIcon(VideoFilled, VideoRegular);
 const PeopleAddIcon = bundleIcon(PeopleAddFilled, PeopleAddRegular);
 const AddIcon = bundleIcon(AddFilled, AddRegular);
 const TextEditStyleIcon = bundleIcon(TextEditStyleFilled, TextEditStyleRegular);
@@ -56,10 +62,11 @@ const DocumentOnePageMultipleIcon = bundleIcon(
 
 export const Default = () => {
   return (
-    <>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
       <EditorToolbar />
       <GroupChatHeader />
-    </>
+      <CalendarHeader />
+    </div>
   );
 };
 
@@ -179,6 +186,19 @@ export const GroupChatHeader = () => {
           </MenuList>
         </MenuPopover>
       </Menu>
+    </Toolbar>
+  );
+};
+
+const CalendarHeader = () => {
+  return (
+    <Toolbar>
+      <ToolbarButton icon={<NumberSymbolIcon />}>Join with an ID</ToolbarButton>
+      <ToolbarButton icon={<VideoIcon />}>Meet now</ToolbarButton>
+      <ToolbarButton appearance="primary" icon={<AddIcon />}>
+        New meeting
+      </ToolbarButton>
+      <ToolbarButton appearance="transparent">Use new Calendar</ToolbarButton>
     </Toolbar>
   );
 };

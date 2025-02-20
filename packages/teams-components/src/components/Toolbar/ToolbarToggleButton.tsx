@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { ToggleButton, type ToggleButtonProps } from '../ToggleButton';
 import { createStrictClass } from '../../strictStyles/createStrictClass';
+import { useItemRegistration } from './itemRegistration';
+import { useMergedRefs } from '@fluentui/react-components';
+import { mergeStrictClasses } from '../../strictStyles';
 
 export const toolbarToggleButtonClassNames = {
   root: 'tco-ToolbarToggleButton',
@@ -17,11 +20,15 @@ export const ToolbarToggleButton = React.forwardRef<
   HTMLButtonElement,
   ToggleButtonProps
 >((props, ref) => {
+  const { ref: registerRef, styles } = useItemRegistration({
+    appearance: props.appearance,
+    type: 'button',
+  });
   return (
     <ToggleButton
-      ref={ref}
+      ref={useMergedRefs(ref, registerRef)}
       {...props}
-      className={rootStrictClassName}
+      className={mergeStrictClasses(rootStrictClassName, styles.root)}
       data-appearance={props.appearance}
     />
   );
