@@ -5,10 +5,21 @@ import {
   renderButton_unstable,
   type ButtonProps as ButtonPropsBase,
   Tooltip,
+  GriffelStyle,
 } from '@fluentui/react-components';
 import { validateIconButton, validateMenuButton } from './validateProps';
-import { type StrictCssClass, validateStrictClasses } from '../../strictStyles';
-import { type StrictSlot, DataAttributeProps } from '../../strictSlot';
+import {
+  type StrictCssClass,
+  validateStrictClasses,
+  type DefaultStrictStyles,
+} from '../../strictStyles';
+import { DataAttributeProps, type StrictSlot } from '../../strictSlot';
+
+export type ButtonStrictOverrides = Pick<
+  GriffelStyle,
+  'maxWidth' | 'minWidth'
+> &
+  DefaultStrictStyles;
 
 export interface ButtonProps
   extends Pick<
@@ -22,7 +33,7 @@ export interface ButtonProps
     | 'disabledFocusable'
   > {
   appearance?: 'transparent' | 'primary';
-  className?: StrictCssClass;
+  className?: StrictCssClass<ButtonStrictOverrides>;
   icon?: StrictSlot;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   title?: StrictSlot;

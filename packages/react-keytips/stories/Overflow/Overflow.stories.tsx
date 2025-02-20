@@ -15,7 +15,6 @@ import Help from './Help';
 
 const useStyles = makeStyles({
   root: {
-    height: '100vh',
     backgroundColor: tokens.colorNeutralBackground6,
   },
   panels: {
@@ -89,17 +88,13 @@ export const OverflowStory = () => {
           </div>
         )}
         {selectedValue === 'View' && (
-          <div role="tabpanel">
-            <div className={classes.panel} role="tabpanel">
-              <View />
-            </div>
+          <div className={classes.panel} role="tabpanel">
+            <View />
           </div>
         )}
         {selectedValue === 'Help' && (
-          <div role="tabpanel">
-            <div className={classes.panel} role="tabpanel">
-              <Help />
-            </div>
+          <div className={classes.panel} role="tabpanel">
+            <Help />
           </div>
         )}
       </div>
