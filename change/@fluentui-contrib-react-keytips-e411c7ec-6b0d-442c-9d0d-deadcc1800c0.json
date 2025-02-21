@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "BREAKING: removed isShortcut prop, added overflowSequence",
-  "packageName": "@fluentui-contrib/react-keytips",
-  "email": "vgenaev@gmail.com",
-  "dependentChangeType": "patch"
-}

@@ -1,0 +1,20 @@
+{
+  "name": "@fluentui-contrib/react-gamepad-navigation",
+  "entries": [
+    {
+      "date": "Fri, 21 Feb 2025 18:05:51 GMT",
+      "tag": "@fluentui-contrib/react-gamepad-navigation_v0.0.1",
+      "version": "0.0.1",
+      "comments": {
+        "none": [
+          {
+            "author": "hectorjimenez@outlook.com",
+            "package": "@fluentui-contrib/react-gamepad-navigation",
+            "commit": "10de2c65ed621518d688e6bbd234aafff835acc8",
+            "comment": "generate package files"
+          }
+        ]
+      }
+    }
+  ]
+}
