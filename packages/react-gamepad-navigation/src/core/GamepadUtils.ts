@@ -48,7 +48,7 @@ export const handleSelectOnEnter = (activeElement: Element | null) => {
 };
 
 export const handleSelectOnEscape = (targetDocument: Document) => {
-  const htmlSelect = targetDocument?.activeElement as HTMLSelectElement;
+  const htmlSelect = targetDocument.activeElement as HTMLSelectElement;
   const openOptions = htmlSelect.hasAttribute(selectOptionsVisibleAttribute);
   if (openOptions) {
     hidePickerOnSeLectElement(htmlSelect);
