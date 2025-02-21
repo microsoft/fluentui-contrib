@@ -72,7 +72,6 @@ export const OverflowMenu = ({
           ref={mergedRefs}
           icon={<MoreHorizontalRegular />}
           aria-label={`${overflowCount} more tabs`}
-          role="tab"
         />
       </MenuTrigger>
       <MenuPopover>
