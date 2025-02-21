@@ -124,19 +124,20 @@ test.describe('test keytip navigation', () => {
     mount,
     page,
   }) => {
+    page.setViewportSize({ width: 400, height: 500 });
+
     const component = await mount(
       <KeytipsOverflowMenuExample startSequence="alt+meta" />
     );
     await component.press('Alt+Meta');
 
-    await expect(page.getByRole('tooltip', { name: 'A' })).toBeVisible();
+    await expect(page.getByRole('tooltip', { name: 'R' })).toBeVisible();
     // should open nested menus and show next keytip
-    await component.press('a');
-    await expect(page.getByRole('menuitem', { name: 'Item 7' })).toBeVisible();
-    await expect(page.getByRole('tooltip', { name: 'B' })).toBeVisible();
+    await component.press('r');
+    await expect(page.getByRole('menuitem', { name: 'Item 4' })).toBeVisible();
 
-    await component.press('b');
-    await expect(page.getByRole('menuitem', { name: '8' })).toBeVisible();
+    await component.press('y');
+    await expect(page.getByRole('menuitem', { name: '6' })).toBeVisible();
   });
 
   test('should be hidden with overflow menu, if the overflow menu is not available', async ({
@@ -148,18 +149,21 @@ test.describe('test keytip navigation', () => {
       <KeytipsOverflowMenuExample startSequence="alt+meta" />
     );
     await component.press('Alt+Meta');
-    await expect(page.getByRole('tooltip', { name: 'A' })).toBeHidden();
+    await expect(page.getByRole('tooltip', { name: 'R' })).toBeHidden();
   });
 
   test('should have shortcut keytip', async ({ mount, page }) => {
+    page.setViewportSize({ width: 400, height: 500 });
+
     const component = await mount(
       <KeytipsOverflowMenuExample startSequence="alt+meta" />
     );
+
     await component.press('Alt+Meta');
 
-    await expect(page.getByRole('tooltip', { name: 'A' })).toBeVisible();
-    await component.press('b');
-    await expect(page.getByRole('menuitem', { name: '8' })).toBeVisible();
+    await expect(page.getByRole('tooltip', { name: 'R' })).toBeVisible();
+    await component.press('y');
+    await expect(page.getByRole('menuitem', { name: '6' })).toBeVisible();
   });
 });
 
