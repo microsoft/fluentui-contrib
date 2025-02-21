@@ -1,13 +1,15 @@
-import { tokens, useFluent } from '@fluentui/react-components';
+import { tokens } from '@fluentui/react-components';
 import * as React from 'react';
 import {
   itemRegistrationVars,
-  registerCustomProperties,
   useItemRegistrationStyles,
 } from './itemRegistration.styles';
 
 export interface ToolbarItemRegistrationContextValue {
-  registerItem: (element: HTMLElement, metadata: ToolbarItemMetadata) => void;
+  registerItem: (
+    element: HTMLElement,
+    metadata: ToolbarItemMetadata
+  ) => () => void;
 }
 
 export interface ToolbarItemMetadata {
@@ -18,7 +20,7 @@ export interface ToolbarItemMetadata {
 const ToolbarItemRegistrationContext =
   React.createContext<ToolbarItemRegistrationContextValue>({
     registerItem: () => {
-      throw new Error('ToolbarItemRegistrationContext is not provided');
+      return () => null;
     },
   });
 
@@ -26,7 +28,6 @@ export const ToolbarItemRegistrationProvider =
   ToolbarItemRegistrationContext.Provider;
 
 export const useInitItemRegistration = () => {
-  const { targetDocument } = useFluent();
   const items = React.useRef<
     {
       element: HTMLElement;
@@ -99,13 +100,9 @@ export const useInitItemRegistration = () => {
   }, []);
 
   React.useLayoutEffect(() => {
-    if (targetDocument?.defaultView) {
-      registerCustomProperties(targetDocument.defaultView);
-    }
-
     recalcToolbarItemSpacing();
     firstMount.current = false;
-  }, [recalcToolbarItemSpacing, targetDocument]);
+  }, [recalcToolbarItemSpacing]);
 
   return registerItem;
 };
@@ -113,10 +110,15 @@ export const useInitItemRegistration = () => {
 export const useItemRegistration = (metadata: ToolbarItemMetadata) => {
   const { registerItem } = React.useContext(ToolbarItemRegistrationContext);
   const styles = useItemRegistrationStyles();
-  const ref = React.useCallback((el: HTMLElement) => {
-    if (el) {
-      registerItem(el, metadata);
-    }
+  const ref = React.useMemo(() => {
+    let dispose: () => void = () => null;
+    return (el: HTMLElement) => {
+      if (el) {
+        dispose = registerItem(el, metadata);
+      } else {
+        dispose();
+      }
+    };
   }, []);
 
   return { ref, styles };
