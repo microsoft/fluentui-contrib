@@ -1,7 +1,7 @@
 import { isDisabled } from './isDisabled';
 
 export const isTargetVisible = (
-  target?: HTMLElement,
+  target?: HTMLElement | null,
   win?: Document['defaultView']
 ): boolean => {
   if (!target || !win) return false;

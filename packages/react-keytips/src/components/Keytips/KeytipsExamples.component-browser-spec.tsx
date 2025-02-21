@@ -1,19 +1,21 @@
 import * as React from 'react';
 import { useKeytipRef } from '../../hooks/useKeytipRef';
-import type { ExecuteKeytipEventHandler } from '../Keytip/Keytip.types';
+import type {
+  ExecuteKeytipEventHandler,
+  KeytipProps,
+} from '../Keytip/Keytip.types';
 import {
   Button,
   FluentProvider,
   Overflow,
   OverflowItem,
-  OverflowItemProps,
   useMergedRefs,
-  mergeClasses,
   useOverflowMenu,
   Menu,
   MenuItem,
   MenuTrigger,
-  MenuButton,
+  Toolbar,
+  ToolbarButton,
   MenuPopover,
   MenuList,
   Tab,
@@ -29,6 +31,7 @@ import {
   useIsOverflowItemVisible,
   TabValue,
 } from '@fluentui/react-components';
+import { MoreHorizontal20Filled } from '@fluentui/react-icons';
 import { Keytips } from './Keytips';
 import type { KeytipsProps } from './Keytips.types';
 
@@ -248,55 +251,125 @@ export const KeytipsTabsExample = (props: KeytipsProps) => {
   );
 };
 
-const SubMenu = React.forwardRef<HTMLDivElement>((_, ref) => {
-  return (
-    <Menu>
-      <MenuTrigger disableButtonEnhancement>
-        <MenuItem ref={ref}>Sub Menu</MenuItem>
-      </MenuTrigger>
-
-      <MenuPopover>
-        <MenuList>
-          <MenuItem>8</MenuItem>
-          <MenuItem>9</MenuItem>
-          <MenuItem>10</MenuItem>
-        </MenuList>
-      </MenuPopover>
-    </Menu>
-  );
-});
-
-const OverflowMenuItem: React.FC<Pick<OverflowItemProps, 'id'>> = (props) => {
-  const { id } = props;
-  const isVisible = useIsOverflowItemVisible(id);
-
-  if (isVisible) {
-    return null;
-  }
-
-  return <MenuItem>Item {id}</MenuItem>;
+type MenuItemType = KeytipProps & {
+  id: string;
+  overflowMenuItems?: Array<KeytipProps & { id: string }>;
 };
 
-const OverflowMenu: React.FC<{ itemIds: string[] }> = ({ itemIds }) => {
-  const { ref, overflowCount, isOverflowing } =
-    useOverflowMenu<HTMLButtonElement>();
+const onExecute: ExecuteKeytipEventHandler = (_, { targetElement }) => {
+  if (targetElement) {
+    console.info(targetElement);
+    targetElement.focus();
+    targetElement.click();
+  }
+};
 
-  const onExecute: ExecuteKeytipEventHandler = (_, el) => {
-    el.targetElement?.click();
-  };
-
-  const menuRef = useKeytipRef({
-    keySequences: ['a'],
-    content: 'A',
-    dynamic: true,
+const menuItems = [
+  {
+    id: '1',
+    keySequences: ['q'],
+    content: 'Q',
     onExecute,
-  });
-
-  const subMenuRef = useKeytipRef<HTMLDivElement>({
-    keySequences: ['a', 'b'],
-    content: 'B',
+  },
+  {
+    id: '2',
+    keySequences: ['w'],
+    content: 'W',
+    onExecute,
+  },
+  {
+    id: '3',
+    keySequences: ['e'],
+    content: 'E',
+    onExecute,
+  },
+  {
+    id: '4',
+    keySequences: ['t'],
+    content: 'T',
+    onExecute,
+  },
+  {
+    id: '5',
+    keySequences: ['y'],
+    content: 'Y',
     hasMenu: true,
-    isShortcut: true,
+    onExecute,
+    overflowMenuItems: [
+      {
+        id: '6',
+        keySequences: ['y', 'h'],
+        content: 'H',
+        onExecute,
+      },
+      { id: '7', keySequences: ['y', 'z'], content: 'Z' },
+    ],
+  },
+] satisfies MenuItemType[];
+
+const OverflowItemWrapper = React.forwardRef<HTMLDivElement, MenuItemType>(
+  (keytipProps, ref) => {
+    const isVisible = useIsOverflowItemVisible(keytipProps.id);
+    const keytipRef = useKeytipRef<HTMLElement>({
+      ...keytipProps,
+      overflowSequence: !isVisible ? ['r'] : [],
+    });
+    const mergedRefs = useMergedRefs(ref, keytipRef);
+
+    return (
+      <OverflowItem id={keytipProps.id}>
+        <ToolbarButton ref={mergedRefs}>Item {keytipProps.id}</ToolbarButton>
+      </OverflowItem>
+    );
+  }
+);
+
+const OverflowMenuItemWrapper = React.forwardRef<HTMLDivElement, MenuItemType>(
+  ({ overflowMenuItems, ...keytipProps }, ref) => {
+    const isVisible = useIsOverflowItemVisible(keytipProps.id);
+
+    const keytipRef = useKeytipRef<HTMLDivElement>({
+      ...keytipProps,
+      keySequences: !isVisible
+        ? ['r', ...keytipProps.keySequences]
+        : keytipProps.keySequences,
+    });
+
+    const mergedRefs = useMergedRefs(ref, keytipRef);
+
+    if (isVisible) {
+      return null;
+    }
+
+    return overflowMenuItems && overflowMenuItems.length > 0 ? (
+      <Menu key={keytipProps.id}>
+        <MenuTrigger disableButtonEnhancement>
+          <MenuItem ref={mergedRefs}>Item {keytipProps.id}</MenuItem>
+        </MenuTrigger>
+
+        <MenuPopover>
+          <MenuList>
+            {overflowMenuItems.map((item) => (
+              <OverflowMenuItemWrapper key={item.id} {...item} />
+            ))}
+          </MenuList>
+        </MenuPopover>
+      </Menu>
+    ) : (
+      <MenuItem id={keytipProps.id} ref={mergedRefs}>
+        Item {keytipProps.id}
+      </MenuItem>
+    );
+  }
+);
+
+const OverflowMenu = ({ menuItems }: { menuItems: MenuItemType[] }) => {
+  const { ref, isOverflowing } = useOverflowMenu();
+
+  const menuRef = useKeytipRef<HTMLElement>({
+    hasMenu: true,
+    keySequences: ['r'],
+    content: 'R',
     onExecute,
   });
 
@@ -309,15 +382,19 @@ const OverflowMenu: React.FC<{ itemIds: string[] }> = ({ itemIds }) => {
   return (
     <Menu>
       <MenuTrigger disableButtonEnhancement>
-        <MenuButton ref={mergedRefs}>+{overflowCount} items</MenuButton>
+        <Button
+          ref={mergedRefs}
+          icon={<MoreHorizontal20Filled />}
+          aria-label="More items"
+          appearance="subtle"
+        />
       </MenuTrigger>
 
       <MenuPopover>
         <MenuList>
-          {itemIds.map((i) => {
-            return <OverflowMenuItem key={i} id={i} />;
-          })}
-          <SubMenu ref={subMenuRef} />
+          {menuItems.map(({ id, ...props }) => (
+            <OverflowMenuItemWrapper key={id} id={id} {...props} />
+          ))}
         </MenuList>
       </MenuPopover>
     </Menu>
@@ -325,23 +402,24 @@ const OverflowMenu: React.FC<{ itemIds: string[] }> = ({ itemIds }) => {
 };
 
 export const KeytipsOverflowMenuExample = (props: KeytipsProps) => {
-  const styles = useStyles();
-
-  const itemIds = new Array(8).fill(0).map((_, i) => i.toString());
-
   return (
     <>
       <Keytips {...props} />
-      <Overflow>
-        <div className={mergeClasses(styles.container, styles.resizableArea)}>
-          {itemIds.map((i) => (
-            <OverflowItem key={i} id={i}>
-              <Button>Item {i}</Button>
-            </OverflowItem>
-          ))}
-          <OverflowMenu itemIds={itemIds} />
-        </div>
-      </Overflow>
+      <div
+        style={{
+          resize: 'horizontal',
+          overflow: 'hidden',
+        }}
+      >
+        <Overflow>
+          <Toolbar>
+            {menuItems.map(({ id, ...props }) => (
+              <OverflowItemWrapper key={id} id={id} {...props} />
+            ))}
+            <OverflowMenu menuItems={menuItems} />
+          </Toolbar>
+        </Overflow>
+      </div>
     </>
   );
 };
