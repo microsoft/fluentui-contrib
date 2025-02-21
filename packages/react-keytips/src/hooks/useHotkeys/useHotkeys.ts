@@ -62,10 +62,10 @@ export const useHotkeys = (
       }
     };
 
-    doc?.addEventListener(invokeEvent, handleInvokeEvent);
+    doc?.addEventListener(invokeEvent, handleInvokeEvent, true);
     doc?.addEventListener('keyup', handleKeyUp);
     return () => {
-      doc?.removeEventListener(invokeEvent, handleInvokeEvent);
+      doc?.removeEventListener(invokeEvent, handleInvokeEvent, true);
       doc?.removeEventListener('keyup', handleKeyUp);
       clearDelayTimeout();
     };
