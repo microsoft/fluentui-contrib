@@ -59,15 +59,17 @@ export const useGamepadNavigationGroup = (
     pollingEnabled,
   };
 
-  const removeGamepadNavEventListeners = useGamepadNavigation(gpnProps);
-
   React.useEffect(() => {
     if (focusFirstElement) {
       findFirstFocusable(targetDocument?.activeElement as HTMLElement)?.focus();
     }
   }, []);
 
-  const moverAttr = useArrowNavigationGroup({
+  const groupperDOMAttribute = useFocusableGroup({
+    tabBehavior,
+    ignoreDefaultKeydown,
+  });
+  const moverDOMAttribute = useArrowNavigationGroup({
     axis,
     circular,
     memorizeCurrent,
@@ -75,11 +77,11 @@ export const useGamepadNavigationGroup = (
     ignoreDefaultKeydown,
     unstable_hasDefault,
   });
-  const groupperAttr = useFocusableGroup({ tabBehavior, ignoreDefaultKeydown });
   const gamepadNavDOMAttributes = useMergedTabsterAttributes_unstable(
-    moverAttr,
-    groupperAttr
+    groupperDOMAttribute,
+    moverDOMAttribute
   );
+  const removeGamepadNavEventListeners = useGamepadNavigation(gpnProps);
 
   return {
     gamepadNavDOMAttributes,

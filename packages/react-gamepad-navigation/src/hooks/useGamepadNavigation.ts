@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { InputMode } from '../types/InputMode';
 import { GamepadState } from '../types/Keys';
 import { consolePrefix } from '../core/Constants';
@@ -194,6 +193,8 @@ export type GamepadNavigationOptions = {
 export const useGamepadNavigation = (options: GamepadNavigationOptions) => {
   const { targetDocument } = options;
   const defaultView = targetDocument?.defaultView;
+  const windowId = useId('window');
+
   if (
     typeof targetDocument === 'undefined' ||
     typeof defaultView === 'undefined'
@@ -208,7 +209,7 @@ export const useGamepadNavigation = (options: GamepadNavigationOptions) => {
   if (!shadowDOMAPI) {
     shadowDOMAPI = {
       gamepadInitialized: false,
-      windowId: useId('window'),
+      windowId,
     };
   }
   // Don't try to initialize multiple times
@@ -294,10 +295,8 @@ export const useGamepadNavigation = (options: GamepadNavigationOptions) => {
     onTargetWindowFocus,
   };
   shadowDOMAPI.eventHandlers = eventHandlers;
-  const removeEventListeners = React.useCallback(
-    () => removeGamepadNavigationEventListener(targetDocument, eventHandlers),
-    [targetDocument]
-  );
+  const removeEventListeners = () =>
+    removeGamepadNavigationEventListener(targetDocument, eventHandlers);
   shadowDOMAPI.removeEventListeners = removeEventListeners;
   (defaultView as WindowWithFluentGPNShadowDOMAPI).__FluentGPNShadowDOMAPI =
     shadowDOMAPI;
