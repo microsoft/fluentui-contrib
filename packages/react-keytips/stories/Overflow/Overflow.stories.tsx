@@ -17,12 +17,15 @@ const useStyles = makeStyles({
   root: {
     backgroundColor: tokens.colorNeutralBackground6,
   },
+  wrapper: {
+    resize: 'horizontal',
+    overflow: 'hidden',
+  },
   panels: {
     padding: '10px',
   },
   panel: {
     boxSizing: 'border-box',
-    maxWidth: '800px',
     padding: '4px',
     borderRadius: '4px',
     backgroundColor: tokens.colorNeutralBackground1,
@@ -50,53 +53,55 @@ export const OverflowStory = () => {
   const homeButtonKeytipRef = useKeytipRef({
     keySequences: ['h'],
     content: 'H',
-    dynamic: true,
+    hasMenu: true,
     onExecute,
   });
 
   const valueButtonKeytipRef = useKeytipRef({
     keySequences: ['v'],
     content: 'V',
-    dynamic: true,
+    hasMenu: true,
     onExecute,
   });
 
   const helpButtonKeytipRef = useKeytipRef({
     keySequences: ['e'],
     content: 'E',
-    dynamic: true,
+    hasMenu: true,
     onExecute,
   });
 
   return (
     <div className={classes.root}>
-      <TabList onTabSelect={onTabSelect}>
-        <Tab id="Home" ref={homeButtonKeytipRef} value="Home">
-          Home
-        </Tab>
-        <Tab id="View" ref={valueButtonKeytipRef} value="View">
-          View
-        </Tab>
-        <Tab id="Help" ref={helpButtonKeytipRef} value="Help">
-          Help
-        </Tab>
-      </TabList>
-      <div className={classes.panels}>
-        {selectedValue === 'Home' && (
-          <div className={classes.panel} role="tabpanel">
-            <Home />
-          </div>
-        )}
-        {selectedValue === 'View' && (
-          <div className={classes.panel} role="tabpanel">
-            <View />
-          </div>
-        )}
-        {selectedValue === 'Help' && (
-          <div className={classes.panel} role="tabpanel">
-            <Help />
-          </div>
-        )}
+      <div className={classes.wrapper}>
+        <TabList onTabSelect={onTabSelect}>
+          <Tab id="Home" ref={homeButtonKeytipRef} value="Home">
+            Home
+          </Tab>
+          <Tab id="View" ref={valueButtonKeytipRef} value="View">
+            View
+          </Tab>
+          <Tab id="Help" ref={helpButtonKeytipRef} value="Help">
+            Help
+          </Tab>
+        </TabList>
+        <div className={classes.panels}>
+          {selectedValue === 'Home' && (
+            <div className={classes.panel} role="tabpanel">
+              <Home />
+            </div>
+          )}
+          {selectedValue === 'View' && (
+            <div className={classes.panel} role="tabpanel">
+              <View />
+            </div>
+          )}
+          {selectedValue === 'Help' && (
+            <div className={classes.panel} role="tabpanel">
+              <Help />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
