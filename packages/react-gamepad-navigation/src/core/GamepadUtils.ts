@@ -43,7 +43,7 @@ export const handleSelectOnEnter = (activeElement: Element | null) => {
     hidePickerOnSeLectElement(htmlSelect);
   } else {
     htmlSelect.showPicker();
-    htmlSelect.setAttribute(selectOptionsVisibleAttribute, '_self');
+    htmlSelect.setAttribute(selectOptionsVisibleAttribute, '');
   }
 };
 

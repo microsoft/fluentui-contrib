@@ -1,14 +1,12 @@
-import { useEffect } from 'react';
+import * as React from 'react';
+import { useFluent } from '@fluentui/react-components';
 import {
+  type TabsterDOMAttribute,
   type UseArrowNavigationGroupOptions,
-  useFluent,
-  useFocusFinders,
-} from '@fluentui/react-components';
-import {
-  TabsterDOMAttribute,
   useArrowNavigationGroup,
   useFocusableGroup,
   UseFocusableGroupOptions,
+  useFocusFinders,
   useMergedTabsterAttributes_unstable,
 } from '@fluentui/react-tabster';
 import {
@@ -44,7 +42,7 @@ export const useGamepadNavigationGroup = (
   const {
     axis = 'grid',
     circular = false,
-    focusFirstElement = true,
+    focusFirstElement,
     memorizeCurrent = true,
     tabbable = true,
     tabBehavior = 'limited-trap-focus',
@@ -63,7 +61,7 @@ export const useGamepadNavigationGroup = (
 
   const removeGamepadNavEventListeners = useGamepadNavigation(gpnProps);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (focusFirstElement) {
       findFirstFocusable(targetDocument?.activeElement as HTMLElement)?.focus();
     }

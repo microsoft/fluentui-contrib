@@ -260,7 +260,9 @@ const tagOptions = [
 ];
 
 export const ComposedElements = () => {
-  const { gamepadNavDOMAttributes } = useGamepadNavigationGroup();
+  const { gamepadNavDOMAttributes } = useGamepadNavigationGroup({
+    focusFirstElement: true,
+  });
 
   const styles = useStyles();
   const CalendarMonth = bundleIcon(CalendarMonthRegular, CalendarMonthRegular);

@@ -3,7 +3,8 @@ import { GamepadEventHandlers } from './GamepadEventJHandlers';
 export type FluentGPNShadowDOMAPI = {
   gamepadInitialized: boolean;
   windowId: string;
-  eventHandlers: GamepadEventHandlers;
+  eventHandlers?: GamepadEventHandlers;
+  removeEventListeners?: () => void;
 };
 
 export type WindowWithFluentGPNShadowDOMAPI = Window & {

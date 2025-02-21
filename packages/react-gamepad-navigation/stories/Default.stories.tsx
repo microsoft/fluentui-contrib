@@ -36,7 +36,9 @@ const useStyles = makeStyles({
 });
 
 export const Default = () => {
-  const { gamepadNavDOMAttributes } = useGamepadNavigationGroup();
+  const { gamepadNavDOMAttributes } = useGamepadNavigationGroup({
+    focusFirstElement: true,
+  });
 
   const [submitted, setSubmited] = React.useState(false);
   const styles = useStyles();

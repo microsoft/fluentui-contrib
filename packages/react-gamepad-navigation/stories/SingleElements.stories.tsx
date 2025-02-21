@@ -120,7 +120,9 @@ const useStyles = makeStyles({
 });
 
 export const SingleElements = () => {
-  const { gamepadNavDOMAttributes } = useGamepadNavigationGroup();
+  const { gamepadNavDOMAttributes } = useGamepadNavigationGroup({
+    focusFirstElement: true,
+  });
 
   const { targetDocument } = useFluent();
   const styles = useStyles();
