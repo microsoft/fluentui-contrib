@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: normalize package dependencies",
+  "packageName": "@fluentui-contrib/variant-theme",
+  "email": "hochelmartin@gmail.com",
+  "dependentChangeType": "patch"
+}
