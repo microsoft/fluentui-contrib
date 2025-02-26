@@ -1,18 +1,11 @@
-const js = require('@eslint/js');
 const prettierConfig = require('eslint-config-prettier');
 const nxEslintPlugin = require('@nx/eslint-plugin');
 const eslintPluginImport = require('eslint-plugin-import');
 const rnxKitEslintPlugin = require('@rnx-kit/eslint-plugin');
 const stylisticPlugin = require('@stylistic/eslint-plugin');
 const jsonParser = require('jsonc-eslint-parser');
-const { FlatCompat } = require('@eslint/eslintrc');
+const playwright = require('eslint-plugin-playwright');
 const globals = require('globals');
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
-});
 
 const ignores = [
   'node_modules',
@@ -24,6 +17,9 @@ const ignores = [
 
 module.exports = [
   prettierConfig,
+  ...nxEslintPlugin.configs['flat/base'],
+  ...nxEslintPlugin.configs['flat/typescript'],
+  ...nxEslintPlugin.configs['flat/javascript'],
   {
     ignores,
   },
@@ -115,27 +111,26 @@ module.exports = [
       ],
     },
   },
-  ...compat.config({ extends: ['plugin:@nx/typescript'] }).map((config) => ({
-    ...config,
+  {
     files: ['**/*.ts?(x)'],
     rules: {
-      ...config.rules,
       '@typescript-eslint/consistent-type-definitions': 'off',
       '@stylistic/no-extra-semi': 'error',
     },
-  })),
-  ...compat.config({ extends: ['plugin:@nx/javascript'] }).map((config) => ({
-    ...config,
+  },
+  {
     files: ['**/*.js?(x)'],
     rules: {
-      ...config.rules,
       '@stylistic/no-extra-semi': 'error',
     },
-  })),
-  ...compat.extends('plugin:playwright/recommended').map((config) => ({
-    ...config,
+  },
+  {
+    ...playwright.configs['flat/recommended'],
     files: ['**/*.component-browser-spec.tsx'],
-  })),
+    rules: {
+      ...playwright.configs['flat/recommended'].rules,
+    },
+  },
   {
     files: ['**/*.json'],
     languageOptions: {
