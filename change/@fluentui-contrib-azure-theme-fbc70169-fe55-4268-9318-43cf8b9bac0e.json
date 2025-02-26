@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: normalize package dependencies",
+  "packageName": "@fluentui-contrib/azure-theme",
+  "email": "hochelmartin@gmail.com",
+  "dependentChangeType": "patch"
+}
