@@ -1,6 +1,5 @@
 const prettierConfig = require('eslint-config-prettier');
 const nxEslintPlugin = require('@nx/eslint-plugin');
-const eslintPluginImport = require('eslint-plugin-import');
 const rnxKitEslintPlugin = require('@rnx-kit/eslint-plugin');
 const stylisticPlugin = require('@stylistic/eslint-plugin');
 const jsonParser = require('jsonc-eslint-parser');
@@ -26,7 +25,6 @@ module.exports = [
   {
     plugins: {
       '@nx': nxEslintPlugin,
-      import: eslintPluginImport,
       '@rnx-kit': rnxKitEslintPlugin,
       '@stylistic': stylisticPlugin,
     },
@@ -69,7 +67,7 @@ module.exports = [
   },
   {
     files: ['**/*.ts?(x)', '**/*.js?(x)'],
-    rules: { 'import/no-extraneous-dependencies': ['error'] },
+    rules: {},
     ignores: [
       '**/*.test.[jt]s?(x)',
       '**/*.spec.[jt]s?(x)',
