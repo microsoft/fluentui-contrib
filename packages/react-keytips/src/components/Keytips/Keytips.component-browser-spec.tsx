@@ -13,7 +13,9 @@ test.use({ viewport: { width: 500, height: 500 } });
 
 test.describe('enter and exit from keytip mode interactions', () => {
   test('should enter and exit keytip mode', async ({ mount, page }) => {
-    const component = await mount(<KeytipsBasicExample />);
+    const component = await mount(
+      <KeytipsBasicExample startSequence="alt+meta" />
+    );
     const tooltip = page.getByRole('tooltip');
     await expect(tooltip).toBeHidden();
     await component.press('Alt+Meta');
@@ -26,7 +28,9 @@ test.describe('enter and exit from keytip mode interactions', () => {
     mount,
     page,
   }) => {
-    const component = await mount(<KeytipsDisabledTargetExample />);
+    const component = await mount(
+      <KeytipsDisabledTargetExample startSequence="alt+meta" />
+    );
     const tooltip = page.getByRole('tooltip');
     await expect(tooltip).toBeHidden();
     await component.press('Alt+Meta');
@@ -39,14 +43,16 @@ test.describe('enter and exit from keytip mode interactions', () => {
     mount,
     page,
   }) => {
-    const component = await mount(<KeytipsDisabledMenuTargetExample />);
+    const component = await mount(
+      <KeytipsDisabledMenuTargetExample startSequence="alt+meta" />
+    );
     const tooltip = page.getByRole('tooltip');
     await expect(tooltip).toBeHidden();
     await component.press('Alt+Meta');
 
     await expect(page.getByRole('tooltip', { name: 'A' })).toBeVisible();
 
-    await page.keyboard.press('a');
+    await component.press('a');
 
     await expect(page.getByRole('tooltip', { name: 'C' })).toBeVisible();
     await expect(page.getByRole('tooltip', { name: 'B' })).toBeHidden();
@@ -75,7 +81,9 @@ test.describe('enter and exit from keytip mode interactions', () => {
 
   keyCases.forEach((key) => {
     test(`hides tooltip on ${key} key press`, async ({ mount, page }) => {
-      const component = await mount(<KeytipsBasicExample />);
+      const component = await mount(
+        <KeytipsBasicExample startSequence="alt+meta" />
+      );
       const tooltip = page.getByRole('tooltip');
       await expect(tooltip).toBeHidden();
       await component.press('Alt+Meta');
@@ -88,7 +96,9 @@ test.describe('enter and exit from keytip mode interactions', () => {
 
 test.describe('test keytip navigation', () => {
   test('should work with tabs', async ({ mount, page }) => {
-    const component = await mount(<KeytipsTabsExample />);
+    const component = await mount(
+      <KeytipsTabsExample startSequence="alt+meta" />
+    );
     // should show first level of keytips
     await component.press('Alt+Meta');
 
@@ -114,17 +124,20 @@ test.describe('test keytip navigation', () => {
     mount,
     page,
   }) => {
-    const component = await mount(<KeytipsOverflowMenuExample />);
+    page.setViewportSize({ width: 400, height: 500 });
+
+    const component = await mount(
+      <KeytipsOverflowMenuExample startSequence="alt+meta" />
+    );
     await component.press('Alt+Meta');
 
-    await expect(page.getByRole('tooltip', { name: 'A' })).toBeVisible();
+    await expect(page.getByRole('tooltip', { name: 'R' })).toBeVisible();
     // should open nested menus and show next keytip
-    await component.press('a');
-    await expect(page.getByRole('menuitem', { name: 'Item 7' })).toBeVisible();
-    await expect(page.getByRole('tooltip', { name: 'B' })).toBeVisible();
+    await component.press('r');
+    await expect(page.getByRole('menuitem', { name: 'Item 4' })).toBeVisible();
 
-    await component.press('b');
-    await expect(page.getByRole('menuitem', { name: '8' })).toBeVisible();
+    await component.press('y');
+    await expect(page.getByRole('menuitem', { name: '6' })).toBeVisible();
   });
 
   test('should be hidden with overflow menu, if the overflow menu is not available', async ({
@@ -132,18 +145,25 @@ test.describe('test keytip navigation', () => {
     page,
   }) => {
     page.setViewportSize({ width: 1200, height: 500 });
-    const component = await mount(<KeytipsOverflowMenuExample />);
+    const component = await mount(
+      <KeytipsOverflowMenuExample startSequence="alt+meta" />
+    );
     await component.press('Alt+Meta');
-    await expect(page.getByRole('tooltip', { name: 'A' })).toBeHidden();
+    await expect(page.getByRole('tooltip', { name: 'R' })).toBeHidden();
   });
 
   test('should have shortcut keytip', async ({ mount, page }) => {
-    const component = await mount(<KeytipsOverflowMenuExample />);
+    page.setViewportSize({ width: 400, height: 500 });
+
+    const component = await mount(
+      <KeytipsOverflowMenuExample startSequence="alt+meta" />
+    );
+
     await component.press('Alt+Meta');
 
-    await expect(page.getByRole('tooltip', { name: 'A' })).toBeVisible();
-    await page.keyboard.press('b');
-    await expect(page.getByRole('menuitem', { name: '8' })).toBeVisible();
+    await expect(page.getByRole('tooltip', { name: 'R' })).toBeVisible();
+    await component.press('y');
+    await expect(page.getByRole('menuitem', { name: '6' })).toBeVisible();
   });
 });
 
@@ -152,7 +172,9 @@ test.describe('keytip and dynamic content update', () => {
     mount,
     page,
   }) => {
-    const component = await mount(<KeytipsDynamicExample />);
+    const component = await mount(
+      <KeytipsDynamicExample startSequence="alt+meta" />
+    );
     await component.press('Alt+Meta');
 
     await expect(
@@ -172,7 +194,9 @@ test.describe('keytip and dynamic content update', () => {
 
 test.describe('keytips should have invoking events', () => {
   test('it should invoke on keyup event', async ({ mount, page }) => {
-    await mount(<KeytipsBasicExample invokeEvent="keyup" />);
+    await mount(
+      <KeytipsBasicExample invokeEvent="keyup" startSequence="alt+meta" />
+    );
     const tooltip = page.getByRole('tooltip');
     await page.keyboard.down('Alt');
     await page.keyboard.down('Meta');
@@ -182,7 +206,7 @@ test.describe('keytips should have invoking events', () => {
   });
 
   test('it should invoke on keydown event', async ({ mount, page }) => {
-    await mount(<KeytipsBasicExample />);
+    await mount(<KeytipsBasicExample startSequence="alt+meta" />);
     const tooltip = page.getByRole('tooltip');
     await page.keyboard.up('Alt');
     await page.keyboard.up('Meta');

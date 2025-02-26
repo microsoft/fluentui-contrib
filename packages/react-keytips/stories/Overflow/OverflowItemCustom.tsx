@@ -2,6 +2,7 @@ import * as React from 'react';
 import {
   mergeCallbacks,
   useMergedRefs,
+  useIsOverflowItemVisible,
   Button,
   SplitButton,
   Menu,
@@ -43,7 +44,12 @@ export const OverflowItemCustom = React.forwardRef<
     { id, menuItems, renderName = true, keytipProps, icon, name, ...props },
     ref
   ) => {
-    const keytipRef = useKeytipRef(keytipProps);
+    const isVisible = useIsOverflowItemVisible(id);
+    const keytipRef = useKeytipRef({
+      ...keytipProps,
+      overflowSequence: !isVisible ? ['h', '00'] : [],
+    });
+
     const mergedRefs = useMergedRefs(ref, keytipRef);
 
     if (menuItems && menuItems.length > 0)
@@ -67,8 +73,8 @@ export const OverflowItemCustom = React.forwardRef<
           </MenuTrigger>
           <MenuPopover>
             <MenuList>
-              {menuItems.map(({ name, ...props }, idx) => (
-                <MenuItemWrapper key={idx} icon={icon} {...props}>
+              {menuItems.map(({ name, id, ...props }) => (
+                <MenuItemWrapper key={id} id={id} icon={icon} {...props}>
                   {name}
                 </MenuItemWrapper>
               ))}

@@ -35,7 +35,7 @@ export const helpKeytips = {
     onExecute,
   },
   overflowButton: {
-    dynamic: true,
+    hasMenu: true,
     content: '00',
     keySequences: ['e', '00'],
     onExecute,
@@ -46,7 +46,7 @@ export const homeKeytips = {
   newMail: {
     content: 'N',
     keySequences: ['h', 'n'],
-    dynamic: true,
+    hasMenu: true,
     onExecute,
   },
   newMailMenu: [
@@ -124,7 +124,7 @@ export const homeKeytips = {
   quickSteps: {
     content: 'QS',
     keySequences: ['h', 'qs'],
-    dynamic: true,
+    hasMenu: true,
     onExecute,
   },
   quickStepsMenuItem: {
@@ -138,7 +138,7 @@ export const homeKeytips = {
     onExecute,
   },
   overflowButton: {
-    dynamic: true,
+    hasMenu: true,
     content: '00',
     keySequences: ['h', '00'],
     onExecute,
@@ -169,7 +169,7 @@ export const viewKeytips = {
   layout: {
     content: 'A',
     keySequences: ['v', 'a'],
-    dynamic: true,
+    hasMenu: true,
     onExecute,
   },
   folderPane: {
@@ -183,7 +183,7 @@ export const viewKeytips = {
     onExecute,
   },
   overflowButton: {
-    dynamic: true,
+    hasMenu: true,
     content: '00',
     keySequences: ['v', '00'],
     onExecute,

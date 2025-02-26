@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "removed neutral colors",
+  "packageName": "@fluentui-contrib/azure-theme",
+  "email": "aorantes@microsoft.com",
+  "dependentChangeType": "patch"
+}
