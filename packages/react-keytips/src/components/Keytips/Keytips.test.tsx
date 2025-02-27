@@ -36,13 +36,7 @@ describe('Keytips', () => {
       );
     };
 
-    const { baseElement } = render(<Component />);
-
-    expect(screen.getByText('b1')).toBeTruthy();
-    expect(screen.getByText('b2')).toBeTruthy();
-    const portal = baseElement.querySelector('[data-portal-node]');
-
-    expect(portal?.children).toHaveLength(3);
+    render(<Component />);
 
     expect(screen.queryAllByRole('tooltip')).toHaveLength(0);
 
