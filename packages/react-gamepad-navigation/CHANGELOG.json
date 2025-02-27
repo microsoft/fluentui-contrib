@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-gamepad-navigation",
   "entries": [
     {
+      "date": "Thu, 27 Feb 2025 18:01:54 GMT",
+      "tag": "@fluentui-contrib/react-gamepad-navigation_v0.1.0",
+      "version": "0.1.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "hectorjimenez@outlook.com",
+            "package": "@fluentui-contrib/react-gamepad-navigation",
+            "commit": "9b351c13ed3b5a213737d9cac807a8cd2484dfe7",
+            "comment": "Implementation for gamepad navigation package"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 21 Feb 2025 18:05:51 GMT",
       "tag": "@fluentui-contrib/react-gamepad-navigation_v0.0.1",
       "version": "0.0.1",
