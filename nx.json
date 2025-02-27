@@ -39,7 +39,7 @@
       "cache": true
     },
     "nx-release-publish": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["build"],
       "options": {
         "access": "public",
         "packageRoot": "dist/packages/{projectName}"
