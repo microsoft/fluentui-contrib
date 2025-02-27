@@ -39,7 +39,9 @@
       "cache": true
     },
     "nx-release-publish": {
+      "dependsOn": ["build"],
       "options": {
+        "access": "public",
         "packageRoot": "dist/packages/{projectName}"
       }
     }
@@ -90,7 +92,8 @@
         "**/*.md",
         "**/*.babelrc",
         "**/playwright/**",
-        "**/.storybook/**"
+        "**/.storybook/**",
+        "**/stories/**"
       ]
     },
     "projectsRelationship": "independent"

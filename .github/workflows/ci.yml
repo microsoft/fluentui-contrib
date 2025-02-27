@@ -36,6 +36,9 @@ jobs:
 
       - run: yarn check-dependencies
 
+      - name: 'Check version plans'
+        run: yarn nx release plan:check
+
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
