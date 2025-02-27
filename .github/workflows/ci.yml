@@ -34,9 +34,6 @@ jobs:
       - name: 'Check duplicates in yarn.lock'
         run: yarn run dedupe --list --fail
 
-      - name: 'Check duplicates in yarn.lock'
-        run: yarn run dedupe --list --fail
-
       - run: yarn check-dependencies
 
       - name: 'Check version plans'
