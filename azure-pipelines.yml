@@ -4,11 +4,11 @@ pr: none
 trigger: none
 
 parameters:
- - name: dry_run
+  - name: dry_run
     displayName: Dry run mode
     type: boolean
     default: true
- - name: projects # Projects to include within release. (comma/space delimited project names and/or patterns). See
+  - name: projects # Projects to include within release. (comma/space delimited project names and/or patterns). See
     displayName: Projects to release (defaults to all)
     type: string
     default: ''
