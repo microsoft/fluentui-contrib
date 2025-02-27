@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/azure-theme",
   "entries": [
     {
+      "date": "Thu, 27 Feb 2025 18:01:54 GMT",
+      "tag": "@fluentui-contrib/azure-theme_v0.1.0",
+      "version": "0.1.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "aorantes@microsoft.com",
+            "package": "@fluentui-contrib/azure-theme",
+            "commit": "dbd45ede5f2f9423d8df456b98a68c6d641eb78c",
+            "comment": "removed neutral colors"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 22 Jan 2025 09:16:56 GMT",
       "tag": "@fluentui-contrib/azure-theme_v0.0.3",
       "version": "0.0.3",
