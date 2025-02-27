@@ -105,14 +105,9 @@ extends:
                 env:
                   GITHUB_PAT: $(githubPAT)
 
-              #  NOTE: this will not use cache from previous steps as package.json file changed during version bump
-              - script: |
-                  yarn nx run-many -t build -p ${{ parameters.projects }} --nxBail
-                displayName: Prepare publish Assets
-
               # TODO: move this to separate job so in case of npm failure we can re-trigger until everything is successfully published
               - script: |
-                  yarn nx release publish -p ${{ parameters.projects }} --access public --dry-run ${{ parameters.dry_run }}
+                  yarn nx release publish -p ${{ parameters.projects }} --dry-run ${{ parameters.dry_run }}
                 condition: succeeded()
                 displayName: Publish to NPM
                 env:
