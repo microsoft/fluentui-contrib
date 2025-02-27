@@ -8,11 +8,6 @@ parameters:
     displayName: Dry run mode
     type: boolean
     default: true
-  # This is handy in scenario where actual `npm publish` failed on previous run. This can be used repeatedly until all assets are released to npm to mitigate out of sync publish state
-  - name: publish_only
-    displayName: Re-trigger npm publish only
-    type: boolean
-    default: false
   # Projects to include within release. (comma/space delimited project names and/or patterns). See `--project` flag for more details https://nx.dev/nx-api/nx/documents/release#publish
   - name: projects
     displayName: Projects to release (defaults to all)
@@ -49,6 +44,7 @@ extends:
       - stage: main
         jobs:
           - job: Release
+            displayName: 'Release New Version'
             pool:
               name: '1ES-Host-Ubuntu'
               image: '1ES-PT-Ubuntu-20.04'
@@ -70,10 +66,10 @@ extends:
                   echo "##vso[task.setvariable variable=shellopts]braceexpand:hashall:interactive-comments:errexit:errtrace"
                 displayName: Force exit on error (bash)
 
-              - task: NodeTool@0
+              - task: UseNode@1
                 inputs:
                   versionSpec: '20.x'
-                  checkLatest: true
+                  checkLatest: false
                 displayName: 'Install Node.js'
 
               - script: yarn install --frozen-lockfile
@@ -88,27 +84,50 @@ extends:
                   git config user.name "Fluent UI Build"
                   git config user.email "fluentui-internal@service.microsoft.com"
                   git remote set-url origin https://$(githubUser):$(githubPAT)@github.com/microsoft/fluentui-contrib.git
-                condition: or(eq(parameters.dry_run, false), eq(parameters.publish_only, false))
+                condition: eq(parameters.dry_run, false)
                 displayName: Authenticate git for pushes
 
               - script: |
-                  yarn nx release --skip-publish -p ${{ parameters.projects }} --dry-run ${{ parameters.dry_run }}
-                condition: eq(parameters.publish_only, false)
+                  yarn nx release --skip-publish -p ${{ parameters.projects }} --dry-run ${{ parameters.dry_run }} --verbose
                 displayName: Bump versions and generate Changelogs
 
-              # NOTE: this step needs PAT - will be mitigate with new architecture
+              # NOTE: this step needs PAT - needs different release flow to avoid PATs completely
               - script:
-                  | # TODO: check if NX release uses annotated or lightweight tags - if annotated can be simplified to `git push origin --follow-tags`
+                  | # TODO: remove this step once https://github.com/nrwl/nx/issues/30551 is resolved
                   git push origin && git push origin --tags
-                condition: or(eq(parameters.dry_run, false), eq(parameters.publish_only, false))
+                condition: eq(parameters.dry_run, false)
                 displayName: Propagate Release to GitHub
                 env:
                   GITHUB_PAT: $(githubPAT)
 
-              # TODO: move this to separate job so in case of npm failure we can re-trigger until everything is successfully published
+          - job: PublishToNPM
+            displayName: 'Publish to NPM'
+            dependsOn: Release
+            condition: succeeded('Release')
+            pool:
+              name: '1ES-Host-Ubuntu'
+              image: '1ES-PT-Ubuntu-20.04'
+              os: linux
+            workspace:
+              clean: all
+            templateContext:
+              outputs:
+                - output: pipelineArtifact
+                  targetPath: $(System.DefaultWorkingDirectory)/packages
+                  artifactName: output
+            steps:
+              - task: UseNode@1
+                inputs:
+                  versionSpec: '20.x'
+                  checkLatest: false
+                displayName: 'Install Node.js'
+
+              - script: yarn install --frozen-lockfile
+                displayName: Install dependencies
+
+              # NOTE: `nx release publish` executes `nx-release-publish` target and all its dependents
               - script: |
                   yarn nx release publish -p ${{ parameters.projects }} --dry-run ${{ parameters.dry_run }}
-                condition: succeeded()
                 displayName: Publish to NPM
                 env:
                   NODE_AUTH_TOKEN: $(npmToken)
