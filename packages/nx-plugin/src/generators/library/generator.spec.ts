@@ -45,8 +45,8 @@ describe('create-package generator', () => {
           "package.json",
           "project.json",
           ".eslintrc.json",
-          "jest.config.ts",
           "tsconfig.spec.json",
+          "jest.config.ts",
         ]
       `);
 
