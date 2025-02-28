@@ -26,7 +26,9 @@ export const isRadioElement = (element: Element | null | undefined) => {
   return element?.getAttribute('type') === 'radio';
 };
 
-export const isSelectElement = (element: Element | null | undefined) => {
+export const isSelectElement = (
+  element: Element | null | undefined
+): element is HTMLSelectElement => {
   return element?.tagName === 'SELECT';
 };
 
