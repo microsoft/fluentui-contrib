@@ -81,15 +81,6 @@ export const useKeytip_unstable = (props: KeytipProps): KeytipState => {
   const target = props.positioning?.target as HTMLElement;
 
   if (target && targetDocument) {
-    target.setAttribute('aria-describedby', `${KTP_ROOT_ID} ${id}`);
-    const root = targetDocument.getElementById(KTP_ROOT_ID);
-    if (root) {
-      const startSequence = root.getAttribute('data-start-shortcut');
-      target.setAttribute(
-        'aria-keyshortcuts',
-        `${[startSequence, ...keySequences].join('+')}`
-      );
-    }
     state.shouldRenderKeytip = true;
   }
 
