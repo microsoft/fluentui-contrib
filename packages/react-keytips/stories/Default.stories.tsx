@@ -40,7 +40,7 @@ const useStyles = makeStyles({
 
 const onExecute: ExecuteKeytipEventHandler = (_, { targetElement }) => {
   if (targetElement) {
-    console.info(targetElement.getAttribute('aria-describedby'));
+    console.info(targetElement.getAttribute('aria-keyshortcuts'));
     targetElement.focus();
     targetElement.click();
   }

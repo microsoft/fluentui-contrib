@@ -7,12 +7,7 @@ import {
 } from '@fluentui/react-components';
 import type { KeytipsProps, KeytipsState } from './Keytips.types';
 import { useHotkeys, parseHotkey } from '../../hooks/useHotkeys';
-import {
-  EXIT_KEYS,
-  EVENTS,
-  VISUALLY_HIDDEN_STYLES,
-  ACTIONS,
-} from '../../constants';
+import { EXIT_KEYS, EVENTS, ACTIONS } from '../../constants';
 import type { KeytipWithId } from '../Keytip';
 import { Keytip } from '../Keytip';
 import { useEventService } from '../../hooks/useEventService';
@@ -297,22 +292,11 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     handleKeytipExecution,
   ]);
 
-  const visibleKeytips = Object.entries(state.keytips)
+  const keytips = Object.entries(state.keytips)
     .filter(([, { visible, visibleInternal }]) => visible || visibleInternal)
     .map(([keytipId, keytipProps]) => (
       <Keytip key={keytipId} {...keytipProps} />
     ));
-
-  const hiddenKeytips = Object.values(state.keytips).map(
-    ({ keySequences, uniqueId }) => {
-      const id = sequencesToID(keySequences);
-      return (
-        <span key={uniqueId} id={id} style={VISUALLY_HIDDEN_STYLES}>
-          {keySequences.join(', ')}
-        </span>
-      );
-    }
-  );
 
   return {
     components: {
@@ -320,8 +304,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     },
     content,
     mountNode: props.mountNode,
-    keytips: hiddenKeytips,
-    visibleKeytips,
+    keytips,
     root: slot.always(
       getIntrinsicElementProps('div', {
         ...props,
