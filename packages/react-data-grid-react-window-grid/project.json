@@ -17,7 +17,8 @@
       "options": {
         "lintFilePatterns": [
           "packages/react-data-grid-react-window-grid/**/*.ts",
-          "packages/react-data-grid-react-window-grid/**/*.tsx"
+          "packages/react-data-grid-react-window-grid/**/*.tsx",
+          "packages/react-data-grid-react-window-grid/package.json"
         ]
       }
     },

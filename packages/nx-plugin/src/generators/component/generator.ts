@@ -2,6 +2,7 @@ import { formatFiles, generateFiles, Tree, workspaceRoot } from '@nx/devkit';
 import * as path from 'path';
 import { ComponentGeneratorSchema } from './schema';
 import { getPackagePaths, getProject, npmScope } from '../../utils';
+import { updateDependencies } from './update-dependencies';
 
 export default async function (tree: Tree, options: ComponentGeneratorSchema) {
   const { name, componentName } = options;
@@ -25,5 +26,8 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
     '\n' +
     main;
   tree.write(paths.main, main);
+
+  updateDependencies(tree, { paths });
+
   await formatFiles(tree);
 }

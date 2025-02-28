@@ -1,7 +1,7 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nx", "import", "@rnx-kit"],
+  "plugins": ["@nx", "@rnx-kit"],
   "rules": {
     "no-restricted-globals": [
       "error",
@@ -44,14 +44,13 @@
         "*.component-browser-test.tsx",
         "*.stories.ts",
         "*.stories.tsx",
+        "**/stories/**",
         "**/generators/**/files/**",
         "**/.storybook/**",
         "**/playwright.config.ts",
         "**/playwright/**"
       ],
-      "rules": {
-        "import/no-extraneous-dependencies": ["error"]
-      }
+      "rules": {}
     },
     {
       "files": ["src/index.[jt]s"],

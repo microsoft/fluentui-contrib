@@ -17,7 +17,8 @@
       "options": {
         "lintFilePatterns": [
           "packages/react-draggable-dialog/**/*.ts",
-          "packages/react-draggable-dialog/**/*.tsx"
+          "packages/react-draggable-dialog/**/*.tsx",
+          "packages/react-draggable-dialog/package.json"
         ]
       }
     },
