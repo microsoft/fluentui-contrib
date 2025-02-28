@@ -30,14 +30,13 @@ export const isSelectElement = (element: Element | null | undefined) => {
   return element?.tagName === 'SELECT';
 };
 
-export const hidePickerOnSeLectElement = (selectElement: HTMLSelectElement) => {
-  selectElement.blur();
-  selectElement.focus();
-  selectElement.removeAttribute(selectOptionsVisibleAttribute);
+export const hidePickerOnSeLectElement = (htmlSelect: HTMLSelectElement) => {
+  htmlSelect.blur();
+  htmlSelect.focus();
+  htmlSelect.removeAttribute(selectOptionsVisibleAttribute);
 };
 
-export const handleSelectOnEnter = (activeElement: Element | null) => {
-  const htmlSelect = activeElement as HTMLSelectElement;
+export const handleSelectOnEnter = (htmlSelect: HTMLSelectElement) => {
   const openOptions = htmlSelect.hasAttribute(selectOptionsVisibleAttribute);
   if (openOptions) {
     hidePickerOnSeLectElement(htmlSelect);
@@ -47,8 +46,10 @@ export const handleSelectOnEnter = (activeElement: Element | null) => {
   }
 };
 
-export const handleSelectOnEscape = (targetDocument: Document) => {
-  const htmlSelect = targetDocument.activeElement as HTMLSelectElement;
+export const handleSelectOnEscape = (
+  htmlSelect: HTMLSelectElement,
+  targetDocument: Document
+) => {
   const openOptions = htmlSelect.hasAttribute(selectOptionsVisibleAttribute);
   if (openOptions) {
     hidePickerOnSeLectElement(htmlSelect);

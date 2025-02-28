@@ -1,20 +1,22 @@
-export enum InputMode {
+export const InputMode = {
   /** @member {string} */
   /** The last input was from user touch */
-  Touch = 'Touch',
+  Touch: 'Touch',
 
   /** @member {string} */
   /** The last input was from mouse click */
-  Mouse = 'Mouse',
+  Mouse: 'Mouse',
 
   /** @member {string} */
   /** the last input was from a gamepad */
-  Gamepad = 'Gamepad',
+  Gamepad: 'Gamepad',
 
   /** @member {string} */
   /** the last input was from a keyboard press */
-  Keyboard = 'Keyboard',
-}
+  Keyboard: 'Keyboard',
+} as const;
+
+export type InputMode = (typeof InputMode)[keyof typeof InputMode];
 
 /**
  * Returns whether the given input mode is focus-driven, i.e. gamepad/keyboard.

@@ -138,7 +138,7 @@ export const onButtonPress = (
     return;
   }
 
-  let focusDirection = FocusDirection.None;
+  let focusDirection: FocusDirection = FocusDirection.None;
   let focusAction: KeyboardKey | undefined;
   switch (button) {
     case GamepadButton.A:
