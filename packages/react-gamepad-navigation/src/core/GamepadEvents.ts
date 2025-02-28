@@ -125,7 +125,7 @@ export const emitSyntheticGroupperMoveFocusEvent = (
     if (isComboboxElement(activeElement)) {
       emitSyntheticKeyboardEvent('keydown', action, true, targetDocument);
     } else if (isSelectElement(activeElement)) {
-      handleSelectOnEnter(activeElement as HTMLSelectElement);
+      handleSelectOnEnter(activeElement);
     } else {
       emitSyntheticMouseEvent('click', true, targetDocument);
     }
@@ -135,7 +135,7 @@ export const emitSyntheticGroupperMoveFocusEvent = (
   } else {
     // Note: GroupperMoveFocusActions.Escape has no difference to KeyboardKey.Escape
     if (isSelectElement(activeElement)) {
-      handleSelectOnEscape(activeElement as HTMLSelectElement, targetDocument);
+      handleSelectOnEscape(activeElement, targetDocument);
     } else if (isComboboxElement(activeElement)) {
       emitSyntheticMouseEvent('click', true, targetDocument);
     } else {
