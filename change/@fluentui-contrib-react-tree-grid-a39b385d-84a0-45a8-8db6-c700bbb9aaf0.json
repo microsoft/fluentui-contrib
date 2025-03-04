@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "matching dep version",
+  "packageName": "@fluentui-contrib/react-tree-grid",
+  "email": "6352233+hectorjjb@users.noreply.github.com",
+  "dependentChangeType": "patch"
+}
