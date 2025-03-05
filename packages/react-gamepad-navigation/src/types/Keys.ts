@@ -1,4 +1,4 @@
-import { TabsterTypes } from '@fluentui/react-tabster';
+import { MoverKeys as TabsterMoverKeys } from '@fluentui/react-tabster';
 
 /*
     Gamepad Buttons, State, & Actions
@@ -56,6 +56,6 @@ export const KeyboardKey = {
 
 export type KeyboardKey = (typeof KeyboardKey)[keyof typeof KeyboardKey];
 
-export type MoverKey = TabsterTypes.MoverKey;
+export const MoverKeys = TabsterMoverKeys;
 
-export const MoverKeys = TabsterTypes.MoverKeys;
+export type MoverKey = (typeof TabsterMoverKeys)[keyof typeof TabsterMoverKeys];
