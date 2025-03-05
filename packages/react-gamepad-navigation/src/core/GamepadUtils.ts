@@ -32,7 +32,7 @@ export const isSelectElement = (
   return element?.tagName === 'SELECT';
 };
 
-export const hidePickerOnSeLectElement = (htmlSelect: HTMLSelectElement) => {
+export const hidePickerOnSelectElement = (htmlSelect: HTMLSelectElement) => {
   htmlSelect.blur();
   htmlSelect.focus();
   htmlSelect.removeAttribute(selectOptionsVisibleAttribute);
@@ -41,7 +41,7 @@ export const hidePickerOnSeLectElement = (htmlSelect: HTMLSelectElement) => {
 export const handleSelectOnEnter = (htmlSelect: HTMLSelectElement) => {
   const openOptions = htmlSelect.hasAttribute(selectOptionsVisibleAttribute);
   if (openOptions) {
-    hidePickerOnSeLectElement(htmlSelect);
+    hidePickerOnSelectElement(htmlSelect);
   } else {
     htmlSelect.showPicker();
     htmlSelect.setAttribute(selectOptionsVisibleAttribute, '');
@@ -54,7 +54,7 @@ export const handleSelectOnEscape = (
 ) => {
   const openOptions = htmlSelect.hasAttribute(selectOptionsVisibleAttribute);
   if (openOptions) {
-    hidePickerOnSeLectElement(htmlSelect);
+    hidePickerOnSelectElement(htmlSelect);
   } else {
     emitSyntheticKeyboardEvent(
       'keydown',
