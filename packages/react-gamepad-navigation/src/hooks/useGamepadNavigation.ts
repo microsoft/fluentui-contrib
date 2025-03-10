@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { InputMode } from '../types/InputMode';
 import { GamepadState } from '../types/Keys';
 import { consolePrefix } from '../core/Constants';
@@ -12,7 +13,7 @@ import {
 } from '../core/InputManager';
 import { handleGamepadInput } from '../core/InputProcessor';
 import { GamepadEventHandlers } from '../types/GamepadEventJHandlers';
-import { useId } from '@fluentui/react-components';
+import { useFluent, useId } from '@fluentui/react-components';
 import { WindowWithFluentGPNShadowDOMAPI } from '../types/FluentGPNShadowDOMAPI';
 
 /*
@@ -167,11 +168,6 @@ const onWindowFocus = (targetDocument: Document): void => {
 
 export type GamepadNavigationOptions = {
   /**
-   * The document to target for gamepad navigation
-   */
-  targetDocument: Document | undefined;
-
-  /**
    * The default input mode to use when lib is initialized
    * @defaultValue InputMode.Mouse
    * */
@@ -188,120 +184,123 @@ export type GamepadNavigationOptions = {
  * @internal
  * Initialize gamepad navigation
  * @param options {GamepadNavigationOptions} - The options to use for gamepad navigation
- * @returns cleanup function
+ * @returns removeEventListeners function
  */
 export const useGamepadNavigation = (options: GamepadNavigationOptions) => {
-  const { targetDocument } = options;
+  const { targetDocument } = useFluent();
   const defaultView = targetDocument?.defaultView;
-  const windowId = useId('window');
-
-  if (
-    typeof targetDocument === 'undefined' ||
-    typeof defaultView === 'undefined'
-  ) {
-    console.warn(
-      consolePrefix,
-      'Unable to initialize gamepad navigation in a non-browser environment'
-    );
-    return () => undefined;
-  }
   let shadowDOMAPI = getShadowDOMAPI(targetDocument);
-  if (!shadowDOMAPI) {
-    shadowDOMAPI = {
-      gamepadInitialized: false,
-      windowId,
-    };
-  }
-  // Don't try to initialize multiple times
-  if (shadowDOMAPI.gamepadInitialized) {
-    return shadowDOMAPI.removeEventListeners ?? (() => undefined);
-  }
+  const windowId = useId('window', shadowDOMAPI?.windowId);
 
-  shadowDOMAPI.gamepadInitialized = true;
+  return React.useMemo(() => {
+    if (
+      typeof targetDocument === 'undefined' ||
+      typeof defaultView === 'undefined'
+    ) {
+      console.warn(
+        consolePrefix,
+        'Unable to initialize gamepad navigation in a non-browser environment'
+      );
+      return () => undefined;
+    }
 
-  if (options.defaultInputMode) {
-    setDefaultInputMode(options.defaultInputMode);
-    setInputMode(options.defaultInputMode, targetDocument);
-  }
+    if (!shadowDOMAPI) {
+      shadowDOMAPI = {
+        gamepadInitialized: false,
+        windowId,
+      };
+    }
+    // Don't try to initialize multiple times
+    if (shadowDOMAPI.gamepadInitialized) {
+      return shadowDOMAPI.removeEventListeners ?? (() => undefined);
+    }
 
-  /**
-   * Add an initial list of gamepads. For platforms like smart TV,
-   * if the user connects their controller before they open the Xbox app and
-   * gamepad navigation is initialized, we never see a 'gamepadconnected' event in the app
-   * and we never add the gamepad to our list. To fix this, on gamepad navigation initialization,
-   * we look through the window.navigator's current gamepads and add those to our list to start.
-   */
-  const targetView: Window | null = targetDocument.defaultView;
-  if (targetView?.navigator && targetView.navigator.getGamepads) {
-    const gamepadsList = targetView.navigator.getGamepads();
+    shadowDOMAPI.gamepadInitialized = true;
 
-    for (const gamepad of gamepadsList) {
-      // Make sure the gamepad is connected and matches our provided filter before adding it
-      if (gamepad && gamepad.connected) {
-        gamepads.set(gamepad.index, gamepad);
+    if (options.defaultInputMode) {
+      setDefaultInputMode(options.defaultInputMode);
+      setInputMode(options.defaultInputMode, targetDocument);
+    }
+
+    /**
+     * Add an initial list of gamepads. For platforms like smart TV,
+     * if the user connects their controller before they open the Xbox app and
+     * gamepad navigation is initialized, we never see a 'gamepadconnected' event in the app
+     * and we never add the gamepad to our list. To fix this, on gamepad navigation initialization,
+     * we look through the window.navigator's current gamepads and add those to our list to start.
+     */
+    const targetView: Window | null = targetDocument.defaultView;
+    if (targetView?.navigator && targetView.navigator.getGamepads) {
+      const gamepadsList = targetView.navigator.getGamepads();
+
+      for (const gamepad of gamepadsList) {
+        // Make sure the gamepad is connected and matches our provided filter before adding it
+        if (gamepad && gamepad.connected) {
+          gamepads.set(gamepad.index, gamepad);
+        }
+      }
+
+      if (gamepads.size) {
+        startGamepadPolling(targetDocument);
       }
     }
 
-    if (gamepads.size) {
-      startGamepadPolling(targetDocument);
+    const onMouseDown = (e: MouseEvent) => onMouseInput(e, targetDocument);
+    const onTouchStart = (e: TouchEvent) => onTouchInput(e, targetDocument);
+    const onGamepadConnected = (e: GamepadEvent) =>
+      onGamepadConnect(e, targetDocument);
+    const onGamepadDisconnected = (e: GamepadEvent) =>
+      onGamepadDisconnect(e, targetDocument);
+    const onTargetWindowBlur = () => onWindowBlur(targetDocument);
+    const onTargetWindowFocus = () => onWindowFocus(targetDocument);
+
+    targetDocument.addEventListener('touchstart', onTouchStart, {
+      passive: false,
+    });
+    targetDocument.addEventListener('mousedown', onMouseDown, {
+      passive: false,
+    });
+
+    const haveEvents = targetView && 'GamepadEvent' in targetView;
+    const haveWebkitEvents = targetView && 'WebKitGamepadEvent' in targetView;
+
+    if (haveEvents) {
+      targetView.addEventListener('gamepadconnected', onGamepadConnected);
+      targetView.addEventListener('gamepaddisconnected', onGamepadDisconnected);
+    } else if (haveWebkitEvents) {
+      targetView.addEventListener(
+        'webkitgamepadconnected',
+        onGamepadConnected as EventListener
+      );
+      targetView.addEventListener(
+        'webkitgamepaddisconnected',
+        onGamepadDisconnected as EventListener
+      );
     }
-  }
 
-  const onMouseDown = (e: MouseEvent) => onMouseInput(e, targetDocument);
-  const onTouchStart = (e: TouchEvent) => onTouchInput(e, targetDocument);
-  const onGamepadConnected = (e: GamepadEvent) =>
-    onGamepadConnect(e, targetDocument);
-  const onGamepadDisconnected = (e: GamepadEvent) =>
-    onGamepadDisconnect(e, targetDocument);
-  const onTargetWindowBlur = () => onWindowBlur(targetDocument);
-  const onTargetWindowFocus = () => onWindowFocus(targetDocument);
+    targetView?.addEventListener('blur', onTargetWindowBlur);
+    targetView?.addEventListener('focus', onTargetWindowFocus);
 
-  targetDocument.addEventListener('touchstart', onTouchStart, {
-    passive: false,
-  });
-  targetDocument.addEventListener('mousedown', onMouseDown, {
-    passive: false,
-  });
+    setPollingEnabled(options?.pollingEnabled ?? true, targetDocument);
+    // console.log(consolePrefix, 'Initializing gamepad navigation');
 
-  const haveEvents = targetView && 'GamepadEvent' in targetView;
-  const haveWebkitEvents = targetView && 'WebKitGamepadEvent' in targetView;
+    const eventHandlers: GamepadEventHandlers = {
+      onTouchStart,
+      onMouseDown,
+      onGamepadConnected,
+      onGamepadDisconnected,
+      onTargetWindowBlur,
+      onTargetWindowFocus,
+    };
+    shadowDOMAPI.eventHandlers = eventHandlers;
+    const removeEventListeners = () =>
+      removeGamepadNavigationEventListener(targetDocument, eventHandlers);
+    shadowDOMAPI.removeEventListeners = removeEventListeners;
+    (defaultView as WindowWithFluentGPNShadowDOMAPI).__FluentGPNShadowDOMAPI =
+      shadowDOMAPI;
 
-  if (haveEvents) {
-    targetView.addEventListener('gamepadconnected', onGamepadConnected);
-    targetView.addEventListener('gamepaddisconnected', onGamepadDisconnected);
-  } else if (haveWebkitEvents) {
-    targetView.addEventListener(
-      'webkitgamepadconnected',
-      onGamepadConnected as EventListener
-    );
-    targetView.addEventListener(
-      'webkitgamepaddisconnected',
-      onGamepadDisconnected as EventListener
-    );
-  }
-
-  targetView?.addEventListener('blur', onTargetWindowBlur);
-  targetView?.addEventListener('focus', onTargetWindowFocus);
-
-  setPollingEnabled(options?.pollingEnabled ?? true, targetDocument);
-  // console.log(consolePrefix, 'Initializing gamepad navigation');
-
-  const eventHandlers: GamepadEventHandlers = {
-    onTouchStart,
-    onMouseDown,
-    onGamepadConnected,
-    onGamepadDisconnected,
-    onTargetWindowBlur,
-    onTargetWindowFocus,
-  };
-  shadowDOMAPI.eventHandlers = eventHandlers;
-  const removeEventListeners = () =>
-    removeGamepadNavigationEventListener(targetDocument, eventHandlers);
-  shadowDOMAPI.removeEventListeners = removeEventListeners;
-  (defaultView as WindowWithFluentGPNShadowDOMAPI).__FluentGPNShadowDOMAPI =
-    shadowDOMAPI;
-
-  return removeEventListeners;
+    return removeEventListeners;
+  }, [defaultView, shadowDOMAPI?.gamepadInitialized]);
 };
 
 export const removeGamepadNavigationEventListener = (

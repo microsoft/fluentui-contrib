@@ -53,8 +53,7 @@ export const useGamepadNavigationGroup = (
   } = options;
   const { findFirstFocusable } = useFocusFinders();
   const { targetDocument } = useFluent();
-  const gpnProps = {
-    targetDocument,
+  const gpnOptions = {
     defaultInputMode,
     pollingEnabled,
   };
@@ -81,7 +80,7 @@ export const useGamepadNavigationGroup = (
     groupperDOMAttribute,
     moverDOMAttribute
   );
-  const removeGamepadNavEventListeners = useGamepadNavigation(gpnProps);
+  const removeGamepadNavEventListeners = useGamepadNavigation(gpnOptions);
 
   return {
     gamepadNavDOMAttributes,
