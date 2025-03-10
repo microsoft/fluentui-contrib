@@ -16,7 +16,8 @@
       "options": {
         "lintFilePatterns": [
           "packages/variant-theme/**/*.ts",
-          "packages/variant-theme/**/*.tsx"
+          "packages/variant-theme/**/*.tsx",
+          "packages/variant-theme/package.json"
         ]
       }
     },

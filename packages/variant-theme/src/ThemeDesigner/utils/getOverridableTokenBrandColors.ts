@@ -1,6 +1,7 @@
-import type { Brands, BrandVariants, Theme } from '@fluentui/react-theme';
+import type { BrandVariants, Theme } from '@fluentui/react-components';
 import { createDarkTheme } from '@fluentui/react-components';
 // import { ColorOverrideBrands } from '../Context/ThemeDesignerContext';
+type Brands = keyof BrandVariants;
 type ColorOverrideBrands = Record<string, Brands>;
 
 export const brandRamp: Brands[] = [

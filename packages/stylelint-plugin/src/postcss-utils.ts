@@ -1,3 +1,4 @@
+// nx-ignore-next-line - needs https://github.com/nrwl/nx/issues/29853 to resolve transitive dependency if direct import is used
 import type { Document, AtRule, Root, Container, Rule } from 'postcss';
 
 export function isAtRule(container: { type: string }): container is AtRule {

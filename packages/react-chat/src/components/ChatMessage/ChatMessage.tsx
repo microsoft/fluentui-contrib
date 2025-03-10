@@ -3,7 +3,7 @@ import { useChatMessage_unstable } from './useChatMessage';
 import { renderChatMessage_unstable } from './renderChatMessage';
 import { useChatMessageStyles_unstable } from './ChatMessage.styles';
 import type { ChatMessageProps } from './ChatMessage.types';
-import type { ForwardRefComponent } from '@fluentui/react-utilities';
+import type { ForwardRefComponent } from '@fluentui/react-components';
 
 /**
  * ChatMessage component - TODO: add more docs
