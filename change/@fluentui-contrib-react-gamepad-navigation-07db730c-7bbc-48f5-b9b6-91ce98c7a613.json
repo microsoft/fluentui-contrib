@@ -1,6 +1,6 @@
 {
   "type": "patch",
-  "comment": "upgrade packages",
+  "comment": "upgrading react-tabster dependency",
   "packageName": "@fluentui-contrib/react-gamepad-navigation",
   "email": "hectorjimenez@outlook.com",
   "dependentChangeType": "patch"
