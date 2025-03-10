@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "upgrade packages",
+  "packageName": "@fluentui-contrib/react-tree-grid",
+  "email": "hectorjimenez@outlook.com",
+  "dependentChangeType": "patch"
+}
