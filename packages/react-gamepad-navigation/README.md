@@ -81,7 +81,7 @@ import { useGamepadNavigationGroup } from '@fluentui-contrib/react-gamepad-navig
 ```tsx
 export const SampleApp = () => {
   // attributes for both: Gamepad and Arrow key navigation
-  const gamepadNavDOMAttributes = useGamepadNavigationGroup();
+  const { gamepadNavDOMAttributes } = useGamepadNavigationGroup();
 
   return <div {...gamepadNavDOMAttributes}></div>;
 };

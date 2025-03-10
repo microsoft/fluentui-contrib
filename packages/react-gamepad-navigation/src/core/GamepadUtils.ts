@@ -26,32 +26,35 @@ export const isRadioElement = (element: Element | null | undefined) => {
   return element?.getAttribute('type') === 'radio';
 };
 
-export const isSelectElement = (element: Element | null | undefined) => {
+export const isSelectElement = (
+  element: Element | null | undefined
+): element is HTMLSelectElement => {
   return element?.tagName === 'SELECT';
 };
 
-export const hidePickerOnSeLectElement = (selectElement: HTMLSelectElement) => {
-  selectElement.blur();
-  selectElement.focus();
-  selectElement.removeAttribute(selectOptionsVisibleAttribute);
+export const hidePickerOnSelectElement = (htmlSelect: HTMLSelectElement) => {
+  htmlSelect.blur();
+  htmlSelect.focus();
+  htmlSelect.removeAttribute(selectOptionsVisibleAttribute);
 };
 
-export const handleSelectOnEnter = (activeElement: Element | null) => {
-  const htmlSelect = activeElement as HTMLSelectElement;
+export const handleSelectOnEnter = (htmlSelect: HTMLSelectElement) => {
   const openOptions = htmlSelect.hasAttribute(selectOptionsVisibleAttribute);
   if (openOptions) {
-    hidePickerOnSeLectElement(htmlSelect);
+    hidePickerOnSelectElement(htmlSelect);
   } else {
     htmlSelect.showPicker();
     htmlSelect.setAttribute(selectOptionsVisibleAttribute, '');
   }
 };
 
-export const handleSelectOnEscape = (targetDocument: Document) => {
-  const htmlSelect = targetDocument.activeElement as HTMLSelectElement;
+export const handleSelectOnEscape = (
+  htmlSelect: HTMLSelectElement,
+  targetDocument: Document
+) => {
   const openOptions = htmlSelect.hasAttribute(selectOptionsVisibleAttribute);
   if (openOptions) {
-    hidePickerOnSeLectElement(htmlSelect);
+    hidePickerOnSelectElement(htmlSelect);
   } else {
     emitSyntheticKeyboardEvent(
       'keydown',

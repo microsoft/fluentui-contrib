@@ -15,30 +15,17 @@ import { KeyboardKey, MoverKey } from '../types/Keys';
     Synthetic Events
 */
 const syntheticKey = Symbol('synthetic');
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace React {
-    interface KeyboardEvent {
-      readonly [syntheticKey]?: boolean;
-    }
-    interface MouseEvent {
-      readonly [syntheticKey]?: boolean;
-    }
-  }
-  interface KeyboardEvent {
-    readonly [syntheticKey]?: boolean;
-  }
-  interface MouseEvent {
-    readonly [syntheticKey]?: boolean;
-  }
-}
+
+export type MouseSyntheticEvent = MouseEvent & {
+  [syntheticKey]?: boolean;
+};
 
 export const isSyntheticMouseEvent = (
-  evt: React.MouseEvent<unknown, MouseEvent> | MouseEvent
+  evt: MouseEvent | React.MouseEvent<unknown, MouseEvent>
 ): boolean => {
   return evt instanceof MouseEvent
-    ? !!evt?.[syntheticKey]
-    : !!evt.nativeEvent?.[syntheticKey];
+    ? !!(evt as MouseSyntheticEvent)?.[syntheticKey]
+    : !!(evt.nativeEvent as MouseSyntheticEvent)?.[syntheticKey];
 };
 
 export const emitSyntheticKeyboardEvent = (
@@ -135,7 +122,7 @@ export const emitSyntheticGroupperMoveFocusEvent = (
   } else {
     // Note: GroupperMoveFocusActions.Escape has no difference to KeyboardKey.Escape
     if (isSelectElement(activeElement)) {
-      handleSelectOnEscape(targetDocument);
+      handleSelectOnEscape(activeElement, targetDocument);
     } else if (isComboboxElement(activeElement)) {
       emitSyntheticMouseEvent('click', true, targetDocument);
     } else {
