@@ -35,6 +35,7 @@
       "@fluentui-contrib/react-draggable-dialog": [
         "packages/react-draggable-dialog/src/index.ts"
       ],
+      "@fluentui-contrib/react-flex": ["packages/react-flex/src/index.ts"],
       "@fluentui-contrib/react-gamepad-navigation": [
         "packages/react-gamepad-navigation/src/index.ts"
       ],
