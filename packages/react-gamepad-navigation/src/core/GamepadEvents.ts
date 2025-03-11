@@ -5,6 +5,7 @@ import {
   handleSelectOnEscape,
   isComboboxElement,
   isMenuItemElement,
+  isRadioElement,
   isSelectElement,
   shouldSubmitForm,
 } from './GamepadUtils';
@@ -90,7 +91,7 @@ export const emitSyntheticMoverMoveFocusEvent = (
   targetDocument: Document
 ) => {
   const activeElement = targetDocument.activeElement;
-  if (isComboboxElement(activeElement)) {
+  if (isComboboxElement(activeElement) || isRadioElement(activeElement)) {
     const button = getMoverKeyToKeyboardKeyMapping(key);
     emitSyntheticKeyboardEvent('keydown', button, true, targetDocument);
   } else if (isSelectElement(activeElement)) {
@@ -111,6 +112,8 @@ export const emitSyntheticGroupperMoveFocusEvent = (
 
     if (isComboboxElement(activeElement)) {
       emitSyntheticKeyboardEvent('keydown', action, true, targetDocument);
+    } else if (isRadioElement(activeElement)) {
+      activeElement.checked = !activeElement.checked;
     } else if (isSelectElement(activeElement)) {
       handleSelectOnEnter(activeElement);
     } else {
