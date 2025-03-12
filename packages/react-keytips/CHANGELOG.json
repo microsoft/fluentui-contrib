@@ -2,6 +2,27 @@
   "name": "@fluentui-contrib/react-keytips",
   "entries": [
     {
+      "date": "Wed, 12 Mar 2025 09:45:17 GMT",
+      "tag": "@fluentui-contrib/react-keytips_v0.2.1",
+      "version": "0.2.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "vgenaev@gmail.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "c37b3e9442c7d873cac23e4e79439414c3ce9822",
+            "comment": "fix: reported issues after bug bash"
+          },
+          {
+            "author": "vgenaev@gmail.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "8362911570f5651432efc06ee18762aecb203d74",
+            "comment": "fix: keep aria-keyshortcuts and make it available before entering keytip mode"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 21 Feb 2025 18:05:51 GMT",
       "tag": "@fluentui-contrib/react-keytips_v0.2.0",
       "version": "0.2.0",

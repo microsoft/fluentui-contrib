@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "remove mouseevent type augmentation",
-  "packageName": "@fluentui-contrib/react-gamepad-navigation",
-  "email": "hectorjimenez@outlook.com",
-  "dependentChangeType": "patch"
-}
