@@ -1,8 +1,17 @@
 # Change Log - @fluentui-contrib/react-keytips
 
-This log was last generated on Fri, 21 Feb 2025 18:05:51 GMT and should not be manually modified.
+This log was last generated on Wed, 12 Mar 2025 09:45:17 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.2.1
+
+Wed, 12 Mar 2025 09:45:17 GMT
+
+### Patches
+
+- fix: reported issues after bug bash (vgenaev@gmail.com)
+- fix: keep aria-keyshortcuts and make it available before entering keytip mode (vgenaev@gmail.com)
 
 ## 0.2.0
 

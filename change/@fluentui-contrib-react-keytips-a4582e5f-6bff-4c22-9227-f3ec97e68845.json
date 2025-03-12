@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: reported issues after bug bash",
-  "packageName": "@fluentui-contrib/react-keytips",
-  "email": "vgenaev@gmail.com",
-  "dependentChangeType": "patch"
-}
