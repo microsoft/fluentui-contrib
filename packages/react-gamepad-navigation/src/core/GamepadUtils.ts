@@ -82,6 +82,14 @@ export const handleSelectOnDirection = (
       const selectedOption = htmlSelect.options[htmlSelect.selectedIndex + 1];
       if (selectedOption) {
         htmlSelect.value = selectedOption.value;
+        const previousOption = htmlSelect.options[htmlSelect.selectedIndex];
+        previousOption.removeAttribute('selected');
+        // previousOption.removeAttribute('style');
+        selectedOption.setAttribute('selected', '');
+        // selectedOption.setAttribute(
+        //   'style',
+        //   'background-color: var(--colorCompoundBrandBackground);'
+        // );
       }
     }
   } else if (openOptions && key === MoverKeys.ArrowUp) {
@@ -89,6 +97,14 @@ export const handleSelectOnDirection = (
       const selectedOption = htmlSelect.options[htmlSelect.selectedIndex - 1];
       if (selectedOption) {
         htmlSelect.value = selectedOption.value;
+        const previousOption = htmlSelect.options[htmlSelect.selectedIndex];
+        previousOption.removeAttribute('selected');
+        // previousOption.removeAttribute('style');
+        selectedOption.setAttribute('selected', '');
+        // selectedOption.setAttribute(
+        //   'style',
+        //   'background-color: var(--colorCompoundBrandBackground);'
+        // );
       }
     }
   } else if (!openOptions) {
