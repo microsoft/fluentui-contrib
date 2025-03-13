@@ -47,7 +47,7 @@ export const handleSelectOnEnter = (htmlSelect: HTMLSelectElement) => {
   if (openOptions) {
     hidePickerOnSelectElement(htmlSelect);
   } else {
-    htmlSelect.showPicker();
+    htmlSelect.showPicker?.();
     htmlSelect.setAttribute(selectOptionsVisibleAttribute, '');
   }
 };
@@ -79,22 +79,16 @@ export const handleSelectOnDirection = (
   // TODO: account for navigation to active select sibling elements vs options
   if (openOptions && key === MoverKeys.ArrowDown) {
     if (htmlSelect.selectedIndex < htmlSelect.options.length - 1) {
-      htmlSelect.selectedIndex++;
-      const selectedOption = htmlSelect.options[htmlSelect.selectedIndex];
+      const selectedOption = htmlSelect.options[htmlSelect.selectedIndex + 1];
       if (selectedOption) {
         htmlSelect.value = selectedOption.value;
-        selectedOption.selected = true;
-        selectedOption.focus();
       }
     }
   } else if (openOptions && key === MoverKeys.ArrowUp) {
     if (htmlSelect.selectedIndex > 0) {
-      htmlSelect.selectedIndex--;
-      const selectedOption = htmlSelect.options[htmlSelect.selectedIndex];
+      const selectedOption = htmlSelect.options[htmlSelect.selectedIndex - 1];
       if (selectedOption) {
         htmlSelect.value = selectedOption.value;
-        selectedOption.selected = true;
-        selectedOption.focus();
       }
     }
   } else if (!openOptions) {
