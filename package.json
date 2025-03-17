@@ -42,7 +42,7 @@
     "@nx/js": "20.4.6",
     "@nx/playwright": "20.4.6",
     "@nx/plugin": "20.4.6",
-    "@nx/react": "20.4.6",
+    "@nx/react": "20.6.0",
     "@nx/storybook": "20.4.6",
     "@nx/web": "20.4.6",
     "@nx/webpack": "20.4.6",
