@@ -1,0 +1,7 @@
+{
+  "type": "none",
+  "comment": "chore: remove icons from deps",
+  "packageName": "@fluentui-contrib/azure-theme",
+  "email": "aorantes@microsoft.com",
+  "dependentChangeType": "none"
+}
