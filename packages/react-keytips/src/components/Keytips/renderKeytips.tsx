@@ -21,23 +21,22 @@ export const renderKeytips_unstable = (state: KeytipsState) => {
   const classes = useStyles();
 
   return (
-    <Portal
-      mountNode={{
-        className: classes.portal,
-        ...state.mountNode,
-      }}
-    >
-      <span
-        id={KTP_ROOT_ID}
-        style={VISUALLY_HIDDEN_STYLES}
-        data-start-shortcut={state.content}
+    <div id="keytips-container" aria-hidden="true">
+      <Portal
+        mountNode={{
+          className: classes.portal,
+          ...state.mountNode,
+        }}
       >
-        {state.content}
-      </span>
-      {state.keytips}
-      {state.visibleKeytips.length > 0 && (
-        <state.root>{state.visibleKeytips}</state.root>
-      )}
-    </Portal>
+        <span
+          id={KTP_ROOT_ID}
+          style={VISUALLY_HIDDEN_STYLES}
+          data-start-shortcut={state.content}
+        >
+          {state.content}
+        </span>
+        {state.keytips.length > 0 && <state.root>{state.keytips}</state.root>}
+      </Portal>
+    </div>
   );
 };

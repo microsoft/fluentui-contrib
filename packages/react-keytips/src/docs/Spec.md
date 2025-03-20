@@ -114,7 +114,7 @@ The keytip is positioned below and centered to the target element by default.
 
 | Prop Name            | Type                                   | Default                                         | Description                                                                                                                                                           |
 | -------------------- | -------------------------------------- | ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `content`            | `string`                               | `Alt Meta` on Windows, `Alt Control` on MacOS   | String to put inside the `Portal`to be used for the aria-describedby for the component with the keytip. Should be one of the starting sequences.                      |
+| `content`            | `string`                               | `Alt Meta` on Windows, `Alt Control` on MacOS   | String to put inside the `Portal` to be used for the `aria-keyshortcuts` for the component with the keytip. Should be one of the starting sequences.                  |
 | `mountNode`          |                                        |                                                 | Where the Portal children are mounted on DOM.                                                                                                                         |
 | `startSequence`      | `string`                               | `'alt+meta` on Windows, `'alt+control` on MacOS | Key sequence that will start keytips mode.                                                                                                                            |
 | `returnSequence`     | `string`                               | `'escape'`                                      | Key sequences that execute the return functionality in keytips.                                                                                                       |
@@ -126,17 +126,17 @@ The keytip is positioned below and centered to the target element by default.
 
 ## useKeytipRef
 
-| Param          | Type                        | Default                                  | Description                                                                                                                                                        |
-| -------------- | --------------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `positioning`  | `PositioningProps`          | `{ align: 'center', position: 'below' }` | Positioning props to be passed to Keytip.                                                                                                                          |
-| `onExecute`    | `ExecuteKeytipEventHandler` |                                          | Callback function triggered when keytip is activated.                                                                                                              |
-| `onReturn`     | `ReturnKeytipEventHandler`  |                                          | Callback function triggered when the return sequence is pressed.                                                                                                   |
-| `keySequences` | `string[]`                  |                                          | Array of key sequences which lead to target keytip. Should not include initial 'start' key sequence.                                                               |
-| `dynamic`      | `boolean`                   |                                          | Whether or not this keytip will have dynamic content: children keytips that are dynamically created (DOM is generated on keytip activation), Menu, Tabs or Modal.  |
-| `visible`      | `boolean`                   | `false`                                  | Control the Keytip's visibility programmatically.                                                                                                                  |
-| `content`      | `string`                    |                                          | The text content of the Keytip.                                                                                                                                    |
-| `isShortcut`   | `boolean`                   | `false`                                  | Registers keytip as a shortcut, will try to invoke the full sequence until it will reach the target keytip.                                                        |
-| `hasMenu`      | `boolean`                   | `false`                                  | Whether or not this keytip belongs to a component that has a menu, Keytip mode will stay on when a menu is opened, even if the items in that menu have no keytips. |
+| Param              | Type                        | Default                                  | Description                                                                                                                                                       |
+| ------------------ | --------------------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `positioning`      | `PositioningProps`          | `{ align: 'center', position: 'below' }` | Positioning props to be passed to Keytip.                                                                                                                         |
+| `onExecute`        | `ExecuteKeytipEventHandler` |                                          | Callback function triggered when keytip is activated.                                                                                                             |
+| `onReturn`         | `ReturnKeytipEventHandler`  |                                          | Callback function triggered when the return sequence is pressed.                                                                                                  |
+| `keySequences`     | `string[]`                  |                                          | Array of key sequences which is the full key sequence to trigger this keytip. Should not include initial 'start' key sequence.                                    |
+| `dynamic`          | `boolean`                   |                                          | Whether or not this keytip will have dynamic content: children keytips that are dynamically created (DOM is generated on keytip activation), Menu, Tabs or Modal. |
+| `visible`          | `boolean`                   | `false`                                  | Control the Keytip's visibility programmatically.                                                                                                                 |
+| `content`          | `string`                    |                                          | The text content of the Keytip.                                                                                                                                   |
+| `hasMenu`          | `boolean`                   | `false`                                  | Whether or not this keytip belongs to a component that has a menu Keytip mode will stay on when a menu is opened, even if the items in that menu have no keytips. |
+| `overflowSequence` | `string[]`                  |                                          | If this keytip is inside OverflowMenu, you might need to add the `overflowSequence` to make shortcuts available.                                                  |
 
 ## Structure
 
@@ -233,9 +233,8 @@ const thirdButton = useKeytipRef({
 In terms of accessibility, `Keytip` component is very similar to `Tooltip` - it's a small popup that displays information related to an element, with difference, that `Keytip` can't be displayed by mouse hover over target element. Multiple keytips can be visible at the same time.
 
 - Each `Keytip` is assigned the role `"tooltip"`.
-- The `Keytip` target element references the corresponding keytip element using the `"aria-describedby"` attribute, providing a clear association between the target and the keytip (tooltip).
+- The `Keytip` target element references the corresponding keytip element using the `"aria-keyshortcuts"` attribute, providing a clear association between the target and the keytip (tooltip).
 - `Keytips` component has `content` prop, which is responsible for adding the `"aria-describedby"` for default start key sequence.
 - `Keytip` is not focusable.
-- `Keytip` adds `"aria-keyshortcuts"` attribute to the target element, which contains the key sequence that will trigger the keytip.
 - Unlike Tooltip, pressing `Escape` does not always hide the `Keytip`. By default, `Keytip` is configured to use `Escape` as a return sequence. Therefore, if there are ancestor keytips, pressing it will not hide the current `Keytip` but will instead display the ancestor keytips.
 - Focus stays on the trigger element while `Keytip` is displayed.

@@ -69,18 +69,22 @@ export function useEventService() {
     [targetDocument]
   );
 
-  const reset = React.useCallback(() => {
+  const abort = React.useCallback(() => {
     if (controller.current) {
       controller.current.abort();
-      controller.current = null;
     }
   }, []);
 
+  const reset = React.useCallback(() => {
+    abort();
+    controller.current = new AbortController();
+  }, [abort]);
+
   React.useEffect(() => {
     return () => {
-      reset();
+      abort();
     };
   }, []);
 
-  return { dispatch, subscribe, reset };
+  return { dispatch, subscribe, reset, abort };
 }

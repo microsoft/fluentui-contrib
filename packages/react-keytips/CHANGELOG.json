@@ -2,6 +2,56 @@
   "name": "@fluentui-contrib/react-keytips",
   "entries": [
     {
+      "date": "Wed, 12 Mar 2025 09:45:17 GMT",
+      "tag": "@fluentui-contrib/react-keytips_v0.2.1",
+      "version": "0.2.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "vgenaev@gmail.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "c37b3e9442c7d873cac23e4e79439414c3ce9822",
+            "comment": "fix: reported issues after bug bash"
+          },
+          {
+            "author": "vgenaev@gmail.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "8362911570f5651432efc06ee18762aecb203d74",
+            "comment": "fix: keep aria-keyshortcuts and make it available before entering keytip mode"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Fri, 21 Feb 2025 18:05:51 GMT",
+      "tag": "@fluentui-contrib/react-keytips_v0.2.0",
+      "version": "0.2.0",
+      "comments": {
+        "patch": [
+          {
+            "author": "seanmonahan@microsoft.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "50ad30fe35a1e3561c120323e25315c429220fcb",
+            "comment": "docs: clarify startSequence value"
+          },
+          {
+            "author": "vgenaev@gmail.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "6f13f82bd7eb600c5d99cb01e98fec505afa7074",
+            "comment": "fix: detect default start sequence based on navigator"
+          }
+        ],
+        "minor": [
+          {
+            "author": "vgenaev@gmail.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "763f8505f0d029697e645f89e2cc44c91079afc0",
+            "comment": "BREAKING: removed isShortcut prop, added overflowSequence"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 31 Jan 2025 07:26:15 GMT",
       "tag": "@fluentui-contrib/react-keytips_v0.1.5",
       "version": "0.1.5",

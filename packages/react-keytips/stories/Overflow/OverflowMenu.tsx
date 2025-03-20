@@ -2,7 +2,7 @@ import * as React from 'react';
 import { MoreHorizontalRegular } from '@fluentui/react-icons';
 import {
   Menu,
-  MenuButton,
+  ToolbarButton,
   MenuList,
   MenuPopover,
   MenuTrigger,
@@ -58,6 +58,7 @@ export const OverflowMenu = ({
     useOverflowMenu<HTMLButtonElement>();
 
   const keytipRef = useKeytipRef(overflowKeytipProps);
+
   const mergedRefs = useMergedRefs(ref, keytipRef);
 
   if (!isOverflowing) {
@@ -67,12 +68,10 @@ export const OverflowMenu = ({
   return (
     <Menu hasIcons>
       <MenuTrigger disableButtonEnhancement>
-        <MenuButton
-          appearance="transparent"
+        <ToolbarButton
           ref={mergedRefs}
           icon={<MoreHorizontalRegular />}
           aria-label={`${overflowCount} more tabs`}
-          role="tab"
         />
       </MenuTrigger>
       <MenuPopover>

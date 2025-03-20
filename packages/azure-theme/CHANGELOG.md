@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/azure-theme
 
-This log was last generated on Wed, 25 Sep 2024 12:26:50 GMT and should not be manually modified.
+This log was last generated on Thu, 27 Feb 2025 18:01:54 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.1.0
+
+Thu, 27 Feb 2025 18:01:54 GMT
+
+### Minor changes
+
+- removed neutral colors (aorantes@microsoft.com)
 
 ## 0.0.3
 

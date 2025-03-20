@@ -1,0 +1,56 @@
+{
+  "name": "@fluentui-contrib/react-gamepad-navigation",
+  "entries": [
+    {
+      "date": "Wed, 12 Mar 2025 09:45:17 GMT",
+      "tag": "@fluentui-contrib/react-gamepad-navigation_v0.1.1",
+      "version": "0.1.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "hectorjimenez@outlook.com",
+            "package": "@fluentui-contrib/react-gamepad-navigation",
+            "commit": "e57ba3b1f2531d15c075971c34f1ad3446a68dc4",
+            "comment": "upgrading react-tabster dependency"
+          },
+          {
+            "author": "hectorjimenez@outlook.com",
+            "package": "@fluentui-contrib/react-gamepad-navigation",
+            "commit": "6242e1e6622360efaf8640287611cccfb6f14b4c",
+            "comment": "remove mouseevent type augmentation"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Thu, 27 Feb 2025 18:01:54 GMT",
+      "tag": "@fluentui-contrib/react-gamepad-navigation_v0.1.0",
+      "version": "0.1.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "hectorjimenez@outlook.com",
+            "package": "@fluentui-contrib/react-gamepad-navigation",
+            "commit": "9b351c13ed3b5a213737d9cac807a8cd2484dfe7",
+            "comment": "Implementation for gamepad navigation package"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Fri, 21 Feb 2025 18:05:51 GMT",
+      "tag": "@fluentui-contrib/react-gamepad-navigation_v0.0.1",
+      "version": "0.0.1",
+      "comments": {
+        "none": [
+          {
+            "author": "hectorjimenez@outlook.com",
+            "package": "@fluentui-contrib/react-gamepad-navigation",
+            "commit": "10de2c65ed621518d688e6bbd234aafff835acc8",
+            "comment": "generate package files"
+          }
+        ]
+      }
+    }
+  ]
+}

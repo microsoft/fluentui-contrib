@@ -69,6 +69,5 @@ export type KeytipsProps = ComponentProps<KeytipsSlots> &
  */
 export type KeytipsState = ComponentState<KeytipsSlots> &
   Pick<KeytipsProps, 'mountNode' | 'content'> & {
-    visibleKeytips: React.ReactElement[];
     keytips: React.ReactElement[];
   };
