@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "removed react-icons as dependency; added teammate as package owner for PR approval",
+  "packageName": "@fluentui-contrib/azure-theme",
+  "email": "aorantes@microsoft.com",
+  "dependentChangeType": "patch"
+}
