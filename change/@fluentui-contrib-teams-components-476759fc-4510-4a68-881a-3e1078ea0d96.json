@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "chore: initial release",
-  "packageName": "@fluentui-contrib/teams-components",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}
