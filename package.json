@@ -32,7 +32,7 @@
     "@fluentui/react-components": "^9.54.13",
     "@fluentui/react-icons": "^2.0.249",
     "@fluentui/react-migration-v8-v9": "^9.6.23",
-    "@fluentui/react-shared-contexts": "^9.7.2",
+    "@fluentui/react-shared-contexts": "^9.23.0",
     "@fluentui/scheme-utilities": "^8.3.58",
     "@griffel/shadow-dom": "~0.2.0",
     "@nx/devkit": "20.4.6",
