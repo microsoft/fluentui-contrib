@@ -40,12 +40,7 @@ export const Default = (props) => {
 
   return (
     <div className={styles.pane}>
-      <NovaEventingInterceptor
-        eventMap={{
-          arrowBack: interceptor,
-          close: interceptor,
-        }}
-      >
+      <NovaEventingInterceptor interceptor={interceptor}>
         <Header
           caption={props.caption}
           brandIcon={
