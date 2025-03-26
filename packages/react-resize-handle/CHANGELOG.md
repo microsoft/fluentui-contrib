@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-resize-handle
 
-This log was last generated on Wed, 25 Sep 2024 12:26:50 GMT and should not be manually modified.
+This log was last generated on Wed, 26 Mar 2025 12:45:02 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.6.2
+
+Wed, 26 Mar 2025 12:45:02 GMT
+
+### Patches
+
+- fix: update events dispatch order (olfedias@microsoft.com)
 
 ## 0.6.1
 
