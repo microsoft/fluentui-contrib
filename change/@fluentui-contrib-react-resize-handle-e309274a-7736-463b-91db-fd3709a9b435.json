@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: update events dispatch order",
-  "packageName": "@fluentui-contrib/react-resize-handle",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}
