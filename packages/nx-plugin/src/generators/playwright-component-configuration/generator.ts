@@ -4,9 +4,7 @@ import {
   Tree,
   updateProjectConfiguration,
   readProjectConfiguration,
-  joinPathFragments,
   ProjectConfiguration,
-  updateJson,
   TargetConfiguration,
 } from '@nx/devkit';
 import * as path from 'path';
@@ -34,26 +32,7 @@ export default async function (
 
   addComponentTestTarget(tree, normalizedOptions);
 
-  addExtendsToLintConfig(tree, normalizedOptions);
-
   await formatFiles(tree);
-}
-
-function addExtendsToLintConfig(tree: Tree, options: Options) {
-  const fileName = joinPathFragments(
-    options.projectConfig.root,
-    '.eslintrc.json'
-  );
-  updateJson(tree, fileName, (json) => {
-    json.overrides ??= [];
-    json.overrides.push({
-      files: ['src/**/*.spec.{ts,js,tsx,jsx}'],
-      extends: ['plugin:playwright/recommended'],
-      rules: {},
-    });
-
-    return json;
-  });
 }
 
 function addComponentTestTarget(tree: Tree, options: Options) {
