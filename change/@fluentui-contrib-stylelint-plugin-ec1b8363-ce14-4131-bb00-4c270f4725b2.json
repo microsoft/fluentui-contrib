@@ -1,0 +1,7 @@
+{
+  "type": "none",
+  "comment": "chore: remove old .eslintrc files",
+  "packageName": "@fluentui-contrib/stylelint-plugin",
+  "email": "vgenaev@gmail.com",
+  "dependentChangeType": "none"
+}

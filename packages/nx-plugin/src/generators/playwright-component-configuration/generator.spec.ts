@@ -1,17 +1,10 @@
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import {
-  Tree,
-  joinPathFragments,
-  readJson,
-  readProjectConfiguration,
-} from '@nx/devkit';
-
+import { Tree, joinPathFragments, readProjectConfiguration } from '@nx/devkit';
 import { default as libraryGenerator } from '../library/generator';
 import {
   createCodeowners,
   setupWorkspaceDependencies,
 } from '../../utils-testing';
-
 import generator from './generator';
 import { PlaywrightComponentConfigurationGeneratorSchema } from './schema';
 
@@ -55,20 +48,5 @@ describe('playwright-component-configuration generator', () => {
         },
       }
     `);
-  });
-
-  it(`should setup eslint for playwright files`, async () => {
-    await generator(tree, options);
-    const config = readProjectConfiguration(tree, 'hello');
-
-    const eslintConfig = readJson(
-      tree,
-      joinPathFragments(config.root, '.eslintrc.json')
-    );
-    expect(eslintConfig.overrides).toContainEqual({
-      extends: ['plugin:playwright/recommended'],
-      files: ['src/**/*.spec.{ts,js,tsx,jsx}'],
-      rules: {},
-    });
   });
 });

@@ -1,0 +1,7 @@
+{
+  "type": "none",
+  "comment": "chore: remove old .eslintrc files",
+  "packageName": "@fluentui-contrib/react-chat",
+  "email": "vgenaev@gmail.com",
+  "dependentChangeType": "none"
+}
