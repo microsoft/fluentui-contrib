@@ -61,8 +61,17 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
     }
   );
 
+  const rafIdRef = React.useRef<number | null>(null);
   const onDrag = useEventCallback((event: NativeTouchOrMouseEvent) => {
-    targetWindow?.requestAnimationFrame(() => recalculatePosition(event));
+    if (targetWindow) {
+      if (rafIdRef.current) {
+        targetWindow.cancelAnimationFrame(rafIdRef.current);
+      }
+
+      rafIdRef.current = targetWindow.requestAnimationFrame(() =>
+        recalculatePosition(event)
+      );
+    }
   });
 
   const onDragEnd = useEventCallback((event: NativeTouchOrMouseEvent) => {
@@ -76,6 +85,17 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
       targetDocument?.removeEventListener('touchmove', onDrag);
     }
 
+    // Heads up!
+    //
+    // To keep the order of events, we need to cancel the animation frame i.e. the order should be always:
+    // - onChange
+    // - onDragEnd
+
+    if (targetWindow && rafIdRef.current) {
+      targetWindow.cancelAnimationFrame(rafIdRef.current);
+    }
+
+    recalculatePosition(event);
     params.onDragEnd?.(
       event,
       isTouchEvent(event)
@@ -131,6 +151,14 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
     },
     [onPointerDown]
   );
+
+  React.useEffect(() => {
+    return () => {
+      if (targetWindow && rafIdRef.current) {
+        targetWindow.cancelAnimationFrame(rafIdRef.current);
+      }
+    };
+  }, [targetWindow]);
 
   return {
     attachHandlers,
