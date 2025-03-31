@@ -135,6 +135,25 @@ module.exports = [
     languageOptions: {
       parser: jsonParser,
     },
-    rules: {},
+    rules: {
+      '@nx/dependency-checks': [
+        'error',
+        {
+          includeTransitiveDependencies: false,
+          ignoredDependencies: [
+            '@types/react',
+            '@types/react-dom',
+            '@swc/helpers',
+          ],
+          ignoredFiles: [
+            '{projectRoot}/playwright.config.ts',
+            '{projectRoot}/playwright/**',
+            '{projectRoot}/.storybook/**',
+            '{projectRoot}/stories/**',
+            '{projectRoot}/**/*.component-browser-spec.tsx',
+          ],
+        },
+      ],
+    },
   },
 ];
