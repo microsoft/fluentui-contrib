@@ -1,17 +1,11 @@
 import * as React from 'react';
-
-import { NovaEventingInterceptor, NovaEventingProvider } from '@nova/react';
-import { EventWrapper } from '@nova/types';
 import { makeStyles, tokens, ToolbarButton } from '@fluentui/react-components';
 import {
   MoreHorizontalRegular,
   EmojiSmileSlightRegular,
 } from '@fluentui/react-icons';
 import { Header } from '@fluentui-contrib/react-contextual-pane';
-import { action } from '@storybook/addon-actions';
-import { assertEvents } from '../../src/events';
 import { Avatar } from '../Mock/Avatar';
-import { GraphQLSchema, buildSchema } from 'graphql';
 
 const useStyles = makeStyles({
   pane: {
@@ -26,55 +20,52 @@ const useStyles = makeStyles({
   },
 });
 
-export const Default = (props) => {
-  const interceptor = React.useCallback((e: EventWrapper) => {
-    if (assertEvents.isArrowBack(e.event)) {
-      console.log('ArrowBack Clicked');
-      action('ArrowBack Clicked');
-    }
+export type DefaultProps = {
+  brandIcon?: boolean;
+  hasArrowBack?: boolean;
+  caption: string;
+  primaryAction?: boolean;
+  secondaryAction?: boolean;
+};
 
-    return Promise.resolve(e);
-  }, []);
-
+export const Default = (props: DefaultProps) => {
   const styles = useStyles();
 
   return (
     <div className={styles.pane}>
-      <NovaEventingInterceptor interceptor={interceptor}>
-        <Header
-          caption={props.caption}
-          brandIcon={
-            props.brandIcon ? <EmojiSmileSlightRegular fontSize={20} /> : null
-          }
-          hasArrowBack={props.hasArrowBack}
-          primaryAction={
-            props.primaryAction && (
-              <ToolbarButton
-                appearance="transparent"
-                key="more-menu"
-                icon={<MoreHorizontalRegular />}
-              />
-            )
-          }
-          secondaryAction={
-            props.secondaryAction && (
-              <Avatar
-                avatarUrl="https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/KatriAthokas.jpg"
-                key="avatar"
-                users={[
-                  {
-                    id: 'avatar-Id-0',
-                    displayName: 'Katri Athokas',
-                    avatarUrl:
-                      'https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/KatriAthokas.jpg',
-                  },
-                ]}
-                aria-hidden={true}
-              />
-            )
-          }
-        />
-      </NovaEventingInterceptor>
+      <Header
+        caption={props.caption}
+        brandIcon={
+          props.brandIcon ? <EmojiSmileSlightRegular fontSize={20} /> : null
+        }
+        hasArrowBack={props.hasArrowBack}
+        primaryAction={
+          props.primaryAction && (
+            <ToolbarButton
+              appearance="transparent"
+              key="more-menu"
+              icon={<MoreHorizontalRegular />}
+            />
+          )
+        }
+        secondaryAction={
+          props.secondaryAction && (
+            <Avatar
+              avatarUrl="https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/KatriAthokas.jpg"
+              key="avatar"
+              users={[
+                {
+                  id: 'avatar-Id-0',
+                  displayName: 'Katri Athokas',
+                  avatarUrl:
+                    'https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/KatriAthokas.jpg',
+                },
+              ]}
+              aria-hidden={true}
+            />
+          )
+        }
+      />
     </div>
   );
 };

@@ -2,7 +2,7 @@ import {
   makeStyles,
   tokens,
   typographyStyles,
-  // createCustomFocusIndicatorStyle,
+  createCustomFocusIndicatorStyle,
 } from '@fluentui/react-components';
 
 export const useStyles = makeStyles({
@@ -33,10 +33,10 @@ export const useStyles = makeStyles({
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     padding: tokens.spacingHorizontalXS,
-    // ...createCustomFocusIndicatorStyle({
-    //   outlineColor: tokens.colorStrokeFocus2,
-    //   outlineOffset: '-2px',
-    // }),
+    ...createCustomFocusIndicatorStyle({
+      outlineColor: tokens.colorStrokeFocus2,
+      outlineOffset: '-2px',
+    }),
   },
   brandToolbar: {
     padding: 0,

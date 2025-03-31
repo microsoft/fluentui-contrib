@@ -48,8 +48,6 @@
     "@nx/web": "20.4.6",
     "@nx/webpack": "20.4.6",
     "@nx/workspace": "20.4.6",
-    "@nova/react": "^2.7.0",
-    "@nova/react-test-utils": "^6.1.1",
     "@playwright/experimental-ct-react": "^1.49.1",
     "@rnx-kit/eslint-plugin": "0.5.3",
     "@storybook/addon-docs": "7.6.17",

@@ -1,15 +1,11 @@
 import * as React from 'react';
 import { useStyles } from './Header.styles';
-import { useNovaEventing } from '@nova/react';
 import {
   mergeClasses,
-  Slot,
   Toolbar,
   ToolbarButton,
-  useEventCallback,
 } from '@fluentui/react-components';
 import { ArrowLeftRegular, DismissRegular } from '@fluentui/react-icons';
-import * as events from '../../events';
 import { HeaderTitle } from './HeaderTitle';
 
 export type HeaderProps = {
@@ -24,6 +20,8 @@ export type HeaderProps = {
     actionsAriaLabel?: string;
     brandAriaLabel?: string;
   };
+  onArrowBackClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
+  onDismissClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
 };
 
 const defaultToolbarLabels = {
@@ -40,31 +38,12 @@ export const Header = ({
   primaryAction,
   secondaryAction,
   toolbarLabels = defaultToolbarLabels,
+  onArrowBackClick,
+  onDismissClick,
 }: HeaderProps) => {
   const styles = useStyles();
-  const { bubble } = useNovaEventing();
 
   const hasLeftConetent = Boolean(hasArrowBack || brandIcon);
-
-  const handleArrowBack = useEventCallback(
-    (
-      e:
-        | React.MouseEvent<HTMLButtonElement>
-        | React.KeyboardEvent<HTMLButtonElement>
-    ) => {
-      bubble({ reactEvent: e, event: events.arrowBack() });
-    }
-  );
-
-  const handleDismiss = useEventCallback(
-    (
-      e:
-        | React.MouseEvent<HTMLButtonElement>
-        | React.KeyboardEvent<HTMLButtonElement>
-    ) => {
-      bubble({ reactEvent: e, event: events.dismissPane() });
-    }
-  );
 
   return (
     <div
@@ -82,9 +61,10 @@ export const Header = ({
           >
             {hasArrowBack && (
               <ToolbarButton
+                as="button"
                 aria-label={toolbarLabels.arrowBackAriaLabel}
                 icon={<ArrowLeftRegular />}
-                onClick={handleArrowBack}
+                onClick={onArrowBackClick}
                 appearance="transparent"
               />
             )}
@@ -98,10 +78,11 @@ export const Header = ({
         {primaryAction}
         {secondaryAction}
         <ToolbarButton
+          as="button"
           aria-label={toolbarLabels.dismissAriaLabel}
           icon={<DismissRegular />}
-          onClick={handleDismiss}
           appearance="transparent"
+          onClick={onDismissClick}
         />
       </Toolbar>
     </div>

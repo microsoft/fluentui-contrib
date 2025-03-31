@@ -7,7 +7,7 @@ export { Default } from './Default.stories';
 const meta = {
   title: 'Packages/react-contextual-pane/Header',
   component: Header,
-  decorators: [getNovaDecorator(buildSchema(``))],
+  decorators: [getNovaDecorator(buildSchema(`type Query { noop: Boolean }`))],
 } satisfies Meta<typeof Header>;
 
 export default meta;
