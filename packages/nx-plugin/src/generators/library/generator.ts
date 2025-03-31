@@ -51,19 +51,9 @@ export default async function (tree: Tree, options: LibraryGeneratorSchema) {
   updateProjectConfiguration(tree, name, newProject);
   tree.delete(path.join(paths.src, 'lib'));
 
-  const reactComponentsVersion = getReactComponentsVersion(tree);
-
   updateJson(tree, paths.packageJson, (packageJson) => {
     packageJson.type = undefined;
     packageJson.private = true;
-
-    packageJson.peerDependencies ??= {
-      '@fluentui/react-components': `>=${reactComponentsVersion} <10.0.0`,
-      '@types/react': '>=16.8.0 <19.0.0',
-      '@types/react-dom': '>=16.8.0 <19.0.0',
-      react: '>=16.8.0 <19.0.0',
-      'react-dom': '>=16.8.0 <19.0.0',
-    };
 
     return packageJson;
   });
@@ -71,23 +61,6 @@ export default async function (tree: Tree, options: LibraryGeneratorSchema) {
   generateFiles(tree, path.join(__dirname, 'files'), paths.root, options);
 
   await formatFiles(tree);
-}
-
-function getReactComponentsVersion(tree: Tree) {
-  const pkgJson: PackageJson = readJson(tree, '/package.json');
-  const { dependencies = {}, devDependencies = {} } = pkgJson;
-  const reactComponentsVersion =
-    dependencies['@fluentui/react-components'] ||
-    devDependencies['@fluentui/react-components'];
-
-  if (!reactComponentsVersion) {
-    throw new Error(
-      '🚨 Could not find @fluentui/react-components in package.json. please report this issue'
-    );
-  }
-
-  // strip version ranges non-numeric characters
-  return reactComponentsVersion.replace(/^[~^]/, '');
 }
 
 async function invokeNxGenerators(tree: Tree, options: LibraryGeneratorSchema) {

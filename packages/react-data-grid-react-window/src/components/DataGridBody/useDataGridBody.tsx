@@ -8,10 +8,12 @@ import {
   TableRowData,
   TableRowIdContextProvider,
 } from '@fluentui/react-components';
-import type { RowRenderFunction } from '@fluentui/react-table';
 import { TableRowIndexContextProvider } from '../../contexts/rowIndexContext';
 import { useBodyRefContext } from '../../contexts/bodyRefContext';
 import { useHeaderRefContext } from '../../contexts/headerRefContext';
+
+type RowRenderFunction =
+  import('@fluentui/react-components').DataGridBodyState['renderRow'];
 
 /**
  * Create the state required to render DataGridBody.

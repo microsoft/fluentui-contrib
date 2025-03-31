@@ -1,6 +1,5 @@
 const prettierConfig = require('eslint-config-prettier');
 const nxEslintPlugin = require('@nx/eslint-plugin');
-const eslintPluginImport = require('eslint-plugin-import');
 const rnxKitEslintPlugin = require('@rnx-kit/eslint-plugin');
 const stylisticPlugin = require('@stylistic/eslint-plugin');
 const jsonParser = require('jsonc-eslint-parser');
@@ -26,7 +25,6 @@ module.exports = [
   {
     plugins: {
       '@nx': nxEslintPlugin,
-      import: eslintPluginImport,
       '@rnx-kit': rnxKitEslintPlugin,
       '@stylistic': stylisticPlugin,
     },
@@ -66,20 +64,6 @@ module.exports = [
     rules: {
       '@rnx-kit/no-export-all': 'error',
     },
-  },
-  {
-    files: ['**/*.ts?(x)', '**/*.js?(x)'],
-    rules: { 'import/no-extraneous-dependencies': ['error'] },
-    ignores: [
-      '**/*.test.[jt]s?(x)',
-      '**/*.spec.[jt]s?(x)',
-      '**/*.stories.[jt]s?(x)',
-      '**/*.component-browser-spec.tsx',
-      '**/generators/**/files/**',
-      '**/.storybook/**',
-      '**/playwright.config.ts',
-      '**/playwright/**',
-    ],
   },
   {
     files: ['**/*.spec.[jt]s?(x)', '**/*.test.[jt]s?(x)'],
@@ -136,6 +120,25 @@ module.exports = [
     languageOptions: {
       parser: jsonParser,
     },
-    rules: {},
+    rules: {
+      '@nx/dependency-checks': [
+        'error',
+        {
+          includeTransitiveDependencies: false,
+          ignoredDependencies: [
+            '@types/react',
+            '@types/react-dom',
+            '@swc/helpers',
+          ],
+          ignoredFiles: [
+            '{projectRoot}/playwright.config.ts',
+            '{projectRoot}/playwright/**',
+            '{projectRoot}/.storybook/**',
+            '{projectRoot}/stories/**',
+            '{projectRoot}/**/*.component-browser-spec.tsx',
+          ],
+        },
+      ],
+    },
   },
 ];

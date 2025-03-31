@@ -16,7 +16,8 @@
       "options": {
         "lintFilePatterns": [
           "packages/houdini-utils/**/*.ts",
-          "packages/houdini-utils/**/*.tsx"
+          "packages/houdini-utils/**/*.tsx",
+          "packages/houdini-utils/package.json"
         ]
       }
     },
