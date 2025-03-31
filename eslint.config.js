@@ -125,11 +125,8 @@ module.exports = [
         'error',
         {
           includeTransitiveDependencies: false,
-          ignoredDependencies: [
-            '@types/react',
-            '@types/react-dom',
-            '@swc/helpers',
-          ],
+          runtimeHelpers: ['@swc/helpers'],
+          ignoredDependencies: ['@types/react', '@types/react-dom'],
           ignoredFiles: [
             '{projectRoot}/playwright.config.ts',
             '{projectRoot}/playwright/**',

@@ -1,12 +1,13 @@
 {
   "name": "@fluentui-contrib/stylelint-plugin",
   "version": "0.2.1",
-  "dependencies": {
-    "parsel-js": "^1.1.2"
-  },
   "keywords": [
     "stylelint-plugin"
   ],
+  "dependencies": {
+    "@swc/helpers": "~0.5.11",
+    "parsel-js": "^1.1.2"
+  },
   "peerDependencies": {
     "stylelint": ">=14.0.0 <16.0.0"
   }
