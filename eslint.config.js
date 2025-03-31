@@ -66,21 +66,6 @@ module.exports = [
     },
   },
   {
-    files: ['**/*.ts?(x)', '**/*.js?(x)'],
-    rules: {},
-    ignores: [
-      '**/*.test.[jt]s?(x)',
-      '**/*.spec.[jt]s?(x)',
-      '**/*.stories.[jt]s?(x)',
-      '**/stories/**',
-      '**/*.component-browser-spec.tsx',
-      '**/generators/**/files/**',
-      '**/.storybook/**',
-      '**/playwright.config.ts',
-      '**/playwright/**',
-    ],
-  },
-  {
     files: ['**/*.spec.[jt]s?(x)', '**/*.test.[jt]s?(x)'],
     languageOptions: {
       globals: {
