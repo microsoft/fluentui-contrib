@@ -1,6 +1,6 @@
 import type { SlotClassNames, TabState } from '@fluentui/react-components';
 import { mergeClasses } from '@fluentui/react-components';
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 import {
   useTabButtonStyles_unstable,
   useTabContentStyles_unstable,

@@ -2,7 +2,7 @@ import type {
   ComponentProps,
   ComponentState,
   Slot,
-} from '@fluentui/react-utilities';
+} from '@fluentui/react-components';
 
 export type ChatMessageSlots = {
   author?: Slot<'div'>;

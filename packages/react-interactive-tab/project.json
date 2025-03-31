@@ -13,7 +13,8 @@
       "options": {
         "lintFilePatterns": [
           "packages/react-interactive-tab/**/*.ts",
-          "packages/react-interactive-tab/**/*.tsx"
+          "packages/react-interactive-tab/**/*.tsx",
+          "packages/react-interactive-tab/package.json"
         ]
       }
     },
