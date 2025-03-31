@@ -5,7 +5,7 @@
   "types": "./src/index.d.ts",
   "dependencies": {
     "@fluentui/react-icons": ">=2.0.204 <3.0.0",
-    "@swc/helpers": "~0.5.11"
+    "@swc/helpers": "~0.5.2"
   },
   "devDependencies": {},
   "private": true,
