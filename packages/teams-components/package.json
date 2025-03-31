@@ -2,7 +2,7 @@
   "name": "@fluentui-contrib/teams-components",
   "version": "0.1.0",
   "dependencies": {
-    "@swc/helpers": "~0.5.2"
+    "@swc/helpers": "~0.5.11"
   },
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",

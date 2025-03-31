@@ -8,6 +8,6 @@
   },
   "dependencies": {
     "@fluentui/react-utilities": "^9.16.0",
-    "@swc/helpers": "~0.5.2"
+    "@swc/helpers": "~0.5.11"
   }
 }
