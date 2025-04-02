@@ -17,7 +17,8 @@
       "options": {
         "lintFilePatterns": [
           "packages/stylelint-plugin/**/*.ts",
-          "packages/stylelint-plugin/**/*.tsx"
+          "packages/stylelint-plugin/**/*.tsx",
+          "packages/stylelint-plugin/package.json"
         ]
       }
     },

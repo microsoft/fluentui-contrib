@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: keep aria-keyshortcuts and make it available before entering keytip mode",
-  "packageName": "@fluentui-contrib/react-keytips",
-  "email": "vgenaev@gmail.com",
-  "dependentChangeType": "patch"
-}

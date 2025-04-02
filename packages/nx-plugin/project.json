@@ -3,6 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/nx-plugin/src",
   "projectType": "library",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
@@ -44,8 +45,7 @@
           "packages/nx-plugin/**/*.ts",
           "packages/nx-plugin/package.json",
           "packages/nx-plugin/generators.json",
-          "packages/nx-plugin/executors.json",
-          "packages/nx-plugin/package.json"
+          "packages/nx-plugin/executors.json"
         ]
       }
     },
@@ -63,6 +63,5 @@
         }
       }
     }
-  },
-  "tags": []
+  }
 }

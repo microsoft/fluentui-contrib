@@ -3,8 +3,10 @@ import {
   renderDataGridCell_unstable,
   useDataGridCellStyles_unstable,
 } from '@fluentui/react-components';
-import type { DataGridCellProps } from '@fluentui/react-components';
-import type { ForwardRefComponent } from '@fluentui/react-utilities';
+import type {
+  DataGridCellProps,
+  ForwardRefComponent,
+} from '@fluentui/react-components';
 import { useDataGridCell_unstable } from './useDataGridCell';
 
 /**

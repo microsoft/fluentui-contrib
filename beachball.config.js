@@ -12,7 +12,7 @@ module.exports = {
     '**/*.spec.ts',
     '**/*.component-browser-spec.tsx',
     '**/*.stories.tsx',
-    '**/.eslintrc.json',
+    '**/eslint.config.js',
     '**/jest.config.js',
     '**/playwright.config.ts',
     '**/project.json',

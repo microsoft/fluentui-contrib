@@ -16,7 +16,8 @@
       "options": {
         "lintFilePatterns": [
           "packages/react-themeless-provider/**/*.ts",
-          "packages/react-themeless-provider/**/*.tsx"
+          "packages/react-themeless-provider/**/*.tsx",
+          "packages/react-themeless-provider/package.json"
         ]
       }
     },

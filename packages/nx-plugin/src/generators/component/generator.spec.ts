@@ -1,5 +1,11 @@
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import { Tree, joinPathFragments, readProjectConfiguration } from '@nx/devkit';
+import {
+  Tree,
+  joinPathFragments,
+  readJson,
+  readProjectConfiguration,
+  workspaceRoot,
+} from '@nx/devkit';
 
 import libraryGenerator from '../library/generator';
 import {
@@ -9,6 +15,7 @@ import {
 
 import generator from './generator';
 import { ComponentGeneratorSchema } from './schema';
+import { getPackagePaths } from '../../utils';
 
 describe('component generator', () => {
   let tree: Tree;
@@ -67,5 +74,25 @@ describe('component generator', () => {
       export default meta;
       "
     `);
+  });
+
+  describe(`package.json`, () => {
+    it('should update peer dependencies', async () => {
+      const config = readProjectConfiguration(tree, options.name);
+      const paths = getPackagePaths(workspaceRoot, config.root);
+      let pkgJson = readJson(tree, paths.packageJson);
+
+      expect(pkgJson.peerDependencies).toEqual(undefined);
+
+      await generator(tree, options);
+
+      pkgJson = readJson(tree, paths.packageJson);
+
+      expect(pkgJson.peerDependencies).toEqual({
+        '@fluentui/react-components': '>=9.46.3 <10.0.0',
+        '@types/react': '>=16.8.0 <19.0.0',
+        react: '>=16.8.0 <19.0.0',
+      });
+    });
   });
 });

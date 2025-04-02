@@ -1,24 +1,39 @@
 import * as React from 'react';
+import { useEventCallback } from '@fluentui/react-components';
 import { useResizeHandle, type UseResizeHandleParams } from './useResizeHandle';
 
-export type TestAreaProps = Pick<UseResizeHandleParams, 'variableTarget'>;
+export type TestAreaProps = Pick<
+  UseResizeHandleParams,
+  'variableTarget' | 'onDragStart' | 'onDragEnd' | 'onChange'
+>;
 
 export function TestArea(props: TestAreaProps) {
-  const { variableTarget = 'wrapper' } = props;
+  const {
+    onDragEnd,
+    onDragStart,
+    onChange,
+    variableTarget = 'wrapper',
+  } = props;
 
   const codeRef = React.useRef<HTMLElement>(null);
-  const handleChange = React.useCallback((_, { value, type }) => {
-    if (codeRef.current) {
-      codeRef.current.textContent = `--width: ${value}px; eventType: ${type}`;
-    }
-  }, []);
+  const handleChange: NonNullable<UseResizeHandleParams['onChange']> =
+    useEventCallback((ev, data) => {
+      onChange?.(ev, data);
+
+      if (codeRef.current) {
+        codeRef.current.textContent = `--width: ${data.value}px; eventType: ${data.type}`;
+      }
+    });
 
   const handle = useResizeHandle({
     variableName: '--width',
     growDirection: 'end',
     minValue: 50,
     maxValue: 400,
+
     onChange: handleChange,
+    onDragEnd,
+    onDragStart,
   });
 
   return (

@@ -3,7 +3,6 @@ import {
   Tree,
   readProjectConfiguration,
   readJson,
-  workspaceRoot,
   joinPathFragments,
   readNxJson,
   updateNxJson,
@@ -11,7 +10,6 @@ import {
 
 import generator from './generator';
 import { LibraryGeneratorSchema } from './schema';
-import { getPackagePaths } from '../../utils';
 import {
   createCodeowners,
   setupWorkspaceDependencies,
@@ -44,9 +42,10 @@ describe('create-package generator', () => {
           ".swcrc",
           "package.json",
           "project.json",
-          ".eslintrc.json",
+          "eslint.config.mjs",
           "tsconfig.spec.json",
           "jest.config.ts",
+          "eslint.config.js",
         ]
       `);
 
@@ -97,24 +96,6 @@ describe('create-package generator', () => {
         };
         "
       `);
-    });
-  });
-
-  describe(`package.json`, () => {
-    it('should generate peer dependencies', async () => {
-      await generator(tree, options);
-      const config = readProjectConfiguration(tree, 'test');
-      const paths = getPackagePaths(workspaceRoot, config.root);
-      const pkgJson = readJson(tree, paths.packageJson);
-      expect(pkgJson.peerDependencies).toMatchInlineSnapshot(`
-              {
-                "@fluentui/react-components": ">=9.46.3 <10.0.0",
-                "@types/react": ">=16.8.0 <19.0.0",
-                "@types/react-dom": ">=16.8.0 <19.0.0",
-                "react": ">=16.8.0 <19.0.0",
-                "react-dom": ">=16.8.0 <19.0.0",
-              }
-          `);
     });
   });
 
