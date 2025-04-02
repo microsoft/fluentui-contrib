@@ -115,8 +115,11 @@ export const emitSyntheticGroupperMoveFocusEvent = (
       activeElement?.closest('form')?.requestSubmit?.();
     }
   } else {
-    if (isComboboxElement(activeElement)) {
-      emitSyntheticMouseEvent('click', false, targetDocument);
+    if (
+      isComboboxElement(activeElement) &&
+      activeElement?.getAttribute('aria-expanded') === 'true'
+    ) {
+      emitSyntheticMouseEvent('click', true, targetDocument);
     } else {
       const shouldBubble = isMenuItemElement(activeElement);
       emitSyntheticKeyboardEvent(
