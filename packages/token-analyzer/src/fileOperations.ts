@@ -13,14 +13,14 @@ export async function findStyleFiles(dir: string): Promise<string[]> {
   async function scan(directory: string): Promise<void> {
     const entries = await fs.readdir(directory, { withFileTypes: true });
 
-    const scanPromises = entries.map(async entry => {
+    const scanPromises = entries.map(async (entry) => {
       const fullPath = join(directory, entry.name);
 
       if (entry.isDirectory() && !IGNORED_DIRS.includes(entry.name)) {
         await scan(fullPath);
       } else if (
         (entry.name.includes('style') || entry.name.includes('styles')) &&
-        VALID_EXTENSIONS.some(ext => entry.name.endsWith(ext))
+        VALID_EXTENSIONS.some((ext) => entry.name.endsWith(ext))
       ) {
         styleFiles.push(fullPath);
       }
@@ -39,7 +39,10 @@ export async function findStyleFiles(dir: string): Promise<string[]> {
  * @param currentFilePath The path of the file containing the import
  * @returns Resolved absolute path or null if not found
  */
-export async function resolveImportPath(importPath: string, currentFilePath: string): Promise<string | null> {
+export async function resolveImportPath(
+  importPath: string,
+  currentFilePath: string
+): Promise<string | null> {
   if (!importPath.startsWith('.')) {
     return null;
   }
@@ -53,7 +56,9 @@ export async function resolveImportPath(importPath: string, currentFilePath: str
     if (stats.isFile()) {
       return absolutePath;
     }
-  } catch {} // Ignore errors and try extensions
+  } catch {
+    // Ignore errors and try extensions
+  }
 
   // Try with extensions
   for (const ext of VALID_EXTENSIONS) {
@@ -63,7 +68,9 @@ export async function resolveImportPath(importPath: string, currentFilePath: str
       if (stats.isFile()) {
         return pathWithExt;
       }
-    } catch {} // Ignore errors and continue trying
+    } catch {
+      // Ignore errors and continue trying
+    }
   }
 
   return null;

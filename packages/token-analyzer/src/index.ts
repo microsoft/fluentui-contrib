@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { Project } from 'ts-morph';
 import { promises as fs } from 'fs';
 import { relative } from 'path';
@@ -11,7 +10,7 @@ import { configure, log, error, measureAsync } from './debugUtils.js';
 async function analyzeProjectStyles(
   rootDir: string,
   outputFile?: string,
-  options: { debug?: boolean; perf?: boolean } = {},
+  options: { debug?: boolean; perf?: boolean } = {}
 ): Promise<AnalysisResults> {
   configure({
     debug: options.debug || false,
@@ -22,7 +21,9 @@ async function analyzeProjectStyles(
   const results: AnalysisResults = {};
 
   try {
-    const styleFiles = await measureAsync('find style files', () => findStyleFiles(rootDir));
+    const styleFiles = await measureAsync('find style files', () =>
+      findStyleFiles(rootDir)
+    );
     console.log(`Found ${styleFiles.length} style files to analyze`);
 
     const project = new Project({
@@ -49,14 +50,17 @@ async function analyzeProjectStyles(
 
     if (outputFile) {
       await measureAsync('write output file', async () => {
-        const formatted = format(JSON.stringify(sortObjectByKeys(results), null, 2), {
-          parser: 'json',
-          printWidth: 120,
-          tabWidth: 2,
-          singleQuote: true,
-          trailingComma: 'all',
-          arrowParens: 'avoid',
-        });
+        const formatted = format(
+          JSON.stringify(sortObjectByKeys(results), null, 2),
+          {
+            parser: 'json',
+            printWidth: 120,
+            tabWidth: 2,
+            singleQuote: true,
+            trailingComma: 'all',
+            arrowParens: 'avoid',
+          }
+        );
         await fs.writeFile(outputFile, formatted, 'utf8');
         console.log(`Analysis written to ${outputFile}`);
       });
@@ -86,11 +90,11 @@ function sortObjectByKeys<T>(obj: Record<string, T>): Record<string, T> {
 
 function countTokens(analysis: FileAnalysis): number {
   let count = 0;
-  Object.values(analysis.styles).forEach(_value => {
-    Object.values(_value).forEach(value => {
+  Object.values(analysis.styles).forEach((_value) => {
+    Object.values(_value).forEach((value) => {
       count += value.tokens.length;
       if (value.nested) {
-        Object.values(value.nested).forEach(nestedValue => {
+        Object.values(value.nested).forEach((nestedValue) => {
           count += nestedValue.tokens.length;
         });
       }
@@ -109,11 +113,11 @@ if (isRunningDirectly) {
 
   console.log(`Starting analysis of ${rootDir}`);
   analyzeProjectStyles(rootDir, outputFile, { debug, perf })
-    .then(results => {
+    .then((results) => {
       const totalFiles = Object.keys(results).length;
       let totalTokens = 0;
 
-      Object.values(results).forEach(fileAnalysis => {
+      Object.values(results).forEach((fileAnalysis) => {
         totalTokens += countTokens(fileAnalysis);
       });
 
@@ -121,7 +125,7 @@ if (isRunningDirectly) {
       console.log(`Processed ${totalFiles} files containing styles`);
       console.log(`Found ${totalTokens} token references`);
     })
-    .catch(err => {
+    .catch((err) => {
       console.error('Analysis failed:', err);
       process.exit(1);
     });
