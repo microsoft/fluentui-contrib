@@ -3,6 +3,18 @@
   "version": "0.0.1",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
-  "dependencies": {},
+  "dependencies": {
+    "ts-morph": "24.0.1",
+    "typescript": "5.7.3",
+    "prettier": "2.8.8"
+  },
+  "devDependencies": {
+    "@griffel/react": "^1.5.22"
+  },
+  "scripts": {
+    "analyze-tokens": "NODE_OPTIONS=\"--loader ts-node/esm\" ts-node-esm src/index.ts",
+    "test": "jest",
+    "test:debug": "node --loader ts-node/esm --inspect-brk node_modules/.bin/jest --runInBand"
+  },
   "private": true
 }
