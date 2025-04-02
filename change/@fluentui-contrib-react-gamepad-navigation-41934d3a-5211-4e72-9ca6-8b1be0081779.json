@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix combobox issue when pressing B button",
+  "packageName": "@fluentui-contrib/react-gamepad-navigation",
+  "email": "hectorjimenez@outlook.com",
+  "dependentChangeType": "patch"
+}
