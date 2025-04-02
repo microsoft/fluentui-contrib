@@ -47,7 +47,7 @@ yarn add @fluentui-contrib/react-gamepad-navigation
 | Link       | ✅ Supported       |
 | Menu       | ✅ Supported       |
 | RadioGroup | ⚠️ Partial Support |
-| Select     | ⚠️ Partial Support |
+| Select     | ⛔ Not Supported   |
 | Slider     | ⛔ Not Supported   |
 | SpinButton | ⛔ Not Supported   |
 | Switch     | ✅ Supported       |
