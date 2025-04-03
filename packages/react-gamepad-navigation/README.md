@@ -47,11 +47,14 @@ yarn add @fluentui-contrib/react-gamepad-navigation
 | Link       | ✅ Supported       |
 | Menu       | ✅ Supported       |
 | RadioGroup | ⚠️ Partial Support |
-| Select     | ⚠️ Partial Support |
+| Select     | ⛔ Not Supported   |
 | Slider     | ⛔ Not Supported   |
 | SpinButton | ⛔ Not Supported   |
 | Switch     | ✅ Supported       |
 | Textarea   | ✅ Supported       |
+
+> [!NOTE]
+> There will be no support for select native element, you should use Dropdown or Combobox components instead.
 
 ### Composed Elements
 

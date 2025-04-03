@@ -692,7 +692,7 @@ export const SingleElements = () => {
         Select
         <span className={styles.support}>
           Support:
-          <ErrorCircle20Filled color="#fce100" />
+          <DismissCircle20Filled color="#c50f1f" />
         </span>
       </h3>
       <div className={styles.row}>
