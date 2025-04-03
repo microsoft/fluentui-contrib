@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: add missing runtime @swc/helper dependency",
+  "packageName": "@fluentui-contrib/react-chat",
+  "email": "hochelmartin@gmail.com",
+  "dependentChangeType": "patch"
+}
