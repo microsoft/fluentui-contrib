@@ -10,6 +10,7 @@ import {
 } from '../moduleResolver';
 import * as path from 'path';
 import * as fs from 'fs';
+import { findTsConfigPath } from '../findTsConfigPath';
 
 // Setup test directory and files
 const TEST_DIR = path.join(__dirname, 'test-module-resolver');
@@ -28,14 +29,14 @@ beforeAll(() => {
     import defaultExport from './constants';
 
     const x = func();
-  `,
+  `
   );
 
   fs.writeFileSync(
     path.join(TEST_DIR, 'utils.ts'),
     `
     export const func = () => 'test';
-  `,
+  `
   );
 
   fs.mkdirSync(path.join(TEST_DIR, 'styles'), { recursive: true });
@@ -46,14 +47,14 @@ beforeAll(() => {
       primary: 'tokens.colors.primary',
       secondary: 'tokens.colors.secondary'
     };
-  `,
+  `
   );
 
   fs.writeFileSync(
     path.join(TEST_DIR, 'constants.ts'),
     `
     export default 'tokens.default.value';
-  `,
+  `
   );
 
   // Create a file with extension in the import
@@ -61,7 +62,7 @@ beforeAll(() => {
     path.join(TEST_DIR, 'with-extension.ts'),
     `
     import { func } from './utils.ts';
-  `,
+  `
   );
 });
 
@@ -77,10 +78,7 @@ describe('Module resolver functions', () => {
   beforeEach(() => {
     // Create a fresh project for each test
     project = new Project({
-      compilerOptions: {
-        target: ScriptTarget.ES2020,
-        moduleResolution: ModuleResolutionKind.NodeNext,
-      },
+      tsConfigFilePath: findTsConfigPath() || '',
     });
 
     // Clear caches
@@ -98,7 +96,11 @@ describe('Module resolver functions', () => {
 
     test('resolves nested relative path correctly', () => {
       const sourceFilePath = path.join(TEST_DIR, 'source.ts');
-      const result = resolveModulePath(project, './styles/theme', sourceFilePath);
+      const result = resolveModulePath(
+        project,
+        './styles/theme',
+        sourceFilePath
+      );
 
       expect(result).not.toBeNull();
       expect(result).toEqual(path.join(TEST_DIR, 'styles/theme.ts'));
@@ -114,7 +116,11 @@ describe('Module resolver functions', () => {
 
     test('returns null for non-existent module', () => {
       const sourceFilePath = path.join(TEST_DIR, 'source.ts');
-      const result = resolveModulePath(project, './non-existent', sourceFilePath);
+      const result = resolveModulePath(
+        project,
+        './non-existent',
+        sourceFilePath
+      );
 
       expect(result).toBeNull();
     });
@@ -133,7 +139,11 @@ describe('Module resolver functions', () => {
       });
 
       // Second call should use cache
-      const secondResult = resolveModulePath(project, './utils', sourceFilePath);
+      const secondResult = resolveModulePath(
+        project,
+        './utils',
+        sourceFilePath
+      );
       expect(secondResult).toEqual(firstResult);
 
       // Restore original function
@@ -157,7 +167,11 @@ describe('Module resolver functions', () => {
       project.addSourceFileAtPath(sourceFilePath);
 
       // First call
-      const firstResult = getModuleSourceFile(project, './utils', sourceFilePath);
+      const firstResult = getModuleSourceFile(
+        project,
+        './utils',
+        sourceFilePath
+      );
       expect(firstResult).not.toBeNull();
 
       // Mock project.addSourceFileAtPath to verify cache is used
@@ -167,7 +181,11 @@ describe('Module resolver functions', () => {
       });
 
       // Second call should use cache
-      const secondResult = getModuleSourceFile(project, './utils', sourceFilePath);
+      const secondResult = getModuleSourceFile(
+        project,
+        './utils',
+        sourceFilePath
+      );
       expect(secondResult).toBe(firstResult); // Same instance
 
       // Restore original function
@@ -178,7 +196,11 @@ describe('Module resolver functions', () => {
       const sourceFilePath = path.join(TEST_DIR, 'source.ts');
       project.addSourceFileAtPath(sourceFilePath);
 
-      const result = getModuleSourceFile(project, './non-existent', sourceFilePath);
+      const result = getModuleSourceFile(
+        project,
+        './non-existent',
+        sourceFilePath
+      );
       expect(result).toBeNull();
     });
   });

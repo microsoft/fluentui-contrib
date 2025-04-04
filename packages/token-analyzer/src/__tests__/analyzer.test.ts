@@ -3,6 +3,7 @@ import { analyzeFile } from '../astAnalyzer.js';
 import { sampleStyles } from './sample-styles.js';
 import * as path from 'path';
 import * as fs from 'fs/promises';
+import { findTsConfigPath } from '../findTsConfigPath';
 
 describe('Token Analyzer', () => {
   let project: Project;
@@ -16,6 +17,7 @@ describe('Token Analyzer', () => {
     await fs.writeFile(tempFilePath, sampleStyles);
 
     project = new Project({
+      tsConfigFilePath: findTsConfigPath() || '',
       skipAddingFilesFromTsConfig: true,
       skipFileDependencyResolution: false,
     });
@@ -41,13 +43,13 @@ describe('Token Analyzer', () => {
       expect.objectContaining({
         property: 'color',
         token: 'tokens.colorNeutralForeground1',
-      }),
+      })
     );
     expect(styles.useStyles.root.tokens).toContainEqual(
       expect.objectContaining({
         property: 'borderRightColor',
         token: 'tokens.colorNeutralStrokeDisabled',
-      }),
+      })
     );
 
     // Verify anotherSlot styles
@@ -55,7 +57,7 @@ describe('Token Analyzer', () => {
       expect.objectContaining({
         property: 'color',
         token: 'tokens.colorNeutralForeground2',
-      }),
+      })
     );
 
     // Verify focus function styles
@@ -77,6 +79,8 @@ describe('Token Analyzer', () => {
       conditions: ['disabled'],
       slotName: 'root',
     });
-    expect(metadata.styleConditions['styles.large'].conditions).toContain("size === 'large'");
+    expect(metadata.styleConditions['styles.large'].conditions).toContain(
+      "size === 'large'"
+    );
   });
 });

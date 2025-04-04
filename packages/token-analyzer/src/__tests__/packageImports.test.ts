@@ -1,8 +1,13 @@
 // packageImports.test.ts
 import { Project, ModuleResolutionKind, ScriptTarget } from 'ts-morph';
-import { resolveModulePath, clearModuleCache, tsUtils } from '../moduleResolver';
+import {
+  resolveModulePath,
+  clearModuleCache,
+  tsUtils,
+} from '../moduleResolver';
 import * as path from 'path';
 import * as fs from 'fs';
+import { findTsConfigPath } from '../findTsConfigPath';
 
 // Setup test directory and mock node_modules structure
 const TEST_DIR = path.join(__dirname, 'test-package-imports');
@@ -28,7 +33,7 @@ beforeAll(() => {
     `
     import { Component } from '@scope/package';
     import { helper } from 'some-package';
-    `,
+    `
   );
 
   // Create package.json and index files for the scoped package
@@ -38,7 +43,7 @@ beforeAll(() => {
       name: '@scope/package',
       version: '1.0.0',
       main: 'index.js',
-    }),
+    })
   );
   fs.writeFileSync(
     path.join(SCOPED_PACKAGE, 'index.js'),
@@ -46,7 +51,7 @@ beforeAll(() => {
     export const Component = {
       theme: 'tokens.components.primary'
     };
-    `,
+    `
   );
 
   // Create package.json and index files for the regular package
@@ -56,7 +61,7 @@ beforeAll(() => {
       name: 'some-package',
       version: '1.0.0',
       main: './lib/index.js',
-    }),
+    })
   );
 
   // Create lib directory in the regular package
@@ -66,7 +71,7 @@ beforeAll(() => {
     path.join(REGULAR_PACKAGE, 'lib', 'index.js'),
     `
     export const helper = 'tokens.helpers.main';
-    `,
+    `
   );
 });
 
@@ -83,10 +88,7 @@ describe('Package imports resolution', () => {
 
   beforeEach(() => {
     project = new Project({
-      compilerOptions: {
-        target: ScriptTarget.ES2020,
-        moduleResolution: ModuleResolutionKind.NodeNext,
-      },
+      tsConfigFilePath: findTsConfigPath() || '',
     });
 
     // Setup workspace
@@ -117,19 +119,31 @@ describe('Package imports resolution', () => {
     // Mock the TypeScript resolution for scoped packages
     tsUtils.resolveModuleName = jest
       .fn()
-      .mockImplementation((moduleName: string, containingFile: string, compilerOptions: any, host: any) => {
-        if (moduleName === '@scope/package') {
-          return {
-            resolvedModule: {
-              resolvedFileName: path.join(SCOPED_PACKAGE, 'index.js'),
-              extension: '.js',
-              isExternalLibraryImport: true,
-            },
-          };
+      .mockImplementation(
+        (
+          moduleName: string,
+          containingFile: string,
+          compilerOptions: any,
+          host: any
+        ) => {
+          if (moduleName === '@scope/package') {
+            return {
+              resolvedModule: {
+                resolvedFileName: path.join(SCOPED_PACKAGE, 'index.js'),
+                extension: '.js',
+                isExternalLibraryImport: true,
+              },
+            };
+          }
+          // Call original for other cases
+          return originalResolve(
+            moduleName,
+            containingFile,
+            compilerOptions,
+            host
+          );
         }
-        // Call original for other cases
-        return originalResolve(moduleName, containingFile, compilerOptions, host);
-      });
+      );
 
     const result = resolveModulePath(project, '@scope/package', sourceFilePath);
 
@@ -144,19 +158,31 @@ describe('Package imports resolution', () => {
     // Mock the TypeScript resolution for regular packages
     tsUtils.resolveModuleName = jest
       .fn()
-      .mockImplementation((moduleName: string, containingFile: string, compilerOptions: any, host: any) => {
-        if (moduleName === 'some-package') {
-          return {
-            resolvedModule: {
-              resolvedFileName: path.join(REGULAR_PACKAGE, 'lib', 'index.js'),
-              extension: '.js',
-              isExternalLibraryImport: true,
-            },
-          };
+      .mockImplementation(
+        (
+          moduleName: string,
+          containingFile: string,
+          compilerOptions: any,
+          host: any
+        ) => {
+          if (moduleName === 'some-package') {
+            return {
+              resolvedModule: {
+                resolvedFileName: path.join(REGULAR_PACKAGE, 'lib', 'index.js'),
+                extension: '.js',
+                isExternalLibraryImport: true,
+              },
+            };
+          }
+          // Call original for other cases
+          return originalResolve(
+            moduleName,
+            containingFile,
+            compilerOptions,
+            host
+          );
         }
-        // Call original for other cases
-        return originalResolve(moduleName, containingFile, compilerOptions, host);
-      });
+      );
 
     const result = resolveModulePath(project, 'some-package', sourceFilePath);
 
@@ -171,15 +197,31 @@ describe('Package imports resolution', () => {
     // Mock the TypeScript resolution to return null for non-existent packages
     tsUtils.resolveModuleName = jest
       .fn()
-      .mockImplementation((moduleName: string, containingFile: string, compilerOptions: any, host: any) => {
-        if (moduleName === 'non-existent-package') {
-          return { resolvedModule: undefined };
+      .mockImplementation(
+        (
+          moduleName: string,
+          containingFile: string,
+          compilerOptions: any,
+          host: any
+        ) => {
+          if (moduleName === 'non-existent-package') {
+            return { resolvedModule: undefined };
+          }
+          // Call original for other cases
+          return originalResolve(
+            moduleName,
+            containingFile,
+            compilerOptions,
+            host
+          );
         }
-        // Call original for other cases
-        return originalResolve(moduleName, containingFile, compilerOptions, host);
-      });
+      );
 
-    const result = resolveModulePath(project, 'non-existent-package', sourceFilePath);
+    const result = resolveModulePath(
+      project,
+      'non-existent-package',
+      sourceFilePath
+    );
 
     expect(result).toBeNull();
     expect(tsUtils.resolveModuleName).toHaveBeenCalled();

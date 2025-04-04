@@ -3,6 +3,7 @@ import { Project } from 'ts-morph';
 import { analyzeFile } from '../astAnalyzer.js';
 import * as path from 'path';
 import * as fs from 'fs/promises';
+import { findTsConfigPath } from '../findTsConfigPath';
 
 // Test file contents
 const cssVarsStyleFile = `
@@ -75,7 +76,7 @@ describe('CSS Variable Token Extraction E2E', () => {
 
     // Initialize project
     project = new Project({
-      tsConfigFilePath: path.join(tempDir, '../../../tsconfig.json'),
+      tsConfigFilePath: findTsConfigPath() || '',
       skipAddingFilesFromTsConfig: true,
     });
   });
@@ -104,7 +105,7 @@ describe('CSS Variable Token Extraction E2E', () => {
       expect.objectContaining({
         property: 'color',
         token: 'tokens.colorNeutralForeground1',
-      }),
+      })
     );
 
     // 2. Verify CSS variable with token
@@ -113,7 +114,7 @@ describe('CSS Variable Token Extraction E2E', () => {
       expect.objectContaining({
         property: 'color',
         token: 'tokens.colorBrandForeground4',
-      }),
+      })
     );
 
     // 3. Verify imported direct token
@@ -123,7 +124,7 @@ describe('CSS Variable Token Extraction E2E', () => {
         property: 'color',
         token: 'tokens.colorBrandForeground6',
         isVariableReference: true,
-      }),
+      })
     );
 
     // 4. Verify imported CSS variable with token
@@ -133,7 +134,7 @@ describe('CSS Variable Token Extraction E2E', () => {
         property: 'color',
         token: 'tokens.colorBrandForeground3',
         isVariableReference: true,
-      }),
+      })
     );
 
     // 5. Verify nested CSS variable with token
@@ -142,7 +143,7 @@ describe('CSS Variable Token Extraction E2E', () => {
       expect.objectContaining({
         property: 'background',
         token: 'tokens.colorBrandForeground2',
-      }),
+      })
     );
 
     // 6. Verify imported nested CSS variable with token
@@ -152,7 +153,7 @@ describe('CSS Variable Token Extraction E2E', () => {
         property: 'color',
         token: 'tokens.colorNeutralForeground3',
         isVariableReference: true,
-      }),
+      })
     );
 
     // 8. Verify imported complex CSS variable with multiple tokens
@@ -167,7 +168,7 @@ describe('CSS Variable Token Extraction E2E', () => {
           token: 'tokens.colorNeutralBackground1',
           isVariableReference: true,
         }),
-      ]),
+      ])
     );
   });
 });
@@ -196,7 +197,7 @@ describe('CSS Variable Cross-Module Resolution E2E', () => {
       export const primaryToken = tokens.colorBrandPrimary;
       export const secondaryToken = tokens.colorBrandSecondary;
       export const furtherMargin = tokens.spacingVerticalXXL;
-      `,
+      `
     );
 
     await fs.writeFile(
@@ -211,7 +212,7 @@ describe('CSS Variable Cross-Module Resolution E2E', () => {
       export const multiTokenVar = \`var(--multi, \${primaryToken} \${tokens.colorBrandSecondary})\`;
       export const someMargin = tokens.spacingHorizontalXXL;
       export const someOtherMargin = furtherMargin;
-      `,
+      `
     );
 
     await fs.writeFile(
@@ -220,7 +221,7 @@ describe('CSS Variable Cross-Module Resolution E2E', () => {
       // Re-export everything
       export * from './colors';
       export * from './variables';
-      `,
+      `
     );
 
     await fs.writeFile(
@@ -247,12 +248,12 @@ describe('CSS Variable Cross-Module Resolution E2E', () => {
       });
 
       export default useStyles;
-      `,
+      `
     );
 
     // Initialize project
     project = new Project({
-      tsConfigFilePath: path.join(tempDir, '../../../tsconfig.json'),
+      tsConfigFilePath: findTsConfigPath() || '',
       skipAddingFilesFromTsConfig: true,
     });
   });
@@ -305,7 +306,7 @@ describe('CSS Variable Cross-Module Resolution E2E', () => {
           token: 'tokens.colorBrandSecondary',
           isVariableReference: true,
         }),
-      ]),
+      ])
     );
   });
 });

@@ -6,6 +6,7 @@ import { findStyleFiles } from './fileOperations.js';
 import { analyzeFile } from './astAnalyzer.js';
 import { AnalysisResults, FileAnalysis } from './types.js';
 import { configure, log, error, measureAsync } from './debugUtils.js';
+import { findTsConfigPath } from './findTsConfigPath';
 
 async function analyzeProjectStyles(
   rootDir: string,
@@ -27,6 +28,8 @@ async function analyzeProjectStyles(
     console.log(`Found ${styleFiles.length} style files to analyze`);
 
     const project = new Project({
+      // Get the nearest tsconfig.json file so we can resolve modules and paths correctly based on the project config
+      tsConfigFilePath: findTsConfigPath() || '',
       skipAddingFilesFromTsConfig: true,
       skipFileDependencyResolution: false,
     });

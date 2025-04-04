@@ -3,6 +3,7 @@ import { Project } from 'ts-morph';
 import { analyzeImports, ImportedValue } from '../importAnalyzer';
 import * as path from 'path';
 import * as fs from 'fs';
+import { findTsConfigPath } from '../findTsConfigPath';
 
 // Setup test directory with a chain of re-exports
 const TEST_DIR = path.join(__dirname, 'test-type-checker');
@@ -26,7 +27,7 @@ beforeAll(() => {
       direct: DirectValue,
       default: DefaultExport
     };
-    `,
+    `
   );
 
   // Create an index file that re-exports everything
@@ -47,7 +48,7 @@ beforeAll(() => {
 
     // Re-export default
     export { default } from './defaults';
-    `,
+    `
   );
 
   // Create a components file
@@ -55,7 +56,7 @@ beforeAll(() => {
     path.join(TEST_DIR, 'components.ts'),
     `
     export const Component = 'tokens.components.primary';
-    `,
+    `
   );
 
   // Create a values file
@@ -63,7 +64,7 @@ beforeAll(() => {
     path.join(TEST_DIR, 'values.ts'),
     `
     export const Value = 'tokens.values.standard';
-    `,
+    `
   );
 
   // Create a utils file
@@ -71,7 +72,7 @@ beforeAll(() => {
     path.join(TEST_DIR, 'utils.ts'),
     `
     export const Utils = 'tokens.utils.helper';
-    `,
+    `
   );
 
   // Create a defaults file
@@ -80,7 +81,7 @@ beforeAll(() => {
     `
     const DefaultValue = 'tokens.defaults.main';
     export default DefaultValue;
-    `,
+    `
   );
 });
 
@@ -97,7 +98,7 @@ describe('Type Checker Import Analysis', () => {
     // Create a project using the existing directory structure
     // This makes it easier to test without needing to override compiler options
     project = new Project({
-      tsConfigFilePath: path.join(TEST_DIR, '../../../tsconfig.json'),
+      tsConfigFilePath: findTsConfigPath() || '',
       skipAddingFilesFromTsConfig: true,
     });
 
@@ -111,7 +112,7 @@ describe('Type Checker Import Analysis', () => {
           esModuleInterop: true,
           skipLibCheck: true,
         },
-      }),
+      })
     );
   });
 
@@ -122,17 +123,28 @@ describe('Type Checker Import Analysis', () => {
     // Add all other files to ensure project has complete type information
     project.addSourceFilesAtPaths([path.join(TEST_DIR, '**/*.ts')]);
 
-    const importedValues: Map<string, ImportedValue> = await analyzeImports(sourceFile, project);
+    const importedValues: Map<string, ImportedValue> = await analyzeImports(
+      sourceFile,
+      project
+    );
 
     // Verify standard re-export (Component)
     expect(importedValues.has('Component')).toBe(true);
-    expect(importedValues.get('Component')?.value).toBe('tokens.components.primary');
-    expect(importedValues.get('Component')?.sourceFile).toContain('components.ts');
+    expect(importedValues.get('Component')?.value).toBe(
+      'tokens.components.primary'
+    );
+    expect(importedValues.get('Component')?.sourceFile).toContain(
+      'components.ts'
+    );
 
     // Verify aliased re-export (AliasedValue)
     expect(importedValues.has('AliasedValue')).toBe(true);
-    expect(importedValues.get('AliasedValue')?.value).toBe('tokens.values.standard');
-    expect(importedValues.get('AliasedValue')?.sourceFile).toContain('values.ts');
+    expect(importedValues.get('AliasedValue')?.value).toBe(
+      'tokens.values.standard'
+    );
+    expect(importedValues.get('AliasedValue')?.sourceFile).toContain(
+      'values.ts'
+    );
 
     // Verify namespace re-export (Utils)
     expect(importedValues.has('Utils')).toBe(true);
@@ -141,12 +153,18 @@ describe('Type Checker Import Analysis', () => {
 
     // Verify direct export (DirectValue)
     expect(importedValues.has('DirectValue')).toBe(true);
-    expect(importedValues.get('DirectValue')?.value).toBe('tokens.direct.value');
+    expect(importedValues.get('DirectValue')?.value).toBe(
+      'tokens.direct.value'
+    );
     expect(importedValues.get('DirectValue')?.sourceFile).toContain('index.ts');
 
     // Verify default export (DefaultExport)
     expect(importedValues.has('DefaultExport')).toBe(true);
-    expect(importedValues.get('DefaultExport')?.value).toBe('tokens.defaults.main');
-    expect(importedValues.get('DefaultExport')?.sourceFile).toContain('defaults.ts');
+    expect(importedValues.get('DefaultExport')?.value).toBe(
+      'tokens.defaults.main'
+    );
+    expect(importedValues.get('DefaultExport')?.sourceFile).toContain(
+      'defaults.ts'
+    );
   });
 });
