@@ -402,6 +402,9 @@ function createStyleContent(tokens: TokenReference[]): StyleContent {
   const nestedTokens = tokens.filter((t) => t.path.length > 1);
   if (nestedTokens.length > 0) {
     content.nested = nestedTokens.reduce<StyleTokens>((acc, token) => {
+      if (token.path.includes('[`& .${buttonClassNames.icon}`]')) {
+        console.log(token.path);
+      }
       const nestedKey = token.path[0];
 
       if (!acc[nestedKey]) {
