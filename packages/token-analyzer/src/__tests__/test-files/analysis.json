@@ -71,17 +71,17 @@
                 {
                   "property": "backgroundColor",
                   "token": "tokens.colorNeutralBackground1Hover",
-                  "path": []
+                  "path": ["':hover'", "backgroundColor"]
                 },
                 {
                   "property": "borderColor",
                   "token": "tokens.colorNeutralStroke1Hover",
-                  "path": []
+                  "path": ["':hover'", "borderColor"]
                 },
                 {
                   "property": "color",
                   "token": "tokens.colorNeutralForeground1Hover",
-                  "path": []
+                  "path": ["':hover'", "color"]
                 }
               ]
             },
@@ -90,28 +90,33 @@
                 {
                   "property": "backgroundColor",
                   "token": "tokens.colorNeutralBackground1Pressed",
-                  "path": []
+                  "path": ["':hover:active'", "backgroundColor"]
                 },
                 {
                   "property": "borderColor",
                   "token": "tokens.colorNeutralStroke1Pressed",
-                  "path": []
+                  "path": ["':hover:active'", "borderColor"]
                 },
                 {
                   "property": "color",
                   "token": "tokens.colorNeutralForeground1Pressed",
-                  "path": []
+                  "path": ["':hover:active'", "color"]
                 }
               ]
             },
             "'@supports (-moz-appearance:button)'": {
-              "tokens": [
-                {
-                  "property": "boxShadow",
-                  "token": "tokens.colorStrokeFocus2",
-                  "path": []
+              "tokens": [],
+              "nested": {
+                ":focus": {
+                  "tokens": [
+                    {
+                      "property": "boxShadow",
+                      "token": "tokens.colorStrokeFocus2",
+                      "path": ["'@supports (-moz-appearance:button)'", ":focus", "boxShadow"]
+                    }
+                  ]
                 }
-              ]
+              }
             }
           },
           "isResetStyles": true,
@@ -147,7 +152,7 @@
                 {
                   "property": "backgroundColor",
                   "token": "tokens.colorTransparentBackgroundHover",
-                  "path": []
+                  "path": ["':hover'", "backgroundColor"]
                 }
               ]
             },
@@ -156,7 +161,7 @@
                 {
                   "property": "backgroundColor",
                   "token": "tokens.colorTransparentBackgroundPressed",
-                  "path": []
+                  "path": ["':hover:active'", "backgroundColor"]
                 }
               ]
             }
@@ -182,12 +187,12 @@
                 {
                   "property": "backgroundColor",
                   "token": "tokens.colorBrandBackgroundHover",
-                  "path": []
+                  "path": ["':hover'", "backgroundColor"]
                 },
                 {
                   "property": "color",
                   "token": "tokens.colorNeutralForegroundOnBrand",
-                  "path": []
+                  "path": ["':hover'", "color"]
                 }
               ]
             },
@@ -196,12 +201,12 @@
                 {
                   "property": "backgroundColor",
                   "token": "tokens.colorBrandBackgroundPressed",
-                  "path": []
+                  "path": ["':hover:active'", "backgroundColor"]
                 },
                 {
                   "property": "color",
                   "token": "tokens.colorNeutralForegroundOnBrand",
-                  "path": []
+                  "path": ["':hover:active'", "color"]
                 }
               ]
             }
@@ -227,38 +232,50 @@
                 {
                   "property": "backgroundColor",
                   "token": "tokens.colorSubtleBackgroundHover",
-                  "path": []
+                  "path": ["':hover'", "backgroundColor"]
                 },
                 {
                   "property": "color",
                   "token": "tokens.colorNeutralForeground2Hover",
-                  "path": []
-                },
-                {
-                  "property": "color",
-                  "token": "tokens.colorNeutralForeground2BrandHover",
-                  "path": []
+                  "path": ["':hover'", "color"]
                 }
-              ]
+              ],
+              "nested": {
+                "[`& .${buttonClassNames.icon}`]": {
+                  "tokens": [
+                    {
+                      "property": "color",
+                      "token": "tokens.colorNeutralForeground2BrandHover",
+                      "path": ["':hover'", "[`& .${buttonClassNames.icon}`]", "color"]
+                    }
+                  ]
+                }
+              }
             },
             "':hover:active'": {
               "tokens": [
                 {
                   "property": "backgroundColor",
                   "token": "tokens.colorSubtleBackgroundPressed",
-                  "path": []
+                  "path": ["':hover:active'", "backgroundColor"]
                 },
                 {
                   "property": "color",
                   "token": "tokens.colorNeutralForeground2Pressed",
-                  "path": []
-                },
-                {
-                  "property": "color",
-                  "token": "tokens.colorNeutralForeground2BrandPressed",
-                  "path": []
+                  "path": ["':hover:active'", "color"]
                 }
-              ]
+              ],
+              "nested": {
+                "[`& .${buttonClassNames.icon}`]": {
+                  "tokens": [
+                    {
+                      "property": "color",
+                      "token": "tokens.colorNeutralForeground2BrandPressed",
+                      "path": ["':hover:active'", "[`& .${buttonClassNames.icon}`]", "color"]
+                    }
+                  ]
+                }
+              }
             }
           },
           "assignedVariables": ["rootStyles"]
@@ -282,12 +299,12 @@
                 {
                   "property": "backgroundColor",
                   "token": "tokens.colorTransparentBackgroundHover",
-                  "path": []
+                  "path": ["':hover'", "backgroundColor"]
                 },
                 {
                   "property": "color",
                   "token": "tokens.colorNeutralForeground2BrandHover",
-                  "path": []
+                  "path": ["':hover'", "color"]
                 }
               ]
             },
@@ -296,28 +313,37 @@
                 {
                   "property": "backgroundColor",
                   "token": "tokens.colorTransparentBackgroundPressed",
-                  "path": []
+                  "path": ["':hover:active'", "backgroundColor"]
                 },
                 {
                   "property": "color",
                   "token": "tokens.colorNeutralForeground2BrandPressed",
-                  "path": []
+                  "path": ["':hover:active'", "color"]
                 }
               ]
             },
             "'@media (forced-colors: active)'": {
-              "tokens": [
-                {
-                  "property": "backgroundColor",
-                  "token": "tokens.colorTransparentBackground",
-                  "path": []
+              "tokens": [],
+              "nested": {
+                "':hover'": {
+                  "tokens": [
+                    {
+                      "property": "backgroundColor",
+                      "token": "tokens.colorTransparentBackground",
+                      "path": ["'@media (forced-colors: active)'", "':hover'", "backgroundColor"]
+                    }
+                  ]
                 },
-                {
-                  "property": "backgroundColor",
-                  "token": "tokens.colorTransparentBackground",
-                  "path": []
+                "':hover:active'": {
+                  "tokens": [
+                    {
+                      "property": "backgroundColor",
+                      "token": "tokens.colorTransparentBackground",
+                      "path": ["'@media (forced-colors: active)'", "':hover:active'", "backgroundColor"]
+                    }
+                  ]
                 }
-              ]
+              }
             }
           },
           "assignedVariables": ["rootStyles"]
@@ -443,7 +469,7 @@
                 {
                   "property": "color",
                   "token": "tokens.colorNeutralForegroundDisabled",
-                  "path": []
+                  "path": ["[`& .${buttonClassNames.icon}`]", "color"]
                 }
               ]
             },
@@ -452,78 +478,90 @@
                 {
                   "property": "backgroundColor",
                   "token": "tokens.colorNeutralBackgroundDisabled",
-                  "path": []
+                  "path": ["':hover'", "backgroundColor"]
                 },
                 {
                   "property": "borderTopColor",
                   "token": "tokens.colorNeutralStrokeDisabled",
-                  "path": []
+                  "path": ["':hover'", "borderTopColor"]
                 },
                 {
                   "property": "borderRightColor",
                   "token": "tokens.colorNeutralStrokeDisabled",
-                  "path": []
+                  "path": ["':hover'", "borderRightColor"]
                 },
                 {
                   "property": "borderBottomColor",
                   "token": "tokens.colorNeutralStrokeDisabled",
-                  "path": []
+                  "path": ["':hover'", "borderBottomColor"]
                 },
                 {
                   "property": "borderLeftColor",
                   "token": "tokens.colorNeutralStrokeDisabled",
-                  "path": []
+                  "path": ["':hover'", "borderLeftColor"]
                 },
                 {
                   "property": "color",
                   "token": "tokens.colorNeutralForegroundDisabled",
-                  "path": []
-                },
-                {
-                  "property": "color",
-                  "token": "tokens.colorNeutralForegroundDisabled",
-                  "path": []
+                  "path": ["':hover'", "color"]
                 }
-              ]
+              ],
+              "nested": {
+                "[`& .${buttonClassNames.icon}`]": {
+                  "tokens": [
+                    {
+                      "property": "color",
+                      "token": "tokens.colorNeutralForegroundDisabled",
+                      "path": ["':hover'", "[`& .${buttonClassNames.icon}`]", "color"]
+                    }
+                  ]
+                }
+              }
             },
             "':hover:active'": {
               "tokens": [
                 {
                   "property": "backgroundColor",
                   "token": "tokens.colorNeutralBackgroundDisabled",
-                  "path": []
+                  "path": ["':hover:active'", "backgroundColor"]
                 },
                 {
                   "property": "borderTopColor",
                   "token": "tokens.colorNeutralStrokeDisabled",
-                  "path": []
+                  "path": ["':hover:active'", "borderTopColor"]
                 },
                 {
                   "property": "borderRightColor",
                   "token": "tokens.colorNeutralStrokeDisabled",
-                  "path": []
+                  "path": ["':hover:active'", "borderRightColor"]
                 },
                 {
                   "property": "borderBottomColor",
                   "token": "tokens.colorNeutralStrokeDisabled",
-                  "path": []
+                  "path": ["':hover:active'", "borderBottomColor"]
                 },
                 {
                   "property": "borderLeftColor",
                   "token": "tokens.colorNeutralStrokeDisabled",
-                  "path": []
+                  "path": ["':hover:active'", "borderLeftColor"]
                 },
                 {
                   "property": "color",
                   "token": "tokens.colorNeutralForegroundDisabled",
-                  "path": []
-                },
-                {
-                  "property": "color",
-                  "token": "tokens.colorNeutralForegroundDisabled",
-                  "path": []
+                  "path": ["':hover:active'", "color"]
                 }
-              ]
+              ],
+              "nested": {
+                "[`& .${buttonClassNames.icon}`]": {
+                  "tokens": [
+                    {
+                      "property": "color",
+                      "token": "tokens.colorNeutralForegroundDisabled",
+                      "path": ["':hover:active'", "[`& .${buttonClassNames.icon}`]", "color"]
+                    }
+                  ]
+                }
+              }
             }
           },
           "assignedVariables": ["rootDisabledStyles"]
@@ -542,7 +580,7 @@
                 {
                   "property": "backgroundColor",
                   "token": "tokens.colorTransparentBackground",
-                  "path": []
+                  "path": ["':hover'", "backgroundColor"]
                 }
               ]
             },
@@ -551,7 +589,7 @@
                 {
                   "property": "backgroundColor",
                   "token": "tokens.colorTransparentBackground",
-                  "path": []
+                  "path": ["':hover:active'", "backgroundColor"]
                 }
               ]
             }
@@ -572,7 +610,7 @@
                 {
                   "property": "backgroundColor",
                   "token": "tokens.colorTransparentBackground",
-                  "path": []
+                  "path": ["':hover'", "backgroundColor"]
                 }
               ]
             },
@@ -581,7 +619,7 @@
                 {
                   "property": "backgroundColor",
                   "token": "tokens.colorTransparentBackground",
-                  "path": []
+                  "path": ["':hover:active'", "backgroundColor"]
                 }
               ]
             }
@@ -602,7 +640,7 @@
                 {
                   "property": "backgroundColor",
                   "token": "tokens.colorTransparentBackground",
-                  "path": []
+                  "path": ["':hover'", "backgroundColor"]
                 }
               ]
             },
@@ -611,7 +649,7 @@
                 {
                   "property": "backgroundColor",
                   "token": "tokens.colorTransparentBackground",
-                  "path": []
+                  "path": ["':hover:active'", "backgroundColor"]
                 }
               ]
             }
@@ -628,7 +666,7 @@
                 {
                   "property": "borderRadius",
                   "token": "tokens.borderRadiusCircular",
-                  "path": []
+                  "path": [":focus", "borderRadius"]
                 }
               ]
             }
@@ -643,7 +681,7 @@
                 {
                   "property": "borderRadius",
                   "token": "tokens.borderRadiusNone",
-                  "path": []
+                  "path": [":focus", "borderRadius"]
                 }
               ]
             }
@@ -658,98 +696,115 @@
                 {
                   "property": "boxShadow",
                   "token": "tokens.shadow2",
-                  "path": []
+                  "path": [":focus", "boxShadow"]
                 },
                 {
                   "property": "boxShadow",
                   "token": "tokens.strokeWidthThin",
-                  "path": []
+                  "path": [":focus", "boxShadow"]
                 },
                 {
                   "property": "boxShadow",
                   "token": "tokens.colorStrokeFocus2",
-                  "path": []
+                  "path": [":focus", "boxShadow"]
                 },
                 {
                   "property": "boxShadow",
                   "token": "tokens.strokeWidthThick",
-                  "path": []
+                  "path": [":focus", "boxShadow"]
                 },
                 {
                   "property": "boxShadow",
                   "token": "tokens.colorNeutralForegroundOnBrand",
-                  "path": []
-                },
-                {
-                  "property": "boxShadow",
-                  "token": "tokens.shadow2",
-                  "path": []
-                },
-                {
-                  "property": "boxShadow",
-                  "token": "tokens.strokeWidthThin",
-                  "path": []
-                },
-                {
-                  "property": "boxShadow",
-                  "token": "tokens.colorStrokeFocus2",
-                  "path": []
-                },
-                {
-                  "property": "borderTopColor",
-                  "token": "tokens.colorStrokeFocus2",
-                  "path": []
-                },
-                {
-                  "property": "borderRightColor",
-                  "token": "tokens.colorStrokeFocus2",
-                  "path": []
-                },
-                {
-                  "property": "borderBottomColor",
-                  "token": "tokens.colorStrokeFocus2",
-                  "path": []
-                },
-                {
-                  "property": "borderLeftColor",
-                  "token": "tokens.colorStrokeFocus2",
-                  "path": []
+                  "path": [":focus", "boxShadow"]
                 }
-              ]
+              ],
+              "nested": {
+                "':hover'": {
+                  "tokens": [
+                    {
+                      "property": "boxShadow",
+                      "token": "tokens.shadow2",
+                      "path": [":focus", "':hover'", "boxShadow"]
+                    },
+                    {
+                      "property": "boxShadow",
+                      "token": "tokens.strokeWidthThin",
+                      "path": [":focus", "':hover'", "boxShadow"]
+                    },
+                    {
+                      "property": "boxShadow",
+                      "token": "tokens.colorStrokeFocus2",
+                      "path": [":focus", "':hover'", "boxShadow"]
+                    },
+                    {
+                      "property": "borderTopColor",
+                      "token": "tokens.colorStrokeFocus2",
+                      "path": [":focus", "':hover'", "borderTopColor"]
+                    },
+                    {
+                      "property": "borderRightColor",
+                      "token": "tokens.colorStrokeFocus2",
+                      "path": [":focus", "':hover'", "borderRightColor"]
+                    },
+                    {
+                      "property": "borderBottomColor",
+                      "token": "tokens.colorStrokeFocus2",
+                      "path": [":focus", "':hover'", "borderBottomColor"]
+                    },
+                    {
+                      "property": "borderLeftColor",
+                      "token": "tokens.colorStrokeFocus2",
+                      "path": [":focus", "':hover'", "borderLeftColor"]
+                    }
+                  ]
+                }
+              }
             },
             "'@supports (-moz-appearance:button)'": {
-              "tokens": [
-                {
-                  "property": "boxShadow",
-                  "token": "tokens.shadow2",
-                  "path": []
-                },
-                {
-                  "property": "boxShadow",
-                  "token": "tokens.colorStrokeFocus2",
-                  "path": []
-                },
-                {
-                  "property": "boxShadow",
-                  "token": "tokens.strokeWidthThick",
-                  "path": []
-                },
-                {
-                  "property": "boxShadow",
-                  "token": "tokens.colorNeutralForegroundOnBrand",
-                  "path": []
-                },
-                {
-                  "property": "boxShadow",
-                  "token": "tokens.shadow2",
-                  "path": []
-                },
-                {
-                  "property": "boxShadow",
-                  "token": "tokens.colorStrokeFocus2",
-                  "path": []
+              "tokens": [],
+              "nested": {
+                ":focus": {
+                  "tokens": [
+                    {
+                      "property": "boxShadow",
+                      "token": "tokens.shadow2",
+                      "path": ["'@supports (-moz-appearance:button)'", ":focus", "boxShadow"]
+                    },
+                    {
+                      "property": "boxShadow",
+                      "token": "tokens.colorStrokeFocus2",
+                      "path": ["'@supports (-moz-appearance:button)'", ":focus", "boxShadow"]
+                    },
+                    {
+                      "property": "boxShadow",
+                      "token": "tokens.strokeWidthThick",
+                      "path": ["'@supports (-moz-appearance:button)'", ":focus", "boxShadow"]
+                    },
+                    {
+                      "property": "boxShadow",
+                      "token": "tokens.colorNeutralForegroundOnBrand",
+                      "path": ["'@supports (-moz-appearance:button)'", ":focus", "boxShadow"]
+                    }
+                  ],
+                  "nested": {
+                    "':hover'": {
+                      "tokens": [
+                        {
+                          "property": "boxShadow",
+                          "token": "tokens.shadow2",
+                          "path": ["'@supports (-moz-appearance:button)'", ":focus", "':hover'", "boxShadow"]
+                        },
+                        {
+                          "property": "boxShadow",
+                          "token": "tokens.colorStrokeFocus2",
+                          "path": ["'@supports (-moz-appearance:button)'", ":focus", "':hover'", "boxShadow"]
+                        }
+                      ]
+                    }
+                  }
                 }
-              ]
+              }
             }
           },
           "assignedVariables": ["rootFocusStyles"]
@@ -762,7 +817,7 @@
                 {
                   "property": "borderRadius",
                   "token": "tokens.borderRadiusSmall",
-                  "path": []
+                  "path": [":focus", "borderRadius"]
                 }
               ]
             }
@@ -777,7 +832,7 @@
                 {
                   "property": "borderRadius",
                   "token": "tokens.borderRadiusLarge",
-                  "path": []
+                  "path": [":focus", "borderRadius"]
                 }
               ]
             }
