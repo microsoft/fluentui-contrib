@@ -21,7 +21,7 @@ describe('e2e test', () => {
 
   afterAll(async () => {
     // Clean up temp files
-    await fs.rm(targetPath, { recursive: true, force: true });
+    // await fs.rm(targetPath, { recursive: true, force: true });
   });
   test('analyze test button styles', async () => {
     await analyzeProjectStyles(tempDir, targetPath);
