@@ -401,23 +401,55 @@ function createStyleContent(tokens: TokenReference[]): StyleContent {
   // Nested structures have paths longer than 1
   const nestedTokens = tokens.filter((t) => t.path.length > 1);
   if (nestedTokens.length > 0) {
-    content.nested = nestedTokens.reduce<StyleTokens>((acc, token) => {
+    const acc: StyleTokens = {};
+
+    /**
+     * Recursive function to create a nested structure for tokens
+     * This function will create a nested object structure based on the token path.
+     * @param token
+     * @param pathIndex where in the path we are, this allows us to preserve the path while recursing through it
+     * @param currentLevel the current level of the nested structure we're working on
+     */
+    const createNestedStructure = (
+      token: TokenReference,
+      pathIndex: number,
+      currentLevel: StyleTokens
+    ) => {
       if (token.path.includes('[`& .${buttonClassNames.icon}`]')) {
         console.log(token.path);
       }
-      const nestedKey = token.path[0];
+      const nestedKey = token.path[pathIndex];
 
-      if (!acc[nestedKey]) {
-        acc[nestedKey] = { tokens: [] };
+      // if no token array exists, create one
+      if (!currentLevel[nestedKey]) {
+        currentLevel[nestedKey] = { tokens: [] };
       }
 
-      acc[nestedKey].tokens.push({
-        ...token,
-        path: [], // Reset path as we've used it for nesting
-      });
+      // if we have a path length that is greater than our current index minus 1, we need to recurse
+      // this is because if we have more than a single item in our path left there's another level
+      if (token.path.length - 1 - pathIndex > 1) {
+        // Create a nested structure through a recursive call
+        if (!currentLevel[nestedKey].nested) {
+          currentLevel[nestedKey].nested = {};
+        }
+        createNestedStructure(
+          token,
+          pathIndex + 1,
+          currentLevel[nestedKey].nested
+        );
+      } else {
+        currentLevel[nestedKey].tokens.push({
+          ...token,
+          path: token.path,
+        });
+      }
+    };
 
-      return acc;
-    }, {});
+    nestedTokens.forEach((token) => {
+      createNestedStructure(token, 0, acc);
+    });
+
+    content.nested = acc;
   }
 
   return content;
