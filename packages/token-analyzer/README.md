@@ -1,18 +1,18 @@
 # Design Token Usage Analyzer
 
-A static analysis tool that scans your project's style files to track and analyze design token usage. The analyzer helps identify where and how design tokens are being used across your codebase, making it easier to maintain consistency and track token adoption.
+A static analysis tool that scans your project's style files to track and analyze design token usage. The analyzer helps identify where and how design tokens are being used across your codebase, making it easier to maintain consistency and track token adoption. The data from this tool can also be used to create other tools like theme designers.
 
 ## TODO
 
 - we also need to ensure var analysis is done correctly after the refactor
-- Look at the path info again. Do we ever need it?
 - Convert token member within the analysis output to an array so we can hold multiple tokens. The order should be the order or priority. [0] being the highest pri with the last item in the array the least prioritized.
-- Duplicate entries in useButtonStyles.styles.ts for useRootDisabledStyles.base.nested:hover.color - we might need to test case this. This turns out to not be a dupe but a misplaced item. There's multiple layers of nesting in this particular style and instead of creating another nested layer it just injects the token into the direct tokens list. We should create another layer of nested and this should be able to be done if we update the path info correctly.
+
 - Add makeResetStyles specific tests in analyzer to ensure we process those correctly.
 - add config to point to custom prettier config for file output.
 - run shorthands functions with placeholder functions and parse out which properties are actually being set. This is a special case we will need to hard code and thus should make independent from the rest of our logic so it's easier to modify/remove.
 - add tests for findTsConfigPath
-- add tests for structure and output. We're processing the styles but not putting them in the right places right now.
+- add tests for structure and output. ~~We're processing the styles but not putting them in the right places right now~~
+- primary styles using createCustomFocusIndicatorStyle with a shorthand as the first arg seems to get missed but the nested styles we catch (investigate) I think this just means we need to ensure we process shorthands here as well
 
 ## Features
 
@@ -26,7 +26,7 @@ A static analysis tool that scans your project's style files to track and analyz
 ## Installation
 
 ```bash
-npm install --save-dev @your-org/token-analyzer
+npm install --save-dev @fluentui-contrib/token-analyzer
 ```
 
 ## Usage
