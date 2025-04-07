@@ -87,7 +87,7 @@ export const emitSyntheticMoverMoveFocusEvent = (
   targetDocument: Document
 ) => {
   const activeElement = targetDocument.activeElement;
-  if (isComboboxElement(activeElement) || isRadioElement(activeElement)) {
+  if (isComboboxElement(activeElement)) {
     const button = getMoverKeyToKeyboardKeyMapping(key);
     emitSyntheticKeyboardEvent('keydown', button, true, targetDocument);
   } else {
