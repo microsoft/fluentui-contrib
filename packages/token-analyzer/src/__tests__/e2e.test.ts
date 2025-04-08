@@ -64,4 +64,20 @@ describe('e2e test', () => {
       }
     );
   });
+
+  describe('validate makeStyles tokens', () => {
+    // Define token cases for makeResetStyles tests
+    const makeStylesStyles = [
+      ['backgroundColor', 'tokens.colorTransparentBackground'],
+    ];
+    test.each(makeStylesStyles)(
+      '%s token is properly configured',
+      (propertyName, expectedToken) => {
+        const rootOutline = styles.useRootStyles.outline.tokens;
+        const token = rootOutline.find((t: any) => t.property === propertyName);
+        expect(token).toBeDefined();
+        expect(token.token).toBe(expectedToken);
+      }
+    );
+  });
 });
