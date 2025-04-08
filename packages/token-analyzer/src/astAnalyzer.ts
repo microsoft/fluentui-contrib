@@ -179,6 +179,9 @@ function processStyleProperty(
               nestedModifier,
               childName,
             ]);
+          } else if (Node.isSpreadAssignment(property)) {
+            // Handle spread elements in object literals within function arguments
+            processNode(property.getExpression(), [...path, nestedModifier]);
           }
         });
       }
@@ -415,9 +418,6 @@ function createStyleContent(tokens: TokenReference[]): StyleContent {
       pathIndex: number,
       currentLevel: StyleTokens
     ) => {
-      if (token.path.includes('[`& .${buttonClassNames.icon}`]')) {
-        console.log(token.path);
-      }
       const nestedKey = token.path[pathIndex];
 
       // if no token array exists, create one

@@ -12,7 +12,7 @@ A static analysis tool that scans your project's style files to track and analyz
 - run shorthands functions with placeholder functions and parse out which properties are actually being set. This is a special case we will need to hard code and thus should make independent from the rest of our logic so it's easier to modify/remove.
 - add tests for findTsConfigPath
 - add tests for structure and output. ~~We're processing the styles but not putting them in the right places right now~~
-- primary styles using createCustomFocusIndicatorStyle with a shorthand as the first arg seems to get missed but the nested styles we catch (investigate) I think this just means we need to ensure we process shorthands here as well
+- update contributing doc with info about version management
 
 ## Features
 

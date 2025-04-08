@@ -694,6 +694,26 @@
             ":focus": {
               "tokens": [
                 {
+                  "property": "borderTopColor",
+                  "token": "tokens.colorStrokeFocus2",
+                  "path": [":focus", "borderTopColor"]
+                },
+                {
+                  "property": "borderRightColor",
+                  "token": "tokens.colorStrokeFocus2",
+                  "path": [":focus", "borderRightColor"]
+                },
+                {
+                  "property": "borderBottomColor",
+                  "token": "tokens.colorStrokeFocus2",
+                  "path": [":focus", "borderBottomColor"]
+                },
+                {
+                  "property": "borderLeftColor",
+                  "token": "tokens.colorStrokeFocus2",
+                  "path": [":focus", "borderLeftColor"]
+                },
+                {
                   "property": "boxShadow",
                   "token": "tokens.shadow2",
                   "path": [":focus", "boxShadow"]
