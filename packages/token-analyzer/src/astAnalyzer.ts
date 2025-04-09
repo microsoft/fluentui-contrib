@@ -550,7 +550,10 @@ async function analyzeMakeStyles(
         if (Node.isObjectLiteralExpression(stylesArg)) {
           // Process the styles object
           stylesArg.getProperties().forEach((prop) => {
-            if (Node.isPropertyAssignment(prop)) {
+            if (
+              Node.isPropertyAssignment(prop) ||
+              Node.isSpreadAssignment(prop)
+            ) {
               const tokens = processStyleProperty(prop, importedValues, true);
               if (tokens.length) {
                 const styleContent = createStyleContent(tokens);
