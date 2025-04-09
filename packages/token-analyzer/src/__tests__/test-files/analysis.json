@@ -104,6 +104,40 @@
                 }
               ]
             },
+            ":focus": {
+              "tokens": [
+                {
+                  "property": "borderColor",
+                  "token": "tokens.colorStrokeFocus2",
+                  "path": [":focus", "borderColor"]
+                },
+                {
+                  "property": "borderRadius",
+                  "token": "tokens.borderRadiusMedium",
+                  "path": [":focus", "borderRadius"]
+                },
+                {
+                  "property": "outline",
+                  "token": "tokens.strokeWidthThick",
+                  "path": [":focus", "outline"]
+                },
+                {
+                  "property": "outline",
+                  "token": "tokens.colorTransparentStroke",
+                  "path": [":focus", "outline"]
+                },
+                {
+                  "property": "boxShadow",
+                  "token": "tokens.strokeWidthThin",
+                  "path": [":focus", "boxShadow"]
+                },
+                {
+                  "property": "boxShadow",
+                  "token": "tokens.colorStrokeFocus2",
+                  "path": [":focus", "boxShadow"]
+                }
+              ]
+            },
             "'@supports (-moz-appearance:button)'": {
               "tokens": [],
               "nested": {

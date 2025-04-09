@@ -65,7 +65,7 @@ describe('Token Analyzer', () => {
     const focusStyle = styles.useStyles.focusIndicator.nested?.[':focus'];
 
     expect(focusStyle?.tokens[0]).toEqual({
-      path: [],
+      path: [':focus', 'textDecorationColor'],
       property: 'textDecorationColor',
       token: 'tokens.colorStrokeFocus2',
     });
