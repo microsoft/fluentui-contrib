@@ -7,7 +7,6 @@ A static analysis tool that scans your project's style files to track and analyz
 - we also need to ensure var analysis is done correctly after the refactor
 - Convert token member within the analysis output to an array so we can hold multiple tokens. The order should be the order or priority. [0] being the highest pri with the last item in the array the least prioritized.
 
-- Add makeResetStyles specific tests in analyzer to ensure we process those correctly.
 - add config to point to custom prettier config for file output.
 - run shorthands functions with placeholder functions and parse out which properties are actually being set. This is a special case we will need to hard code and thus should make independent from the rest of our logic so it's easier to modify/remove.
 - add tests for findTsConfigPath
