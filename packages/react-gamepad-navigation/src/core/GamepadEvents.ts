@@ -1,11 +1,8 @@
 import { MoverMoveFocusEvent } from '@fluentui/react-tabster';
 import {
-  handleSelectOnDirection,
-  handleSelectOnEnter,
-  handleSelectOnEscape,
   isComboboxElement,
   isMenuItemElement,
-  isSelectElement,
+  isRadioElement,
   shouldSubmitForm,
 } from './GamepadUtils';
 import { getMoverKeyToKeyboardKeyMapping } from './GamepadMappings';
@@ -93,8 +90,6 @@ export const emitSyntheticMoverMoveFocusEvent = (
   if (isComboboxElement(activeElement)) {
     const button = getMoverKeyToKeyboardKeyMapping(key);
     emitSyntheticKeyboardEvent('keydown', button, true, targetDocument);
-  } else if (isSelectElement(activeElement)) {
-    handleSelectOnDirection(targetDocument, key);
   } else {
     activeElement?.dispatchEvent(new MoverMoveFocusEvent({ key }));
   }
@@ -111,8 +106,8 @@ export const emitSyntheticGroupperMoveFocusEvent = (
 
     if (isComboboxElement(activeElement)) {
       emitSyntheticKeyboardEvent('keydown', action, true, targetDocument);
-    } else if (isSelectElement(activeElement)) {
-      handleSelectOnEnter(activeElement);
+    } else if (isRadioElement(activeElement)) {
+      activeElement.checked = !activeElement.checked;
     } else {
       emitSyntheticMouseEvent('click', true, targetDocument);
     }
@@ -120,10 +115,10 @@ export const emitSyntheticGroupperMoveFocusEvent = (
       activeElement?.closest('form')?.requestSubmit?.();
     }
   } else {
-    // Note: GroupperMoveFocusActions.Escape has no difference to KeyboardKey.Escape
-    if (isSelectElement(activeElement)) {
-      handleSelectOnEscape(activeElement, targetDocument);
-    } else if (isComboboxElement(activeElement)) {
+    if (
+      isComboboxElement(activeElement) &&
+      activeElement?.getAttribute('aria-expanded') === 'true'
+    ) {
       emitSyntheticMouseEvent('click', true, targetDocument);
     } else {
       const shouldBubble = isMenuItemElement(activeElement);
