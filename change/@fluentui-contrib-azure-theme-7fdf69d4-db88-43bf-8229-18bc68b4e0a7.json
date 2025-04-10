@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: bump @swc/helpers to monorepo version",
-  "packageName": "@fluentui-contrib/azure-theme",
-  "email": "hochelmartin@gmail.com",
-  "dependentChangeType": "patch"
-}

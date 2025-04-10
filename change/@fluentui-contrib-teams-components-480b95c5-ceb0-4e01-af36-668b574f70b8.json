@@ -1,7 +1,0 @@
-{
-  "type": "none",
-  "comment": "chore: migrate to eslint v9",
-  "packageName": "@fluentui-contrib/teams-components",
-  "email": "vgenaev@gmail.com",
-  "dependentChangeType": "none"
-}
