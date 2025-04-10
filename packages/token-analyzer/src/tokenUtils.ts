@@ -49,7 +49,6 @@ export function getExpresionFromIdentifier(node: Node): Node | undefined {
 
 /**
  * Extracts all token references from a text string or Node
- * TODO: Dedupe logic from extractTokensFromText and isTokenReference
  * @param textOrNode The text or Node to extract tokens from
  * @returns Array of token reference strings
  */
@@ -78,6 +77,7 @@ export function extractTokensFromText(
       }
     });
   } else if (Node.isNode(textOrNode)) {
+    // If we have an identifier, we need to check if it has an initializer. From there we should reprocess to extract tokens
     if (Node.isIdentifier(textOrNode)) {
       const initializer = getExpresionFromIdentifier(textOrNode);
       if (initializer) {
@@ -125,20 +125,19 @@ export function getPropertiesForShorthand(
   const shorthandFunction = shorthands[cleanFunctionName];
   if (shorthandFunction) {
     const argValues = args.map(
+      // We have to extract the token from the argument in the case that there's a template literal, initializer, etc.
       (arg) => extractTokensFromText(arg)[0]
     ) as FunctionParams<typeof shorthandFunction>;
 
-    console.log(args.map((arg) => extractTokensFromText(arg)[0]));
     // @ts-expect-error We have a very complex union type that is difficult/impossible to resolve statically.
     const shortHandOutput = shorthandFunction(...argValues);
-    console.log(shortHandOutput);
 
     // Once we have the shorthand output, we should process the values, sanitize them and then return only the properties
     // that contain tokens.
     const shortHandTokens: { property: string; token: string }[] = [];
 
     Object.keys(shortHandOutput).forEach((key) => {
-      const value = shortHandOutput[key];
+      const value = shortHandOutput[key as keyof typeof shortHandOutput];
       if (isTokenReference(value)) {
         shortHandTokens.push({
           property: key,
