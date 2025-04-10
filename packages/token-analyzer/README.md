@@ -11,8 +11,10 @@ A static analysis tool that scans your project's style files to track and analyz
 - add config to point to custom prettier config for file output.
 - run shorthands functions with placeholder functions and parse out which properties are actually being set. This is a special case we will need to hard code and thus should make independent from the rest of our logic so it's easier to modify/remove.
 - add tests for findTsConfigPath
+- Update extractTokensFromText to find imported vars and tokens. We've updated it to resolve variable declarations thusfar but there's potential cases where we could have imports impact this as well.
 - add tests for structure and output. ~~We're processing the styles but not putting them in the right places right now~~
 - update contributing doc with info about version management
+- Dedupe logic from extractTokensFromText and isTokenReference
 
 ## Features
 

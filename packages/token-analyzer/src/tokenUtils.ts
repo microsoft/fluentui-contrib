@@ -1,5 +1,5 @@
 // tokenUtils.ts
-import { Node, Symbol } from 'ts-morph';
+import { Node, Symbol, SyntaxKind } from 'ts-morph';
 import { TOKEN_REGEX } from './types.js';
 
 /**
@@ -35,18 +35,43 @@ export function isTokenReference(textOrNode: string | Node | Symbol): boolean {
 
 /**
  * Extracts all token references from a text string or Node
+ * TODO: Dedupe logic from extractTokensFromText and isTokenReference
  * @param textOrNode The text or Node to extract tokens from
  * @returns Array of token reference strings
  */
-export function extractTokensFromText(textOrNode: string | Node | Symbol): string[] {
+export function extractTokensFromText(
+  textOrNode: string | Node | Symbol
+): string[] {
   // If we have a Node or Symbol, extract the text to check
-  let text: string;
+  let text: string | undefined;
+  const matches: string[] = [];
 
   if (typeof textOrNode === 'string') {
     text = textOrNode;
+  } else if (Node.isNode(textOrNode) && Node.isTemplateExpression(textOrNode)) {
+    textOrNode.getTemplateSpans().forEach((span) => {
+      if (isTokenReference(span.getExpression().getText())) {
+        const token = span.getExpression().getText();
+        matches.push(token);
+      } else {
+        const spanExpression = span.getExpression();
+        if (spanExpression.getKind() === SyntaxKind.Identifier) {
+          const spanSymbol = spanExpression.getSymbol();
+          const spanDeclarations = spanSymbol?.getDeclarations();
+          if (spanSymbol && spanDeclarations && spanDeclarations.length > 0) {
+            if (Node.isVariableDeclaration(spanDeclarations[0])) {
+              const spanInitializer = spanDeclarations[0].getInitializer();
+              if (spanInitializer) {
+                matches.push(...extractTokensFromText(spanInitializer));
+              }
+            }
+          }
+        }
+      }
+    });
   } else if (Node.isNode(textOrNode)) {
     text = textOrNode.getText();
-  } else if (textOrNode instanceof Symbol) {
+  } else {
     // For symbols, we need to check the declarations
     const declarations = textOrNode.getDeclarations();
     if (!declarations || declarations.length === 0) {
@@ -55,12 +80,15 @@ export function extractTokensFromText(textOrNode: string | Node | Symbol): strin
 
     // Get text from the first declaration
     text = declarations[0].getText();
-  } else {
-    return [];
   }
 
-  const matches = text.match(TOKEN_REGEX);
-  return matches || [];
+  if (text !== undefined) {
+    const regMatch = text.match(TOKEN_REGEX);
+    if (regMatch) {
+      matches.push(...regMatch);
+    }
+  }
+  return matches;
 }
 
 /**
@@ -71,9 +99,19 @@ export function extractTokensFromText(textOrNode: string | Node | Symbol): strin
 export function getPropertiesForShorthand(functionName: string): string[] {
   const shorthandMap: Record<string, string[]> = {
     // Border shorthands
-    borderColor: ['borderTopColor', 'borderRightColor', 'borderBottomColor', 'borderLeftColor'],
+    borderColor: [
+      'borderTopColor',
+      'borderRightColor',
+      'borderBottomColor',
+      'borderLeftColor',
+    ],
     border: ['borderWidth', 'borderStyle', 'borderColor'],
-    borderRadius: ['borderTopLeftRadius', 'borderTopRightRadius', 'borderBottomRightRadius', 'borderBottomLeftRadius'],
+    borderRadius: [
+      'borderTopLeftRadius',
+      'borderTopRightRadius',
+      'borderBottomRightRadius',
+      'borderBottomLeftRadius',
+    ],
 
     // Padding/margin shorthands
     padding: ['paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft'],
@@ -83,12 +121,19 @@ export function getPropertiesForShorthand(functionName: string): string[] {
     flex: ['flexGrow', 'flexShrink', 'flexBasis'],
     gap: ['rowGap', 'columnGap'],
     overflow: ['overflowX', 'overflowY'],
-    gridArea: ['gridRowStart', 'gridColumnStart', 'gridRowEnd', 'gridColumnEnd'],
+    gridArea: [
+      'gridRowStart',
+      'gridColumnStart',
+      'gridRowEnd',
+      'gridColumnEnd',
+    ],
     inset: ['top', 'right', 'bottom', 'left'],
   };
 
   // Extract base function name if it's a qualified name (e.g., shorthands.borderColor -> borderColor)
-  const baseName = functionName.includes('.') ? functionName.split('.').pop() : functionName;
+  const baseName = functionName.includes('.')
+    ? functionName.split('.').pop()
+    : functionName;
 
   return baseName && shorthandMap[baseName!] ? shorthandMap[baseName!] : [];
 }
