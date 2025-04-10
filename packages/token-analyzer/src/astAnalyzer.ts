@@ -188,13 +188,26 @@ function processStyleProperty(
     } else if (Node.isCallExpression(node)) {
       // Process calls like shorthands.borderColor(tokens.color)
       const functionName = node.getExpression().getText();
-      // we should pass the number of arguments so we can properly map which overload is being called.
-      const affectedProperties = getPropertiesForShorthand(functionName);
 
+      // check if we're using a shorthand function and get the output of a call based on parameters passed into the function
+      const affectedProperties = getPropertiesForShorthand(
+        functionName,
+        node.getArguments()
+      );
+
+      // If we have a shorthand function, we need to process the affected properties.
+      // getPropertiesForShorthand will return an array of objects
+      // with the property name and the token reference
+      // e.g. { property: 'borderColor', token: 'tokens.color' }
+      // It will also deeply check for initialized values etc and validate they are tokens
       if (affectedProperties.length > 0) {
         // Process each argument and apply it to all affected properties
-        node.getArguments().forEach((argument) => {
-          processNodeForAffectedProperties(argument, affectedProperties, path);
+        affectedProperties.forEach((argument) => {
+          tokens.push({
+            property: argument.property,
+            token: argument.token,
+            path: path.concat(argument.property),
+          });
         });
       } else {
         // Generic handling of functions that are not whitelisted
@@ -226,85 +239,6 @@ function processStyleProperty(
           }
         });
       }
-    }
-  }
-
-  // Helper function to process nodes for multiple affected properties
-  function processNodeForAffectedProperties(
-    node: Node,
-    properties: string[],
-    basePath: string[]
-  ): void {
-    if (!node) {
-      return;
-    }
-
-    // If this is a direct token reference
-    if (Node.isPropertyAccessExpression(node) && isTokenReference(node)) {
-      properties.forEach((property) => {
-        tokens.push({
-          property,
-          token: node.getText(),
-          path: basePath.concat(property),
-        });
-      });
-      return;
-    }
-
-    // If this is an identifier that might be a variable
-    if (
-      Node.isIdentifier(node) &&
-      importedValues &&
-      importedValues.has(node.getText())
-    ) {
-      properties.forEach((property) => {
-        const importTokens = processImportedStringTokens(
-          importedValues,
-          property,
-          node.getText(),
-          basePath,
-          TOKEN_REGEX
-        );
-        tokens.push(...importTokens);
-      });
-      return;
-    }
-
-    // For other node types, process them normally but with each property
-    if (Node.isStringLiteral(node) || Node.isTemplateExpression(node)) {
-      const text = node.getText().replace(/['"]/g, '');
-
-      // Check for tokens in the text
-      const matches = extractTokensFromText(node);
-      if (matches.length > 0) {
-        properties.forEach((property) => {
-          matches.forEach((match) => {
-            tokens.push({
-              property,
-              token: match,
-              path: basePath,
-            });
-          });
-        });
-      }
-
-      // Check for CSS vars
-      if (text.includes('var(')) {
-        properties.forEach((property) => {
-          const cssVarTokens = extractTokensFromCssVars(
-            text,
-            property,
-            basePath,
-            TOKEN_REGEX
-          );
-          tokens.push(...cssVarTokens);
-        });
-      }
-    }
-
-    // For any other complex expressions, process them normally
-    else {
-      processNode(node, basePath);
     }
   }
 

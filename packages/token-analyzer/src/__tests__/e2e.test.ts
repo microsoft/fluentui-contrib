@@ -8,6 +8,8 @@ describe('e2e test', () => {
   let analysis: any;
   let styles: any;
 
+  // generate our analysis file before all our tests run. Additionally, we set a long timeout
+  // to ensure that we have enough time to run the analysis.
   beforeAll(async () => {
     // Create temp directory for test files
     tempDir = path.join(process.cwd(), 'src', '__tests__', 'test-files');
@@ -29,7 +31,7 @@ describe('e2e test', () => {
       });
 
     styles = analysis['useButtonStyles.styles.ts'].styles;
-  });
+  }, 100000);
 
   afterAll(async () => {
     // Clean up temp files
@@ -148,18 +150,9 @@ describe('e2e test', () => {
   });
 
   describe('validate makeStyles tokens', () => {
-    // Define token cases for makeResetStyles tests
-    const makeStylesStyles = [
-      ['backgroundColor', 'tokens.colorTransparentBackground'],
-    ];
-    test.each(makeStylesStyles)(
-      '%s token is properly configured',
-      (propertyName, expectedToken) => {
-        tokenTestFactory(styles.useRootStyles.outline.tokens)(
-          propertyName,
-          expectedToken
-        );
-      }
+    checkTokens(
+      () => styles.useRootStyles.outline.tokens,
+      [['backgroundColor', 'tokens.colorTransparentBackground']]
     );
   });
 });

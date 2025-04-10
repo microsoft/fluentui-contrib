@@ -739,17 +739,17 @@
                 },
                 {
                   "property": "borderRightColor",
-                  "token": "tokens.colorStrokeFocus2",
+                  "token": "tokens.colorStrokeFocus1",
                   "path": [":focus", "borderRightColor"]
                 },
                 {
                   "property": "borderBottomColor",
-                  "token": "tokens.colorStrokeFocus2",
+                  "token": "tokens.borderRadiusCircular",
                   "path": [":focus", "borderBottomColor"]
                 },
                 {
                   "property": "borderLeftColor",
-                  "token": "tokens.colorStrokeFocus2",
+                  "token": "tokens.colorStrokeFocus1",
                   "path": [":focus", "borderLeftColor"]
                 },
                 {

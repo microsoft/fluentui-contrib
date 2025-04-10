@@ -1,6 +1,7 @@
 // tokenUtils.ts
 import { Node, Symbol, SyntaxKind } from 'ts-morph';
 import { TOKEN_REGEX } from './types.js';
+import { shorthands } from '@griffel/react';
 
 /**
  * Centralizes token detection logic to make future changes easier
@@ -33,6 +34,19 @@ export function isTokenReference(textOrNode: string | Node | Symbol): boolean {
   return test;
 }
 
+export function getExpresionFromIdentifier(node: Node): Node | undefined {
+  const nodeSymbol = node.getSymbol();
+  const nodeDeclarations = nodeSymbol?.getDeclarations();
+  if (nodeSymbol && nodeDeclarations && nodeDeclarations.length > 0) {
+    if (Node.isVariableDeclaration(nodeDeclarations[0])) {
+      const nodeInitializer = nodeDeclarations[0].getInitializer();
+      if (nodeInitializer) {
+        return nodeInitializer;
+      }
+    }
+  }
+}
+
 /**
  * Extracts all token references from a text string or Node
  * TODO: Dedupe logic from extractTokensFromText and isTokenReference
@@ -56,21 +70,22 @@ export function extractTokensFromText(
       } else {
         const spanExpression = span.getExpression();
         if (spanExpression.getKind() === SyntaxKind.Identifier) {
-          const spanSymbol = spanExpression.getSymbol();
-          const spanDeclarations = spanSymbol?.getDeclarations();
-          if (spanSymbol && spanDeclarations && spanDeclarations.length > 0) {
-            if (Node.isVariableDeclaration(spanDeclarations[0])) {
-              const spanInitializer = spanDeclarations[0].getInitializer();
-              if (spanInitializer) {
-                matches.push(...extractTokensFromText(spanInitializer));
-              }
-            }
+          const spanInitializer = getExpresionFromIdentifier(spanExpression);
+          if (spanInitializer) {
+            matches.push(...extractTokensFromText(spanInitializer));
           }
         }
       }
     });
   } else if (Node.isNode(textOrNode)) {
-    text = textOrNode.getText();
+    if (Node.isIdentifier(textOrNode)) {
+      const initializer = getExpresionFromIdentifier(textOrNode);
+      if (initializer) {
+        matches.push(...extractTokensFromText(initializer));
+      }
+    } else {
+      text = textOrNode.getText();
+    }
   } else {
     // For symbols, we need to check the declarations
     const declarations = textOrNode.getDeclarations();
@@ -91,49 +106,50 @@ export function extractTokensFromText(
   return matches;
 }
 
+type FunctionParams<T> = T extends (...args: infer P) => any ? P : never;
 /**
  * Maps shorthand function names to the CSS properties they affect
  * @param functionName The name of the shorthand function (e.g., "borderColor" or "shorthands.borderColor")
  * @returns Array of CSS property names affected by this shorthand
  */
-export function getPropertiesForShorthand(functionName: string): string[] {
-  const shorthandMap: Record<string, string[]> = {
-    // Border shorthands
-    borderColor: [
-      'borderTopColor',
-      'borderRightColor',
-      'borderBottomColor',
-      'borderLeftColor',
-    ],
-    border: ['borderWidth', 'borderStyle', 'borderColor'],
-    borderRadius: [
-      'borderTopLeftRadius',
-      'borderTopRightRadius',
-      'borderBottomRightRadius',
-      'borderBottomLeftRadius',
-    ],
-
-    // Padding/margin shorthands
-    padding: ['paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft'],
-    margin: ['marginTop', 'marginRight', 'marginBottom', 'marginLeft'],
-
-    // Other common shorthands
-    flex: ['flexGrow', 'flexShrink', 'flexBasis'],
-    gap: ['rowGap', 'columnGap'],
-    overflow: ['overflowX', 'overflowY'],
-    gridArea: [
-      'gridRowStart',
-      'gridColumnStart',
-      'gridRowEnd',
-      'gridColumnEnd',
-    ],
-    inset: ['top', 'right', 'bottom', 'left'],
-  };
-
+export function getPropertiesForShorthand(
+  functionName: string,
+  args: Node[]
+): { property: string; token: string }[] {
   // Extract base function name if it's a qualified name (e.g., shorthands.borderColor -> borderColor)
   const baseName = functionName.includes('.')
     ? functionName.split('.').pop()
     : functionName;
 
-  return baseName && shorthandMap[baseName!] ? shorthandMap[baseName!] : [];
+  const cleanFunctionName = baseName as keyof typeof shorthands;
+  const shorthandFunction = shorthands[cleanFunctionName];
+  if (shorthandFunction) {
+    const argValues = args.map(
+      (arg) => extractTokensFromText(arg)[0]
+    ) as FunctionParams<typeof shorthandFunction>;
+
+    console.log(args.map((arg) => extractTokensFromText(arg)[0]));
+    // @ts-expect-error We have a very complex union type that is difficult/impossible to resolve statically.
+    const shortHandOutput = shorthandFunction(...argValues);
+    console.log(shortHandOutput);
+
+    // Once we have the shorthand output, we should process the values, sanitize them and then return only the properties
+    // that contain tokens.
+    const shortHandTokens: { property: string; token: string }[] = [];
+
+    Object.keys(shortHandOutput).forEach((key) => {
+      const value = shortHandOutput[key];
+      if (isTokenReference(value)) {
+        shortHandTokens.push({
+          property: key,
+          token: value,
+        });
+      }
+    });
+
+    return shortHandTokens;
+  }
+
+  // The function didn't match any known shorthand functions so return an empty array.
+  return [];
 }

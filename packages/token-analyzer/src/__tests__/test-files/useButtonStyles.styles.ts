@@ -20,6 +20,8 @@ export const buttonClassNames: SlotClassNames<ButtonSlots> = {
 
 const iconSpacingVar = '--fui-Button__icon--spacing';
 
+const tokenInInitializer = tokens.borderRadiusCircular;
+
 const buttonSpacingSmall = '3px';
 const buttonSpacingSmallWithIcon = '1px';
 const buttonSpacingMedium = '5px';
@@ -470,7 +472,12 @@ const useRootFocusStyles = makeStyles({
   // Primary styles
   primary: {
     ...createCustomFocusIndicatorStyle({
-      ...shorthands.borderColor(tokens.colorStrokeFocus2),
+      // added another color here to test the shorthands output.
+      ...shorthands.borderColor(
+        tokens.colorStrokeFocus2,
+        tokens.colorStrokeFocus1,
+        tokenInInitializer
+      ),
       boxShadow: `${tokens.shadow2}, 0 0 0 ${tokens.strokeWidthThin} ${tokens.colorStrokeFocus2} inset,  0 0 0 ${tokens.strokeWidthThick} ${tokens.colorNeutralForegroundOnBrand} inset`,
       ':hover': {
         boxShadow: `${tokens.shadow2}, 0 0 0 ${tokens.strokeWidthThin} ${tokens.colorStrokeFocus2} inset`,
