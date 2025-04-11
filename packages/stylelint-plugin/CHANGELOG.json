@@ -2,6 +2,35 @@
   "name": "@fluentui-contrib/stylelint-plugin",
   "entries": [
     {
+      "date": "Thu, 10 Apr 2025 14:11:17 GMT",
+      "tag": "@fluentui-contrib/stylelint-plugin_v0.2.2",
+      "version": "0.2.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "@fluentui-contrib/stylelint-plugin",
+            "commit": "dba02ab6b87eef63dda236155ec0330cd56673ec",
+            "comment": "fix: add missing runtime @swc/helper dependency"
+          },
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "@fluentui-contrib/stylelint-plugin",
+            "commit": "02f6d1c4176fb0c9f852b14fb2d2b019ba768edc",
+            "comment": "fix: normalize package dependencies"
+          }
+        ],
+        "none": [
+          {
+            "author": "vgenaev@gmail.com",
+            "package": "@fluentui-contrib/stylelint-plugin",
+            "commit": "d0a3792e7ce7c3281e7c4aa7ee2bd7bfe8d8f4f5",
+            "comment": "chore: remove old .eslintrc files"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 22 Jan 2025 09:16:56 GMT",
       "tag": "@fluentui-contrib/stylelint-plugin_v0.2.1",
       "version": "0.2.1",

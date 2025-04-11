@@ -1,4 +1,4 @@
-import { GamepadEventHandlers } from './GamepadEventJHandlers';
+import { GamepadEventHandlers } from './GamepadEventHandlers';
 
 export type FluentGPNShadowDOMAPI = {
   gamepadInitialized: boolean;

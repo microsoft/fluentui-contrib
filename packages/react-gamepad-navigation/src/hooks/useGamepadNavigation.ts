@@ -12,7 +12,7 @@ import {
   setPollingEnabled,
 } from '../core/InputManager';
 import { handleGamepadInput } from '../core/InputProcessor';
-import { GamepadEventHandlers } from '../types/GamepadEventJHandlers';
+import { GamepadEventHandlers } from '../types/GamepadEventHandlers';
 import { useFluent, useId } from '@fluentui/react-components';
 import { WindowWithFluentGPNShadowDOMAPI } from '../types/FluentGPNShadowDOMAPI';
 

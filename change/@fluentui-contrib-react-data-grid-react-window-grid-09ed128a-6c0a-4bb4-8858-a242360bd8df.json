@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: add missing runtime @swc/helper dependency",
-  "packageName": "@fluentui-contrib/react-data-grid-react-window-grid",
-  "email": "hochelmartin@gmail.com",
-  "dependentChangeType": "patch"
-}

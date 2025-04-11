@@ -1,6 +1,6 @@
 {
   "name": "@fluentui-contrib/variant-theme",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "dependencies": {
     "@swc/helpers": "~0.5.11",
     "@fluentui/scheme-utilities": "^8.3.57",

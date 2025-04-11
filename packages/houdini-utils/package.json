@@ -1,6 +1,6 @@
 {
   "name": "@fluentui-contrib/houdini-utils",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "dependencies": {
     "@swc/helpers": "~0.5.11"
   },

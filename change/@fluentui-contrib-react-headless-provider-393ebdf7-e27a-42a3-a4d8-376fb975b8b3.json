@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: add missing runtime @swc/helper dependency",
-  "packageName": "@fluentui-contrib/react-headless-provider",
-  "email": "hochelmartin@gmail.com",
-  "dependentChangeType": "patch"
-}
