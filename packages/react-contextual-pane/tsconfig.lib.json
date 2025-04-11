@@ -9,6 +9,10 @@
     "jest.config.ts",
     "src/**/*.test.ts",
     "src/**/*.test.tsx",
-    "files/**"
+    "files/**",
+    "**/*.stories.ts",
+    "**/*.stories.js",
+    "**/*.stories.jsx",
+    "**/*.stories.tsx"
   ]
 }
