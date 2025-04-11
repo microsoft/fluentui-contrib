@@ -2,6 +2,8 @@ import * as path from 'path';
 import * as fs from 'fs/promises';
 import { analyzeProjectStyles } from '../index.js';
 
+const styleFileName = 'useButtonStyles.styles.ts';
+
 describe('e2e test', () => {
   let tempDir: string;
   let targetPath: string;
@@ -24,7 +26,7 @@ describe('e2e test', () => {
         analysis = JSON.parse(analysisData);
       });
 
-    styles = analysis['useButtonStyles.styles.ts'].styles;
+    styles = analysis[styleFileName].styles;
   }, 100000);
 
   afterAll(async () => {
@@ -34,10 +36,12 @@ describe('e2e test', () => {
 
   test('validate basic structure', () => {
     // Validate the structure of the analysis object
-    expect(analysis).toHaveProperty(['useButtonStyles.styles.ts']);
+    expect(analysis).toHaveProperty([styleFileName]);
 
     // Validate that we process a makeResetStyles function useRootBaseClassName
     expect(styles).toHaveProperty('useRootBaseClassName');
+
+    expect(analysis[styleFileName]).toHaveProperty('metadata');
   });
 
   /**
