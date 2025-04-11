@@ -6,7 +6,7 @@ import { findStyleFiles } from './fileOperations.js';
 import { analyzeFile } from './astAnalyzer.js';
 import { AnalysisResults, FileAnalysis } from './types.js';
 import { configure, log, error, measureAsync } from './debugUtils.js';
-import { findTsConfigPath } from './findTsConfigPath';
+import { findTsConfigPath } from './findTsConfigPath.js';
 
 async function analyzeProjectStyles(
   rootDir: string,
