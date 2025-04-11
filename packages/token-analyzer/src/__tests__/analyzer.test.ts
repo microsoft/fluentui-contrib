@@ -11,7 +11,7 @@ describe('Token Analyzer', () => {
 
   beforeAll(async () => {
     // Create temp directory for test files
-    const tempDir = path.join(process.cwd(), 'temp-test-files');
+    const tempDir = path.join(__dirname, 'temp-test-files');
     await fs.mkdir(tempDir, { recursive: true });
     tempFilePath = path.join(tempDir, 'test-styles.ts');
     await fs.writeFile(tempFilePath, sampleStyles);
@@ -25,7 +25,7 @@ describe('Token Analyzer', () => {
 
   afterAll(async () => {
     // Cleanup temp files
-    const tempDir = path.join(process.cwd(), 'temp-test-files');
+    const tempDir = path.join(__dirname, 'temp-test-files');
     await fs.rm(tempDir, { recursive: true, force: true });
   });
 

@@ -1,7 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
 
-export function findTsConfigPath(startDir = process.cwd()): string | null {
+export function findTsConfigPath(startDir = __dirname): string | null {
   let currentDir = startDir;
   const root = path.parse(currentDir).root;
 

@@ -12,15 +12,9 @@ describe('e2e test', () => {
   // to ensure that we have enough time to run the analysis.
   beforeAll(async () => {
     // Create temp directory for test files
-    tempDir = path.join(process.cwd(), 'src', '__tests__', 'test-files');
+    tempDir = path.join(__dirname, 'test-files');
     await fs.mkdir(tempDir, { recursive: true });
-    targetPath = path.join(
-      process.cwd(),
-      'src',
-      '__tests__',
-      'test-files',
-      'analysis.json'
-    );
+    targetPath = path.join(__dirname, 'test-files', 'analysis.json');
 
     await analyzeProjectStyles(tempDir, targetPath);
     await fs
