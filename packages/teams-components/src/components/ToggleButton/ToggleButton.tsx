@@ -47,7 +47,7 @@ export const ToggleButton = React.forwardRef<
 });
 
 const validateProps = (props: ToggleButtonProps) => {
-  validateStrictClasses(props.className);-
+  validateStrictClasses(props.className);
   validateIconButton(props);
   validateMenuButton(props);
 };
