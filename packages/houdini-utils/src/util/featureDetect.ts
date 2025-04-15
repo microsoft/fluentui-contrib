@@ -24,6 +24,14 @@ declare global {
 export type FeatureDetectFn = () => boolean;
 export type AsyncFeatureDetectFn = () => Promise<boolean>;
 
+export const hasDom: FeatureDetectFn = () => {
+  return (
+    // This will hold regardless of the specific `document` object
+    // eslint-disable-next-line no-restricted-globals
+    typeof document !== 'undefined'
+  );
+};
+
 /**
  * Test if the APIs neccessary for the Firefox fallback exist.
  *
@@ -32,7 +40,7 @@ export type AsyncFeatureDetectFn = () => Promise<boolean>;
 export const hasMozElement: FeatureDetectFn = () => {
   // This will hold regardless of the specific `document` object
   // eslint-disable-next-line no-restricted-globals
-  return typeof document?.mozSetImageElement === 'function';
+  return hasDom() && typeof document.mozSetImageElement === 'function';
 };
 
 /**
@@ -42,7 +50,7 @@ export const hasMozElement: FeatureDetectFn = () => {
 export const hasWebkitCanvas: FeatureDetectFn = () => {
   // This will hold regardless of the specific `document` object
   // eslint-disable-next-line no-restricted-globals
-  return typeof document?.getCSSCanvasContext === 'function';
+  return hasDom() && typeof document.getCSSCanvasContext === 'function';
 };
 
 /**
