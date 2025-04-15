@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {
   type ToggleButtonProps as ToggleButtonPropsBase,
-  type ButtonProps as ButtonPropsBase,
   useToggleButtonStyles_unstable,
   useToggleButton_unstable,
   renderToggleButton_unstable,
