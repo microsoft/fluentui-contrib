@@ -22,6 +22,13 @@ describe('ToggleButton', () => {
     ).not.toThrow();
   });
 
+  it('should not throw error for button if aria-pressed is provided', () => {
+    console.error = jest.fn();
+    expect(() =>
+      render(<ToggleButton checked aria-label="label" aria-pressed={true}>Test</ToggleButton>)
+    ).not.toThrow();
+  });
+
   it('should render title', () => {
     jest.useFakeTimers();
     const { getByRole } = render(

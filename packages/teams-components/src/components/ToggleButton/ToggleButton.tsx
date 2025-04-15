@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
   type ToggleButtonProps as ToggleButtonPropsBase,
+  type ButtonProps as ButtonPropsBase,
   useToggleButtonStyles_unstable,
   useToggleButton_unstable,
   renderToggleButton_unstable,
@@ -11,6 +12,7 @@ import { ButtonProps, validateIconButton, validateMenuButton } from '../Button';
 
 export interface ToggleButtonProps extends ButtonProps {
   checked: boolean;
+  'aria-pressed'?: boolean | 'false' | 'mixed' | 'true';
 }
 
 export const ToggleButton = React.forwardRef<
@@ -46,7 +48,7 @@ export const ToggleButton = React.forwardRef<
 });
 
 const validateProps = (props: ToggleButtonProps) => {
-  validateStrictClasses(props.className);
+  validateStrictClasses(props.className);-
   validateIconButton(props);
   validateMenuButton(props);
 };
