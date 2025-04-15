@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: add more robust feature detection",
+  "packageName": "@fluentui-contrib/houdini-utils",
+  "email": "seanmonahan@microsoft.com",
+  "dependentChangeType": "patch"
+}
