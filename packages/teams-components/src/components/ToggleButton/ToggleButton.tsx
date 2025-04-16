@@ -7,11 +7,12 @@ import {
   Tooltip,
 } from '@fluentui/react-components';
 import { validateStrictClasses } from '../../strictStyles';
+import { validateAriaPressed } from './validateProps';
 import { ButtonProps, validateIconButton, validateMenuButton } from '../Button';
 
 export interface ToggleButtonProps extends ButtonProps {
   checked: boolean;
-  'aria-pressed'?: boolean | 'false' | 'mixed' | 'true';
+  'aria-pressed'?: null | undefined;
 }
 
 export const ToggleButton = React.forwardRef<
@@ -48,6 +49,7 @@ export const ToggleButton = React.forwardRef<
 
 const validateProps = (props: ToggleButtonProps) => {
   validateStrictClasses(props.className);
+  validateAriaPressed(props);
   validateIconButton(props);
   validateMenuButton(props);
 };

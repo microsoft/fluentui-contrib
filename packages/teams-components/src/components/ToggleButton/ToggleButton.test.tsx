@@ -25,8 +25,23 @@ describe('ToggleButton', () => {
   it('should not throw error for button if aria-pressed is provided', () => {
     console.error = jest.fn();
     expect(() =>
-      render(<ToggleButton checked aria-label="label" aria-pressed={true}>Test</ToggleButton>)
+      render(
+        <ToggleButton checked aria-label="label" aria-pressed={undefined}>
+          Test
+        </ToggleButton>
+      )
     ).not.toThrow();
+  });
+
+  it('should throw error for button if aria-pressed is reset and no aria-label is provided', () => {
+    console.error = jest.fn();
+    expect(() =>
+      render(
+        <ToggleButton checked aria-pressed={undefined}>
+          Test
+        </ToggleButton>
+      )
+    ).toThrow();
   });
 
   it('should render title', () => {
