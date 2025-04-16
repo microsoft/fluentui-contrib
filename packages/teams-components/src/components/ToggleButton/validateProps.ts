@@ -1,5 +1,3 @@
-import { ToggleButtonProps } from '@fluentui-contrib/teams-components';
-
 export const validateAriaPressed = (props: {
   'aria-pressed'?: null | undefined;
   'aria-label'?: string;
