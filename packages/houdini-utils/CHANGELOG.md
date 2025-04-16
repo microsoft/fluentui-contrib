@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/houdini-utils
 
-This log was last generated on Thu, 10 Apr 2025 14:11:17 GMT and should not be manually modified.
+This log was last generated on Wed, 16 Apr 2025 16:21:21 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.3.4
+
+Wed, 16 Apr 2025 16:21:21 GMT
+
+### Patches
+
+- fix: add more robust feature detection (seanmonahan@microsoft.com)
 
 ## 0.3.3
 
