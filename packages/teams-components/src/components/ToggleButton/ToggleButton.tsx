@@ -12,7 +12,7 @@ import { ButtonProps, validateIconButton, validateMenuButton } from '../Button';
 
 export interface ToggleButtonProps extends ButtonProps {
   checked: boolean;
-  'aria-pressed'?: null | undefined;
+  'aria-pressed'?: undefined;
 }
 
 export const ToggleButton = React.forwardRef<
