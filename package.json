@@ -60,7 +60,7 @@
     "@storybook/jest": "^0.2.3",
     "@storybook/preview-api": "7.6.17",
     "@storybook/react-webpack5": "7.6.17",
-    "@storybook/test-runner": "0.14.0",
+    "@storybook/test-runner": "0.19.1",
     "@storybook/testing-library": "^0.2.2",
     "@stylistic/eslint-plugin": "3.1.0",
     "@swc-node/register": "1.9.2",
