@@ -23,6 +23,7 @@ import {
 } from './importAnalyzer.js';
 import { extractTokensFromCssVars } from './cssVarTokenExtractor.js';
 import {
+  addTokenToArray,
   extractTokensFromText,
   getPropertiesForShorthand,
   isTokenReference,
@@ -55,7 +56,7 @@ function processStyleProperty(
   importedValues: Map<string, ImportedValue> | undefined = undefined,
   isResetStyles?: boolean
 ): TokenReference[] {
-  const tokens: TokenReference[] = [];
+  let tokens: TokenReference[] = [];
   const parentName = Node.isPropertyAssignment(prop) ? prop.getName() : '';
 
   function processNode(node?: Node, path: string[] = []): void {
@@ -80,17 +81,20 @@ function processStyleProperty(
           path,
           TOKEN_REGEX
         );
-        tokens.push(...cssVarTokens);
+        tokens = addTokenToArray(cssVarTokens, tokens);
       } else {
         // Check for direct token references
         const matches = extractTokensFromText(node);
         if (matches.length > 0) {
           matches.forEach((match) => {
-            tokens.push({
-              property: path[path.length - 1] || parentName,
-              token: match,
-              path,
-            });
+            tokens = addTokenToArray(
+              {
+                property: path[path.length - 1] || parentName,
+                token: [match],
+                path,
+              },
+              tokens
+            );
           });
         }
       }
@@ -101,11 +105,14 @@ function processStyleProperty(
       const matches = extractTokensFromText(node);
       if (matches.length > 0) {
         matches.forEach((match) => {
-          tokens.push({
-            property: path[path.length - 1] || parentName,
-            token: match,
-            path,
-          });
+          tokens = addTokenToArray(
+            {
+              property: path[path.length - 1] || parentName,
+              token: [match],
+              path,
+            },
+            tokens
+          );
         });
       }
 
@@ -124,11 +131,14 @@ function processStyleProperty(
       const text = node.getText();
       const isToken = isTokenReference(text);
       if (isToken) {
-        tokens.push({
-          property: path[path.length - 1] || parentName,
-          token: text,
-          path,
-        });
+        tokens = addTokenToArray(
+          {
+            property: path[path.length - 1] || parentName,
+            token: [text],
+            path,
+          },
+          tokens
+        );
       }
     } else if (Node.isObjectLiteralExpression(node)) {
       node.getProperties().forEach((childProp) => {
@@ -203,11 +213,14 @@ function processStyleProperty(
       if (affectedProperties.length > 0) {
         // Process each argument and apply it to all affected properties
         affectedProperties.forEach((argument) => {
-          tokens.push({
-            property: argument.property,
-            token: argument.token,
-            path: path.concat(argument.property),
-          });
+          tokens = addTokenToArray(
+            {
+              property: argument.property,
+              token: [argument.token],
+              path: path.concat(argument.property),
+            },
+            tokens
+          );
         });
       } else {
         // Generic handling of functions that are not whitelisted

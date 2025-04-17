@@ -54,7 +54,8 @@ describe('e2e test', () => {
   const tokenTestFactory = (tokenArray: any) => {
     return (propertyName: string, expectedToken: string) => {
       const token = tokenArray.some(
-        (t: any) => t.property === propertyName && t.token === expectedToken
+        (t: any) =>
+          t.property === propertyName && t.token.includes(expectedToken)
       );
       expect(token).toBeTruthy();
     };

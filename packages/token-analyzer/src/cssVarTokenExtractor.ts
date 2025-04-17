@@ -1,7 +1,7 @@
 // cssVarTokenExtractor.ts
 import { log } from './debugUtils.js';
 import { TokenReference } from './types.js';
-import { extractTokensFromText } from './tokenUtils.js';
+import { addTokenToArray, extractTokensFromText } from './tokenUtils.js';
 
 /**
  * Extracts token references from CSS variable syntax including nested fallback chains
@@ -17,22 +17,25 @@ export function extractTokensFromCssVars(
   value: string,
   propertyName: string,
   path: string[] = [],
-  TOKEN_REGEX: RegExp,
+  TOKEN_REGEX: RegExp
 ): TokenReference[] {
-  const tokens: TokenReference[] = [];
+  let tokens: TokenReference[] = [];
 
   let testValue = value;
 
   // Direct token matches in the string
   const directMatches = extractTokensFromText(testValue);
   if (directMatches.length > 0) {
-    directMatches.forEach(match => {
+    directMatches.forEach((match) => {
       testValue = testValue.replace(match, ''); // Remove direct matches from the string
-      tokens.push({
-        property: propertyName,
-        token: match,
-        path,
-      });
+      tokens = addTokenToArray(
+        {
+          property: propertyName,
+          token: [match],
+          path,
+        },
+        tokens
+      );
     });
   }
 
@@ -55,12 +58,15 @@ export function extractTokensFromCssVars(
     // Check if the variable name contains a token reference
     const varNameTokens = extractTokensFromText(varName);
     if (varNameTokens.length > 0) {
-      varNameTokens.forEach(token => {
-        tokens.push({
-          property: propertyName,
-          token,
-          path,
-        });
+      varNameTokens.forEach((token) => {
+        tokens = addTokenToArray(
+          {
+            property: propertyName,
+            token: [token],
+            path,
+          },
+          tokens
+        );
       });
     }
 
@@ -68,18 +74,26 @@ export function extractTokensFromCssVars(
     if (fallback) {
       // Recursively process the fallback
       if (fallback.includes('var(')) {
-        const fallbackTokens = extractTokensFromCssVars(fallback, propertyName, path, TOKEN_REGEX);
+        const fallbackTokens = extractTokensFromCssVars(
+          fallback,
+          propertyName,
+          path,
+          TOKEN_REGEX
+        );
         tokens.push(...fallbackTokens);
       } else {
         // Check for direct token references in the fallback
         const fallbackTokens = extractTokensFromText(fallback);
         if (fallbackTokens.length > 0) {
-          fallbackTokens.forEach(token => {
-            tokens.push({
-              property: propertyName,
-              token,
-              path,
-            });
+          fallbackTokens.forEach((token) => {
+            tokens = addTokenToArray(
+              {
+                property: propertyName,
+                token: [token],
+                path,
+              },
+              tokens
+            );
           });
         }
       }

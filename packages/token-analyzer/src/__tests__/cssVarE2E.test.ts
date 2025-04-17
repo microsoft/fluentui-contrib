@@ -104,7 +104,7 @@ describe('CSS Variable Token Extraction E2E', () => {
     expect(useStyles.direct.tokens).toContainEqual(
       expect.objectContaining({
         property: 'color',
-        token: 'tokens.colorNeutralForeground1',
+        token: ['tokens.colorNeutralForeground1'],
       })
     );
 
@@ -113,7 +113,7 @@ describe('CSS Variable Token Extraction E2E', () => {
     expect(useStyles.cssVar.tokens).toContainEqual(
       expect.objectContaining({
         property: 'color',
-        token: 'tokens.colorBrandForeground4',
+        token: ['tokens.colorBrandForeground4'],
       })
     );
 
@@ -122,7 +122,7 @@ describe('CSS Variable Token Extraction E2E', () => {
     expect(useStyles.importedToken.tokens).toContainEqual(
       expect.objectContaining({
         property: 'color',
-        token: 'tokens.colorBrandForeground6',
+        token: ['tokens.colorBrandForeground6'],
         isVariableReference: true,
       })
     );
@@ -132,7 +132,7 @@ describe('CSS Variable Token Extraction E2E', () => {
     expect(useStyles.importedCssVar.tokens).toContainEqual(
       expect.objectContaining({
         property: 'color',
-        token: 'tokens.colorBrandForeground3',
+        token: ['tokens.colorBrandForeground3'],
         isVariableReference: true,
       })
     );
@@ -142,7 +142,7 @@ describe('CSS Variable Token Extraction E2E', () => {
     expect(useStyles.nestedCssVar.tokens).toContainEqual(
       expect.objectContaining({
         property: 'background',
-        token: 'tokens.colorBrandForeground2',
+        token: ['tokens.colorBrandForeground2'],
       })
     );
 
@@ -151,7 +151,7 @@ describe('CSS Variable Token Extraction E2E', () => {
     expect(useStyles.importedNestedVar.tokens).toContainEqual(
       expect.objectContaining({
         property: 'color',
-        token: 'tokens.colorNeutralForeground3',
+        token: ['tokens.colorNeutralForeground3'],
         isVariableReference: true,
       })
     );
@@ -161,11 +161,11 @@ describe('CSS Variable Token Extraction E2E', () => {
     expect(useStyles.importedComplexVar.tokens).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          token: 'tokens.colorBrandBackground',
+          token: ['tokens.colorBrandBackground'],
           isVariableReference: true,
         }),
         expect.objectContaining({
-          token: 'tokens.colorNeutralBackground1',
+          token: ['tokens.colorNeutralBackground1'],
           isVariableReference: true,
         }),
       ])
@@ -280,30 +280,30 @@ describe('CSS Variable Cross-Module Resolution E2E', () => {
         // Direct import of token
         expect.objectContaining({
           property: 'color',
-          token: 'tokens.colorBrandPrimary',
+          token: ['tokens.colorBrandPrimary'],
           isVariableReference: true,
         }),
         // Import of CSS var with token
         expect.objectContaining({
           property: 'backgroundColor',
-          token: 'tokens.colorBrandPrimary',
+          token: ['tokens.colorBrandPrimary'],
           isVariableReference: true,
         }),
         // Import of nested CSS var with token
         expect.objectContaining({
           property: 'border',
-          token: 'tokens.colorBrandSecondary',
+          token: ['tokens.colorBrandSecondary'],
           isVariableReference: true,
         }),
         // Multiple tokens from a complex var
         expect.objectContaining({
           property: 'padding',
-          token: 'tokens.colorBrandPrimary',
+          token: ['tokens.colorBrandPrimary'],
           isVariableReference: true,
         }),
         expect.objectContaining({
           property: 'padding',
-          token: 'tokens.colorBrandSecondary',
+          token: ['tokens.colorBrandSecondary'],
           isVariableReference: true,
         }),
       ])

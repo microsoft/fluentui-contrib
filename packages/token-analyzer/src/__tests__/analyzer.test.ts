@@ -42,13 +42,13 @@ describe('Token Analyzer', () => {
     expect(styles.useStyles.root.tokens).toContainEqual(
       expect.objectContaining({
         property: 'color',
-        token: 'tokens.colorNeutralForeground1',
+        token: ['tokens.colorNeutralForeground1'],
       })
     );
     expect(styles.useStyles.root.tokens).toContainEqual(
       expect.objectContaining({
         property: 'borderRightColor',
-        token: 'tokens.colorNeutralStrokeDisabled',
+        token: ['tokens.colorNeutralStrokeDisabled'],
       })
     );
 
@@ -56,7 +56,7 @@ describe('Token Analyzer', () => {
     expect(styles.useStyles.anotherSlot.tokens).toContainEqual(
       expect.objectContaining({
         property: 'color',
-        token: 'tokens.colorNeutralForeground2',
+        token: ['tokens.colorNeutralForeground2'],
       })
     );
 
@@ -67,7 +67,7 @@ describe('Token Analyzer', () => {
     expect(focusStyle?.tokens[0]).toEqual({
       path: [':focus', 'textDecorationColor'],
       property: 'textDecorationColor',
-      token: 'tokens.colorStrokeFocus2',
+      token: ['tokens.colorStrokeFocus2'],
     });
 
     // Verify metadata for conditional styles

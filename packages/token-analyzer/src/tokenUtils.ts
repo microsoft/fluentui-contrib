@@ -168,13 +168,12 @@ export const addTokenToArray = (
   const newArray = target.slice();
 
   // add items to the array
-  // We should probably search the tokens array for matches or duplicates and then determine if we need to add them or update existing entries.
-  // TODO we also need to update the token member within the TokenRefernece object to be an array.
   if (Array.isArray(tokensToAdd)) {
-    target.push(...tokensToAdd);
+    newArray.push(...tokensToAdd);
   } else {
-    target.push(tokensToAdd);
+    newArray.push(tokensToAdd);
   }
-  return target;
-  // return arrayy without modifying the original array
+
+  // return array without modifying the original array
+  return newArray;
 };

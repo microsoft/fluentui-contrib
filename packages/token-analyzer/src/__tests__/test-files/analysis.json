@@ -6,62 +6,62 @@
           "tokens": [
             {
               "property": "backgroundColor",
-              "token": "tokens.colorNeutralBackground1",
+              "token": ["tokens.colorNeutralBackground1"],
               "path": ["backgroundColor"]
             },
             {
               "property": "color",
-              "token": "tokens.colorNeutralForeground1",
+              "token": ["tokens.colorNeutralForeground1"],
               "path": ["color"]
             },
             {
               "property": "border",
-              "token": "tokens.strokeWidthThin",
+              "token": ["tokens.strokeWidthThin"],
               "path": ["border"]
             },
             {
               "property": "border",
-              "token": "tokens.colorNeutralStroke1",
+              "token": ["tokens.colorNeutralStroke1"],
               "path": ["border"]
             },
             {
               "property": "fontFamily",
-              "token": "tokens.fontFamilyBase",
+              "token": ["tokens.fontFamilyBase"],
               "path": ["fontFamily"]
             },
             {
               "property": "padding",
-              "token": "tokens.spacingHorizontalM",
+              "token": ["tokens.spacingHorizontalM"],
               "path": ["padding"]
             },
             {
               "property": "borderRadius",
-              "token": "tokens.borderRadiusMedium",
+              "token": ["tokens.borderRadiusMedium"],
               "path": ["borderRadius"]
             },
             {
               "property": "fontSize",
-              "token": "tokens.fontSizeBase300",
+              "token": ["tokens.fontSizeBase300"],
               "path": ["fontSize"]
             },
             {
               "property": "fontWeight",
-              "token": "tokens.fontWeightSemibold",
+              "token": ["tokens.fontWeightSemibold"],
               "path": ["fontWeight"]
             },
             {
               "property": "lineHeight",
-              "token": "tokens.lineHeightBase300",
+              "token": ["tokens.lineHeightBase300"],
               "path": ["lineHeight"]
             },
             {
               "property": "transitionDuration",
-              "token": "tokens.durationFaster",
+              "token": ["tokens.durationFaster"],
               "path": ["transitionDuration"]
             },
             {
               "property": "transitionTimingFunction",
-              "token": "tokens.curveEasyEase",
+              "token": ["tokens.curveEasyEase"],
               "path": ["transitionTimingFunction"]
             }
           ],
@@ -70,17 +70,17 @@
               "tokens": [
                 {
                   "property": "backgroundColor",
-                  "token": "tokens.colorNeutralBackground1Hover",
+                  "token": ["tokens.colorNeutralBackground1Hover"],
                   "path": ["':hover'", "backgroundColor"]
                 },
                 {
                   "property": "borderColor",
-                  "token": "tokens.colorNeutralStroke1Hover",
+                  "token": ["tokens.colorNeutralStroke1Hover"],
                   "path": ["':hover'", "borderColor"]
                 },
                 {
                   "property": "color",
-                  "token": "tokens.colorNeutralForeground1Hover",
+                  "token": ["tokens.colorNeutralForeground1Hover"],
                   "path": ["':hover'", "color"]
                 }
               ]
@@ -89,17 +89,17 @@
               "tokens": [
                 {
                   "property": "backgroundColor",
-                  "token": "tokens.colorNeutralBackground1Pressed",
+                  "token": ["tokens.colorNeutralBackground1Pressed"],
                   "path": ["':hover:active'", "backgroundColor"]
                 },
                 {
                   "property": "borderColor",
-                  "token": "tokens.colorNeutralStroke1Pressed",
+                  "token": ["tokens.colorNeutralStroke1Pressed"],
                   "path": ["':hover:active'", "borderColor"]
                 },
                 {
                   "property": "color",
-                  "token": "tokens.colorNeutralForeground1Pressed",
+                  "token": ["tokens.colorNeutralForeground1Pressed"],
                   "path": ["':hover:active'", "color"]
                 }
               ]
@@ -108,32 +108,32 @@
               "tokens": [
                 {
                   "property": "borderColor",
-                  "token": "tokens.colorStrokeFocus2",
+                  "token": ["tokens.colorStrokeFocus2"],
                   "path": [":focus", "borderColor"]
                 },
                 {
                   "property": "borderRadius",
-                  "token": "tokens.borderRadiusMedium",
+                  "token": ["tokens.borderRadiusMedium"],
                   "path": [":focus", "borderRadius"]
                 },
                 {
                   "property": "outline",
-                  "token": "tokens.strokeWidthThick",
+                  "token": ["tokens.strokeWidthThick"],
                   "path": [":focus", "outline"]
                 },
                 {
                   "property": "outline",
-                  "token": "tokens.colorTransparentStroke",
+                  "token": ["tokens.colorTransparentStroke"],
                   "path": [":focus", "outline"]
                 },
                 {
                   "property": "boxShadow",
-                  "token": "tokens.strokeWidthThin",
+                  "token": ["tokens.strokeWidthThin"],
                   "path": [":focus", "boxShadow"]
                 },
                 {
                   "property": "boxShadow",
-                  "token": "tokens.colorStrokeFocus2",
+                  "token": ["tokens.colorStrokeFocus2"],
                   "path": [":focus", "boxShadow"]
                 }
               ]
@@ -145,12 +145,12 @@
                   "tokens": [
                     {
                       "property": "boxShadow",
-                      "token": "tokens.strokeWidthThin",
+                      "token": ["tokens.strokeWidthThin"],
                       "path": ["'@supports (-moz-appearance:button)'", ":focus", "boxShadow"]
                     },
                     {
                       "property": "boxShadow",
-                      "token": "tokens.colorStrokeFocus2",
+                      "token": ["tokens.colorStrokeFocus2"],
                       "path": ["'@supports (-moz-appearance:button)'", ":focus", "boxShadow"]
                     }
                   ]
@@ -167,7 +167,7 @@
           "tokens": [
             {
               "property": "[iconSpacingVar]",
-              "token": "tokens.spacingHorizontalSNudge",
+              "token": ["tokens.spacingHorizontalSNudge"],
               "path": ["[iconSpacingVar]"]
             }
           ],
@@ -181,7 +181,7 @@
           "tokens": [
             {
               "property": "backgroundColor",
-              "token": "tokens.colorTransparentBackground",
+              "token": ["tokens.colorTransparentBackground"],
               "path": ["backgroundColor"]
             }
           ],
@@ -190,7 +190,7 @@
               "tokens": [
                 {
                   "property": "backgroundColor",
-                  "token": "tokens.colorTransparentBackgroundHover",
+                  "token": ["tokens.colorTransparentBackgroundHover"],
                   "path": ["':hover'", "backgroundColor"]
                 }
               ]
@@ -199,7 +199,7 @@
               "tokens": [
                 {
                   "property": "backgroundColor",
-                  "token": "tokens.colorTransparentBackgroundPressed",
+                  "token": ["tokens.colorTransparentBackgroundPressed"],
                   "path": ["':hover:active'", "backgroundColor"]
                 }
               ]
@@ -211,12 +211,12 @@
           "tokens": [
             {
               "property": "backgroundColor",
-              "token": "tokens.colorBrandBackground",
+              "token": ["tokens.colorBrandBackground"],
               "path": ["backgroundColor"]
             },
             {
               "property": "color",
-              "token": "tokens.colorNeutralForegroundOnBrand",
+              "token": ["tokens.colorNeutralForegroundOnBrand"],
               "path": ["color"]
             }
           ],
@@ -225,12 +225,12 @@
               "tokens": [
                 {
                   "property": "backgroundColor",
-                  "token": "tokens.colorBrandBackgroundHover",
+                  "token": ["tokens.colorBrandBackgroundHover"],
                   "path": ["':hover'", "backgroundColor"]
                 },
                 {
                   "property": "color",
-                  "token": "tokens.colorNeutralForegroundOnBrand",
+                  "token": ["tokens.colorNeutralForegroundOnBrand"],
                   "path": ["':hover'", "color"]
                 }
               ]
@@ -239,12 +239,12 @@
               "tokens": [
                 {
                   "property": "backgroundColor",
-                  "token": "tokens.colorBrandBackgroundPressed",
+                  "token": ["tokens.colorBrandBackgroundPressed"],
                   "path": ["':hover:active'", "backgroundColor"]
                 },
                 {
                   "property": "color",
-                  "token": "tokens.colorNeutralForegroundOnBrand",
+                  "token": ["tokens.colorNeutralForegroundOnBrand"],
                   "path": ["':hover:active'", "color"]
                 }
               ]
@@ -256,12 +256,12 @@
           "tokens": [
             {
               "property": "backgroundColor",
-              "token": "tokens.colorSubtleBackground",
+              "token": ["tokens.colorSubtleBackground"],
               "path": ["backgroundColor"]
             },
             {
               "property": "color",
-              "token": "tokens.colorNeutralForeground2",
+              "token": ["tokens.colorNeutralForeground2"],
               "path": ["color"]
             }
           ],
@@ -270,12 +270,12 @@
               "tokens": [
                 {
                   "property": "backgroundColor",
-                  "token": "tokens.colorSubtleBackgroundHover",
+                  "token": ["tokens.colorSubtleBackgroundHover"],
                   "path": ["':hover'", "backgroundColor"]
                 },
                 {
                   "property": "color",
-                  "token": "tokens.colorNeutralForeground2Hover",
+                  "token": ["tokens.colorNeutralForeground2Hover"],
                   "path": ["':hover'", "color"]
                 }
               ],
@@ -284,7 +284,7 @@
                   "tokens": [
                     {
                       "property": "color",
-                      "token": "tokens.colorNeutralForeground2BrandHover",
+                      "token": ["tokens.colorNeutralForeground2BrandHover"],
                       "path": ["':hover'", "[`& .${buttonClassNames.icon}`]", "color"]
                     }
                   ]
@@ -295,12 +295,12 @@
               "tokens": [
                 {
                   "property": "backgroundColor",
-                  "token": "tokens.colorSubtleBackgroundPressed",
+                  "token": ["tokens.colorSubtleBackgroundPressed"],
                   "path": ["':hover:active'", "backgroundColor"]
                 },
                 {
                   "property": "color",
-                  "token": "tokens.colorNeutralForeground2Pressed",
+                  "token": ["tokens.colorNeutralForeground2Pressed"],
                   "path": ["':hover:active'", "color"]
                 }
               ],
@@ -309,7 +309,7 @@
                   "tokens": [
                     {
                       "property": "color",
-                      "token": "tokens.colorNeutralForeground2BrandPressed",
+                      "token": ["tokens.colorNeutralForeground2BrandPressed"],
                       "path": ["':hover:active'", "[`& .${buttonClassNames.icon}`]", "color"]
                     }
                   ]
@@ -323,12 +323,12 @@
           "tokens": [
             {
               "property": "backgroundColor",
-              "token": "tokens.colorTransparentBackground",
+              "token": ["tokens.colorTransparentBackground"],
               "path": ["backgroundColor"]
             },
             {
               "property": "color",
-              "token": "tokens.colorNeutralForeground2",
+              "token": ["tokens.colorNeutralForeground2"],
               "path": ["color"]
             }
           ],
@@ -337,12 +337,12 @@
               "tokens": [
                 {
                   "property": "backgroundColor",
-                  "token": "tokens.colorTransparentBackgroundHover",
+                  "token": ["tokens.colorTransparentBackgroundHover"],
                   "path": ["':hover'", "backgroundColor"]
                 },
                 {
                   "property": "color",
-                  "token": "tokens.colorNeutralForeground2BrandHover",
+                  "token": ["tokens.colorNeutralForeground2BrandHover"],
                   "path": ["':hover'", "color"]
                 }
               ]
@@ -351,12 +351,12 @@
               "tokens": [
                 {
                   "property": "backgroundColor",
-                  "token": "tokens.colorTransparentBackgroundPressed",
+                  "token": ["tokens.colorTransparentBackgroundPressed"],
                   "path": ["':hover:active'", "backgroundColor"]
                 },
                 {
                   "property": "color",
-                  "token": "tokens.colorNeutralForeground2BrandPressed",
+                  "token": ["tokens.colorNeutralForeground2BrandPressed"],
                   "path": ["':hover:active'", "color"]
                 }
               ]
@@ -368,7 +368,7 @@
                   "tokens": [
                     {
                       "property": "backgroundColor",
-                      "token": "tokens.colorTransparentBackground",
+                      "token": ["tokens.colorTransparentBackground"],
                       "path": ["'@media (forced-colors: active)'", "':hover'", "backgroundColor"]
                     }
                   ]
@@ -377,7 +377,7 @@
                   "tokens": [
                     {
                       "property": "backgroundColor",
-                      "token": "tokens.colorTransparentBackground",
+                      "token": ["tokens.colorTransparentBackground"],
                       "path": ["'@media (forced-colors: active)'", "':hover:active'", "backgroundColor"]
                     }
                   ]
@@ -391,7 +391,7 @@
           "tokens": [
             {
               "property": "borderRadius",
-              "token": "tokens.borderRadiusCircular",
+              "token": ["tokens.borderRadiusCircular"],
               "path": ["borderRadius"]
             }
           ],
@@ -401,7 +401,7 @@
           "tokens": [
             {
               "property": "borderRadius",
-              "token": "tokens.borderRadiusNone",
+              "token": ["tokens.borderRadiusNone"],
               "path": ["borderRadius"]
             }
           ],
@@ -411,27 +411,27 @@
           "tokens": [
             {
               "property": "padding",
-              "token": "tokens.spacingHorizontalS",
+              "token": ["tokens.spacingHorizontalS"],
               "path": ["padding"]
             },
             {
               "property": "borderRadius",
-              "token": "tokens.borderRadiusMedium",
+              "token": ["tokens.borderRadiusMedium"],
               "path": ["borderRadius"]
             },
             {
               "property": "fontSize",
-              "token": "tokens.fontSizeBase200",
+              "token": ["tokens.fontSizeBase200"],
               "path": ["fontSize"]
             },
             {
               "property": "fontWeight",
-              "token": "tokens.fontWeightRegular",
+              "token": ["tokens.fontWeightRegular"],
               "path": ["fontWeight"]
             },
             {
               "property": "lineHeight",
-              "token": "tokens.lineHeightBase200",
+              "token": ["tokens.lineHeightBase200"],
               "path": ["lineHeight"]
             }
           ],
@@ -441,27 +441,27 @@
           "tokens": [
             {
               "property": "padding",
-              "token": "tokens.spacingHorizontalL",
+              "token": ["tokens.spacingHorizontalL"],
               "path": ["padding"]
             },
             {
               "property": "borderRadius",
-              "token": "tokens.borderRadiusMedium",
+              "token": ["tokens.borderRadiusMedium"],
               "path": ["borderRadius"]
             },
             {
               "property": "fontSize",
-              "token": "tokens.fontSizeBase400",
+              "token": ["tokens.fontSizeBase400"],
               "path": ["fontSize"]
             },
             {
               "property": "fontWeight",
-              "token": "tokens.fontWeightSemibold",
+              "token": ["tokens.fontWeightSemibold"],
               "path": ["fontWeight"]
             },
             {
               "property": "lineHeight",
-              "token": "tokens.lineHeightBase400",
+              "token": ["tokens.lineHeightBase400"],
               "path": ["lineHeight"]
             }
           ],
@@ -473,32 +473,32 @@
           "tokens": [
             {
               "property": "backgroundColor",
-              "token": "tokens.colorNeutralBackgroundDisabled",
+              "token": ["tokens.colorNeutralBackgroundDisabled"],
               "path": ["backgroundColor"]
             },
             {
               "property": "borderTopColor",
-              "token": "tokens.colorNeutralStrokeDisabled",
+              "token": ["tokens.colorNeutralStrokeDisabled"],
               "path": ["borderTopColor"]
             },
             {
               "property": "borderRightColor",
-              "token": "tokens.colorNeutralStrokeDisabled",
+              "token": ["tokens.colorNeutralStrokeDisabled"],
               "path": ["borderRightColor"]
             },
             {
               "property": "borderBottomColor",
-              "token": "tokens.colorNeutralStrokeDisabled",
+              "token": ["tokens.colorNeutralStrokeDisabled"],
               "path": ["borderBottomColor"]
             },
             {
               "property": "borderLeftColor",
-              "token": "tokens.colorNeutralStrokeDisabled",
+              "token": ["tokens.colorNeutralStrokeDisabled"],
               "path": ["borderLeftColor"]
             },
             {
               "property": "color",
-              "token": "tokens.colorNeutralForegroundDisabled",
+              "token": ["tokens.colorNeutralForegroundDisabled"],
               "path": ["color"]
             }
           ],
@@ -507,7 +507,7 @@
               "tokens": [
                 {
                   "property": "color",
-                  "token": "tokens.colorNeutralForegroundDisabled",
+                  "token": ["tokens.colorNeutralForegroundDisabled"],
                   "path": ["[`& .${buttonClassNames.icon}`]", "color"]
                 }
               ]
@@ -516,32 +516,32 @@
               "tokens": [
                 {
                   "property": "backgroundColor",
-                  "token": "tokens.colorNeutralBackgroundDisabled",
+                  "token": ["tokens.colorNeutralBackgroundDisabled"],
                   "path": ["':hover'", "backgroundColor"]
                 },
                 {
                   "property": "borderTopColor",
-                  "token": "tokens.colorNeutralStrokeDisabled",
+                  "token": ["tokens.colorNeutralStrokeDisabled"],
                   "path": ["':hover'", "borderTopColor"]
                 },
                 {
                   "property": "borderRightColor",
-                  "token": "tokens.colorNeutralStrokeDisabled",
+                  "token": ["tokens.colorNeutralStrokeDisabled"],
                   "path": ["':hover'", "borderRightColor"]
                 },
                 {
                   "property": "borderBottomColor",
-                  "token": "tokens.colorNeutralStrokeDisabled",
+                  "token": ["tokens.colorNeutralStrokeDisabled"],
                   "path": ["':hover'", "borderBottomColor"]
                 },
                 {
                   "property": "borderLeftColor",
-                  "token": "tokens.colorNeutralStrokeDisabled",
+                  "token": ["tokens.colorNeutralStrokeDisabled"],
                   "path": ["':hover'", "borderLeftColor"]
                 },
                 {
                   "property": "color",
-                  "token": "tokens.colorNeutralForegroundDisabled",
+                  "token": ["tokens.colorNeutralForegroundDisabled"],
                   "path": ["':hover'", "color"]
                 }
               ],
@@ -550,7 +550,7 @@
                   "tokens": [
                     {
                       "property": "color",
-                      "token": "tokens.colorNeutralForegroundDisabled",
+                      "token": ["tokens.colorNeutralForegroundDisabled"],
                       "path": ["':hover'", "[`& .${buttonClassNames.icon}`]", "color"]
                     }
                   ]
@@ -561,32 +561,32 @@
               "tokens": [
                 {
                   "property": "backgroundColor",
-                  "token": "tokens.colorNeutralBackgroundDisabled",
+                  "token": ["tokens.colorNeutralBackgroundDisabled"],
                   "path": ["':hover:active'", "backgroundColor"]
                 },
                 {
                   "property": "borderTopColor",
-                  "token": "tokens.colorNeutralStrokeDisabled",
+                  "token": ["tokens.colorNeutralStrokeDisabled"],
                   "path": ["':hover:active'", "borderTopColor"]
                 },
                 {
                   "property": "borderRightColor",
-                  "token": "tokens.colorNeutralStrokeDisabled",
+                  "token": ["tokens.colorNeutralStrokeDisabled"],
                   "path": ["':hover:active'", "borderRightColor"]
                 },
                 {
                   "property": "borderBottomColor",
-                  "token": "tokens.colorNeutralStrokeDisabled",
+                  "token": ["tokens.colorNeutralStrokeDisabled"],
                   "path": ["':hover:active'", "borderBottomColor"]
                 },
                 {
                   "property": "borderLeftColor",
-                  "token": "tokens.colorNeutralStrokeDisabled",
+                  "token": ["tokens.colorNeutralStrokeDisabled"],
                   "path": ["':hover:active'", "borderLeftColor"]
                 },
                 {
                   "property": "color",
-                  "token": "tokens.colorNeutralForegroundDisabled",
+                  "token": ["tokens.colorNeutralForegroundDisabled"],
                   "path": ["':hover:active'", "color"]
                 }
               ],
@@ -595,7 +595,7 @@
                   "tokens": [
                     {
                       "property": "color",
-                      "token": "tokens.colorNeutralForegroundDisabled",
+                      "token": ["tokens.colorNeutralForegroundDisabled"],
                       "path": ["':hover:active'", "[`& .${buttonClassNames.icon}`]", "color"]
                     }
                   ]
@@ -609,7 +609,7 @@
           "tokens": [
             {
               "property": "backgroundColor",
-              "token": "tokens.colorTransparentBackground",
+              "token": ["tokens.colorTransparentBackground"],
               "path": ["backgroundColor"]
             }
           ],
@@ -618,7 +618,7 @@
               "tokens": [
                 {
                   "property": "backgroundColor",
-                  "token": "tokens.colorTransparentBackground",
+                  "token": ["tokens.colorTransparentBackground"],
                   "path": ["':hover'", "backgroundColor"]
                 }
               ]
@@ -627,7 +627,7 @@
               "tokens": [
                 {
                   "property": "backgroundColor",
-                  "token": "tokens.colorTransparentBackground",
+                  "token": ["tokens.colorTransparentBackground"],
                   "path": ["':hover:active'", "backgroundColor"]
                 }
               ]
@@ -639,7 +639,7 @@
           "tokens": [
             {
               "property": "backgroundColor",
-              "token": "tokens.colorTransparentBackground",
+              "token": ["tokens.colorTransparentBackground"],
               "path": ["backgroundColor"]
             }
           ],
@@ -648,7 +648,7 @@
               "tokens": [
                 {
                   "property": "backgroundColor",
-                  "token": "tokens.colorTransparentBackground",
+                  "token": ["tokens.colorTransparentBackground"],
                   "path": ["':hover'", "backgroundColor"]
                 }
               ]
@@ -657,7 +657,7 @@
               "tokens": [
                 {
                   "property": "backgroundColor",
-                  "token": "tokens.colorTransparentBackground",
+                  "token": ["tokens.colorTransparentBackground"],
                   "path": ["':hover:active'", "backgroundColor"]
                 }
               ]
@@ -669,7 +669,7 @@
           "tokens": [
             {
               "property": "backgroundColor",
-              "token": "tokens.colorTransparentBackground",
+              "token": ["tokens.colorTransparentBackground"],
               "path": ["backgroundColor"]
             }
           ],
@@ -678,7 +678,7 @@
               "tokens": [
                 {
                   "property": "backgroundColor",
-                  "token": "tokens.colorTransparentBackground",
+                  "token": ["tokens.colorTransparentBackground"],
                   "path": ["':hover'", "backgroundColor"]
                 }
               ]
@@ -687,7 +687,7 @@
               "tokens": [
                 {
                   "property": "backgroundColor",
-                  "token": "tokens.colorTransparentBackground",
+                  "token": ["tokens.colorTransparentBackground"],
                   "path": ["':hover:active'", "backgroundColor"]
                 }
               ]
@@ -704,7 +704,7 @@
               "tokens": [
                 {
                   "property": "borderRadius",
-                  "token": "tokens.borderRadiusCircular",
+                  "token": ["tokens.borderRadiusCircular"],
                   "path": [":focus", "borderRadius"]
                 }
               ]
@@ -719,7 +719,7 @@
               "tokens": [
                 {
                   "property": "borderRadius",
-                  "token": "tokens.borderRadiusNone",
+                  "token": ["tokens.borderRadiusNone"],
                   "path": [":focus", "borderRadius"]
                 }
               ]
@@ -734,47 +734,47 @@
               "tokens": [
                 {
                   "property": "borderTopColor",
-                  "token": "tokens.colorStrokeFocus2",
+                  "token": ["tokens.colorStrokeFocus2"],
                   "path": [":focus", "borderTopColor"]
                 },
                 {
                   "property": "borderRightColor",
-                  "token": "tokens.colorStrokeFocus1",
+                  "token": ["tokens.colorStrokeFocus1"],
                   "path": [":focus", "borderRightColor"]
                 },
                 {
                   "property": "borderBottomColor",
-                  "token": "tokens.borderRadiusCircular",
+                  "token": ["tokens.borderRadiusCircular"],
                   "path": [":focus", "borderBottomColor"]
                 },
                 {
                   "property": "borderLeftColor",
-                  "token": "tokens.colorStrokeFocus1",
+                  "token": ["tokens.colorStrokeFocus1"],
                   "path": [":focus", "borderLeftColor"]
                 },
                 {
                   "property": "boxShadow",
-                  "token": "tokens.shadow2",
+                  "token": ["tokens.shadow2"],
                   "path": [":focus", "boxShadow"]
                 },
                 {
                   "property": "boxShadow",
-                  "token": "tokens.strokeWidthThin",
+                  "token": ["tokens.strokeWidthThin"],
                   "path": [":focus", "boxShadow"]
                 },
                 {
                   "property": "boxShadow",
-                  "token": "tokens.colorStrokeFocus2",
+                  "token": ["tokens.colorStrokeFocus2"],
                   "path": [":focus", "boxShadow"]
                 },
                 {
                   "property": "boxShadow",
-                  "token": "tokens.strokeWidthThick",
+                  "token": ["tokens.strokeWidthThick"],
                   "path": [":focus", "boxShadow"]
                 },
                 {
                   "property": "boxShadow",
-                  "token": "tokens.colorNeutralForegroundOnBrand",
+                  "token": ["tokens.colorNeutralForegroundOnBrand"],
                   "path": [":focus", "boxShadow"]
                 }
               ],
@@ -783,37 +783,37 @@
                   "tokens": [
                     {
                       "property": "boxShadow",
-                      "token": "tokens.shadow2",
+                      "token": ["tokens.shadow2"],
                       "path": [":focus", "':hover'", "boxShadow"]
                     },
                     {
                       "property": "boxShadow",
-                      "token": "tokens.strokeWidthThin",
+                      "token": ["tokens.strokeWidthThin"],
                       "path": [":focus", "':hover'", "boxShadow"]
                     },
                     {
                       "property": "boxShadow",
-                      "token": "tokens.colorStrokeFocus2",
+                      "token": ["tokens.colorStrokeFocus2"],
                       "path": [":focus", "':hover'", "boxShadow"]
                     },
                     {
                       "property": "borderTopColor",
-                      "token": "tokens.colorStrokeFocus2",
+                      "token": ["tokens.colorStrokeFocus2"],
                       "path": [":focus", "':hover'", "borderTopColor"]
                     },
                     {
                       "property": "borderRightColor",
-                      "token": "tokens.colorStrokeFocus2",
+                      "token": ["tokens.colorStrokeFocus2"],
                       "path": [":focus", "':hover'", "borderRightColor"]
                     },
                     {
                       "property": "borderBottomColor",
-                      "token": "tokens.colorStrokeFocus2",
+                      "token": ["tokens.colorStrokeFocus2"],
                       "path": [":focus", "':hover'", "borderBottomColor"]
                     },
                     {
                       "property": "borderLeftColor",
-                      "token": "tokens.colorStrokeFocus2",
+                      "token": ["tokens.colorStrokeFocus2"],
                       "path": [":focus", "':hover'", "borderLeftColor"]
                     }
                   ]
@@ -827,27 +827,27 @@
                   "tokens": [
                     {
                       "property": "boxShadow",
-                      "token": "tokens.shadow2",
+                      "token": ["tokens.shadow2"],
                       "path": ["'@supports (-moz-appearance:button)'", ":focus", "boxShadow"]
                     },
                     {
                       "property": "boxShadow",
-                      "token": "tokens.strokeWidthThin",
+                      "token": ["tokens.strokeWidthThin"],
                       "path": ["'@supports (-moz-appearance:button)'", ":focus", "boxShadow"]
                     },
                     {
                       "property": "boxShadow",
-                      "token": "tokens.colorStrokeFocus2",
+                      "token": ["tokens.colorStrokeFocus2"],
                       "path": ["'@supports (-moz-appearance:button)'", ":focus", "boxShadow"]
                     },
                     {
                       "property": "boxShadow",
-                      "token": "tokens.strokeWidthThick",
+                      "token": ["tokens.strokeWidthThick"],
                       "path": ["'@supports (-moz-appearance:button)'", ":focus", "boxShadow"]
                     },
                     {
                       "property": "boxShadow",
-                      "token": "tokens.colorNeutralForegroundOnBrand",
+                      "token": ["tokens.colorNeutralForegroundOnBrand"],
                       "path": ["'@supports (-moz-appearance:button)'", ":focus", "boxShadow"]
                     }
                   ],
@@ -856,17 +856,17 @@
                       "tokens": [
                         {
                           "property": "boxShadow",
-                          "token": "tokens.shadow2",
+                          "token": ["tokens.shadow2"],
                           "path": ["'@supports (-moz-appearance:button)'", ":focus", "':hover'", "boxShadow"]
                         },
                         {
                           "property": "boxShadow",
-                          "token": "tokens.strokeWidthThin",
+                          "token": ["tokens.strokeWidthThin"],
                           "path": ["'@supports (-moz-appearance:button)'", ":focus", "':hover'", "boxShadow"]
                         },
                         {
                           "property": "boxShadow",
-                          "token": "tokens.colorStrokeFocus2",
+                          "token": ["tokens.colorStrokeFocus2"],
                           "path": ["'@supports (-moz-appearance:button)'", ":focus", "':hover'", "boxShadow"]
                         }
                       ]
@@ -885,7 +885,7 @@
               "tokens": [
                 {
                   "property": "borderRadius",
-                  "token": "tokens.borderRadiusSmall",
+                  "token": ["tokens.borderRadiusSmall"],
                   "path": [":focus", "borderRadius"]
                 }
               ]
@@ -900,7 +900,7 @@
               "tokens": [
                 {
                   "property": "borderRadius",
-                  "token": "tokens.borderRadiusLarge",
+                  "token": ["tokens.borderRadiusLarge"],
                   "path": [":focus", "borderRadius"]
                 }
               ]
@@ -915,7 +915,7 @@
           "tokens": [
             {
               "property": "[iconSpacingVar]",
-              "token": "tokens.spacingHorizontalXS",
+              "token": ["tokens.spacingHorizontalXS"],
               "path": ["[iconSpacingVar]"]
             }
           ],
@@ -925,7 +925,7 @@
           "tokens": [
             {
               "property": "[iconSpacingVar]",
-              "token": "tokens.spacingHorizontalSNudge",
+              "token": ["tokens.spacingHorizontalSNudge"],
               "path": ["[iconSpacingVar]"]
             }
           ],
