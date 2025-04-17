@@ -1,7 +1,7 @@
 // types.ts
 export interface TokenReference {
   property: string;
-  token: string;
+  token: string[];
   path: string[];
   isVariableReference?: boolean;
   sourceFile?: string;

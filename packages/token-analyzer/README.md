@@ -13,6 +13,13 @@ A static analysis tool that scans your project's style files to track and analyz
 - add tests for structure and output. ~~We're processing the styles but not putting them in the right places right now~~
 - update contributing doc with info about version management
 - Dedupe logic from extractTokensFromText and isTokenReference
+- Add token test that determines which package tokens come from. IE (@fluentui/tokens or @fluentui/semantic-tokens)
+- Data Flow
+  - find all styles files
+  - get all imports, analyze them for token references or values, return them to the main script flow
+  - process merge styles and map meta data to styles
+  - parse through each property of styles
+    - with each property,we should look at whether an initializer is there, spread, delaration etc and then determine if that's a token. if it is, we also need to see if there's a fallback chain and not just log a token but also log the tokens in the right order (this should also open the door to ensure we don't over complicate or duplicate logic here)
 
 ## Features
 

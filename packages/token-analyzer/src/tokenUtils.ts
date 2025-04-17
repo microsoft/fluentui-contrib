@@ -1,6 +1,6 @@
 // tokenUtils.ts
 import { Node, Symbol, SyntaxKind } from 'ts-morph';
-import { TOKEN_REGEX } from './types.js';
+import { TOKEN_REGEX, TokenReference } from './types.js';
 import { shorthands } from '@griffel/react';
 
 /**
@@ -152,3 +152,29 @@ export function getPropertiesForShorthand(
   // The function didn't match any known shorthand functions so return an empty array.
   return [];
 }
+
+/**
+ * Centralized pure function to add tokens to an array of tokens. This is useful in the event we change the contract
+ * or if we have to do additional logic or processing. Without which we'd need to update 10+ locations.
+ * @param tokensToAdd
+ * @param target
+ * @returns
+ */
+export const addTokenToArray = (
+  tokensToAdd: TokenReference[] | TokenReference,
+  target: TokenReference[]
+) => {
+  // create new array without modifying the original array
+  const newArray = target.slice();
+
+  // add items to the array
+  // We should probably search the tokens array for matches or duplicates and then determine if we need to add them or update existing entries.
+  // TODO we also need to update the token member within the TokenRefernece object to be an array.
+  if (Array.isArray(tokensToAdd)) {
+    target.push(...tokensToAdd);
+  } else {
+    target.push(tokensToAdd);
+  }
+  return target;
+  // return arrayy without modifying the original array
+};
