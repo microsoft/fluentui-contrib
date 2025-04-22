@@ -550,8 +550,7 @@ export function processImportedStringTokens(
             const cssVarTokens = extractTokensFromCssVars(
               span.text,
               propertyName,
-              path,
-              tokenRegex
+              path
             );
             cssVarTokens.forEach((token) => {
               tokens.push({
@@ -601,8 +600,7 @@ export function processImportedStringTokens(
           const cssVarTokens = extractTokensFromCssVars(
             importedValue.value,
             propertyName,
-            path,
-            tokenRegex
+            path
           );
           cssVarTokens.forEach((token) => {
             tokens.push({
