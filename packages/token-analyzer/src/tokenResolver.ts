@@ -13,8 +13,13 @@ import {
 } from 'ts-morph';
 import { TOKEN_REGEX, TokenReference } from './types';
 import { extractTokensFromCssVars } from './cssVarTokenExtractor';
-import { addTokenToArray, extractTokensFromText } from './tokenUtils';
+import {
+  addTokenToArray,
+  extractTokensFromText,
+  isTokenReference,
+} from './tokenUtils';
 import { ImportedValue, processImportedStringTokens } from './importAnalyzer';
+import { resolve } from 'path';
 
 interface TokenResolverInfo<T extends Node = Node> {
   node: T;
@@ -45,13 +50,28 @@ export const resolveToken = (info: TokenResolverInfo): TokenReference[] => {
   } else if (Node.isIdentifier(node)) {
     return processIdentifier(info as TokenResolverInfo<Identifier>);
   } else if (Node.isPropertyAccessExpression(node)) {
+    return processPropertyAccess(
+      info as TokenResolverInfo<PropertyAccessExpression>
+    );
   } else if (Node.isObjectLiteralExpression(node)) {
+    return processObjectLiteral(
+      info as TokenResolverInfo<ObjectLiteralExpression>
+    );
   } else if (Node.isSpreadAssignment(node)) {
+    return processSpreadAssignment(info as TokenResolverInfo<SpreadAssignment>);
   } else if (
     Node.isCallExpression(node) &&
     node.getExpression().getText() === 'createCustomFocusIndicatorStyle'
   ) {
+    return processFocusCallExpression(
+      info as TokenResolverInfo<CallExpression>
+    );
   } else if (Node.isCallExpression(node)) {
+    return processCallExpression(info as TokenResolverInfo<CallExpression>);
+  } else if (Node.isPropertyAssignment(node)) {
+    return processPropertyAssignment(
+      info as TokenResolverInfo<PropertyAssignment>
+    );
   }
 
   return tokens;
@@ -108,22 +128,107 @@ const processIdentifier = (
 };
 
 const processPropertyAccess = (
-  node: PropertyAccessExpression
+  info: TokenResolverInfo<PropertyAccessExpression>
 ): TokenReference[] => {
-  return [];
+  const { node, parentName, path, tokens } = info;
+
+  const text = node.getText();
+  const isToken = isTokenReference(text);
+  if (isToken) {
+    return addTokenToArray(
+      {
+        property: path[path.length - 1] || parentName,
+        token: [text],
+        path,
+      },
+      tokens
+    );
+  }
+  return tokens;
 };
 
 const processObjectLiteral = (
-  node: ObjectLiteralExpression
+  info: TokenResolverInfo<ObjectLiteralExpression>
 ): TokenReference[] => {
-  return [];
+  const { node, parentName, path, tokens, importedValues } = info;
+
+  let returnTokens = tokens.slice();
+  node.getProperties().forEach((childProp) => {
+    returnTokens = returnTokens.concat(
+      resolveToken({
+        node: childProp,
+        path,
+        parentName,
+        tokens,
+        importedValues,
+      })
+    );
+  });
+  return returnTokens;
 };
 
-const processSpreadAssignment = (node: SpreadAssignment): TokenReference[] => {
-  return [];
+const processSpreadAssignment = (
+  info: TokenResolverInfo<SpreadAssignment>
+): TokenReference[] => {
+  const { node, path, parentName, tokens, importedValues } = info;
+  return tokens.concat(
+    resolveToken({
+      node: node.getExpression(),
+      path,
+      parentName,
+      tokens,
+      importedValues,
+    })
+  );
 };
 
-const processCallExpression = (node: CallExpression): TokenReference[] => {
+const processFocusCallExpression = (
+  info: TokenResolverInfo<CallExpression>
+): TokenReference[] => {
+  const { node, path, parentName, tokens, importedValues } = info;
+
+  const focus = `:focus`;
+  const focusWithin = `:focus-within`;
+  let nestedModifier = focus;
+
+  const passedTokens = node.getArguments()[0];
+  const passedOptions = node.getArguments()[1];
+
+  // Parse out the options being passed to the focus funuction and determine which selector is being used
+  if (passedOptions && Node.isObjectLiteralExpression(passedOptions)) {
+    passedOptions.getProperties().forEach((property) => {
+      if (Node.isPropertyAssignment(property)) {
+        const optionName = property.getName();
+        if (optionName === 'selector') {
+          const selectorType = property.getInitializer()?.getText();
+          if (selectorType === 'focus') {
+            nestedModifier = focus;
+          } else if (selectorType === 'focus-within') {
+            nestedModifier = focusWithin;
+          }
+        }
+      }
+    });
+  }
+
+  if (passedTokens) {
+    // We can simplify the logic since we process node types and extract within resolveTokens. We merely need to pass
+    // the updated path
+    return resolveToken({
+      node: passedTokens,
+      path: [...path, nestedModifier],
+      parentName,
+      tokens,
+      importedValues,
+    });
+  }
+
+  return tokens;
+};
+
+const processCallExpression = (
+  info: TokenResolverInfo<CallExpression>
+): TokenReference[] => {
   return [];
 };
 
@@ -171,4 +276,22 @@ const processTemplateExpression = (
 
     return returnTokens;
   }
+};
+
+const processPropertyAssignment = (
+  info: TokenResolverInfo<PropertyAssignment>
+): TokenReference[] => {
+  const { node, path, parentName, tokens, importedValues } = info;
+
+  const childName = node.getName();
+  const newPath = [...path, childName];
+  const propertyNode = node.getInitializer();
+
+  return resolveToken({
+    node: propertyNode || node,
+    path: newPath,
+    parentName,
+    tokens,
+    importedValues,
+  });
 };
