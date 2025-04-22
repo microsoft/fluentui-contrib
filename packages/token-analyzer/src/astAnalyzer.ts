@@ -54,11 +54,7 @@ function processStyleProperty(
   let tokens: TokenReference[] = [];
   const parentName = Node.isPropertyAssignment(prop) ? prop.getName() : '';
 
-  function processNode(node?: Node, path: string[] = []): void {
-    if (!node) {
-      return;
-    }
-
+  function processNode(node: Node, path: string[] = []): void {
     // If we're processing a reset style, we need to add the parent name to the path
     if (isResetStyles && path.length === 0 && parentName) {
       path.push(parentName);
@@ -68,77 +64,14 @@ function processStyleProperty(
     if (
       Node.isStringLiteral(node) ||
       Node.isTemplateExpression(node) ||
-      Node.isIdentifier(node)
+      Node.isIdentifier(node) ||
+      Node.isPropertyAccessExpression(node) ||
+      Node.isObjectLiteralExpression(node) ||
+      Node.isSpreadAssignment(node) ||
+      (Node.isCallExpression(node) &&
+        node.getExpression().getText() === 'createCustomFocusIndicatorStyle')
     ) {
       tokens = resolveToken({ node, path, parentName, tokens, importedValues });
-    } else if (Node.isPropertyAccessExpression(node)) {
-      const text = node.getText();
-      const isToken = isTokenReference(text);
-      if (isToken) {
-        tokens = addTokenToArray(
-          {
-            property: path[path.length - 1] || parentName,
-            token: [text],
-            path,
-          },
-          tokens
-        );
-      }
-    } else if (Node.isObjectLiteralExpression(node)) {
-      node.getProperties().forEach((childProp) => {
-        if (Node.isPropertyAssignment(childProp)) {
-          const childName = childProp.getName();
-          processNode(childProp.getInitializer(), [...path, childName]);
-        } else if (Node.isSpreadAssignment(childProp)) {
-          // Handle spread elements in object literals
-          processNode(childProp.getExpression(), path);
-        }
-      });
-    } else if (Node.isSpreadAssignment(node)) {
-      // Handle spread elements
-      processNode(node.getExpression(), path);
-    } else if (
-      Node.isCallExpression(node) &&
-      node.getExpression().getText() === 'createCustomFocusIndicatorStyle'
-    ) {
-      const focus = `:focus`;
-      const focusWithin = `:focus-within`;
-      let nestedModifier = focus;
-
-      const passedTokens = node.getArguments()[0];
-      const passedOptions = node.getArguments()[1];
-
-      if (passedOptions && Node.isObjectLiteralExpression(passedOptions)) {
-        passedOptions.getProperties().forEach((property) => {
-          if (Node.isPropertyAssignment(property)) {
-            const optionName = property.getName();
-            if (optionName === 'selector') {
-              const selectorType = property.getInitializer()?.getText();
-              if (selectorType === 'focus') {
-                nestedModifier = focus;
-              } else if (selectorType === 'focus-within') {
-                nestedModifier = focusWithin;
-              }
-            }
-          }
-        });
-      }
-
-      if (passedTokens && Node.isObjectLiteralExpression(passedTokens)) {
-        passedTokens.getProperties().forEach((property) => {
-          if (Node.isPropertyAssignment(property)) {
-            const childName = property.getName();
-            processNode(property.getInitializer(), [
-              ...path,
-              nestedModifier,
-              childName,
-            ]);
-          } else if (Node.isSpreadAssignment(property)) {
-            // Handle spread elements in object literals within function arguments
-            processNode(property.getExpression(), [...path, nestedModifier]);
-          }
-        });
-      }
     } else if (Node.isCallExpression(node)) {
       // Process calls like shorthands.borderColor(tokens.color)
       const functionName = node.getExpression().getText();
@@ -173,11 +106,14 @@ function processStyleProperty(
             argument.getProperties().forEach((property) => {
               if (Node.isPropertyAssignment(property)) {
                 const childName = property.getName();
-                processNode(property.getInitializer(), [
-                  ...path,
-                  functionName,
-                  childName,
-                ]);
+                const childInitializer = property.getInitializer();
+                if (childInitializer) {
+                  processNode(childInitializer, [
+                    ...path,
+                    functionName,
+                    childName,
+                  ]);
+                }
               }
             });
           }
