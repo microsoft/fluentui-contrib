@@ -33,6 +33,32 @@ describe('ToggleButton', () => {
     ).not.toThrow();
   });
 
+  it('should remove aria-pressed from DOM', () => {
+    console.error = jest.fn();
+    const wrapper = render(
+      <ToggleButton checked aria-label="label" aria-pressed={undefined}>
+        Test
+      </ToggleButton>
+    );
+
+    const attribute = wrapper.getByRole('button').getAttribute('aria-pressed');
+
+    expect(attribute).toBeNull();
+  });
+
+  it('should render aria-pressed', () => {
+    console.error = jest.fn();
+    const wrapper = render(
+      <ToggleButton checked aria-label="label">
+        Test
+      </ToggleButton>
+    );
+
+    const attribute = wrapper.getByRole('button').getAttribute('aria-pressed');
+
+    expect(attribute).toBe('true');
+  });
+
   it('should throw error for button if aria-pressed is reset and no aria-label is provided', () => {
     console.error = jest.fn();
     expect(() =>

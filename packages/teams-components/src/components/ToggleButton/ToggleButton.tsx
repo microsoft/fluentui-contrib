@@ -32,6 +32,9 @@ export const ToggleButton = React.forwardRef<
   };
 
   let state = useToggleButton_unstable(props, ref);
+  if ('aria-pressed' in props) {
+    state.root['aria-pressed'] = props['aria-pressed'];
+  }
   state = useToggleButtonStyles_unstable(state);
 
   const button = renderToggleButton_unstable(state);
