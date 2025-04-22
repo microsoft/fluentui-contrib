@@ -1,3 +1,6 @@
+export { TreeGridRowTrigger } from './components/TreeGridRowTrigger';
+export type { TreeGridRowTriggerProps } from './components/TreeGridRowTrigger';
+
 export { TreeGrid } from './components/TreeGrid';
 export type { TreeGridProps, TreeGridSlots } from './components/TreeGrid';
 

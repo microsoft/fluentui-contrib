@@ -7,8 +7,8 @@ export type TreeGridRowSlots = {
 };
 
 export type TreeGridRowOnOpenChangeData = { open: boolean } & (
-  | EventData<'click', React.MouseEvent<HTMLDivElement>>
-  | EventData<'keydown', React.KeyboardEvent<HTMLDivElement>>
+  | EventData<'click', React.MouseEvent>
+  | EventData<'keydown', React.KeyboardEvent>
 );
 
 export type TreeGridRowProps = ComponentProps<TreeGridRowSlots> & {
