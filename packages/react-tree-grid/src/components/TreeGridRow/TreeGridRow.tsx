@@ -19,7 +19,6 @@ import {
   TabsterDOMAttribute,
   useMergedTabsterAttributes_unstable,
 } from '@fluentui/react-tabster';
-import { isHTMLElement } from '@fluentui/react-utilities';
 import { ArrowLeft, ArrowRight, Enter } from '@fluentui/keyboard-keys';
 import {
   TreeGridRowProvider,

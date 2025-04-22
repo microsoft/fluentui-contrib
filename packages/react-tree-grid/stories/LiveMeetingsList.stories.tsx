@@ -4,7 +4,6 @@ import {
   TreeGridProps,
   TreeGridCell,
   TreeGridRow,
-  TreeGridRowOnOpenChangeData,
 } from '@fluentui-contrib/react-tree-grid';
 import {
   Button,
