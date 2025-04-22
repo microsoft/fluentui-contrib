@@ -12,22 +12,17 @@ import {
   StyleCondition,
   StyleContent,
   StyleMetadata,
-  TOKEN_REGEX,
   StyleTokens,
 } from './types.js';
 import { log, measure, measureAsync } from './debugUtils.js';
-import {
-  analyzeImports,
-  processImportedStringTokens,
-  ImportedValue,
-} from './importAnalyzer.js';
+import { analyzeImports, ImportedValue } from './importAnalyzer.js';
 import { extractTokensFromCssVars } from './cssVarTokenExtractor.js';
 import {
   addTokenToArray,
-  extractTokensFromText,
   getPropertiesForShorthand,
   isTokenReference,
 } from './tokenUtils.js';
+import { resolveToken } from './tokenResolver';
 
 const makeResetStylesToken = 'resetStyles';
 
@@ -53,7 +48,7 @@ interface VariableMapping {
  */
 function processStyleProperty(
   prop: PropertyAssignment | SpreadAssignment,
-  importedValues: Map<string, ImportedValue> | undefined = undefined,
+  importedValues: Map<string, ImportedValue>,
   isResetStyles?: boolean
 ): TokenReference[] {
   let tokens: TokenReference[] = [];
@@ -70,63 +65,12 @@ function processStyleProperty(
     }
 
     // Check for string literals or template expressions (string template literals)
-    if (Node.isStringLiteral(node) || Node.isTemplateExpression(node)) {
-      const text = node.getText().replace(/['"]/g, ''); // Remove quotes
-
-      // Check for CSS var() syntax that might contain tokens
-      if (text.includes('var(')) {
-        const cssVarTokens = extractTokensFromCssVars(
-          text,
-          path[path.length - 1] || parentName,
-          path,
-          TOKEN_REGEX
-        );
-        tokens = addTokenToArray(cssVarTokens, tokens);
-      } else {
-        // Check for direct token references
-        const matches = extractTokensFromText(node);
-        if (matches.length > 0) {
-          matches.forEach((match) => {
-            tokens = addTokenToArray(
-              {
-                property: path[path.length - 1] || parentName,
-                token: [match],
-                path,
-              },
-              tokens
-            );
-          });
-        }
-      }
-    } else if (Node.isIdentifier(node)) {
-      const text = node.getText();
-
-      // First check if it matches the token regex directly
-      const matches = extractTokensFromText(node);
-      if (matches.length > 0) {
-        matches.forEach((match) => {
-          tokens = addTokenToArray(
-            {
-              property: path[path.length - 1] || parentName,
-              token: [match],
-              path,
-            },
-            tokens
-          );
-        });
-      }
-
-      // Then check if it's an imported value reference
-      if (importedValues && importedValues.has(text)) {
-        const importTokens = processImportedStringTokens(
-          importedValues,
-          path[path.length - 1] || parentName,
-          text,
-          path,
-          TOKEN_REGEX
-        );
-        tokens.push(...importTokens);
-      }
+    if (
+      Node.isStringLiteral(node) ||
+      Node.isTemplateExpression(node) ||
+      Node.isIdentifier(node)
+    ) {
+      tokens = resolveToken({ node, path, parentName, tokens, importedValues });
     } else if (Node.isPropertyAccessExpression(node)) {
       const text = node.getText();
       const isToken = isTokenReference(text);
@@ -239,13 +183,12 @@ function processStyleProperty(
           }
           // Check for string literals in function arguments that might contain CSS variables with tokens
           if (Node.isStringLiteral(argument)) {
-            const text = argument.getText().replace(/['"]/g, '');
+            const text = argument.getText();
             if (text.includes('var(')) {
               const cssVarTokens = extractTokensFromCssVars(
                 text,
                 path[path.length - 1] || parentName,
-                [...path, functionName],
-                TOKEN_REGEX
+                [...path, functionName]
               );
               tokens.push(...cssVarTokens);
             }
@@ -446,7 +389,7 @@ function createMetadata(styleMappings: StyleMapping[]): StyleMetadata {
  */
 async function analyzeMakeStyles(
   sourceFile: SourceFile,
-  importedValues: Map<string, ImportedValue> | undefined = undefined
+  importedValues: Map<string, ImportedValue>
 ): Promise<StyleAnalysis> {
   const analysis: StyleAnalysis = {};
 

@@ -16,8 +16,7 @@ import { addTokenToArray, extractTokensFromText } from './tokenUtils.js';
 export function extractTokensFromCssVars(
   value: string,
   propertyName: string,
-  path: string[] = [],
-  TOKEN_REGEX: RegExp
+  path: string[] = []
 ): TokenReference[] {
   let tokens: TokenReference[] = [];
 
@@ -77,8 +76,7 @@ export function extractTokensFromCssVars(
         const fallbackTokens = extractTokensFromCssVars(
           fallback,
           propertyName,
-          path,
-          TOKEN_REGEX
+          path
         );
         tokens.push(...fallbackTokens);
       } else {
