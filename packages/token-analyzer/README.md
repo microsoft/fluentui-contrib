@@ -20,6 +20,12 @@ A static analysis tool that scans your project's style files to track and analyz
   - process merge styles and map meta data to styles
   - parse through each property of styles
     - with each property,we should look at whether an initializer is there, spread, delaration etc and then determine if that's a token. if it is, we also need to see if there's a fallback chain and not just log a token but also log the tokens in the right order (this should also open the door to ensure we don't over complicate or duplicate logic here)
+    - The data flow complexity is a bit high currently and we should only recurse where we actually need to.
+    - property set in styles -> analyze type (expression call, initializer, declaration, etc) -> resolve given import information, type and rules -> Once we resolve, analyze if it's a token which should be a single call so we can centralize it -> return token with path, value, etc. This should include priority order if we have a var() fallback structure.
+- we need to update isToken to resolve to which package/module it's imported from.
+- We also need to do this for shorthands
+- We should write a function that does this from a node and follows it up the import chain.
+- Clean processImportedStringTokens to point back to resolveToken as there's some duplication there
 
 ## Features
 
