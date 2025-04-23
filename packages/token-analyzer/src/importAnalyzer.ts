@@ -1,22 +1,9 @@
 // importAnalyzer.ts
-import {
-  Project,
-  Node,
-  SourceFile,
-  ImportDeclaration,
-  Symbol,
-  TypeChecker,
-  SyntaxKind,
-} from 'ts-morph';
+import { Project, Node, SourceFile, ImportDeclaration, Symbol, TypeChecker, SyntaxKind } from 'ts-morph';
 import { log } from './debugUtils.js';
-import { TokenReference, TOKEN_REGEX } from './types.js';
+import { TokenReference } from './types.js';
 import { getModuleSourceFile } from './moduleResolver.js';
-import { extractTokensFromCssVars } from './cssVarTokenExtractor.js';
-import {
-  isTokenReference,
-  extractTokensFromText,
-  addTokenToArray,
-} from './tokenUtils.js';
+import { isTokenReference } from './tokenUtils.js';
 
 /**
  * Represents a portion of a template expression
@@ -44,10 +31,7 @@ export interface ImportedValue {
 /**
  * Analyzes imports in a source file to extract string values
  */
-export async function analyzeImports(
-  sourceFile: SourceFile,
-  project: Project
-): Promise<Map<string, ImportedValue>> {
+export async function analyzeImports(sourceFile: SourceFile, project: Project): Promise<Map<string, ImportedValue>> {
   const importedValues = new Map<string, ImportedValue>();
   const filePath = sourceFile.getFilePath();
 
@@ -60,18 +44,9 @@ export async function analyzeImports(
   for (const importDecl of sourceFile.getImportDeclarations()) {
     try {
       // Process the import declaration
-      await processImportDeclaration(
-        importDecl,
-        sourceFile,
-        project,
-        importedValues,
-        typeChecker
-      );
+      await processImportDeclaration(importDecl, sourceFile, project, importedValues, typeChecker);
     } catch (err) {
-      log(
-        `Error processing import: ${importDecl.getModuleSpecifierValue()}`,
-        err
-      );
+      log(`Error processing import: ${importDecl.getModuleSpecifierValue()}`, err);
     }
   }
 
@@ -92,11 +67,7 @@ async function processImportDeclaration(
   const containingFilePath = sourceFile.getFilePath();
 
   // Use our module resolver to get the imported file
-  const importedFile = getModuleSourceFile(
-    project,
-    moduleSpecifier,
-    containingFilePath
-  );
+  const importedFile = getModuleSourceFile(project, moduleSpecifier, containingFilePath);
 
   if (!importedFile) {
     log(`Could not resolve module: ${moduleSpecifier}`);
@@ -104,22 +75,10 @@ async function processImportDeclaration(
   }
 
   // Process named imports (import { x } from 'module')
-  processNamedImports(
-    importDecl,
-    importedFile,
-    project,
-    importedValues,
-    typeChecker
-  );
+  processNamedImports(importDecl, importedFile, project, importedValues, typeChecker);
 
   // Process default import (import x from 'module')
-  processDefaultImport(
-    importDecl,
-    importedFile,
-    project,
-    importedValues,
-    typeChecker
-  );
+  processDefaultImport(importDecl, importedFile, project, importedValues, typeChecker);
 }
 
 /**
@@ -137,11 +96,7 @@ function processNamedImports(
     const alias = namedImport.getAliasNode()?.getText() || importName;
 
     // Find the export's true source using TypeScript's type checker
-    const exportInfo = findExportDeclaration(
-      importedFile,
-      importName,
-      typeChecker
-    );
+    const exportInfo = findExportDeclaration(importedFile, importName, typeChecker);
 
     if (exportInfo) {
       const { declaration, sourceFile: declarationFile } = exportInfo;
@@ -157,11 +112,7 @@ function processNamedImports(
           templateSpans: valueInfo.templateSpans,
         });
 
-        log(
-          `Added imported value: ${alias} = ${
-            valueInfo.value
-          } from ${declarationFile.getFilePath()}`
-        );
+        log(`Added imported value: ${alias} = ${valueInfo.value} from ${declarationFile.getFilePath()}`);
       }
     }
   }
@@ -185,11 +136,7 @@ function processDefaultImport(
   const importName = defaultImport.getText();
 
   // Find the default export's true source
-  const exportInfo = findExportDeclaration(
-    importedFile,
-    'default',
-    typeChecker
-  );
+  const exportInfo = findExportDeclaration(importedFile, 'default', typeChecker);
 
   if (exportInfo) {
     const { declaration, sourceFile: declarationFile } = exportInfo;
@@ -205,11 +152,7 @@ function processDefaultImport(
         templateSpans: valueInfo.templateSpans,
       });
 
-      log(
-        `Added default import: ${importName} = ${
-          valueInfo.value
-        } from ${declarationFile.getFilePath()}`
-      );
+      log(`Added default import: ${importName} = ${valueInfo.value} from ${declarationFile.getFilePath()}`);
     }
   }
 }
@@ -238,13 +181,9 @@ function findExportDeclaration(
     }
 
     // Find the specific export we're looking for
-    const exportSymbol = exports.find(
-      (symbol: Symbol) => symbol.getName() === exportName
-    );
+    const exportSymbol = exports.find((symbol: Symbol) => symbol.getName() === exportName);
     if (!exportSymbol) {
-      log(
-        `Export symbol '${exportName}' not found in ${sourceFile.getFilePath()}`
-      );
+      log(`Export symbol '${exportName}' not found in ${sourceFile.getFilePath()}`);
       return undefined;
     }
 
@@ -298,9 +237,7 @@ function findExportDeclaration(
 function extractValueFromDeclaration(
   declaration: Node,
   typeChecker: TypeChecker
-):
-  | { value: string; isLiteral: boolean; templateSpans?: TemplateSpan[] }
-  | undefined {
+): { value: string; isLiteral: boolean; templateSpans?: TemplateSpan[] } | undefined {
   // Handle variable declarations
   if (Node.isVariableDeclaration(declaration)) {
     const initializer = declaration.getInitializer();
@@ -319,9 +256,7 @@ function extractValueFromDeclaration(
     const sourceFile = declaration.getSourceFile();
 
     // Find the local declaration with this name
-    for (const varDecl of sourceFile.getDescendantsOfKind(
-      SyntaxKind.VariableDeclaration
-    )) {
+    for (const varDecl of sourceFile.getDescendantsOfKind(SyntaxKind.VariableDeclaration)) {
       if (varDecl.getName() === name) {
         const initializer = varDecl.getInitializer();
         return extractValueFromExpression(initializer, typeChecker);
@@ -378,10 +313,7 @@ function extractValueFromExpression(
       const literal = span.getLiteral().getLiteralText();
 
       // Handle different types of expressions in template spans
-      if (
-        Node.isPropertyAccessExpression(spanExpr) &&
-        isTokenReference(spanExpr)
-      ) {
+      if (Node.isPropertyAccessExpression(spanExpr) && isTokenReference(spanExpr)) {
         // Direct token reference in template span
         templateSpans.push({
           text: spanText,
@@ -488,165 +420,4 @@ function extractValueFromExpression(
 
   // Default case for unhandled expression types
   return undefined;
-}
-
-/**
- * Process string tokens in imported values
- */
-export function processImportedStringTokens(
-  importedValues: Map<string, ImportedValue>,
-  propertyName: string,
-  value: string,
-  path: string[] = [],
-  tokenRegex: RegExp = TOKEN_REGEX
-): TokenReference[] {
-  let tokens: TokenReference[] = [];
-
-  // Check if the value is an imported value reference
-  if (importedValues.has(value)) {
-    const importedValue = importedValues.get(value)!;
-
-    // If we've already pre-resolved tokens for this value, use them
-    if (importedValue.resolvedTokens) {
-      return importedValue.resolvedTokens.map((token) => ({
-        ...token,
-        property: propertyName, // Update property name for current context
-        path: path, // Update path for current context
-      }));
-    }
-
-    if (importedValue.isLiteral) {
-      if (importedValue.templateSpans) {
-        // Process template spans specially
-        for (const span of importedValue.templateSpans) {
-          if (span.isToken) {
-            // Direct token reference in span
-            tokens = addTokenToArray(
-              {
-                property: propertyName,
-                token: [span.text],
-                path,
-                isVariableReference: true,
-                sourceFile: importedValue.sourceFile,
-              },
-              tokens
-            );
-          } else if (
-            span.isReference &&
-            span.referenceName &&
-            importedValues.has(span.referenceName)
-          ) {
-            // Reference to another imported value - process recursively
-            const spanTokens = processImportedStringTokens(
-              importedValues,
-              propertyName,
-              span.referenceName,
-              path,
-              tokenRegex
-            );
-            tokens.push(...spanTokens);
-          } else if (span.text.includes('var(')) {
-            // Check for CSS variables in the span text
-            const cssVarTokens = extractTokensFromCssVars(
-              span.text,
-              propertyName,
-              path
-            );
-            cssVarTokens.forEach((token) => {
-              tokens.push({
-                ...token,
-                isVariableReference: true,
-                sourceFile: importedValue.sourceFile,
-              });
-            });
-          } else {
-            // Check for direct token matches in non-reference spans
-            const matches = extractTokensFromText(span.text);
-            if (matches.length > 0) {
-              matches.forEach((match) => {
-                tokens = addTokenToArray(
-                  {
-                    property: propertyName,
-                    token: [match],
-                    path,
-                    isVariableReference: true,
-                    sourceFile: importedValue.sourceFile,
-                  },
-                  tokens
-                );
-              });
-            }
-          }
-        }
-      } else {
-        // Standard processing for literals without spans
-        // First, check for direct token references
-        const matches = extractTokensFromText(importedValue.value);
-        if (matches.length > 0) {
-          matches.forEach((match) => {
-            tokens = addTokenToArray(
-              {
-                property: propertyName,
-                token: [match],
-                path,
-                isVariableReference: true,
-                sourceFile: importedValue.sourceFile,
-              },
-              tokens
-            );
-          });
-        } else if (importedValue.value.includes('var(')) {
-          // Then check for CSS variable patterns
-          const cssVarTokens = extractTokensFromCssVars(
-            importedValue.value,
-            propertyName,
-            path
-          );
-          cssVarTokens.forEach((token) => {
-            tokens.push({
-              ...token,
-              isVariableReference: true,
-              sourceFile: importedValue.sourceFile,
-            });
-          });
-        }
-      }
-    } else {
-      // Non-literal values (like property access expressions)
-      if (isTokenReference(importedValue.value)) {
-        tokens = addTokenToArray(
-          {
-            property: propertyName,
-            token: [importedValue.value],
-            path,
-            isVariableReference: true,
-            sourceFile: importedValue.sourceFile,
-          },
-          tokens
-        );
-      } else {
-        // Check for any token references in the value
-        const matches = extractTokensFromText(importedValue.value);
-        if (matches.length > 0) {
-          matches.forEach((match) => {
-            tokens = addTokenToArray(
-              {
-                property: propertyName,
-                token: [match],
-                path,
-                isVariableReference: true,
-                sourceFile: importedValue.sourceFile,
-              },
-              tokens
-            );
-          });
-        }
-      }
-    }
-
-    // Cache the resolved tokens for future use
-    importedValue.resolvedTokens = tokens.map((token) => ({ ...token }));
-  }
-
-  return tokens;
 }

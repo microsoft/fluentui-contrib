@@ -1,10 +1,4 @@
-import {
-  Project,
-  Node,
-  SourceFile,
-  PropertyAssignment,
-  SpreadAssignment,
-} from 'ts-morph';
+import { Project, Node, SourceFile, PropertyAssignment, SpreadAssignment } from 'ts-morph';
 import {
   TokenReference,
   StyleAnalysis,
@@ -16,12 +10,6 @@ import {
 } from './types.js';
 import { log, measure, measureAsync } from './debugUtils.js';
 import { analyzeImports, ImportedValue } from './importAnalyzer.js';
-import { extractTokensFromCssVars } from './cssVarTokenExtractor.js';
-import {
-  addTokenToArray,
-  getPropertiesForShorthand,
-  isTokenReference,
-} from './tokenUtils.js';
 import { resolveToken } from './tokenResolver';
 
 const makeResetStylesToken = 'resetStyles';
@@ -58,9 +46,7 @@ function processStyleProperty(
 
   // resolve all the tokens within our style recursively. This is encapsulated within the resolveToken function
   tokens = resolveToken({
-    node: Node.isPropertyAssignment(prop)
-      ? prop.getInitializer() ?? prop
-      : prop,
+    node: Node.isPropertyAssignment(prop) ? prop.getInitializer() ?? prop : prop,
     path,
     parentName,
     tokens,
@@ -77,10 +63,7 @@ function analyzeMergeClasses(sourceFile: SourceFile): StyleMapping[] {
   const mappings: StyleMapping[] = [];
 
   sourceFile.forEachDescendant((node) => {
-    if (
-      Node.isCallExpression(node) &&
-      node.getExpression().getText() === 'mergeClasses'
-    ) {
+    if (Node.isCallExpression(node) && node.getExpression().getText() === 'mergeClasses') {
       const parentNode = node.getParent();
       let slotName = '';
       if (Node.isBinaryExpression(parentNode)) {
@@ -163,11 +146,7 @@ function createStyleContent(tokens: TokenReference[]): StyleContent {
      * @param pathIndex where in the path we are, this allows us to preserve the path while recursing through it
      * @param currentLevel the current level of the nested structure we're working on
      */
-    const createNestedStructure = (
-      token: TokenReference,
-      pathIndex: number,
-      currentLevel: StyleTokens
-    ) => {
+    const createNestedStructure = (token: TokenReference, pathIndex: number, currentLevel: StyleTokens) => {
       const nestedKey = token.path[pathIndex];
 
       // if no token array exists, create one
@@ -182,11 +161,7 @@ function createStyleContent(tokens: TokenReference[]): StyleContent {
         if (!currentLevel[nestedKey].nested) {
           currentLevel[nestedKey].nested = {};
         }
-        createNestedStructure(
-          token,
-          pathIndex + 1,
-          currentLevel[nestedKey].nested
-        );
+        createNestedStructure(token, pathIndex + 1, currentLevel[nestedKey].nested);
       } else {
         currentLevel[nestedKey].tokens.push({
           ...token,
@@ -227,8 +202,7 @@ function createMetadata(styleMappings: StyleMapping[]): StyleMetadata {
 
     mapping.conditionalStyles.forEach(({ style, condition }) => {
       if (metadata.styleConditions[style]) {
-        metadata.styleConditions[style].conditions =
-          metadata.styleConditions[style].conditions || [];
+        metadata.styleConditions[style].conditions = metadata.styleConditions[style].conditions || [];
         if (condition) {
           metadata.styleConditions[style].conditions!.push(condition);
         }
@@ -254,16 +228,10 @@ async function analyzeMakeStyles(
   const analysis: StyleAnalysis = {};
 
   sourceFile.forEachDescendant((node) => {
-    if (
-      Node.isCallExpression(node) &&
-      node.getExpression().getText() === 'makeStyles'
-    ) {
+    if (Node.isCallExpression(node) && node.getExpression().getText() === 'makeStyles') {
       const stylesArg = node.getArguments()[0];
       const parentNode = node.getParent();
-      if (
-        Node.isObjectLiteralExpression(stylesArg) &&
-        Node.isVariableDeclaration(parentNode)
-      ) {
+      if (Node.isObjectLiteralExpression(stylesArg) && Node.isVariableDeclaration(parentNode)) {
         // Process the styles object
         stylesArg.getProperties().forEach((prop) => {
           if (Node.isPropertyAssignment(prop)) {
@@ -279,10 +247,7 @@ async function analyzeMakeStyles(
           }
         });
       }
-    } else if (
-      Node.isCallExpression(node) &&
-      node.getExpression().getText() === 'makeResetStyles'
-    ) {
+    } else if (Node.isCallExpression(node) && node.getExpression().getText() === 'makeResetStyles') {
       // Similar to above, but the styles are stored under the assigned function name instead of local variable
       const stylesArg = node.getArguments()[0];
       const parentNode = node.getParent();
@@ -300,16 +265,13 @@ async function analyzeMakeStyles(
         if (Node.isObjectLiteralExpression(stylesArg)) {
           // Process the styles object
           stylesArg.getProperties().forEach((prop) => {
-            if (
-              Node.isPropertyAssignment(prop) ||
-              Node.isSpreadAssignment(prop)
-            ) {
+            if (Node.isPropertyAssignment(prop) || Node.isSpreadAssignment(prop)) {
               const tokens = processStyleProperty(prop, importedValues, true);
               if (tokens.length) {
                 const styleContent = createStyleContent(tokens);
-                analysis[functionName][makeResetStylesToken].tokens = analysis[
-                  functionName
-                ][makeResetStylesToken].tokens.concat(styleContent.tokens);
+                analysis[functionName][makeResetStylesToken].tokens = analysis[functionName][
+                  makeResetStylesToken
+                ].tokens.concat(styleContent.tokens);
                 analysis[functionName][makeResetStylesToken].nested = {
                   ...analysis[functionName][makeResetStylesToken].nested,
                   ...styleContent.nested,
@@ -329,10 +291,7 @@ async function analyzeMakeStyles(
     // We do a second parse to link known style functions (i.e. makeResetStyles  assigned function variable names).
     // This is necessary to handle cases where we're using a variable directly in mergeClasses to link styles.
 
-    if (
-      Node.isCallExpression(node) &&
-      styleFunctionNames.includes(node.getExpression().getText())
-    ) {
+    if (Node.isCallExpression(node) && styleFunctionNames.includes(node.getExpression().getText())) {
       const parentNode = node.getParent();
       const functionName = node.getExpression().getText();
       if (Node.isVariableDeclaration(parentNode)) {
@@ -349,15 +308,10 @@ async function analyzeMakeStyles(
   // Store our makeResetStyles assigned variables in the analysis to link later
   variables.forEach((variable) => {
     Object.keys(analysis[variable.functionName]).forEach((styleName) => {
-      if (
-        analysis[variable.functionName][styleName].assignedVariables ===
-        undefined
-      ) {
+      if (analysis[variable.functionName][styleName].assignedVariables === undefined) {
         analysis[variable.functionName][styleName].assignedVariables = [];
       }
-      analysis[variable.functionName][styleName].assignedVariables?.push(
-        variable.variableName
-      );
+      analysis[variable.functionName][styleName].assignedVariables?.push(variable.variableName);
     });
   });
 
@@ -367,29 +321,21 @@ async function analyzeMakeStyles(
 /**
  * Combines mergeClasses and makeStyles analysis, with import resolution
  */
-async function analyzeFile(
-  filePath: string,
-  project: Project
-): Promise<FileAnalysis> {
+async function analyzeFile(filePath: string, project: Project): Promise<FileAnalysis> {
   log(`Analyzing ${filePath}`);
 
   const sourceFile = project.addSourceFileAtPath(filePath);
 
   // First analyze imports to find imported string values
   log('Analyzing imports to find imported token values');
-  const importedValues = await measureAsync('analyze imports', () =>
-    analyzeImports(sourceFile, project)
-  );
+  const importedValues = await measureAsync('analyze imports', () => analyzeImports(sourceFile, project));
 
   // Second pass: Analyze mergeClasses
-  const styleMappings = measure('analyze mergeClasses', () =>
-    analyzeMergeClasses(sourceFile)
-  );
+  const styleMappings = measure('analyze mergeClasses', () => analyzeMergeClasses(sourceFile));
 
   // Third pass: Analyze makeStyles with imported values
-  const styleAnalysis = await measureAsync<StyleAnalysis>(
-    'analyze makeStyles',
-    () => analyzeMakeStyles(sourceFile, importedValues)
+  const styleAnalysis = await measureAsync<StyleAnalysis>('analyze makeStyles', () =>
+    analyzeMakeStyles(sourceFile, importedValues)
   );
 
   // Create enhanced analysis with separated styles and metadata
@@ -399,11 +345,5 @@ async function analyzeFile(
   };
 }
 
-export {
-  analyzeFile,
-  processStyleProperty,
-  analyzeMergeClasses,
-  analyzeMakeStyles,
-  createStyleContent,
-};
+export { analyzeFile, processStyleProperty, analyzeMergeClasses, analyzeMakeStyles, createStyleContent };
 export type { StyleMapping };
