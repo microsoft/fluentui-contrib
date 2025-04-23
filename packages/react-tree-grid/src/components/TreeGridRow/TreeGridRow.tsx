@@ -19,7 +19,6 @@ import {
   TabsterDOMAttribute,
   useMergedTabsterAttributes_unstable,
 } from '@fluentui/react-tabster';
-import { isHTMLElement } from '@fluentui/react-utilities';
 import { ArrowLeft, ArrowRight, Enter } from '@fluentui/keyboard-keys';
 import {
   TreeGridRowProvider,
@@ -70,10 +69,7 @@ export const TreeGridRow = React.forwardRef(
     const handleClick = useEventCallback(
       (event: React.MouseEvent<HTMLDivElement>) => {
         props.onClick?.(event);
-        if (!isHTMLElement(event.target)) {
-          return;
-        }
-        let element: HTMLElement | null = event.target;
+        let element = event.target as HTMLElement | SVGElement | null;
         while (element && element !== event.currentTarget) {
           if (element.tabIndex >= 0) return;
           element = element.parentElement;
@@ -103,14 +99,10 @@ export const TreeGridRow = React.forwardRef(
       { elementType: 'div' }
     );
     return (
-      <>
+      <TreeGridRowProvider value={context}>
         <Root />
-        {open && Subtree && (
-          <TreeGridRowProvider value={context}>
-            <Subtree />
-          </TreeGridRowProvider>
-        )}
-      </>
+        {open && Subtree && <Subtree />}
+      </TreeGridRowProvider>
     );
   }
 );
