@@ -54,36 +54,18 @@ function processStyleProperty(
   let tokens: TokenReference[] = [];
   const parentName = Node.isPropertyAssignment(prop) ? prop.getName() : '';
 
-  function processNode(node: Node, path: string[] = []): void {
-    // If we're processing a reset style, we need to add the parent name to the path
-    if (isResetStyles && path.length === 0 && parentName) {
-      path.push(parentName);
-    }
+  const path = isResetStyles && parentName ? [parentName] : [];
 
-    // Check for string literals or template expressions (string template literals)
-    if (
-      Node.isStringLiteral(node) ||
-      Node.isTemplateExpression(node) ||
-      Node.isIdentifier(node) ||
-      Node.isPropertyAccessExpression(node) ||
-      Node.isObjectLiteralExpression(node) ||
-      Node.isSpreadAssignment(node) ||
-      (Node.isCallExpression(node) &&
-        node.getExpression().getText() === 'createCustomFocusIndicatorStyle') ||
-      Node.isCallExpression(node)
-    ) {
-      tokens = resolveToken({ node, path, parentName, tokens, importedValues });
-    }
-  }
-
-  if (Node.isPropertyAssignment(prop)) {
-    const initializer = prop.getInitializer();
-    if (initializer) {
-      processNode(initializer);
-    }
-  } else if (Node.isSpreadAssignment(prop)) {
-    processNode(prop.getExpression());
-  }
+  // resolve all the tokens within our style recursively. This is encapsulated within the resolveToken function
+  tokens = resolveToken({
+    node: Node.isPropertyAssignment(prop)
+      ? prop.getInitializer() ?? prop
+      : prop,
+    path,
+    parentName,
+    tokens,
+    importedValues,
+  });
 
   return tokens;
 }
