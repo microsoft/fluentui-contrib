@@ -69,68 +69,10 @@ function processStyleProperty(
       Node.isObjectLiteralExpression(node) ||
       Node.isSpreadAssignment(node) ||
       (Node.isCallExpression(node) &&
-        node.getExpression().getText() === 'createCustomFocusIndicatorStyle')
+        node.getExpression().getText() === 'createCustomFocusIndicatorStyle') ||
+      Node.isCallExpression(node)
     ) {
       tokens = resolveToken({ node, path, parentName, tokens, importedValues });
-    } else if (Node.isCallExpression(node)) {
-      // Process calls like shorthands.borderColor(tokens.color)
-      const functionName = node.getExpression().getText();
-
-      // check if we're using a shorthand function and get the output of a call based on parameters passed into the function
-      const affectedProperties = getPropertiesForShorthand(
-        functionName,
-        node.getArguments()
-      );
-
-      // If we have a shorthand function, we need to process the affected properties.
-      // getPropertiesForShorthand will return an array of objects
-      // with the property name and the token reference
-      // e.g. { property: 'borderColor', token: 'tokens.color' }
-      // It will also deeply check for initialized values etc and validate they are tokens
-      if (affectedProperties.length > 0) {
-        // Process each argument and apply it to all affected properties
-        affectedProperties.forEach((argument) => {
-          tokens = addTokenToArray(
-            {
-              property: argument.property,
-              token: [argument.token],
-              path: path.concat(argument.property),
-            },
-            tokens
-          );
-        });
-      } else {
-        // Generic handling of functions that are not whitelisted
-        node.getArguments().forEach((argument) => {
-          if (Node.isObjectLiteralExpression(argument)) {
-            argument.getProperties().forEach((property) => {
-              if (Node.isPropertyAssignment(property)) {
-                const childName = property.getName();
-                const childInitializer = property.getInitializer();
-                if (childInitializer) {
-                  processNode(childInitializer, [
-                    ...path,
-                    functionName,
-                    childName,
-                  ]);
-                }
-              }
-            });
-          }
-          // Check for string literals in function arguments that might contain CSS variables with tokens
-          if (Node.isStringLiteral(argument)) {
-            const text = argument.getText();
-            if (text.includes('var(')) {
-              const cssVarTokens = extractTokensFromCssVars(
-                text,
-                path[path.length - 1] || parentName,
-                [...path, functionName]
-              );
-              tokens.push(...cssVarTokens);
-            }
-          }
-        });
-      }
     }
   }
 

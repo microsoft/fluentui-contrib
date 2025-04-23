@@ -16,6 +16,7 @@ import { extractTokensFromCssVars } from './cssVarTokenExtractor';
 import {
   addTokenToArray,
   extractTokensFromText,
+  getPropertiesForShorthand,
   isTokenReference,
 } from './tokenUtils';
 import { ImportedValue, processImportedStringTokens } from './importAnalyzer';
@@ -229,7 +230,50 @@ const processFocusCallExpression = (
 const processCallExpression = (
   info: TokenResolverInfo<CallExpression>
 ): TokenReference[] => {
-  return [];
+  const { node, path, parentName, tokens, importedValues } = info;
+
+  let returnTokens = tokens.slice();
+  // Process calls like shorthands.borderColor(tokens.color)
+  const functionName = node.getExpression().getText();
+
+  // check if we're using a shorthand function and get the output of a call based on parameters passed into the function
+  const affectedProperties = getPropertiesForShorthand(
+    functionName,
+    node.getArguments()
+  );
+
+  // If we have a shorthand function, we need to process the affected properties.
+  // getPropertiesForShorthand will return an array of objects
+  // with the property name and the token reference
+  // e.g. { property: 'borderColor', token: 'tokens.color' }
+  // It will also deeply check for initialized values etc and validate they are tokens
+  if (affectedProperties.length > 0) {
+    // Process each argument and apply it to all affected properties
+    affectedProperties.forEach((argument) => {
+      returnTokens = addTokenToArray(
+        {
+          property: argument.property,
+          token: [argument.token],
+          path: path.concat(argument.property),
+        },
+        returnTokens
+      );
+    });
+  } else {
+    // Generic handling of functions that are not whitelisted
+    node.getArguments().forEach((argument) => {
+      returnTokens = returnTokens.concat(
+        resolveToken({
+          node: argument,
+          path: [...path, functionName],
+          parentName,
+          tokens: returnTokens,
+          importedValues,
+        })
+      );
+    });
+  }
+  return returnTokens;
 };
 
 /**
