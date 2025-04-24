@@ -79,7 +79,7 @@ const processIdentifier = (info: TokenResolverInfo<Identifier>): TokenReference[
     matches.forEach((match) => {
       returnTokens = addTokenToArray(
         {
-          property: path[path.length - 1] || parentName,
+          property: path[path.length - 1] ?? parentName,
           token: [match],
           path,
         },
@@ -90,8 +90,9 @@ const processIdentifier = (info: TokenResolverInfo<Identifier>): TokenReference[
 
   // Then check if it's an imported value reference
   if (importedValues && importedValues.has(text)) {
-    const importTokens = processImportedStringTokens(importedValues, path[path.length - 1] || parentName, text, path);
-    returnTokens.push(...importTokens);
+    // const importTokens = processImportedStringTokens(importedValues, path[path.length - 1] ?? parentName, text, path);
+    const importTokens = processImportedStringTokens(info, text);
+    returnTokens = addTokenToArray(importTokens, returnTokens);
   }
 
   return returnTokens;
@@ -105,7 +106,7 @@ const processPropertyAccess = (info: TokenResolverInfo<PropertyAccessExpression>
   if (isToken) {
     return addTokenToArray(
       {
-        property: path[path.length - 1] || parentName,
+        property: path[path.length - 1] ?? parentName,
         token: [text],
         path,
       },
@@ -248,7 +249,7 @@ const processTemplateExpression = (info: TokenResolverInfo<TemplateExpression>):
 
   // Check for CSS var() syntax that might contain tokens
   if (text.includes('var(')) {
-    const cssVarTokens = extractTokensFromCssVars(text, path[path.length - 1] || parentName, path);
+    const cssVarTokens = extractTokensFromCssVars(text, path[path.length - 1] ?? parentName, path);
     return addTokenToArray(cssVarTokens, tokens);
   } else {
     // Check for direct token references
@@ -259,7 +260,7 @@ const processTemplateExpression = (info: TokenResolverInfo<TemplateExpression>):
       matches.forEach((match) => {
         returnTokens = addTokenToArray(
           {
-            property: path[path.length - 1] || parentName,
+            property: path[path.length - 1] ?? parentName,
             token: [match],
             path,
           },
@@ -280,7 +281,7 @@ const processPropertyAssignment = (info: TokenResolverInfo<PropertyAssignment>):
   const propertyNode = node.getInitializer();
 
   return resolveToken({
-    node: propertyNode || node,
+    node: propertyNode ?? node,
     path: newPath,
     parentName,
     tokens,
@@ -291,13 +292,10 @@ const processPropertyAssignment = (info: TokenResolverInfo<PropertyAssignment>):
 /**
  * Process string tokens in imported values
  */
-export function processImportedStringTokens(
-  importedValues: Map<string, ImportedValue>,
-  propertyName: string,
-  value: string,
-  path: string[] = []
-): TokenReference[] {
-  let tokens: TokenReference[] = [];
+export function processImportedStringTokens(info: TokenResolverInfo<Identifier>, value: string): TokenReference[] {
+  const { node, importedValues, parentName, path, tokens } = info;
+  let returnTokens = tokens.slice();
+  const propertyName = path[path.length - 1] ?? parentName;
 
   // Check if the value is an imported value reference
   if (importedValues.has(value)) {
@@ -319,7 +317,7 @@ export function processImportedStringTokens(
         for (const span of importedValue.templateSpans) {
           if (span.isToken) {
             // Direct token reference in span
-            tokens = addTokenToArray(
+            returnTokens = addTokenToArray(
               {
                 property: propertyName,
                 token: [span.text],
@@ -327,28 +325,32 @@ export function processImportedStringTokens(
                 isVariableReference: true,
                 sourceFile: importedValue.sourceFile,
               },
-              tokens
+              returnTokens
             );
           } else if (span.isReference && span.referenceName && importedValues.has(span.referenceName)) {
             // Reference to another imported value - process recursively
-            const spanTokens = processImportedStringTokens(importedValues, propertyName, span.referenceName, path);
-            tokens.push(...spanTokens);
+            const spanTokens = processImportedStringTokens(info, span.referenceName);
+            returnTokens.push(...spanTokens);
           } else if (span.text.includes('var(')) {
+            // I think we can run resolveToken here.
+
             // Check for CSS variables in the span text
             const cssVarTokens = extractTokensFromCssVars(span.text, propertyName, path);
             cssVarTokens.forEach((token) => {
-              tokens.push({
+              returnTokens.push({
                 ...token,
                 isVariableReference: true,
                 sourceFile: importedValue.sourceFile,
               });
             });
           } else {
+            // If we call resolveToken above we might also be able to remove this
+
             // Check for direct token matches in non-reference spans
             const matches = extractTokensFromText(span.text);
             if (matches.length > 0) {
               matches.forEach((match) => {
-                tokens = addTokenToArray(
+                returnTokens = addTokenToArray(
                   {
                     property: propertyName,
                     token: [match],
@@ -356,19 +358,23 @@ export function processImportedStringTokens(
                     isVariableReference: true,
                     sourceFile: importedValue.sourceFile,
                   },
-                  tokens
+                  returnTokens
                 );
               });
             }
           }
         }
       } else {
+        // I think below can also call resolveToken
+        //
+        //
+
         // Standard processing for literals without spans
         // First, check for direct token references
         const matches = extractTokensFromText(importedValue.value);
         if (matches.length > 0) {
           matches.forEach((match) => {
-            tokens = addTokenToArray(
+            returnTokens = addTokenToArray(
               {
                 property: propertyName,
                 token: [match],
@@ -376,14 +382,18 @@ export function processImportedStringTokens(
                 isVariableReference: true,
                 sourceFile: importedValue.sourceFile,
               },
-              tokens
+              returnTokens
             );
           });
         } else if (importedValue.value.includes('var(')) {
+          // I think below can also call resolveToken
+          //
+          //
+
           // Then check for CSS variable patterns
           const cssVarTokens = extractTokensFromCssVars(importedValue.value, propertyName, path);
           cssVarTokens.forEach((token) => {
-            tokens.push({
+            returnTokens.push({
               ...token,
               isVariableReference: true,
               sourceFile: importedValue.sourceFile,
@@ -392,9 +402,13 @@ export function processImportedStringTokens(
         }
       }
     } else {
+      // I think below can also call resolveToken
+      //
+      //
+
       // Non-literal values (like property access expressions)
       if (isTokenReference(importedValue.value)) {
-        tokens = addTokenToArray(
+        returnTokens = addTokenToArray(
           {
             property: propertyName,
             token: [importedValue.value],
@@ -402,14 +416,18 @@ export function processImportedStringTokens(
             isVariableReference: true,
             sourceFile: importedValue.sourceFile,
           },
-          tokens
+          returnTokens
         );
       } else {
+        // I think below can also call resolveToken
+        //
+        //
+
         // Check for any token references in the value
         const matches = extractTokensFromText(importedValue.value);
         if (matches.length > 0) {
           matches.forEach((match) => {
-            tokens = addTokenToArray(
+            returnTokens = addTokenToArray(
               {
                 property: propertyName,
                 token: [match],
@@ -417,7 +435,7 @@ export function processImportedStringTokens(
                 isVariableReference: true,
                 sourceFile: importedValue.sourceFile,
               },
-              tokens
+              returnTokens
             );
           });
         }
@@ -425,8 +443,8 @@ export function processImportedStringTokens(
     }
 
     // Cache the resolved tokens for future use
-    importedValue.resolvedTokens = tokens.map((token) => ({ ...token }));
+    importedValue.resolvedTokens = returnTokens.map((token) => ({ ...token }));
   }
 
-  return tokens;
+  return returnTokens;
 }

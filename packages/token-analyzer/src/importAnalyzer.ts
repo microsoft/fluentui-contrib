@@ -13,6 +13,7 @@ interface TemplateSpan {
   isToken: boolean; // Whether this span is a token reference
   isReference: boolean; // Whether this span is a reference to another variable
   referenceName?: string; // The name of the referenced variable if isReference is true
+  node: Node;
 }
 
 /**
@@ -278,6 +279,7 @@ function extractValueFromExpression(
       value: string;
       isLiteral: boolean;
       templateSpans?: TemplateSpan[];
+      node: Node;
     }
   | undefined {
   if (!expression) {
@@ -288,6 +290,7 @@ function extractValueFromExpression(
     return {
       value: expression.getLiteralValue(),
       isLiteral: true,
+      node: expression,
     };
   } else if (Node.isTemplateExpression(expression)) {
     // Process the template head and spans fully
@@ -303,6 +306,7 @@ function extractValueFromExpression(
         text: head,
         isToken: false,
         isReference: false,
+        node: expression.getHead(),
       });
     }
 
@@ -319,6 +323,7 @@ function extractValueFromExpression(
           text: spanText,
           isToken: true,
           isReference: false,
+          node: spanExpr,
         });
         fullValue += spanText;
       } else if (Node.isIdentifier(spanExpr)) {
@@ -328,6 +333,7 @@ function extractValueFromExpression(
           isToken: false,
           isReference: true,
           referenceName: spanText,
+          node: spanExpr,
         });
         fullValue += spanText;
       } else {
@@ -343,6 +349,7 @@ function extractValueFromExpression(
               text: resolvedExpr.value,
               isToken: false,
               isReference: false,
+              node: resolvedExpr.node,
             });
           }
           fullValue += resolvedExpr.value;
@@ -352,6 +359,7 @@ function extractValueFromExpression(
             text: spanText,
             isToken: false,
             isReference: false,
+            node: spanExpr,
           });
           fullValue += spanText;
         }
@@ -363,6 +371,7 @@ function extractValueFromExpression(
           text: literal,
           isToken: false,
           isReference: false,
+          node: span.getLiteral(),
         });
         fullValue += literal;
       }
@@ -372,6 +381,7 @@ function extractValueFromExpression(
       value: fullValue,
       isLiteral: true,
       templateSpans,
+      node: expression,
     };
   } else if (Node.isIdentifier(expression)) {
     // Try to resolve the identifier to its value
@@ -380,6 +390,7 @@ function extractValueFromExpression(
       return {
         value: expression.getText(),
         isLiteral: false,
+        node: expression,
       };
     }
 
@@ -389,6 +400,7 @@ function extractValueFromExpression(
       return {
         value: expression.getText(),
         isLiteral: false,
+        node: expression,
       };
     }
 
@@ -404,17 +416,20 @@ function extractValueFromExpression(
     return {
       value: expression.getText(),
       isLiteral: false,
+      node: expression,
     };
   } else if (Node.isPropertyAccessExpression(expression)) {
     // Handle tokens.xyz or other property access
     return {
       value: expression.getText(),
       isLiteral: false,
+      node: expression,
     };
   } else if (Node.isNoSubstitutionTemplateLiteral(expression)) {
     return {
       value: expression.getLiteralValue(),
       isLiteral: true,
+      node: expression,
     };
   }
 
