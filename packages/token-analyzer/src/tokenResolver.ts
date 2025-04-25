@@ -8,6 +8,10 @@ import {
   CallExpression,
   TemplateExpression,
   Identifier,
+  TemplateSpan,
+  TemplateHead,
+  TemplateMiddle,
+  TemplateTail,
 } from 'ts-morph';
 import { TokenReference } from './types';
 import { extractTokensFromCssVars } from './cssVarTokenExtractor';
@@ -20,6 +24,8 @@ interface TokenResolverInfo<T extends Node = Node> {
   parentName: string;
   tokens: TokenReference[];
   importedValues: Map<string, ImportedValue>;
+  isVariableReference?: boolean;
+  sourceFile?: string;
 }
 
 /**
@@ -30,6 +36,8 @@ interface TokenResolverInfo<T extends Node = Node> {
  */
 export const resolveToken = (info: TokenResolverInfo): TokenReference[] => {
   const { node, tokens } = info;
+
+  console.log(info.node.getKindName());
 
   if (Node.isStringLiteral(node)) {
     // Path in the event we need to process string literals, however this isn't used given tokens are stored as
@@ -52,6 +60,16 @@ export const resolveToken = (info: TokenResolverInfo): TokenReference[] => {
     return processCallExpression(info as TokenResolverInfo<CallExpression>);
   } else if (Node.isPropertyAssignment(node)) {
     return processPropertyAssignment(info as TokenResolverInfo<PropertyAssignment>);
+  } else if (
+    Node.isTemplateSpan(node) ||
+    Node.isTemplateHead(node) ||
+    Node.isTemplateMiddle(node) ||
+    Node.isTemplateTail(node)
+  ) {
+    // Unless we need specialized handling, use the template expression resolver
+    return processTemplateExpression(
+      info as TokenResolverInfo<TemplateSpan | TemplateHead | TemplateMiddle | TemplateTail>
+    );
   }
 
   return tokens;
@@ -67,7 +85,7 @@ const processStringLiteral = (info: TokenResolverInfo<StringLiteral>): TokenRefe
 };
 
 const processIdentifier = (info: TokenResolverInfo<Identifier>): TokenReference[] => {
-  const { node, importedValues, parentName, path, tokens } = info;
+  const { node, importedValues, parentName, path, tokens, isVariableReference, sourceFile } = info;
 
   let returnTokens = tokens.slice();
 
@@ -83,7 +101,9 @@ const processIdentifier = (info: TokenResolverInfo<Identifier>): TokenReference[
           token: [match],
           path,
         },
-        returnTokens
+        returnTokens,
+        isVariableReference,
+        sourceFile
       );
     });
   }
@@ -92,14 +112,14 @@ const processIdentifier = (info: TokenResolverInfo<Identifier>): TokenReference[
   if (importedValues && importedValues.has(text)) {
     // const importTokens = processImportedStringTokens(importedValues, path[path.length - 1] ?? parentName, text, path);
     const importTokens = processImportedStringTokens(info, text);
-    returnTokens = addTokenToArray(importTokens, returnTokens);
+    returnTokens = addTokenToArray(importTokens, returnTokens, isVariableReference, sourceFile);
   }
 
   return returnTokens;
 };
 
 const processPropertyAccess = (info: TokenResolverInfo<PropertyAccessExpression>): TokenReference[] => {
-  const { node, parentName, path, tokens } = info;
+  const { node, parentName, path, tokens, isVariableReference, sourceFile } = info;
 
   const text = node.getText();
   const isToken = isTokenReference(text);
@@ -110,7 +130,9 @@ const processPropertyAccess = (info: TokenResolverInfo<PropertyAccessExpression>
         token: [text],
         path,
       },
-      tokens
+      tokens,
+      isVariableReference,
+      sourceFile
     );
   }
   return tokens;
@@ -190,7 +212,7 @@ const processFocusCallExpression = (info: TokenResolverInfo<CallExpression>): To
 };
 
 const processCallExpression = (info: TokenResolverInfo<CallExpression>): TokenReference[] => {
-  const { node, path, parentName, tokens, importedValues } = info;
+  const { node, path, parentName, tokens, importedValues, isVariableReference, sourceFile } = info;
 
   let returnTokens = tokens.slice();
   // Process calls like shorthands.borderColor(tokens.color)
@@ -213,7 +235,9 @@ const processCallExpression = (info: TokenResolverInfo<CallExpression>): TokenRe
           token: [argument.token],
           path: path.concat(argument.property),
         },
-        returnTokens
+        returnTokens,
+        isVariableReference,
+        sourceFile
       );
     });
   } else {
@@ -238,19 +262,21 @@ const processCallExpression = (info: TokenResolverInfo<CallExpression>): TokenRe
  * @param info
  * @returns
  */
-const processTemplateExpression = (info: TokenResolverInfo<TemplateExpression>): TokenReference[] => {
+const processTemplateExpression = (
+  info: TokenResolverInfo<TemplateExpression | TemplateSpan | TemplateHead | TemplateMiddle | TemplateTail>
+): TokenReference[] => {
   /**
    * This is where we should process template spans and feed it back into resolveToken. We also need to check that
    * imported values are tokens etc.
    */
 
-  const { node, path, parentName, tokens } = info;
+  const { node, path, parentName, tokens, isVariableReference, sourceFile } = info;
   const text = node.getText();
 
   // Check for CSS var() syntax that might contain tokens
   if (text.includes('var(')) {
     const cssVarTokens = extractTokensFromCssVars(text, path[path.length - 1] ?? parentName, path);
-    return addTokenToArray(cssVarTokens, tokens);
+    return addTokenToArray(cssVarTokens, tokens, isVariableReference, sourceFile);
   } else {
     // Check for direct token references
     const matches = extractTokensFromText(node);
@@ -263,8 +289,12 @@ const processTemplateExpression = (info: TokenResolverInfo<TemplateExpression>):
             property: path[path.length - 1] ?? parentName,
             token: [match],
             path,
+            isVariableReference,
+            sourceFile,
           },
-          returnTokens
+          returnTokens,
+          isVariableReference,
+          sourceFile
         );
       });
     }
@@ -331,37 +361,17 @@ export function processImportedStringTokens(info: TokenResolverInfo<Identifier>,
             // Reference to another imported value - process recursively
             const spanTokens = processImportedStringTokens(info, span.referenceName);
             returnTokens.push(...spanTokens);
-          } else if (span.text.includes('var(')) {
-            // I think we can run resolveToken here.
-
-            // Check for CSS variables in the span text
-            const cssVarTokens = extractTokensFromCssVars(span.text, propertyName, path);
-            cssVarTokens.forEach((token) => {
-              returnTokens.push({
-                ...token,
-                isVariableReference: true,
-                sourceFile: importedValue.sourceFile,
-              });
-            });
           } else {
-            // If we call resolveToken above we might also be able to remove this
-
-            // Check for direct token matches in non-reference spans
-            const matches = extractTokensFromText(span.text);
-            if (matches.length > 0) {
-              matches.forEach((match) => {
-                returnTokens = addTokenToArray(
-                  {
-                    property: propertyName,
-                    token: [match],
-                    path,
-                    isVariableReference: true,
-                    sourceFile: importedValue.sourceFile,
-                  },
-                  returnTokens
-                );
-              });
-            }
+            // Run the span back through our resolver
+            returnTokens = resolveToken({
+              node: span.node,
+              path,
+              parentName,
+              tokens: returnTokens,
+              importedValues,
+              isVariableReference: true,
+              sourceFile: importedValue.sourceFile,
+            });
           }
         }
       } else {
@@ -403,8 +413,16 @@ export function processImportedStringTokens(info: TokenResolverInfo<Identifier>,
       }
     } else {
       // I think below can also call resolveToken
+      // But we need more information like the actual node. We can't access property access expressions from a string
       //
-      //
+
+      console.log(
+        'non literal value ======================',
+        importedValue.node.getKindName(),
+        importedValue.value,
+        importedValue.node.getFullText(),
+        importedValue.node.getText()
+      );
 
       // Non-literal values (like property access expressions)
       if (isTokenReference(importedValue.value)) {
