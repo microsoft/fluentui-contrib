@@ -375,55 +375,18 @@ export function processImportedStringTokens(info: TokenResolverInfo<Identifier>,
           }
         }
       } else {
-        // I think below can also call resolveToken
-        //
-        //
-
-        // Standard processing for literals without spans
-        // First, check for direct token references
-        const matches = extractTokensFromText(importedValue.value);
-        if (matches.length > 0) {
-          matches.forEach((match) => {
-            returnTokens = addTokenToArray(
-              {
-                property: propertyName,
-                token: [match],
-                path,
-                isVariableReference: true,
-                sourceFile: importedValue.sourceFile,
-              },
-              returnTokens
-            );
-          });
-        } else if (importedValue.value.includes('var(')) {
-          // I think below can also call resolveToken
-          //
-          //
-
-          // Then check for CSS variable patterns
-          const cssVarTokens = extractTokensFromCssVars(importedValue.value, propertyName, path);
-          cssVarTokens.forEach((token) => {
-            returnTokens.push({
-              ...token,
-              isVariableReference: true,
-              sourceFile: importedValue.sourceFile,
-            });
-          });
-        }
+        // Run the span back through our resolver
+        returnTokens = resolveToken({
+          node: importedValue.node,
+          path,
+          parentName,
+          tokens: returnTokens,
+          importedValues,
+          isVariableReference: true,
+          sourceFile: importedValue.sourceFile,
+        });
       }
     } else {
-      // I think below can also call resolveToken
-      // But we need more information like the actual node. We can't access property access expressions from a string
-      //
-
-      console.log(
-        'non literal value ======================',
-        importedValue.node.getKindName(),
-        importedValue.value,
-        importedValue.node.getFullText(),
-        importedValue.node.getText()
-      );
-
       // Non-literal values (like property access expressions)
       if (isTokenReference(importedValue.value)) {
         returnTokens = addTokenToArray(
@@ -437,26 +400,16 @@ export function processImportedStringTokens(info: TokenResolverInfo<Identifier>,
           returnTokens
         );
       } else {
-        // I think below can also call resolveToken
-        //
-        //
-
-        // Check for any token references in the value
-        const matches = extractTokensFromText(importedValue.value);
-        if (matches.length > 0) {
-          matches.forEach((match) => {
-            returnTokens = addTokenToArray(
-              {
-                property: propertyName,
-                token: [match],
-                path,
-                isVariableReference: true,
-                sourceFile: importedValue.sourceFile,
-              },
-              returnTokens
-            );
-          });
-        }
+        // Run the span back through our resolver
+        returnTokens = resolveToken({
+          node: importedValue.node,
+          path,
+          parentName,
+          tokens: returnTokens,
+          importedValues,
+          isVariableReference: true,
+          sourceFile: importedValue.sourceFile,
+        });
       }
     }
 
