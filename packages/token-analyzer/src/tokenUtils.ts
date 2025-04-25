@@ -52,9 +52,7 @@ export function getExpresionFromIdentifier(node: Node): Node | undefined {
  * @param textOrNode The text or Node to extract tokens from
  * @returns Array of token reference strings
  */
-export function extractTokensFromText(
-  textOrNode: string | Node | Symbol
-): string[] {
+export function extractTokensFromText(textOrNode: string | Node | Symbol): string[] {
   // If we have a Node or Symbol, extract the text to check
   let text: string | undefined;
   const matches: string[] = [];
@@ -112,14 +110,9 @@ type FunctionParams<T> = T extends (...args: infer P) => any ? P : never;
  * @param functionName The name of the shorthand function (e.g., "borderColor" or "shorthands.borderColor")
  * @returns Array of CSS property names affected by this shorthand
  */
-export function getPropertiesForShorthand(
-  functionName: string,
-  args: Node[]
-): { property: string; token: string }[] {
+export function getPropertiesForShorthand(functionName: string, args: Node[]): { property: string; token: string }[] {
   // Extract base function name if it's a qualified name (e.g., shorthands.borderColor -> borderColor)
-  const baseName = functionName.includes('.')
-    ? functionName.split('.').pop()
-    : functionName;
+  const baseName = functionName.includes('.') ? functionName.split('.').pop() : functionName;
 
   const cleanFunctionName = baseName as keyof typeof shorthands;
   const shorthandFunction = shorthands[cleanFunctionName];
@@ -162,16 +155,28 @@ export function getPropertiesForShorthand(
  */
 export const addTokenToArray = (
   tokensToAdd: TokenReference[] | TokenReference,
-  target: TokenReference[]
+  target: TokenReference[],
+  isVariableReference?: boolean,
+  sourceFile?: string
 ) => {
   // create new array without modifying the original array
   const newArray = target.slice();
 
   // add items to the array
   if (Array.isArray(tokensToAdd)) {
-    newArray.push(...tokensToAdd);
+    newArray.push(
+      ...tokensToAdd.map((token) => ({
+        ...token,
+        ...(isVariableReference && { isVariableReference }),
+        ...(sourceFile && { sourceFile }),
+      }))
+    );
   } else {
-    newArray.push(tokensToAdd);
+    newArray.push({
+      ...tokensToAdd,
+      ...(isVariableReference && { isVariableReference }),
+      ...(sourceFile && { sourceFile }),
+    });
   }
 
   // return array without modifying the original array

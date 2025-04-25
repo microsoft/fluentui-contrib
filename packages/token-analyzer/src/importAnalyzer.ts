@@ -23,6 +23,7 @@ export interface ImportedValue {
   value: string;
   sourceFile: string;
   isLiteral: boolean;
+  node: Node;
 
   // Enhanced fields for template processing
   templateSpans?: TemplateSpan[]; // For template expressions with spans
@@ -111,6 +112,7 @@ function processNamedImports(
           sourceFile: declarationFile.getFilePath(),
           isLiteral: valueInfo.isLiteral,
           templateSpans: valueInfo.templateSpans,
+          node: declaration,
         });
 
         log(`Added imported value: ${alias} = ${valueInfo.value} from ${declarationFile.getFilePath()}`);
@@ -151,6 +153,7 @@ function processDefaultImport(
         sourceFile: declarationFile.getFilePath(),
         isLiteral: valueInfo.isLiteral,
         templateSpans: valueInfo.templateSpans,
+        node: declaration,
       });
 
       log(`Added default import: ${importName} = ${valueInfo.value} from ${declarationFile.getFilePath()}`);
