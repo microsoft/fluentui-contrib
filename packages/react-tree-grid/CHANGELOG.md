@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-tree-grid
 
-This log was last generated on Thu, 10 Apr 2025 14:11:17 GMT and should not be manually modified.
+This log was last generated on Mon, 28 Apr 2025 08:56:33 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.2.0
+
+Mon, 28 Apr 2025 08:56:33 GMT
+
+### Minor changes
+
+- feature(react-tree-grid): TreeGridRowTrigger component (bernardo.sunderhus@gmail.com)
 
 ## 0.1.6
 

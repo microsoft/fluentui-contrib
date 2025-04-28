@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "Added aria-pressed to a list of allowed props for ToggleButton",
-  "packageName": "@fluentui-contrib/teams-components",
-  "email": "patrycja.fogelman@microsoft.com",
-  "dependentChangeType": "patch"
-}

@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "feature(react-tree-grid): TreeGridRowTrigger component",
-  "packageName": "@fluentui-contrib/react-tree-grid",
-  "email": "bernardo.sunderhus@gmail.com",
-  "dependentChangeType": "patch"
-}
