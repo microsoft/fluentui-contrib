@@ -37,6 +37,7 @@ interface VariableMapping {
 function processStyleProperty(
   prop: PropertyAssignment | SpreadAssignment,
   importedValues: Map<string, ImportedValue>,
+  project: Project,
   isResetStyles?: boolean
 ): TokenReference[] {
   let tokens: TokenReference[] = [];
@@ -51,6 +52,7 @@ function processStyleProperty(
     parentName,
     tokens,
     importedValues,
+    project,
   });
 
   return tokens;
@@ -223,7 +225,8 @@ function createMetadata(styleMappings: StyleMapping[]): StyleMetadata {
  */
 async function analyzeMakeStyles(
   sourceFile: SourceFile,
-  importedValues: Map<string, ImportedValue>
+  importedValues: Map<string, ImportedValue>,
+  project: Project
 ): Promise<StyleAnalysis> {
   const analysis: StyleAnalysis = {};
 
@@ -236,7 +239,7 @@ async function analyzeMakeStyles(
         stylesArg.getProperties().forEach((prop) => {
           if (Node.isPropertyAssignment(prop)) {
             const styleName = prop.getName();
-            const tokens = processStyleProperty(prop, importedValues);
+            const tokens = processStyleProperty(prop, importedValues, project);
             const functionName = parentNode.getName();
             if (!analysis[functionName]) {
               analysis[functionName] = {};
@@ -266,7 +269,7 @@ async function analyzeMakeStyles(
           // Process the styles object
           stylesArg.getProperties().forEach((prop) => {
             if (Node.isPropertyAssignment(prop) || Node.isSpreadAssignment(prop)) {
-              const tokens = processStyleProperty(prop, importedValues, true);
+              const tokens = processStyleProperty(prop, importedValues, project, true);
               if (tokens.length) {
                 const styleContent = createStyleContent(tokens);
                 analysis[functionName][makeResetStylesToken].tokens = analysis[functionName][
@@ -335,7 +338,7 @@ async function analyzeFile(filePath: string, project: Project): Promise<FileAnal
 
   // Third pass: Analyze makeStyles with imported values
   const styleAnalysis = await measureAsync<StyleAnalysis>('analyze makeStyles', () =>
-    analyzeMakeStyles(sourceFile, importedValues)
+    analyzeMakeStyles(sourceFile, importedValues, project)
   );
 
   // Create enhanced analysis with separated styles and metadata

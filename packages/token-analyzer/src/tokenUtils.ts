@@ -1,14 +1,41 @@
 // tokenUtils.ts
-import { Node, Symbol, SyntaxKind } from 'ts-morph';
-import { TOKEN_REGEX, TokenReference } from './types.js';
+import { Symbol, SyntaxKind, Node, ImportSpecifier } from 'ts-morph';
+import { TOKEN_REGEX, TokenReference, TokenResolverInfo } from './types.js';
 import { shorthands } from '@griffel/react';
+
+export function isTokenReference(info: TokenResolverInfo): boolean {
+  const { node, importedValues, project } = info;
+  let calledSymbol: Symbol | undefined;
+  let calledNodeName = node.getText();
+  let importedSymbol: Symbol | undefined;
+  const checker = project.getTypeChecker();
+  if (Node.isPropertyAccessExpression(node)) {
+    const expression = node.getExpression();
+    calledNodeName = expression.getText();
+    calledSymbol = checker.getSymbolAtLocation(expression);
+  } else {
+    calledSymbol = checker.getSymbolAtLocation(node);
+  }
+
+  const knownTokenValue = importedValues.get(calledNodeName);
+  if (knownTokenValue) {
+    const knownTokenNode = knownTokenValue.node;
+    importedSymbol = checker.getSymbolAtLocation(knownTokenNode);
+    if (importedSymbol === undefined && Node.isImportSpecifier(knownTokenNode)) {
+      importedSymbol = checker.getSymbolAtLocation(knownTokenNode.getNameNode());
+    }
+  }
+
+  // If we have a known token that is equal to an imported value and both resolve we know it's a token
+  return calledSymbol !== undefined && importedSymbol !== undefined && calledSymbol === importedSymbol;
+}
 
 /**
  * Centralizes token detection logic to make future changes easier
  * @param textOrNode The text or Node to check for token references
  * @returns true if the text/node contains a token reference
  */
-export function isTokenReference(textOrNode: string | Node | Symbol): boolean {
+export function isTokenReferenceOld(textOrNode: string | Node | Symbol): boolean {
   // If we have a Node or Symbol, extract the text to check
   let text: string;
 
@@ -61,7 +88,7 @@ export function extractTokensFromText(textOrNode: string | Node | Symbol): strin
     text = textOrNode;
   } else if (Node.isNode(textOrNode) && Node.isTemplateExpression(textOrNode)) {
     textOrNode.getTemplateSpans().forEach((span) => {
-      if (isTokenReference(span.getExpression().getText())) {
+      if (isTokenReferenceOld(span.getExpression().getText())) {
         const token = span.getExpression().getText();
         matches.push(token);
       } else {
@@ -131,7 +158,7 @@ export function getPropertiesForShorthand(functionName: string, args: Node[]): {
 
     Object.keys(shortHandOutput).forEach((key) => {
       const value = shortHandOutput[key as keyof typeof shortHandOutput];
-      if (isTokenReference(value)) {
+      if (isTokenReferenceOld(value)) {
         shortHandTokens.push({
           property: key,
           token: value,

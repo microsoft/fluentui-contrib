@@ -1,3 +1,6 @@
+import { Project, Node } from 'ts-morph';
+import { ImportedValue } from './importAnalyzer';
+
 // types.ts
 export interface TokenReference {
   property: string;
@@ -62,7 +65,19 @@ export type KnownTokenImportsAndModules = {
 
 export const knownTokenImportsAndModules: KnownTokenImportsAndModules = {
   // if we see any imports from the defaults, we assume it's a token.
-  default: ['@fluentui/semantic-tokens'],
+  // @fluentui/tokens is here as a test but should be removed in the future
+  default: ['@fluentui/semantic-tokens', '@fluentui/tokens'],
   // begin the known token imports
   tokens: ['@fluentui/react-theme', '@fluentui/react-components', '@fluentui/tokens'],
 };
+
+export interface TokenResolverInfo<T extends Node = Node> {
+  node: T;
+  path: string[];
+  parentName: string;
+  tokens: TokenReference[];
+  importedValues: Map<string, ImportedValue>;
+  project: Project;
+  isVariableReference?: boolean;
+  sourceFile?: string;
+}
