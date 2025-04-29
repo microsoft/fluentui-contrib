@@ -3,7 +3,7 @@ import { Project, Node, SourceFile, ImportDeclaration, Symbol, TypeChecker, Synt
 import { log } from './debugUtils.js';
 import { knownTokenImportsAndModules, TokenReference } from './types.js';
 import { getModuleSourceFile } from './moduleResolver.js';
-import { isTokenReference } from './tokenUtils.js';
+import { isTokenReferenceOld } from './tokenUtils.js';
 
 /**
  * Represents a portion of a template expression
@@ -71,8 +71,6 @@ async function processImportDeclaration(
   // Use our module resolver to get the imported file
   const importedFile = getModuleSourceFile(project, moduleSpecifier, containingFilePath);
 
-  console.log(moduleSpecifier, importedFile !== null);
-
   if (!importedFile) {
     log(`Could not resolve module: ${moduleSpecifier}`);
     return;
@@ -83,6 +81,8 @@ async function processImportDeclaration(
 
   // Process default import (import x from 'module')
   processDefaultImport(importDecl, importedFile, project, importedValues, typeChecker, moduleSpecifier);
+
+  processNamespaceImport(importDecl, importedFile, project, importedValues, typeChecker, moduleSpecifier);
 }
 
 /**
@@ -112,13 +112,7 @@ function processNamedImports(
       const valueInfo = extractValueFromDeclaration(declaration, typeChecker);
 
       const knownTokenKeys = Object.keys(knownTokenImportsAndModules);
-      console.log(
-        importName,
-        knownTokenKeys,
-        exportInfo !== undefined,
-        valueInfo !== undefined,
-        declarationFile.getFilePath()
-      );
+
       // We should process the imports module import first to determrine if it's a known token package
       // If it's not, we can then process it's value as it's likely another file within the application or library.
       if (
@@ -129,7 +123,7 @@ function processNamedImports(
           value: importName,
           sourceFile: declarationFile.getFilePath(),
           isLiteral: false,
-          node: declaration,
+          node: namedImport, // Use the alias node if available, otherwise use the declaration
           knownTokenPackage: true,
         });
 
@@ -172,19 +166,13 @@ function processDefaultImport(
   // Find the default export's true source
   const exportInfo = findExportDeclaration(importedFile, 'default', typeChecker);
 
-  console.log(importName, Object.keys(knownTokenImportsAndModules));
-
   if (exportInfo) {
     const { declaration, sourceFile: declarationFile } = exportInfo;
 
     // Extract the value from the declaration
     const valueInfo = extractValueFromDeclaration(declaration, typeChecker);
-    const knownTokenKeys = Object.keys(knownTokenImportsAndModules);
 
-    if (
-      (knownTokenKeys.includes(importName) && knownTokenImportsAndModules[importName].includes(moduleSpecifier)) ||
-      knownTokenImportsAndModules.default.includes(moduleSpecifier)
-    ) {
+    if (knownTokenImportsAndModules.default.includes(moduleSpecifier)) {
       importedValues.set(importName, {
         value: importName,
         sourceFile: declarationFile.getFilePath(),
@@ -204,6 +192,32 @@ function processDefaultImport(
 
       log(`Added default import: ${importName} = ${valueInfo.value} from ${declarationFile.getFilePath()}`);
     }
+  }
+}
+
+function processNamespaceImport(
+  importDecl: ImportDeclaration,
+  importedFile: SourceFile,
+  project: Project,
+  importedValues: Map<string, ImportedValue>,
+  typeChecker: TypeChecker,
+  moduleSpecifier: string
+): void {
+  const namespaceImport = importDecl.getNamespaceImport();
+  if (!namespaceImport) {
+    log(`No namespace import found in ${importDecl.getModuleSpecifierValue()}`);
+    return;
+  }
+  const importName = namespaceImport.getText();
+  // Find the default export's true source
+  if (knownTokenImportsAndModules.default.includes(moduleSpecifier)) {
+    importedValues.set(importName, {
+      value: importName,
+      sourceFile: importedFile.getFilePath(),
+      isLiteral: false,
+      node: namespaceImport,
+      knownTokenPackage: true,
+    });
   }
 }
 
@@ -366,7 +380,7 @@ function extractValueFromExpression(
       const literal = span.getLiteral().getLiteralText();
 
       // Handle different types of expressions in template spans
-      if (Node.isPropertyAccessExpression(spanExpr) && isTokenReference(spanExpr)) {
+      if (Node.isPropertyAccessExpression(spanExpr) && isTokenReferenceOld(spanExpr)) {
         // Direct token reference in template span
         templateSpans.push({
           text: spanText,

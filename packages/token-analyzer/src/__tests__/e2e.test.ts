@@ -19,12 +19,10 @@ describe('e2e test', () => {
     targetPath = path.join(__dirname, 'test-files', 'analysis.json');
 
     await analyzeProjectStyles(tempDir, targetPath);
-    await fs
-      .readFile(path.join(tempDir, 'analysis.json'), 'utf-8')
-      .then((analysisData) => {
-        // Parse the JSON data from our analysis and start validating it
-        analysis = JSON.parse(analysisData);
-      });
+    await fs.readFile(path.join(tempDir, 'analysis.json'), 'utf-8').then((analysisData) => {
+      // Parse the JSON data from our analysis and start validating it
+      analysis = JSON.parse(analysisData);
+    });
 
     styles = analysis[styleFileName].styles;
   }, 100000);
@@ -53,10 +51,7 @@ describe('e2e test', () => {
    */
   const tokenTestFactory = (tokenArray: any) => {
     return (propertyName: string, expectedToken: string) => {
-      const token = tokenArray.some(
-        (t: any) =>
-          t.property === propertyName && t.token.includes(expectedToken)
-      );
+      const token = tokenArray.some((t: any) => t.property === propertyName && t.token.includes(expectedToken));
       expect(token).toBeTruthy();
     };
   };
@@ -67,12 +62,9 @@ describe('e2e test', () => {
    * @param testArray the known set of tokens are we looking for
    */
   const checkTokens = (tokenArray: () => any[], testArray: any[]) => {
-    test.each(testArray)(
-      '%s token is properly configured',
-      (propertyName, expectedToken) => {
-        tokenTestFactory(tokenArray())(propertyName, expectedToken);
-      }
-    );
+    test.each(testArray)('%s token is properly configured', (propertyName, expectedToken) => {
+      tokenTestFactory(tokenArray())(propertyName, expectedToken);
+    });
 
     // Check if the length of the token array matches the expected length
     test(`token array length should be ${testArray.length}`, () => {
@@ -93,9 +85,7 @@ describe('e2e test', () => {
 
     // Define token cases for active hover makeResetStyles tests
     checkTokens(
-      () =>
-        styles.useRootBaseClassName.resetStyles.nested["':hover:active'"]
-          .tokens,
+      () => styles.useRootBaseClassName.resetStyles.nested["':hover:active'"].tokens,
       [
         ['backgroundColor', 'tokens.colorNeutralBackground1Pressed'],
         ['borderColor', 'tokens.colorNeutralStroke1Pressed'],
@@ -108,7 +98,7 @@ describe('e2e test', () => {
       () => styles.useRootBaseClassName.resetStyles.tokens,
       [
         ['backgroundColor', 'tokens.colorNeutralBackground1'],
-        ['color', 'tokens.colorNeutralForeground1'],
+        ['color', 'semanticTokens.colorNeutralForeground1'],
         ['border', 'tokens.strokeWidthThin'],
         ['border', 'tokens.colorNeutralStroke1'],
         ['fontFamily', 'tokens.fontFamilyBase'],
@@ -138,9 +128,7 @@ describe('e2e test', () => {
     // Token cases for makeResetStyles mozilla bug
     checkTokens(
       () =>
-        styles.useRootBaseClassName.resetStyles.nested[
-          "'@supports (-moz-appearance:button)'"
-        ].nested[':focus'].tokens,
+        styles.useRootBaseClassName.resetStyles.nested["'@supports (-moz-appearance:button)'"].nested[':focus'].tokens,
       [
         ['boxShadow', 'tokens.colorStrokeFocus2'],
         ['boxShadow', 'tokens.strokeWidthThin'],
@@ -149,9 +137,6 @@ describe('e2e test', () => {
   });
 
   describe('validate makeStyles tokens', () => {
-    checkTokens(
-      () => styles.useRootStyles.outline.tokens,
-      [['backgroundColor', 'tokens.colorTransparentBackground']]
-    );
+    checkTokens(() => styles.useRootStyles.outline.tokens, [['backgroundColor', 'tokens.colorTransparentBackground']]);
   });
 });

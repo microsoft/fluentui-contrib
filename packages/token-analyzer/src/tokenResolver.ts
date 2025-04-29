@@ -13,20 +13,16 @@ import {
   TemplateMiddle,
   TemplateTail,
 } from 'ts-morph';
-import { TokenReference } from './types';
+import { TokenReference, TokenResolverInfo } from './types';
 import { extractTokensFromCssVars } from './cssVarTokenExtractor';
-import { addTokenToArray, extractTokensFromText, getPropertiesForShorthand, isTokenReference } from './tokenUtils';
+import {
+  addTokenToArray,
+  extractTokensFromText,
+  getPropertiesForShorthand,
+  isTokenReference,
+  isTokenReferenceOld,
+} from './tokenUtils';
 import { ImportedValue } from './importAnalyzer';
-
-interface TokenResolverInfo<T extends Node = Node> {
-  node: T;
-  path: string[];
-  parentName: string;
-  tokens: TokenReference[];
-  importedValues: Map<string, ImportedValue>;
-  isVariableReference?: boolean;
-  sourceFile?: string;
-}
 
 /**
  * Function that centarlizes the logic for resolving tokens from a node.
@@ -116,10 +112,17 @@ const processIdentifier = (info: TokenResolverInfo<Identifier>): TokenReference[
 };
 
 const processPropertyAccess = (info: TokenResolverInfo<PropertyAccessExpression>): TokenReference[] => {
-  const { node, parentName, path, tokens, isVariableReference, sourceFile } = info;
+  const { node, parentName, path, tokens, isVariableReference, sourceFile, importedValues, project } = info;
 
   const text = node.getText();
-  const isToken = isTokenReference(text);
+
+  const expression = node.getExpression();
+  const expressionText = expression.getText();
+  if (expressionText === 'tokens') {
+    console.log('Checking for semantic tokens!', isTokenReference(info));
+  }
+
+  const isToken = isTokenReference(info);
   if (isToken) {
     return addTokenToArray(
       {
@@ -136,17 +139,14 @@ const processPropertyAccess = (info: TokenResolverInfo<PropertyAccessExpression>
 };
 
 const processObjectLiteral = (info: TokenResolverInfo<ObjectLiteralExpression>): TokenReference[] => {
-  const { node, parentName, path, tokens, importedValues } = info;
+  const { node, tokens } = info;
 
   let returnTokens = tokens.slice();
   node.getProperties().forEach((childProp) => {
     returnTokens = returnTokens.concat(
       resolveToken({
+        ...info,
         node: childProp,
-        path,
-        parentName,
-        tokens,
-        importedValues,
       })
     );
   });
@@ -154,14 +154,11 @@ const processObjectLiteral = (info: TokenResolverInfo<ObjectLiteralExpression>):
 };
 
 const processSpreadAssignment = (info: TokenResolverInfo<SpreadAssignment>): TokenReference[] => {
-  const { node, path, parentName, tokens, importedValues } = info;
+  const { node, tokens } = info;
   return tokens.concat(
     resolveToken({
+      ...info,
       node: node.getExpression(),
-      path,
-      parentName,
-      tokens,
-      importedValues,
     })
   );
 };
@@ -197,6 +194,7 @@ const processFocusCallExpression = (info: TokenResolverInfo<CallExpression>): To
     // We can simplify the logic since we process node types and extract within resolveTokens. We merely need to pass
     // the updated path
     return resolveToken({
+      ...info,
       node: passedTokens,
       path: [...path, nestedModifier],
       parentName,
@@ -209,7 +207,7 @@ const processFocusCallExpression = (info: TokenResolverInfo<CallExpression>): To
 };
 
 const processCallExpression = (info: TokenResolverInfo<CallExpression>): TokenReference[] => {
-  const { node, path, parentName, tokens, importedValues, isVariableReference, sourceFile } = info;
+  const { node, path, tokens, importedValues, isVariableReference, sourceFile } = info;
 
   let returnTokens = tokens.slice();
   // Process calls like shorthands.borderColor(tokens.color)
@@ -242,9 +240,9 @@ const processCallExpression = (info: TokenResolverInfo<CallExpression>): TokenRe
     node.getArguments().forEach((argument) => {
       returnTokens = returnTokens.concat(
         resolveToken({
+          ...info,
           node: argument,
           path: [...path, functionName],
-          parentName,
           tokens: returnTokens,
           importedValues,
         })
@@ -301,18 +299,16 @@ const processTemplateExpression = (
 };
 
 const processPropertyAssignment = (info: TokenResolverInfo<PropertyAssignment>): TokenReference[] => {
-  const { node, path, parentName, tokens, importedValues } = info;
+  const { node, path } = info;
 
   const childName = node.getName();
   const newPath = [...path, childName];
   const propertyNode = node.getInitializer();
 
   return resolveToken({
+    ...info,
     node: propertyNode ?? node,
     path: newPath,
-    parentName,
-    tokens,
-    importedValues,
   });
 };
 
@@ -320,7 +316,7 @@ const processPropertyAssignment = (info: TokenResolverInfo<PropertyAssignment>):
  * Process string tokens in imported values
  */
 export function processImportedStringTokens(info: TokenResolverInfo<Identifier>, value: string): TokenReference[] {
-  const { node, importedValues, parentName, path, tokens } = info;
+  const { importedValues, parentName, path, tokens } = info;
   let returnTokens = tokens.slice();
   const propertyName = path[path.length - 1] ?? parentName;
 
@@ -361,11 +357,9 @@ export function processImportedStringTokens(info: TokenResolverInfo<Identifier>,
           } else {
             // Run the span back through our resolver
             returnTokens = resolveToken({
+              ...info,
               node: span.node,
-              path,
-              parentName,
               tokens: returnTokens,
-              importedValues,
               isVariableReference: true,
               sourceFile: importedValue.sourceFile,
             });
@@ -374,18 +368,16 @@ export function processImportedStringTokens(info: TokenResolverInfo<Identifier>,
       } else {
         // Run the span back through our resolver
         returnTokens = resolveToken({
+          ...info,
           node: importedValue.node,
-          path,
-          parentName,
           tokens: returnTokens,
-          importedValues,
           isVariableReference: true,
           sourceFile: importedValue.sourceFile,
         });
       }
     } else {
       // Non-literal values (like property access expressions)
-      if (isTokenReference(importedValue.value)) {
+      if (isTokenReferenceOld(importedValue.value)) {
         returnTokens = addTokenToArray(
           {
             property: propertyName,
@@ -399,11 +391,9 @@ export function processImportedStringTokens(info: TokenResolverInfo<Identifier>,
       } else {
         // Run the span back through our resolver
         returnTokens = resolveToken({
+          ...info,
           node: importedValue.node,
-          path,
-          parentName,
           tokens: returnTokens,
-          importedValues,
           isVariableReference: true,
           sourceFile: importedValue.sourceFile,
         });

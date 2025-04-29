@@ -11,7 +11,7 @@
             },
             {
               "property": "color",
-              "token": ["tokens.colorNeutralForeground1"],
+              "token": ["semanticTokens.colorNeutralForeground1"],
               "path": ["color"]
             },
             {

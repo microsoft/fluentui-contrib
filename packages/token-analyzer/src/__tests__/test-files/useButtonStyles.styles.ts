@@ -1,17 +1,10 @@
-import {
-  iconFilledClassName,
-  iconRegularClassName,
-} from '@fluentui/react-icons';
+import { iconFilledClassName, iconRegularClassName } from '@fluentui/react-icons';
 import { createCustomFocusIndicatorStyle } from '@fluentui/react-tabster';
 import { tokens } from '@fluentui/react-theme';
-import {
-  shorthands,
-  makeStyles,
-  makeResetStyles,
-  mergeClasses,
-} from '@griffel/react';
+import { shorthands, makeStyles, makeResetStyles, mergeClasses } from '@griffel/react';
 import type { SlotClassNames } from '@fluentui/react-utilities';
 import type { ButtonSlots, ButtonState } from '@fluentui/react-components';
+import * as semanticTokens from '@fluentui/tokens';
 
 export const buttonClassNames: SlotClassNames<ButtonSlots> = {
   root: 'fui-Button',
@@ -46,7 +39,7 @@ const useRootBaseClassName = makeResetStyles({
   overflow: 'hidden',
 
   backgroundColor: tokens.colorNeutralBackground1,
-  color: tokens.colorNeutralForeground1,
+  color: semanticTokens.colorNeutralForeground1,
   border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke1}`,
 
   fontFamily: tokens.fontFamilyBase,
@@ -473,11 +466,7 @@ const useRootFocusStyles = makeStyles({
   primary: {
     ...createCustomFocusIndicatorStyle({
       // added another color here to test the shorthands output.
-      ...shorthands.borderColor(
-        tokens.colorStrokeFocus2,
-        tokens.colorStrokeFocus1,
-        tokenInInitializer
-      ),
+      ...shorthands.borderColor(tokens.colorStrokeFocus2, tokens.colorStrokeFocus1, tokenInInitializer),
       boxShadow: `${tokens.shadow2}, 0 0 0 ${tokens.strokeWidthThin} ${tokens.colorStrokeFocus2} inset,  0 0 0 ${tokens.strokeWidthThick} ${tokens.colorNeutralForegroundOnBrand} inset`,
       ':hover': {
         boxShadow: `${tokens.shadow2}, 0 0 0 ${tokens.strokeWidthThin} ${tokens.colorStrokeFocus2} inset`,
@@ -571,16 +560,7 @@ export const useButtonStyles_unstable = (state: ButtonState): ButtonState => {
   const rootIconOnlyStyles = useRootIconOnlyStyles();
   const iconStyles = useIconStyles();
 
-  const {
-    appearance,
-    disabled,
-    disabledFocusable,
-    icon,
-    iconOnly,
-    iconPosition,
-    shape,
-    size,
-  } = state;
+  const { appearance, disabled, disabledFocusable, icon, iconOnly, iconPosition, shape, size } = state;
 
   state.root.className = mergeClasses(
     buttonClassNames.root,
@@ -596,9 +576,7 @@ export const useButtonStyles_unstable = (state: ButtonState): ButtonState => {
     // Disabled styles
     (disabled || disabledFocusable) && rootDisabledStyles.base,
     (disabled || disabledFocusable) && rootDisabledStyles.highContrast,
-    appearance &&
-      (disabled || disabledFocusable) &&
-      rootDisabledStyles[appearance],
+    appearance && (disabled || disabledFocusable) && rootDisabledStyles[appearance],
 
     // Focus styles
     appearance === 'primary' && rootFocusStyles.primary,
