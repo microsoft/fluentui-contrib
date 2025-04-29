@@ -52,3 +52,17 @@ export const IGNORED_DIRS = ['node_modules', 'dist', 'build', '.git'];
 export const VALID_EXTENSIONS = ['.ts', '.tsx', '.js', '.jsx', '.mjs'];
 
 export type TokenMap = Map<string, string>;
+
+/**
+ * This type houses the known named token imports ex: `tokens` and the modules they are imported from.
+ */
+export type KnownTokenImportsAndModules = {
+  [key: string]: string[];
+};
+
+export const knownTokenImportsAndModules: KnownTokenImportsAndModules = {
+  // if we see any imports from the defaults, we assume it's a token.
+  default: ['@fluentui/semantic-tokens'],
+  // begin the known token imports
+  tokens: ['@fluentui/react-theme', '@fluentui/react-components', '@fluentui/tokens'],
+};

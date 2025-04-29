@@ -37,8 +37,6 @@ interface TokenResolverInfo<T extends Node = Node> {
 export const resolveToken = (info: TokenResolverInfo): TokenReference[] => {
   const { node, tokens } = info;
 
-  console.log(info.node.getKindName());
-
   if (Node.isStringLiteral(node)) {
     // Path in the event we need to process string literals, however this isn't used given tokens are stored as
     // initialized values and imports. Generally, as property accessors or identifiers
@@ -110,7 +108,6 @@ const processIdentifier = (info: TokenResolverInfo<Identifier>): TokenReference[
 
   // Then check if it's an imported value reference
   if (importedValues && importedValues.has(text)) {
-    // const importTokens = processImportedStringTokens(importedValues, path[path.length - 1] ?? parentName, text, path);
     const importTokens = processImportedStringTokens(info, text);
     returnTokens = addTokenToArray(importTokens, returnTokens, isVariableReference, sourceFile);
   }
