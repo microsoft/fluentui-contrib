@@ -1,7 +1,7 @@
 // importAnalyzer.ts
 import { Project, Node, SourceFile, ImportDeclaration, Symbol, TypeChecker, SyntaxKind } from 'ts-morph';
 import { log } from './debugUtils.js';
-import { TokenReference } from './types.js';
+import { knownTokenImportsAndModules, TokenReference } from './types.js';
 import { getModuleSourceFile } from './moduleResolver.js';
 import { isTokenReference } from './tokenUtils.js';
 
@@ -24,6 +24,7 @@ export interface ImportedValue {
   sourceFile: string;
   isLiteral: boolean;
   node: Node;
+  knownTokenPackage: boolean;
 
   // Enhanced fields for template processing
   templateSpans?: TemplateSpan[]; // For template expressions with spans
@@ -67,9 +68,10 @@ async function processImportDeclaration(
 ): Promise<void> {
   const moduleSpecifier = importDecl.getModuleSpecifierValue();
   const containingFilePath = sourceFile.getFilePath();
-
   // Use our module resolver to get the imported file
   const importedFile = getModuleSourceFile(project, moduleSpecifier, containingFilePath);
+
+  console.log(moduleSpecifier, importedFile !== null);
 
   if (!importedFile) {
     log(`Could not resolve module: ${moduleSpecifier}`);
@@ -77,10 +79,10 @@ async function processImportDeclaration(
   }
 
   // Process named imports (import { x } from 'module')
-  processNamedImports(importDecl, importedFile, project, importedValues, typeChecker);
+  processNamedImports(importDecl, importedFile, project, importedValues, typeChecker, moduleSpecifier);
 
   // Process default import (import x from 'module')
-  processDefaultImport(importDecl, importedFile, project, importedValues, typeChecker);
+  processDefaultImport(importDecl, importedFile, project, importedValues, typeChecker, moduleSpecifier);
 }
 
 /**
@@ -91,7 +93,8 @@ function processNamedImports(
   importedFile: SourceFile,
   project: Project,
   importedValues: Map<string, ImportedValue>,
-  typeChecker: TypeChecker
+  typeChecker: TypeChecker,
+  moduleSpecifier: string
 ): void {
   for (const namedImport of importDecl.getNamedImports()) {
     const importName = namedImport.getName();
@@ -103,16 +106,42 @@ function processNamedImports(
     if (exportInfo) {
       const { declaration, sourceFile: declarationFile } = exportInfo;
 
+      // We need to first check if the import is coming from a known token package
+
       // Extract the value from the declaration
       const valueInfo = extractValueFromDeclaration(declaration, typeChecker);
 
-      if (valueInfo) {
+      const knownTokenKeys = Object.keys(knownTokenImportsAndModules);
+      console.log(
+        importName,
+        knownTokenKeys,
+        exportInfo !== undefined,
+        valueInfo !== undefined,
+        declarationFile.getFilePath()
+      );
+      // We should process the imports module import first to determrine if it's a known token package
+      // If it's not, we can then process it's value as it's likely another file within the application or library.
+      if (
+        (knownTokenKeys.includes(importName) && knownTokenImportsAndModules[importName].includes(moduleSpecifier)) ||
+        knownTokenImportsAndModules.default.includes(moduleSpecifier)
+      ) {
+        importedValues.set(alias, {
+          value: importName,
+          sourceFile: declarationFile.getFilePath(),
+          isLiteral: false,
+          node: declaration,
+          knownTokenPackage: true,
+        });
+
+        log(`Added known token import: ${alias} = ${importName} from ${declarationFile.getFilePath()}`);
+      } else if (valueInfo) {
         importedValues.set(alias, {
           value: valueInfo.value,
           sourceFile: declarationFile.getFilePath(),
           isLiteral: valueInfo.isLiteral,
           templateSpans: valueInfo.templateSpans,
           node: declaration,
+          knownTokenPackage: false,
         });
 
         log(`Added imported value: ${alias} = ${valueInfo.value} from ${declarationFile.getFilePath()}`);
@@ -129,10 +158,12 @@ function processDefaultImport(
   importedFile: SourceFile,
   project: Project,
   importedValues: Map<string, ImportedValue>,
-  typeChecker: TypeChecker
+  typeChecker: TypeChecker,
+  moduleSpecifier: string
 ): void {
   const defaultImport = importDecl.getDefaultImport();
   if (!defaultImport) {
+    log(`No default import found in ${importDecl.getModuleSpecifierValue()}`);
     return;
   }
 
@@ -141,19 +172,34 @@ function processDefaultImport(
   // Find the default export's true source
   const exportInfo = findExportDeclaration(importedFile, 'default', typeChecker);
 
+  console.log(importName, Object.keys(knownTokenImportsAndModules));
+
   if (exportInfo) {
     const { declaration, sourceFile: declarationFile } = exportInfo;
 
     // Extract the value from the declaration
     const valueInfo = extractValueFromDeclaration(declaration, typeChecker);
+    const knownTokenKeys = Object.keys(knownTokenImportsAndModules);
 
-    if (valueInfo) {
+    if (
+      (knownTokenKeys.includes(importName) && knownTokenImportsAndModules[importName].includes(moduleSpecifier)) ||
+      knownTokenImportsAndModules.default.includes(moduleSpecifier)
+    ) {
+      importedValues.set(importName, {
+        value: importName,
+        sourceFile: declarationFile.getFilePath(),
+        isLiteral: false,
+        node: declaration,
+        knownTokenPackage: true,
+      });
+    } else if (valueInfo) {
       importedValues.set(importName, {
         value: valueInfo.value,
         sourceFile: declarationFile.getFilePath(),
         isLiteral: valueInfo.isLiteral,
         templateSpans: valueInfo.templateSpans,
         node: declaration,
+        knownTokenPackage: false,
       });
 
       log(`Added default import: ${importName} = ${valueInfo.value} from ${declarationFile.getFilePath()}`);
