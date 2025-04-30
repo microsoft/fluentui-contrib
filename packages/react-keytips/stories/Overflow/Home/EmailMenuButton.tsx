@@ -23,7 +23,7 @@ const menuItems = [
   'Storyline post',
   'Newsletter',
   'Document',
-  'Spreadshit',
+  'Spreadsheet',
   'Presentation',
 ];
 
