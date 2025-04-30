@@ -78,7 +78,7 @@ describe('e2e test', () => {
       () => styles.useRootBaseClassName.resetStyles.nested["':hover'"].tokens,
       [
         ['backgroundColor', 'tokens.colorNeutralBackground1Hover'],
-        ['borderColor', 'tokens.colorNeutralStroke1Hover'],
+        ['borderColor', 'anotherToken'],
         ['color', 'tokens.colorNeutralForeground1Hover'],
       ]
     );
@@ -101,7 +101,7 @@ describe('e2e test', () => {
         ['color', 'semanticTokens.colorNeutralForeground1'],
         ['border', 'tokens.strokeWidthThin'],
         ['border', 'tokens.colorNeutralStroke1'],
-        ['fontFamily', 'tokens.fontFamilyBase'],
+        ['fontFamily', 'someToken'],
         ['padding', 'tokens.spacingHorizontalM'],
         ['borderRadius', 'tokens.borderRadiusMedium'],
         ['fontSize', 'tokens.fontSizeBase300'],

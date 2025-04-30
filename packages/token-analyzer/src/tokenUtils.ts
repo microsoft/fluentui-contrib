@@ -1,5 +1,5 @@
 // tokenUtils.ts
-import { Symbol, SyntaxKind, Node, ImportSpecifier } from 'ts-morph';
+import { Symbol, SyntaxKind, Node } from 'ts-morph';
 import { TOKEN_REGEX, TokenReference, TokenResolverInfo } from './types.js';
 import { shorthands } from '@griffel/react';
 
@@ -61,7 +61,7 @@ export function isTokenReferenceOld(textOrNode: string | Node | Symbol): boolean
   return test;
 }
 
-export function getExpresionFromIdentifier(node: Node): Node | undefined {
+export function getInitializerFromIdentifier(node: Node): Node | undefined {
   const nodeSymbol = node.getSymbol();
   const nodeDeclarations = nodeSymbol?.getDeclarations();
   if (nodeSymbol && nodeDeclarations && nodeDeclarations.length > 0) {
@@ -94,7 +94,7 @@ export function extractTokensFromText(textOrNode: string | Node | Symbol): strin
       } else {
         const spanExpression = span.getExpression();
         if (spanExpression.getKind() === SyntaxKind.Identifier) {
-          const spanInitializer = getExpresionFromIdentifier(spanExpression);
+          const spanInitializer = getInitializerFromIdentifier(spanExpression);
           if (spanInitializer) {
             matches.push(...extractTokensFromText(spanInitializer));
           }
@@ -104,7 +104,7 @@ export function extractTokensFromText(textOrNode: string | Node | Symbol): strin
   } else if (Node.isNode(textOrNode)) {
     // If we have an identifier, we need to check if it has an initializer. From there we should reprocess to extract tokens
     if (Node.isIdentifier(textOrNode)) {
-      const initializer = getExpresionFromIdentifier(textOrNode);
+      const initializer = getInitializerFromIdentifier(textOrNode);
       if (initializer) {
         matches.push(...extractTokensFromText(initializer));
       }

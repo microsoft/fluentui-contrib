@@ -18,6 +18,7 @@ import { extractTokensFromCssVars } from './cssVarTokenExtractor';
 import {
   addTokenToArray,
   extractTokensFromText,
+  getInitializerFromIdentifier,
   getPropertiesForShorthand,
   isTokenReference,
   isTokenReferenceOld,
@@ -84,44 +85,35 @@ const processIdentifier = (info: TokenResolverInfo<Identifier>): TokenReference[
   let returnTokens = tokens.slice();
 
   const text = node.getText();
-
-  // First check if it matches the token regex directly
-  const matches = extractTokensFromText(node);
-  if (matches.length > 0) {
-    matches.forEach((match) => {
-      returnTokens = addTokenToArray(
-        {
-          property: path[path.length - 1] ?? parentName,
-          token: [match],
-          path,
-        },
-        returnTokens,
-        isVariableReference,
-        sourceFile
-      );
-    });
-  }
-
-  // Then check if it's an imported value reference
-  if (importedValues && importedValues.has(text)) {
-    const importTokens = processImportedStringTokens(info, text);
-    returnTokens = addTokenToArray(importTokens, returnTokens, isVariableReference, sourceFile);
+  console.log('Processing identifier', text, getInitializerFromIdentifier(node));
+  // knownTokenPackage is set to false for our importTest
+  if (isTokenReference(info)) {
+    console.log('Found a token reference', text);
+    // Found a token, we should process and return it
+    const propertyName = path[path.length - 1] ?? parentName;
+    returnTokens = addTokenToArray(
+      {
+        property: propertyName,
+        token: [text],
+        path,
+      },
+      returnTokens,
+      isVariableReference,
+      sourceFile
+    );
+  } else if (getInitializerFromIdentifier(node)) {
+    // we have a variable declaration and we should then check if the value is a token as well. Reprocess the node
+    console.log(getInitializerFromIdentifier(node)?.getText());
+    // return
   }
 
   return returnTokens;
 };
 
 const processPropertyAccess = (info: TokenResolverInfo<PropertyAccessExpression>): TokenReference[] => {
-  const { node, parentName, path, tokens, isVariableReference, sourceFile, importedValues, project } = info;
+  const { node, parentName, path, tokens, isVariableReference, sourceFile } = info;
 
   const text = node.getText();
-
-  const expression = node.getExpression();
-  const expressionText = expression.getText();
-  if (expressionText === 'tokens') {
-    console.log('Checking for semantic tokens!', isTokenReference(info));
-  }
-
   const isToken = isTokenReference(info);
   if (isToken) {
     return addTokenToArray(
@@ -311,98 +303,3 @@ const processPropertyAssignment = (info: TokenResolverInfo<PropertyAssignment>):
     path: newPath,
   });
 };
-
-/**
- * Process string tokens in imported values
- */
-export function processImportedStringTokens(info: TokenResolverInfo<Identifier>, value: string): TokenReference[] {
-  const { importedValues, parentName, path, tokens } = info;
-  let returnTokens = tokens.slice();
-  const propertyName = path[path.length - 1] ?? parentName;
-
-  // Check if the value is an imported value reference
-  if (importedValues.has(value)) {
-    // Cast to ImportedValue as we know the value exists
-    const importedValue = importedValues.get(value) as ImportedValue;
-
-    // If we've already pre-resolved tokens for this value, use them
-    if (importedValue.resolvedTokens) {
-      return importedValue.resolvedTokens.map((token) => ({
-        ...token,
-        property: propertyName, // Update property name for current context
-        path: path, // Update path for current context
-      }));
-    }
-
-    if (importedValue.isLiteral) {
-      if (importedValue.templateSpans) {
-        // Process template spans specially
-        for (const span of importedValue.templateSpans) {
-          if (span.isToken) {
-            // Direct token reference in span
-            returnTokens = addTokenToArray(
-              {
-                property: propertyName,
-                token: [span.text],
-                path,
-                isVariableReference: true,
-                sourceFile: importedValue.sourceFile,
-              },
-              returnTokens
-            );
-          } else if (span.isReference && span.referenceName && importedValues.has(span.referenceName)) {
-            // Reference to another imported value - process recursively
-            const spanTokens = processImportedStringTokens(info, span.referenceName);
-            returnTokens.push(...spanTokens);
-          } else {
-            // Run the span back through our resolver
-            returnTokens = resolveToken({
-              ...info,
-              node: span.node,
-              tokens: returnTokens,
-              isVariableReference: true,
-              sourceFile: importedValue.sourceFile,
-            });
-          }
-        }
-      } else {
-        // Run the span back through our resolver
-        returnTokens = resolveToken({
-          ...info,
-          node: importedValue.node,
-          tokens: returnTokens,
-          isVariableReference: true,
-          sourceFile: importedValue.sourceFile,
-        });
-      }
-    } else {
-      // Non-literal values (like property access expressions)
-      if (isTokenReferenceOld(importedValue.value)) {
-        returnTokens = addTokenToArray(
-          {
-            property: propertyName,
-            token: [importedValue.value],
-            path,
-            isVariableReference: true,
-            sourceFile: importedValue.sourceFile,
-          },
-          returnTokens
-        );
-      } else {
-        // Run the span back through our resolver
-        returnTokens = resolveToken({
-          ...info,
-          node: importedValue.node,
-          tokens: returnTokens,
-          isVariableReference: true,
-          sourceFile: importedValue.sourceFile,
-        });
-      }
-    }
-
-    // Cache the resolved tokens for future use
-    importedValue.resolvedTokens = returnTokens.map((token) => ({ ...token }));
-  }
-
-  return returnTokens;
-}
