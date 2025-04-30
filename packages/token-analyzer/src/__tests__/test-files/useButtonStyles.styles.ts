@@ -16,6 +16,7 @@ export const buttonClassNames: SlotClassNames<ButtonSlots> = {
 const iconSpacingVar = '--fui-Button__icon--spacing';
 
 const tokenInInitializer = tokens.borderRadiusCircular;
+const tokenInInitializer2 = tokens.colorNeutralBackground1;
 
 const buttonSpacingSmall = '3px';
 const buttonSpacingSmallWithIcon = '1px';
@@ -40,7 +41,7 @@ const useRootBaseClassName = makeResetStyles({
   margin: 0,
   overflow: 'hidden',
 
-  backgroundColor: tokens.colorNeutralBackground1,
+  backgroundColor: tokenInInitializer2,
   color: semanticTokens.colorNeutralForeground1,
   border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke1}`,
 

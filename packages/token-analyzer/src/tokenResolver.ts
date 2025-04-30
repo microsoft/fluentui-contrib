@@ -21,9 +21,7 @@ import {
   getInitializerFromIdentifier,
   getPropertiesForShorthand,
   isTokenReference,
-  isTokenReferenceOld,
 } from './tokenUtils';
-import { ImportedValue } from './importAnalyzer';
 
 /**
  * Function that centarlizes the logic for resolving tokens from a node.
@@ -80,15 +78,14 @@ const processStringLiteral = (info: TokenResolverInfo<StringLiteral>): TokenRefe
 };
 
 const processIdentifier = (info: TokenResolverInfo<Identifier>): TokenReference[] => {
-  const { node, importedValues, parentName, path, tokens, isVariableReference, sourceFile } = info;
+  const { node, parentName, path, tokens, isVariableReference, sourceFile } = info;
 
   let returnTokens = tokens.slice();
 
   const text = node.getText();
-  console.log('Processing identifier', text, getInitializerFromIdentifier(node));
+  const intializerNode = getInitializerFromIdentifier(node);
   // knownTokenPackage is set to false for our importTest
   if (isTokenReference(info)) {
-    console.log('Found a token reference', text);
     // Found a token, we should process and return it
     const propertyName = path[path.length - 1] ?? parentName;
     returnTokens = addTokenToArray(
@@ -101,10 +98,9 @@ const processIdentifier = (info: TokenResolverInfo<Identifier>): TokenReference[
       isVariableReference,
       sourceFile
     );
-  } else if (getInitializerFromIdentifier(node)) {
+  } else if (intializerNode) {
     // we have a variable declaration and we should then check if the value is a token as well. Reprocess the node
-    console.log(getInitializerFromIdentifier(node)?.getText());
-    // return
+    returnTokens = returnTokens.concat(resolveToken({ ...info, node: intializerNode }));
   }
 
   return returnTokens;
