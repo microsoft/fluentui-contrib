@@ -100,45 +100,44 @@ function processNamedImports(
     const importName = namedImport.getName();
     const alias = namedImport.getAliasNode()?.getText() || importName;
 
-    // Find the export's true source using TypeScript's type checker
-    const exportInfo = findExportDeclaration(importedFile, importName, typeChecker);
+    // We should process the imports module import first to determine if it's a known token package
+    // If it's not, we can then process it's value as it's likely another file within the application or library.
+    if (isKnownTokenPackage(moduleSpecifier, importName)) {
+      importedValues.set(alias, {
+        value: importName,
+        sourceFile: importedFile.getFilePath(),
+        isLiteral: false,
+        node: namedImport, // Use the alias node if available, otherwise use the declaration
+        knownTokenPackage: true,
+      });
 
-    if (exportInfo) {
-      const { declaration, sourceFile: declarationFile } = exportInfo;
+      log(`Added known token import: ${alias} = ${importName} from ${importedFile.getFilePath()}`);
+    } else {
+      // Find the export's true source using TypeScript's type checker
+      const exportInfo = findExportDeclaration(importedFile, importName, typeChecker);
 
-      // We need to first check if the import is coming from a known token package
+      if (exportInfo) {
+        const { declaration, sourceFile: declarationFile } = exportInfo;
 
-      // Extract the value from the declaration
-      const valueInfo = extractValueFromDeclaration(declaration, typeChecker);
+        // We need to first check if the import is coming from a known token package
 
-      const knownTokenKeys = Object.keys(knownTokenImportsAndModules);
+        // Extract the value from the declaration
+        const valueInfo = extractValueFromDeclaration(declaration, typeChecker);
+        if (valueInfo) {
+          // We don't have a direct known token import, so process where the value is declared and determine if that's a
+          // known token package or not. If not, we can omit the value.
 
-      // We should process the imports module import first to determrine if it's a known token package
-      // If it's not, we can then process it's value as it's likely another file within the application or library.
-      if (
-        (knownTokenKeys.includes(importName) && knownTokenImportsAndModules[importName].includes(moduleSpecifier)) ||
-        knownTokenImportsAndModules.default.includes(moduleSpecifier)
-      ) {
-        importedValues.set(alias, {
-          value: importName,
-          sourceFile: declarationFile.getFilePath(),
-          isLiteral: false,
-          node: namedImport, // Use the alias node if available, otherwise use the declaration
-          knownTokenPackage: true,
-        });
+          importedValues.set(alias, {
+            value: valueInfo.value,
+            sourceFile: declarationFile.getFilePath(),
+            isLiteral: valueInfo.isLiteral,
+            templateSpans: valueInfo.templateSpans,
+            node: declaration,
+            knownTokenPackage: false,
+          });
 
-        log(`Added known token import: ${alias} = ${importName} from ${declarationFile.getFilePath()}`);
-      } else if (valueInfo) {
-        importedValues.set(alias, {
-          value: valueInfo.value,
-          sourceFile: declarationFile.getFilePath(),
-          isLiteral: valueInfo.isLiteral,
-          templateSpans: valueInfo.templateSpans,
-          node: declaration,
-          knownTokenPackage: false,
-        });
-
-        log(`Added imported value: ${alias} = ${valueInfo.value} from ${declarationFile.getFilePath()}`);
+          log(`Added imported value: ${alias} = ${valueInfo.value} from ${declarationFile.getFilePath()}`);
+        }
       }
     }
   }
@@ -163,34 +162,35 @@ function processDefaultImport(
 
   const importName = defaultImport.getText();
 
-  // Find the default export's true source
-  const exportInfo = findExportDeclaration(importedFile, 'default', typeChecker);
+  if (isKnownTokenPackage(moduleSpecifier)) {
+    importedValues.set(importName, {
+      value: importName,
+      sourceFile: importedFile.getFilePath(),
+      isLiteral: false,
+      node: importDecl,
+      knownTokenPackage: true,
+    });
+  } else {
+    // Find the default export's true source
+    const exportInfo = findExportDeclaration(importedFile, 'default', typeChecker);
 
-  if (exportInfo) {
-    const { declaration, sourceFile: declarationFile } = exportInfo;
+    if (exportInfo) {
+      const { declaration, sourceFile: declarationFile } = exportInfo;
 
-    // Extract the value from the declaration
-    const valueInfo = extractValueFromDeclaration(declaration, typeChecker);
+      // Extract the value from the declaration
+      const valueInfo = extractValueFromDeclaration(declaration, typeChecker);
+      if (valueInfo) {
+        importedValues.set(importName, {
+          value: valueInfo.value,
+          sourceFile: declarationFile.getFilePath(),
+          isLiteral: valueInfo.isLiteral,
+          templateSpans: valueInfo.templateSpans,
+          node: declaration,
+          knownTokenPackage: false,
+        });
 
-    if (knownTokenImportsAndModules.default.includes(moduleSpecifier)) {
-      importedValues.set(importName, {
-        value: importName,
-        sourceFile: declarationFile.getFilePath(),
-        isLiteral: false,
-        node: declaration,
-        knownTokenPackage: true,
-      });
-    } else if (valueInfo) {
-      importedValues.set(importName, {
-        value: valueInfo.value,
-        sourceFile: declarationFile.getFilePath(),
-        isLiteral: valueInfo.isLiteral,
-        templateSpans: valueInfo.templateSpans,
-        node: declaration,
-        knownTokenPackage: false,
-      });
-
-      log(`Added default import: ${importName} = ${valueInfo.value} from ${declarationFile.getFilePath()}`);
+        log(`Added default import: ${importName} = ${valueInfo.value} from ${declarationFile.getFilePath()}`);
+      }
     }
   }
 }
@@ -208,9 +208,13 @@ function processNamespaceImport(
     log(`No namespace import found in ${importDecl.getModuleSpecifierValue()}`);
     return;
   }
+
+  // We need to resolve any re-exports to find the true source of the namespace import just as we do with the
+  // other import types.
+
   const importName = namespaceImport.getText();
   // Find the default export's true source
-  if (knownTokenImportsAndModules.default.includes(moduleSpecifier)) {
+  if (isKnownTokenPackage(moduleSpecifier)) {
     importedValues.set(importName, {
       value: importName,
       sourceFile: importedFile.getFilePath(),
@@ -219,6 +223,40 @@ function processNamespaceImport(
       knownTokenPackage: true,
     });
   }
+}
+
+function getModuleSpecifierFromExportSymbol(symbol: Symbol): {
+  moduleSpecifier: string | undefined;
+  sourceFile: SourceFile | undefined;
+  declaration: Node | undefined;
+} {
+  let moduleSpecifier: string | undefined;
+  let sourceFile: SourceFile | undefined;
+  let declaration: Node | undefined;
+  symbol.getDeclarations().forEach((declaration) => {
+    // Walk the tree until we find an ExportDeclaration
+    let currentDeclaration: Node | undefined = declaration;
+    while (Node.isExportSpecifier(currentDeclaration) || Node.isNamedExports(currentDeclaration)) {
+      currentDeclaration = currentDeclaration.getParent();
+    }
+
+    if (Node.isExportDeclaration(currentDeclaration)) {
+      moduleSpecifier = currentDeclaration.getModuleSpecifierValue();
+      sourceFile = currentDeclaration.getSourceFile();
+      declaration = currentDeclaration;
+    }
+  });
+  return { moduleSpecifier, sourceFile, declaration };
+}
+
+function isKnownTokenPackage(moduleSpecifier: string, valueName?: string): boolean {
+  const knownTokenKeys = Object.keys(knownTokenImportsAndModules);
+  return (
+    (valueName !== undefined &&
+      knownTokenKeys.includes(valueName) &&
+      knownTokenImportsAndModules[valueName].includes(moduleSpecifier)) ||
+    knownTokenImportsAndModules.default.includes(moduleSpecifier)
+  );
 }
 
 /**
@@ -250,6 +288,20 @@ function findExportDeclaration(
       log(`Export symbol '${exportName}' not found in ${sourceFile.getFilePath()}`);
       return undefined;
     }
+
+    // Get the module specifier for this export
+    const {
+      moduleSpecifier,
+      sourceFile: moduleSourceFile,
+      declaration: moduleDeclaration,
+    } = getModuleSpecifierFromExportSymbol(exportSymbol);
+
+    let isTokenModule = false;
+    if (moduleSpecifier) {
+      isTokenModule = isKnownTokenPackage(moduleSpecifier, exportSymbol.getName());
+    }
+
+    console.log(`Module specifier for ${exportName}: ${moduleSpecifier}`);
 
     // If this is an alias (re-export), get the original symbol
     let resolvedSymbol: Symbol = exportSymbol;
