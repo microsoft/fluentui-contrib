@@ -77,7 +77,7 @@ describe('e2e test', () => {
     checkTokens(
       () => styles.useRootBaseClassName.resetStyles.nested["':hover'"].tokens,
       [
-        ['backgroundColor', 'tokens.colorNeutralBackground1Hover'],
+        ['backgroundColor', 'colorNeutralForeground1'],
         ['borderColor', 'anotherToken'],
         ['color', 'tokens.colorNeutralForeground1Hover'],
       ]
