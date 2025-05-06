@@ -78,7 +78,7 @@ const processStringLiteral = (info: TokenResolverInfo<StringLiteral>): TokenRefe
 };
 
 const processIdentifier = (info: TokenResolverInfo<Identifier>): TokenReference[] => {
-  const { node, parentName, path, tokens, isVariableReference, sourceFile } = info;
+  const { node, parentName, path, tokens, isVariableReference, sourceFile, importedValues } = info;
 
   let returnTokens = tokens.slice();
 
@@ -91,7 +91,7 @@ const processIdentifier = (info: TokenResolverInfo<Identifier>): TokenReference[
     returnTokens = addTokenToArray(
       {
         property: propertyName,
-        token: [text],
+        token: [importedValues.get(text)?.value ?? text],
         path,
       },
       returnTokens,
