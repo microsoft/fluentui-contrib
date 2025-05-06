@@ -6,7 +6,7 @@ import type { SlotClassNames } from '@fluentui/react-utilities';
 import type { ButtonSlots, ButtonState } from '@fluentui/react-components';
 import * as semanticTokens from '@fluentui/semantic-tokens';
 import { someToken } from '@fluentui/semantic-tokens';
-import { importTest } from './import-test';
+import { importTest, colorNeutralForeground1 } from './import-test';
 
 export const buttonClassNames: SlotClassNames<ButtonSlots> = {
   root: 'fui-Button',
@@ -49,7 +49,7 @@ const useRootBaseClassName = makeResetStyles({
   outlineStyle: 'none',
 
   ':hover': {
-    backgroundColor: tokens.colorNeutralBackground1Hover,
+    backgroundColor: colorNeutralForeground1,
     borderColor: importTest,
     color: tokens.colorNeutralForeground1Hover,
 
