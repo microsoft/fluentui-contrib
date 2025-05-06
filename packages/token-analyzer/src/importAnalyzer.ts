@@ -100,22 +100,32 @@ function processNamedImports(
       const exportInfo = findExportDeclaration(importedFile, importName, typeChecker);
 
       if (exportInfo) {
-        const { declaration, sourceFile: declarationFile, moduleSpecifier: exportModuleSpecifier } = exportInfo;
+        const {
+          declaration,
+          sourceFile: declarationFile,
+          moduleSpecifier: exportModuleSpecifier,
+          importExportSpecifier,
+          importExportSpecifierName,
+        } = exportInfo;
         // We need to first check if the import is coming from a known token package
 
         // Extract the value from the declaration
+        // TODO find the value of the token and then pass it into the values. This might be a string or template literal
         const valueInfo = extractValueFromDeclaration(declaration);
-        if (valueInfo) {
+
+        if (isKnownTokenPackage(exportModuleSpecifier, importName)) {
           // We don't have a direct known token import, so process where the value is declared and determine if that's a
           // known token package or not. If not, we can omit the value.
 
           importedValues.set(alias, {
-            value: valueInfo.value,
+            // TODO we should set the value to the end token resolution, for now we will process to the import if this is an import
+            // which we need to get from findExportDeclaration and the processing within that function
+            value: importExportSpecifierName ?? importName,
             node: nameOrAliasNode,
-            knownTokenPackage: isKnownTokenPackage(exportModuleSpecifier, importName),
+            knownTokenPackage: true,
           });
 
-          log(`Added imported value: ${alias} = ${valueInfo.value} from ${declarationFile.getFilePath()}`);
+          log(`Added imported value: ${alias} =  from ${exportModuleSpecifier}`);
         }
       }
     }
@@ -202,25 +212,38 @@ function getModuleSpecifierFromExportSymbol(symbol: Symbol): {
   moduleSpecifier: string | undefined;
   sourceFile: SourceFile | undefined;
   declaration: Node | undefined;
+  specifier: Node | undefined;
+  specifierName: string | undefined;
 } {
   let moduleSpecifier: string | undefined;
   let sourceFile: SourceFile | undefined;
   let declaration: Node | undefined;
-  symbol.getDeclarations().forEach((declaration) => {
-    if (Node.isVariableDeclaration(declaration)) {
-      const varSymbol = declaration.getInitializer()?.getSymbol();
+  let specifier: Node | undefined;
+  let specifierName: string | undefined;
+  symbol.getDeclarations().forEach((symbolDeclaration) => {
+    if (Node.isVariableDeclaration(symbolDeclaration)) {
+      const varSymbol = symbolDeclaration.getInitializer()?.getSymbol();
       if (varSymbol) {
         const varImportSpecifier = varSymbol.getDeclarations().find((varDeclaration) => {
           return Node.isImportSpecifier(varDeclaration);
         });
         const varImportSymbol = varImportSpecifier?.getSymbol();
+        specifier = varImportSpecifier;
+        specifierName = varImportSpecifier?.getName();
         if (varImportSymbol) {
-          return getModuleSpecifierFromExportSymbol(varImportSymbol);
+          const {
+            moduleSpecifier: newSpecifier,
+            sourceFile: newSourceFile,
+            declaration: newDeclaration,
+          } = getModuleSpecifierFromExportSymbol(varImportSymbol);
+          moduleSpecifier = newSpecifier;
+          sourceFile = newSourceFile;
+          declaration = newDeclaration;
         }
       }
     } else {
       // Walk the tree until we find an ExportDeclaration
-      let currentDeclaration: Node | undefined = declaration;
+      let currentDeclaration: Node | undefined = symbolDeclaration;
       while (
         Node.isExportSpecifier(currentDeclaration) ||
         Node.isNamedExports(currentDeclaration) ||
@@ -228,6 +251,10 @@ function getModuleSpecifierFromExportSymbol(symbol: Symbol): {
         Node.isNamedImports(currentDeclaration) ||
         Node.isImportClause(currentDeclaration)
       ) {
+        if (Node.isExportSpecifier(currentDeclaration) || Node.isImportSpecifier(currentDeclaration)) {
+          specifier = currentDeclaration;
+          specifierName = currentDeclaration.getName();
+        }
         currentDeclaration = currentDeclaration.getParent();
       }
 
@@ -238,7 +265,7 @@ function getModuleSpecifierFromExportSymbol(symbol: Symbol): {
       }
     }
   });
-  return { moduleSpecifier, sourceFile, declaration };
+  return { moduleSpecifier, sourceFile, declaration, specifier, specifierName };
 }
 
 function isKnownTokenPackage(moduleSpecifier: string, valueName?: string): boolean {
@@ -259,32 +286,43 @@ function findNearestKnownTokenInfo(
   typeChecker: TypeChecker
 ):
   | {
-      knownTokenSymbol: Symbol;
       knownTokenModuleSpecifier: string;
       knownTokenSourceFile?: SourceFile;
       knownTokenDeclaration?: Node;
+      knownTokenImportExportName?: string;
+      knownTokenImportExportSpecifier?: Node;
     }
   | undefined {
   // Get the module specifier if we're an export specifier
-  const { moduleSpecifier, sourceFile, declaration } = getModuleSpecifierFromExportSymbol(exportSymbol);
-
+  const { moduleSpecifier, sourceFile, declaration, specifier, specifierName } =
+    getModuleSpecifierFromExportSymbol(exportSymbol);
   const isAlias = exportSymbol.isAlias();
   if (moduleSpecifier) {
-    // If this is an alias (re-export), get the original symbol
-    let resolvedSymbol: Symbol = exportSymbol;
-    if (isAlias) {
-      // we're ok type casting here because we know the symbol is an alias from the previous check but TS won't pick up on it
-      resolvedSymbol = typeChecker.getImmediatelyAliasedSymbol(exportSymbol) as Symbol;
-      // console.log(`Resolved alias to: ${resolvedSymbol.getName()}`, moduleSpecifier);
-      if (isKnownTokenPackage(moduleSpecifier, resolvedSymbol.getName())) {
-        return {
-          knownTokenSymbol: resolvedSymbol,
-          knownTokenModuleSpecifier: moduleSpecifier,
-          knownTokenSourceFile: sourceFile,
-          knownTokenDeclaration: declaration ?? resolvedSymbol.getValueDeclaration(),
-        };
-      } else {
-        return findNearestKnownTokenInfo(resolvedSymbol, typeChecker);
+    if (isKnownTokenPackage(moduleSpecifier, exportSymbol.getName())) {
+      return {
+        knownTokenModuleSpecifier: moduleSpecifier,
+        knownTokenSourceFile: sourceFile,
+        knownTokenDeclaration: declaration ?? exportSymbol.getValueDeclaration(),
+        knownTokenImportExportName: specifierName,
+        knownTokenImportExportSpecifier: specifier,
+      };
+    } else {
+      // If this is an alias (re-export), get the original symbol
+      let resolvedSymbol: Symbol = exportSymbol;
+      if (isAlias) {
+        // we're ok type casting here because we know the symbol is an alias from the previous check but TS won't pick up on it
+        resolvedSymbol = typeChecker.getImmediatelyAliasedSymbol(exportSymbol) as Symbol;
+        if (isKnownTokenPackage(moduleSpecifier, resolvedSymbol.getName())) {
+          return {
+            knownTokenModuleSpecifier: moduleSpecifier,
+            knownTokenSourceFile: sourceFile,
+            knownTokenDeclaration: declaration ?? resolvedSymbol.getValueDeclaration(),
+            knownTokenImportExportName: specifierName,
+            knownTokenImportExportSpecifier: specifier,
+          };
+        } else {
+          return findNearestKnownTokenInfo(resolvedSymbol, typeChecker);
+        }
       }
     }
   }
@@ -298,7 +336,15 @@ function findExportDeclaration(
   sourceFile: SourceFile,
   exportName: string,
   typeChecker: TypeChecker
-): { declaration: Node; sourceFile: SourceFile; moduleSpecifier: string } | undefined {
+):
+  | {
+      declaration: Node;
+      sourceFile: SourceFile;
+      moduleSpecifier: string;
+      importExportSpecifierName?: string;
+      importExportSpecifier?: Node;
+    }
+  | undefined {
   try {
     // Get the source file's symbol (represents the module)
     const sourceFileSymbol = typeChecker.getSymbolAtLocation(sourceFile);
@@ -328,6 +374,8 @@ function findExportDeclaration(
         declaration: tokenInfo.knownTokenDeclaration,
         sourceFile: tokenInfo.knownTokenSourceFile,
         moduleSpecifier: tokenInfo.knownTokenModuleSpecifier,
+        importExportSpecifierName: tokenInfo.knownTokenImportExportName,
+        importExportSpecifier: tokenInfo.knownTokenImportExportSpecifier,
       };
     }
   } catch (err) {
