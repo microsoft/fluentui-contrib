@@ -66,7 +66,7 @@ export type KnownTokenImportsAndModules = {
 export const knownTokenImportsAndModules: KnownTokenImportsAndModules = {
   // if we see any imports from the defaults, we assume it's a token.
   // @fluentui/tokens is here as a test but should be removed in the future
-  default: ['@fluentui/semantic-tokens', '@fluentui/tokens'],
+  default: ['@fluentui/semantic-tokens'],
   // begin the known token imports
   tokens: ['@fluentui/react-theme', '@fluentui/react-components', '@fluentui/tokens'],
 };

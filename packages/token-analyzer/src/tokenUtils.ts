@@ -1,5 +1,5 @@
 // tokenUtils.ts
-import { Symbol, SyntaxKind, Node } from 'ts-morph';
+import { Symbol, SyntaxKind, Node, Expression } from 'ts-morph';
 import { TOKEN_REGEX, TokenReference, TokenResolverInfo } from './types.js';
 import { shorthands } from '@griffel/react';
 
@@ -61,7 +61,7 @@ export function isTokenReferenceOld(textOrNode: string | Node | Symbol): boolean
   return test;
 }
 
-export function getInitializerFromIdentifier(node: Node): Node | undefined {
+export function getInitializerFromIdentifier(node: Node): Expression | undefined {
   const nodeSymbol = node.getSymbol();
   const nodeDeclarations = nodeSymbol?.getDeclarations();
   if (nodeSymbol && nodeDeclarations && nodeDeclarations.length > 0) {

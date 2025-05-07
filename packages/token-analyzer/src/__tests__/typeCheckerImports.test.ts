@@ -18,7 +18,7 @@ beforeAll(() => {
     path.join(TEST_DIR, 'main.ts'),
     `
     import { Component, AliasedValue, Utils, DirectValue } from './index';
-    import DefaultExport from './index';
+    import DefaultExport from './defaults';
 
     const styles = {
       component: Component,
@@ -34,6 +34,8 @@ beforeAll(() => {
   fs.writeFileSync(
     path.join(TEST_DIR, 'index.ts'),
     `
+    import { tokens } from '@fluentui/react-theme';
+
     // Re-export from components
     export { Component } from './components';
 
@@ -44,7 +46,7 @@ beforeAll(() => {
     export * from './utils';
 
     // Direct export
-    export const DirectValue = 'tokens.direct.value';
+    export const DirectValue = tokens.colorNeutralForeground1Hover;
 
     // Re-export default
     export { default } from './defaults';
@@ -55,7 +57,8 @@ beforeAll(() => {
   fs.writeFileSync(
     path.join(TEST_DIR, 'components.ts'),
     `
-    export const Component = 'tokens.components.primary';
+    import { anotherToken } from '@fluentui/semantic-tokens';
+    export const Component = anotherToken;
     `
   );
 
@@ -63,7 +66,8 @@ beforeAll(() => {
   fs.writeFileSync(
     path.join(TEST_DIR, 'values.ts'),
     `
-    export const Value = 'tokens.values.standard';
+    import { tokens } from '@fluentui/react-theme';
+    export const Value = tokens.borderRadiusCircular;
     `
   );
 
@@ -71,7 +75,8 @@ beforeAll(() => {
   fs.writeFileSync(
     path.join(TEST_DIR, 'utils.ts'),
     `
-    export const Utils = 'tokens.utils.helper';
+    import { tokens } from '@fluentui/react-theme';
+    export const Utils = tokens.colorNeutralBackground1;
     `
   );
 
@@ -79,8 +84,9 @@ beforeAll(() => {
   fs.writeFileSync(
     path.join(TEST_DIR, 'defaults.ts'),
     `
-    const DefaultValue = 'tokens.defaults.main';
-    export default DefaultValue;
+    import { tokens } from '@fluentui/react-theme';
+    const DefaultValue = tokens.colorNeutralStroke1;
+    export default tokens.colorNeutralStroke1;
     `
   );
 });
@@ -123,48 +129,31 @@ describe('Type Checker Import Analysis', () => {
     // Add all other files to ensure project has complete type information
     project.addSourceFilesAtPaths([path.join(TEST_DIR, '**/*.ts')]);
 
-    const importedValues: Map<string, ImportedValue> = await analyzeImports(
-      sourceFile,
-      project
-    );
+    const importedValues: Map<string, ImportedValue> = await analyzeImports(sourceFile, project);
 
     // Verify standard re-export (Component)
     expect(importedValues.has('Component')).toBe(true);
-    expect(importedValues.get('Component')?.value).toBe(
-      'tokens.components.primary'
-    );
-    expect(importedValues.get('Component')?.sourceFile).toContain(
-      'components.ts'
-    );
+    expect(importedValues.get('Component')?.value).toBe('anotherToken');
+    expect(importedValues.get('Component')?.sourceFile).toContain('components.ts');
 
     // Verify aliased re-export (AliasedValue)
     expect(importedValues.has('AliasedValue')).toBe(true);
-    expect(importedValues.get('AliasedValue')?.value).toBe(
-      'tokens.values.standard'
-    );
-    expect(importedValues.get('AliasedValue')?.sourceFile).toContain(
-      'values.ts'
-    );
+    expect(importedValues.get('AliasedValue')?.value).toBe('tokens.borderRadiusCircular');
+    expect(importedValues.get('AliasedValue')?.sourceFile).toContain('values.ts');
 
     // Verify namespace re-export (Utils)
     expect(importedValues.has('Utils')).toBe(true);
-    expect(importedValues.get('Utils')?.value).toBe('tokens.utils.helper');
+    expect(importedValues.get('Utils')?.value).toBe('tokens.colorNeutralBackground1');
     expect(importedValues.get('Utils')?.sourceFile).toContain('utils.ts');
 
     // Verify direct export (DirectValue)
     expect(importedValues.has('DirectValue')).toBe(true);
-    expect(importedValues.get('DirectValue')?.value).toBe(
-      'tokens.direct.value'
-    );
+    expect(importedValues.get('DirectValue')?.value).toBe('tokens.colorNeutralForeground1Hover');
     expect(importedValues.get('DirectValue')?.sourceFile).toContain('index.ts');
 
     // Verify default export (DefaultExport)
     expect(importedValues.has('DefaultExport')).toBe(true);
-    expect(importedValues.get('DefaultExport')?.value).toBe(
-      'tokens.defaults.main'
-    );
-    expect(importedValues.get('DefaultExport')?.sourceFile).toContain(
-      'defaults.ts'
-    );
+    expect(importedValues.get('DefaultExport')?.value).toBe('tokens.colorNeutralStroke1');
+    expect(importedValues.get('DefaultExport')?.sourceFile).toContain('defaults.ts');
   });
 });

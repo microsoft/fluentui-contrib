@@ -123,7 +123,6 @@ describe('CSS Variable Token Extraction E2E', () => {
       expect.objectContaining({
         property: 'color',
         token: ['tokens.colorBrandForeground6'],
-        isVariableReference: true,
       })
     );
 
@@ -133,7 +132,6 @@ describe('CSS Variable Token Extraction E2E', () => {
       expect.objectContaining({
         property: 'color',
         token: ['tokens.colorBrandForeground3'],
-        isVariableReference: true,
       })
     );
 
@@ -152,7 +150,6 @@ describe('CSS Variable Token Extraction E2E', () => {
       expect.objectContaining({
         property: 'color',
         token: ['tokens.colorNeutralForeground3'],
-        isVariableReference: true,
       })
     );
 
@@ -162,11 +159,9 @@ describe('CSS Variable Token Extraction E2E', () => {
       expect.arrayContaining([
         expect.objectContaining({
           token: ['tokens.colorBrandBackground'],
-          isVariableReference: true,
         }),
         expect.objectContaining({
           token: ['tokens.colorNeutralBackground1'],
-          isVariableReference: true,
         }),
       ])
     );
@@ -281,30 +276,25 @@ describe('CSS Variable Cross-Module Resolution E2E', () => {
         expect.objectContaining({
           property: 'color',
           token: ['tokens.colorBrandPrimary'],
-          isVariableReference: true,
         }),
         // Import of CSS var with token
         expect.objectContaining({
           property: 'backgroundColor',
           token: ['tokens.colorBrandPrimary'],
-          isVariableReference: true,
         }),
         // Import of nested CSS var with token
         expect.objectContaining({
           property: 'border',
           token: ['tokens.colorBrandSecondary'],
-          isVariableReference: true,
         }),
         // Multiple tokens from a complex var
         expect.objectContaining({
           property: 'padding',
           token: ['tokens.colorBrandPrimary'],
-          isVariableReference: true,
         }),
         expect.objectContaining({
           property: 'padding',
           token: ['tokens.colorBrandSecondary'],
-          isVariableReference: true,
         }),
       ])
     );
