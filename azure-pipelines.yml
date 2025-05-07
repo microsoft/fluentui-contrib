@@ -3,6 +3,17 @@
 pr: none
 trigger: none
 
+parameters:
+  - name: dry_run
+    displayName: Dry run mode
+    type: boolean
+    default: true
+  # Projects to include within release. (comma/space delimited project names and/or patterns). See `--project` flag for more details https://nx.dev/nx-api/nx/documents/release#publish
+  - name: projects
+    displayName: Projects to release (defaults to all)
+    type: string
+    default: ''
+
 variables:
   - name: NX_PARALLEL
     value: 8
@@ -33,6 +44,7 @@ extends:
       - stage: main
         jobs:
           - job: Release
+            displayName: 'Release New Version'
             pool:
               name: '1ES-Host-Ubuntu'
               image: '1ES-PT-Ubuntu-20.04'
@@ -54,24 +66,68 @@ extends:
                   echo "##vso[task.setvariable variable=shellopts]braceexpand:hashall:interactive-comments:errexit:errtrace"
                 displayName: Force exit on error (bash)
 
-              - task: NodeTool@0
+              - task: UseNode@1
                 inputs:
                   versionSpec: '20.x'
-                  checkLatest: true
+                  checkLatest: false
                 displayName: 'Install Node.js'
 
               - script: yarn install --frozen-lockfile
                 displayName: Install dependencies
 
               - script: |
+                  yarn nx run-many -t build,test,lint,type-check -p ${{ parameters.projects }} --nxBail
+                condition: eq(parameters.dry_run, false)
+                displayName: Verify publishable Assets
+
+              - script: |
                   git config user.name "Fluent UI Build"
                   git config user.email "fluentui-internal@service.microsoft.com"
                   git remote set-url origin https://$(githubUser):$(githubPAT)@github.com/microsoft/fluentui-contrib.git
+                condition: eq(parameters.dry_run, false)
                 displayName: Authenticate git for pushes
 
               - script: |
-                  yarn beachball publish -b origin/main --access public -y -n $(npmToken)
-                  git reset --hard origin/main
+                  yarn nx release --skip-publish -p ${{ parameters.projects }} --dry-run ${{ parameters.dry_run }} --verbose
+                displayName: Bump versions and generate Changelogs
+
+              # NOTE: this step needs PAT - needs different release flow to avoid PATs completely
+              - script:
+                  | # TODO: remove this step once https://github.com/nrwl/nx/issues/30551 is resolved
+                  git push origin && git push origin --tags
+                condition: eq(parameters.dry_run, false)
+                displayName: Propagate Release to GitHub
                 env:
                   GITHUB_PAT: $(githubPAT)
-                displayName: Publish to NPM & bump versions
+
+          - job: PublishToNPM
+            displayName: 'Publish to NPM'
+            dependsOn: Release
+            condition: succeeded('Release')
+            pool:
+              name: '1ES-Host-Ubuntu'
+              image: '1ES-PT-Ubuntu-20.04'
+              os: linux
+            workspace:
+              clean: all
+            templateContext:
+              outputs:
+                - output: pipelineArtifact
+                  targetPath: $(System.DefaultWorkingDirectory)/packages
+                  artifactName: output
+            steps:
+              - task: UseNode@1
+                inputs:
+                  versionSpec: '20.x'
+                  checkLatest: false
+                displayName: 'Install Node.js'
+
+              - script: yarn install --frozen-lockfile
+                displayName: Install dependencies
+
+              # NOTE: `nx release publish` executes `nx-release-publish` target and all its dependents
+              - script: |
+                  yarn nx release publish -p ${{ parameters.projects }} --dry-run ${{ parameters.dry_run }}
+                displayName: Publish to NPM
+                env:
+                  NODE_AUTH_TOKEN: $(npmToken)
