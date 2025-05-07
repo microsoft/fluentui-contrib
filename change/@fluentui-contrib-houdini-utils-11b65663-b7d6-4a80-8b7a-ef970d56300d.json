@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: resolve Safari issue when referencing fallback",
-  "packageName": "@fluentui-contrib/houdini-utils",
-  "email": "seanmonahan@microsoft.com",
-  "dependentChangeType": "patch"
-}
