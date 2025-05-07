@@ -72,7 +72,9 @@ export const playAnim = (
       if (hasMozElement()) {
         state.target.style.backgroundImage = `-moz-element(#${state.id})`;
       } else if (hasWebkitCanvas()) {
-        state.target.style.backgroundImage = `-webkit-canvas(#${state.id})`;
+        // Note: Safari references its vendor-specific CSSCanvasContext
+        // ID which does not use the CSS ID selector (#).
+        state.target.style.backgroundImage = `-webkit-canvas(${state.id})`;
       } else {
         const urlBackgroundImage = `url(${state.ctx.canvas.toDataURL(
           'image/png'
