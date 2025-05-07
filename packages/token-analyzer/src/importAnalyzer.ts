@@ -3,12 +3,14 @@ import { Project, Node, SourceFile, ImportDeclaration, Symbol, TypeChecker } fro
 import { log } from './debugUtils.js';
 import { knownTokenImportsAndModules } from './types.js';
 import { getModuleSourceFile } from './moduleResolver.js';
+import { getInitializerFromIdentifier } from './tokenUtils';
 
 /**
  * Represents a value imported from another module
  */
 export interface ImportedValue {
   value: string;
+  sourceFile: string;
   node: Node;
   knownTokenPackage: boolean;
 }
@@ -92,6 +94,7 @@ function processNamedImports(
         value: importName,
         node: nameOrAliasNode, // Use the alias node if available, otherwise use the declaration
         knownTokenPackage: true,
+        sourceFile: importedFile.getFilePath(),
       });
 
       log(`Added known token import: ${alias} = ${importName} from ${importedFile.getFilePath()}`);
@@ -101,28 +104,23 @@ function processNamedImports(
 
       if (exportInfo) {
         const {
-          declaration,
           sourceFile: declarationFile,
           moduleSpecifier: exportModuleSpecifier,
-          importExportSpecifier,
           importExportSpecifierName,
+          valueDeclarationValue,
         } = exportInfo;
         // We need to first check if the import is coming from a known token package
-
-        // Extract the value from the declaration
-        // TODO find the value of the token and then pass it into the values. This might be a string or template literal
-        const valueInfo = extractValueFromDeclaration(declaration);
-
-        if (isKnownTokenPackage(exportModuleSpecifier, importName)) {
+        if (isKnownTokenPackage(exportModuleSpecifier, importExportSpecifierName ?? importName)) {
           // We don't have a direct known token import, so process where the value is declared and determine if that's a
           // known token package or not. If not, we can omit the value.
 
           importedValues.set(alias, {
             // TODO we should set the value to the end token resolution, for now we will process to the import if this is an import
             // which we need to get from findExportDeclaration and the processing within that function
-            value: importExportSpecifierName ?? importName,
+            value: valueDeclarationValue ?? importName,
             node: nameOrAliasNode,
             knownTokenPackage: true,
+            sourceFile: declarationFile.getFilePath(),
           });
 
           log(`Added imported value: ${alias} =  from ${exportModuleSpecifier}`);
@@ -150,30 +148,39 @@ function processDefaultImport(
   }
 
   const importName = defaultImport.getText();
-
   if (isKnownTokenPackage(moduleSpecifier)) {
     importedValues.set(importName, {
       value: importName,
       node: importDecl,
       knownTokenPackage: true,
+      sourceFile: importedFile.getFilePath(),
     });
   } else {
     // Find the default export's true source
     const exportInfo = findExportDeclaration(importedFile, 'default', typeChecker);
 
     if (exportInfo) {
-      const { declaration, sourceFile: declarationFile } = exportInfo;
+      const {
+        sourceFile: declarationFile,
+        moduleSpecifier: exportModuleSpecifier,
+        importExportSpecifierName,
+        valueDeclarationValue,
+      } = exportInfo;
 
-      // Extract the value from the declaration
-      const valueInfo = extractValueFromDeclaration(declaration);
-      if (valueInfo) {
+      if (isKnownTokenPackage(exportModuleSpecifier, importExportSpecifierName ?? importName)) {
         importedValues.set(importName, {
-          value: valueInfo.value,
-          node: declaration,
-          knownTokenPackage: false,
+          // TODO we should set the value to the end token resolution, for now we will process to the import if this is an import
+          // which we need to get from findExportDeclaration and the processing within that function
+          value: valueDeclarationValue ?? importName,
+          node: defaultImport,
+          knownTokenPackage: true,
+          sourceFile: declarationFile.getFilePath(),
         });
-
-        log(`Added default import: ${importName} = ${valueInfo.value} from ${declarationFile.getFilePath()}`);
+        log(
+          `Added default import: ${importName} = ${
+            valueDeclarationValue ?? importName
+          } from ${declarationFile.getFilePath()}`
+        );
       }
     }
   }
@@ -204,6 +211,7 @@ function processNamespaceImport(
       value: importName,
       node: namespaceImport,
       knownTokenPackage: true,
+      sourceFile: importedFile.getFilePath(),
     });
   }
 }
@@ -222,7 +230,12 @@ function getModuleSpecifierFromExportSymbol(symbol: Symbol): {
   let specifierName: string | undefined;
   symbol.getDeclarations().forEach((symbolDeclaration) => {
     if (Node.isVariableDeclaration(symbolDeclaration)) {
-      const varSymbol = symbolDeclaration.getInitializer()?.getSymbol();
+      let symbolInitializer = symbolDeclaration.getInitializer();
+      if (Node.isPropertyAccessExpression(symbolInitializer)) {
+        symbolInitializer = symbolInitializer.getExpression();
+      }
+
+      const varSymbol = symbolInitializer?.getSymbol();
       if (varSymbol) {
         const varImportSpecifier = varSymbol.getDeclarations().find((varDeclaration) => {
           return Node.isImportSpecifier(varDeclaration);
@@ -236,6 +249,51 @@ function getModuleSpecifierFromExportSymbol(symbol: Symbol): {
             sourceFile: newSourceFile,
             declaration: newDeclaration,
           } = getModuleSpecifierFromExportSymbol(varImportSymbol);
+          moduleSpecifier = newSpecifier;
+          sourceFile = newSourceFile;
+          declaration = newDeclaration;
+        }
+      }
+    } else if (Node.isExportAssignment(symbolDeclaration)) {
+      // we have a default export and need to break down the expression to find the value
+      const symbolExpression = symbolDeclaration.getExpression();
+      if (Node.isIdentifier(symbolExpression)) {
+        const symbolInitializer = getInitializerFromIdentifier(symbolExpression);
+        if (Node.isPropertyAccessExpression(symbolInitializer)) {
+          const accessExpressionSymbol = symbolInitializer.getExpression().getSymbol();
+          const varImportSpecifier = accessExpressionSymbol?.getDeclarations().find((varDeclaration) => {
+            return Node.isImportSpecifier(varDeclaration);
+          });
+
+          specifier = varImportSpecifier;
+          specifierName = varImportSpecifier?.getName();
+          if (accessExpressionSymbol) {
+            const {
+              moduleSpecifier: newSpecifier,
+              sourceFile: newSourceFile,
+              declaration: newDeclaration,
+            } = getModuleSpecifierFromExportSymbol(accessExpressionSymbol);
+            moduleSpecifier = newSpecifier;
+            sourceFile = newSourceFile;
+            declaration = newDeclaration;
+          }
+        }
+      } else if (Node.isPropertyAccessExpression(symbolExpression)) {
+        // Get the property access expression's expression (the token part of token.someValue)
+        // From here we can extract the symbol and recurse.
+        const accessExpressionSymbol = symbolExpression.getExpression().getSymbol();
+        const varImportSpecifier = accessExpressionSymbol?.getDeclarations().find((varDeclaration) => {
+          return Node.isImportSpecifier(varDeclaration);
+        });
+
+        specifier = varImportSpecifier;
+        specifierName = varImportSpecifier?.getName();
+        if (accessExpressionSymbol) {
+          const {
+            moduleSpecifier: newSpecifier,
+            sourceFile: newSourceFile,
+            declaration: newDeclaration,
+          } = getModuleSpecifierFromExportSymbol(accessExpressionSymbol);
           moduleSpecifier = newSpecifier;
           sourceFile = newSourceFile;
           declaration = newDeclaration;
@@ -291,38 +349,54 @@ function findNearestKnownTokenInfo(
       knownTokenDeclaration?: Node;
       knownTokenImportExportName?: string;
       knownTokenImportExportSpecifier?: Node;
+      knownTokenValueDeclarationValue?: string;
     }
   | undefined {
   // Get the module specifier if we're an export specifier
   const { moduleSpecifier, sourceFile, declaration, specifier, specifierName } =
     getModuleSpecifierFromExportSymbol(exportSymbol);
+
   const isAlias = exportSymbol.isAlias();
   if (moduleSpecifier) {
-    if (isKnownTokenPackage(moduleSpecifier, exportSymbol.getName())) {
+    if (isKnownTokenPackage(moduleSpecifier, specifierName)) {
+      let tokenValueDeclaration = exportSymbol.getValueDeclaration();
+      if (Node.isVariableDeclaration(tokenValueDeclaration)) {
+        tokenValueDeclaration = tokenValueDeclaration.getInitializer();
+      }
+      exportSymbol.getDeclarations().forEach((declaration) => {
+        if (Node.isExportAssignment(declaration)) {
+          tokenValueDeclaration = declaration.getExpression();
+        }
+      });
       return {
         knownTokenModuleSpecifier: moduleSpecifier,
         knownTokenSourceFile: sourceFile,
         knownTokenDeclaration: declaration ?? exportSymbol.getValueDeclaration(),
         knownTokenImportExportName: specifierName,
         knownTokenImportExportSpecifier: specifier,
+        knownTokenValueDeclarationValue: tokenValueDeclaration?.getText(),
       };
-    } else {
-      // If this is an alias (re-export), get the original symbol
+    }
+    // If this is an alias (re-export), get the original symbol
+    else if (isAlias) {
       let resolvedSymbol: Symbol = exportSymbol;
-      if (isAlias) {
-        // we're ok type casting here because we know the symbol is an alias from the previous check but TS won't pick up on it
-        resolvedSymbol = typeChecker.getImmediatelyAliasedSymbol(exportSymbol) as Symbol;
-        if (isKnownTokenPackage(moduleSpecifier, resolvedSymbol.getName())) {
-          return {
-            knownTokenModuleSpecifier: moduleSpecifier,
-            knownTokenSourceFile: sourceFile,
-            knownTokenDeclaration: declaration ?? resolvedSymbol.getValueDeclaration(),
-            knownTokenImportExportName: specifierName,
-            knownTokenImportExportSpecifier: specifier,
-          };
-        } else {
-          return findNearestKnownTokenInfo(resolvedSymbol, typeChecker);
+      // we're ok type casting here because we know the symbol is an alias from the previous check but TS won't pick up on it
+      resolvedSymbol = typeChecker.getImmediatelyAliasedSymbol(exportSymbol) as Symbol;
+      if (isKnownTokenPackage(moduleSpecifier, resolvedSymbol.getName())) {
+        let tokenValueDeclaration = resolvedSymbol.getValueDeclaration();
+        if (Node.isVariableDeclaration(tokenValueDeclaration)) {
+          tokenValueDeclaration = tokenValueDeclaration.getInitializer();
         }
+        return {
+          knownTokenModuleSpecifier: moduleSpecifier,
+          knownTokenSourceFile: sourceFile,
+          knownTokenDeclaration: declaration ?? resolvedSymbol.getValueDeclaration(),
+          knownTokenImportExportName: specifierName,
+          knownTokenImportExportSpecifier: specifier,
+          knownTokenValueDeclarationValue: tokenValueDeclaration?.getText(),
+        };
+      } else {
+        return findNearestKnownTokenInfo(resolvedSymbol, typeChecker);
       }
     }
   }
@@ -341,6 +415,7 @@ function findExportDeclaration(
       declaration: Node;
       sourceFile: SourceFile;
       moduleSpecifier: string;
+      valueDeclarationValue?: string;
       importExportSpecifierName?: string;
       importExportSpecifier?: Node;
     }
@@ -376,6 +451,7 @@ function findExportDeclaration(
         moduleSpecifier: tokenInfo.knownTokenModuleSpecifier,
         importExportSpecifierName: tokenInfo.knownTokenImportExportName,
         importExportSpecifier: tokenInfo.knownTokenImportExportSpecifier,
+        valueDeclarationValue: tokenInfo.knownTokenValueDeclarationValue,
       };
     }
   } catch (err) {
@@ -388,6 +464,9 @@ function findExportDeclaration(
  * Extract string value from a declaration node
  */
 function extractValueFromDeclaration(declaration: Node): { value: string } | undefined {
+  // Extract the value from the declaration
+  // TODO find the value of the token and then pass it into the values. This might be a string or template literal and
+  // we can use this later but it isn't needed for token identification, more for value processing down the line
   // Handle variable declarations
   if (Node.isVariableDeclaration(declaration)) {
     return { value: declaration.getNameNode().getText() };
