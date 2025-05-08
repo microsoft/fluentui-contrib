@@ -11,7 +11,7 @@
             },
             {
               "property": "color",
-              "token": ["semanticTokens.colorNeutralForeground1"],
+              "token": ["semanticTokens.cornerFlyoutRest"],
               "path": ["color"]
             },
             {
@@ -26,7 +26,7 @@
             },
             {
               "property": "fontFamily",
-              "token": ["someToken"],
+              "token": ["textStyleAiHeaderFontfamily"],
               "path": ["fontFamily"]
             },
             {
@@ -70,12 +70,12 @@
               "tokens": [
                 {
                   "property": "backgroundColor",
-                  "token": ["colorNeutralForeground1"],
+                  "token": ["cornerCtrlLgHoverRaw"],
                   "path": ["':hover'", "backgroundColor"]
                 },
                 {
                   "property": "borderColor",
-                  "token": ["anotherToken"],
+                  "token": ["ctrlLinkForegroundBrandHover"],
                   "path": ["':hover'", "borderColor"]
                 },
                 {

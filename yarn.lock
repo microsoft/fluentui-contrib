@@ -2717,6 +2717,13 @@
     "@fluentui/theme" "^2.6.58"
     tslib "^2.1.0"
 
+"@fluentui/semantic-tokens@0.0.0-nightly-20250501-1704.1":
+  version "0.0.0-nightly-20250501-1704.1"
+  resolved "https://registry.yarnpkg.com/@fluentui/semantic-tokens/-/semantic-tokens-0.0.0-nightly-20250501-1704.1.tgz#8d96d8327153bd3218dd19efa20e7214211361c5"
+  integrity sha512-ILvDAU4ESViISImGLkET4FKBJWSRjiR9Q1Vn2vVE7b/hrvNfMslJBncQeiZTFF15VrB1XGEFP6tFwV8WcoFftg==
+  dependencies:
+    "@swc/helpers" "^0.5.1"
+
 "@fluentui/set-version@^8.2.23":
   version "8.2.23"
   resolved "https://registry.yarnpkg.com/@fluentui/set-version/-/set-version-8.2.23.tgz#14032bc9a222a6e50a5cb166e1a39a527cfc69fd"
