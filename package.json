@@ -104,7 +104,8 @@
     "tslib": "^2.3.0",
     "typescript-eslint": "8.25.0",
     "typescript": "5.7.3",
-    "verdaccio": "6.1.1"
+    "verdaccio": "6.1.1",
+    "@fluentui/semantic-tokens": "0.0.0-nightly-20250501-1704.1"
   },
   "dependencies": {},
   "nx": {

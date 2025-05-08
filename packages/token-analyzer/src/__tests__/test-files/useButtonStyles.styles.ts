@@ -5,8 +5,8 @@ import { shorthands, makeStyles, makeResetStyles, mergeClasses } from '@griffel/
 import type { SlotClassNames } from '@fluentui/react-utilities';
 import type { ButtonSlots, ButtonState } from '@fluentui/react-components';
 import * as semanticTokens from '@fluentui/semantic-tokens';
-import { someToken } from '@fluentui/semantic-tokens';
-import { importTest, colorNeutralForeground1 } from './import-test';
+import { textStyleAiHeaderFontfamily } from '@fluentui/semantic-tokens';
+import { importTest, cornerCtrlLgHoverRaw } from './import-test';
 
 export const buttonClassNames: SlotClassNames<ButtonSlots> = {
   root: 'fui-Button',
@@ -42,14 +42,14 @@ const useRootBaseClassName = makeResetStyles({
   overflow: 'hidden',
 
   backgroundColor: tokenInInitializer2,
-  color: semanticTokens.colorNeutralForeground1,
+  color: semanticTokens.cornerFlyoutRest,
   border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke1}`,
 
-  fontFamily: someToken,
+  fontFamily: textStyleAiHeaderFontfamily,
   outlineStyle: 'none',
 
   ':hover': {
-    backgroundColor: colorNeutralForeground1,
+    backgroundColor: cornerCtrlLgHoverRaw,
     borderColor: importTest,
     color: tokens.colorNeutralForeground1Hover,
 

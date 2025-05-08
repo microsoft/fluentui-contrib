@@ -57,8 +57,8 @@ beforeAll(() => {
   fs.writeFileSync(
     path.join(TEST_DIR, 'components.ts'),
     `
-    import { anotherToken } from '@fluentui/semantic-tokens';
-    export const Component = anotherToken;
+    import { ctrlLinkForegroundBrandHover } from '@fluentui/semantic-tokens';
+    export const Component = ctrlLinkForegroundBrandHover;
     `
   );
 
@@ -133,7 +133,7 @@ describe('Type Checker Import Analysis', () => {
 
     // Verify standard re-export (Component)
     expect(importedValues.has('Component')).toBe(true);
-    expect(importedValues.get('Component')?.value).toBe('anotherToken');
+    expect(importedValues.get('Component')?.value).toBe('ctrlLinkForegroundBrandHover');
     expect(importedValues.get('Component')?.sourceFile).toContain('components.ts');
 
     // Verify aliased re-export (AliasedValue)

@@ -77,8 +77,8 @@ describe('e2e test', () => {
     checkTokens(
       () => styles.useRootBaseClassName.resetStyles.nested["':hover'"].tokens,
       [
-        ['backgroundColor', 'colorNeutralForeground1'],
-        ['borderColor', 'anotherToken'],
+        ['backgroundColor', 'cornerCtrlLgHoverRaw'],
+        ['borderColor', 'ctrlLinkForegroundBrandHover'],
         ['color', 'tokens.colorNeutralForeground1Hover'],
       ]
     );
@@ -98,10 +98,10 @@ describe('e2e test', () => {
       () => styles.useRootBaseClassName.resetStyles.tokens,
       [
         ['backgroundColor', 'tokens.colorNeutralBackground1'],
-        ['color', 'semanticTokens.colorNeutralForeground1'],
+        ['color', 'semanticTokens.cornerFlyoutRest'],
         ['border', 'tokens.strokeWidthThin'],
         ['border', 'tokens.colorNeutralStroke1'],
-        ['fontFamily', 'someToken'],
+        ['fontFamily', 'textStyleAiHeaderFontfamily'],
         ['padding', 'tokens.spacingHorizontalM'],
         ['borderRadius', 'tokens.borderRadiusMedium'],
         ['fontSize', 'tokens.fontSizeBase300'],
