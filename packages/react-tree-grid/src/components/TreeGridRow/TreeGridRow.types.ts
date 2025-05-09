@@ -15,5 +15,5 @@ export type TreeGridRowProps = ComponentProps<TreeGridRowSlots> & {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: EventHandler<TreeGridRowOnOpenChangeData>;
-  subtree?: Slot<typeof React.Fragment> | true;
+  subtree?: Slot<{ children?: React.ReactNode }> | true;
 };
