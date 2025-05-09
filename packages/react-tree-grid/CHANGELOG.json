@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-tree-grid",
   "entries": [
     {
+      "date": "Fri, 09 May 2025 17:14:55 GMT",
+      "tag": "@fluentui-contrib/react-tree-grid_v0.2.1",
+      "version": "0.2.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "bernardo.sunderhus@gmail.com",
+            "package": "@fluentui-contrib/react-tree-grid",
+            "commit": "9831d7390c3dfc4c9562dac14fd89d9634e0527e",
+            "comment": "bugfix: slot type breaks when using typeof ExoticComponent with v17"
+          }
+        ]
+      }
+    },
+    {
       "date": "Mon, 28 Apr 2025 08:56:33 GMT",
       "tag": "@fluentui-contrib/react-tree-grid_v0.2.0",
       "version": "0.2.0",
