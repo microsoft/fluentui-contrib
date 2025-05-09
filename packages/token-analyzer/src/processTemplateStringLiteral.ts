@@ -1,11 +1,5 @@
 import { TemplateExpression, Node } from 'ts-morph';
 
-/**
- * Function that processes template string literals that might contain references to tokens.
- * It extracts potential token references for further processing. Since we want to use the same logic
- */
-export const processTemplateStringLiteral = (): {} => {};
-
 interface ExtractedNodessFromTemplateStringLiteral {
   /**
    * The original template expression that we're processing.

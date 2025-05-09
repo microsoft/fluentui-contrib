@@ -10,6 +10,7 @@ const cssVarsStyleFile = `
 import { makeStyles } from '@griffel/react';
 import { tokens } from '@fluentui/react-theme';
 import { colorPrimary, colorSecondary, nestedFallbackVar, complexCssVar } from './tokenVars';
+import { ctrlLinkForegroundBrandHover } from '@fluentui/semantic-tokens';
 
 const useStyles = makeStyles({
   // Direct token reference
@@ -30,7 +31,7 @@ const useStyles = makeStyles({
   },
   // Nested CSS variable with token
   nestedCssVar: {
-    background: \`var(--primary, var(--secondary, \${tokens.colorBrandForeground2}))\`,
+    background: \`var(--primary, var(\${ctrlLinkForegroundBrandHover}, \${tokens.colorBrandForeground2}))\`,
   },
   // Imported nested CSS variable with token
   importedNestedVar: {
