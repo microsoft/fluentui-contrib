@@ -63,9 +63,9 @@ async function validateComponent(
     skipAriaCheck = false,
   }: {
     /** A value coming from `onChange` callback */
-    value: number;
+    value: string;
     /** An actual value of the DOM element */
-    domValue?: number;
+    domValue?: string;
 
     eventType?: string;
     /**
@@ -81,18 +81,15 @@ async function validateComponent(
       : mountResult.wrapperEl;
 
   await expect(mountResult.valueEl).toContainText(
-    `width (from callback): ${value}px;`
+    `width (from callback): ${value};`
   );
   await expect(mountResult.valueEl).toContainText(
-    `width (actual DOM): ${domValue}px;`
+    `width (actual DOM): ${domValue};`
   );
-  await expect(variableTarget).toHaveCSS('--width', `${value}px`);
+  await expect(variableTarget).toHaveCSS('--width', value);
 
   if (!skipAriaCheck) {
-    await expect(mountResult.dragEl).toHaveAttribute(
-      'aria-valuetext',
-      `${domValue}px`
-    );
+    await expect(mountResult.dragEl).toHaveAttribute('aria-valuetext', value);
   }
 
   if (eventType) {
@@ -105,7 +102,7 @@ test.describe('useResizeHandle', () => {
     const result = await mountTest(mount);
 
     await result.dragEl.dragTo(result.staticEl);
-    await validateComponent(result, { value: 235, eventType: 'mouse' });
+    await validateComponent(result, { value: '235px', eventType: 'mouse' });
   });
 
   test('keyboard can be used for resizing', async ({ mount, page }) => {
@@ -113,19 +110,19 @@ test.describe('useResizeHandle', () => {
 
     await result.dragEl.focus();
     await page.keyboard.press('ArrowRight');
-    await validateComponent(result, { value: 70, eventType: 'keyboard' });
+    await validateComponent(result, { value: '70px', eventType: 'keyboard' });
     await page.keyboard.press('ArrowLeft');
-    await validateComponent(result, { value: 50, eventType: 'keyboard' });
+    await validateComponent(result, { value: '50px', eventType: 'keyboard' });
   });
 
   test('value could be changed imperatively', async ({ mount }) => {
     const result = await mountTest(mount);
 
     await result.dragEl.dragTo(result.staticEl);
-    await validateComponent(result, { value: 235, eventType: 'mouse' });
+    await validateComponent(result, { value: '235px', eventType: 'mouse' });
 
     await result.resetEl.click();
-    await validateComponent(result, { value: 50, eventType: 'setValue' });
+    await validateComponent(result, { value: '50px', eventType: 'setValue' });
   });
 
   test.describe('CSS clamp', () => {
@@ -133,14 +130,14 @@ test.describe('useResizeHandle', () => {
       const result = await mountTest(mount, { useCSSClamp: true });
 
       await result.dragEl.dragTo(result.spacerBefore);
-      await validateComponent(result, { value: 40, eventType: 'mouse' });
+      await validateComponent(result, { value: '40px', eventType: 'mouse' });
     });
 
     test('cannot exceed max with mouse', async ({ mount }) => {
       const result = await mountTest(mount, { useCSSClamp: true });
 
       await result.dragEl.dragTo(result.spacerAfter);
-      await validateComponent(result, { value: 400, eventType: 'mouse' });
+      await validateComponent(result, { value: '400px', eventType: 'mouse' });
     });
 
     test('cannot exceed with keyboard', async ({ mount, page }) => {
@@ -151,7 +148,10 @@ test.describe('useResizeHandle', () => {
         await page.keyboard.press('ArrowRight');
       }
 
-      await validateComponent(result, { value: 400, eventType: 'keyboard' });
+      await validateComponent(result, {
+        value: '400px',
+        eventType: 'keyboard',
+      });
 
       // ---
 
@@ -162,7 +162,7 @@ test.describe('useResizeHandle', () => {
         await page.keyboard.press('ArrowLeft');
       }
 
-      await validateComponent(result, { value: 40, eventType: 'keyboard' });
+      await validateComponent(result, { value: '40px', eventType: 'keyboard' });
     });
   });
 
@@ -171,14 +171,14 @@ test.describe('useResizeHandle', () => {
       const result = await mountTest(mount, { minValue: 30 });
 
       await result.dragEl.dragTo(result.spacerBefore);
-      await validateComponent(result, { value: 30, eventType: 'mouse' });
+      await validateComponent(result, { value: '30px', eventType: 'mouse' });
     });
 
     test('with mouse (max)', async ({ mount }) => {
       const result = await mountTest(mount, { maxValue: 300 });
 
       await result.dragEl.dragTo(result.spacerAfter);
-      await validateComponent(result, { value: 300, eventType: 'mouse' });
+      await validateComponent(result, { value: '300px', eventType: 'mouse' });
     });
 
     test('with keyboard', async ({ mount, page }) => {
@@ -189,7 +189,10 @@ test.describe('useResizeHandle', () => {
         await page.keyboard.press('ArrowRight');
       }
 
-      await validateComponent(result, { value: 300, eventType: 'keyboard' });
+      await validateComponent(result, {
+        value: '300px',
+        eventType: 'keyboard',
+      });
 
       // ---
 
@@ -199,7 +202,7 @@ test.describe('useResizeHandle', () => {
       for (let i = 0; i < 30; i++) {
         await page.keyboard.press('ArrowLeft');
       }
-      await validateComponent(result, { value: 30, eventType: 'keyboard' });
+      await validateComponent(result, { value: '30px', eventType: 'keyboard' });
     });
   });
 
@@ -209,8 +212,8 @@ test.describe('useResizeHandle', () => {
 
       await result.dragEl.dragTo(result.staticEl);
       await validateComponent(result, {
-        value: 185,
-        domValue: 235,
+        value: '185px',
+        domValue: '235px',
         skipAriaCheck: true,
       });
     });
@@ -226,8 +229,8 @@ test.describe('useResizeHandle', () => {
       await page.mouse.move(30, 0);
 
       await validateComponent(result, {
-        value: -35,
-        domValue: 40,
+        value: '-35px',
+        domValue: '40px',
         skipAriaCheck: true,
       });
 
@@ -237,8 +240,8 @@ test.describe('useResizeHandle', () => {
       await page.mouse.up();
 
       await validateComponent(result, {
-        value: 35,
-        domValue: 85,
+        value: '35px',
+        domValue: '85px',
         skipAriaCheck: true,
       });
     });
@@ -248,15 +251,15 @@ test.describe('useResizeHandle', () => {
 
       await result.dragEl.dragTo(result.staticEl);
       await validateComponent(result, {
-        value: 185,
-        domValue: 235,
+        value: '185px',
+        domValue: '235px',
         skipAriaCheck: true,
       });
 
       await result.resetEl.click();
       await validateComponent(result, {
-        value: 0,
-        domValue: 50,
+        value: '0px',
+        domValue: '50px',
         eventType: 'setValue',
         skipAriaCheck: true,
       });
@@ -270,7 +273,33 @@ test.describe('useResizeHandle', () => {
       const result = await mountTest(mount, { variableTarget: 'element' });
 
       await result.dragEl.dragTo(result.staticEl);
-      await validateComponent(result, { value: 235, eventType: 'mouse' });
+      await validateComponent(result, { value: '235px', eventType: 'mouse' });
+    });
+  });
+
+  test.describe('unit (viewport)', () => {
+    test('mouse can be used for dragging', async ({ mount }) => {
+      const result = await mountTest(mount, { unit: 'viewport' });
+
+      await result.dragEl.dragTo(result.staticEl);
+      await validateComponent(result, {
+        value: '47vw',
+        domValue: '235px',
+        eventType: 'mouse',
+      });
+    });
+
+    test('keyboard can be used for resizing', async ({ mount, page }) => {
+      const result = await mountTest(mount, { unit: 'viewport' });
+
+      await result.dragEl.focus();
+      await page.keyboard.press('ArrowRight');
+
+      await validateComponent(result, {
+        value: '14vw',
+        domValue: '70px',
+        eventType: 'keyboard',
+      });
     });
   });
 
@@ -300,7 +329,7 @@ test.describe('useResizeHandle', () => {
       await page.mouse.down();
       await page.mouse.move(100, 0);
 
-      await validateComponent(result, { value: 85, eventType: 'mouse' });
+      await validateComponent(result, { value: '85px', eventType: 'mouse' });
 
       expect(dragStartCalls.length).toBe(1);
       expect(dragEndCalls.length).toBe(0);
@@ -314,7 +343,7 @@ test.describe('useResizeHandle', () => {
       await page.mouse.move(200, 0);
       await page.mouse.up();
 
-      await validateComponent(result, { value: 185, eventType: 'mouse' });
+      await validateComponent(result, { value: '185px', eventType: 'mouse' });
 
       expect(dragStartCalls.length).toBe(1);
       expect(dragEndCalls.length).toBe(1);
@@ -345,7 +374,7 @@ test.describe('useResizeHandle', () => {
         },
       });
 
-      await validateComponent(result, { value: 40, eventType: 'mouse' });
+      await validateComponent(result, { value: '40px', eventType: 'mouse' });
       expect(onChangeCalls.length).toBeGreaterThan(0);
 
       // ---
@@ -353,7 +382,7 @@ test.describe('useResizeHandle', () => {
       onChangeCalls.length = 0;
       await result.dragEl.dragTo(result.spacerBefore);
 
-      await validateComponent(result, { value: 40, eventType: 'mouse' });
+      await validateComponent(result, { value: '40px', eventType: 'mouse' });
       expect(onChangeCalls.length).toBe(0);
 
       // Drag to the right
@@ -368,7 +397,7 @@ test.describe('useResizeHandle', () => {
         },
       });
 
-      await validateComponent(result, { value: 400, eventType: 'mouse' });
+      await validateComponent(result, { value: '400px', eventType: 'mouse' });
       expect(onChangeCalls.length).toBeGreaterThan(0);
 
       // ---
@@ -377,7 +406,7 @@ test.describe('useResizeHandle', () => {
 
       await result.dragEl.dragTo(result.spacerAfter);
 
-      await validateComponent(result, { value: 400, eventType: 'mouse' });
+      await validateComponent(result, { value: '400px', eventType: 'mouse' });
       expect(onChangeCalls.length).toBe(0);
     });
   });

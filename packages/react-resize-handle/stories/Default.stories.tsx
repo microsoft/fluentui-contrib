@@ -5,9 +5,12 @@ import {
   makeResetStyles,
   makeStyles,
   mergeClasses,
-  shorthands,
   useMergedRefs,
+  Radio,
+  RadioGroup,
+  tokens,
 } from '@fluentui/react-components';
+
 import { Handle } from './Handle';
 
 const NAV_SIZE_CSS_VAR = '--nav-size';
@@ -33,19 +36,26 @@ const useMainWrapperStyles = makeResetStyles({
 
 const useStyles = makeStyles({
   areaNav: {
-    ...shorthands.gridArea('nav'),
+    gridArea: 'nav',
   },
   areaSubNav: {
-    ...shorthands.gridArea('sub-nav'),
+    gridArea: 'sub-nav',
   },
   areaMain: {
-    ...shorthands.gridArea('main'),
+    gridArea: 'main',
   },
   areaMainFooter: {
-    ...shorthands.gridArea('main-footer'),
+    gridArea: 'main-footer',
   },
   areaSide: {
-    ...shorthands.gridArea('side'),
+    gridArea: 'side',
+  },
+  unitSelector: {
+    background: tokens.colorNeutralBackground1,
+    position: 'fixed',
+    top: '10%',
+    left: '50%',
+    zIndex: 1,
   },
 });
 
@@ -55,7 +65,6 @@ const useMainBoxStyles = makeResetStyles({
 });
 
 type ComponentProps = {
-  maxWidth: number;
   onDragStart: (value: number, eventType: string) => void;
   onDragEnd: (value: number, eventType: string) => void;
   onChange: (value: number, eventType: string) => void;
@@ -67,11 +76,13 @@ const Component = (props: ComponentProps) => {
   const boxStyles = useMainBoxStyles();
   const styles = useStyles();
 
+  const [unit, setUnit] = React.useState<'px' | 'viewport'>('px');
+
   const {
     handleRef: navHandleRef,
     wrapperRef: navWrapperRef,
     elementRef: navElementRef,
-    setValue: setLeftColumnSize,
+    setValue: setNavValue,
   } = useResizeHandle({
     variableName: NAV_SIZE_CSS_VAR,
     growDirection: 'end',
@@ -85,6 +96,7 @@ const Component = (props: ComponentProps) => {
     onDragEnd: (_, { value, type }) => {
       props.onDragEnd(value, String(type));
     },
+    unit,
   });
 
   const {
@@ -94,8 +106,7 @@ const Component = (props: ComponentProps) => {
   } = useResizeHandle({
     variableName: SIDE_SIZE_CSS_VAR,
     growDirection: 'start',
-    minValue: 30,
-    maxValue: 200,
+    unit,
   });
 
   const {
@@ -105,6 +116,7 @@ const Component = (props: ComponentProps) => {
   } = useResizeHandle({
     variableName: FOOTER_SIZE_CSS_VAR,
     growDirection: 'up',
+    unit,
   });
 
   const wrapperRef = useMergedRefs(
@@ -114,11 +126,24 @@ const Component = (props: ComponentProps) => {
   );
 
   const resetToInitial = () => {
-    setLeftColumnSize(0);
+    setNavValue(0);
   };
 
   return (
     <div className={pageStyles}>
+      <div className={styles.unitSelector}>
+        <RadioGroup
+          layout="horizontal"
+          onChange={(_, data) => {
+            setUnit(data.value as 'px' | 'viewport');
+          }}
+          value={unit}
+        >
+          <Radio value="px" label="px" />
+          <Radio value="viewport" label="viewport" />
+        </RadioGroup>
+      </div>
+
       <div className={wrapperStyles} ref={wrapperRef}>
         <div
           className={mergeClasses(boxStyles, styles.areaNav)}

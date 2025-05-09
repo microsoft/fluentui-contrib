@@ -1,14 +1,18 @@
-import * as React from 'react';
-import { useKeyboardHandler } from './useKeyboardHandler';
-import { useMouseHandler } from './useMouseHandler';
-import { clamp, elementDimension } from '../utils';
 import { useEventCallback } from '@fluentui/react-components';
+import type { EventHandler } from '@fluentui/react-utilities';
+import * as React from 'react';
+
+import { clamp } from '../utils';
 import {
+  CSSUnit,
   EVENTS,
   GrowDirection,
   ResizeHandleUpdateEventData,
   UNMEASURED,
 } from '../types';
+import { useKeyboardHandler } from './useKeyboardHandler';
+import { useMouseHandler } from './useMouseHandler';
+import { useUnitHandle } from './useUnitHandle';
 
 const clampWithMode = (
   value: number,
@@ -18,8 +22,6 @@ const clampWithMode = (
 ) => {
   return relative || value === UNMEASURED ? value : clamp(value, min, max);
 };
-
-import type { EventHandler } from '@fluentui/react-utilities';
 
 export type UseResizeHandleParams = {
   /**
@@ -64,7 +66,7 @@ export type UseResizeHandleParams = {
    * A function that will be called to get the value that will be set as the aria-valuetext attribute on the resize handle.
    * Use this for localization.
    */
-  getA11ValueText?: (value: number) => string | undefined;
+  getA11ValueText?: (value: number, unit: string) => string | undefined;
   /**
    * Only measure relative change in size, useful to use with CSS calc() function.
    * Example: clamp(60px, calc(20% + var(--nav-size)), 40%)
@@ -72,11 +74,17 @@ export type UseResizeHandleParams = {
    * Also, the size will still be relative in nature (20% + (X)px).
    */
   relative?: boolean;
+
+  /**
+   * The unit to use for the value. Can be 'px' or 'viewport' (will use 'vh' or 'vw' depending on 'growDirection').
+   */
+  unit?: CSSUnit;
 };
 
 const DEFAULT_GET_A11_VALUE_TEXT: UseResizeHandleParams['getA11ValueText'] = (
-  value
-) => (value === UNMEASURED ? undefined : `${value.toFixed(0)}px`);
+  value,
+  unit
+) => (value === UNMEASURED ? undefined : `${value}${unit}`);
 
 export const useResizeHandle = (params: UseResizeHandleParams) => {
   const {
@@ -96,16 +104,17 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
   const wrapperRef = React.useRef<HTMLElement | null>(null);
   const elementRef = React.useRef<HTMLElement | null>(null);
 
-  const currentValue = React.useRef(UNMEASURED);
+  const currentValue = React.useRef<number>(UNMEASURED);
+  const unitHandle = useUnitHandle(growDirection, params.unit ?? 'px');
 
   const updateTargetElVariable = React.useCallback(
-    (value: string) => {
+    (value: number) => {
       const targetEl =
         variableTarget === 'wrapper' ? wrapperRef.current : elementRef.current;
 
-      targetEl?.style.setProperty(variableName, value);
+      targetEl?.style.setProperty(variableName, value + unitHandle.name);
     },
-    [variableName]
+    [variableName, unitHandle]
   );
 
   const updateElementsAttrs = React.useCallback(
@@ -113,8 +122,11 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
       const a11yValue = relative
         ? // If relative mode is enabled, we actually have to measure the element,
           // because the currentValue is just the px offset.
-          getA11ValueText(elementDimension(elementRef.current, growDirection))
-        : getA11ValueText(currentValue.current);
+          getA11ValueText(
+            unitHandle.elementDimension(elementRef.current),
+            unitHandle.name
+          )
+        : getA11ValueText(eventData.value, unitHandle.name);
 
       const handleAttributes = {
         role: 'slider',
@@ -134,8 +146,8 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
       });
 
       // Make sure to only apply the value if it's not the initial value!
-      if (currentValue.current !== UNMEASURED) {
-        updateTargetElVariable(`${currentValue.current}px`);
+      if (eventData.value !== UNMEASURED) {
+        updateTargetElVariable(eventData.value);
         onChange?.(eventData.event, eventData);
       }
     },
@@ -150,7 +162,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
       maxValue,
       relative
     );
-  }, [maxValue, minValue]);
+  }, [maxValue, minValue, relative]);
 
   const onValueChange: EventHandler<ResizeHandleUpdateEventData> =
     React.useCallback(
@@ -166,9 +178,8 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
             const oldValue = currentValue.current;
 
             // Measure the size before setting the new value
-            const previousSizeInPx = elementDimension(
-              elementRef.current,
-              growDirection
+            const previousSize = unitHandle.elementDimension(
+              elementRef.current
             );
 
             // Set the new value and update the elements, this should result in element resize
@@ -176,15 +187,12 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
             updateElementsAttrs({ ...eventData, value: currentValue.current });
 
             // Measure the size after setting the new value
-            const newSizeInPx = elementDimension(
-              elementRef.current,
-              growDirection
-            );
+            const newSizeIn = unitHandle.elementDimension(elementRef.current);
 
             // If the size hasn't changed, we need to revert to the old value to keep the state and DOM in sync.
             // If we don't do this, then the handle might be stuck in a place where small changes
             // in value don't have any effect.
-            if (newSizeInPx === previousSizeInPx) {
+            if (newSizeIn === previousSize) {
               currentValue.current = oldValue;
               updateElementsAttrs({
                 ...eventData,
@@ -195,38 +203,38 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
             return;
           }
 
-          const previousSizeInPx = elementDimension(
-            elementRef.current,
-            growDirection
-          );
+          const previousSize = unitHandle.elementDimension(elementRef.current);
 
-          updateTargetElVariable(`${newValue}px`);
+          updateTargetElVariable(newValue);
 
-          const newSizeInPx = elementDimension(
-            elementRef.current,
-            growDirection
-          );
+          const newSize = unitHandle.elementDimension(elementRef.current);
 
-          if (previousSizeInPx === newSizeInPx) {
+          if (previousSize === newSize) {
             // If the size hasn't changed, we need to revert to the old value to keep the state and DOM in sync
-            updateTargetElVariable(`${previousSizeInPx}px`);
+            updateTargetElVariable(previousSize);
 
             return;
           }
 
-          currentValue.current = newSizeInPx;
+          currentValue.current = unitHandle.roundValue(newSize);
           updateElementsAttrs({ ...eventData, value: currentValue.current });
         }
       },
-      [minValue, maxValue, updateElementsAttrs]
+      [minValue, maxValue, relative, unitHandle, updateElementsAttrs]
     );
 
   const setValue = React.useCallback(
     (value: number) => {
       const event = new CustomEvent(EVENTS.setValue);
-      onValueChange(event, { event, value, type: EVENTS.setValue });
+
+      onValueChange(event, {
+        event,
+        value,
+        type: EVENTS.setValue,
+        unit: unitHandle.name,
+      });
     },
-    [onValueChange]
+    [onValueChange, unitHandle]
   );
 
   const onDragStartLocal: EventHandler<
@@ -250,27 +258,31 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
   const getCurrentValue = React.useCallback(() => {
     return relative
       ? currentValue.current
-      : elementDimension(elementRef.current, growDirection);
-  }, [relative]);
+      : unitHandle.elementDimension(elementRef.current);
+  }, [relative, unitHandle]);
 
   const {
     attachHandlers: attachMouseHandlers,
     detachHandlers: detachMouseHandlers,
   } = useMouseHandler({
-    growDirection,
-    onValueChange,
     onDragStart: onDragStartLocal,
     onDragEnd: onDragEndLocal,
+    onValueChange,
+
     getCurrentValue,
+    growDirection,
+    unitHandle,
   });
 
   const {
     attachHandlers: attachKeyboardHandlers,
     detachHandlers: detachKeyboardHandlers,
   } = useKeyboardHandler({
-    growDirection,
     onValueChange,
+
+    growDirection,
     getCurrentValue,
+    unitHandle,
   });
 
   const setHandleRef: React.RefCallback<HTMLElement> = React.useCallback(
@@ -280,12 +292,15 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
           detachMouseHandlers(node);
           detachKeyboardHandlers(node);
         }
+
         attachMouseHandlers(node);
         attachKeyboardHandlers(node);
+
         updateElementsAttrs({
           type: EVENTS.handleRef,
           event: new CustomEvent(EVENTS.handleRef),
-          value: currentValue.current,
+          value: UNMEASURED,
+          unit: unitHandle.name,
         });
       }
       handleRef.current = node;
@@ -296,21 +311,24 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
       detachKeyboardHandlers,
       detachMouseHandlers,
       updateElementsAttrs,
+      unitHandle,
     ]
   );
 
   const setWrapperRef: React.RefCallback<HTMLElement> = React.useCallback(
     (node) => {
       wrapperRef.current = node;
+
       if (elementRef.current) {
         updateElementsAttrs({
           type: EVENTS.wrapperRef,
           event: new CustomEvent(EVENTS.wrapperRef),
-          value: currentValue.current,
+          value: UNMEASURED,
+          unit: unitHandle.name,
         });
       }
     },
-    [updateElementsAttrs]
+    [updateElementsAttrs, unitHandle]
   );
 
   const setElementRef: React.RefCallback<HTMLElement> = React.useCallback(
@@ -320,14 +338,16 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
         if (currentValue.current === UNMEASURED && relative) {
           currentValue.current = 0;
         }
+
         updateElementsAttrs({
           type: EVENTS.elementRef,
           event: new CustomEvent(EVENTS.elementRef),
-          value: currentValue.current,
+          value: UNMEASURED,
+          unit: unitHandle.name,
         });
       }
     },
-    [updateElementsAttrs]
+    [relative, updateElementsAttrs, unitHandle]
   );
 
   return {
