@@ -5,9 +5,12 @@ import {
   makeResetStyles,
   makeStyles,
   mergeClasses,
-  shorthands,
   useMergedRefs,
+  Radio,
+  RadioGroup,
+  tokens,
 } from '@fluentui/react-components';
+
 import { Handle } from './Handle';
 
 const NAV_SIZE_CSS_VAR = '--nav-size';
@@ -19,7 +22,7 @@ const usePageStyles = makeResetStyles({
 });
 
 const useMainWrapperStyles = makeResetStyles({
-  [NAV_SIZE_CSS_VAR]: '0px',
+  [NAV_SIZE_CSS_VAR]: '20%',
   [SIDE_SIZE_CSS_VAR]: '120px',
   [FOOTER_SIZE_CSS_VAR]: '10%',
   display: 'grid',
@@ -28,24 +31,31 @@ const useMainWrapperStyles = makeResetStyles({
   gap: '16px',
   gridTemplate: `"nav sub-nav main side" minmax(0, 1fr)
   "nav sub-nav main-footer side" clamp(5%, var(${FOOTER_SIZE_CSS_VAR}), 30%)
-  / clamp(60px, calc(20% + var(${NAV_SIZE_CSS_VAR})), 40%)  150px 1fr var(${SIDE_SIZE_CSS_VAR})`,
+  / clamp(60px, calc(var(${NAV_SIZE_CSS_VAR})), 40%) 150px 1fr clamp(5%, var(${SIDE_SIZE_CSS_VAR}), 30%)`,
 });
 
 const useStyles = makeStyles({
   areaNav: {
-    ...shorthands.gridArea('nav'),
+    gridArea: 'nav',
   },
   areaSubNav: {
-    ...shorthands.gridArea('sub-nav'),
+    gridArea: 'sub-nav',
   },
   areaMain: {
-    ...shorthands.gridArea('main'),
+    gridArea: 'main',
   },
   areaMainFooter: {
-    ...shorthands.gridArea('main-footer'),
+    gridArea: 'main-footer',
   },
   areaSide: {
-    ...shorthands.gridArea('side'),
+    gridArea: 'side',
+  },
+  unitSelector: {
+    background: tokens.colorNeutralBackground1,
+    position: 'fixed',
+    top: '10%',
+    left: '50%',
+    zIndex: 1,
   },
 });
 
@@ -67,6 +77,8 @@ const Component = (props: ComponentProps) => {
   const boxStyles = useMainBoxStyles();
   const styles = useStyles();
 
+  const [unit, setUnit] = React.useState<'px' | 'viewport'>('px');
+
   const {
     handleRef: navHandleRef,
     wrapperRef: navWrapperRef,
@@ -75,7 +87,6 @@ const Component = (props: ComponentProps) => {
   } = useResizeHandle({
     variableName: NAV_SIZE_CSS_VAR,
     growDirection: 'end',
-    relative: true,
     onChange: (_, { value, type }) => {
       props.onChange(value, String(type));
     },
@@ -85,6 +96,7 @@ const Component = (props: ComponentProps) => {
     onDragEnd: (_, { value, type }) => {
       props.onDragEnd(value, String(type));
     },
+    unit,
   });
 
   const {
@@ -94,8 +106,7 @@ const Component = (props: ComponentProps) => {
   } = useResizeHandle({
     variableName: SIDE_SIZE_CSS_VAR,
     growDirection: 'start',
-    minValue: 30,
-    maxValue: 200,
+    unit,
   });
 
   const {
@@ -105,6 +116,7 @@ const Component = (props: ComponentProps) => {
   } = useResizeHandle({
     variableName: FOOTER_SIZE_CSS_VAR,
     growDirection: 'up',
+    unit,
   });
 
   const wrapperRef = useMergedRefs(
@@ -119,6 +131,19 @@ const Component = (props: ComponentProps) => {
 
   return (
     <div className={pageStyles}>
+      <div className={styles.unitSelector}>
+        <RadioGroup
+          layout="horizontal"
+          onChange={(_, data) => {
+            setUnit(data.value as 'px' | 'viewport');
+          }}
+          value={unit}
+        >
+          <Radio value="px" label="px" />
+          <Radio value="viewport" label="viewport" />
+        </RadioGroup>
+      </div>
+
       <div className={wrapperStyles} ref={wrapperRef}>
         <div
           className={mergeClasses(boxStyles, styles.areaNav)}

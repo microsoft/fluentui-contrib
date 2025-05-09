@@ -1,5 +1,4 @@
 import { render, fireEvent } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { useResizeHandle, UseResizeHandleParams } from './useResizeHandle';
 import * as React from 'react';
 
