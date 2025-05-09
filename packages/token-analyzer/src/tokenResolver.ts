@@ -226,9 +226,9 @@ const processCallExpression = (info: TokenResolverInfo<CallExpression>): TokenRe
 };
 
 /**
- * This is where we should process template spans and feed it back into resolveToken. We also need to check that
+ * This is where we process template spans and feed it back into resolveToken. We also need to check that
  * imported values are tokens etc.
- * We will also break down each individual group of fallbacks as multiple tokens in our output. So if a single property
+ * We also break down each individual group of fallbacks as multiple tokens in our output. So if a single property
  * like shadow has a few var() functions, we should return each one as a separate token. We should do the same with
  * separate token values in general.
  * @param info
