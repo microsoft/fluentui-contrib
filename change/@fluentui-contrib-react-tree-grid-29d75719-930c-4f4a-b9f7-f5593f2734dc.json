@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "bugfix: slot type breaks when using typeof ExoticComponent with v17",
+  "packageName": "@fluentui-contrib/react-tree-grid",
+  "email": "bernardo.sunderhus@gmail.com",
+  "dependentChangeType": "patch"
+}
