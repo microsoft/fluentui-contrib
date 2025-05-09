@@ -8,20 +8,15 @@ import {
   CallExpression,
   TemplateExpression,
   Identifier,
-  TemplateSpan,
-  TemplateHead,
-  TemplateMiddle,
-  TemplateTail,
 } from 'ts-morph';
 import { TokenReference, TokenResolverInfo } from './types';
-import { extractTokensFromCssVars } from './cssVarTokenExtractor';
 import {
   addTokenToArray,
-  extractTokensFromText,
   getInitializerFromIdentifier,
   getPropertiesForShorthand,
   isTokenReference,
 } from './tokenUtils';
+import { extractNodesFromTemplateStringLiteral } from './processTemplateStringLiteral';
 
 /**
  * Function that centarlizes the logic for resolving tokens from a node.
@@ -53,16 +48,6 @@ export const resolveToken = (info: TokenResolverInfo): TokenReference[] => {
     return processCallExpression(info as TokenResolverInfo<CallExpression>);
   } else if (Node.isPropertyAssignment(node)) {
     return processPropertyAssignment(info as TokenResolverInfo<PropertyAssignment>);
-  } else if (
-    Node.isTemplateSpan(node) ||
-    Node.isTemplateHead(node) ||
-    Node.isTemplateMiddle(node) ||
-    Node.isTemplateTail(node)
-  ) {
-    // Unless we need specialized handling, use the template expression resolver
-    return processTemplateExpression(
-      info as TokenResolverInfo<TemplateSpan | TemplateHead | TemplateMiddle | TemplateTail>
-    );
   }
 
   return tokens;
@@ -241,49 +226,46 @@ const processCallExpression = (info: TokenResolverInfo<CallExpression>): TokenRe
 };
 
 /**
- *
+ * This is where we should process template spans and feed it back into resolveToken. We also need to check that
+ * imported values are tokens etc.
+ * We will also break down each individual group of fallbacks as multiple tokens in our output. So if a single property
+ * like shadow has a few var() functions, we should return each one as a separate token. We should do the same with
+ * separate token values in general.
  * @param info
  * @returns
  */
-const processTemplateExpression = (
-  info: TokenResolverInfo<TemplateExpression | TemplateSpan | TemplateHead | TemplateMiddle | TemplateTail>
-): TokenReference[] => {
-  /**
-   * This is where we should process template spans and feed it back into resolveToken. We also need to check that
-   * imported values are tokens etc.
-   */
+const processTemplateExpression = (info: TokenResolverInfo<TemplateExpression>): TokenReference[] => {
+  const { node, path, parentName, tokens } = info;
+  const returnTokens = tokens.slice();
 
-  const { node, path, parentName, tokens, isVariableReference, sourceFile } = info;
-  const text = node.getText();
-
-  // Check for CSS var() syntax that might contain tokens
-  if (text.includes('var(')) {
-    const cssVarTokens = extractTokensFromCssVars(text, path[path.length - 1] ?? parentName, path);
-    return addTokenToArray(cssVarTokens, tokens, isVariableReference, sourceFile);
-  } else {
-    // Check for direct token references
-    const matches = extractTokensFromText(node);
-
-    let returnTokens = tokens.slice();
-    if (matches.length > 0) {
-      matches.forEach((match) => {
-        returnTokens = addTokenToArray(
-          {
-            property: path[path.length - 1] ?? parentName,
-            token: [match],
-            path,
-            isVariableReference,
-            sourceFile,
-          },
-          returnTokens,
-          isVariableReference,
-          sourceFile
-        );
+  for (const expressions of extractNodesFromTemplateStringLiteral(node).extractedExpressions) {
+    // We should create a new token entry if we do indeed have tokens within our literal at this stage
+    const groupedTokens: TokenReference = {
+      property: path[path.length - 1] ?? parentName,
+      token: [],
+      path,
+    };
+    for (const nestedExpression of expressions) {
+      const processedToken = resolveToken({
+        ...info,
+        tokens: [],
+        node: nestedExpression,
       });
+      if (processedToken.length > 0) {
+        for (const token of processedToken) {
+          groupedTokens.token.push(...token.token);
+        }
+      }
     }
 
-    return returnTokens;
+    // If we have verified tokens (at least one), push them to the tokens array
+    // If this is empty, we only had expressions but no tokens.
+    if (groupedTokens.token.length > 0) {
+      returnTokens.push(groupedTokens);
+    }
   }
+
+  return returnTokens;
 };
 
 const processPropertyAssignment = (info: TokenResolverInfo<PropertyAssignment>): TokenReference[] => {
