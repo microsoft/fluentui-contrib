@@ -2,6 +2,36 @@
   "name": "@fluentui-contrib/react-tree-grid",
   "entries": [
     {
+      "date": "Fri, 09 May 2025 17:14:55 GMT",
+      "tag": "@fluentui-contrib/react-tree-grid_v0.2.1",
+      "version": "0.2.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "bernardo.sunderhus@gmail.com",
+            "package": "@fluentui-contrib/react-tree-grid",
+            "commit": "9831d7390c3dfc4c9562dac14fd89d9634e0527e",
+            "comment": "bugfix: slot type breaks when using typeof ExoticComponent with v17"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Mon, 28 Apr 2025 08:56:33 GMT",
+      "tag": "@fluentui-contrib/react-tree-grid_v0.2.0",
+      "version": "0.2.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "bernardo.sunderhus@gmail.com",
+            "package": "@fluentui-contrib/react-tree-grid",
+            "commit": "34001bf295f69b376c33f6048b2182979d4e56a4",
+            "comment": "feature(react-tree-grid): TreeGridRowTrigger component"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 10 Apr 2025 14:11:17 GMT",
       "tag": "@fluentui-contrib/react-tree-grid_v0.1.6",
       "version": "0.1.6",

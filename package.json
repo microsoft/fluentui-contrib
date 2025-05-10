@@ -22,9 +22,9 @@
     "node": "^20.0.0 || ^22.0.0"
   },
   "devDependencies": {
-    "@babel/preset-env": "7.24.4",
-    "@babel/preset-react": "7.24.1",
-    "@babel/preset-typescript": "7.24.1",
+    "@babel/preset-env": "7.27.1",
+    "@babel/preset-react": "7.27.1",
+    "@babel/preset-typescript": "7.27.1",
     "@dnd-kit/core": "^6.1.0",
     "@dnd-kit/modifiers": "^7.0.0",
     "@dnd-kit/utilities": "^3.2.2",
@@ -90,7 +90,7 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-frame-component": "^5.2.6",
-    "react-shadow": "^20.3.0",
+    "react-shadow": "^20.6.0",
     "react-virtualized-auto-sizer": "^1.0.20",
     "react-window": "^1.8.10",
     "scheduler": "0.23.0",

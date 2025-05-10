@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/houdini-utils
 
-This log was last generated on Wed, 16 Apr 2025 16:21:21 GMT and should not be manually modified.
+This log was last generated on Wed, 07 May 2025 14:30:21 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.3.5
+
+Wed, 07 May 2025 14:30:21 GMT
+
+### Patches
+
+- fix: resolve Safari issue when referencing fallback (seanmonahan@microsoft.com)
 
 ## 0.3.4
 

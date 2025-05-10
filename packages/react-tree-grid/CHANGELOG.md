@@ -1,8 +1,24 @@
 # Change Log - @fluentui-contrib/react-tree-grid
 
-This log was last generated on Thu, 10 Apr 2025 14:11:17 GMT and should not be manually modified.
+This log was last generated on Fri, 09 May 2025 17:14:55 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.2.1
+
+Fri, 09 May 2025 17:14:55 GMT
+
+### Patches
+
+- bugfix: slot type breaks when using typeof ExoticComponent with v17 (bernardo.sunderhus@gmail.com)
+
+## 0.2.0
+
+Mon, 28 Apr 2025 08:56:33 GMT
+
+### Minor changes
+
+- feature(react-tree-grid): TreeGridRowTrigger component (bernardo.sunderhus@gmail.com)
 
 ## 0.1.6
 

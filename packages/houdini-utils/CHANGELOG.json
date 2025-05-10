@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/houdini-utils",
   "entries": [
     {
+      "date": "Wed, 07 May 2025 14:30:21 GMT",
+      "tag": "@fluentui-contrib/houdini-utils_v0.3.5",
+      "version": "0.3.5",
+      "comments": {
+        "patch": [
+          {
+            "author": "seanmonahan@microsoft.com",
+            "package": "@fluentui-contrib/houdini-utils",
+            "commit": "9a7bdde9cbe4bbde3561a0b27fcca36b75fb8485",
+            "comment": "fix: resolve Safari issue when referencing fallback"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 16 Apr 2025 16:21:21 GMT",
       "tag": "@fluentui-contrib/houdini-utils_v0.3.4",
       "version": "0.3.4",
