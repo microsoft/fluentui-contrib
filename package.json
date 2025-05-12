@@ -77,7 +77,7 @@
     "@types/react-window": "^1.8.5",
     "beachball": "^2.33.2",
     "eslint": "9.21.0",
-    "eslint-config-prettier": "10.0.2",
+    "eslint-config-prettier": "10.1.5",
     "eslint-plugin-playwright": "2.2.0",
     "globals": "15.15.0",
     "jest": "29.7.0",
