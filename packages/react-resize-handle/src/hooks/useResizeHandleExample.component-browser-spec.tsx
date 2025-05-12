@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { useEventCallback } from '@fluentui/react-components';
+import { useMergedRefs } from '@fluentui/react-components';
+
 import { useResizeHandle, type UseResizeHandleParams } from './useResizeHandle';
 
 export type TestAreaProps = Pick<
   UseResizeHandleParams,
-  'variableTarget' | 'onDragStart' | 'onDragEnd' | 'onChange'
+  'variableTarget' | 'onDragStart' | 'onDragEnd' | 'onChange' | 'relative'
 >;
 
 export function TestArea(props: TestAreaProps) {
@@ -12,22 +13,36 @@ export function TestArea(props: TestAreaProps) {
     onDragEnd,
     onDragStart,
     onChange,
+
+    relative = false,
     variableTarget = 'wrapper',
   } = props;
 
   const codeRef = React.useRef<HTMLElement>(null);
-  const handleChange: NonNullable<UseResizeHandleParams['onChange']> =
-    useEventCallback((ev, data) => {
-      onChange?.(ev, data);
+  const elementRef = React.useRef<HTMLDivElement>(null);
 
-      if (codeRef.current) {
-        codeRef.current.textContent = `--width: ${data.value}px; eventType: ${data.type}`;
-      }
-    });
+  const handleChange: NonNullable<UseResizeHandleParams['onChange']> =
+    React.useCallback(
+      (ev, data) => {
+        onChange?.(ev, data);
+
+        const codeEl = codeRef.current;
+        const elementEl = elementRef.current;
+
+        if (codeEl && elementEl) {
+          const elementWidth = elementEl.getBoundingClientRect().width;
+
+          codeEl.textContent = `--width (from callback): ${data.value}px; --width (actual DOM): ${elementWidth}px; eventType: ${data.type}`;
+        }
+      },
+      [onChange]
+    );
 
   const handle = useResizeHandle({
-    variableName: '--width',
     growDirection: 'end',
+    relative,
+    variableName: '--width',
+
     minValue: 50,
     maxValue: 400,
 
@@ -35,6 +50,10 @@ export function TestArea(props: TestAreaProps) {
     onDragEnd,
     onDragStart,
   });
+
+  const elementWidth = relative
+    ? `clamp(50px, calc(50px + var(--width, 0px)), 400px)`
+    : `var(--width, 50px)`;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -48,8 +67,7 @@ export function TestArea(props: TestAreaProps) {
           gap: '4px',
 
           ...(variableTarget === 'wrapper' && {
-            '--width': '50px',
-            gridTemplateColumns: 'var(--width) 10px 1fr',
+            gridTemplateColumns: `${elementWidth} 10px 1fr`,
           }),
           ...(variableTarget === 'element' && {
             gridTemplateColumns: 'auto 10px 1fr',
@@ -58,13 +76,14 @@ export function TestArea(props: TestAreaProps) {
       >
         <div
           data-testid="element"
-          ref={handle.elementRef}
+          ref={useMergedRefs(handle.elementRef, elementRef)}
           style={{
             border: '2px dotted blue',
+            boxSizing: 'border-box',
             height: '100%',
 
             ...(variableTarget === 'element' && {
-              width: 'var(--width, 50px)',
+              width: elementWidth,
             }),
           }}
         />
@@ -76,11 +95,13 @@ export function TestArea(props: TestAreaProps) {
             cursor: 'ew-resize',
             backgroundColor: 'grey',
             borderRadius: '4px',
+            boxSizing: 'border-box',
           }}
         />
         <div
           style={{
             border: '2px dotted green',
+            boxSizing: 'border-box',
             height: '100%',
           }}
         />
@@ -92,6 +113,16 @@ export function TestArea(props: TestAreaProps) {
       >
         Default value
       </code>
+      <div style={{ position: 'fixed', top: 10, right: 10 }}>
+        <button
+          data-testid="reset"
+          onClick={() => {
+            handle.setValue(relative ? 0 : 50);
+          }}
+        >
+          reset
+        </button>
+      </div>
     </div>
   );
 }
