@@ -45,8 +45,19 @@ jobs:
       - run: yarn nx affected --target=type-check
       - run: yarn nx affected --target=lint
       - run: yarn nx affected --target=test
-      - run: yarn nx affected --target=component-test --skipInstall
+      - name: Playwright Component tests
+        id: playwright-tests
+        run: yarn nx affected --target=component-test --skipInstall
       - run: yarn nx format:check --base origin/main
+
+      - name: Upload Playwright artifacts
+        uses: actions/upload-artifact@v4
+        if: always() && steps.playwright-tests.outcome == 'failure'
+        with:
+          name: playwright-traces
+          path: dist/.playwright/**/*.zip
+          include-hidden-files: true
+          retention-days: 1
 
       - name: 'Check for unstaged changes'
         run: |
