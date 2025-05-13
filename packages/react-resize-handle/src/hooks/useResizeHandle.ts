@@ -98,6 +98,16 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
 
   const currentValue = React.useRef(UNMEASURED);
 
+  const updateTargetElVariable = React.useCallback(
+    (value: string) => {
+      const targetEl =
+        variableTarget === 'wrapper' ? wrapperRef.current : elementRef.current;
+
+      targetEl?.style.setProperty(variableName, value);
+    },
+    [variableName]
+  );
+
   const updateElementsAttrs = React.useCallback(
     (eventData: ResizeHandleUpdateEventData) => {
       const a11yValue = relative
@@ -125,16 +135,11 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
 
       // Make sure to only apply the value if it's not the initial value!
       if (currentValue.current !== UNMEASURED) {
-        const targetEl =
-          variableTarget === 'wrapper'
-            ? wrapperRef.current
-            : elementRef.current;
-
-        targetEl?.style.setProperty(variableName, `${currentValue.current}px`);
+        updateTargetElVariable(`${currentValue.current}px`);
         onChange?.(eventData.event, eventData);
       }
     },
-    [getA11ValueText, maxValue, minValue, onChange, variableName]
+    [getA11ValueText, maxValue, minValue, onChange, updateTargetElVariable]
   );
 
   // In case the maxValue or minValue is changed, we need to make sure we are not exceeding the new limits
@@ -154,32 +159,58 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
         const newValue = clampWithMode(value, minValue, maxValue, relative);
 
         if (newValue !== currentValue.current) {
-          // Save the current value, we might need to revert to it if the new value doesn't have any impact on size
-          const oldValue = currentValue.current;
+          // FIXME
+          // "relative" mode implementation is buggy, so the proper implementation is done only for the "absolute" mode.
+          if (relative) {
+            // Save the current value, we might need to revert to it if the new value doesn't have any impact on size
+            const oldValue = currentValue.current;
 
-          // Measure the size before setting the new value
+            // Measure the size before setting the new value
+            const previousSizeInPx = elementDimension(
+              elementRef.current,
+              growDirection
+            );
+
+            // Set the new value and update the elements, this should result in element resize
+            currentValue.current = newValue;
+            updateElementsAttrs({ ...eventData, value: currentValue.current });
+
+            // Measure the size after setting the new value
+            const newSizeInPx = elementDimension(
+              elementRef.current,
+              growDirection
+            );
+
+            // If the size hasn't changed, we need to revert to the old value to keep the state and DOM in sync.
+            // If we don't do this, then the handle might be stuck in a place where small changes
+            // in value don't have any effect.
+            if (newSizeInPx === previousSizeInPx) {
+              currentValue.current = oldValue;
+              updateElementsAttrs({
+                ...eventData,
+                value: currentValue.current,
+              });
+            }
+          }
+
           const previousSizeInPx = elementDimension(
             elementRef.current,
             growDirection
           );
 
-          // Set the new value and update the elements, this should result in element resize
-          currentValue.current = newValue;
-          updateElementsAttrs({ ...eventData, value: currentValue.current });
+          updateTargetElVariable(`${newValue}px`);
 
-          // Measure the size after setting the new value
           const newSizeInPx = elementDimension(
             elementRef.current,
             growDirection
           );
 
-          // If the size hasn't changed, we need to revert to the old value to keep the state and DOM in sync.
-          // If we don't do this, then the handle might be stuck in a place where small changes
-          // in value don't have any effect.
-          if (newSizeInPx === previousSizeInPx) {
-            currentValue.current = oldValue;
-            updateElementsAttrs({ ...eventData, value: currentValue.current });
+          if (previousSizeInPx === newSizeInPx) {
+            return;
           }
+
+          currentValue.current = newSizeInPx;
+          updateElementsAttrs({ ...eventData, value: currentValue.current });
         }
       },
       [minValue, maxValue, updateElementsAttrs]
@@ -215,7 +246,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
     return relative
       ? currentValue.current
       : elementDimension(elementRef.current, growDirection);
-  }, []);
+  }, [relative]);
 
   const {
     attachHandlers: attachMouseHandlers,

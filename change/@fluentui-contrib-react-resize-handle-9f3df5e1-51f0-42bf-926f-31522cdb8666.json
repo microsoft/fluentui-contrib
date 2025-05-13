@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: do not call `onChange` with stale values",
+  "packageName": "@fluentui-contrib/react-resize-handle",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "patch"
+}

@@ -64,10 +64,6 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
   const rafIdRef = React.useRef<number | null>(null);
   const onDrag = useEventCallback((event: NativeTouchOrMouseEvent) => {
     if (targetWindow) {
-      if (rafIdRef.current) {
-        targetWindow.cancelAnimationFrame(rafIdRef.current);
-      }
-
       rafIdRef.current = targetWindow.requestAnimationFrame(() =>
         recalculatePosition(event)
       );
