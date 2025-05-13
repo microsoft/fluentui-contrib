@@ -159,59 +159,58 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
         const newValue = clampWithMode(value, minValue, maxValue, relative);
 
         if (newValue !== currentValue.current) {
-          if (!relative) {
-            // Heads up!
-            //
-            // "relative" mode implementation is buggy, so the proper implementation is done only for the "absolute" mode.
-            // Feel free to trigger a PR to fix this.
+          // FIXME
+          // "relative" mode implementation is buggy, so the proper implementation is done only for the "absolute" mode.
+          if (relative) {
+            // Save the current value, we might need to revert to it if the new value doesn't have any impact on size
+            const oldValue = currentValue.current;
+
+            // Measure the size before setting the new value
             const previousSizeInPx = elementDimension(
               elementRef.current,
               growDirection
             );
 
-            updateTargetElVariable(`${newValue}px`);
+            // Set the new value and update the elements, this should result in element resize
+            currentValue.current = newValue;
+            updateElementsAttrs({ ...eventData, value: currentValue.current });
 
+            // Measure the size after setting the new value
             const newSizeInPx = elementDimension(
               elementRef.current,
               growDirection
             );
 
-            if (previousSizeInPx === newSizeInPx) {
-              return;
+            // If the size hasn't changed, we need to revert to the old value to keep the state and DOM in sync.
+            // If we don't do this, then the handle might be stuck in a place where small changes
+            // in value don't have any effect.
+            if (newSizeInPx === previousSizeInPx) {
+              currentValue.current = oldValue;
+              updateElementsAttrs({
+                ...eventData,
+                value: currentValue.current,
+              });
             }
-
-            currentValue.current = newSizeInPx;
-            updateElementsAttrs({ ...eventData, value: currentValue.current });
-
-            return;
           }
 
-          // Save the current value, we might need to revert to it if the new value doesn't have any impact on size
-          const oldValue = currentValue.current;
-
-          // Measure the size before setting the new value
           const previousSizeInPx = elementDimension(
             elementRef.current,
             growDirection
           );
 
-          // Set the new value and update the elements, this should result in element resize
-          currentValue.current = newValue;
-          updateElementsAttrs({ ...eventData, value: currentValue.current });
+          updateTargetElVariable(`${newValue}px`);
 
-          // Measure the size after setting the new value
           const newSizeInPx = elementDimension(
             elementRef.current,
             growDirection
           );
 
-          // If the size hasn't changed, we need to revert to the old value to keep the state and DOM in sync.
-          // If we don't do this, then the handle might be stuck in a place where small changes
-          // in value don't have any effect.
-          if (newSizeInPx === previousSizeInPx) {
-            currentValue.current = oldValue;
-            updateElementsAttrs({ ...eventData, value: currentValue.current });
+          if (previousSizeInPx === newSizeInPx) {
+            return;
           }
+
+          currentValue.current = newSizeInPx;
+          updateElementsAttrs({ ...eventData, value: currentValue.current });
         }
       },
       [minValue, maxValue, updateElementsAttrs]
