@@ -191,6 +191,8 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
                 value: currentValue.current,
               });
             }
+
+            return;
           }
 
           const previousSizeInPx = elementDimension(
@@ -206,6 +208,9 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
           );
 
           if (previousSizeInPx === newSizeInPx) {
+            // If the size hasn't changed, we need to revert to the old value to keep the state and DOM in sync
+            updateTargetElVariable(`${previousSizeInPx}px`);
+
             return;
           }
 
