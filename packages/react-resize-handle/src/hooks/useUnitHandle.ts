@@ -10,9 +10,12 @@ type UnitHandleFactory = (params: {
 
 export type UnitHandle = {
   elementDimension: (element: HTMLElement | null) => number;
-  fromPxToValue: (px: number) => number;
   getOffsetStep: () => number;
+
+  fromPxToValue: (px: number) => number;
   roundValue: (value: number) => number;
+  toCSSValue: (value: number) => string;
+
   name: CSSUnitName;
 };
 
@@ -52,9 +55,14 @@ const createPixelsHandle: UnitHandleFactory = ({ growDirection }) => {
     return getElementDimensionInPx(element, growDirection);
   }
 
+  function toCSSValue(value: number): string {
+    return `${value}px`;
+  }
+
   return {
     elementDimension,
     fromPxToValue,
+    toCSSValue,
     getOffsetStep,
     roundValue,
     name,
@@ -88,8 +96,13 @@ const createViewportHandle: UnitHandleFactory = ({
     return fromPxToValue(getElementDimensionInPx(element, growDirection));
   }
 
+  function toCSSValue(value: number): string {
+    return `${value}${name}`;
+  }
+
   return {
     elementDimension,
+    toCSSValue,
     fromPxToValue,
     getOffsetStep,
     roundValue,

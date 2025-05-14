@@ -112,7 +112,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
       const targetEl =
         variableTarget === 'wrapper' ? wrapperRef.current : elementRef.current;
 
-      targetEl?.style.setProperty(variableName, value + unitHandle.name);
+      targetEl?.style.setProperty(variableName, unitHandle.toCSSValue(value));
     },
     [variableName, unitHandle]
   );
