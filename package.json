@@ -28,7 +28,7 @@
     "@dnd-kit/core": "^6.1.0",
     "@dnd-kit/modifiers": "^7.0.0",
     "@dnd-kit/utilities": "^3.2.2",
-    "@fluentui/react": "^8.120.2",
+    "@fluentui/react": "^8.122.17",
     "@fluentui/react-components": "^9.54.13",
     "@fluentui/react-icons": "^2.0.249",
     "@fluentui/react-migration-v8-v9": "^9.6.23",
