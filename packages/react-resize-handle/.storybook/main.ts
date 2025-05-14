@@ -2,18 +2,7 @@ import type { StorybookConfig } from '@storybook/react-webpack5';
 
 const config: StorybookConfig = {
   stories: ['../stories/**/index.stories.@(js|jsx|ts|tsx|mdx)'],
-  addons: [
-    '@nx/react/plugins/storybook',
-    '@storybook/addon-actions',
-    {
-      name: '@storybook/addon-storysource',
-      options: {
-        loaderOptions: {
-          injectStoryParameters: true,
-        },
-      },
-    },
-  ],
+  addons: ['@nx/react/plugins/storybook'],
   framework: {
     name: '@storybook/react-webpack5',
     options: {},
