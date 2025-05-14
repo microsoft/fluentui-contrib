@@ -66,7 +66,11 @@ function useHeadlessFluentProviderState(
     // In headless mode, we don't render any elements
 
     components: { root: React.Fragment },
-    root: slot.always({ children }, { elementType: React.Fragment }),
+    root: slot.always(
+      // React.Fragment doesn't support children as SlotRenderFunction
+      { children: children as React.ReactNode },
+      { elementType: React.Fragment }
+    ),
 
     // Styling is ignored in headless mode
 
