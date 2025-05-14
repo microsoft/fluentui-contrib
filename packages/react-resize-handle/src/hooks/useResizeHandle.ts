@@ -84,7 +84,7 @@ export type UseResizeHandleParams = {
 const DEFAULT_GET_A11_VALUE_TEXT: UseResizeHandleParams['getA11ValueText'] = (
   value,
   unit
-) => (value === UNMEASURED ? undefined : `${value}${unit}`);
+) => (value === UNMEASURED ? undefined : `${value.toFixed(0)}${unit}`);
 
 export const useResizeHandle = (params: UseResizeHandleParams) => {
   const {
