@@ -13,7 +13,10 @@ import { useDataGridHeaderStyles_unstable } from './useDataGridHeaderStyles.styl
 export const DataGridHeader: ForwardRefComponent<DataGridHeaderProps> &
   ((props: DataGridHeaderProps) => JSX.Element) = React.forwardRef(
   (props, ref) => {
-    const state = useDataGridHeader_unstable(props, ref);
+    const state = useDataGridHeader_unstable(
+      props,
+      ref as React.Ref<HTMLElement>
+    );
 
     useDataGridHeaderStyles_unstable(state);
     return renderDataGridHeader_unstable(state);
