@@ -12,6 +12,7 @@ export type TestAreaProps = Pick<
   | 'relative'
   | 'minValue'
   | 'maxValue'
+  | 'unit'
 > & { useCSSClamp?: boolean };
 
 export function TestArea(props: TestAreaProps) {
@@ -24,6 +25,7 @@ export function TestArea(props: TestAreaProps) {
     maxValue,
     relative = false,
     variableTarget = 'wrapper',
+    unit = 'px',
     useCSSClamp = false,
   } = props;
 
@@ -41,7 +43,7 @@ export function TestArea(props: TestAreaProps) {
         if (codeEl && elementEl) {
           const elementWidth = elementEl.getBoundingClientRect().width;
 
-          codeEl.textContent = `width (from callback): ${data.value}px; width (actual DOM): ${elementWidth}px; eventType: ${data.type}`;
+          codeEl.textContent = `width (from callback): ${data.value}${data.unit}; width (actual DOM): ${elementWidth}px; eventType: ${data.type}`;
         }
       },
       [onChange]
@@ -51,6 +53,7 @@ export function TestArea(props: TestAreaProps) {
     growDirection: 'end',
     relative,
     variableName: '--width',
+    unit,
 
     minValue,
     maxValue,
