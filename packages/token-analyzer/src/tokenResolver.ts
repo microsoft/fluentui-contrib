@@ -69,20 +69,33 @@ const processIdentifier = (info: TokenResolverInfo<Identifier>): TokenReference[
 
   const text = node.getText();
   const intializerNode = getInitializerFromIdentifier(node);
-  // knownTokenPackage is set to false for our importTest
   if (isTokenReference(info)) {
-    // Found a token, we should process and return it
     const propertyName = path[path.length - 1] ?? parentName;
-    returnTokens = addTokenToArray(
-      {
-        property: propertyName,
-        token: [importedValues.get(text)?.value ?? text],
-        path,
-      },
-      returnTokens,
-      isVariableReference,
-      sourceFile
-    );
+    const importedVal = importedValues.get(text)!;
+    if (importedVal.templateGroups && importedVal.templateGroups.length > 0) {
+      importedVal.templateGroups.forEach((group) => {
+        const grouped: TokenReference = { property: propertyName, token: [], path };
+        group.forEach((exprNode) => {
+          const nestedTokens = resolveToken({ ...info, tokens: [], node: exprNode });
+          nestedTokens.forEach((t) => grouped.token.push(...t.token));
+        });
+        if (grouped.token.length > 0) {
+          returnTokens.push(grouped);
+        }
+      });
+    } else {
+      returnTokens = addTokenToArray(
+        {
+          property: propertyName,
+          token: [importedVal.value],
+          path,
+        },
+        returnTokens,
+        isVariableReference,
+        sourceFile
+      );
+    }
+    return returnTokens;
   } else if (intializerNode) {
     // we have a variable declaration and we should then check if the value is a token as well. Reprocess the node
     returnTokens = returnTokens.concat(resolveToken({ ...info, node: intializerNode }));
