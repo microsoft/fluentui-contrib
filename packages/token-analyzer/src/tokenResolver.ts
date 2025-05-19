@@ -63,7 +63,7 @@ const processStringLiteral = (info: TokenResolverInfo<StringLiteral>): TokenRefe
 };
 
 const processIdentifier = (info: TokenResolverInfo<Identifier>): TokenReference[] => {
-  const { node, parentName, path, tokens, isVariableReference, sourceFile, importedValues } = info;
+  const { node, parentName, path, tokens, sourceFile, importedValues } = info;
 
   let returnTokens = tokens.slice();
 
@@ -91,7 +91,6 @@ const processIdentifier = (info: TokenResolverInfo<Identifier>): TokenReference[
           path,
         },
         returnTokens,
-        isVariableReference,
         sourceFile
       );
     }
@@ -105,7 +104,7 @@ const processIdentifier = (info: TokenResolverInfo<Identifier>): TokenReference[
 };
 
 const processPropertyAccess = (info: TokenResolverInfo<PropertyAccessExpression>): TokenReference[] => {
-  const { node, parentName, path, tokens, isVariableReference, sourceFile } = info;
+  const { node, parentName, path, tokens, sourceFile } = info;
 
   const text = node.getText();
   const isToken = isTokenReference(info);
@@ -117,7 +116,6 @@ const processPropertyAccess = (info: TokenResolverInfo<PropertyAccessExpression>
         path,
       },
       tokens,
-      isVariableReference,
       sourceFile
     );
   }
@@ -193,7 +191,7 @@ const processFocusCallExpression = (info: TokenResolverInfo<CallExpression>): To
 };
 
 const processCallExpression = (info: TokenResolverInfo<CallExpression>): TokenReference[] => {
-  const { node, path, tokens, importedValues, isVariableReference, sourceFile } = info;
+  const { node, path, tokens, importedValues, sourceFile } = info;
 
   let returnTokens = tokens.slice();
   // Process calls like shorthands.borderColor(tokens.color)
@@ -217,7 +215,6 @@ const processCallExpression = (info: TokenResolverInfo<CallExpression>): TokenRe
           path: path.concat(argument.property),
         },
         returnTokens,
-        isVariableReference,
         sourceFile
       );
     });

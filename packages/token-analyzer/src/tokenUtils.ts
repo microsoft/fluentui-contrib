@@ -1,6 +1,6 @@
 // tokenUtils.ts
 import { Symbol, SyntaxKind, Node, Expression } from 'ts-morph';
-import { TOKEN_REGEX, TokenReference, TokenResolverInfo } from './types.js';
+import { knownTokenImportsAndModules, TOKEN_REGEX, TokenReference, TokenResolverInfo } from './types.js';
 import { shorthands } from '@griffel/react';
 
 export function isTokenReference(info: TokenResolverInfo): boolean {
@@ -183,7 +183,6 @@ export function getPropertiesForShorthand(functionName: string, args: Node[]): {
 export const addTokenToArray = (
   tokensToAdd: TokenReference[] | TokenReference,
   target: TokenReference[],
-  isVariableReference?: boolean,
   sourceFile?: string
 ) => {
   // create new array without modifying the original array
@@ -194,14 +193,12 @@ export const addTokenToArray = (
     newArray.push(
       ...tokensToAdd.map((token) => ({
         ...token,
-        ...(isVariableReference && { isVariableReference }),
         ...(sourceFile && { sourceFile }),
       }))
     );
   } else {
     newArray.push({
       ...tokensToAdd,
-      ...(isVariableReference && { isVariableReference }),
       ...(sourceFile && { sourceFile }),
     });
   }
@@ -209,3 +206,11 @@ export const addTokenToArray = (
   // return array without modifying the original array
   return newArray;
 };
+
+export function isKnownTokenPackage(moduleSpecifier: string, valueName?: string): boolean {
+  const keys = Object.keys(knownTokenImportsAndModules);
+  return (
+    (valueName && keys.includes(valueName) && knownTokenImportsAndModules[valueName].includes(moduleSpecifier)) ||
+    knownTokenImportsAndModules.default.includes(moduleSpecifier)
+  );
+}

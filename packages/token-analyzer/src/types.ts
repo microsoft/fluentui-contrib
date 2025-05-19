@@ -6,7 +6,6 @@ export interface TokenReference {
   property: string;
   token: string[];
   path: string[];
-  isVariableReference?: boolean;
   sourceFile?: string;
 }
 
@@ -78,6 +77,5 @@ export interface TokenResolverInfo<T extends Node = Node> {
   tokens: TokenReference[];
   importedValues: Map<string, ImportedValue>;
   project: Project;
-  isVariableReference?: boolean;
   sourceFile?: string;
 }

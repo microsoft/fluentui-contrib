@@ -1,10 +1,9 @@
 // importAnalyzer.ts
-import { Project, Node, SourceFile, ImportDeclaration, Symbol, TypeChecker, ts } from 'ts-morph';
+import { Project, Node, SourceFile, ImportDeclaration, TypeChecker, ts } from 'ts-morph';
 import { log } from './debugUtils.js';
-import { resolveExport, isKnownTokenPackage, ExportInfo } from './reexportResolver';
+import { resolveExport, ExportInfo } from './reexportResolver';
 import { getModuleSourceFile } from './moduleResolver.js';
-import { getInitializerFromIdentifier } from './tokenUtils';
-import { extractNodesFromTemplateStringLiteral } from './processTemplateStringLiteral';
+import { isKnownTokenPackage } from './tokenUtils';
 
 /**
  * Represents a value imported from another module
@@ -25,6 +24,7 @@ interface ImportContext {
   importedFile: SourceFile;
   typeChecker: TypeChecker;
   importedValues: Map<string, ImportedValue>;
+  project: Project;
 }
 
 /**
@@ -78,6 +78,7 @@ async function processImportDeclaration(
     importedFile,
     typeChecker,
     importedValues,
+    project,
   };
 
   // Process named imports (import { x } from 'module')
@@ -93,12 +94,11 @@ async function processImportDeclaration(
  * Process named imports using TypeScript's type checker to follow re-exports
  */
 function processNamedImports(context: ImportContext): void {
-  const { importDecl, typeChecker } = context;
+  const { importDecl, typeChecker, project } = context;
 
-  for (const namedImport of importDecl.getNamedImports()) {
-    console.log(
-      `is this module ${context.moduleSpecifier} relative? ${ts.isExternalModuleNameRelative(context.moduleSpecifier)}`
-    );
+  const namedImports = importDecl.getNamedImports();
+
+  namedImports.forEach((namedImport) => {
     const nameOrAliasNode = namedImport.getAliasNode() ?? namedImport;
     const importName = namedImport.getName();
     const alias = namedImport.getAliasNode()?.getText() || importName;
@@ -106,23 +106,25 @@ function processNamedImports(context: ImportContext): void {
     if (isKnownTokenPackage(context.moduleSpecifier, importName)) {
       // we have a direct token import, record it and move on.
       recordImport(context, alias, nameOrAliasNode);
-      addTemplateGroups(context.importedValues.get(alias)!);
-    } else {
-      const exportInfo: ExportInfo | undefined = resolveExport(context.importedFile, importName, typeChecker);
+    } else if (ts.isExternalModuleNameRelative(context.moduleSpecifier)) {
+      // We know it's not a direct token reference but it's a relative import, so it could contain
+      // token references and we need to do further processing.
+
+      const exportInfo: ExportInfo | undefined = resolveExport(context.importedFile, importName, typeChecker, project);
 
       if (exportInfo) {
         recordImport(context, alias, nameOrAliasNode, exportInfo);
-        addTemplateGroups(context.importedValues.get(alias)!);
+        // addTemplateGroups(context.importedValues.get(alias)!);
       }
     }
-  }
+  });
 }
 
 /**
  * Process default import using TypeScript's type checker
  */
 function processDefaultImport(context: ImportContext): void {
-  const { importDecl, typeChecker } = context;
+  const { importDecl, typeChecker, project } = context;
 
   const defaultImport = importDecl.getDefaultImport();
   if (!defaultImport) {
@@ -133,13 +135,11 @@ function processDefaultImport(context: ImportContext): void {
   const importName = defaultImport.getText();
   if (isKnownTokenPackage(context.moduleSpecifier)) {
     recordImport(context, importName, importDecl);
-    addTemplateGroups(context.importedValues.get(importName)!);
   } else {
-    const exportInfo: ExportInfo | undefined = resolveExport(context.importedFile, 'default', typeChecker);
+    const exportInfo: ExportInfo | undefined = resolveExport(context.importedFile, 'default', typeChecker, project);
 
     if (exportInfo) {
       recordImport(context, importName, defaultImport, exportInfo);
-      addTemplateGroups(context.importedValues.get(importName)!);
     }
   }
 }
@@ -166,42 +166,19 @@ function processNamespaceImport(context: ImportContext): void {
 
 // Helper to record an import consistently
 function recordImport(ctx: ImportContext, alias: string, node: Node, exportInfo?: ExportInfo): void {
-  const { importedValues, moduleSpecifier, importedFile } = ctx;
-  const pkg = exportInfo?.moduleSpecifier ?? moduleSpecifier;
-  const name = exportInfo?.importExportSpecifierName ?? alias;
+  const { importedValues, importedFile } = ctx;
 
   // Only record known token imports
-  if (isKnownTokenPackage(pkg, name)) {
-    const source = exportInfo?.sourceFile ?? importedFile;
+  const source = exportInfo?.sourceFile ?? importedFile;
 
-    // Use actual token literal when available
-    const importValue = exportInfo?.valueDeclarationValue ?? alias;
-    importedValues.set(alias, {
-      value: importValue,
-      node,
-      sourceFile: source.getFilePath(),
-      declaredValue: exportInfo?.valueDeclarationValue,
-      declarationNode: exportInfo?.declaration,
-    });
-    log(`Recorded token import: ${alias} from ${source.getFilePath()}`);
-  }
+  // Use actual token literal when available
+  const importValue = exportInfo?.valueDeclarationValue ?? alias;
+  importedValues.set(alias, {
+    value: importValue,
+    node,
+    sourceFile: source.getFilePath(),
+    declaredValue: exportInfo?.valueDeclarationValue,
+    declarationNode: exportInfo?.declaration,
+  });
+  log(`Recorded token import: ${alias} from ${source.getFilePath()}`);
 }
-
-// Helper to extract template groups if the declaration node is a template expression
-function addTemplateGroups(imported: ImportedValue) {
-  const declNode = imported.declarationNode;
-  if (!declNode) {
-    return;
-  }
-  let exprNode;
-  if (Node.isVariableDeclaration(declNode)) {
-    exprNode = declNode.getInitializer();
-  } else if (Node.isExportAssignment(declNode)) {
-    exprNode = declNode.getExpression();
-  }
-  if (exprNode && Node.isTemplateExpression(exprNode)) {
-    imported.templateGroups = extractNodesFromTemplateStringLiteral(exprNode).extractedExpressions;
-  }
-}
-
-// Local export-resolution functions moved to reexportResolver.ts
