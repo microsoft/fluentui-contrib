@@ -21,6 +21,20 @@ type PwMountFn = <HooksConfig>(
 ) => Promise<PwMountResult>;
 type MountResult = Awaited<ReturnType<typeof mountTest>>;
 
+function createSpyFn<T>() {
+  const calls: { time: number; args: T[] }[] = [];
+  const spy = (...args: T[]) => {
+    calls.push({ time: performance.now(), args });
+  };
+
+  spy.calls = calls;
+  spy.clear = () => {
+    calls.length = 0;
+  };
+
+  return spy;
+}
+
 async function mountTest(mount: PwMountFn, props: TestAreaProps = {}) {
   const component = await mount(<TestArea {...props} />);
 
@@ -305,20 +319,14 @@ test.describe('useResizeHandle', () => {
 
   test.describe('events', () => {
     test('events are called in order', async ({ mount, page }) => {
-      const dragStartCalls: number[] = [];
-      const dragEndCalls: number[] = [];
-      const onChangeCalls: number[] = [];
+      const onDragStart = createSpyFn();
+      const onDragEnd = createSpyFn();
+      const onChange = createSpyFn();
 
       const result = await mountTest(mount, {
-        onDragStart: () => {
-          dragStartCalls.push(performance.now());
-        },
-        onDragEnd: () => {
-          dragEndCalls.push(performance.now());
-        },
-        onChange: () => {
-          onChangeCalls.push(performance.now());
-        },
+        onDragStart,
+        onDragEnd,
+        onChange,
       });
 
       // Drag start
@@ -331,11 +339,11 @@ test.describe('useResizeHandle', () => {
 
       await validateComponent(result, { value: '85px', eventType: 'mouse' });
 
-      expect(dragStartCalls.length).toBe(1);
-      expect(dragEndCalls.length).toBe(0);
-      expect(onChangeCalls.length).toBe(1);
+      expect(onDragStart.calls).toHaveLength(1);
+      expect(onDragEnd.calls).toHaveLength(0);
+      expect(onChange.call).toHaveLength(1);
 
-      expect(dragStartCalls[0]).toBeLessThan(onChangeCalls[0]);
+      expect(onDragStart.calls[0].time).toBeLessThan(onChange.calls[0].time);
 
       // Drag end
       // --------------------
@@ -345,22 +353,17 @@ test.describe('useResizeHandle', () => {
 
       await validateComponent(result, { value: '185px', eventType: 'mouse' });
 
-      expect(dragStartCalls.length).toBe(1);
-      expect(dragEndCalls.length).toBe(1);
-      expect(onChangeCalls.length).toBe(2);
-      expect(onChangeCalls[1]).toBeLessThan(dragEndCalls[0]);
+      expect(onDragStart.calls).toHaveLength(1);
+      expect(onDragEnd.calls).toHaveLength(1);
+      expect(onChange.calls).toHaveLength(2);
+      expect(onChange.calls[1].time).toBeLessThan(onDragEnd.calls[0].time);
     });
 
     test("exceeding `clamp()` don't fire 'onChange' events", async ({
       mount,
     }) => {
-      const onChangeCalls: number[] = [];
-      const result = await mountTest(mount, {
-        onChange: (_, { value }) => {
-          onChangeCalls.push(value);
-        },
-        useCSSClamp: true,
-      });
+      const onChange = createSpyFn();
+      const result = await mountTest(mount, { onChange, useCSSClamp: true });
 
       // Drag to the left
       // ---
@@ -375,15 +378,15 @@ test.describe('useResizeHandle', () => {
       });
 
       await validateComponent(result, { value: '40px', eventType: 'mouse' });
-      expect(onChangeCalls.length).toBeGreaterThan(0);
+      expect(onChange.calls.length).toBeGreaterThan(0);
 
       // ---
 
-      onChangeCalls.length = 0;
+      onChange.clear();
       await result.dragEl.dragTo(result.spacerBefore);
 
       await validateComponent(result, { value: '40px', eventType: 'mouse' });
-      expect(onChangeCalls.length).toBe(0);
+      expect(onChange.calls).toHaveLength(0);
 
       // Drag to the right
       // ---
@@ -398,16 +401,112 @@ test.describe('useResizeHandle', () => {
       });
 
       await validateComponent(result, { value: '400px', eventType: 'mouse' });
-      expect(onChangeCalls.length).toBeGreaterThan(0);
+      expect(onChange.calls.length).toBeGreaterThan(0);
 
       // ---
 
-      onChangeCalls.length = 0;
-
+      onChange.clear();
       await result.dragEl.dragTo(result.spacerAfter);
 
       await validateComponent(result, { value: '400px', eventType: 'mouse' });
-      expect(onChangeCalls.length).toBe(0);
+      expect(onChange.calls).toHaveLength(0);
+    });
+
+    test.describe('onChangeRejected', () => {
+      test.describe('CSS clamp', () => {
+        test('is called with mouse', async ({ mount }) => {
+          const onChangeRejected = createSpyFn();
+          const result = await mountTest(mount, {
+            onChangeRejected,
+            useCSSClamp: true,
+          });
+
+          await result.dragEl.dragTo(result.spacerBefore);
+
+          expect(onChangeRejected.calls).toHaveLength(1);
+          expect(onChangeRejected.calls[0].args).toEqual([
+            expect.any(Object),
+            expect.objectContaining({
+              type: 'mouse',
+              rejectedValue: 0,
+              value: 40,
+              unit: 'px',
+            }),
+          ]);
+
+          // ---
+
+          onChangeRejected.clear();
+          await result.dragEl.dragTo(result.spacerAfter);
+
+          expect(onChangeRejected.calls).toHaveLength(1);
+          expect(onChangeRejected.calls[0].args).toEqual([
+            expect.any(Object),
+            expect.objectContaining({
+              type: 'mouse',
+              rejectedValue: 480,
+              value: 400,
+              unit: 'px',
+            }),
+          ]);
+        });
+      });
+
+      test('is called with keyboard', async ({ mount, page }) => {
+        const onChangeRejected = createSpyFn();
+        const result = await mountTest(mount, {
+          onChangeRejected,
+          useCSSClamp: true,
+        });
+
+        await result.dragEl.focus();
+
+        for (let i = 0; i < 3; i++) {
+          await page.keyboard.press('ArrowLeft');
+        }
+
+        // "rejectedValue" will be always the same i.e. 20px due "defaultStep"
+        expect(onChangeRejected.calls).toHaveLength(2);
+        expect(onChangeRejected.calls[0].args).toEqual([
+          expect.any(Object),
+          expect.objectContaining({
+            type: 'keyboard',
+            rejectedValue: 20,
+            value: 40,
+            unit: 'px',
+          }),
+        ]);
+        expect(onChangeRejected.calls[1].args).toEqual([
+          expect.any(Object),
+          expect.objectContaining({
+            type: 'keyboard',
+            rejectedValue: 20,
+            value: 40,
+            unit: 'px',
+          }),
+        ]);
+
+        // ---
+
+        onChangeRejected.clear();
+        await result.resetEl.click();
+        await result.dragEl.focus();
+
+        for (let i = 0; i < 20; i++) {
+          await page.keyboard.press('ArrowRight');
+        }
+
+        expect(onChangeRejected.calls).toHaveLength(2);
+        expect(onChangeRejected.calls[0].args).toEqual([
+          expect.any(Object),
+          expect.objectContaining({
+            type: 'keyboard',
+            rejectedValue: 420,
+            value: 400,
+            unit: 'px',
+          }),
+        ]);
+      });
     });
   });
 });

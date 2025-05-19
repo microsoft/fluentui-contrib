@@ -9,6 +9,7 @@ export type TestAreaProps = Pick<
   | 'onDragStart'
   | 'onDragEnd'
   | 'onChange'
+  | 'onChangeRejected'
   | 'relative'
   | 'minValue'
   | 'maxValue'
@@ -20,6 +21,7 @@ export function TestArea(props: TestAreaProps) {
     onDragEnd,
     onDragStart,
     onChange,
+    onChangeRejected,
 
     minValue,
     maxValue,
@@ -59,6 +61,7 @@ export function TestArea(props: TestAreaProps) {
     maxValue,
 
     onChange: handleChange,
+    onChangeRejected,
     onDragEnd,
     onDragStart,
   });

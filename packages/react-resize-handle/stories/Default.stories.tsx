@@ -1,6 +1,9 @@
 import * as React from 'react';
 import type { StoryObj } from '@storybook/react';
-import { useResizeHandle } from '@fluentui-contrib/react-resize-handle';
+import {
+  useResizeHandle,
+  type UseResizeHandleParams,
+} from '@fluentui-contrib/react-resize-handle';
 import {
   makeResetStyles,
   makeStyles,
@@ -31,7 +34,7 @@ const useMainWrapperStyles = makeResetStyles({
   gap: '16px',
   gridTemplate: `"nav sub-nav main side" minmax(0, 1fr)
   "nav sub-nav main-footer side" clamp(5%, var(${FOOTER_SIZE_CSS_VAR}), 30%)
-  / clamp(60px, calc(20% + var(${NAV_SIZE_CSS_VAR})), 40%)  150px 1fr var(${SIDE_SIZE_CSS_VAR})`,
+  / clamp(60px, calc(20% + var(${NAV_SIZE_CSS_VAR})), 40%)  150px 1fr clamp(50px, var(${SIDE_SIZE_CSS_VAR}), 200px)`,
 });
 
 const useStyles = makeStyles({
@@ -65,9 +68,14 @@ const useMainBoxStyles = makeResetStyles({
 });
 
 type ComponentProps = {
-  onDragStart: (value: number, eventType: string) => void;
-  onDragEnd: (value: number, eventType: string) => void;
-  onChange: (value: number, eventType: string) => void;
+  onDragStart: (params: { value: string; eventType: string }) => void;
+  onDragEnd: (params: { value: string; eventType: string }) => void;
+  onChange: (params: { value: string; eventType: string }) => void;
+  onChangeRejected: (params: {
+    value: string;
+    rejectedValue: string;
+    eventType: string;
+  }) => void;
 };
 
 const Component = (props: ComponentProps) => {
@@ -78,6 +86,46 @@ const Component = (props: ComponentProps) => {
 
   const [unit, setUnit] = React.useState<'px' | 'viewport'>('px');
 
+  const handleChange: NonNullable<UseResizeHandleParams['onChange']> =
+    React.useCallback(
+      (_, { value, type, unit }) => {
+        props.onChange({ value: `${value}${unit}`, eventType: String(type) });
+      },
+      [props.onChange]
+    );
+  const handleDragStart: NonNullable<UseResizeHandleParams['onDragStart']> =
+    React.useCallback(
+      (_, { value, type, unit }) => {
+        props.onDragStart({
+          value: `${value}${unit}`,
+          eventType: String(type),
+        });
+      },
+      [props.onDragStart]
+    );
+  const handleDragEnd: NonNullable<UseResizeHandleParams['onDragEnd']> =
+    React.useCallback(
+      (_, { value, type, unit }) => {
+        props.onDragEnd({
+          value: `${value}${unit}`,
+          eventType: String(type),
+        });
+      },
+      [props.onDragEnd]
+    );
+  const handleChangeRejected: NonNullable<
+    UseResizeHandleParams['onChangeRejected']
+  > = React.useCallback(
+    (_, { value, rejectedValue, type, unit }) => {
+      props.onChangeRejected({
+        value: `${value}${unit}`,
+        rejectedValue: `${rejectedValue}${unit}`,
+        eventType: String(type),
+      });
+    },
+    [props.onChangeRejected]
+  );
+
   const {
     handleRef: navHandleRef,
     wrapperRef: navWrapperRef,
@@ -87,15 +135,6 @@ const Component = (props: ComponentProps) => {
     variableName: NAV_SIZE_CSS_VAR,
     growDirection: 'end',
     relative: true,
-    onChange: (_, { value, type }) => {
-      props.onChange(value, String(type));
-    },
-    onDragStart: (_, { value, type }) => {
-      props.onDragStart(value, String(type));
-    },
-    onDragEnd: (_, { value, type }) => {
-      props.onDragEnd(value, String(type));
-    },
     unit,
   });
 
@@ -107,6 +146,11 @@ const Component = (props: ComponentProps) => {
     variableName: SIDE_SIZE_CSS_VAR,
     growDirection: 'start',
     unit,
+
+    onChange: handleChange,
+    onChangeRejected: handleChangeRejected,
+    onDragStart: handleDragStart,
+    onDragEnd: handleDragEnd,
   });
 
   const {
@@ -179,8 +223,9 @@ export const Default: StoryObj<ComponentProps> = {
     return <Component {...args} />;
   },
   argTypes: {
-    onDragStart: { action: 'Dragging started' },
-    onDragEnd: { action: 'Dragging ended' },
-    onChange: { action: 'Changed' },
+    onDragStart: { action: 'onDragStart()' },
+    onDragEnd: { action: 'onDragEnd()' },
+    onChange: { action: 'onChange()' },
+    onChangeRejected: { action: 'onChangeRejected()' },
   },
 };
