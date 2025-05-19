@@ -48,12 +48,23 @@ export type UseResizeHandleParams = {
    * The maximum value in pixels that the element can be resized to. Only applicable if relative is false.
    */
   maxValue?: number;
+
   /**
    * A callback that will be called when the element is resized.
    *
-   * @remarks The passed function should be memoization for better performance.
+   * @remarks The passed function should be memoized for better performance.
    */
   onChange?: EventHandler<ResizeHandleUpdateEventData>;
+
+  /**
+   * Is called when a resize attempt didn't result in a change of size of the element.
+   *
+   * @remarks The passed function should be memoized for better performance.
+   */
+  onChangeRejected?: EventHandler<
+    ResizeHandleUpdateEventData & { rejectedValue: number }
+  >;
+
   /**
    * A callback that will be called when the resize operation starts.
    */
@@ -94,6 +105,7 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
     minValue = 0,
     maxValue = Number.MAX_SAFE_INTEGER,
     onChange,
+    onChangeRejected,
     onDragStart,
     onDragEnd,
     getA11ValueText = DEFAULT_GET_A11_VALUE_TEXT,
@@ -212,6 +224,11 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
           if (previousSize === newSize) {
             // If the size hasn't changed, we need to revert to the old value to keep the state and DOM in sync
             updateTargetElVariable(previousSize);
+            onChangeRejected?.(eventData.event, {
+              ...eventData,
+              value: currentValue.current,
+              rejectedValue: newValue,
+            });
 
             return;
           }
@@ -220,7 +237,14 @@ export const useResizeHandle = (params: UseResizeHandleParams) => {
           updateElementsAttrs({ ...eventData, value: currentValue.current });
         }
       },
-      [minValue, maxValue, relative, unitHandle, updateElementsAttrs]
+      [
+        minValue,
+        maxValue,
+        onChangeRejected,
+        relative,
+        unitHandle,
+        updateElementsAttrs,
+      ]
     );
 
   const setValue = React.useCallback(
