@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-resize-handle
 
-This log was last generated on Thu, 15 May 2025 10:13:29 GMT and should not be manually modified.
+This log was last generated on Mon, 19 May 2025 11:51:48 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.7.1
+
+Mon, 19 May 2025 11:51:48 GMT
+
+### Patches
+
+- feat: add onChangeRejected() callback (olfedias@microsoft.com)
 
 ## 0.7.0
 
