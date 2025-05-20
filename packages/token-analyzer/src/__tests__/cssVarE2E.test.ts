@@ -141,7 +141,7 @@ describe('CSS Variable Token Extraction E2E', () => {
     expect(useStyles.nestedCssVar.tokens).toContainEqual(
       expect.objectContaining({
         property: 'background',
-        token: ['tokens.colorBrandForeground2'],
+        token: ['ctrlLinkForegroundBrandHover', 'tokens.colorBrandForeground2'],
       })
     );
 

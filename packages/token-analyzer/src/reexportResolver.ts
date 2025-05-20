@@ -1,7 +1,8 @@
-import { Node, SourceFile, TypeChecker, SyntaxKind, ts, Project } from 'ts-morph';
+import { Node, SourceFile, TypeChecker, SyntaxKind, ts, Project, ImportSpecifier } from 'ts-morph';
 import { log } from './debugUtils.js';
 import { isKnownTokenPackage } from './tokenUtils';
 import { getModuleSourceFile } from './moduleResolver';
+import { extractNodesFromTemplateStringLiteral } from './processTemplateStringLiteral';
 
 export interface ExportInfo {
   declaration: Node;
@@ -9,6 +10,7 @@ export interface ExportInfo {
   moduleSpecifier: string;
   importExportSpecifierName?: string;
   valueDeclarationValue?: string;
+  templateGroups?: Node[][];
 }
 
 // Resolves an export name to its original declaration, following aliases and re-exports
@@ -38,7 +40,7 @@ export function resolveExport(
         // if we have a template expression, we need to process with extractNodesFromTemplateStringLiteral
         // and then determine if any of the nodes are known token packages.
         const initializer = varDeclaration.getInitializer();
-        console.log(`getting the type of var declaration ${initializer?.getKindName()}`);
+        log(`getting the type of var declaration ${initializer?.getKindName()}`);
         if (Node.isIdentifier(initializer)) {
           const importSpecifier = initializer.getSymbol()?.getDeclarations().find(Node.isImportSpecifier);
           if (importSpecifier) {
@@ -61,16 +63,32 @@ export function resolveExport(
               }
             }
           } else {
-            // if we don't have an import specifier, we should check of there's another delcaration and then resolve that as well
-            // This couuld be a var that points to another var that points to a known token for example.
-            console.log(`no import specifier found for ${initializer.getText()}, it's a ${initializer.getKindName()}`);
+            // if we don't have an import specifier, we should check of there's another declaration and then resolve that as well
+            // This could be a var that points to another var that points to a known token for example.
+            // Since we haven't encountered this scenario yet, we'll leave this as a log entry
+            log(`no import specifier found for ${initializer.getText()}, it's a ${initializer.getKindName()}`);
           }
         } else if (Node.isTemplateExpression(initializer)) {
-          console.log(`found template expression ${initializer.getText()}`);
+          const templates = extractNodesFromTemplateStringLiteral(initializer);
+          const filteredExpressions = templates.extractedExpressions
+            .map((group) => {
+              return group.filter((node) => isNodeToken(node, typeChecker, project));
+            })
+            .filter((group) => group.length > 0);
+          if (filteredExpressions.length > 0) {
+            return {
+              declaration: initializer,
+              sourceFile: initializer.getSourceFile(),
+              moduleSpecifier: '',
+              importExportSpecifierName: '',
+              valueDeclarationValue: initializer.getText(),
+              templateGroups: filteredExpressions,
+            };
+          }
+          // from here we should filter the nodes to see if any of them are known token packages and then return the groups if they are still present.
+          // We'll need to filter each node group and then if no nodes in that group are found, we should remove the group.
         } else if (Node.isPropertyAccessExpression(initializer)) {
-          console.log(
-            `found property access ${initializer.getText()}, expression ${initializer.getExpression().getText()}`
-          );
+          log(`found property access ${initializer.getText()}, expression ${initializer.getExpression().getText()}`);
           const expressionSymbol = initializer.getExpression().getSymbol();
           const expressionImportSpecifier = expressionSymbol?.getDeclarations().find(Node.isImportSpecifier);
           if (expressionImportSpecifier) {
@@ -140,3 +158,43 @@ export function resolveExport(
     return undefined;
   }
 }
+
+// Helper to avoid duplicating logic for property access and identifier token checks
+function checkImportSpecifier(
+  importSpecifier: ImportSpecifier,
+  checker: TypeChecker,
+  project: Project,
+  sourceFilePath: string
+): boolean | undefined {
+  const importDeclaration = importSpecifier.getFirstAncestorByKind(SyntaxKind.ImportDeclaration);
+  const moduleSpecifier = importDeclaration?.getModuleSpecifierValue();
+  const specifierName = importSpecifier.getName();
+  if (moduleSpecifier !== undefined && isKnownTokenPackage(moduleSpecifier, specifierName)) {
+    return true;
+  } else if (moduleSpecifier !== undefined && ts.isExternalModuleNameRelative(moduleSpecifier)) {
+    const moduleSourceFile = getModuleSourceFile(project, moduleSpecifier, sourceFilePath);
+    if (moduleSourceFile) {
+      // If we have a relative module specifier, we need to resolve it and check if there's a token
+      console.log(
+        'resolver info',
+        resolveExport(moduleSourceFile, specifierName, checker, project)?.valueDeclarationValue
+      );
+      return !!resolveExport(moduleSourceFile, specifierName, checker, project);
+    }
+  }
+}
+
+const isNodeToken = (node: Node, checker: TypeChecker, project: Project): boolean | undefined => {
+  // Handle property access or identifier uniformly
+  let importSpecifier;
+  if (Node.isPropertyAccessExpression(node)) {
+    const symbol = checker.getSymbolAtLocation(node.getExpression());
+    importSpecifier = symbol?.getDeclarations().find(Node.isImportSpecifier);
+  } else if (Node.isIdentifier(node)) {
+    const symbol = checker.getSymbolAtLocation(node);
+    importSpecifier = symbol?.getDeclarations().find(Node.isImportSpecifier);
+  }
+  if (importSpecifier) {
+    return checkImportSpecifier(importSpecifier, checker, project, node.getSourceFile().getFilePath());
+  }
+};

@@ -179,6 +179,7 @@ function recordImport(ctx: ImportContext, alias: string, node: Node, exportInfo?
     sourceFile: source.getFilePath(),
     declaredValue: exportInfo?.valueDeclarationValue,
     declarationNode: exportInfo?.declaration,
+    templateGroups: exportInfo?.templateGroups,
   });
   log(`Recorded token import: ${alias} from ${source.getFilePath()}`);
 }
