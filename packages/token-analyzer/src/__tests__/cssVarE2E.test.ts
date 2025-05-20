@@ -239,7 +239,7 @@ describe('CSS Variable Cross-Module Resolution E2E', () => {
           // aliased and imported CSS var
           marginRight:someMargin,
           // aliased and imported CSS var with another level of indirection
-          marginRight:someOtherMargin
+          marginLeft:someOtherMargin
         }
       });
 
@@ -294,8 +294,12 @@ describe('CSS Variable Cross-Module Resolution E2E', () => {
           token: ['tokens.colorBrandPrimary'],
         }),
         expect.objectContaining({
-          property: 'padding',
-          token: ['tokens.colorBrandSecondary'],
+          property: 'marginRight',
+          token: ['tokens.spacingHorizontalXXL'],
+        }),
+        expect.objectContaining({
+          property: 'marginLeft',
+          token: ['tokens.spacingVerticalXXL'],
         }),
       ])
     );

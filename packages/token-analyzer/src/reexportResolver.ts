@@ -60,11 +60,51 @@ export function resolveExport(
                 return resolveExport(moduleSourceFile, specifierName, typeChecker, project);
               }
             }
+          } else {
+            // if we don't have an import specifier, we should check of there's another delcaration and then resolve that as well
+            // This couuld be a var that points to another var that points to a known token for example.
+            console.log(`no import specifier found for ${initializer.getText()}, it's a ${initializer.getKindName()}`);
           }
         } else if (Node.isTemplateExpression(initializer)) {
           console.log(`found template expression ${initializer.getText()}`);
         } else if (Node.isPropertyAccessExpression(initializer)) {
-          console.log(`found property access ${initializer.getText()}`);
+          console.log(
+            `found property access ${initializer.getText()}, expression ${initializer.getExpression().getText()}`
+          );
+          const expressionSymbol = initializer.getExpression().getSymbol();
+          const expressionImportSpecifier = expressionSymbol?.getDeclarations().find(Node.isImportSpecifier);
+          if (expressionImportSpecifier) {
+            const expressionSpecifierName = expressionImportSpecifier.getName();
+            const expressionImportDeclaration = expressionImportSpecifier.getFirstAncestorByKind(
+              SyntaxKind.ImportDeclaration
+            );
+            const expressionModuleSpecifier = expressionImportDeclaration?.getModuleSpecifierValue();
+            if (
+              expressionModuleSpecifier !== undefined &&
+              isKnownTokenPackage(expressionModuleSpecifier, expressionSpecifierName)
+            ) {
+              // found a known token, process
+              return {
+                declaration: expressionImportSpecifier,
+                sourceFile: expressionImportSpecifier.getSourceFile(),
+                moduleSpecifier: expressionModuleSpecifier,
+                importExportSpecifierName: expressionSpecifierName,
+                valueDeclarationValue: initializer.getText(),
+              };
+            } else if (
+              expressionModuleSpecifier !== undefined &&
+              ts.isExternalModuleNameRelative(expressionModuleSpecifier)
+            ) {
+              const moduleSourceFile = getModuleSourceFile(
+                project,
+                expressionModuleSpecifier,
+                sourceFile.getFilePath()
+              );
+              if (moduleSourceFile) {
+                return resolveExport(moduleSourceFile, expressionSpecifierName, typeChecker, project);
+              }
+            }
+          }
         }
       }
       if (exportSpecifier) {
