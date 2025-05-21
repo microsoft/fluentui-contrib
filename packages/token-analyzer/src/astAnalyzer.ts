@@ -160,10 +160,12 @@ function createStyleContent(tokens: TokenReference[]): StyleContent {
       // this is because if we have more than a single item in our path left there's another level
       if (token.path.length - 1 - pathIndex > 1) {
         // Create a nested structure through a recursive call
-        if (!currentLevel[nestedKey].nested) {
-          currentLevel[nestedKey].nested = {};
+        let cuurrentLevel = currentLevel[nestedKey].nested;
+        if (!cuurrentLevel) {
+          cuurrentLevel = {};
         }
-        createNestedStructure(token, pathIndex + 1, currentLevel[nestedKey].nested);
+        currentLevel[nestedKey].nested = cuurrentLevel;
+        createNestedStructure(token, pathIndex + 1, cuurrentLevel);
       } else {
         currentLevel[nestedKey].tokens.push({
           ...token,
