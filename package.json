@@ -107,5 +107,9 @@
   "dependencies": {},
   "nx": {
     "includedScripts": []
-  }
+  },
+   "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
 }
