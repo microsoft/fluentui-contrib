@@ -291,7 +291,7 @@ describe('CSS Variable Cross-Module Resolution E2E', () => {
         // Multiple tokens from a complex var
         expect.objectContaining({
           property: 'padding',
-          token: ['tokens.colorBrandPrimary'],
+          token: ['tokens.colorBrandPrimary', 'tokens.colorBrandSecondary'],
         }),
         expect.objectContaining({
           property: 'marginRight',

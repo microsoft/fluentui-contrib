@@ -3,6 +3,7 @@ import { log } from './debugUtils.js';
 import { isKnownTokenPackage } from './tokenUtils';
 import { getModuleSourceFile } from './moduleResolver';
 import { extractNodesFromTemplateStringLiteral } from './processTemplateStringLiteral';
+import { TemplateGroupItem } from './importAnalyzer';
 
 export interface ExportInfo {
   declaration: Node;
@@ -10,7 +11,7 @@ export interface ExportInfo {
   moduleSpecifier: string;
   importExportSpecifierName?: string;
   valueDeclarationValue?: string;
-  templateGroups?: Node[][];
+  templateGroups?: TemplateGroupItem[][];
 }
 
 // Resolves an export name to its original declaration, following aliases and re-exports
@@ -72,7 +73,17 @@ export function resolveExport(
           const templates = extractNodesFromTemplateStringLiteral(initializer);
           const filteredExpressions = templates.extractedExpressions
             .map((group) => {
-              return group.filter((node) => isNodeToken(node, typeChecker, project));
+              const newGroup: TemplateGroupItem[] = [];
+              group.forEach((node) => {
+                const nodeInfo = isNodeToken(node, typeChecker, project);
+                if (nodeInfo?.isToken) {
+                  newGroup.push({
+                    node,
+                    actualTokenValue: nodeInfo.declarationValue,
+                  });
+                }
+              });
+              return newGroup;
             })
             .filter((group) => group.length > 0);
           if (filteredExpressions.length > 0) {
@@ -165,26 +176,30 @@ function checkImportSpecifier(
   checker: TypeChecker,
   project: Project,
   sourceFilePath: string
-): boolean | undefined {
+): { isToken: boolean; declarationValue?: string } | undefined {
   const importDeclaration = importSpecifier.getFirstAncestorByKind(SyntaxKind.ImportDeclaration);
   const moduleSpecifier = importDeclaration?.getModuleSpecifierValue();
   const specifierName = importSpecifier.getName();
   if (moduleSpecifier !== undefined && isKnownTokenPackage(moduleSpecifier, specifierName)) {
-    return true;
+    return { isToken: true };
   } else if (moduleSpecifier !== undefined && ts.isExternalModuleNameRelative(moduleSpecifier)) {
     const moduleSourceFile = getModuleSourceFile(project, moduleSpecifier, sourceFilePath);
     if (moduleSourceFile) {
       // If we have a relative module specifier, we need to resolve it and check if there's a token
-      console.log(
-        'resolver info',
-        resolveExport(moduleSourceFile, specifierName, checker, project)?.valueDeclarationValue
-      );
-      return !!resolveExport(moduleSourceFile, specifierName, checker, project);
+      // If there's a declaration value we should also return that so we don't falsely return the variable name
+      const resolverInfo = resolveExport(moduleSourceFile, specifierName, checker, project);
+      if (resolverInfo) {
+        return { isToken: true, declarationValue: resolverInfo.valueDeclarationValue };
+      }
     }
   }
 }
 
-const isNodeToken = (node: Node, checker: TypeChecker, project: Project): boolean | undefined => {
+const isNodeToken = (
+  node: Node,
+  checker: TypeChecker,
+  project: Project
+): { isToken: boolean; declarationValue?: string } | undefined => {
   // Handle property access or identifier uniformly
   let importSpecifier;
   if (Node.isPropertyAccessExpression(node)) {

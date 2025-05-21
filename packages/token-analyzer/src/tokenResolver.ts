@@ -72,12 +72,12 @@ const processIdentifier = (info: TokenResolverInfo<Identifier>): TokenReference[
   if (isTokenReference(info)) {
     const propertyName = path[path.length - 1] ?? parentName;
     const importedVal = importedValues.get(text)!;
+    // our template groups are already processed and we know they are known tokens so we can just add them
     if (importedVal.templateGroups && importedVal.templateGroups.length > 0) {
       importedVal.templateGroups.forEach((group) => {
         const grouped: TokenReference = { property: propertyName, token: [], path };
         group.forEach((exprNode) => {
-          const nestedTokens = resolveToken({ ...info, tokens: [], node: exprNode });
-          nestedTokens.forEach((t) => grouped.token.push(...t.token));
+          grouped.token.push(exprNode.actualTokenValue ?? exprNode.node.getText());
         });
         if (grouped.token.length > 0) {
           returnTokens.push(grouped);

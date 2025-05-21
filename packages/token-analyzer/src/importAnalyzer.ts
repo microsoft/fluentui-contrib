@@ -5,6 +5,11 @@ import { resolveExport, ExportInfo } from './reexportResolver';
 import { getModuleSourceFile } from './moduleResolver.js';
 import { isKnownTokenPackage } from './tokenUtils';
 
+export interface TemplateGroupItem {
+  node: Node;
+  actualTokenValue?: string;
+}
+
 /**
  * Represents a value imported from another module
  */
@@ -14,7 +19,7 @@ export interface ImportedValue {
   node: Node;
   declaredValue?: string;
   declarationNode?: Node;
-  templateGroups?: Node[][];
+  templateGroups?: TemplateGroupItem[][];
 }
 
 // Context passed through each import handler for clearer signature
