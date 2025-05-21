@@ -35,6 +35,7 @@ export function resolveExport(
     if (symbol) {
       const exportSpecifier = symbol?.getDeclarations().find(Node.isExportSpecifier);
       const varDeclaration = symbol?.getDeclarations().find(Node.isVariableDeclaration);
+      const exportAssignment = symbol?.getDeclarations().find(Node.isExportAssignment);
 
       if (varDeclaration) {
         // if we have a simple variable declaration that points to a known token import, we can return it,
@@ -161,6 +162,19 @@ export function resolveExport(
               return resolveExport(moduleSourceFile, exportSpecifierName, typeChecker, project);
             }
           }
+        }
+      }
+      if (exportAssignment) {
+        const exportExpression = exportAssignment.getExpression();
+        const tokenInfo = isNodeToken(exportExpression, typeChecker, project);
+        if (tokenInfo?.isToken) {
+          return {
+            declaration: exportAssignment,
+            sourceFile: exportAssignment.getSourceFile(),
+            moduleSpecifier: '',
+            importExportSpecifierName: exportName,
+            valueDeclarationValue: tokenInfo.declarationValue ?? exportExpression.getText(),
+          };
         }
       }
     }
