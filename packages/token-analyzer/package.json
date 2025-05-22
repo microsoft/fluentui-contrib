@@ -10,9 +10,12 @@
     "@griffel/react": "^1.5.22"
   },
   "scripts": {
-    "analyze-tokens": "NODE_OPTIONS=\"--loader ts-node/esm\" ts-node-esm src/index.ts",
+    "analyze-tokens": "(cd ../.. && nx build token-analyzer) && node ../../dist/packages/token-analyzer/lib-commonjs/index.js",
     "test": "jest",
     "test:debug": "node --loader ts-node/esm --inspect-brk node_modules/.bin/jest --runInBand"
+  },
+  "bin": {
+    "token-analyzer": "./index.js"
   },
   "private": true
 }

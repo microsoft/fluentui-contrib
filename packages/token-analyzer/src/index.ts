@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { Project } from 'ts-morph';
 import { promises as fs } from 'fs';
 import { relative } from 'path';
@@ -22,14 +23,12 @@ async function analyzeProjectStyles(
   const results: AnalysisResults = {};
 
   try {
-    const styleFiles = await measureAsync('find style files', () =>
-      findStyleFiles(rootDir)
-    );
+    const styleFiles = await measureAsync('find style files', () => findStyleFiles(rootDir));
     console.log(`Found ${styleFiles.length} style files to analyze`);
 
     const project = new Project({
       // Get the nearest tsconfig.json file so we can resolve modules and paths correctly based on the project config
-      tsConfigFilePath: findTsConfigPath() || '',
+      tsConfigFilePath: findTsConfigPath(rootDir) || '',
       skipAddingFilesFromTsConfig: true,
       skipFileDependencyResolution: false,
     });
@@ -53,17 +52,14 @@ async function analyzeProjectStyles(
 
     if (outputFile) {
       await measureAsync('write output file', async () => {
-        const formatted = format(
-          JSON.stringify(sortObjectByKeys(results), null, 2),
-          {
-            parser: 'json',
-            printWidth: 120,
-            tabWidth: 2,
-            singleQuote: true,
-            trailingComma: 'all',
-            arrowParens: 'avoid',
-          }
-        );
+        const formatted = format(JSON.stringify(sortObjectByKeys(results), null, 2), {
+          parser: 'json',
+          printWidth: 120,
+          tabWidth: 2,
+          singleQuote: true,
+          trailingComma: 'all',
+          arrowParens: 'avoid',
+        });
         await fs.writeFile(outputFile, formatted, 'utf8');
         console.log(`Analysis written to ${outputFile}`);
       });
@@ -107,7 +103,7 @@ function countTokens(analysis: FileAnalysis): number {
 }
 
 // CLI execution
-const isRunningDirectly = process.argv[1].endsWith('index.ts');
+const isRunningDirectly = process.argv[1].includes('index');
 if (isRunningDirectly) {
   const rootDir = process.argv[2] || '../..';
   const outputFile = process.argv[3] || './output.json';
