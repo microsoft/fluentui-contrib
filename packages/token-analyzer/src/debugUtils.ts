@@ -28,10 +28,7 @@ export const error = (message: string, errorArg: any): void => {
   console.error(`${prefix}${message}`, errorArg);
 };
 
-export const measureAsync = async <T>(
-  name: string,
-  fn: () => Promise<T>
-): Promise<T> => {
+export const measureAsync = async <T>(name: string, fn: () => Promise<T>): Promise<T> => {
   if (!config.perf) {
     return fn();
   }

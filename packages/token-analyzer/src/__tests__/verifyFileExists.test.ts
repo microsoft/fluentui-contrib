@@ -52,7 +52,7 @@ describe('verifyFileExists', () => {
 
   test('uses tsUtils.fileExists when available', () => {
     // Mock the tsUtils.fileExists function
-    tsUtils.fileExists = jest.fn().mockImplementation(filePath => {
+    tsUtils.fileExists = jest.fn().mockImplementation((filePath) => {
       return filePath === EXISTING_FILE;
     });
 

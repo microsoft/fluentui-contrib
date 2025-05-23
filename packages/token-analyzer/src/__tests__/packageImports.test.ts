@@ -1,10 +1,6 @@
 // packageImports.test.ts
 import { Project, ModuleResolutionKind, ScriptTarget } from 'ts-morph';
-import {
-  resolveModulePath,
-  clearModuleCache,
-  tsUtils,
-} from '../moduleResolver';
+import { resolveModulePath, clearModuleCache, tsUtils } from '../moduleResolver';
 import * as path from 'path';
 import * as fs from 'fs';
 import { findTsConfigPath } from '../findTsConfigPath';
@@ -119,31 +115,19 @@ describe('Package imports resolution', () => {
     // Mock the TypeScript resolution for scoped packages
     tsUtils.resolveModuleName = jest
       .fn()
-      .mockImplementation(
-        (
-          moduleName: string,
-          containingFile: string,
-          compilerOptions: any,
-          host: any
-        ) => {
-          if (moduleName === '@scope/package') {
-            return {
-              resolvedModule: {
-                resolvedFileName: path.join(SCOPED_PACKAGE, 'index.js'),
-                extension: '.js',
-                isExternalLibraryImport: true,
-              },
-            };
-          }
-          // Call original for other cases
-          return originalResolve(
-            moduleName,
-            containingFile,
-            compilerOptions,
-            host
-          );
+      .mockImplementation((moduleName: string, containingFile: string, compilerOptions: any, host: any) => {
+        if (moduleName === '@scope/package') {
+          return {
+            resolvedModule: {
+              resolvedFileName: path.join(SCOPED_PACKAGE, 'index.js'),
+              extension: '.js',
+              isExternalLibraryImport: true,
+            },
+          };
         }
-      );
+        // Call original for other cases
+        return originalResolve(moduleName, containingFile, compilerOptions, host);
+      });
 
     const result = resolveModulePath(project, '@scope/package', sourceFilePath);
 
@@ -158,31 +142,19 @@ describe('Package imports resolution', () => {
     // Mock the TypeScript resolution for regular packages
     tsUtils.resolveModuleName = jest
       .fn()
-      .mockImplementation(
-        (
-          moduleName: string,
-          containingFile: string,
-          compilerOptions: any,
-          host: any
-        ) => {
-          if (moduleName === 'some-package') {
-            return {
-              resolvedModule: {
-                resolvedFileName: path.join(REGULAR_PACKAGE, 'lib', 'index.js'),
-                extension: '.js',
-                isExternalLibraryImport: true,
-              },
-            };
-          }
-          // Call original for other cases
-          return originalResolve(
-            moduleName,
-            containingFile,
-            compilerOptions,
-            host
-          );
+      .mockImplementation((moduleName: string, containingFile: string, compilerOptions: any, host: any) => {
+        if (moduleName === 'some-package') {
+          return {
+            resolvedModule: {
+              resolvedFileName: path.join(REGULAR_PACKAGE, 'lib', 'index.js'),
+              extension: '.js',
+              isExternalLibraryImport: true,
+            },
+          };
         }
-      );
+        // Call original for other cases
+        return originalResolve(moduleName, containingFile, compilerOptions, host);
+      });
 
     const result = resolveModulePath(project, 'some-package', sourceFilePath);
 
@@ -197,31 +169,15 @@ describe('Package imports resolution', () => {
     // Mock the TypeScript resolution to return null for non-existent packages
     tsUtils.resolveModuleName = jest
       .fn()
-      .mockImplementation(
-        (
-          moduleName: string,
-          containingFile: string,
-          compilerOptions: any,
-          host: any
-        ) => {
-          if (moduleName === 'non-existent-package') {
-            return { resolvedModule: undefined };
-          }
-          // Call original for other cases
-          return originalResolve(
-            moduleName,
-            containingFile,
-            compilerOptions,
-            host
-          );
+      .mockImplementation((moduleName: string, containingFile: string, compilerOptions: any, host: any) => {
+        if (moduleName === 'non-existent-package') {
+          return { resolvedModule: undefined };
         }
-      );
+        // Call original for other cases
+        return originalResolve(moduleName, containingFile, compilerOptions, host);
+      });
 
-    const result = resolveModulePath(
-      project,
-      'non-existent-package',
-      sourceFilePath
-    );
+    const result = resolveModulePath(project, 'non-existent-package', sourceFilePath);
 
     expect(result).toBeNull();
     expect(tsUtils.resolveModuleName).toHaveBeenCalled();

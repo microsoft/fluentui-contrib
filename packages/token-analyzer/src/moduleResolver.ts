@@ -28,10 +28,7 @@ export const resolvedFilesCache = new Map<string, SourceFile>();
 /**
  * Creates a cache key for module resolution
  */
-function createCacheKey(
-  moduleSpecifier: string,
-  containingFile: string
-): string {
+function createCacheKey(moduleSpecifier: string, containingFile: string): string {
   return `${containingFile}:${moduleSpecifier}`;
 }
 
@@ -66,11 +63,7 @@ function verifyFileExists(filePath: string | undefined | null): boolean {
  * @param containingFile The file containing the import
  * @returns The absolute file path or null if it can't be resolved
  */
-export function resolveModulePath(
-  project: Project,
-  moduleSpecifier: string,
-  containingFile: string
-): string | null {
+export function resolveModulePath(project: Project, moduleSpecifier: string, containingFile: string): string | null {
   const cacheKey = createCacheKey(moduleSpecifier, containingFile);
 
   // Check cache first
@@ -88,9 +81,7 @@ export function resolveModulePath(
       const extensions = ['.ts', '.tsx', '.js', '.jsx', '.d.ts'];
 
       // Check if the module specifier already has a valid extension
-      const hasExtension = extensions.some((ext) =>
-        moduleSpecifier.endsWith(ext)
-      );
+      const hasExtension = extensions.some((ext) => moduleSpecifier.endsWith(ext));
 
       // 1. If it has an extension, try the exact path first
       if (hasExtension) {
@@ -175,11 +166,7 @@ export function getModuleSourceFile(
   log(`Resolving module: ${moduleSpecifier} from ${containingFile}`);
 
   // Step 1: Try to resolve the module to a file path
-  const resolvedPath = resolveModulePath(
-    project,
-    moduleSpecifier,
-    containingFile
-  );
+  const resolvedPath = resolveModulePath(project, moduleSpecifier, containingFile);
   if (!resolvedPath) {
     log(`Could not resolve module: ${moduleSpecifier}`);
     return null;

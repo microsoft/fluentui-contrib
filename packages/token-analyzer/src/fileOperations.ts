@@ -39,10 +39,7 @@ export async function findStyleFiles(dir: string): Promise<string[]> {
  * @param currentFilePath The path of the file containing the import
  * @returns Resolved absolute path or null if not found
  */
-export async function resolveImportPath(
-  importPath: string,
-  currentFilePath: string
-): Promise<string | null> {
+export async function resolveImportPath(importPath: string, currentFilePath: string): Promise<string | null> {
   if (!importPath.startsWith('.')) {
     return null;
   }

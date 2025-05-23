@@ -96,11 +96,7 @@ describe('Module resolver functions', () => {
 
     test('resolves nested relative path correctly', () => {
       const sourceFilePath = path.join(TEST_DIR, 'source.ts');
-      const result = resolveModulePath(
-        project,
-        './styles/theme',
-        sourceFilePath
-      );
+      const result = resolveModulePath(project, './styles/theme', sourceFilePath);
 
       expect(result).not.toBeNull();
       expect(result).toEqual(path.join(TEST_DIR, 'styles/theme.ts'));
@@ -116,11 +112,7 @@ describe('Module resolver functions', () => {
 
     test('returns null for non-existent module', () => {
       const sourceFilePath = path.join(TEST_DIR, 'source.ts');
-      const result = resolveModulePath(
-        project,
-        './non-existent',
-        sourceFilePath
-      );
+      const result = resolveModulePath(project, './non-existent', sourceFilePath);
 
       expect(result).toBeNull();
     });
@@ -139,11 +131,7 @@ describe('Module resolver functions', () => {
       });
 
       // Second call should use cache
-      const secondResult = resolveModulePath(
-        project,
-        './utils',
-        sourceFilePath
-      );
+      const secondResult = resolveModulePath(project, './utils', sourceFilePath);
       expect(secondResult).toEqual(firstResult);
 
       // Restore original function
@@ -167,11 +155,7 @@ describe('Module resolver functions', () => {
       project.addSourceFileAtPath(sourceFilePath);
 
       // First call
-      const firstResult = getModuleSourceFile(
-        project,
-        './utils',
-        sourceFilePath
-      );
+      const firstResult = getModuleSourceFile(project, './utils', sourceFilePath);
       expect(firstResult).not.toBeNull();
 
       // Mock project.addSourceFileAtPath to verify cache is used
@@ -181,11 +165,7 @@ describe('Module resolver functions', () => {
       });
 
       // Second call should use cache
-      const secondResult = getModuleSourceFile(
-        project,
-        './utils',
-        sourceFilePath
-      );
+      const secondResult = getModuleSourceFile(project, './utils', sourceFilePath);
       expect(secondResult).toBe(firstResult); // Same instance
 
       // Restore original function
@@ -196,11 +176,7 @@ describe('Module resolver functions', () => {
       const sourceFilePath = path.join(TEST_DIR, 'source.ts');
       project.addSourceFileAtPath(sourceFilePath);
 
-      const result = getModuleSourceFile(
-        project,
-        './non-existent',
-        sourceFilePath
-      );
+      const result = getModuleSourceFile(project, './non-existent', sourceFilePath);
       expect(result).toBeNull();
     });
   });

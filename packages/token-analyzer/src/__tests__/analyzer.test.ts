@@ -79,8 +79,6 @@ describe('Token Analyzer', () => {
       conditions: ['disabled'],
       slotName: 'root',
     });
-    expect(metadata.styleConditions['styles.large'].conditions).toContain(
-      "size === 'large'"
-    );
+    expect(metadata.styleConditions['styles.large'].conditions).toContain("size === 'large'");
   });
 });
