@@ -105,8 +105,8 @@ function countTokens(analysis: FileAnalysis): number {
 // CLI execution
 const isRunningDirectly = process.argv[1].includes('index');
 if (isRunningDirectly) {
-  const rootDir = process.argv[2] || '../..';
-  const outputFile = process.argv[3] || './output.json';
+  const rootDir = process.argv[2] || './src';
+  const outputFile = process.argv[3] || './token-analysis.json';
   const debug = process.argv.includes('--debug');
   const perf = process.argv.includes('--perf');
 
