@@ -2,7 +2,10 @@
   "extends": "../../tsconfig.base.json",
   "files": [],
   "compilerOptions": {
-    "jsx": "react"
+    "jsx": "react",
+    "esModuleInterop": true,
+    "module": "ESNext", // or "ES2020", "ES2022"
+    "moduleResolution": "node"
   },
   "include": [],
   "references": [
