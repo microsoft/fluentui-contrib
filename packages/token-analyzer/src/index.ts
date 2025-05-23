@@ -8,6 +8,8 @@ import { analyzeFile } from './astAnalyzer.js';
 import { AnalysisResults, FileAnalysis } from './types.js';
 import { configure, log, error, measureAsync } from './debugUtils.js';
 import { findTsConfigPath } from './findTsConfigPath.js';
+import { hideBin } from 'yargs/helpers';
+import yargs from 'yargs/yargs';
 
 async function analyzeProjectStyles(
   rootDir: string,
@@ -102,15 +104,60 @@ function countTokens(analysis: FileAnalysis): number {
   return count;
 }
 
+// Define the expected CLI arguments interface
+interface CliArgs {
+  root: string;
+  output: string;
+  debug: boolean;
+  perf: boolean;
+}
+
 // CLI execution
 const isRunningDirectly = process.argv[1].includes('index');
 if (isRunningDirectly) {
-  const rootDir = process.argv[2] || './src';
-  const outputFile = process.argv[3] || './token-analysis.json';
-  const debug = process.argv.includes('--debug');
-  const perf = process.argv.includes('--perf');
+  const argv = yargs(hideBin(process.argv))
+    .usage('$0 [options]', 'Analyze project styles and token usage')
+    .option('root', {
+      alias: 'r',
+      describe: 'Root directory to analyze',
+      type: 'string',
+      default: './src',
+    })
+    .option('output', {
+      alias: 'o',
+      describe: 'Output file path',
+      type: 'string',
+      default: './token-analysis.json',
+    })
+    .option('debug', {
+      alias: 'd',
+      describe: 'Enable debug mode',
+      type: 'boolean',
+      default: false,
+    })
+    .option('perf', {
+      alias: 'p',
+      describe: 'Enable performance tracking',
+      type: 'boolean',
+      default: false,
+    })
+    .example('$0', 'Run with default settings')
+    .example('$0 --root ./components --output ./results.json', 'Analyze components directory')
+    .example('$0 -r ./src -o ./analysis.json --debug', 'Run with debug mode')
+    .help('h')
+    .alias('h', 'help')
+    .version()
+    .strict()
+    .parseSync() as CliArgs;
+
+  const { root: rootDir, output: outputFile, debug, perf } = argv;
 
   console.log(`Starting analysis of ${rootDir}`);
+  console.log(`Output will be written to ${outputFile}`);
+
+  if (debug) console.log('Debug mode enabled');
+  if (perf) console.log('Performance tracking enabled');
+
   analyzeProjectStyles(rootDir, outputFile, { debug, perf })
     .then((results) => {
       const totalFiles = Object.keys(results).length;
