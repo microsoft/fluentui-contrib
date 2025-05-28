@@ -6,6 +6,7 @@ import {
   names,
   output,
   workspaceRoot,
+  logger,
 } from '@nx/devkit';
 import { playwrightExecutor } from '@nx/playwright';
 
@@ -57,7 +58,10 @@ function playwrightCTExecutor(
 
   const args = createArgs(options);
 
-  const childProcess = runPlaywright(args, context.root);
+  const childProcess = runPlaywright(args, {
+    cwd: context.root,
+    reactVersion: options.reactVersion,
+  });
   childProcess.stdout?.on('data', (message) => {
     process.stdout.write(message);
   });
@@ -78,7 +82,7 @@ function playwrightCTExecutor(
  */
 function createArgs(
   opts: PlaywrightExecutorSchema,
-  exclude: string[] = ['skipInstall', 'testingType']
+  exclude: string[] = ['skipInstall', 'testingType', 'reactVersion']
 ): string[] {
   const args: string[] = [];
 
@@ -113,9 +117,24 @@ function createArgs(
  *
  * Most of this code is copied from https://github.com/nrwl/nx/blob/master/packages/playwright/src/executors/playwright/playwright.impl.ts
  */
-function runPlaywright(args: string[], cwd: string) {
+function runPlaywright(
+  args: string[],
+  options: {
+    cwd: string;
+    reactVersion: PlaywrightExecutorSchema['reactVersion'];
+  }
+) {
+  const { cwd, reactVersion } = options;
   try {
-    const module = require.resolve('@playwright/experimental-ct-react');
+    const module =
+      reactVersion === 17
+        ? require.resolve('@playwright/experimental-ct-react17')
+        : require.resolve('@playwright/experimental-ct-react');
+
+    logger.verbose(
+      `Running Playwright CT tests for React v${reactVersion} with "${module}"`
+    );
+
     const cli = path.join(path.dirname(module), 'cli.js');
 
     return fork(cli, ['test', ...args], {
