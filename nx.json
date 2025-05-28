@@ -35,7 +35,9 @@
       "cache": true
     },
     "nx-release-publish": {
+      "dependsOn": ["build"],
       "options": {
+        "access": "public",
         "packageRoot": "dist/packages/{projectName}"
       }
     }
@@ -66,10 +68,9 @@
       }
     },
     "version": {
-      "generatorOptions": {
-        "versionPrefix": "auto",
-        "currentVersionResolver": "disk"
-      }
+      "currentVersionResolver": "disk",
+      "versionPrefix": "auto",
+      "preserveLocalDependencyProtocols": false
     },
     "versionPlans": {
       "ignorePatternsForPlanCheck": [
@@ -86,7 +87,8 @@
         "**/*.md",
         "**/*.babelrc",
         "**/playwright/**",
-        "**/.storybook/**"
+        "**/.storybook/**",
+        "**/stories/**"
       ]
     },
     "projectsRelationship": "independent"
@@ -97,6 +99,5 @@
   },
   "parallel": 3,
   "defaultBase": "main",
-  "useInferencePlugins": false,
-  "useLegacyCache": true
+  "useInferencePlugins": false
 }
