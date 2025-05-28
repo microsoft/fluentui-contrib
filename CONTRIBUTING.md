@@ -114,7 +114,7 @@ guidance.
 
 ## Common commands
 
-> `<name>` refers to the name of a folder within the `packages/` folers. The
+> `<name>` refers to the name of a folder within the `packages/` folders. The
 > final published package will have the form of `@fluentui-contrib/<name>`
 > For example for `react-chat` 👇👇
 >
@@ -122,7 +122,7 @@ guidance.
 > @fluentui-contrib/react-chat
 > yarn nx build react-chat
 
-This repository runs as a [NX integrated monorepo](https://nx.dev/tutorials/integrated-repo-tutorial). We have configured common commands
+This repository uses as [Nx](https://nx.dev/). We have configured common commands
 across all packages that is the baseline to be able to:
 
 - develop
@@ -131,7 +131,7 @@ across all packages that is the baseline to be able to:
 - build
 - publish
 
-all packages in the repo. All commands can be run from the root of the monorepo for any package. There should be no need to move
+All commands are run from the root of the monorepo for any package. There should be no need to move
 around package folders to run commands.
 
 ### storybook
@@ -139,7 +139,7 @@ around package folders to run commands.
 Starts storybook for a package
 
 ```sh
-yarn nx storybook <name>
+yarn nx run <name>:storybook
 ```
 
 ### test
@@ -147,7 +147,7 @@ yarn nx storybook <name>
 Runs unit tests using [jest](https://jestjs.io/)
 
 ```sh
-yarn nx test <name>
+yarn nx run <name>:test
 ```
 
 ### build
@@ -155,7 +155,7 @@ yarn nx test <name>
 Builds source code with es6 and common-js formats in the `dist/` folder in the monorepo root.
 
 ```sh
-yarn nx build <name>
+yarn nx run <name>:build
 ```
 
 ### type-check
@@ -163,7 +163,7 @@ yarn nx build <name>
 Checks typescript usage and generates type files in the `dist/` folder in the monorepo root.
 
 ```sh
-yarn nx type-check <name>
+yarn nx run <name>:type-check
 ```
 
 ### format
