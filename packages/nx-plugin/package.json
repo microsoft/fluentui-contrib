@@ -15,6 +15,15 @@
   },
   "peerDependencies": {
     "@playwright/experimental-ct-react": "^1.49.1",
+    "@playwright/experimental-ct-react17": "^1.49.1",
     "nx": "^20"
+  },
+  "peerDependenciesMeta": {
+    "@playwright/experimental-ct-react": {
+      "optional": true
+    },
+    "@playwright/experimental-ct-react17": {
+      "optional": true
+    }
   }
 }
