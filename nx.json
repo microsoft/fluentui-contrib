@@ -68,10 +68,9 @@
       }
     },
     "version": {
-      "generatorOptions": {
-        "versionPrefix": "auto",
-        "currentVersionResolver": "disk"
-      }
+      "currentVersionResolver": "disk",
+      "versionPrefix": "auto",
+      "preserveLocalDependencyProtocols": false
     },
     "versionPlans": {
       "ignorePatternsForPlanCheck": [
@@ -100,6 +99,5 @@
   },
   "parallel": 3,
   "defaultBase": "main",
-  "useInferencePlugins": false,
-  "useLegacyCache": true
+  "useInferencePlugins": false
 }
