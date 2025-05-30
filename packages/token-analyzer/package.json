@@ -16,7 +16,7 @@
     "test:debug": "node --loader ts-node/esm --inspect-brk node_modules/.bin/jest --runInBand"
   },
   "bin": {
-    "token-analyzer": "./index.js"
+    "token-analyzer": "./lib-commonjs/index.js"
   },
   "private": true
 }

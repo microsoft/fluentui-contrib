@@ -10,8 +10,16 @@ export function findTsConfigPath(startDir = __dirname): string | null {
     if (fs.existsSync(tsConfigPath)) {
       return tsConfigPath;
     }
-    // Move up to parent directory
-    currentDir = path.dirname(currentDir);
+
+    // Check if we've hit the file system root dir and bail if we have and haven't found a tsconfig.json
+    // This prevents infinite loops in case of misconfigured paths
+    if (currentDir === path.dirname(currentDir)) {
+      console.warn(`Hit the root directory looking for tsconfig. Stopping search for tsconfig.json.`);
+      return null;
+    } else {
+      // Move up to parent directory
+      currentDir = path.dirname(currentDir);
+    }
   }
 
   // Check root directory as well

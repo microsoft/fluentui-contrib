@@ -30,7 +30,7 @@ async function analyzeProjectStyles(
 
     const project = new Project({
       // Get the nearest tsconfig.json file so we can resolve modules and paths correctly based on the project config
-      tsConfigFilePath: findTsConfigPath(rootDir) || '',
+      tsConfigFilePath: findTsConfigPath(rootDir) ?? undefined,
       skipAddingFilesFromTsConfig: true,
       skipFileDependencyResolution: false,
     });
@@ -113,7 +113,12 @@ interface CliArgs {
 }
 
 // CLI execution
-const isRunningDirectly = process.argv[1].includes('index');
+const isRunningDirectly =
+  require.main === module || // Standard Node.js detection
+  process.argv[1].includes('token-analyzer') || // When run as global CLI
+  process.argv[1].endsWith('index.js') || // When run directly
+  process.argv[1].includes('index'); // Your original check
+
 if (isRunningDirectly) {
   const argv = yargs(hideBin(process.argv))
     .usage('$0 [options]', 'Analyze project styles and token usage')
@@ -121,7 +126,7 @@ if (isRunningDirectly) {
       alias: 'r',
       describe: 'Root directory to analyze',
       type: 'string',
-      default: './src',
+      default: '.',
     })
     .option('output', {
       alias: 'o',
