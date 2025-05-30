@@ -6,6 +6,8 @@ export type SupportedKeys =
   | 'ArrowLeft'
   | 'ArrowUp'
   | 'ArrowDown';
+export type CSSUnit = 'px' | 'viewport';
+export type CSSUnitName = 'px' | 'vw' | 'vh';
 
 export const UNMEASURED = -1;
 
@@ -27,4 +29,4 @@ export type ResizeHandleUpdateEventData = (
   | EventData<typeof EVENTS.handleRef, CustomEvent>
   | EventData<typeof EVENTS.wrapperRef, CustomEvent>
   | EventData<typeof EVENTS.elementRef, CustomEvent>
-) & { value: number };
+) & { value: number; unit: CSSUnitName };

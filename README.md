@@ -1,7 +1,12 @@
-# Fluent UI contribution packages 💪
+# [Fluent UI Contrib](https://microsoft.github.io/fluentui-contrib/docsite)
 
-This repository hosts packages that are published under the `@fluentui-contrib/` scope. Contributor packages
-are extensions of [Fluent UI](https://github.com/microsoft/fluentui).
+## Overview
+
+Fluent UI Contrib is an official collection of extensions and components that enhance [Fluent UI](https://github.com/microsoft/fluentui). These packages provide additional functionality that complements the core Fluent UI library, helping you build rich, consistent user experiences with less code.
+
+All packages in this repository are published under the `@fluentui-contrib/` npm scope and maintained by the Microsoft Fluent UI team with community contributions.
+
+## Available Components & Libraries
 
 | Controls/libraries                                      | README                                                                                                                    | Docs                                                                                                                                     | NPM                                                                                                                                                                                                |
 | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -13,6 +18,18 @@ are extensions of [Fluent UI](https://github.com/microsoft/fluentui).
 | react-tree-grid                                         | [README.md](https://github.com/microsoft/fluentui-contrib/blob/main/packages/react-tree-grid/README.md)                   | [Storybook](https://microsoft.github.io/fluentui-contrib/react-tree-grid)                                                                | [![npm version](https://img.shields.io/npm/v/@fluentui-contrib/react-tree-grid?style=flat-square)](https://www.npmjs.com/package/@fluentui-contrib/react-tree-grid)                                |
 | houdini-utils                                           | [README.md](https://github.com/microsoft/fluentui-contrib/blob/main/packages/houdini-utils/README.md)                     | [Storybook](https://microsoft.github.io/fluentui-contrib/react-houdini-utils)                                                            | [![npm version](https://img.shields.io/npm/v/@fluentui-contrib/houdini-utils?style=flat-square)](https://www.npmjs.com/package/@fluentui-contrib/houdini-utils)                                    |
 | react-draggable-dialog                                  | [README.md](https://github.com/microsoft/fluentui-contrib/blob/main/packages/react-draggable-dialog/README.md)            | [Storybook](https://microsoft.github.io/fluentui-contrib/react-draggable-dialog)                                                         | [![npm version](https://img.shields.io/npm/v/@fluentui-contrib/react-draggable-dialog?style=flat-square)](https://www.npmjs.com/package/@fluentui-contrib/react-draggable-dialog)                  |
+
+## Quick Start
+
+To install a specific package:
+
+```bash
+# Using npm
+npm install @fluentui-contrib/[package-name]
+
+# Using yarn
+yarn add @fluentui-contrib/[package-name]
+```
 
 ## [Contributing](./Contributing.md)
 
@@ -30,6 +47,10 @@ provided by the bot. You will only need to do this once across all repos using o
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
 
 ## Trademarks
 

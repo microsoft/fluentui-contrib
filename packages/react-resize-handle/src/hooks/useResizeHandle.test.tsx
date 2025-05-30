@@ -1,14 +1,14 @@
 import { render, fireEvent } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { useResizeHandle, UseResizeHandleParams } from './useResizeHandle';
 import * as React from 'react';
+
+import { useResizeHandle, UseResizeHandleParams } from './useResizeHandle';
 
 const TestComponent = (
   props: Pick<UseResizeHandleParams, 'onDragStart' | 'onDragEnd' | 'onChange'>
 ) => {
   const { onChange, onDragStart, onDragEnd } = props;
 
-  const { elementRef, handleRef } = useResizeHandle({
+  const { elementRef, handleRef, wrapperRef } = useResizeHandle({
     growDirection: 'end',
     variableName: '--width',
 
@@ -18,7 +18,7 @@ const TestComponent = (
   });
 
   return (
-    <div>
+    <div ref={wrapperRef}>
       <div ref={elementRef} data-testid="element" />
       <div ref={handleRef} data-testid="handle" />
     </div>
@@ -41,7 +41,15 @@ describe('useResizeHandle', () => {
           onChange={onChange}
         />
       );
+
+      const elementEl = getByTestId('element');
       const handleEl = getByTestId('handle');
+
+      jest
+        .spyOn(elementEl, 'getBoundingClientRect')
+        .mockReturnValue({ width: 100 } as DOMRect)
+        .mockReturnValueOnce({ width: 100 } as DOMRect)
+        .mockReturnValueOnce({ width: 50 } as DOMRect);
 
       fireEvent.mouseDown(handleEl);
       fireEvent.mouseMove(handleEl, { clientX: 100, clientY: 0 });
@@ -62,8 +70,13 @@ describe('useResizeHandle', () => {
 
       jest.clearAllMocks();
 
+      jest
+        .spyOn(elementEl, 'getBoundingClientRect')
+        .mockReturnValueOnce({ width: 50 } as DOMRect)
+        .mockReturnValueOnce({ width: 100 } as DOMRect);
+
       fireEvent.mouseMove(handleEl, { clientX: 200, clientY: 0 });
-      fireEvent.mouseUp(document.body);
+      fireEvent.mouseUp(document.body, { clientX: 200, clientY: 0 });
 
       // onChange will be called immediately and *before* onDragEnd as the drag ends
       expect(onDragStart).toHaveBeenCalledTimes(0);

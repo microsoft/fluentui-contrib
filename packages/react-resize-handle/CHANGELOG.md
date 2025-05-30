@@ -1,8 +1,28 @@
 # Change Log - @fluentui-contrib/react-resize-handle
 
-This log was last generated on Thu, 10 Apr 2025 14:11:17 GMT and should not be manually modified.
+This log was last generated on Mon, 19 May 2025 11:51:48 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.7.1
+
+Mon, 19 May 2025 11:51:48 GMT
+
+### Patches
+
+- feat: add onChangeRejected() callback (olfedias@microsoft.com)
+
+## 0.7.0
+
+Thu, 15 May 2025 10:13:29 GMT
+
+### Minor changes
+
+- feat:  support viewport units (olfedias@microsoft.com)
+
+### Patches
+
+- fix: do not call `onChange` with stale values (olfedias@microsoft.com)
 
 ## 0.6.3
 

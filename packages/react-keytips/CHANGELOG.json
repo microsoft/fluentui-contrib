@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-keytips",
   "entries": [
     {
+      "date": "Thu, 15 May 2025 10:13:29 GMT",
+      "tag": "@fluentui-contrib/react-keytips_v0.2.2",
+      "version": "0.2.2",
+      "comments": {
+        "none": [
+          {
+            "author": "17867971+Notheisz57@users.noreply.github.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "7aa505b06e8704a6ca8cd115165bd670814465df",
+            "comment": "Fix typo in `react-keytips/stories/Overflow`"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 10 Apr 2025 14:11:17 GMT",
       "tag": "@fluentui-contrib/react-keytips_v0.2.2",
       "version": "0.2.2",
