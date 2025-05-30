@@ -1,0 +1,32 @@
+{
+  "name": "token-analyzer-mcp",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/token-analyzer-mcp/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@fluentui-contrib/nx-plugin:build"
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "packages/token-analyzer-mcp/**/*.ts",
+          "packages/token-analyzer-mcp/**/*.tsx"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/token-analyzer-mcp/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "type-check": {
+      "executor": "@fluentui-contrib/nx-plugin:type-check"
+    }
+  }
+}
