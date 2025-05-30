@@ -2,6 +2,48 @@
   "name": "@fluentui-contrib/react-keytips",
   "entries": [
     {
+      "date": "Thu, 15 May 2025 10:13:29 GMT",
+      "tag": "@fluentui-contrib/react-keytips_v0.2.2",
+      "version": "0.2.2",
+      "comments": {
+        "none": [
+          {
+            "author": "17867971+Notheisz57@users.noreply.github.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "7aa505b06e8704a6ca8cd115165bd670814465df",
+            "comment": "Fix typo in `react-keytips/stories/Overflow`"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Thu, 10 Apr 2025 14:11:17 GMT",
+      "tag": "@fluentui-contrib/react-keytips_v0.2.2",
+      "version": "0.2.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "vgenaev@gmail.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "d0a3792e7ce7c3281e7c4aa7ee2bd7bfe8d8f4f5",
+            "comment": "chore: remove unused expressions"
+          },
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "02f6d1c4176fb0c9f852b14fb2d2b019ba768edc",
+            "comment": "fix: normalize package dependencies"
+          },
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "dba02ab6b87eef63dda236155ec0330cd56673ec",
+            "comment": "fix: bump @swc/helpers to monorepo version"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 12 Mar 2025 09:45:17 GMT",
       "tag": "@fluentui-contrib/react-keytips_v0.2.1",
       "version": "0.2.1",

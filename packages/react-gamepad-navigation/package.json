@@ -1,11 +1,11 @@
 {
   "name": "@fluentui-contrib/react-gamepad-navigation",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",
   "dependencies": {
     "@fluentui/react-tabster": "^9.17.2",
-    "@swc/helpers": "~0.5.2"
+    "@swc/helpers": "~0.5.11"
   },
   "peerDependencies": {
     "@fluentui/react-components": ">=9.56.8 <10.0.0",

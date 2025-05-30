@@ -1,8 +1,17 @@
 # Change Log - @fluentui-contrib/react-data-grid-react-window
 
-This log was last generated on Tue, 17 Dec 2024 11:27:26 GMT and should not be manually modified.
+This log was last generated on Thu, 10 Apr 2025 14:11:17 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 1.3.2
+
+Thu, 10 Apr 2025 14:11:17 GMT
+
+### Patches
+
+- fix: add missing runtime @swc/helper dependency (hochelmartin@gmail.com)
+- fix: normalize package dependencies (hochelmartin@gmail.com)
 
 ## 1.3.1
 

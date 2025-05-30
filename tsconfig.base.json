@@ -26,6 +26,9 @@
       "@fluentui-contrib/nx-plugin": ["packages/nx-plugin/src/index.ts"],
       "@fluentui-contrib/pierce-dom": ["packages/pierce-dom/src/index.ts"],
       "@fluentui-contrib/react-chat": ["packages/react-chat/src/index.ts"],
+      "@fluentui-contrib/react-contextual-pane": [
+        "packages/react-contextual-pane/src/index.ts"
+      ],
       "@fluentui-contrib/react-data-grid-react-window": [
         "packages/react-data-grid-react-window/src/index.ts"
       ],

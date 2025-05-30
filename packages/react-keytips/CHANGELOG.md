@@ -1,8 +1,18 @@
 # Change Log - @fluentui-contrib/react-keytips
 
-This log was last generated on Wed, 12 Mar 2025 09:45:17 GMT and should not be manually modified.
+This log was last generated on Thu, 10 Apr 2025 14:11:17 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.2.2
+
+Thu, 10 Apr 2025 14:11:17 GMT
+
+### Patches
+
+- chore: remove unused expressions (vgenaev@gmail.com)
+- fix: normalize package dependencies (hochelmartin@gmail.com)
+- fix: bump @swc/helpers to monorepo version (hochelmartin@gmail.com)
 
 ## 0.2.1
 

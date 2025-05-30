@@ -1,12 +1,12 @@
 {
   "name": "@fluentui-contrib/react-interactive-tab",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",
   "dependencies": {
     "@fluentui/react-jsx-runtime": "^9.0.29",
     "@fluentui/react-tabs": "^9.5.0",
-    "@swc/helpers": "~0.5.2"
+    "@swc/helpers": "~0.5.11"
   },
   "peerDependencies": {
     "@fluentui/react-components": ">=9.54.13 <10.0.0",

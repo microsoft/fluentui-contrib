@@ -1,8 +1,8 @@
 {
   "name": "@fluentui-contrib/variant-theme",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "dependencies": {
-    "@swc/helpers": "~0.5.2",
+    "@swc/helpers": "~0.5.11",
     "@fluentui/scheme-utilities": "^8.3.57",
     "@fluentui/react-migration-v8-v9": "^9.6.22",
     "@fluentui/react": "^8.119.3"

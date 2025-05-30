@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "chore: remove unused expressions",
-  "packageName": "@fluentui-contrib/react-keytips",
-  "email": "vgenaev@gmail.com",
-  "dependentChangeType": "patch"
-}

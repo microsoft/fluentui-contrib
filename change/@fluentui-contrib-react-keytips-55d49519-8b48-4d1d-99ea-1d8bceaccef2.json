@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: normalize package dependencies",
-  "packageName": "@fluentui-contrib/react-keytips",
-  "email": "hochelmartin@gmail.com",
-  "dependentChangeType": "patch"
-}

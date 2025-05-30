@@ -4,6 +4,7 @@ import {
   TreeGridCell,
   TreeGridInteraction,
   TreeGridRow,
+  TreeGridRowTrigger,
 } from '@fluentui-contrib/react-tree-grid';
 import {
   Avatar,
@@ -161,14 +162,14 @@ const HistoryCalls = (props: { children?: React.ReactNode }) => {
         className={mergeClasses(styles.cell, styles.historyRowHeader)}
         header
       >
-        <Button
-          autoFocus
-          onClick={() => setOpen(!open)}
-          icon={open ? <CaretDownFilled /> : <CaretRightFilled />}
-          appearance="transparent"
-        >
-          History
-        </Button>
+        <TreeGridRowTrigger>
+          <Button
+            icon={open ? <CaretDownFilled /> : <CaretRightFilled />}
+            appearance="transparent"
+          >
+            History
+          </Button>
+        </TreeGridRowTrigger>
       </TreeGridCell>
       <TreeGridCell className={styles.cell}>
         <TreeGridInteraction

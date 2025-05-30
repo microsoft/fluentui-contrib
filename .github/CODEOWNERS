@@ -15,13 +15,14 @@ packages/react-headless-provider/ @microsoft/teams-prg
 packages/react-resize-handler/ @microsoft/teams-prg
 packages/stylelint-plugin/ @microsoft/teams-prg
 packages/react-themeless-provider/ @spmonahan
-packages/azure-theme/ @microsoft/azure-ux-design-engineering
+packages/azure-theme/ @microsoft/azure-design-engineering
 packages/variant-theme @microsoft/fluentui-variant-theme
 packages/react-keytips @microsoft/cxe-prg @mainframev
 packages/react-interactive-tab @microsoft/cxe-prg @dmytrokirpa
 packages/react-gamepad-navigation @microsoft/cxe-prg @hectorjjb
 packages/teams-components @microsoft/teams-prg
 packages/token-analyzer @microsoft/xc-uxe
+packages/react-contextual-pane @microsoft/teams-prg
 # <%= NX-CODEOWNER-PLACEHOLDER %>
 
 #### Build/Infra

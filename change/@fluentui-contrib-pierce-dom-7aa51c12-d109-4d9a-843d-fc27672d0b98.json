@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: normalize package dependencies",
-  "packageName": "@fluentui-contrib/pierce-dom",
-  "email": "hochelmartin@gmail.com",
-  "dependentChangeType": "patch"
-}

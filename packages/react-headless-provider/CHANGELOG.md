@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-headless-provider
 
-This log was last generated on Wed, 31 Jan 2024 14:50:03 GMT and should not be manually modified.
+This log was last generated on Thu, 10 Apr 2025 14:11:17 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 1.0.3
+
+Thu, 10 Apr 2025 14:11:17 GMT
+
+### Patches
+
+- fix: add missing runtime @swc/helper dependency (hochelmartin@gmail.com)
 
 ## 1.0.2
 

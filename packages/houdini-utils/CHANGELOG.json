@@ -2,6 +2,65 @@
   "name": "@fluentui-contrib/houdini-utils",
   "entries": [
     {
+      "date": "Wed, 07 May 2025 14:30:21 GMT",
+      "tag": "@fluentui-contrib/houdini-utils_v0.3.5",
+      "version": "0.3.5",
+      "comments": {
+        "patch": [
+          {
+            "author": "seanmonahan@microsoft.com",
+            "package": "@fluentui-contrib/houdini-utils",
+            "commit": "9a7bdde9cbe4bbde3561a0b27fcca36b75fb8485",
+            "comment": "fix: resolve Safari issue when referencing fallback"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Wed, 16 Apr 2025 16:21:21 GMT",
+      "tag": "@fluentui-contrib/houdini-utils_v0.3.4",
+      "version": "0.3.4",
+      "comments": {
+        "patch": [
+          {
+            "author": "seanmonahan@microsoft.com",
+            "package": "@fluentui-contrib/houdini-utils",
+            "commit": "d5255c7d36ee5e66c32f91fe2d1ce3e0b775b9f7",
+            "comment": "fix: add more robust feature detection"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Thu, 10 Apr 2025 14:11:17 GMT",
+      "tag": "@fluentui-contrib/houdini-utils_v0.3.3",
+      "version": "0.3.3",
+      "comments": {
+        "patch": [
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "@fluentui-contrib/houdini-utils",
+            "commit": "dba02ab6b87eef63dda236155ec0330cd56673ec",
+            "comment": "fix: bump @swc/helpers to monorepo version"
+          },
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "@fluentui-contrib/houdini-utils",
+            "commit": "02f6d1c4176fb0c9f852b14fb2d2b019ba768edc",
+            "comment": "fix: normalize package dependencies"
+          }
+        ],
+        "none": [
+          {
+            "author": "vgenaev@gmail.com",
+            "package": "@fluentui-contrib/houdini-utils",
+            "commit": "d0a3792e7ce7c3281e7c4aa7ee2bd7bfe8d8f4f5",
+            "comment": "chore: remove old .eslintrc files"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 21 Jun 2024 06:08:36 GMT",
       "tag": "@fluentui-contrib/houdini-utils_v0.3.2",
       "version": "0.3.2",

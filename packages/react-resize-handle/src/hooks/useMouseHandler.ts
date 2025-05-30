@@ -1,21 +1,24 @@
 import { useFluent, useEventCallback } from '@fluentui/react-components';
-
-import type { EventHandler } from '@fluentui/react-utilities';
 import {
   getEventClientCoords,
-  NativeTouchOrMouseEvent,
   isMouseEvent,
   isTouchEvent,
+  type NativeTouchOrMouseEvent,
+  type EventHandler,
 } from '@fluentui/react-utilities';
 import * as React from 'react';
+
 import { EVENTS, GrowDirection, ResizeHandleUpdateEventData } from '../types';
+import type { UnitHandle } from './useUnitHandle';
 
 export type UseMouseHandlerParams = {
   growDirection: GrowDirection;
   onValueChange: EventHandler<ResizeHandleUpdateEventData>;
   onDragEnd?: EventHandler<Omit<ResizeHandleUpdateEventData, 'value'>>;
   onDragStart?: EventHandler<Omit<ResizeHandleUpdateEventData, 'value'>>;
+
   getCurrentValue: () => number;
+  unitHandle: UnitHandle;
 };
 
 export function useMouseHandler(params: UseMouseHandlerParams) {
@@ -23,7 +26,7 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
   const targetWindow = targetDocument?.defaultView;
 
   const dragStartOriginCoords = React.useRef({ clientX: 0, clientY: 0 });
-  const { growDirection, onValueChange, getCurrentValue } = params;
+  const { growDirection, getCurrentValue, onValueChange, unitHandle } = params;
 
   const startValue = React.useRef(0);
 
@@ -39,21 +42,26 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
 
       switch (growDirection) {
         case 'end':
-          newValue += deltaCoords[0] * (dir === 'rtl' ? -1 : 1);
+          newValue += unitHandle.fromPxToValue(
+            deltaCoords[0] * (dir === 'rtl' ? -1 : 1)
+          );
           break;
         case 'start':
-          newValue -= deltaCoords[0] * (dir === 'rtl' ? -1 : 1);
+          newValue -= unitHandle.fromPxToValue(
+            deltaCoords[0] * (dir === 'rtl' ? -1 : 1)
+          );
           break;
         case 'up':
-          newValue -= deltaCoords[1];
+          newValue -= unitHandle.fromPxToValue(deltaCoords[1]);
           break;
         case 'down':
-          newValue += deltaCoords[1];
+          newValue += unitHandle.fromPxToValue(deltaCoords[1]);
           break;
       }
 
       onValueChange(event, {
-        value: Math.round(newValue),
+        value: unitHandle.roundValue(newValue),
+        unit: unitHandle.name,
         ...(isTouchEvent(event)
           ? { event, type: EVENTS.touch }
           : { event, type: EVENTS.mouse }),
@@ -64,10 +72,6 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
   const rafIdRef = React.useRef<number | null>(null);
   const onDrag = useEventCallback((event: NativeTouchOrMouseEvent) => {
     if (targetWindow) {
-      if (rafIdRef.current) {
-        targetWindow.cancelAnimationFrame(rafIdRef.current);
-      }
-
       rafIdRef.current = targetWindow.requestAnimationFrame(() =>
         recalculatePosition(event)
       );
@@ -99,8 +103,8 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
     params.onDragEnd?.(
       event,
       isTouchEvent(event)
-        ? { event, type: EVENTS.touch }
-        : { event, type: EVENTS.mouse }
+        ? { event, type: EVENTS.touch, unit: unitHandle.name }
+        : { event, type: EVENTS.mouse, unit: unitHandle.name }
     );
   });
 
@@ -131,8 +135,8 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
     params.onDragStart?.(
       event,
       isTouchEvent(event)
-        ? { event, type: EVENTS.touch }
-        : { event, type: EVENTS.mouse }
+        ? { event, type: EVENTS.touch, unit: unitHandle.name }
+        : { event, type: EVENTS.mouse, unit: unitHandle.name }
     );
   });
 
