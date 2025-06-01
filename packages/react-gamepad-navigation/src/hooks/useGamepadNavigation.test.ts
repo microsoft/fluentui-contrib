@@ -58,21 +58,7 @@ describe('useGamepadNavigation', () => {
   });
 
   it.skip('handles missing targetDocument gracefully', () => {
-    // See note above: this test must be in a separate file to work correctly.
-    jest.isolateModules(() => {
-      jest.doMock('@fluentui/react-components', () => ({
-        useFluent: () => ({ targetDocument: undefined }),
-        useId: (prefix: string) => `${prefix}-mock-id`,
-      }));
-      const warnSpy = jest
-        .spyOn(console, 'warn')
-        .mockImplementation(() => undefined);
-      const { useGamepadNavigation } = require('./useGamepadNavigation');
-      const { renderHook } = require('@testing-library/react');
-      renderHook(() => useGamepadNavigation({}));
-      expect(warnSpy).toHaveBeenCalled();
-      warnSpy.mockRestore();
-    });
+    // Skipped: tested in useGamepadNavigation.missingTargetDocument.test.ts
   });
 
   it('handles mouse input event', () => {
