@@ -1,4 +1,3 @@
-// Mocks for dependencies
 jest.mock('./useGamepadNavigation', () => {
   const mockCleanup = jest.fn();
   const mockUseGamepadNavigation = jest.fn(() => mockCleanup);
@@ -25,6 +24,7 @@ jest.mock('@fluentui/react-tabster', () => ({
 import { renderHook } from '@testing-library/react';
 import { useGamepadNavigationGroup } from './useGamepadNavigationGroup';
 import { InputMode } from '../types/InputMode';
+import type { UseGamepadNavigationGroupOptions } from './useGamepadNavigationGroup';
 
 describe('useGamepadNavigationGroup', () => {
   beforeEach(() => jest.clearAllMocks());
@@ -97,6 +97,70 @@ describe('useGamepadNavigationGroup', () => {
     const { __mockCleanup } = require('./useGamepadNavigation');
     const { result } = renderHook(() => useGamepadNavigationGroup({}));
     expect(result.current.removeGamepadNavEventListeners).toBe(__mockCleanup);
+  });
+
+  it('calls useGamepadNavigation with undefined options by default', () => {
+    renderHook(() => useGamepadNavigationGroup({}));
+    const { __mockUseGamepadNavigation } = require('./useGamepadNavigation');
+    expect(__mockUseGamepadNavigation).toHaveBeenCalledWith({
+      defaultInputMode: undefined,
+      pollingEnabled: undefined,
+    });
+  });
+
+  it('passes custom tabBehavior to focusable group', () => {
+    const tabster = require('@fluentui/react-tabster');
+    renderHook(() =>
+      useGamepadNavigationGroup({ tabBehavior: 'limited-trap-focus' })
+    );
+    expect(tabster.useFocusableGroup).toHaveBeenCalledWith({
+      tabBehavior: 'limited-trap-focus',
+      ignoreDefaultKeydown: {},
+    });
+  });
+
+  it('uses useFocusFinders hook', () => {
+    const tabster = require('@fluentui/react-tabster');
+    renderHook(() => useGamepadNavigationGroup({}));
+    expect(tabster.useFocusFinders).toHaveBeenCalled();
+  });
+
+  it('cleanup function calls internal cleanup', () => {
+    const { __mockCleanup } = require('./useGamepadNavigation');
+    const { result } = renderHook(() => useGamepadNavigationGroup({}));
+    // The returned cleanup should be the internal mock cleanup
+    const cleanup = result.current.removeGamepadNavEventListeners;
+    cleanup();
+    expect(__mockCleanup).toHaveBeenCalled();
+  });
+
+  it('rerenders with new options and calls useGamepadNavigation again', () => {
+    const { __mockUseGamepadNavigation } = require('./useGamepadNavigation');
+    const { rerender } = renderHook(
+      ({ options }: { options: UseGamepadNavigationGroupOptions }) =>
+        useGamepadNavigationGroup(options),
+      {
+        initialProps: {
+          options: {
+            defaultInputMode: undefined,
+            pollingEnabled: undefined,
+          } as UseGamepadNavigationGroupOptions,
+        },
+      }
+    );
+    expect(__mockUseGamepadNavigation).toHaveBeenCalledTimes(1);
+    // Rerender with new options
+    rerender({
+      options: {
+        defaultInputMode: InputMode.Touch,
+        pollingEnabled: false,
+      } as UseGamepadNavigationGroupOptions,
+    });
+    expect(__mockUseGamepadNavigation).toHaveBeenCalledTimes(2);
+    expect(__mockUseGamepadNavigation).toHaveBeenLastCalledWith({
+      defaultInputMode: InputMode.Touch,
+      pollingEnabled: false,
+    });
   });
 
   it('does not call focusFirstElement when option is false', () => {

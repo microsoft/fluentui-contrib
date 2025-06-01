@@ -1,4 +1,3 @@
-// Mocks must be at the very top before imports!
 jest.mock('@fluentui/react-components', () => ({
   useFluent: () => ({ targetDocument: document }),
   useId: (prefix: string) => `${prefix}-mock-id`,
