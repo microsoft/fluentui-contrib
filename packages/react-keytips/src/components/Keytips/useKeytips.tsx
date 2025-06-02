@@ -155,11 +155,18 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     subscribe(EVENTS.KEYTIP_ADDED, handleKeytipAdded);
     subscribe(EVENTS.KEYTIP_UPDATED, handleKeytipUpdated);
     subscribe(EVENTS.KEYTIP_REMOVED, handleKeytipRemoved);
+    subscribe(EVENTS.ENTER_KEYTIP_MODE, handleEnterKeytipMode);
 
     return () => {
       reset();
     };
-  }, [reset, handleKeytipAdded, handleKeytipUpdated, handleKeytipRemoved]);
+  }, [
+    reset,
+    handleKeytipAdded,
+    handleKeytipUpdated,
+    handleKeytipRemoved,
+    handleEnterKeytipMode,
+  ]);
 
   React.useEffect(() => {
     const controller = new AbortController();

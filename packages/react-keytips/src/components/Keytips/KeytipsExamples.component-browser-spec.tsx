@@ -34,6 +34,8 @@ import {
 import { MoreHorizontal20Filled } from '@fluentui/react-icons';
 import { Keytips } from './Keytips';
 import type { KeytipsProps } from './Keytips.types';
+import { EVENTS } from '../../constants';
+import { useEventService } from '../../hooks/useEventService';
 
 const useStyles = makeStyles({
   container: {
@@ -476,6 +478,33 @@ export const KeytipsDynamicExample = (props: KeytipsProps) => {
           </Button>
         </div>
         <Button ref={thirdButton}>active button is {currentButton}</Button>
+      </div>
+    </>
+  );
+};
+
+export const KeytipsManualDispatchedEvents = (props: KeytipsProps) => {
+  const classes = useStyles();
+  const { dispatch } = useEventService();
+
+  const normalButton = useKeytipRef({
+    keySequences: ['1c'],
+    content: '1C',
+    onExecute,
+  });
+
+  const enterKeytipsMode = () => dispatch(EVENTS.ENTER_KEYTIP_MODE);
+  const exitKeytipsMode = () => dispatch(EVENTS.EXIT_KEYTIP_MODE);
+
+  return (
+    <>
+      <Keytips {...props} />
+      <Button onClick={enterKeytipsMode}>Enter keytip mode</Button>
+      <Button onClick={exitKeytipsMode}>Exit keytip mode</Button>
+      <div className={classes.column}>
+        <div className={classes.row}>
+          <Button ref={normalButton}>Button</Button>
+        </div>
       </div>
     </>
   );

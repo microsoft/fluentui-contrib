@@ -7,8 +7,8 @@ import type { KeytipTreeNode } from '../hooks/useTree';
 type EventType = (typeof EVENTS)[keyof typeof EVENTS];
 
 type PayloadDefinition = {
-  [EVENTS.ENTER_KEYTIP_MODE]: { inKeytipMode: boolean };
-  [EVENTS.EXIT_KEYTIP_MODE]: { inKeytipMode: boolean };
+  [EVENTS.ENTER_KEYTIP_MODE]: KeyboardEvent;
+  [EVENTS.EXIT_KEYTIP_MODE]: KeyboardEvent;
   [EVENTS.KEYTIP_UPDATED]: KeytipWithId;
   [EVENTS.KEYTIP_ADDED]: KeytipWithId;
   [EVENTS.KEYTIP_REMOVED]: KeytipWithId;
