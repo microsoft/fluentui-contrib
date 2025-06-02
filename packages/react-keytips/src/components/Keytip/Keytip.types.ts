@@ -31,6 +31,10 @@ export type ReturnKeytipEventHandler<E = HTMLElement | null> = EventHandler<
 
 export type KeytipProps = ComponentProps<KeytipSlots> & {
   /**
+   * Unique identifier for the Keytip.
+   */
+  uniqueId?: string;
+  /**
    * Positioning props to be passed to Keytip.
    * @default { align: 'center', position: 'below' }
    */

@@ -35,7 +35,7 @@ export const useKeytipRef = <
       ...keytip,
       content: truncated,
       id,
-      uniqueId,
+      uniqueId: keytip.uniqueId || uniqueId,
       keySequences,
       positioning: {
         target: node,
