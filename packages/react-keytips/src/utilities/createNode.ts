@@ -1,6 +1,6 @@
 import { sequencesToID } from './sequencesToID';
 import { KeytipTreeNode } from '../hooks/useTree';
-import { KeytipWithId } from '../components/Keytip/Keytip.types';
+import { KeytipWithId } from '../components/Keytip/internal/Keytip.types';
 
 export const createNode = ({
   keySequences,
