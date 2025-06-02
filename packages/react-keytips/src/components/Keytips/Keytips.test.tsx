@@ -4,8 +4,7 @@ import { Keytips } from './Keytips';
 import { useKeytipRef } from '../../hooks/useKeytipRef';
 import { Button } from '@fluentui/react-components';
 import userEvent from '@testing-library/user-event';
-import { useEventService } from '../../hooks/useEventService';
-import { EVENTS } from '../../constants';
+import { useKeytipsManager } from '../../hooks/useKeytipsManager';
 
 describe('Keytips', () => {
   it('renders a default state', () => {
@@ -151,7 +150,7 @@ describe('Keytips', () => {
 
   it('should update keytip by manually dispatched update event', async () => {
     const Component = () => {
-      const { dispatch } = useEventService();
+      const { update } = useKeytipsManager();
 
       const ref = useKeytipRef({
         keySequences: ['a'],
@@ -161,7 +160,7 @@ describe('Keytips', () => {
 
       // manually dispatching update event
       const updateKeytip = () =>
-        dispatch(EVENTS.KEYTIP_UPDATED, {
+        update({
           keySequences: ['b'],
           content: 'B',
           uniqueId: 'meow',
@@ -177,7 +176,7 @@ describe('Keytips', () => {
       );
     };
 
-    const { debug } = render(<Component />);
+    render(<Component />);
 
     // first enter keytip mode
     await act(async () => await userEvent.keyboard('{Alt>}{Meta}'));

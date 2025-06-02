@@ -1,5 +1,6 @@
 import * as React from 'react';
-import type { KeytipProps, KeytipWithId } from '../Keytip';
+import type { KeytipProps } from '../Keytip';
+import type { KeytipWithId } from '../Keytip/internal/Keytip.types';
 import { isTargetVisible, omit } from '../../utilities';
 import { ACTIONS } from '../../constants';
 

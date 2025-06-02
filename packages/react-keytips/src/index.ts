@@ -27,4 +27,5 @@ export { sequencesToID } from './utilities';
 export type { KeytipsProps, KeytipsSlots, KeytipsState } from './Keytips';
 
 export { useKeytipRef } from './hooks/useKeytipRef';
-export { useEventService } from './hooks/useEventService';
+
+export { useKeytipsManager } from './hooks/useKeytipsManager';

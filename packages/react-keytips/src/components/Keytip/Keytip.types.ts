@@ -72,11 +72,6 @@ export type KeytipProps = ComponentProps<KeytipSlots> & {
   overflowSequence?: string[];
 };
 
-/** @internal */
-export type KeytipWithId = KeytipProps & {
-  uniqueId: string;
-};
-
 export type KeytipState = ComponentState<KeytipSlots> &
   Required<Pick<KeytipProps, 'visible' | 'positioning' | 'content'>> & {
     /**

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useFluent } from '@fluentui/react-components';
 import { EVENTS } from '../constants';
-import type { KeytipWithId } from '../components/Keytip';
 import type { KeytipTreeNode } from '../hooks/useTree';
+import type { KeytipWithId } from '../components/Keytip/internal/Keytip.types';
 
 type EventType = (typeof EVENTS)[keyof typeof EVENTS];
 

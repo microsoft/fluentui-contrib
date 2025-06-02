@@ -8,7 +8,7 @@ import {
 import type { KeytipsProps, KeytipsState } from './Keytips.types';
 import { useHotkeys, parseHotkey } from '../../hooks/useHotkeys';
 import { EXIT_KEYS, EVENTS, ACTIONS } from '../../constants';
-import type { KeytipWithId } from '../Keytip';
+import type { KeytipWithId } from '../Keytip/internal/Keytip.types';
 import { Keytip } from '../Keytip';
 import { useEventService } from '../../hooks/useEventService';
 import {
