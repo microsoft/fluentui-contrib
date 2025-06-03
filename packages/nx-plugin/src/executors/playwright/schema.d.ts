@@ -5,6 +5,7 @@ export interface PlaywrightExecutorSchema extends NxPlaywrightExecutorSchema {
    * @default 'component'
    */
   testingType: 'component' | 'e2e';
+  reactVersion?: 17 | 18;
 
   // ============ BELOW API COPIED FROM https://github.com/nrwl/nx/blob/master/packages/playwright/src/executors/playwright/playwright.impl.ts ============
 

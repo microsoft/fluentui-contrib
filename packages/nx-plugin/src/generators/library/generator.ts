@@ -6,7 +6,6 @@ import {
   updateJson,
   generateFiles,
   readProjectConfiguration,
-  readJson,
   joinPathFragments,
   ProjectConfiguration,
   readNxJson,
