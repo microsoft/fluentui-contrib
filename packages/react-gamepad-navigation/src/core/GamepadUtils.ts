@@ -1,4 +1,5 @@
 import { WindowWithFluentGPNShadowDOMAPI } from '../types/FluentGPNShadowDOMAPI';
+import { consolePrefix } from './Constants';
 
 export type TimeoutId = number | undefined;
 export type IntervalId = number | undefined;
@@ -31,4 +32,25 @@ export const getShadowDOMAPI = (targetDocument: Document | undefined) => {
   const shadowDOMAPI = (defaultView as WindowWithFluentGPNShadowDOMAPI)
     ?.__FluentGPNShadowDOMAPI;
   return shadowDOMAPI;
+};
+
+export const isGamepadAPISupported = (
+  targetView: Window | null
+): targetView is Window => {
+  let api = null;
+  try {
+    if (
+      targetView?.navigator &&
+      typeof targetView.navigator.getGamepads === 'function'
+    ) {
+      api = targetView.navigator.getGamepads();
+    }
+  } catch {
+    console.warn(
+      consolePrefix,
+      'Failed to execute "getGamepads" on "Navigator": Access to the feature "gamepad" is denied'
+    );
+  }
+
+  return api !== null;
 };
