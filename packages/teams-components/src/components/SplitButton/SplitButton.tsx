@@ -23,8 +23,7 @@ export interface SplitButtonProps
   icon?: StrictSlot;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   title?: StrictSlot;
-  primaryTitle?: StrictSlot;
-  secondaryTitle?: StrictSlot;
+  menuTitle?: StrictSlot;
 }
 
 /**
