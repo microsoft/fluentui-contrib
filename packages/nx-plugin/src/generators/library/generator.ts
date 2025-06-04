@@ -110,6 +110,9 @@ async function invokeNxGenerators(tree: Tree, options: LibraryGeneratorSchema) {
   } else {
     delete nxJson?.release?.version;
   }
+
+  // remove swc target defaults added by @nx/js:library generator
+  delete nxJson.targetDefaults?.['@nx/js:swc'];
   updateNxJson(tree, nxJson);
 
   updateJson(tree, '/package.json', (json: PackageJson) => {

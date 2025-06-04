@@ -177,9 +177,17 @@ describe('create-package generator', () => {
 
       const nxJson = readNxJson(tree);
 
-      expect(nxJson.release).toEqual({
+      expect(nxJson?.release).toEqual({
         projects: ['packages/**/*', '!tag:npm:private'],
       });
+    });
+
+    it(`should not force update nx.json#targetDefaults`, async () => {
+      await generator(tree, options);
+
+      const nxJson = readNxJson(tree);
+
+      expect(nxJson?.targetDefaults?.['@nx/js:swc']).toEqual(undefined);
     });
   });
 });
