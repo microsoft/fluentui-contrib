@@ -100,7 +100,6 @@ const MenuButtonComponent = () => {
   const firstMenuItemRef = useKeytipRef<HTMLDivElement>({
     keySequences: ['1b', 'e'],
     content: 'E',
-    uniqueId: 'bur',
     onExecute,
   });
 
@@ -137,7 +136,6 @@ export const DefaultStory = () => {
 
   const normalButton = useKeytipRef({
     keySequences: ['1c'],
-    uniqueId: 'meow',
     content: '1C',
     onExecute,
   });
@@ -156,26 +154,24 @@ export const DefaultStory = () => {
   });
 
   return (
-    <React.StrictMode>
-      <div className={classes.column}>
-        <div className={classes.row}>
-          <Button ref={disabledButton} disabled>
-            Disabled Button
-          </Button>
-          <Button ref={normalButton}>Button</Button>
-          <CompoundButton
-            ref={compoundButton}
-            icon={<CalendarMonthRegular />}
-            secondaryContent="Keytips"
-          >
-            Compound Button
-          </CompoundButton>
-          <MenuButtonComponent />
-          <SplitButtonComponent />
-        </div>
-        <Button ref={offsetButton}>Button with Keytip offset</Button>
+    <div className={classes.column}>
+      <div className={classes.row}>
+        <Button ref={disabledButton} disabled>
+          Disabled Button
+        </Button>
+        <Button ref={normalButton}>Button</Button>
+        <CompoundButton
+          ref={compoundButton}
+          icon={<CalendarMonthRegular />}
+          secondaryContent="Keytips"
+        >
+          Compound Button
+        </CompoundButton>
+        <MenuButtonComponent />
+        <SplitButtonComponent />
       </div>
-    </React.StrictMode>
+      <Button ref={offsetButton}>Button with Keytip offset</Button>
+    </div>
   );
 };
 

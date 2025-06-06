@@ -50,31 +50,29 @@ export const DynamicStory = () => {
   });
 
   return (
-    <React.StrictMode>
-      <div className={classes.column}>
-        <div className={classes.row}>
-          <Button
-            ref={firstButton}
-            onClick={() => {
-              setCurrentButton('Button 1');
-            }}
-          >
-            Button 1
-          </Button>
-          <Button
-            ref={secondButton}
-            onClick={() => {
-              setCurrentButton('Button 2');
-            }}
-          >
-            Button 2
-          </Button>
-        </div>
-        <Button ref={thirdButton}>
-          Button 3, active button is {currentButton}
+    <div className={classes.column}>
+      <div className={classes.row}>
+        <Button
+          ref={firstButton}
+          onClick={() => {
+            setCurrentButton('Button 1');
+          }}
+        >
+          Button 1
+        </Button>
+        <Button
+          ref={secondButton}
+          onClick={() => {
+            setCurrentButton('Button 2');
+          }}
+        >
+          Button 2
         </Button>
       </div>
-    </React.StrictMode>
+      <Button ref={thirdButton}>
+        Button 3, active button is {currentButton}
+      </Button>
+    </div>
   );
 };
 
