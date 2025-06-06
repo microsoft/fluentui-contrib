@@ -183,3 +183,16 @@ if (isRunningDirectly) {
 }
 
 export { analyzeProjectStyles };
+export type {
+  AnalysisResults,
+  FileAnalysis,
+  KnownTokenImportsAndModules,
+  StyleAnalysis,
+  StyleCondition,
+  StyleContent,
+  StyleMetadata,
+  StyleTokens,
+  TokenMap,
+  TokenReference,
+  TokenResolverInfo,
+} from './types';
