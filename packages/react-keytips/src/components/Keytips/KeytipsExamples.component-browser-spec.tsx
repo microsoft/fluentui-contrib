@@ -34,7 +34,6 @@ import {
 import { MoreHorizontal20Filled } from '@fluentui/react-icons';
 import { Keytips } from './Keytips';
 import type { KeytipsProps } from './Keytips.types';
-import { EVENTS } from '../../constants';
 import { useKeytipsManager } from '../../hooks/useKeytipsManager';
 
 const useStyles = makeStyles({

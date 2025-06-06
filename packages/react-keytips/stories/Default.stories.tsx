@@ -100,6 +100,7 @@ const MenuButtonComponent = () => {
   const firstMenuItemRef = useKeytipRef<HTMLDivElement>({
     keySequences: ['1b', 'e'],
     content: 'E',
+    uniqueId: 'bur',
     onExecute,
   });
 
@@ -136,6 +137,7 @@ export const DefaultStory = () => {
 
   const normalButton = useKeytipRef({
     keySequences: ['1c'],
+    uniqueId: 'meow',
     content: '1C',
     onExecute,
   });
@@ -154,7 +156,7 @@ export const DefaultStory = () => {
   });
 
   return (
-    <>
+    <React.StrictMode>
       <div className={classes.column}>
         <div className={classes.row}>
           <Button ref={disabledButton} disabled>
@@ -173,7 +175,7 @@ export const DefaultStory = () => {
         </div>
         <Button ref={offsetButton}>Button with Keytip offset</Button>
       </div>
-    </>
+    </React.StrictMode>
   );
 };
 

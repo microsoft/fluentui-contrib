@@ -15,7 +15,7 @@ export const useKeytipRef = <
 >({
   content,
   ...keytip
-}: KeytipProps): React.Dispatch<React.SetStateAction<T | null>> => {
+}: KeytipProps) => {
   const { targetDocument } = useFluent();
   const [node, setNode] = React.useState<T | null>(null);
   const { register, unregister, update } = useKeytipsManager();
@@ -71,7 +71,7 @@ export const useKeytipRef = <
 
     register(ktp);
     return () => {
-      unregister(ktp);
+      unregister(ktp.uniqueId);
     };
   }, [node]);
 

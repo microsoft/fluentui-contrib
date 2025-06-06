@@ -6,8 +6,9 @@ import {
   useTimeout,
 } from '@fluentui/react-components';
 import type { KeytipsProps, KeytipsState } from './Keytips.types';
+import type { KeytipProps } from '../Keytip';
 import { useHotkeys, parseHotkey } from '../../hooks/useHotkeys';
-import { EXIT_KEYS, EVENTS, ACTIONS } from '../../constants';
+import { EXIT_KEYS, EVENTS } from '../../constants';
 import type { KeytipWithId } from '../Keytip/internal/Keytip.types';
 import { Keytip } from '../Keytip';
 import { useEventService } from '../../hooks/useEventService';
@@ -19,13 +20,16 @@ import {
 import { useTree } from '../../hooks/useTree';
 import type { KeytipTreeNode } from '../../hooks/useTree';
 import type { Hotkey } from '../../hooks/useHotkeys';
-import { useKeytipsState } from './useKeytipsState';
 import { useIsMacOS } from '../../hooks/useIsMacOS';
 
-/**
- * Create the state required to render Keytips.
- * @param props - props from this instance of Keytips.
- */
+type Keytips = Record<
+  string,
+  KeytipProps & {
+    visibleInternal?: boolean;
+    uniqueId: string;
+  }
+>;
+
 export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
   const { targetDocument } = useFluent();
   const isMac = useIsMacOS();
@@ -40,126 +44,245 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     invokeEvent = 'keydown',
     startDelay = 0,
   } = props;
-  const { subscribe, dispatch: dispatchEvent, reset } = useEventService();
-  const [state, dispatch] = useKeytipsState();
+
   const tree = useTree();
   const [setShortcutTimeout, clearShortcutTimeout] = useTimeout();
+  const { subscribe, dispatch: dispatchEvent, reset } = useEventService();
+  const [, forceRender] = React.useReducer((x) => x + 1, 0);
 
-  const showKeytips = React.useCallback((ids: string[]) => {
-    dispatch({ type: ACTIONS.SET_VISIBLE_KEYTIPS, ids, targetDocument });
-  }, []);
+  const inKeytipMode = React.useRef(false);
+  const currentSequence = React.useRef('');
+  const keytips = React.useRef<Keytips>({});
+
+  const showKeytips = React.useCallback(
+    (ids: string[]) => {
+      // Update keytips and trigger re-rerender
+      keytips.current = Object.fromEntries(
+        Object.entries(keytips.current).map(([key, kt]) => {
+          const isVisible =
+            ids.includes(key) &&
+            isTargetVisible(
+              kt.positioning?.target as HTMLElement,
+              targetDocument?.defaultView
+            );
+          return [
+            key,
+            {
+              ...kt,
+              visibleInternal: isVisible,
+            },
+          ];
+        })
+      );
+      forceRender();
+    },
+    [targetDocument]
+  );
 
   const handleEnterKeytipMode = React.useCallback(
     (ev: KeyboardEvent) => {
-      if (!state.inKeytipMode) {
+      if (!inKeytipMode.current) {
         tree.currentKeytip.current = tree.root;
-        dispatch({ type: ACTIONS.ENTER_KEYTIP_MODE });
+        inKeytipMode.current = true;
         onEnterKeytipsMode?.(ev, { event: ev, type: invokeEvent });
         showKeytips(tree.getChildren());
+        forceRender();
       } else {
-        dispatch({ type: ACTIONS.EXIT_KEYTIP_MODE });
+        inKeytipMode.current = false;
         showKeytips([]);
       }
     },
-    [onEnterKeytipsMode, state.inKeytipMode]
+    [onEnterKeytipsMode, showKeytips, invokeEvent]
   );
 
   const handleExitKeytipMode = React.useCallback(
-    (ev: KeyboardEvent) => {
-      if (state.inKeytipMode) {
+    (ev: Event) => {
+      if (inKeytipMode.current) {
         tree.currentKeytip.current = undefined;
-        dispatch({ type: ACTIONS.SET_SEQUENCE, value: '' });
-        dispatch({ type: ACTIONS.EXIT_KEYTIP_MODE });
-        onExitKeytipsMode?.(ev, { event: ev, type: invokeEvent });
+        currentSequence.current = '';
+        inKeytipMode.current = false;
+
+        onExitKeytipsMode?.(ev, {
+          event: ev as KeyboardEvent,
+          type: invokeEvent,
+        });
         showKeytips([]);
       }
     },
-    [state.inKeytipMode, onExitKeytipsMode]
+    [onExitKeytipsMode, showKeytips, invokeEvent]
   );
 
   const handleReturnSequence = React.useCallback(
     (ev: KeyboardEvent) => {
-      if (!state.inKeytipMode) return;
+      if (!inKeytipMode.current) return;
       const currentKeytip = tree.currentKeytip.current;
 
-      if (currentKeytip && currentKeytip.target) {
-        currentKeytip?.onReturn?.(ev, {
-          event: ev,
-          type: invokeEvent,
-          targetElement: currentKeytip.target,
-        });
-      }
+      currentKeytip?.onReturn?.(ev, {
+        event: ev,
+        type: invokeEvent,
+        targetElement: currentKeytip.target,
+      });
 
-      dispatch({ type: ACTIONS.SET_SEQUENCE, value: '' });
+      currentSequence.current = '';
       tree.getBack();
       showKeytips(tree.getChildren());
-      if (tree.currentKeytip.current === undefined) {
+
+      if (!tree.currentKeytip.current) {
         handleExitKeytipMode(ev);
       }
     },
-    [state.inKeytipMode]
+    [handleExitKeytipMode, showKeytips, invokeEvent]
   );
 
-  const exitSequences = state.inKeytipMode ? [...EXIT_KEYS, exitSequence] : [];
+  const handleKeytipExecution = React.useCallback(
+    (ev: KeyboardEvent, node: KeytipTreeNode) => {
+      tree.currentKeytip.current = node;
 
-  useHotkeys(
-    [
-      [startSequence, handleEnterKeytipMode, { delay: startDelay }],
-      [returnSequence, handleReturnSequence],
-      ...exitSequences.map((key) => [key, handleExitKeytipMode] as Hotkey),
-    ],
-    { invokeEvent }
+      if (node.target && !isDisabled(node.target)) {
+        node.onExecute?.(ev, {
+          event: ev,
+          type: invokeEvent,
+          targetElement: node.target,
+        });
+        dispatchEvent(EVENTS.KEYTIP_EXECUTED, node);
+      }
+
+      const children = tree.getChildren(node);
+      const shouldExit =
+        children.length === 0 && !(node.dynamic || node.hasMenu);
+
+      if (shouldExit) {
+        handleExitKeytipMode(ev);
+      } else {
+        showKeytips(children);
+      }
+
+      currentSequence.current = '';
+    },
+    [dispatchEvent, showKeytips, handleExitKeytipMode, invokeEvent]
+  );
+
+  const handleShortcutExecution = React.useCallback(
+    (ev: KeyboardEvent, node: KeytipTreeNode) => {
+      clearShortcutTimeout();
+
+      if (!node.overflowSequence?.length) return;
+
+      const overflowId = sequencesToID(node.overflowSequence);
+      const overflowNode = tree.getNode(overflowId);
+
+      if (overflowNode?.target && node.hasMenu) {
+        handleKeytipExecution(ev, overflowNode);
+
+        setShortcutTimeout(() => {
+          const shortcutNode = tree.getNode(
+            sequencesToID([
+              ...overflowNode.keySequences,
+              ...node.keySequences.slice(-1),
+            ])
+          );
+          if (shortcutNode?.target) {
+            handleKeytipExecution(ev, shortcutNode);
+          }
+        }, 0);
+      } else {
+        node?.onExecute?.(ev, {
+          event: ev,
+          type: invokeEvent,
+          targetElement: node.target,
+        });
+      }
+    },
+    [handleKeytipExecution]
+  );
+
+  const handlePartiallyMatchedNodes = React.useCallback(
+    (seq: string) => {
+      const matches = tree.getPartiallyMatched(seq);
+      if (matches?.length > 0) {
+        const ids = matches.map((n) => n?.uniqueId || '');
+        showKeytips(ids);
+        currentSequence.current = seq;
+      }
+    },
+    [showKeytips]
   );
 
   const handleKeytipAdded = React.useCallback(
     (keytip: KeytipWithId) => {
       tree.addNode(keytip);
+      keytips.current[keytip.uniqueId] = keytip;
 
-      dispatch({
-        type: ACTIONS.ADD_KEYTIP,
-        keytip,
-      });
-
-      const { current: currentKeytip } = tree.currentKeytip;
-
-      if (!currentKeytip) return;
-
-      if (state.inKeytipMode && tree.isCurrentKeytipParent(keytip)) {
+      if (inKeytipMode.current && tree.isCurrentKeytipParent(keytip)) {
         showKeytips(tree.getChildren());
       }
     },
-    [state.inKeytipMode]
+    [showKeytips]
   );
 
-  const handleKeytipRemoved = React.useCallback((keytip: KeytipWithId) => {
-    tree.removeNode(keytip.uniqueId);
-    dispatch({ type: ACTIONS.REMOVE_KEYTIP, id: keytip.uniqueId });
+  const handleKeytipUpdated = React.useCallback(
+    (keytip: KeytipWithId) => {
+      keytips.current[keytip.uniqueId] = {
+        ...keytips.current[keytip.uniqueId],
+        ...keytip,
+      };
+      tree.updateNode(keytip);
+      showKeytips(tree.getChildren());
+    },
+    [showKeytips]
+  );
+
+  const handleKeytipRemoved = React.useCallback((uniqueId: string) => {
+    delete keytips.current[uniqueId];
+    tree.removeNode(uniqueId);
   }, []);
 
-  const handleKeytipUpdated = React.useCallback((keytip: KeytipWithId) => {
-    tree.updateNode(keytip);
-    dispatch({ type: ACTIONS.UPDATE_KEYTIP, keytip });
-    showKeytips(tree.getChildren());
-  }, []);
+  const handleInvokeEvent = React.useCallback(
+    (ev: KeyboardEvent) => {
+      if (!inKeytipMode.current) return;
 
-  const handleDismiss = React.useCallback(
-    (ev: Event) => {
-      if (state.inKeytipMode) {
-        handleExitKeytipMode(ev as KeyboardEvent);
+      ev.stopPropagation();
+
+      const { key } = parseHotkey(ev.key.toLowerCase());
+      const sequence = currentSequence.current + key;
+      const node = tree.getMatchingNode(sequence);
+
+      if (node) {
+        if (isTargetVisible(node.target, targetDocument?.defaultView)) {
+          handleKeytipExecution(ev, node);
+        } else {
+          handleShortcutExecution(ev, node);
+        }
+      } else {
+        handlePartiallyMatchedNodes(sequence);
       }
     },
-    [state.inKeytipMode]
+    [
+      handleKeytipExecution,
+      handleShortcutExecution,
+      handlePartiallyMatchedNodes,
+      targetDocument,
+    ]
   );
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
+    if (!targetDocument) return;
+
+    targetDocument.addEventListener(invokeEvent, handleInvokeEvent);
+
+    return () => {
+      targetDocument.removeEventListener(invokeEvent, handleInvokeEvent);
+      clearShortcutTimeout();
+    };
+  }, [handleInvokeEvent, invokeEvent, targetDocument]);
+
+  React.useEffect(() => {
     subscribe(EVENTS.KEYTIP_ADDED, handleKeytipAdded);
     subscribe(EVENTS.KEYTIP_UPDATED, handleKeytipUpdated);
     subscribe(EVENTS.KEYTIP_REMOVED, handleKeytipRemoved);
     subscribe(EVENTS.ENTER_KEYTIP_MODE, handleEnterKeytipMode);
 
-    return () => {
-      reset();
-    };
+    return reset;
   }, [
     reset,
     handleKeytipAdded,
@@ -172,151 +295,42 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     const controller = new AbortController();
     const { signal } = controller;
 
-    targetDocument?.addEventListener('mousedown', handleDismiss, { signal });
-    targetDocument?.addEventListener('mouseup', handleDismiss, { signal });
-    targetDocument?.defaultView?.addEventListener('resize', handleDismiss, {
+    const dismissHandler = (ev: Event) => handleExitKeytipMode(ev);
+
+    targetDocument?.addEventListener('mousedown', dismissHandler, { signal });
+    targetDocument?.addEventListener('mouseup', dismissHandler, { signal });
+    targetDocument?.defaultView?.addEventListener('resize', dismissHandler, {
       signal,
     });
-    targetDocument?.defaultView?.addEventListener('scroll', handleDismiss, {
+    targetDocument?.defaultView?.addEventListener('scroll', dismissHandler, {
       signal,
     });
 
-    return () => {
-      controller.abort();
-    };
-  }, [targetDocument, handleDismiss]);
+    return () => controller.abort();
+  }, [targetDocument, handleExitKeytipMode]);
 
-  const handleKeytipExecution = React.useCallback(
-    (ev: KeyboardEvent, node: KeytipTreeNode) => {
-      tree.currentKeytip.current = node;
-
-      if (node.target && !isDisabled(node.target)) {
-        node.onExecute?.(ev, {
-          event: ev,
-          type: invokeEvent,
-          targetElement: node.target,
-        });
-
-        dispatchEvent(EVENTS.KEYTIP_EXECUTED, node);
-      }
-
-      const currentChildren = tree.getChildren(node);
-      const shouldExitKeytipMode =
-        currentChildren.length === 0 && !(node.dynamic || node.hasMenu);
-
-      if (shouldExitKeytipMode) {
-        handleExitKeytipMode(ev);
-      } else {
-        showKeytips(currentChildren);
-      }
-      // reset the sequence
-      dispatch({ type: ACTIONS.SET_SEQUENCE, value: '' });
-    },
-    [handleExitKeytipMode]
+  useHotkeys(
+    [
+      [startSequence, handleEnterKeytipMode, { delay: startDelay }],
+      [returnSequence, handleReturnSequence],
+      ...[...EXIT_KEYS, exitSequence].map(
+        (key) => [key, handleExitKeytipMode] as Hotkey
+      ),
+    ],
+    { invokeEvent }
   );
 
-  const handleShortcutExecution = React.useCallback(
-    (ev: KeyboardEvent, node: KeytipTreeNode) => {
-      clearShortcutTimeout();
-
-      if (!node.overflowSequence || node.overflowSequence.length === 0) return;
-
-      const overflowId = sequencesToID(node.overflowSequence);
-
-      if (overflowId) {
-        const overflowKeytip = tree.getNode(overflowId);
-
-        if (overflowKeytip?.target && node.hasMenu) {
-          handleKeytipExecution(ev, overflowKeytip);
-
-          setShortcutTimeout(() => {
-            const shortcutNode = tree.getNode(
-              sequencesToID([
-                ...overflowKeytip.keySequences,
-                ...node.keySequences.slice(-1),
-              ])
-            );
-
-            if (shortcutNode?.target) {
-              handleKeytipExecution(ev, shortcutNode);
-            }
-          }, 0);
-        } else {
-          node?.onExecute?.(ev, {
-            event: ev,
-            type: invokeEvent,
-            targetElement: node.target,
-          });
-        }
-      }
-    },
-    [handleKeytipExecution]
-  );
-
-  const handlePartiallyMatchedNodes = React.useCallback((sequence: string) => {
-    const partialNodes = tree.getPartiallyMatched(sequence);
-    if (partialNodes && partialNodes.length > 0) {
-      // We found nodes that partially match the sequence, so we show only those
-      const ids = partialNodes.map((n) => n?.uniqueId || '');
-      showKeytips(ids);
-      dispatch({ type: ACTIONS.SET_SEQUENCE, value: sequence });
-    }
-  }, []);
-
-  React.useEffect(() => {
-    if (!targetDocument || !state.inKeytipMode) return;
-
-    const handleInvokeEvent = (ev: KeyboardEvent) => {
-      ev.stopPropagation();
-
-      const { key } = parseHotkey(ev.key.toLowerCase());
-      const currSeq = state.currentSequence + key?.toLowerCase();
-      const node = tree.getMatchingNode(currSeq);
-
-      if (node) {
-        if (isTargetVisible(node.target, targetDocument?.defaultView)) {
-          handleKeytipExecution(ev, node);
-        } else {
-          // try to find shortcut node
-          handleShortcutExecution(ev, node);
-        }
-      } else {
-        // if we don't have a match, we have to check if the sequence is a partial match
-        handlePartiallyMatchedNodes(currSeq);
-      }
-    };
-
-    targetDocument?.addEventListener(invokeEvent, handleInvokeEvent);
-    return () => {
-      targetDocument?.removeEventListener(invokeEvent, handleInvokeEvent);
-      clearShortcutTimeout();
-    };
-  }, [
-    state.inKeytipMode,
-    state.currentSequence,
-    handleExitKeytipMode,
-    handlePartiallyMatchedNodes,
-    handleKeytipExecution,
-  ]);
-
-  const keytips = Object.entries(state.keytips)
+  const keytipsToRender = Object.entries(keytips.current)
     .filter(([, { visible, visibleInternal }]) => visible || visibleInternal)
-    .map(([keytipId, keytipProps]) => (
-      <Keytip key={keytipId} {...keytipProps} />
-    ));
+    .map(([id, props]) => <Keytip key={id} {...props} />);
 
   return {
-    components: {
-      root: 'div',
-    },
+    components: { root: 'div' },
     content,
     mountNode: props.mountNode,
-    keytips,
-    root: slot.always(
-      getIntrinsicElementProps('div', {
-        ...props,
-      }),
-      { elementType: 'div' }
-    ),
+    keytips: keytipsToRender,
+    root: slot.always(getIntrinsicElementProps('div', { ...props }), {
+      elementType: 'div',
+    }),
   };
 };

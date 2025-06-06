@@ -50,7 +50,7 @@ export const DynamicStory = () => {
   });
 
   return (
-    <>
+    <React.StrictMode>
       <div className={classes.column}>
         <div className={classes.row}>
           <Button
@@ -74,7 +74,7 @@ export const DynamicStory = () => {
           Button 3, active button is {currentButton}
         </Button>
       </div>
-    </>
+    </React.StrictMode>
   );
 };
 

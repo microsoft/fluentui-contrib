@@ -11,7 +11,7 @@ type PayloadDefinition = {
   [EVENTS.EXIT_KEYTIP_MODE]: KeyboardEvent;
   [EVENTS.KEYTIP_UPDATED]: KeytipWithId;
   [EVENTS.KEYTIP_ADDED]: KeytipWithId;
-  [EVENTS.KEYTIP_REMOVED]: KeytipWithId;
+  [EVENTS.KEYTIP_REMOVED]: string;
   [EVENTS.KEYTIP_EXECUTED]: KeytipTreeNode;
   [EVENTS.SHORTCUT_EXECUTED]: KeytipTreeNode;
 };

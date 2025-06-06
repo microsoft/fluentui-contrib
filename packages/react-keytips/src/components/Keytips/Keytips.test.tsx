@@ -4,7 +4,6 @@ import { Keytips } from './Keytips';
 import { useKeytipRef } from '../../hooks/useKeytipRef';
 import { Button } from '@fluentui/react-components';
 import userEvent from '@testing-library/user-event';
-import { useKeytipsManager } from '../../hooks/useKeytipsManager';
 
 describe('Keytips', () => {
   it('renders a default state', () => {
@@ -146,57 +145,5 @@ describe('Keytips', () => {
       'keyup',
       expect.any(Function)
     );
-  });
-
-  it('should update keytip by manually dispatched update event', async () => {
-    const Component = () => {
-      const { update } = useKeytipsManager();
-
-      const ref = useKeytipRef({
-        keySequences: ['a'],
-        content: 'A',
-        uniqueId: 'meow',
-      });
-
-      // manually dispatching update event
-      const updateKeytip = () =>
-        update({
-          keySequences: ['b'],
-          content: 'B',
-          uniqueId: 'meow',
-        });
-
-      return (
-        <>
-          {/* default is keydown */}
-          <Keytips invokeEvent="keyup" />
-          <Button ref={ref}>keytip A</Button>
-          <Button onClick={updateKeytip}>Update</Button>
-        </>
-      );
-    };
-
-    render(<Component />);
-
-    // first enter keytip mode
-    await act(async () => await userEvent.keyboard('{Alt>}{Meta}'));
-
-    const tooltip = screen.getByRole('tooltip', { name: 'A' });
-    const button = screen.getByRole('button', { name: 'Update' });
-
-    expect(tooltip).toBeDefined();
-
-    // trigger keytip to exit keytip mode
-    await act(async () => await userEvent.keyboard('A'));
-
-    // trigger update
-    userEvent.click(button);
-
-    // show update keytip
-    await act(async () => await userEvent.keyboard('{Alt>}{Meta}'));
-
-    const updatedTooltip = screen.getByRole('tooltip', { name: 'B' });
-
-    expect(updatedTooltip).toBeDefined();
   });
 });

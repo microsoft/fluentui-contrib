@@ -174,21 +174,23 @@ const OverflowMenu = ({ menuItems }: { menuItems: MenuItemType[] }) => {
 
 export const ShortcutStory = () => {
   return (
-    <div
-      style={{
-        resize: 'horizontal',
-        overflow: 'hidden',
-      }}
-    >
-      <Overflow>
-        <Toolbar>
-          {menuItems.map(({ id, ...props }) => (
-            <OverflowItemWrapper key={id} id={id} {...props} />
-          ))}
-          <OverflowMenu menuItems={menuItems} />
-        </Toolbar>
-      </Overflow>
-    </div>
+    <React.StrictMode>
+      <div
+        style={{
+          resize: 'horizontal',
+          overflow: 'hidden',
+        }}
+      >
+        <Overflow>
+          <Toolbar>
+            {menuItems.map(({ id, ...props }) => (
+              <OverflowItemWrapper key={id} id={id} {...props} />
+            ))}
+            <OverflowMenu menuItems={menuItems} />
+          </Toolbar>
+        </Overflow>
+      </div>
+    </React.StrictMode>
   );
 };
 

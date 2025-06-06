@@ -26,6 +26,7 @@ describe('useKeytipRef', () => {
     const keytipProps = {
       content: '1EEE',
       keySequences: ['A', '1eee'],
+      uniqueId: 'kek',
       positioning: {
         target: null,
       },
@@ -35,8 +36,8 @@ describe('useKeytipRef', () => {
       ...keytipProps,
       content: '1EE',
       id: 'ktp-a-1-e-e',
+      uniqueId: 'kek',
       keySequences: ['a', '1ee'],
-      uniqueId: ID,
     };
 
     const { unmount } = renderHook(() => useKeytipRef(keytipProps));
@@ -50,7 +51,7 @@ describe('useKeytipRef', () => {
 
     expect(dispatch).toHaveBeenCalledWith(
       EVENTS.KEYTIP_REMOVED,
-      expect.objectContaining(expected)
+      expected.uniqueId
     );
   });
 

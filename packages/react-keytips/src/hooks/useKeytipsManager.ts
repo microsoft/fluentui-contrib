@@ -4,8 +4,28 @@ import { EVENTS } from '../constants';
 import type { KeytipProps } from '../Keytip';
 
 export function useKeytipsManager() {
-  const { dispatch } = useEventService();
+  const { dispatch, subscribe, reset } = useEventService();
   const id = React.useId();
+  const keytips = React.useRef<Record<string, KeytipProps>>({});
+  const isKeytipModeEnabled = React.useRef(false);
+
+  React.useEffect(() => {
+    subscribe(EVENTS.KEYTIP_ADDED, (keytip) => {
+      keytips.current[keytip.uniqueId] = keytip;
+    });
+
+    subscribe(EVENTS.ENTER_KEYTIP_MODE, () => {
+      isKeytipModeEnabled.current = true;
+    });
+
+    subscribe(EVENTS.EXIT_KEYTIP_MODE, () => {
+      isKeytipModeEnabled.current = false;
+    });
+
+    return () => {
+      reset();
+    };
+  }, []);
 
   const enterKeytipMode = React.useCallback(() => {
     dispatch(EVENTS.ENTER_KEYTIP_MODE);
@@ -20,6 +40,8 @@ export function useKeytipsManager() {
       ...keytip,
       uniqueId: keytip.uniqueId || id,
     });
+
+    return keytip.uniqueId || id;
   }, []);
 
   const update = React.useCallback(
@@ -29,12 +51,9 @@ export function useKeytipsManager() {
     []
   );
 
-  const unregister = React.useCallback(
-    (keytip: KeytipProps & { uniqueId: string }) => {
-      dispatch(EVENTS.KEYTIP_REMOVED, keytip);
-    },
-    []
-  );
+  const unregister = React.useCallback((uniqueId: string) => {
+    dispatch(EVENTS.KEYTIP_REMOVED, uniqueId);
+  }, []);
 
   return {
     enterKeytipMode,
@@ -42,5 +61,7 @@ export function useKeytipsManager() {
     update,
     register,
     unregister,
+    getKeytips: () => keytips.current,
+    getKeytipsModeStatus: () => isKeytipModeEnabled.current,
   };
 }
