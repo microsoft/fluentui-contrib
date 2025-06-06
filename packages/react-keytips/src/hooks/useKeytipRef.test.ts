@@ -1,12 +1,12 @@
 import { useKeytipRef } from './useKeytipRef';
-import { useEventService } from './useEventService';
+import { useKeytipsManager } from './useKeytipsManager';
 import { renderHook } from '@testing-library/react';
 import { EVENTS } from '../constants';
 
 const ID = 'r:id';
 
-jest.mock('./useEventService', () => ({
-  useEventService: jest.fn(),
+jest.mock('./useKeytipsManager', () => ({
+  useKeytipsManager: jest.fn(),
 }));
 
 jest.mock('react', () => ({
@@ -15,11 +15,15 @@ jest.mock('react', () => ({
 }));
 
 describe('useKeytipRef', () => {
-  const dispatch = jest.fn();
+  const register = jest.fn();
+  const unregister = jest.fn();
 
   beforeEach(() => {
-    dispatch.mockClear();
-    (useEventService as jest.Mock).mockReturnValue({ dispatch });
+    register.mockClear();
+    (useKeytipsManager as jest.Mock).mockReturnValue({
+      register,
+      unregister,
+    });
   });
 
   it('should call add and remove events, generate uniqueId, lowercase and truncate sequence', () => {
@@ -36,23 +40,16 @@ describe('useKeytipRef', () => {
       ...keytipProps,
       content: '1EE',
       id: 'ktp-a-1-e-e',
-      uniqueId: 'kek',
       keySequences: ['a', '1ee'],
     };
 
     const { unmount } = renderHook(() => useKeytipRef(keytipProps));
 
-    expect(dispatch).toHaveBeenCalledWith(
-      EVENTS.KEYTIP_ADDED,
-      expect.objectContaining(expected)
-    );
+    expect(register).toHaveBeenCalledWith(expected);
 
     unmount();
 
-    expect(dispatch).toHaveBeenCalledWith(
-      EVENTS.KEYTIP_REMOVED,
-      expected.uniqueId
-    );
+    expect(unregister).toHaveBeenCalledWith(expected.uniqueId);
   });
 
   it('should not dispatch add and remove events', () => {
@@ -63,10 +60,10 @@ describe('useKeytipRef', () => {
 
     const { unmount } = renderHook(() => useKeytipRef(keytipProps));
 
-    expect(dispatch).not.toHaveBeenCalledWith(EVENTS.KEYTIP_ADDED);
+    expect(register).not.toHaveBeenCalledWith(EVENTS.KEYTIP_ADDED);
 
     unmount();
 
-    expect(dispatch).not.toHaveBeenCalledWith(EVENTS.KEYTIP_REMOVED);
+    expect(register).not.toHaveBeenCalledWith(EVENTS.KEYTIP_REMOVED);
   });
 });
