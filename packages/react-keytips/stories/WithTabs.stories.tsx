@@ -100,7 +100,7 @@ export const WithTabsStory = () => {
   });
 
   return (
-    <React.StrictMode>
+    <>
       <TabList onTabSelect={onTabSelect}>
         <Tab id="1" ref={refFirstTab} value="1">
           First Tab
@@ -136,7 +136,7 @@ export const WithTabsStory = () => {
           </div>
         )}
       </div>
-    </React.StrictMode>
+    </>
   );
 };
 
