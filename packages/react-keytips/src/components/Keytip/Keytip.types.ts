@@ -31,6 +31,10 @@ export type ReturnKeytipEventHandler<E = HTMLElement | null> = EventHandler<
 
 export type KeytipProps = ComponentProps<KeytipSlots> & {
   /**
+   * Unique identifier for the Keytip.
+   */
+  uniqueId?: string;
+  /**
    * Positioning props to be passed to Keytip.
    * @default { align: 'center', position: 'below' }
    */
@@ -66,11 +70,6 @@ export type KeytipProps = ComponentProps<KeytipSlots> & {
    * If this keytip is inside OverflowMenu, you might need to add the overflowSequence to make shortcuts available.
    */
   overflowSequence?: string[];
-};
-
-/** @internal */
-export type KeytipWithId = KeytipProps & {
-  uniqueId: string;
 };
 
 export type KeytipState = ComponentState<KeytipSlots> &
