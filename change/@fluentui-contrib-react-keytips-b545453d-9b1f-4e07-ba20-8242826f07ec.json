@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "BREAKING: add useKeytipsManager hook. useEventServices is no longer exported",
-  "packageName": "@fluentui-contrib/react-keytips",
-  "email": "vgenaev@gmail.com",
-  "dependentChangeType": "patch"
-}
