@@ -16,6 +16,8 @@ The tool first scans for the common pattern of `styles` or `style` being in the 
 - Add ability to customize glob used to find style files
 - Add ability to add known tokens
 - Read gitignore from target dir and use that for ignore if we find one. (currently hard coded).
+- Add 'thorough' or 'complete' mode that doesn't filter files based on `style` or styles` in the name.
+-
 
 ## Installation
 
@@ -115,6 +117,157 @@ async function analyze() {
   });
 
   console.log(`Analyzed ${Object.keys(results).length} files`);
+}
+```
+
+## Example JSON Output
+
+Below is a simplification of styles output that the tool might produce. Note that the `assignedVariables` field corresponds to the key name under `styleConditions`.
+
+```json
+{
+  "useButtonStyles.styles.ts": {
+    "styles": {
+      "useRootBaseClassName": {
+        "resetStyles": {
+          "tokens": [
+            {
+              "property": "backgroundColor",
+              "token": ["tokens.colorNeutralBackground1"],
+              "path": ["backgroundColor"]
+            },
+            {
+              "property": "color",
+              "token": ["semanticTokens.cornerFlyoutRest"],
+              "path": ["color"]
+            },
+            {
+              "property": "border",
+              "token": ["tokens.strokeWidthThin"],
+              "path": ["border"]
+            },
+            {
+              "property": "border",
+              "token": ["tokens.colorNeutralStroke1"],
+              "path": ["border"]
+            },
+            {
+              "property": "fontFamily",
+              "token": ["textStyleAiHeaderFontfamily"],
+              "path": ["fontFamily"]
+            },
+            {
+              "property": "padding",
+              "token": ["tokens.spacingHorizontalM"],
+              "path": ["padding"]
+            },
+            {
+              "property": "borderRadius",
+              "token": ["tokens.borderRadiusMedium"],
+              "path": ["borderRadius"]
+            },
+            {
+              "property": "fontSize",
+              "token": ["tokens.fontSizeBase300"],
+              "path": ["fontSize"]
+            },
+            {
+              "property": "fontWeight",
+              "token": ["tokens.fontWeightSemibold"],
+              "path": ["fontWeight"]
+            },
+            {
+              "property": "lineHeight",
+              "token": ["tokens.lineHeightBase300"],
+              "path": ["lineHeight"]
+            },
+            {
+              "property": "transitionDuration",
+              "token": ["tokens.durationFaster"],
+              "path": ["transitionDuration"]
+            },
+            {
+              "property": "transitionTimingFunction",
+              "token": ["tokens.curveEasyEase"],
+              "path": ["transitionTimingFunction"]
+            }
+          ],
+          "nested": {
+            "':hover'": {
+              "tokens": [
+                {
+                  "property": "backgroundColor",
+                  "token": ["cornerCtrlLgHoverRaw"],
+                  "path": ["':hover'", "backgroundColor"]
+                },
+                {
+                  "property": "borderColor",
+                  "token": ["ctrlLinkForegroundBrandHover"],
+                  "path": ["':hover'", "borderColor"]
+                },
+                {
+                  "property": "color",
+                  "token": ["tokens.colorNeutralForeground1Hover"],
+                  "path": ["':hover'", "color"]
+                }
+              ]
+            }
+          },
+          "isResetStyles": true,
+          "assignedVariables": ["rootBaseClassName"]
+        }
+      },
+      "useRootDisabledStyles": {
+        "base": {
+          "tokens": [
+            {
+              "property": "backgroundColor",
+              "token": ["tokens.colorNeutralBackgroundDisabled"],
+              "path": ["backgroundColor"]
+            },
+            {
+              "property": "borderTopColor",
+              "token": ["tokens.colorNeutralStrokeDisabled"],
+              "path": ["borderTopColor"]
+            },
+            {
+              "property": "borderRightColor",
+              "token": ["tokens.colorNeutralStrokeDisabled"],
+              "path": ["borderRightColor"]
+            },
+            {
+              "property": "borderBottomColor",
+              "token": ["tokens.colorNeutralStrokeDisabled"],
+              "path": ["borderBottomColor"]
+            },
+            {
+              "property": "borderLeftColor",
+              "token": ["tokens.colorNeutralStrokeDisabled"],
+              "path": ["borderLeftColor"]
+            },
+            {
+              "property": "color",
+              "token": ["tokens.colorNeutralForegroundDisabled"],
+              "path": ["color"]
+            }
+          ],
+          "assignedVariables": ["rootDisabledStyles"]
+        }
+      }
+    },
+    "metadata": {
+      "styleConditions": {
+        "rootBaseClassName": {
+          "isBase": true,
+          "slotName": "root"
+        },
+        "rootDisabledStyles.base": {
+          "conditions": ["(disabled || disabledFocusable)"],
+          "slotName": "root"
+        }
+      }
+    }
+  }
 }
 ```
 
