@@ -26,7 +26,7 @@ export interface StyleAnalysis {
 
 export interface StyleCondition {
   style: string;
-  condition?: string;
+  condition: string;
 }
 
 export interface StyleMetadata {
