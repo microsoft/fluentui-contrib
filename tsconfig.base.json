@@ -69,6 +69,9 @@
       "@fluentui-contrib/token-analyzer": [
         "packages/token-analyzer/src/index.ts"
       ],
+      "@fluentui-contrib/token-analyzer-mcp": [
+        "packages/token-analyzer-mcp/src/index.ts"
+      ],
       "@fluentui-contrib/variant-theme": ["packages/variant-theme/src/index.ts"]
     }
   },
