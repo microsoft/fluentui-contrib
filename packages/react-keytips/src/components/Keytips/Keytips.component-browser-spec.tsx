@@ -7,6 +7,7 @@ import {
   KeytipsDynamicExample,
   KeytipsDisabledTargetExample,
   KeytipsDisabledMenuTargetExample,
+  KeytipsManualDispatchedEvents,
 } from './KeytipsExamples.component-browser-spec';
 
 test.use({ viewport: { width: 500, height: 500 } });
@@ -21,6 +22,25 @@ test.describe('enter and exit from keytip mode interactions', () => {
     await component.press('Alt+Meta');
     await expect(tooltip).toBeVisible();
     await component.press('Alt+Escape');
+    await expect(tooltip).toBeHidden();
+  });
+
+  test('should enter and exit keytips mode by manually dispatching events', async ({
+    mount,
+    page,
+  }) => {
+    await mount(<KeytipsManualDispatchedEvents startSequence="alt+meta" />);
+
+    const tooltip = page.getByRole('tooltip');
+    await expect(tooltip).toBeHidden();
+
+    const enterButton = page.getByRole('button', { name: 'Enter keytip mode' });
+    const exitButton = page.getByRole('button', { name: 'Exit keytip mode' });
+    await enterButton.click();
+
+    await expect(tooltip).toBeVisible();
+
+    await exitButton.click();
     await expect(tooltip).toBeHidden();
   });
 

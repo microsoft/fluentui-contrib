@@ -11,6 +11,12 @@
       "enum": ["component", "e2e"],
       "default": "component"
     },
+    "reactVersion": {
+      "type": "number",
+      "description": "React version to use for tests, one of '17' or '18'. This is used to determine the correct React test renderer to use.",
+      "enum": [17, 18],
+      "default": 18
+    },
     "browser": {
       "type": "string",
       "description": "Browser to use for tests, one of 'all', 'chromium', 'firefox' or 'webkit'. If a playwright config is provided/discovered then the browserName value is expected from the configured 'projects'",
