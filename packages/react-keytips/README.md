@@ -64,4 +64,29 @@ export const App = () => {
 };
 ```
 
+## Manual dispatching of keytip events
+
+In some cases, you may want to manually trigger keytip events. For example, you might need to programmatically enter or exit keytip mode based on action.
+The [useKeytipsManager](https://github.com/microsoft/fluentui-contrib/blob/main/packages/react-keytips/src/hooks/useKeytipsManager.ts) hook provides access to dispatch
+method, allowing you to send keytip events manually.
+
+```tsx
+import * as React from 'react';
+import { Button } from '@fluentui/react-components';
+import { useKeytipsManager } from '@fluentui-contrib/react-keytips';
+
+export const App = () => {
+  const { enterKeytipMode } = useKeytipsManager();
+
+  return (
+    <>
+      <Button onClick={enterKeytipMode}>Show Keytips</Button>
+    </>
+  );
+};
+```
+
+```tsx
+
 Follow up on the [Storybook](https://microsoft.github.io/fluentui-contrib/react-keytips) for examples on how to use the components provided by this package.
+```

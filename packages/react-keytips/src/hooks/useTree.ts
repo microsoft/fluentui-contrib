@@ -1,5 +1,6 @@
-import type { KeytipProps, KeytipWithId } from '../components/Keytip';
 import * as React from 'react';
+import type { KeytipProps } from '../components/Keytip';
+import type { KeytipWithId } from '../components/Keytip/internal/Keytip.types';
 import { sequencesToID, createNode } from '../utilities/index';
 import { KTP_ROOT_ID } from '../constants';
 import { useFluent } from '@fluentui/react-components';
