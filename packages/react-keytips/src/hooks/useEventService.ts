@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { useFluent } from '@fluentui/react-components';
 import { EVENTS } from '../constants';
-import type { KeytipWithId } from '../components/Keytip';
 import type { KeytipTreeNode } from '../hooks/useTree';
+import type { KeytipWithId } from '../components/Keytip/internal/Keytip.types';
 
 type EventType = (typeof EVENTS)[keyof typeof EVENTS];
 
 type PayloadDefinition = {
-  [EVENTS.ENTER_KEYTIP_MODE]: { inKeytipMode: boolean };
-  [EVENTS.EXIT_KEYTIP_MODE]: { inKeytipMode: boolean };
+  [EVENTS.ENTER_KEYTIP_MODE]: KeyboardEvent;
+  [EVENTS.EXIT_KEYTIP_MODE]: KeyboardEvent;
   [EVENTS.KEYTIP_UPDATED]: KeytipWithId;
   [EVENTS.KEYTIP_ADDED]: KeytipWithId;
-  [EVENTS.KEYTIP_REMOVED]: KeytipWithId;
+  [EVENTS.KEYTIP_REMOVED]: string;
   [EVENTS.KEYTIP_EXECUTED]: KeytipTreeNode;
   [EVENTS.SHORTCUT_EXECUTED]: KeytipTreeNode;
 };
