@@ -281,11 +281,13 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     subscribe(EVENTS.KEYTIP_UPDATED, handleKeytipUpdated);
     subscribe(EVENTS.KEYTIP_REMOVED, handleKeytipRemoved);
     subscribe(EVENTS.ENTER_KEYTIP_MODE, handleEnterKeytipMode);
+    subscribe(EVENTS.EXIT_KEYTIP_MODE, handleExitKeytipMode);
 
     return reset;
   }, [
     reset,
     handleKeytipAdded,
+    handleExitKeytipMode,
     handleKeytipUpdated,
     handleKeytipRemoved,
     handleEnterKeytipMode,
