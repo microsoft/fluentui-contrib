@@ -8,8 +8,7 @@ import type { DataGridBodyProps } from './DataGridBody.types';
 /**
  * DataGridBody component
  */
-export const DataGridBody: ForwardRefComponent<DataGridBodyProps> &
-  (<TItem>(props: DataGridBodyProps<TItem>) => JSX.Element) = React.forwardRef(
+export const DataGridBody = React.forwardRef<HTMLElement, DataGridBodyProps>(
   (props, ref) => {
     const state = useDataGridBody_unstable(props, ref);
 
