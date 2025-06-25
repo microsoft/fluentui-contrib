@@ -41,7 +41,7 @@
     "@nx/jest": "20.8.2",
     "@nx/js": "20.8.2",
     "@nx/playwright": "20.8.2",
-    "@nx/plugin": "20.8.2",
+    "@nx/plugin": "21.2.1",
     "@nx/react": "20.8.2",
     "@nx/storybook": "20.8.2",
     "@nx/web": "20.8.2",
