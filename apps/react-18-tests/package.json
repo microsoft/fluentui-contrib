@@ -1,0 +1,16 @@
+{
+  "name": "react-18-tests",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "@fluentui/react-components": "^9.54.13",
+    "@fluentui/react-icons": "^2.0.249",
+    "@testing-library/dom": "10.4.0",
+    "@testing-library/react": "16.3.0",
+    "@types/react": "18.3.1",
+    "@types/react-dom": "18.3.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "@playwright/experimental-ct-react": "1.49.1"
+  }
+}
