@@ -27,3 +27,14 @@ export const validateSplitIconButton = (props: {
     );
   }
 };
+
+export const validateHasContent = (props: {
+  children?: unknown;
+  icon?: unknown;
+}) => {
+  if (!props.children && !props.icon) {
+    throw new Error(
+      '@fluentui-contrib/teams-components::SplitButton must have at least one of children or icon'
+    );
+  }
+};

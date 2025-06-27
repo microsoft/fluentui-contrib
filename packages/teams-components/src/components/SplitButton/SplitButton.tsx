@@ -8,21 +8,18 @@ import {
 } from '@fluentui/react-components';
 import { ForwardRefComponent } from '@fluentui/react-utilities';
 import { useCustomStyleHook_unstable } from '@fluentui/react-shared-contexts';
-import { StrictCssClass, validateStrictClasses } from '../../strictStyles';
+import { validateStrictClasses } from '../../strictStyles';
 import { StrictSlot } from '../../strictSlot';
-import { ButtonStrictOverrides, validateMenuButton } from '../Button';
-import { validateTitleProps, validateSplitIconButton } from './validateProps';
+import { ButtonProps, validateMenuButton } from '../Button';
+import {
+  validateTitleProps,
+  validateSplitIconButton,
+  validateHasContent,
+} from './validateProps';
 
 export interface SplitButtonProps
-  extends Pick<
-    SplitButtonPropsBase,
-    'size' | 'disabled' | 'disabledFocusable'
-  > {
-  appearance?: 'transparent' | 'primary';
-  className?: StrictCssClass<ButtonStrictOverrides>;
-  icon?: StrictSlot;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  title?: StrictSlot;
+  extends ButtonProps,
+    Pick<SplitButtonPropsBase, 'menuButton'> {
   menuTitle?: StrictSlot;
 }
 
@@ -61,6 +58,7 @@ export const SplitButton = React.forwardRef<
 SplitButton.displayName = 'SplitButton';
 
 const validateProps = (props: SplitButtonProps) => {
+  validateHasContent(props);
   validateStrictClasses(props.className);
   validateSplitIconButton(props);
   validateMenuButton(props);
