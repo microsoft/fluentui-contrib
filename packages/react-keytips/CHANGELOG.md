@@ -1,8 +1,24 @@
 # Change Log - @fluentui-contrib/react-keytips
 
-This log was last generated on Thu, 10 Apr 2025 14:11:17 GMT and should not be manually modified.
+This log was last generated on Fri, 20 Jun 2025 11:14:40 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.3.1
+
+Fri, 20 Jun 2025 11:14:40 GMT
+
+### Patches
+
+- fix(react-keytips): missing subsription to exit event (vgenaev@gmail.com)
+
+## 0.3.0
+
+Wed, 11 Jun 2025 09:30:15 GMT
+
+### Minor changes
+
+- BREAKING: add useKeytipsManager hook. useEventServices is no longer exported (vgenaev@gmail.com)
 
 ## 0.2.2
 

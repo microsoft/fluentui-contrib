@@ -2,7 +2,7 @@ import * as React from 'react';
 import type { KeytipProps, KeytipState } from './Keytip.types';
 import { usePositioning } from '@fluentui/react-positioning';
 import { useControllableState } from '@fluentui/react-utilities';
-import { KEYTIP_BORDER_RADIUS, KTP_ROOT_ID } from '../../constants';
+import { KEYTIP_BORDER_RADIUS } from '../../constants';
 import {
   useFluent,
   slot,

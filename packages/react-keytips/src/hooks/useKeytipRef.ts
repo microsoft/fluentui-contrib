@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useFluent } from '@fluentui/react-components';
-import { useEventService } from './useEventService';
-import { EVENTS, KTP_ROOT_ID } from '../constants';
+import { useKeytipsManager } from './useKeytipsManager';
+import { KTP_ROOT_ID } from '../constants';
 import { usePrevious } from '@fluentui/react-utilities';
 import type { KeytipProps } from '../components/Keytip';
 import { sequencesToID } from '../utilities/index';
@@ -15,10 +15,10 @@ export const useKeytipRef = <
 >({
   content,
   ...keytip
-}: KeytipProps): React.Dispatch<React.SetStateAction<T | null>> => {
+}: KeytipProps) => {
   const { targetDocument } = useFluent();
   const [node, setNode] = React.useState<T | null>(null);
-  const { dispatch } = useEventService();
+  const { register, unregister, update } = useKeytipsManager();
   const uniqueId = React.useId();
   const isPrimitiveContent = typeof content === 'string';
 
@@ -35,7 +35,7 @@ export const useKeytipRef = <
       ...keytip,
       content: truncated,
       id,
-      uniqueId,
+      uniqueId: keytip.uniqueId || uniqueId,
       keySequences,
       positioning: {
         target: node,
@@ -51,7 +51,7 @@ export const useKeytipRef = <
   React.useEffect(() => {
     if (prevKeytip) {
       if (!isEqualArray(prevKeytip.keySequences, ktp.keySequences)) {
-        dispatch(EVENTS.KEYTIP_UPDATED, ktp);
+        update(ktp);
       }
     }
   });
@@ -69,9 +69,9 @@ export const useKeytipRef = <
       );
     }
 
-    dispatch(EVENTS.KEYTIP_ADDED, ktp);
+    register(ktp);
     return () => {
-      dispatch(EVENTS.KEYTIP_REMOVED, ktp);
+      unregister(ktp.uniqueId);
     };
   }, [node]);
 
