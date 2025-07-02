@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "feat(react-keytips): add truncated prop",
-  "packageName": "@fluentui-contrib/react-keytips",
-  "email": "vgenaev@gmail.com",
-  "dependentChangeType": "patch"
-}
