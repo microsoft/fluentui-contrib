@@ -138,6 +138,7 @@ The keytip is positioned below and centered to the target element by default.
 | `content`          | `string`                    |                                          | The text content of the Keytip.                                                                                                                                   |
 | `hasMenu`          | `boolean`                   | `false`                                  | Whether or not this keytip belongs to a component that has a menu Keytip mode will stay on when a menu is opened, even if the items in that menu have no keytips. |
 | `overflowSequence` | `string[]`                  |                                          | If this keytip is inside OverflowMenu, you might need to add the `overflowSequence` to make shortcuts available.                                                  |
+| `truncated`        | `boolean`                   | `true`                                   | Whether or not the keytip sequence and content should be truncated to 3 characters.                                                                               |
 
 ## Structure
 
@@ -183,7 +184,7 @@ See [MIGRATION.md](./MIGRATION.md).
 - `Keytip` activation is done by pressing the key sequence that is defined in `keySequences` prop of `useKeytipRef` hook.
   When the key sequence is pressed, the `onExecute` callback is triggered, if keytip has children keytips it will show them.
 
-- `Keytip` sequence is case-insensitive and limited to 3 characters.
+The Keytip sequence is case-insensitive and, by default, truncated to 3 characters, can be disabled by setting `truncated` to false.
 
 ## Keytip on disabled item
 

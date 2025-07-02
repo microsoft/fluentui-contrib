@@ -70,6 +70,11 @@ export type KeytipProps = ComponentProps<KeytipSlots> & {
    * If this keytip is inside OverflowMenu, you might need to add the overflowSequence to make shortcuts available.
    */
   overflowSequence?: string[];
+  /**
+   * If true, keytip content and each sequence length will be truncated to 3 chars.
+   * @default true
+   */
+  truncated?: boolean;
 };
 
 export type KeytipState = ComponentState<KeytipSlots> &

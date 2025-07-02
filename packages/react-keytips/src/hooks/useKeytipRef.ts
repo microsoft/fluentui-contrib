@@ -14,6 +14,7 @@ export const useKeytipRef = <
   T extends HTMLElement = HTMLButtonElement | HTMLAnchorElement
 >({
   content,
+  truncated = true,
   ...keytip
 }: KeytipProps) => {
   const { targetDocument } = useFluent();
@@ -24,16 +25,17 @@ export const useKeytipRef = <
 
   const keySequences = keytip.keySequences.map((k) =>
     // according to spec sequence should have max 3 chars length
-    k.substring(0, 3).toLowerCase()
+    truncated ? k.substring(0, 3).toLowerCase() : k.toLowerCase()
   );
 
-  const truncated = isPrimitiveContent ? content.substring(0, 3) : content;
+  const truncatedContent =
+    isPrimitiveContent && truncated ? content.substring(0, 3) : content;
   const id = sequencesToID(keySequences);
 
   const ktp = React.useMemo(
     () => ({
       ...keytip,
-      content: truncated,
+      content: truncatedContent,
       id,
       uniqueId: keytip.uniqueId || uniqueId,
       keySequences,
