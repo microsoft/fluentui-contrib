@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@fluentui/react-components": "^9.54.13",
-    "@fluentui/react-icons": "^2.0.249",
+    "@fluentui/react-icons": "^2.0.304",
     "@testing-library/dom": "10.4.0",
     "@testing-library/react": "16.3.0",
     "@types/react": "18.3.1",
