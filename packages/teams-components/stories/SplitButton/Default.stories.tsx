@@ -4,11 +4,9 @@ import {
   makeStyles,
   tokens,
   Menu,
-  MenuTrigger,
   MenuPopover,
   MenuList,
   MenuItem,
-  MenuButtonProps,
 } from '@fluentui/react-components';
 import {
   CalendarRegular,
@@ -35,11 +33,7 @@ export const Default = () => {
   return (
     <div className={styles.sampleContainer}>
       <Menu positioning="below-end">
-        <MenuTrigger disableButtonEnhancement>
-          {(triggerProps: MenuButtonProps) => (
-            <SplitButton menuButton={triggerProps}>Split</SplitButton>
-          )}
-        </MenuTrigger>
+        <SplitButton>Split</SplitButton>
 
         <MenuPopover>
           <MenuList>
@@ -49,13 +43,7 @@ export const Default = () => {
         </MenuPopover>
       </Menu>
       <Menu positioning="below-end">
-        <MenuTrigger disableButtonEnhancement>
-          {(triggerProps: MenuButtonProps) => (
-            <SplitButton menuButton={triggerProps} title="Single tooptip">
-              Split
-            </SplitButton>
-          )}
-        </MenuTrigger>
+        <SplitButton title="Single tooptip">Split</SplitButton>
 
         <MenuPopover>
           <MenuList>
@@ -65,17 +53,9 @@ export const Default = () => {
         </MenuPopover>
       </Menu>
       <Menu positioning="below-end">
-        <MenuTrigger disableButtonEnhancement>
-          {(triggerProps: MenuButtonProps) => (
-            <SplitButton
-              menuButton={triggerProps}
-              title="Primary button title"
-              menuTitle="Menu button title"
-            >
-              Split
-            </SplitButton>
-          )}
-        </MenuTrigger>
+        <SplitButton title="Primary button title" menuTitle="Menu button title">
+          Split
+        </SplitButton>
 
         <MenuPopover>
           <MenuList>
@@ -85,18 +65,13 @@ export const Default = () => {
         </MenuPopover>
       </Menu>
       <Menu positioning="below-end">
-        <MenuTrigger disableButtonEnhancement>
-          {(triggerProps: MenuButtonProps) => (
-            <SplitButton
-              menuButton={triggerProps}
-              title="Primary button title"
-              menuTitle="Menu button title"
-              icon={<CalendarIcon />}
-            >
-              Split
-            </SplitButton>
-          )}
-        </MenuTrigger>
+        <SplitButton
+          title="Primary button title"
+          menuTitle="Menu button title"
+          icon={<CalendarIcon />}
+        >
+          Split
+        </SplitButton>
 
         <MenuPopover>
           <MenuList>
@@ -106,16 +81,11 @@ export const Default = () => {
         </MenuPopover>
       </Menu>
       <Menu positioning="below-end">
-        <MenuTrigger disableButtonEnhancement>
-          {(triggerProps: MenuButtonProps) => (
-            <SplitButton
-              menuButton={triggerProps}
-              title="Primary button title"
-              menuTitle="Menu button title"
-              icon={<CalendarIcon />}
-            />
-          )}
-        </MenuTrigger>
+        <SplitButton
+          title="Primary button title"
+          menuTitle="Menu button title"
+          icon={<CalendarIcon />}
+        />
 
         <MenuPopover>
           <MenuList>
@@ -126,13 +96,7 @@ export const Default = () => {
       </Menu>
 
       <Menu positioning="below-end">
-        <MenuTrigger disableButtonEnhancement>
-          {(triggerProps: MenuButtonProps) => (
-            <SplitButton menuButton={triggerProps} appearance="transparent">
-              Split
-            </SplitButton>
-          )}
-        </MenuTrigger>
+        <SplitButton appearance="transparent">Split</SplitButton>
 
         <MenuPopover>
           <MenuList>
@@ -142,17 +106,9 @@ export const Default = () => {
         </MenuPopover>
       </Menu>
       <Menu positioning="below-end">
-        <MenuTrigger disableButtonEnhancement>
-          {(triggerProps: MenuButtonProps) => (
-            <SplitButton
-              menuButton={triggerProps}
-              title="Single tooptip"
-              appearance="transparent"
-            >
-              Split
-            </SplitButton>
-          )}
-        </MenuTrigger>
+        <SplitButton title="Single tooptip" appearance="transparent">
+          Split
+        </SplitButton>
 
         <MenuPopover>
           <MenuList>
@@ -162,18 +118,13 @@ export const Default = () => {
         </MenuPopover>
       </Menu>
       <Menu positioning="below-end">
-        <MenuTrigger disableButtonEnhancement>
-          {(triggerProps: MenuButtonProps) => (
-            <SplitButton
-              menuButton={triggerProps}
-              title="Primary button title"
-              menuTitle="Menu button title"
-              appearance="transparent"
-            >
-              Split
-            </SplitButton>
-          )}
-        </MenuTrigger>
+        <SplitButton
+          title="Primary button title"
+          menuTitle="Menu button title"
+          appearance="transparent"
+        >
+          Split
+        </SplitButton>
 
         <MenuPopover>
           <MenuList>
@@ -183,19 +134,14 @@ export const Default = () => {
         </MenuPopover>
       </Menu>
       <Menu positioning="below-end">
-        <MenuTrigger disableButtonEnhancement>
-          {(triggerProps: MenuButtonProps) => (
-            <SplitButton
-              menuButton={triggerProps}
-              title="Primary button title"
-              menuTitle="Menu button title"
-              icon={<CalendarIcon />}
-              appearance="transparent"
-            >
-              Split
-            </SplitButton>
-          )}
-        </MenuTrigger>
+        <SplitButton
+          title="Primary button title"
+          menuTitle="Menu button title"
+          icon={<CalendarIcon />}
+          appearance="transparent"
+        >
+          Split
+        </SplitButton>
 
         <MenuPopover>
           <MenuList>
@@ -205,17 +151,12 @@ export const Default = () => {
         </MenuPopover>
       </Menu>
       <Menu positioning="below-end">
-        <MenuTrigger disableButtonEnhancement>
-          {(triggerProps: MenuButtonProps) => (
-            <SplitButton
-              menuButton={triggerProps}
-              title="Primary button title"
-              menuTitle="Menu button title"
-              icon={<CalendarIcon />}
-              appearance="transparent"
-            />
-          )}
-        </MenuTrigger>
+        <SplitButton
+          title="Primary button title"
+          menuTitle="Menu button title"
+          icon={<CalendarIcon />}
+          appearance="transparent"
+        />
 
         <MenuPopover>
           <MenuList>
@@ -225,13 +166,7 @@ export const Default = () => {
         </MenuPopover>
       </Menu>
       <Menu positioning="below-end">
-        <MenuTrigger disableButtonEnhancement>
-          {(triggerProps: MenuButtonProps) => (
-            <SplitButton menuButton={triggerProps} appearance="primary">
-              Split
-            </SplitButton>
-          )}
-        </MenuTrigger>
+        <SplitButton appearance="primary">Split</SplitButton>
 
         <MenuPopover>
           <MenuList>
@@ -241,17 +176,9 @@ export const Default = () => {
         </MenuPopover>
       </Menu>
       <Menu positioning="below-end">
-        <MenuTrigger disableButtonEnhancement>
-          {(triggerProps: MenuButtonProps) => (
-            <SplitButton
-              menuButton={triggerProps}
-              title="Single tooptip"
-              appearance="primary"
-            >
-              Split
-            </SplitButton>
-          )}
-        </MenuTrigger>
+        <SplitButton title="Single tooptip" appearance="primary">
+          Split
+        </SplitButton>
 
         <MenuPopover>
           <MenuList>
@@ -261,18 +188,13 @@ export const Default = () => {
         </MenuPopover>
       </Menu>
       <Menu positioning="below-end">
-        <MenuTrigger disableButtonEnhancement>
-          {(triggerProps: MenuButtonProps) => (
-            <SplitButton
-              menuButton={triggerProps}
-              title="Primary button title"
-              menuTitle="Menu button title"
-              appearance="primary"
-            >
-              Split
-            </SplitButton>
-          )}
-        </MenuTrigger>
+        <SplitButton
+          title="Primary button title"
+          menuTitle="Menu button title"
+          appearance="primary"
+        >
+          Split
+        </SplitButton>
 
         <MenuPopover>
           <MenuList>
@@ -282,19 +204,14 @@ export const Default = () => {
         </MenuPopover>
       </Menu>
       <Menu positioning="below-end">
-        <MenuTrigger disableButtonEnhancement>
-          {(triggerProps: MenuButtonProps) => (
-            <SplitButton
-              menuButton={triggerProps}
-              title="Primary button title"
-              menuTitle="Menu button title"
-              icon={<CalendarIcon />}
-              appearance="primary"
-            >
-              Split
-            </SplitButton>
-          )}
-        </MenuTrigger>
+        <SplitButton
+          title="Primary button title"
+          menuTitle="Menu button title"
+          icon={<CalendarIcon />}
+          appearance="primary"
+        >
+          Split
+        </SplitButton>
 
         <MenuPopover>
           <MenuList>
@@ -304,17 +221,12 @@ export const Default = () => {
         </MenuPopover>
       </Menu>
       <Menu positioning="below-end">
-        <MenuTrigger disableButtonEnhancement>
-          {(triggerProps: MenuButtonProps) => (
-            <SplitButton
-              menuButton={triggerProps}
-              title="Primary button title"
-              menuTitle="Menu button title"
-              icon={<CalendarIcon />}
-              appearance="primary"
-            />
-          )}
-        </MenuTrigger>
+        <SplitButton
+          title="Primary button title"
+          menuTitle="Menu button title"
+          icon={<CalendarIcon />}
+          appearance="primary"
+        />
 
         <MenuPopover>
           <MenuList>

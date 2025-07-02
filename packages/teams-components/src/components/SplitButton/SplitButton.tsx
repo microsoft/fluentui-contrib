@@ -5,6 +5,8 @@ import {
   useSplitButton_unstable,
   useSplitButtonStyles_unstable,
   renderSplitButton_unstable as renderSplitButtonBase_unstable,
+  MenuTrigger,
+  MenuButtonProps,
 } from '@fluentui/react-components';
 import { ForwardRefComponent } from '@fluentui/react-utilities';
 import { useCustomStyleHook_unstable } from '@fluentui/react-shared-contexts';
@@ -17,27 +19,19 @@ import {
   validateHasContent,
 } from './validateProps';
 
-export interface SplitButtonProps
-  extends ButtonProps,
-    Pick<SplitButtonPropsBase, 'menuButton'> {
+export interface SplitButtonProps extends ButtonProps {
   menuTitle?: StrictSlot;
 }
 
-/**
- * SplitButtons are a grouping of two interactive surfaces where interacting with the first one triggers a primary
- * action, while interacting with the second one opens a menu with secondary actions.
- */
-export const SplitButton = React.forwardRef<
-  HTMLButtonElement,
-  SplitButtonProps
->((props, ref) => {
-  if (process.env.NODE_ENV !== 'production') {
-    validateProps(props);
-  }
-
+const useTeamsSplitButton = (
+  props: SplitButtonProps,
+  triggerProps: MenuButtonProps,
+  ref: React.ForwardedRef<HTMLButtonElement>
+) => {
   const { className, icon, title, menuTitle, ...restProps } = props;
   const buttonProps = {
     ...restProps,
+    ...triggerProps,
     className: className?.toString(),
     icon,
   } as SplitButtonPropsBase;
@@ -52,7 +46,23 @@ export const SplitButton = React.forwardRef<
   return titleProps.title
     ? renderSplitButton_unstable(state, titleProps)
     : renderSplitButtonBase_unstable(state);
-  // Casting is required due to lack of distributive union to support unions on @types/react
+};
+
+export const SplitButton = React.forwardRef<
+  HTMLButtonElement,
+  SplitButtonProps
+>((props, ref) => {
+  if (process.env.NODE_ENV !== 'production') {
+    validateProps(props);
+  }
+
+  return (
+    <MenuTrigger>
+      {(triggerProps: MenuButtonProps) =>
+        useTeamsSplitButton(props, triggerProps, ref)
+      }
+    </MenuTrigger>
+  );
 }) as ForwardRefComponent<SplitButtonProps>;
 
 SplitButton.displayName = 'SplitButton';
