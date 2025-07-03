@@ -13,8 +13,8 @@ import { StrictSlot } from '../../strictSlot';
 import { renderTooltip } from '../ToggleButton/renderTooltip';
 
 export interface SplitButtonTitleProps {
-  title?: StrictSlot;
-  menuTitle?: StrictSlot;
+  title?: NonNullable<StrictSlot>;
+  menuTitle?: NonNullable<StrictSlot>;
 }
 
 /**
@@ -26,9 +26,16 @@ export const renderSplitButton_unstable = (
 ) => {
   assertSlots<SplitButtonSlots>(state);
 
-  const hasDualTooltip = titleProps.menuTitle !== undefined;
+  if (titleProps.title === undefined) {
+    return (
+      <state.root>
+        {state.primaryActionButton && <state.primaryActionButton />}
+        {state.menuButton && <state.menuButton />}
+      </state.root>
+    );
+  }
 
-  return hasDualTooltip ? (
+  return titleProps.menuTitle !== undefined ? (
     <state.root>
       {state.primaryActionButton &&
         renderTooltip(<state.primaryActionButton />, titleProps.title)}

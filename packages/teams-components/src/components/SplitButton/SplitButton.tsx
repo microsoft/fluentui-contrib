@@ -1,5 +1,8 @@
 import * as React from 'react';
-import { renderSplitButton_unstable } from './renderSplitButton';
+import {
+  renderSplitButton_unstable,
+  SplitButtonTitleProps,
+} from './renderSplitButton';
 import type { SplitButtonProps as SplitButtonPropsBase } from '@fluentui/react-components';
 import {
   useSplitButton_unstable,
@@ -41,7 +44,10 @@ const useTeamsSplitButton = (
 
   useCustomStyleHook_unstable('useSplitButtonStyles_unstable')(state);
 
-  const titleProps = { title, menuTitle };
+  const titleProps: SplitButtonTitleProps = {
+    title: title ?? undefined,
+    menuTitle: menuTitle ?? undefined,
+  };
 
   return titleProps.title
     ? renderSplitButton_unstable(state, titleProps)
