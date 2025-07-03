@@ -3,6 +3,7 @@ export {
   ToggleButton,
   type ToggleButtonProps,
 } from './components/ToggleButton';
+export { SplitButton } from './components/SplitButton';
 export {
   makeStrictStyles,
   mergeStrictClasses,

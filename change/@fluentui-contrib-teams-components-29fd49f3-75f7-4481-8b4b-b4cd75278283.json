@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "Added SplitButton teams component",
+  "packageName": "@fluentui-contrib/teams-components",
+  "email": "patrycja.fogelman@microsoft.com",
+  "dependentChangeType": "patch"
+}
