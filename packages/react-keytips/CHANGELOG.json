@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-keytips",
   "entries": [
     {
+      "date": "Wed, 02 Jul 2025 14:42:15 GMT",
+      "tag": "@fluentui-contrib/react-keytips_v0.3.2",
+      "version": "0.3.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "vgenaev@gmail.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "a5e4b5908f7c6bd199da3c4fc424de0017c61781",
+            "comment": "feat(react-keytips): add truncated prop"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 20 Jun 2025 11:14:40 GMT",
       "tag": "@fluentui-contrib/react-keytips_v0.3.1",
       "version": "0.3.1",
