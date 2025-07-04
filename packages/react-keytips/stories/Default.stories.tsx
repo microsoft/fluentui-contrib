@@ -15,6 +15,13 @@ import {
   MenuPopover,
   MenuTrigger,
   SplitButton,
+  Dialog,
+  DialogTrigger,
+  DialogSurface,
+  DialogTitle,
+  DialogBody,
+  DialogActions,
+  DialogContent,
   MenuButtonProps,
   useMergedRefs,
 } from '@fluentui/react-components';
@@ -153,6 +160,18 @@ export const DefaultStory = () => {
     onExecute,
   });
 
+  const dialogButton = useKeytipRef({
+    keySequences: ['4dl'],
+    content: '4DL',
+    onExecute,
+  });
+
+  const dialogInnerButton = useKeytipRef({
+    keySequences: ['4dl', '1a'],
+    content: '1A',
+    onExecute,
+  });
+
   return (
     <div className={classes.column}>
       <div className={classes.row}>
@@ -171,6 +190,30 @@ export const DefaultStory = () => {
         <SplitButtonComponent />
       </div>
       <Button ref={offsetButton}>Button with Keytip offset</Button>
+      <Dialog>
+        <DialogTrigger disableButtonEnhancement>
+          <Button ref={dialogButton}>Open dialog</Button>
+        </DialogTrigger>
+        <DialogSurface>
+          <DialogBody>
+            <DialogTitle>Dialog title</DialogTitle>
+            <DialogContent>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+              exercitationem cumque repellendus eaque est dolor eius expedita
+              nulla ullam? Tenetur reprehenderit aut voluptatum impedit
+              voluptates in natus iure cumque eaque?
+            </DialogContent>
+            <DialogActions>
+              <Button appearance="primary" ref={dialogInnerButton}>
+                Do Something
+              </Button>
+              <DialogTrigger disableButtonEnhancement>
+                <Button appearance="secondary">Close</Button>
+              </DialogTrigger>
+            </DialogActions>
+          </DialogBody>
+        </DialogSurface>
+      </Dialog>
     </div>
   );
 };
