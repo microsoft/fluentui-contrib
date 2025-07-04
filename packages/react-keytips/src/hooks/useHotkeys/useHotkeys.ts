@@ -17,41 +17,39 @@ export const useHotkeys = (
 
   React.useEffect(() => {
     const handleInvokeEvent = (ev: KeyboardEvent) => {
-      hotkeys.forEach(
-        ([hotkey, handler, options = { preventDefault: true }]) => {
-          const event = (
-            'nativeEvent' in ev ? ev.nativeEvent : ev
-          ) as KeyboardEvent;
+      hotkeys.forEach(([hotkey, handler, options]) => {
+        const event = (
+          'nativeEvent' in ev ? ev.nativeEvent : ev
+        ) as KeyboardEvent;
 
-          if (!ev.key) {
-            return;
+        if (!ev.key) {
+          return;
+        }
+
+        if (isKeyMatchingKeyboardEvent(parseHotkey(hotkey), event)) {
+          if (options?.preventDefault) {
+            ev.preventDefault();
           }
 
-          if (isKeyMatchingKeyboardEvent(parseHotkey(hotkey), event)) {
-            if (options.preventDefault) {
-              ev.preventDefault();
-            }
+          if (options?.stopPropagation) {
+            ev.stopPropagation();
+          }
 
-            if (options.stopPropagation) {
-              ev.stopPropagation();
-            }
-
-            // if options.delay is > 0, it will be needed to hold the sequence
-            // to fire the handler
-            if (options.delay && options.delay > 0) {
-              clearDelayTimeout();
-              activeKeys.current.add(ev.key);
-              setDelayTimeout(() => {
-                if (activeKeys.current.has(ev.key)) {
-                  handler(event);
-                }
-              }, options.delay);
-            } else {
-              handler(event);
-            }
+          // if options.delay is > 0, it will be needed to hold the sequence
+          // to fire the handler
+          if (options?.delay && options.delay > 0) {
+            clearDelayTimeout();
+            activeKeys.current.add(ev.key);
+            setDelayTimeout(() => {
+              if (activeKeys.current.has(ev.key)) {
+                handler(event);
+              }
+            }, options.delay);
+          } else {
+            handler(event);
           }
         }
-      );
+      });
     };
 
     const handleKeyUp = (ev: KeyboardEvent) => {
