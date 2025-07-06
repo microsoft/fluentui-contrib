@@ -92,7 +92,8 @@ export const useDraggableDialogSurface = (
 
     if (isDragging) {
       const baseStyles = {
-        transform: CSS.Translate.toString(transform),
+        top: dropPosition.y + (transform?.y ?? 0),
+        left: dropPosition.x + (transform?.x ?? 0),
       };
 
       if (!hasBeenDragged) {
@@ -102,8 +103,6 @@ export const useDraggableDialogSurface = (
       return {
         ...baseStyles,
         margin: 0,
-        top: dropPosition.y,
-        left: dropPosition.x,
       };
     }
 
