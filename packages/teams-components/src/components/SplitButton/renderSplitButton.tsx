@@ -10,7 +10,7 @@ import type {
   SplitButtonState,
 } from '@fluentui/react-components';
 import { StrictSlot } from '../../strictSlot';
-import { renderTooltip } from '../ToggleButton/renderTooltip';
+import { renderTooltip } from './renderTooltip';
 
 export interface SplitButtonTitleProps {
   title?: NonNullable<StrictSlot>;
@@ -26,6 +26,7 @@ export const renderSplitButton_unstable = (
 ) => {
   assertSlots<SplitButtonSlots>(state);
 
+  // rendering without tootlip if title is not defined
   if (titleProps.title === undefined) {
     return (
       <state.root>
@@ -35,20 +36,24 @@ export const renderSplitButton_unstable = (
     );
   }
 
-  return titleProps.menuTitle !== undefined ? (
-    <state.root>
-      {state.primaryActionButton &&
-        renderTooltip(<state.primaryActionButton />, titleProps.title)}
-      {state.menuButton &&
-        renderTooltip(<state.menuButton />, titleProps.menuTitle)}
-    </state.root>
-  ) : (
-    renderTooltip(
+  // if both title and menuTitle are defined, render separate tooltips for each button
+  if (titleProps.menuTitle !== undefined) {
+    return (
       <state.root>
-        {state.primaryActionButton && <state.primaryActionButton />}
-        {state.menuButton && <state.menuButton />}
-      </state.root>,
-      titleProps.title
-    )
+        {state.primaryActionButton &&
+          renderTooltip(<state.primaryActionButton />, titleProps.title)}
+        {state.menuButton &&
+          renderTooltip(<state.menuButton />, titleProps.menuTitle)}
+      </state.root>
+    );
+  }
+
+  // render single tooltip for the whole split button
+  return renderTooltip(
+    <state.root>
+      {state.primaryActionButton && <state.primaryActionButton />}
+      {state.menuButton && <state.menuButton />}
+    </state.root>,
+    titleProps.title
   );
 };
