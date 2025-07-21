@@ -9,6 +9,10 @@ import { useGamepadNavigation } from './useGamepadNavigation';
 describe('useGamepadNavigation', () => {
   beforeEach(() => jest.clearAllMocks());
 
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
+
   it('handles missing targetDocument gracefully', () => {
     const warnSpy = jest
       .spyOn(console, 'warn')

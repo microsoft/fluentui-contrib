@@ -29,6 +29,10 @@ import type { UseGamepadNavigationGroupOptions } from './useGamepadNavigationGro
 describe('useGamepadNavigationGroup', () => {
   beforeEach(() => jest.clearAllMocks());
 
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
+
   it('should call useGamepadNavigation with correct options', () => {
     const defaultInputMode = InputMode.Gamepad;
     const pollingEnabled = true;

@@ -36,6 +36,10 @@ describe('useGamepadNavigation', () => {
     jest.clearAllMocks();
   });
 
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
+
   it('registers event listeners', () => {
     const addWinEventListenerSpy = jest.spyOn(window, 'addEventListener');
     renderHook(() => useGamepadNavigation({}));
