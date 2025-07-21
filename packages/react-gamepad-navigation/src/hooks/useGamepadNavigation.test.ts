@@ -19,6 +19,7 @@ jest.mock('../core/InputProcessor', () => ({
 }));
 jest.mock('../core/GamepadUtils', () => ({
   getShadowDOMAPI: jest.fn(() => ({})),
+  isGamepadAPISupported: jest.fn(() => false),
 }));
 
 import { renderHook, act } from '@testing-library/react';
