@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-keytips",
   "entries": [
     {
+      "date": "Fri, 20 Jun 2025 11:14:40 GMT",
+      "tag": "@fluentui-contrib/react-keytips_v0.3.1",
+      "version": "0.3.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "vgenaev@gmail.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "545b9513e5e44a92fce84c8354a0dad086bc20bf",
+            "comment": "fix(react-keytips): missing subsription to exit event"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 11 Jun 2025 09:30:15 GMT",
       "tag": "@fluentui-contrib/react-keytips_v0.3.0",
       "version": "0.3.0",
