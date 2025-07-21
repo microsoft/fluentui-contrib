@@ -29,6 +29,16 @@
         "prod"
       ],
       "isIgnored": true
+    },
+    {
+      "packages": [
+        "react-17-tests",
+        "react-18-tests"
+      ],
+      "dependencies": [
+        "**"
+      ],
+      "isIgnored": true
     }
   ]
 }

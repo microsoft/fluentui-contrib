@@ -19,7 +19,6 @@ const useStyles = makeStyles({
   root: {
     display: 'none',
     boxSizing: 'border-box',
-    maxWidth: '40px',
     minWidth: '24px',
     textAlign: 'center',
     cursor: 'default',
