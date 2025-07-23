@@ -2721,7 +2721,7 @@
     "@griffel/react" "^1.5.22"
     "@swc/helpers" "^0.5.1"
 
-"@fluentui/react-utilities@^9.16.0", "@fluentui/react-utilities@^9.18.10", "@fluentui/react-utilities@^9.18.7", "@fluentui/react-utilities@^9.19.0":
+"@fluentui/react-utilities@9.19.0", "@fluentui/react-utilities@^9.16.0", "@fluentui/react-utilities@^9.18.10", "@fluentui/react-utilities@^9.18.7", "@fluentui/react-utilities@^9.19.0":
   version "9.19.0"
   resolved "https://registry.yarnpkg.com/@fluentui/react-utilities/-/react-utilities-9.19.0.tgz#e85cd29e5462f745140a286a380ff961aef4459f"
   integrity sha512-66Kdpr4xZsov6KSqbPDmKR5CB96RUPZuWihMC3RYHj9uH+oxd81k2Jyrb6rM058xjVKDFSFVLUZlsp1Mgts38w==

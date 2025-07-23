@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { useVirtualizer_unstable } from '../components/Virtualizer/useVirtualizer';
 
 describe('useVirtualizer', () => {
@@ -31,7 +31,7 @@ describe('useVirtualizer', () => {
         itemSize: 100, // 100 pixels
         children: rowFunc,
         containerSizeRef,
-      }),
+      })
     );
 
     // Initial render shows only first 100 items
