@@ -96,8 +96,9 @@ export function useMeasureList<
         }
 
         // cleanup previous container
-        if (refArray.current[index] !== undefined && refArray.current[index] !== null) {
-          resizeObserver.current.unobserve(refArray.current[index]!);
+        const prevEl = refArray.current[index];
+        if (prevEl) {
+          resizeObserver.current.unobserve(prevEl);
         }
 
         refArray.current[index] = undefined;
