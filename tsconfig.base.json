@@ -60,6 +60,9 @@
       "@fluentui-contrib/react-tree-grid": [
         "packages/react-tree-grid/src/index.ts"
       ],
+      "@fluentui-contrib/react-virtualizer": [
+        "packages/react-virtualizer/src/index.ts"
+      ],
       "@fluentui-contrib/stylelint-plugin": [
         "packages/stylelint-plugin/src/index.ts"
       ],
