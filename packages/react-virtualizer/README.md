@@ -10,6 +10,11 @@ Run `nx build react-virtualizer` to build the library.
 
 Run `nx test react-virtualizer` to execute the unit tests via [Jest](https://jestjs.io).
 
+## Dependency
+
+When taking @fluentui/react-contributor as a dependency, we recommend using the latest patch version i.e. "@fluentui-contrib/react-virtualizer": "~0.0.1".
+This is due to major version bumps being reserved for future stable releases or major API changes, while minor versioning may contain smaller API modifications.
+
 ## Description
 
 React-virtualizer is a new approach to virtualization that uses IntersectionObserver to enable scroll detection.
