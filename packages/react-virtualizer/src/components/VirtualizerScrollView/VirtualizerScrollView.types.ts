@@ -1,5 +1,9 @@
 import * as React from 'react';
-import type { ComponentProps, ComponentState, Slot } from '@fluentui/react-utilities';
+import type {
+  ComponentProps,
+  ComponentState,
+  Slot,
+} from '@fluentui/react-utilities';
 import type {
   VirtualizerSlots,
   VirtualizerConfigProps,
@@ -15,11 +19,18 @@ export type VirtualizerScrollViewSlots = VirtualizerSlots & {
   container: NonNullable<Slot<'div'>>;
 };
 
-export type VirtualizerScrollViewProps = ComponentProps<Partial<VirtualizerScrollViewSlots>> &
+export type VirtualizerScrollViewProps = ComponentProps<
+  Partial<VirtualizerScrollViewSlots>
+> &
   Partial<
     Omit<
       VirtualizerConfigProps,
-      'itemSize' | 'numItems' | 'getItemSize' | 'children' | 'flagIndex' | 'imperativeVirtualizerRef'
+      | 'itemSize'
+      | 'numItems'
+      | 'getItemSize'
+      | 'children'
+      | 'flagIndex'
+      | 'imperativeVirtualizerRef'
     >
   > & {
     /**
@@ -48,4 +59,5 @@ export type VirtualizerScrollViewProps = ComponentProps<Partial<VirtualizerScrol
     enablePagination?: boolean;
   };
 
-export type VirtualizerScrollViewState = ComponentState<VirtualizerScrollViewSlots> & VirtualizerConfigState;
+export type VirtualizerScrollViewState =
+  ComponentState<VirtualizerScrollViewSlots> & VirtualizerConfigState;

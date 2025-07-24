@@ -1,15 +1,19 @@
 import type { VirtualizerScrollViewState } from './VirtualizerScrollView.types';
 import type { SlotClassNames } from '@fluentui/react-utilities';
 import type { VirtualizerScrollViewSlots } from './VirtualizerScrollView.types';
-import { useVirtualizerStyles_unstable, virtualizerClassNames } from '../Virtualizer/useVirtualizerStyles.styles';
+import {
+  useVirtualizerStyles_unstable,
+  virtualizerClassNames,
+} from '../Virtualizer/useVirtualizerStyles.styles';
 import { makeStyles, mergeClasses } from '@griffel/react';
 
 const virtualizerScrollViewClassName = 'fui-Virtualizer-Scroll-View';
 
-export const virtualizerScrollViewClassNames: SlotClassNames<VirtualizerScrollViewSlots> = {
-  ...virtualizerClassNames,
-  container: `${virtualizerScrollViewClassName}__container`,
-};
+export const virtualizerScrollViewClassNames: SlotClassNames<VirtualizerScrollViewSlots> =
+  {
+    ...virtualizerClassNames,
+    container: `${virtualizerScrollViewClassName}__container`,
+  };
 
 const useStyles = makeStyles({
   base: {
@@ -39,7 +43,7 @@ const useStyles = makeStyles({
  * Apply styling to the Virtualizer states
  */
 export const useVirtualizerScrollViewStyles_unstable = (
-  state: VirtualizerScrollViewState,
+  state: VirtualizerScrollViewState
 ): VirtualizerScrollViewState => {
   'use no memo';
 
@@ -62,7 +66,7 @@ export const useVirtualizerScrollViewStyles_unstable = (
     virtualizerScrollViewClassNames.container,
     styles.base,
     containerStyle,
-    state.container.className,
+    state.container.className
   );
 
   return state;

@@ -29,7 +29,11 @@ export type {
   IndexedResizeCallbackElement,
 } from './Hooks';
 
-export type { ScrollToItemDynamicParams, ScrollToItemStaticParams, ScrollToInterface } from './Utilities';
+export type {
+  ScrollToItemDynamicParams,
+  ScrollToItemStaticParams,
+  ScrollToInterface,
+} from './Utilities';
 
 export {
   VirtualizerContextProvider,
@@ -38,7 +42,10 @@ export {
   scrollToItemDynamic,
 } from './Utilities';
 
-export type { VirtualizerContextProps, DynamicVirtualizerContextProps } from './Utilities';
+export type {
+  VirtualizerContextProps,
+  DynamicVirtualizerContextProps,
+} from './Utilities';
 
 export {
   VirtualizerScrollView,

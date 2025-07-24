@@ -12,10 +12,18 @@ export interface IndexedResizeCallbackElement {
  * `measureElementRef` - a ref function to be passed as `ref` to the element you want to measure
  */
 export function useMeasureList<
-  TElement extends HTMLElement & IndexedResizeCallbackElement = HTMLElement & IndexedResizeCallbackElement,
->(currentIndex: number, refLength: number, totalLength: number, defaultItemSize: number) {
+  TElement extends HTMLElement & IndexedResizeCallbackElement = HTMLElement &
+    IndexedResizeCallbackElement
+>(
+  currentIndex: number,
+  refLength: number,
+  totalLength: number,
+  defaultItemSize: number
+) {
   const widthArray = React.useRef(new Array(totalLength).fill(defaultItemSize));
-  const heightArray = React.useRef(new Array(totalLength).fill(defaultItemSize));
+  const heightArray = React.useRef(
+    new Array(totalLength).fill(defaultItemSize)
+  );
 
   const refArray = React.useRef<Array<TElement | undefined | null>>([]);
   const { targetDocument } = useFluent();
@@ -32,20 +40,22 @@ export function useMeasureList<
       if (containerWidth !== widthArray.current[currentIndex + index]) {
         isChanged = true;
       }
-      widthArray.current[currentIndex + index] = containerWidth || defaultItemSize;
+      widthArray.current[currentIndex + index] =
+        containerWidth || defaultItemSize;
 
       const containerHeight = boundClientRect?.height;
 
       if (containerHeight !== heightArray.current[currentIndex + index]) {
         isChanged = true;
       }
-      heightArray.current[currentIndex + index] = containerHeight || defaultItemSize;
+      heightArray.current[currentIndex + index] =
+        containerHeight || defaultItemSize;
 
       if (isChanged) {
         sizeUpdateCount.current = sizeUpdateCount.current + 1;
       }
     },
-    [currentIndex, defaultItemSize, sizeUpdateCount],
+    [currentIndex, defaultItemSize, sizeUpdateCount]
   );
 
   const handleElementResizeCallback = (entries: ResizeObserverEntry[]) => {
@@ -63,19 +73,28 @@ export function useMeasureList<
     keeping the existing values is important for whitespace assumptions.
     Even if items in the 'middle' are deleted, we will recalc the whitespace as it is explored.*/
     if (newWidthLength > 0) {
-      widthArray.current = widthArray.current.concat(new Array(newWidthLength).fill(defaultItemSize));
+      widthArray.current = widthArray.current.concat(
+        new Array(newWidthLength).fill(defaultItemSize)
+      );
     } else if (newWidthLength < 0) {
       widthArray.current = widthArray.current.slice(0, totalLength);
     }
     if (newHeightLength > 0) {
-      heightArray.current = heightArray.current.concat(new Array(newHeightLength).fill(defaultItemSize));
+      heightArray.current = heightArray.current.concat(
+        new Array(newHeightLength).fill(defaultItemSize)
+      );
     } else if (newHeightLength < 0) {
       heightArray.current = heightArray.current.slice(0, totalLength);
     }
   }, [defaultItemSize, totalLength]);
 
   // Keep the reference of ResizeObserver as a ref, as it should live through renders
-  const resizeObserver = React.useRef(createResizeObserverFromDocument(targetDocument, handleElementResizeCallback));
+  const resizeObserver = React.useRef(
+    createResizeObserverFromDocument(
+      targetDocument,
+      handleElementResizeCallback
+    )
+  );
 
   /* createIndexedRef provides a dynamic function to create an undefined number of refs at render time
    * these refs then provide an indexed callback via attaching 'handleResize' to the element itself
@@ -111,7 +130,7 @@ export function useMeasureList<
 
       return measureElementRef;
     },
-    [handleIndexUpdate, resizeObserver, targetDocument],
+    [handleIndexUpdate, resizeObserver, targetDocument]
   );
 
   React.useEffect(() => {
@@ -119,7 +138,13 @@ export function useMeasureList<
     return () => _resizeObserver.current?.disconnect();
   }, [resizeObserver]);
 
-  return { widthArray, heightArray, createIndexedRef, refArray, sizeUpdateCount: sizeUpdateCount.current };
+  return {
+    widthArray,
+    heightArray,
+    createIndexedRef,
+    refArray,
+    sizeUpdateCount: sizeUpdateCount.current,
+  };
 }
 
 /**
@@ -131,7 +156,7 @@ export function useMeasureList<
  */
 export function createResizeObserverFromDocument(
   targetDocument: Document | null | undefined,
-  callback: ResizeObserverCallback,
+  callback: ResizeObserverCallback
 ) {
   if (!targetDocument?.defaultView?.ResizeObserver) {
     return null;

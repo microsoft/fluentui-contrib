@@ -1,5 +1,8 @@
 import * as React from 'react';
-import { useStaticVirtualizerMeasure, Virtualizer } from '@fluentui/react-virtualizer';
+import {
+  useStaticVirtualizerMeasure,
+  Virtualizer,
+} from '@fluentui/react-virtualizer';
 import { makeStyles } from '@fluentui/react-components';
 
 const useStyles = makeStyles({
@@ -23,12 +26,23 @@ export const Reversed = () => {
   const childLength = 1000;
   const itemSize = 100;
 
-  const { virtualizerLength, bufferItems, bufferSize, scrollRef, containerSizeRef } = useStaticVirtualizerMeasure({
+  const {
+    virtualizerLength,
+    bufferItems,
+    bufferSize,
+    scrollRef,
+    containerSizeRef,
+  } = useStaticVirtualizerMeasure({
     defaultItemSize: itemSize,
   });
 
   return (
-    <div aria-label="Reversed Virtualizer Example" className={styles.container} role={'list'} ref={scrollRef}>
+    <div
+      aria-label="Reversed Virtualizer Example"
+      className={styles.container}
+      role={'list'}
+      ref={scrollRef}
+    >
       <Virtualizer
         numItems={childLength}
         reversed
@@ -38,7 +52,7 @@ export const Reversed = () => {
         itemSize={itemSize}
         containerSizeRef={containerSizeRef}
       >
-        {index => {
+        {(index) => {
           return (
             <span
               role={'listItem'}

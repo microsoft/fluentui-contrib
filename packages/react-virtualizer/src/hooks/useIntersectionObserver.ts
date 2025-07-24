@@ -14,7 +14,7 @@ import { useMutationObserver } from './useMutationObserver';
 export const getRTLRootMargin = (
   ltrRootMargin: string,
   target?: Element | Document | null | undefined,
-  win?: Window | null,
+  win?: Window | null
 ): string => {
   if (target && win) {
     // get the computed dir for the target element
@@ -51,7 +51,7 @@ export const getRTLRootMargin = (
 
 export const useIntersectionObserver = (
   callback: IntersectionObserverCallback,
-  options?: IntersectionObserverInit,
+  options?: IntersectionObserverInit
 ): {
   setObserverList: React.Dispatch<React.SetStateAction<Element[] | undefined>>;
   setObserverInit: (newInit: IntersectionObserverInit | undefined) => void;
@@ -69,11 +69,17 @@ export const useIntersectionObserver = (
   const win = targetDocument?.defaultView;
 
   // set the initial init with corrected margins based on the observed root's calculated reading direction.
-  const [observerInit, setObserverInit] = useState<IntersectionObserverInit | undefined>(
+  const [observerInit, setObserverInit] = useState<
+    IntersectionObserverInit | undefined
+  >(
     options && {
       ...options,
-      rootMargin: getRTLRootMargin(options.rootMargin ?? '0px', options.root as Element, win),
-    },
+      rootMargin: getRTLRootMargin(
+        options.rootMargin ?? '0px',
+        options.root as Element,
+        win
+      ),
+    }
   );
 
   // We have to assume that any values passed in for rootMargin by the consuming app are ltr values. As such we will store the ltr value.
@@ -81,7 +87,7 @@ export const useIntersectionObserver = (
 
   // Callback function to execute when mutations are observed
   const mutationObserverCallback: MutationCallback = useCallback(
-    mutationList => {
+    (mutationList) => {
       for (const mutation of mutationList) {
         // Ensuring that the right attribute is being observed and that the root is within the tree of the element being mutated.
         if (
@@ -92,12 +98,16 @@ export const useIntersectionObserver = (
         ) {
           setObserverInit({
             ...observerInit,
-            rootMargin: getRTLRootMargin(ltrRootMargin.current, observerInit?.root, win),
+            rootMargin: getRTLRootMargin(
+              ltrRootMargin.current,
+              observerInit?.root,
+              win
+            ),
           });
         }
       }
     },
-    [ltrRootMargin, observerInit, options?.root, win],
+    [ltrRootMargin, observerInit, options?.root, win]
   );
 
   // Mutation observer for dir attribute changes in the document
@@ -116,12 +126,16 @@ export const useIntersectionObserver = (
 
     observer.current = new win.IntersectionObserver(callback, {
       ...observerInit,
-      rootMargin: getRTLRootMargin(ltrRootMargin.current, observerInit?.root, win),
+      rootMargin: getRTLRootMargin(
+        ltrRootMargin.current,
+        observerInit?.root,
+        win
+      ),
     });
 
     // If we have an instance of IO and a list with elements, observer the elements
     if (observer.current && observerList && observerList.length > 0) {
-      observerList.forEach(element => {
+      observerList.forEach((element) => {
         observer.current?.observe(element);
       });
     }
@@ -143,11 +157,19 @@ export const useIntersectionObserver = (
       // Call the internal setter to update the value and ensure if our calculated direction is rtl, we flip the margin
       setObserverInit({
         ...newInit,
-        rootMargin: getRTLRootMargin(ltrRootMargin.current, newInit?.root as Element, win),
+        rootMargin: getRTLRootMargin(
+          ltrRootMargin.current,
+          newInit?.root as Element,
+          win
+        ),
       });
     },
-    [ltrRootMargin, setObserverInit, win],
+    [ltrRootMargin, setObserverInit, win]
   );
 
-  return { setObserverList, setObserverInit: setObserverInitExternal, observer };
+  return {
+    setObserverList,
+    setObserverInit: setObserverInitExternal,
+    observer,
+  };
 };

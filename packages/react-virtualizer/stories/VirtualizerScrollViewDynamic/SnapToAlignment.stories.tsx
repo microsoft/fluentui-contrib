@@ -18,12 +18,16 @@ export const SnapToAlignment = () => {
   const minHeight = 42;
   const maxHeightIncrease = 150;
   // Array size ref stores a list of random num for div sizing and callbacks
-  const arraySize = React.useRef(new Array<number>(childLength).fill(minHeight));
+  const arraySize = React.useRef(
+    new Array<number>(childLength).fill(minHeight)
+  );
 
   React.useEffect(() => {
     // Set random heights on init (to be measured)
     for (let i = 0; i < childLength; i++) {
-      arraySize.current[i] = Math.floor(Math.random() * maxHeightIncrease + minHeight);
+      arraySize.current[i] = Math.floor(
+        Math.random() * maxHeightIncrease + minHeight
+      );
     }
   }, []);
 

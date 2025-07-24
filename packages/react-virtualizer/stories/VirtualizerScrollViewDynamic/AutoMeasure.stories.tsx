@@ -16,7 +16,9 @@ export const AutoMeasure = () => {
   const minHeight = 25;
   const maxHeightIncrease = 55;
   // Array size ref stores a list of random num for div sizing and callbacks
-  const arraySize = React.useRef(new Array<number>(childLength).fill(minHeight));
+  const arraySize = React.useRef(
+    new Array<number>(childLength).fill(minHeight)
+  );
 
   React.useEffect(() => {
     // Set random heights on init (to be measured)
@@ -25,7 +27,9 @@ export const AutoMeasure = () => {
       if (i < 10) {
         arraySize.current[i] = 1000;
       } else {
-        arraySize.current[i] = Math.floor(Math.random() * maxHeightIncrease + minHeight);
+        arraySize.current[i] = Math.floor(
+          Math.random() * maxHeightIncrease + minHeight
+        );
       }
 
       // arraySize.current[i] = Math.floor(Math.random() * maxHeightIncrease + minHeight);

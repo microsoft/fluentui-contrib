@@ -7,7 +7,7 @@
  */
 export function createResizeObserverFromDocument(
   targetDocument: Document | null | undefined,
-  callback: ResizeObserverCallback,
+  callback: ResizeObserverCallback
 ) {
   if (!targetDocument?.defaultView?.ResizeObserver) {
     return null;

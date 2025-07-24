@@ -1,4 +1,7 @@
-import { useIsomorphicLayoutEffect, useMergedRefs } from '@fluentui/react-utilities';
+import {
+  useIsomorphicLayoutEffect,
+  useMergedRefs,
+} from '@fluentui/react-utilities';
 import * as React from 'react';
 import { VirtualizerMeasureDynamicProps } from './hooks.types';
 import { useResizeObserverRef_unstable } from './useResizeObserverRef';
@@ -8,7 +11,7 @@ import { useFluent_unstable as useFluent } from '@fluentui/react-shared-contexts
  * React hook that measures virtualized space dynamically to ensure optimized virtualization length.
  */
 export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
-  virtualizerProps: VirtualizerMeasureDynamicProps,
+  virtualizerProps: VirtualizerMeasureDynamicProps
 ): {
   virtualizerLength: number;
   bufferItems: number;
@@ -35,7 +38,8 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
 
   const containerSizeRef = React.useRef<number>(0);
   const scrollPosition = React.useRef<number>(0);
-  const { virtualizerLength, virtualizerBufferItems, virtualizerBufferSize } = state;
+  const { virtualizerLength, virtualizerBufferItems, virtualizerBufferSize } =
+    state;
 
   const { targetDocument } = useFluent();
   const container = React.useRef<HTMLElement | null>(null);
@@ -55,7 +59,9 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
       } else if (targetDocument?.defaultView) {
         // If our scroll ref is the document body, we should check window height
         containerSizeRef.current =
-          direction === 'vertical' ? targetDocument?.defaultView?.innerHeight : targetDocument?.defaultView?.innerWidth;
+          direction === 'vertical'
+            ? targetDocument?.defaultView?.innerHeight
+            : targetDocument?.defaultView?.innerWidth;
       }
 
       let indexSizer = 0;
@@ -67,7 +73,9 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
 
       while (indexSizer <= sizeToBeat && i + startIndex < numItems) {
         const iItemSize = getItemSize(startIndex + i);
-        if (virtualizerContext.childProgressiveSizes.current.length < numItems) {
+        if (
+          virtualizerContext.childProgressiveSizes.current.length < numItems
+        ) {
           /* We are in unknown territory, either an initial render or an update
             in virtualizer item length has occurred.
             We need to let the new items render first then we can accurately assess.*/
@@ -75,7 +83,9 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
         }
 
         const currentScrollPos = scrollPosition.current;
-        const currentItemPos = virtualizerContext.childProgressiveSizes.current[startIndex + i] - iItemSize;
+        const currentItemPos =
+          virtualizerContext.childProgressiveSizes.current[startIndex + i] -
+          iItemSize;
 
         if (currentScrollPos > currentItemPos + iItemSize) {
           // The item isn't in view, ignore for now.
@@ -125,7 +135,7 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
       virtualizerContext.childProgressiveSizes,
       virtualizerContext.contextIndex,
       virtualizerLength,
-    ],
+    ]
   );
 
   const resizeCallback = React.useCallback(
@@ -134,23 +144,31 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
       // TODO: exclude types from this lint rule: https://github.com/microsoft/fluentui/issues/31286
       // eslint-disable-next-line no-restricted-globals
       _observer: ResizeObserver,
-      scrollRef?: React.MutableRefObject<HTMLElement | null>,
+      scrollRef?: React.MutableRefObject<HTMLElement | null>
     ) => {
       if (scrollRef) {
         handleScrollResize(scrollRef);
       }
     },
-    [handleScrollResize],
+    [handleScrollResize]
   );
 
-  const scrollRef = useMergedRefs(container, useResizeObserverRef_unstable(resizeCallback));
+  const scrollRef = useMergedRefs(
+    container,
+    useResizeObserverRef_unstable(resizeCallback)
+  );
 
   useIsomorphicLayoutEffect(() => {
     if (virtualizerContext.contextIndex + virtualizerLength < numItems) {
       // Avoid re-rendering/re-calculating when the end index has already been reached
       handleScrollResize(container);
     }
-  }, [handleScrollResize, numItems, virtualizerContext.contextIndex, virtualizerLength]);
+  }, [
+    handleScrollResize,
+    numItems,
+    virtualizerContext.contextIndex,
+    virtualizerLength,
+  ]);
 
   const updateScrollPosition = React.useCallback(
     (_scrollPosition: number) => {
@@ -158,7 +176,7 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
       // Check if our vLength's need recalculating
       handleScrollResize(scrollRef);
     },
-    [handleScrollResize, scrollRef],
+    [handleScrollResize, scrollRef]
   );
 
   return {

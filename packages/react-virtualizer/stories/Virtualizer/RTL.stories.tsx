@@ -1,5 +1,8 @@
 import * as React from 'react';
-import { useStaticVirtualizerMeasure, Virtualizer } from '@fluentui/react-virtualizer';
+import {
+  useStaticVirtualizerMeasure,
+  Virtualizer,
+} from '@fluentui/react-virtualizer';
 import { makeStyles } from '@fluentui/react-components';
 
 const useStyles = makeStyles({
@@ -24,7 +27,13 @@ export const RTL = () => {
   const childLength = 1000;
 
   const itemWidth = 100;
-  const { virtualizerLength, bufferItems, bufferSize, scrollRef, containerSizeRef } = useStaticVirtualizerMeasure({
+  const {
+    virtualizerLength,
+    bufferItems,
+    bufferSize,
+    scrollRef,
+    containerSizeRef,
+  } = useStaticVirtualizerMeasure({
     defaultItemSize: itemWidth,
     direction: 'horizontal',
   });
@@ -41,7 +50,7 @@ export const RTL = () => {
         itemSize={100}
         containerSizeRef={containerSizeRef}
       >
-        {index => {
+        {(index) => {
           return (
             <span
               role={'listItem'}

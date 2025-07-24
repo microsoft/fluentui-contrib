@@ -28,9 +28,14 @@ export const ScrollTo = () => {
     }
   };
 
-  const onChangeGoToIndex = (ev?: React.FormEvent<HTMLElement | HTMLInputElement>) => {
+  const onChangeGoToIndex = (
+    ev?: React.FormEvent<HTMLElement | HTMLInputElement>
+  ) => {
     const indexValue = ev ? (ev.currentTarget as HTMLInputElement).value : '';
-    const newIndex = Math.min(Math.max(parseInt(indexValue, 10), 0), childLength - 1);
+    const newIndex = Math.min(
+      Math.max(parseInt(indexValue, 10), 0),
+      childLength - 1
+    );
     setGoToIndex(newIndex);
   };
 

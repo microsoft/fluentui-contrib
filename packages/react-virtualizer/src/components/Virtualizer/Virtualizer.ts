@@ -10,7 +10,9 @@ import { useCustomStyleHook_unstable } from '@fluentui/react-shared-contexts';
  * provides a simple interface for reducing the total number
  * of elements rendered at one time in large lists.
  */
-export const Virtualizer: React.FC<VirtualizerProps> = (props: VirtualizerProps) => {
+export const Virtualizer: React.FC<VirtualizerProps> = (
+  props: VirtualizerProps
+) => {
   const state = useVirtualizer_unstable(props);
   useVirtualizerStyles_unstable(state);
   useCustomStyleHook_unstable('useVirtualizerStyles_unstable')(state);

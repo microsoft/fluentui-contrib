@@ -29,11 +29,14 @@ const useStyles = makeStyles({
 /**
  * Apply styling to the Virtualizer states
  */
-export const useVirtualizerStyles_unstable = (state: VirtualizerState): VirtualizerState => {
+export const useVirtualizerStyles_unstable = (
+  state: VirtualizerState
+): VirtualizerState => {
   'use no memo';
 
   const styles = useStyles();
-  const { reversed, axis, beforeBufferHeight, afterBufferHeight, bufferSize } = state;
+  const { reversed, axis, beforeBufferHeight, afterBufferHeight, bufferSize } =
+    state;
   const horizontal = axis === 'horizontal';
 
   state.before.className = mergeClasses(
@@ -41,7 +44,7 @@ export const useVirtualizerStyles_unstable = (state: VirtualizerState): Virtuali
     styles.base,
     styles.relative,
     horizontal ? styles.horizontal : styles.vertical,
-    state.before.className,
+    state.before.className
   );
 
   state.after.className = mergeClasses(
@@ -49,21 +52,21 @@ export const useVirtualizerStyles_unstable = (state: VirtualizerState): Virtuali
     styles.base,
     styles.relative,
     horizontal ? styles.horizontal : styles.vertical,
-    state.after.className,
+    state.after.className
   );
 
   state.beforeContainer.className = mergeClasses(
     virtualizerClassNames.beforeContainer,
     styles.base,
     horizontal ? styles.horizontal : styles.vertical,
-    state.beforeContainer.className,
+    state.beforeContainer.className
   );
 
   state.afterContainer.className = mergeClasses(
     virtualizerClassNames.afterContainer,
     styles.base,
     horizontal ? styles.horizontal : styles.vertical,
-    state.afterContainer.className,
+    state.afterContainer.className
   );
 
   const beforeHeightPx = beforeBufferHeight + 'px';

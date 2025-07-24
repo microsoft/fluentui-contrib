@@ -9,5 +9,11 @@ export type {
   VirtualizerState,
 } from './Virtualizer.types';
 export { useVirtualizer_unstable } from './useVirtualizer';
-export { renderVirtualizerChildPlaceholder, renderVirtualizer_unstable } from './renderVirtualizer';
-export { useVirtualizerStyles_unstable, virtualizerClassNames } from './useVirtualizerStyles.styles';
+export {
+  renderVirtualizerChildPlaceholder,
+  renderVirtualizer_unstable,
+} from './renderVirtualizer';
+export {
+  useVirtualizerStyles_unstable,
+  virtualizerClassNames,
+} from './useVirtualizerStyles.styles';

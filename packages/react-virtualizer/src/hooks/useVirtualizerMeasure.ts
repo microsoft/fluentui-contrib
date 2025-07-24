@@ -7,7 +7,7 @@ import { useFluent_unstable as useFluent } from '@fluentui/react-shared-contexts
  * React hook that measures virtualized space based on a static size to ensure optimized virtualization length.
  */
 export const useStaticVirtualizerMeasure = <TElement extends HTMLElement>(
-  virtualizerProps: VirtualizerMeasureProps,
+  virtualizerProps: VirtualizerMeasureProps
 ): {
   virtualizerLength: number;
   bufferItems: number;
@@ -15,7 +15,12 @@ export const useStaticVirtualizerMeasure = <TElement extends HTMLElement>(
   scrollRef: (instance: TElement | null) => void;
   containerSizeRef: React.MutableRefObject<number>;
 } => {
-  const { defaultItemSize, direction = 'vertical', bufferItems, bufferSize } = virtualizerProps;
+  const {
+    defaultItemSize,
+    direction = 'vertical',
+    bufferItems,
+    bufferSize,
+  } = virtualizerProps;
 
   const [state, setState] = React.useState({
     virtualizerLength: 0,
@@ -34,7 +39,7 @@ export const useStaticVirtualizerMeasure = <TElement extends HTMLElement>(
       // TODO: exclude types from this lint rule: https://github.com/microsoft/fluentui/issues/31286
       // eslint-disable-next-line no-restricted-globals
       _observer: ResizeObserver,
-      scrollRef?: React.MutableRefObject<HTMLElement | null>,
+      scrollRef?: React.MutableRefObject<HTMLElement | null>
     ) => {
       if (!scrollRef?.current) {
         return;
@@ -49,7 +54,9 @@ export const useStaticVirtualizerMeasure = <TElement extends HTMLElement>(
       } else if (targetDocument?.defaultView) {
         // If our scroll ref is the document body, we should check window height
         containerSizeRef.current =
-          direction === 'vertical' ? targetDocument?.defaultView?.innerHeight : targetDocument?.defaultView?.innerWidth;
+          direction === 'vertical'
+            ? targetDocument?.defaultView?.innerHeight
+            : targetDocument?.defaultView?.innerWidth;
       }
       /*
        * Number of items required to cover viewport.
@@ -75,7 +82,14 @@ export const useStaticVirtualizerMeasure = <TElement extends HTMLElement>(
         _bufferSize: newBufferSize,
       });
     },
-    [bufferItems, bufferSize, defaultItemSize, direction, targetDocument?.body, targetDocument?.defaultView],
+    [
+      bufferItems,
+      bufferSize,
+      defaultItemSize,
+      direction,
+      targetDocument?.body,
+      targetDocument?.defaultView,
+    ]
   );
 
   const scrollRef = useResizeObserverRef_unstable(resizeCallback);

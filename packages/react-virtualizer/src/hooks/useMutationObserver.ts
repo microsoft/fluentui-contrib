@@ -6,7 +6,7 @@ const { useRef, useEffect } = React;
 export const useMutationObserver = (
   target: Element | Document | undefined,
   callback: MutationCallback,
-  options?: MutationObserverInit,
+  options?: MutationObserverInit
 ): {
   observer: React.MutableRefObject<MutationObserver | undefined>; // eslint-disable-line no-restricted-globals
 } => {

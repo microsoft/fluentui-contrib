@@ -1,9 +1,12 @@
 import * as React from 'react';
-import type { DynamicVirtualizerContextProps, VirtualizerContextProps } from './types';
+import type {
+  DynamicVirtualizerContextProps,
+  VirtualizerContextProps,
+} from './types';
 
-const VirtualizerContext = React.createContext<VirtualizerContextProps | undefined>(
-  undefined,
-) as React.Context<VirtualizerContextProps>;
+const VirtualizerContext = React.createContext<
+  VirtualizerContextProps | undefined
+>(undefined) as React.Context<VirtualizerContextProps>;
 
 export const VirtualizerContextProvider = VirtualizerContext.Provider;
 
@@ -12,7 +15,7 @@ export const useVirtualizerContext_unstable = () => {
 };
 
 export const useVirtualizerContextState_unstable = (
-  passedContext?: VirtualizerContextProps,
+  passedContext?: VirtualizerContextProps
 ): DynamicVirtualizerContextProps => {
   const virtualizerContext = useVirtualizerContext_unstable();
   const [_contextIndex, _setContextIndex] = React.useState<number>(-1);
@@ -23,11 +26,17 @@ export const useVirtualizerContextState_unstable = (
    */
   const context = React.useMemo(
     () => ({
-      contextIndex: passedContext?.contextIndex ?? virtualizerContext?.contextIndex ?? _contextIndex,
-      setContextIndex: passedContext?.setContextIndex ?? virtualizerContext?.setContextIndex ?? _setContextIndex,
+      contextIndex:
+        passedContext?.contextIndex ??
+        virtualizerContext?.contextIndex ??
+        _contextIndex,
+      setContextIndex:
+        passedContext?.setContextIndex ??
+        virtualizerContext?.setContextIndex ??
+        _setContextIndex,
       childProgressiveSizes,
     }),
-    [_contextIndex, passedContext, virtualizerContext],
+    [_contextIndex, passedContext, virtualizerContext]
   );
 
   return context;

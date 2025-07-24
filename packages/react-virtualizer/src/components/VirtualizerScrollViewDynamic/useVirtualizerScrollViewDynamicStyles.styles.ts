@@ -3,15 +3,20 @@ import type {
   VirtualizerScrollViewDynamicSlots,
   VirtualizerScrollViewDynamicState,
 } from './VirtualizerScrollViewDynamic.types';
-import { useVirtualizerStyles_unstable, virtualizerClassNames } from '../Virtualizer/useVirtualizerStyles.styles';
+import {
+  useVirtualizerStyles_unstable,
+  virtualizerClassNames,
+} from '../Virtualizer/useVirtualizerStyles.styles';
 import { makeStyles, mergeClasses } from '@griffel/react';
 
-const virtualizerScrollViewDynamicClassName = 'fui-Virtualizer-Scroll-View-Dynamic';
+const virtualizerScrollViewDynamicClassName =
+  'fui-Virtualizer-Scroll-View-Dynamic';
 
-export const virtualizerScrollViewDynamicClassNames: SlotClassNames<VirtualizerScrollViewDynamicSlots> = {
-  ...virtualizerClassNames,
-  container: `${virtualizerScrollViewDynamicClassName}__container`,
-};
+export const virtualizerScrollViewDynamicClassNames: SlotClassNames<VirtualizerScrollViewDynamicSlots> =
+  {
+    ...virtualizerClassNames,
+    container: `${virtualizerScrollViewDynamicClassName}__container`,
+  };
 
 const useStyles = makeStyles({
   base: {
@@ -41,7 +46,7 @@ const useStyles = makeStyles({
  * Apply styling to the Virtualizer states
  */
 export const useVirtualizerScrollViewDynamicStyles_unstable = (
-  state: VirtualizerScrollViewDynamicState,
+  state: VirtualizerScrollViewDynamicState
 ): VirtualizerScrollViewDynamicState => {
   'use no memo';
 
@@ -64,7 +69,7 @@ export const useVirtualizerScrollViewDynamicStyles_unstable = (
     virtualizerScrollViewDynamicClassNames.container,
     styles.base,
     containerStyle,
-    state.container.className,
+    state.container.className
   );
 
   return state;

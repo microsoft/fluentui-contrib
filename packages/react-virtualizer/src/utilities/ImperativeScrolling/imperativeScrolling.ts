@@ -1,7 +1,15 @@
 import { ScrollToItemStaticParams } from './imperativeScrolling.types';
 
 export const scrollToItemStatic = (params: ScrollToItemStaticParams) => {
-  const { index, itemSize, totalItems, scrollViewRef, axis = 'vertical', reversed = false, behavior = 'auto' } = params;
+  const {
+    index,
+    itemSize,
+    totalItems,
+    scrollViewRef,
+    axis = 'vertical',
+    reversed = false,
+    behavior = 'auto',
+  } = params;
 
   if (axis === 'horizontal') {
     if (reversed) {

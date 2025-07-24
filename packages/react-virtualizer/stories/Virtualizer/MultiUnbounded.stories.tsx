@@ -1,5 +1,8 @@
 import * as React from 'react';
-import { Virtualizer, useStaticVirtualizerMeasure } from '@fluentui/react-virtualizer';
+import {
+  Virtualizer,
+  useStaticVirtualizerMeasure,
+} from '@fluentui/react-virtualizer';
 import { makeStyles, useFluent } from '@fluentui/react-components';
 
 const useStyles = makeStyles({
@@ -36,7 +39,13 @@ export const MultiUnbounded = () => {
   const childLength = 100;
   const repeatingVirtualizers = 5;
 
-  const { virtualizerLength, bufferItems, bufferSize, scrollRef, containerSizeRef } = useStaticVirtualizerMeasure({
+  const {
+    virtualizerLength,
+    bufferItems,
+    bufferSize,
+    scrollRef,
+    containerSizeRef,
+  } = useStaticVirtualizerMeasure({
     defaultItemSize: 100,
   });
 
@@ -46,7 +55,12 @@ export const MultiUnbounded = () => {
   }
 
   const renderHeader = (index: number) => {
-    return <div key={`virtualizer-header-${index}`} className={styles.block}>{`Virtualizer Instance - ${index}`}</div>;
+    return (
+      <div
+        key={`virtualizer-header-${index}`}
+        className={styles.block}
+      >{`Virtualizer Instance - ${index}`}</div>
+    );
   };
 
   const renderVirtualization = (index: number) => {
@@ -60,7 +74,7 @@ export const MultiUnbounded = () => {
         key={`virtualizer-container-${index}`}
         containerSizeRef={containerSizeRef}
       >
-        {rowIndex => {
+        {(rowIndex) => {
           return (
             <span
               role={'listitem'}

@@ -1,5 +1,8 @@
 import * as React from 'react';
-import { Virtualizer, useStaticVirtualizerMeasure } from '@fluentui/react-virtualizer';
+import {
+  Virtualizer,
+  useStaticVirtualizerMeasure,
+} from '@fluentui/react-virtualizer';
 import { makeStyles } from '@fluentui/react-components';
 
 import { useFluent } from '@fluentui/react-components';
@@ -36,7 +39,13 @@ const useStyles = makeStyles({
 export const DefaultUnbounded = () => {
   const styles = useStyles();
   const childLength = 1000;
-  const { virtualizerLength, bufferItems, bufferSize, scrollRef, containerSizeRef } = useStaticVirtualizerMeasure({
+  const {
+    virtualizerLength,
+    bufferItems,
+    bufferSize,
+    scrollRef,
+    containerSizeRef,
+  } = useStaticVirtualizerMeasure({
     defaultItemSize: 100,
   });
 
@@ -46,8 +55,15 @@ export const DefaultUnbounded = () => {
   }
 
   return (
-    <div aria-label="Virtualizer Example" className={styles.container} role={'list'}>
-      <div key={`virtualizer-header`} className={styles.block}>{`Virtualizer`}</div>
+    <div
+      aria-label="Virtualizer Example"
+      className={styles.container}
+      role={'list'}
+    >
+      <div
+        key={`virtualizer-header`}
+        className={styles.block}
+      >{`Virtualizer`}</div>
       <Virtualizer
         numItems={childLength}
         virtualizerLength={virtualizerLength}
@@ -56,7 +72,7 @@ export const DefaultUnbounded = () => {
         itemSize={100}
         containerSizeRef={containerSizeRef}
       >
-        {/* eslint-disable-next-line @typescript-eslint/no-unused-vars */ }
+        {/* eslint-disable-next-line @typescript-eslint/no-unused-vars */}
         {(index, _isScrolling) => {
           return (
             <span

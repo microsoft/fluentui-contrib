@@ -16,14 +16,18 @@ export const Default = () => {
   const minHeight = 42;
   const maxHeightMod = 150;
   // Array size ref stores a list of random num for div sizing and callbacks
-  const arraySize = React.useRef(new Array<number>(childLength).fill(minHeight));
+  const arraySize = React.useRef(
+    new Array<number>(childLength).fill(minHeight)
+  );
   // totalSize flag drives our callback update
   const [totalSize, setTotalSize] = React.useState(minHeight * childLength);
 
   React.useEffect(() => {
     let _totalSize = 0;
     for (let i = 0; i < childLength; i++) {
-      arraySize.current[i] = Math.floor(Math.random() * maxHeightMod + minHeight);
+      arraySize.current[i] = Math.floor(
+        Math.random() * maxHeightMod + minHeight
+      );
       _totalSize += arraySize.current[i];
     }
     setTotalSize(_totalSize);
@@ -33,7 +37,7 @@ export const Default = () => {
     (index: number) => {
       return arraySize.current[index];
     },
-    [arraySize, totalSize],
+    [arraySize, totalSize]
   );
 
   return (

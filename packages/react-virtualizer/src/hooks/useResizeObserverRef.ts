@@ -7,7 +7,9 @@ import { ResizeCallbackWithRef } from './hooks.types';
 /**
  * useResizeObserverRef_unstable simplifies resize observer connection and ensures debounce/cleanup
  */
-export const useResizeObserverRef_unstable = (resizeCallback: ResizeCallbackWithRef) => {
+export const useResizeObserverRef_unstable = (
+  resizeCallback: ResizeCallbackWithRef
+) => {
   'use no memo';
 
   const { targetDocument } = useFluent();
@@ -17,27 +19,34 @@ export const useResizeObserverRef_unstable = (resizeCallback: ResizeCallbackWith
   // the handler for resize observer
   // TODO: exclude types from this lint rule: https://github.com/microsoft/fluentui/issues/31286
   // eslint-disable-next-line no-restricted-globals
-  const handleResize = debounce((entries: ResizeObserverEntry[], observer: ResizeObserver) => {
-    const containerHeight = container.current?.clientHeight;
-    const containerWidth = container.current?.clientWidth;
-    // Our resize observer will fire on scroll resize, let index change handle that instead.
-    if (containerHeightRef.current !== containerHeight || containerWidth !== containerWidthRef.current) {
-      containerWidthRef.current = containerWidth ?? 0;
-      containerHeightRef.current = containerHeight ?? 0;
-      resizeCallback(entries, observer, container);
+  const handleResize = debounce(
+    (entries: ResizeObserverEntry[], observer: ResizeObserver) => {
+      const containerHeight = container.current?.clientHeight;
+      const containerWidth = container.current?.clientWidth;
+      // Our resize observer will fire on scroll resize, let index change handle that instead.
+      if (
+        containerHeightRef.current !== containerHeight ||
+        containerWidth !== containerWidthRef.current
+      ) {
+        containerWidthRef.current = containerWidth ?? 0;
+        containerHeightRef.current = containerHeight ?? 0;
+        resizeCallback(entries, observer, container);
+      }
     }
-  });
+  );
 
   // Keep the reference of ResizeObserver in the state, as it should live through renders
   const [resizeObserver, setResizeObserver] = React.useState(() =>
-    createResizeObserverFromDocument(targetDocument, handleResize),
+    createResizeObserverFromDocument(targetDocument, handleResize)
   );
 
   React.useEffect(() => {
     // Update our state when resizeCallback changes
     container.current = null;
     resizeObserver?.disconnect();
-    setResizeObserver(() => createResizeObserverFromDocument(targetDocument, handleResize));
+    setResizeObserver(() =>
+      createResizeObserverFromDocument(targetDocument, handleResize)
+    );
   }, [resizeCallback, targetDocument]);
 
   React.useEffect(() => {
@@ -60,7 +69,7 @@ export const useResizeObserverRef_unstable = (resizeCallback: ResizeCallbackWith
         }
       }
     },
-    [resizeObserver],
+    [resizeObserver]
   );
 
   return scrollRef;

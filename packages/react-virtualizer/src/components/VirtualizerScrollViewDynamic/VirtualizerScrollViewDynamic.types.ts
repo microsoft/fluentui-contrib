@@ -7,15 +7,25 @@ import type {
 } from '../Virtualizer/Virtualizer.types';
 
 import type { VirtualizerScrollViewSlots } from '../VirtualizerScrollView/VirtualizerScrollView.types';
-import type { DynamicVirtualizerContextProps, ScrollToInterface } from '../../Utilities';
+import type {
+  DynamicVirtualizerContextProps,
+  ScrollToInterface,
+} from '../../Utilities';
 
 export type VirtualizerScrollViewDynamicSlots = VirtualizerScrollViewSlots;
 
-export type VirtualizerScrollViewDynamicProps = ComponentProps<Partial<VirtualizerScrollViewDynamicSlots>> &
+export type VirtualizerScrollViewDynamicProps = ComponentProps<
+  Partial<VirtualizerScrollViewDynamicSlots>
+> &
   Partial<
     Omit<
       VirtualizerConfigProps,
-      'itemSize' | 'numItems' | 'getItemSize' | 'children' | 'flagIndex' | 'virtualizerContext'
+      | 'itemSize'
+      | 'numItems'
+      | 'getItemSize'
+      | 'children'
+      | 'flagIndex'
+      | 'virtualizerContext'
     >
   > & {
     /**
@@ -54,5 +64,5 @@ export type VirtualizerScrollViewDynamicProps = ComponentProps<Partial<Virtualiz
     virtualizerContext?: DynamicVirtualizerContextProps;
   };
 
-export type VirtualizerScrollViewDynamicState = ComponentState<VirtualizerScrollViewDynamicSlots> &
-  VirtualizerConfigState;
+export type VirtualizerScrollViewDynamicState =
+  ComponentState<VirtualizerScrollViewDynamicSlots> & VirtualizerConfigState;

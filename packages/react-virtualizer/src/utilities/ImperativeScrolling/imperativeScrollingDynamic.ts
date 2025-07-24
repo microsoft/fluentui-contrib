@@ -1,7 +1,15 @@
 import { ScrollToItemDynamicParams } from './imperativeScrolling.types';
 
 export const scrollToItemDynamic = (params: ScrollToItemDynamicParams) => {
-  const { index, itemSizes, totalSize, scrollViewRef, axis = 'vertical', reversed = false, behavior = 'auto' } = params;
+  const {
+    index,
+    itemSizes,
+    totalSize,
+    scrollViewRef,
+    axis = 'vertical',
+    reversed = false,
+    behavior = 'auto',
+  } = params;
   if (!itemSizes.current) {
     return;
   }

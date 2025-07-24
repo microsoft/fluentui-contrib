@@ -1,6 +1,7 @@
 {
   "name": "@fluentui-contrib/react-virtualizer",
   "version": "0.0.1",
+  "private": true,
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "devDependencies": {
@@ -13,7 +14,6 @@
     "@swc/helpers": "~0.5.11",
     "jsonc-eslint-parser": "2.4.0"
   },
-  "private": true,
   "peerDependencies": {
     "@fluentui/react-shared-contexts": ">=9.7.2 <10.0.0",
     "@types/react": ">=16.8.0 <19.0.0",
