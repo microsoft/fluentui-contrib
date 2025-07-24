@@ -18,8 +18,8 @@ export const useResizeObserverRef_unstable = (
   const containerWidthRef = React.useRef<number>(0);
   // the handler for resize observer
   // TODO: exclude types from this lint rule: https://github.com/microsoft/fluentui/issues/31286
-  // eslint-disable-next-line no-restricted-globals
   const handleResize = debounce(
+    // eslint-disable-next-line no-restricted-globals
     (entries: ResizeObserverEntry[], observer: ResizeObserver) => {
       const containerHeight = container.current?.clientHeight;
       const containerWidth = container.current?.clientWidth;
