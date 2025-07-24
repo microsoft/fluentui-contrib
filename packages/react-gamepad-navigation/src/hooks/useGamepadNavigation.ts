@@ -4,7 +4,11 @@ import { GamepadState } from '../types/Keys';
 import { consolePrefix } from '../core/Constants';
 import { isSyntheticMouseEvent } from '../core/GamepadEvents';
 import { getGamepadMappings } from '../core/GamepadMappings';
-import { getShadowDOMAPI, IntervalId } from '../core/GamepadUtils';
+import {
+  getShadowDOMAPI,
+  IntervalId,
+  isGamepadAPISupported,
+} from '../core/GamepadUtils';
 import {
   isPollingEnabled,
   setDefaultInputMode,
@@ -27,9 +31,9 @@ export const getGamepadStates = (): Map<number, GamepadState> => gamepadStates;
 
 // Gamepad polling
 const updateGamepadState = (targetDocument: Document) => {
-  const targetView = targetDocument.defaultView;
   let nextGamepads: (Gamepad | null)[] = [];
-  if (targetView?.navigator && targetView.navigator.getGamepads) {
+  const targetView = targetDocument.defaultView;
+  if (isGamepadAPISupported(targetView)) {
     nextGamepads = targetView.navigator.getGamepads();
   }
   const nextGamepadStates = new Map<number, GamepadState>();
@@ -230,7 +234,7 @@ export const useGamepadNavigation = (options: GamepadNavigationOptions) => {
      * we look through the window.navigator's current gamepads and add those to our list to start.
      */
     const targetView: Window | null = targetDocument.defaultView;
-    if (targetView?.navigator && targetView.navigator.getGamepads) {
+    if (isGamepadAPISupported(targetView)) {
       const gamepadsList = targetView.navigator.getGamepads();
 
       for (const gamepad of gamepadsList) {
