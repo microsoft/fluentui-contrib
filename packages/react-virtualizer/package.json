@@ -1,7 +1,7 @@
 {
   "name": "@fluentui-contrib/react-virtualizer",
   "version": "0.0.1",
-  "private": true,
+  "private": false,
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "devDependencies": {
