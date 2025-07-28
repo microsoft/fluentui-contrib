@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "feat: Release react-virtualizer in initial stable state",
+  "packageName": "@fluentui-contrib/react-virtualizer",
+  "email": "mifraser@microsoft.com",
+  "dependentChangeType": "patch"
+}
