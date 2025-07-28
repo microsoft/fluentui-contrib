@@ -51,7 +51,7 @@
     "@playwright/experimental-ct-react17": "1.49.1",
     "@rnx-kit/eslint-plugin": "0.8.6",
     "@storybook/addon-docs": "7.6.20",
-    "@storybook/addon-essentials": "7.6.20",
+    "@storybook/addon-essentials": "8.1.11",
     "@storybook/addon-interactions": "7.6.20",
     "@storybook/addon-themes": "7.6.20",
     "@storybook/core-common": "7.6.20",
