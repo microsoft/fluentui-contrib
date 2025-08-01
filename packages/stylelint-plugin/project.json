@@ -3,6 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/stylelint-plugin/src",
   "projectType": "library",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@fluentui-contrib/nx-plugin:build"
@@ -39,6 +40,5 @@
     "type-check": {
       "executor": "@fluentui-contrib/nx-plugin:type-check"
     }
-  },
-  "tags": []
+  }
 }

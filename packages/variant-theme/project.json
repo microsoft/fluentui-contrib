@@ -3,6 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/variant-theme/src",
   "projectType": "library",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@fluentui-contrib/nx-plugin:build"
@@ -65,6 +66,5 @@
         "config": "packages/variant-theme/playwright.config.ts"
       }
     }
-  },
-  "tags": []
+  }
 }

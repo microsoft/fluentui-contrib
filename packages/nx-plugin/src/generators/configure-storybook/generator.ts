@@ -8,7 +8,7 @@ import {
   ProjectConfiguration,
   offsetFromRoot,
 } from '@nx/devkit';
-import { configurationGenerator } from '@nx/storybook';
+// import { configurationGenerator } from '@nx/storybook';
 import * as path from 'path';
 import { ConfigureStorybookGeneratorSchema } from './schema';
 
@@ -22,16 +22,16 @@ export default async function (
 
   const { root: projectRoot } = project;
 
-  await configurationGenerator(tree, {
-    project: name,
-    uiFramework: '@storybook/react-webpack5',
-    tsConfiguration: true,
-    interactionTests: false,
-  });
+  // await configurationGenerator(tree, {
+  //   project: name,
+  //   uiFramework: '@storybook/react-webpack5',
+  //   tsConfiguration: true,
+  //   interactionTests: false,
+  // });
 
-  // remove nx/storybook generator defaults that we don't need
-  tree.delete(joinPathFragments(projectRoot, '.storybook/preview.ts'));
-  tree.delete(joinPathFragments(projectRoot, 'tsconfig.storybook.json'));
+  // // remove nx/storybook generator defaults that we don't need
+  // tree.delete(joinPathFragments(projectRoot, '.storybook/preview.ts'));
+  // tree.delete(joinPathFragments(projectRoot, 'tsconfig.storybook.json'));
 
   updateJson(tree, '/package.json', (json) => {
     json.devDependencies = json.devDependencies ?? {};
