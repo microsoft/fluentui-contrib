@@ -33,7 +33,7 @@ describe('configure-storybook generator', () => {
     const config = readProjectConfiguration(tree, 'hello');
 
     expect(tree.children(joinPathFragments(config.root, '.storybook'))).toEqual(
-      ['main.ts', 'tsconfig.json', 'preview.tsx']
+      ['main.ts', 'preview.tsx', 'tsconfig.json']
     );
 
     expect(
