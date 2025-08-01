@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix(react-keytips): remove default event prevention in useHotkeys",
-  "packageName": "@fluentui-contrib/react-keytips",
-  "email": "vgenaev@gmail.com",
-  "dependentChangeType": "patch"
-}

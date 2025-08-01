@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix(react-gamepad-navigation): handling Gamepad API access denied",
-  "packageName": "@fluentui-contrib/react-gamepad-navigation",
-  "email": "hectorjimenez@outlook.com",
-  "dependentChangeType": "patch"
-}

@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-keytips",
   "entries": [
     {
+      "date": "Fri, 01 Aug 2025 18:07:48 GMT",
+      "tag": "@fluentui-contrib/react-keytips_v0.3.3",
+      "version": "0.3.3",
+      "comments": {
+        "patch": [
+          {
+            "author": "vgenaev@gmail.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "7a469646fc65f3a8243845940b2fbb6167119c9a",
+            "comment": "fix(react-keytips): remove default event prevention in useHotkeys"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 02 Jul 2025 14:42:15 GMT",
       "tag": "@fluentui-contrib/react-keytips_v0.3.2",
       "version": "0.3.2",
