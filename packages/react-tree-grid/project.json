@@ -3,6 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/react-tree-grid/src",
   "projectType": "library",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@fluentui-contrib/nx-plugin:build"
@@ -72,6 +73,5 @@
         "config": "packages/react-tree-grid/playwright.config.ts"
       }
     }
-  },
-  "tags": []
+  }
 }
