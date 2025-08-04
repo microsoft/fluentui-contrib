@@ -37,7 +37,7 @@
     "@griffel/shadow-dom": "~0.2.0",
     "@nx/devkit": "20.8.2",
     "@nx/eslint": "20.8.2",
-    "@nx/eslint-plugin": "20.8.2",
+    "@nx/eslint-plugin": "21.3.11",
     "@nx/jest": "20.8.2",
     "@nx/js": "20.8.2",
     "@nx/playwright": "20.8.2",
