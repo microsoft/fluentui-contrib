@@ -81,6 +81,7 @@
     "globals": "15.15.0",
     "jest": "30.0.5",
     "jest-environment-jsdom": "30.0.5",
+    "jest-util": "^30.0.2",
     "jsonc-eslint-parser": "2.4.0",
     "nx": "21.3.10",
     "parsel-js": "^1.1.2",

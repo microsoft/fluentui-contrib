@@ -32,9 +32,9 @@ describe('configure-storybook generator', () => {
 
     const config = readProjectConfiguration(tree, 'hello');
 
-    expect(tree.children(joinPathFragments(config.root, '.storybook'))).toEqual(
-      ['main.ts', 'preview.tsx', 'tsconfig.json']
-    );
+    expect(
+      tree.children(joinPathFragments(config.root, '.storybook')).sort()
+    ).toEqual(['main.ts', 'preview.tsx', 'tsconfig.json']);
 
     expect(
       tree.exists(joinPathFragments(config.root, 'stories/.gitkeep'))
@@ -47,6 +47,50 @@ describe('configure-storybook generator', () => {
     expect(
       readJson(tree, joinPathFragments(config.root, 'tsconfig.json')).references
     ).toContainEqual({ path: './.storybook/tsconfig.json' });
+
+    expect(
+      readJson(tree, joinPathFragments(config.root, 'tsconfig.lib.json'))
+        .exclude
+    ).toEqual(
+      expect.arrayContaining([
+        '**/*.stories.ts',
+        '**/*.stories.js',
+        '**/*.stories.jsx',
+        '**/*.stories.tsx',
+      ])
+    );
+
+    expect(
+      readJson(tree, joinPathFragments(config.root, 'project.json')).targets
+    ).toEqual(
+      expect.objectContaining({
+        storybook: {
+          executor: '@nx/storybook:storybook',
+          options: {
+            port: 4400,
+            configDir: 'packages/hello/.storybook',
+          },
+          configurations: {
+            ci: {
+              quiet: true,
+            },
+          },
+        },
+        'build-storybook': {
+          executor: '@nx/storybook:build',
+          outputs: ['{options.outputDir}'],
+          options: {
+            outputDir: 'dist/storybook/hello',
+            configDir: 'packages/hello/.storybook',
+          },
+          configurations: {
+            ci: {
+              quiet: true,
+            },
+          },
+        },
+      })
+    );
   });
 
   it('should generate storybook config boilerplate', async () => {

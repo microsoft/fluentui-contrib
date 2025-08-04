@@ -7,7 +7,6 @@
   "executors": "./executors.json",
   "dependencies": {
     "@nx/devkit": "^21",
-    "@nx/storybook": "^21",
     "@nx/js": "^21",
     "@nx/playwright": "^21",
     "semver": "^7.5.2",

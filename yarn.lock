@@ -3951,7 +3951,7 @@
     semver "^7.6.3"
     tslib "^2.3.0"
 
-"@nx/storybook@21.3.10", "@nx/storybook@^21":
+"@nx/storybook@21.3.10":
   version "21.3.10"
   resolved "https://registry.yarnpkg.com/@nx/storybook/-/storybook-21.3.10.tgz#2fbc079a555d447283c0f1a09b35cd9eccfc6e67"
   integrity sha512-sC3ZVme+zC9zucUAKLKW0SklQkTV5V9GF3sf2WciAWD4550/YL6/ChV8LvUWTO+wj9SLvDarq2UWoTCJhRtMXw==
