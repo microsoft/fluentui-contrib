@@ -96,5 +96,8 @@
   },
   "parallel": 3,
   "defaultBase": "main",
-  "useInferencePlugins": false
+  "useInferencePlugins": false,
+  "tui": {
+    "enabled": false
+  }
 }
