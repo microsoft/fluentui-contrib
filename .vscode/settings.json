@@ -67,5 +67,6 @@
   "typescript.preferences.importModuleSpecifier": "relative",
   "typescript.preferences.importModuleSpecifierEnding": "index",
   "typescript.tsdk": "./node_modules/typescript/lib",
-  "typescript.reportStyleChecksAsWarnings": false
+  "typescript.reportStyleChecksAsWarnings": false,
+  "nxConsole.generateAiAgentRules": true
 }

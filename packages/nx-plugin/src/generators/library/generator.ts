@@ -78,6 +78,10 @@ async function invokeNxGenerators(tree: Tree, options: LibraryGeneratorSchema) {
 
   const projectConfig = readProjectConfiguration(tree, name);
 
+  // remove nx/js generator defaults that we generate ourselves
+  tree.delete(joinPathFragments(projectConfig.root, 'eslint.config.mjs'));
+  tree.delete(joinPathFragments(projectConfig.root, 'eslint.config.cjs'));
+
   // remove nx release implicit config @see https://github.com/nrwl/nx/blob/master/packages/js/src/generators/library/library.ts#L341-L356
   if (projectConfig.release) {
     delete projectConfig.release;
