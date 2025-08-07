@@ -48,14 +48,7 @@ export const restrictToMarginModifier: RestrictToMarginModifier =
       return transform;
     }
 
-    const virtualRect = {
-      width: boundaryEl.offsetWidth,
-      height: boundaryEl.offsetHeight,
-      top: boundaryEl.offsetTop,
-      right: boundaryEl.offsetLeft + boundaryEl.offsetWidth,
-      bottom: boundaryEl.offsetTop + boundaryEl.offsetHeight,
-      left: boundaryEl.offsetLeft,
-    };
+    const virtualRect = boundaryEl.getBoundingClientRect();
 
     return restrictToEdges({
       ...modifier,
