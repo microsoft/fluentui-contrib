@@ -2,7 +2,10 @@
   "name": "@fluentui-contrib/teams-components",
   "version": "0.1.2",
   "dependencies": {
-    "@swc/helpers": "~0.5.11"
+    "@swc/helpers": "~0.5.11",
+    "@fluentui/react-utilities": "^9.16.0",
+    "@fluentui/react-shared-contexts": ">=9.7.2 <10.0.0",
+    "@fluentui/react-jsx-runtime": "^9.0.29"
   },
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",

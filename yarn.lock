@@ -2481,10 +2481,10 @@
     "@griffel/react" "^1.5.22"
     "@swc/helpers" "^0.5.1"
 
-"@fluentui/react-shared-contexts@^9.23.1", "@fluentui/react-shared-contexts@^9.7.2":
-  version "9.23.1"
-  resolved "https://registry.yarnpkg.com/@fluentui/react-shared-contexts/-/react-shared-contexts-9.23.1.tgz#96155b604574c2207d1100727d477f5ab6e6e36d"
-  integrity sha512-mP+7talxLz7n0G36o7Asdvst+JPzUbqbnoMKUWRVB5YwzlOXumEgaQDgL1BkRUJYaDGOjIiSTUjHOEkBt7iSdg==
+"@fluentui/react-shared-contexts@>=9.7.2 <10.0.0", "@fluentui/react-shared-contexts@^9.23.1", "@fluentui/react-shared-contexts@^9.7.2":
+  version "9.24.0"
+  resolved "https://registry.yarnpkg.com/@fluentui/react-shared-contexts/-/react-shared-contexts-9.24.0.tgz#33cf16ee3f2736e9f3a194680ee23533039e90a4"
+  integrity sha512-GA+uLv711E+YGrAP/aVB15ozvNCiuB2ZrPDC9aYF+A6sRDxoZZG8VgHjhQ/YWJfVjDXLky4ihirknzsW1sjGtg==
   dependencies:
     "@fluentui/react-theme" "^9.1.24"
     "@swc/helpers" "^0.5.1"
