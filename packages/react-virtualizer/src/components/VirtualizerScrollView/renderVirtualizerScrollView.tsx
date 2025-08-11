@@ -1,6 +1,3 @@
-/** @jsxRuntime automatic */
-/** @jsxImportSource @fluentui/react-jsx-runtime */
-
 import type {
   VirtualizerScrollViewSlots,
   VirtualizerScrollViewState,

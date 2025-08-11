@@ -1,6 +1,7 @@
-import { VirtualizerScrollViewDynamic } from '@fluentui/react-virtualizer';
-import descriptionMd from './VirtualizerScrollViewDynamicDescription.md';
+import description from './VirtualizerScrollViewDynamicDescription.md';
 import accessibilityMd from './VirtualizerScrollViewDynamicAccessibility.md';
+import { Meta } from '@storybook/react';
+import { VirtualizerScrollViewDynamic } from '../../src/VirtualizerScrollViewDynamic';
 
 export { AutoMeasure } from './AutoMeasure.stories';
 export { Default } from './Default.stories';
@@ -8,11 +9,9 @@ export { ScrollTo } from './ScrollTo.stories';
 export { ScrollLoading } from './ScrollLoading.stories';
 export { SnapToAlignment } from './SnapToAlignment.stories';
 
-import { Meta } from '@storybook/react';
-import description from '../../README.md';
-
-const meta: Meta = {
+const meta: Meta<typeof VirtualizerScrollViewDynamic> = {
   title: 'Packages/react-virtualizer/VirtualizerScrollViewDynamic',
+  component: VirtualizerScrollViewDynamic,
   parameters: {
     docs: {
       description: {
