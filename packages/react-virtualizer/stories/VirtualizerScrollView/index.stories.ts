@@ -1,19 +1,22 @@
-import { VirtualizerScrollView } from '@fluentui/react-virtualizer';
-import descriptionMd from './VirtualizerScrollViewDescription.md';
 import accessibilityMd from './VirtualizerScrollViewAccessibility.md';
 
 export { Default } from './Default.stories';
 export { ScrollTo } from './ScrollTo.stories';
 export { SnapToAlignment } from './SnapToAlignment.stories';
 
-export default {
-  title: 'Preview Components/VirtualizerScrollView',
-  component: VirtualizerScrollView,
+import { Meta } from '@storybook/react';
+import description from '../../README.md';
+
+const meta: Meta = {
+  title: 'Packages/react-virtualizer/VirtualizerScrollView',
   parameters: {
     docs: {
       description: {
-        component: [descriptionMd, accessibilityMd].join('\n'),
+        accessibilityMd: accessibilityMd,
+        component: description,
       },
     },
   },
 };
+
+export default meta;

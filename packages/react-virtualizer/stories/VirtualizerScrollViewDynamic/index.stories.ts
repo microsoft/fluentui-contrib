@@ -8,14 +8,19 @@ export { ScrollTo } from './ScrollTo.stories';
 export { ScrollLoading } from './ScrollLoading.stories';
 export { SnapToAlignment } from './SnapToAlignment.stories';
 
-export default {
-  title: 'Preview Components/VirtualizerScrollViewDynamic',
-  component: VirtualizerScrollViewDynamic,
+import { Meta } from '@storybook/react';
+import description from '../../README.md';
+
+const meta: Meta = {
+  title: 'Packages/react-virtualizer/VirtualizerScrollViewDynamic',
   parameters: {
     docs: {
       description: {
-        component: [descriptionMd, accessibilityMd].join('\n'),
+        accessibilityMd: accessibilityMd,
+        component: description,
       },
     },
   },
 };
+
+export default meta;
