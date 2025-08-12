@@ -39,10 +39,12 @@ export default {
   coverageDirectory: '../../coverage/apps/react-19-tests',
   moduleNameMapper: {
     '^react$': join(usedNodeModulesPath, 'react'),
+    '^react/jsx-runtime$': join(usedNodeModulesPath, 'react/jsx-runtime'),
     '^react-dom$': join(usedNodeModulesPath, 'react-dom'),
+    '^react-dom/(.+)$': join(usedNodeModulesPath, 'react-dom/$1'),
     '^react-test-renderer$': join(usedNodeModulesPath, 'react-test-renderer'),
     '^@testing-library/(react|dom)$': join(
-      usedNodeModulesPath,
+      rootNodeModulesPath,
       '@testing-library/$1'
     ),
   },
