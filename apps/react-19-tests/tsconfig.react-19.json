@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "ES2019",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "lib": ["ES2019", "dom"],
+    "sourceMap": true,
+    "strict": true,
+    "pretty": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "importHelpers": true,
+    "jsx": "react",
+    "preserveConstEnums": true,
+    "skipLibCheck": true,
+    "typeRoots": ["./node_modules/@types"],
+    "types": [],
+    "baseUrl": ".",
+    "paths": {
+      "react/jsx-runtime": ["./node_modules/@types/react/jsx-runtime.d.ts"],
+      "react": ["./node_modules/@types/react/index.d.ts"],
+      "react-dom": ["./node_modules/@types/react-dom/index.d.ts"],
+      "@fluentui-contrib/*": ["../../dist/packages/*/src/index.d.ts"]
+    }
+  },
+  "exclude": [
+    "../../packages/**/index.stories.tsx",
+    "../../packages/**/index.stories.ts"
+  ],
+  "include": [
+    "../../packages/**/stories/**/*.stories.tsx",
+    "../../packages/**/stories/**/*.stories.ts"
+  ],
+  "files": ["../../node_modules/@types/mdx/index.d.ts"]
+}

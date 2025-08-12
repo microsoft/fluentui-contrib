@@ -69,7 +69,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        react: [17, 18]
+        react: [17, 18, 19]
       fail-fast: false
     permissions:
       contents: 'read'

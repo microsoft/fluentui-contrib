@@ -1,0 +1,43 @@
+{
+  "name": "react-19-tests",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/react-19-tests/src",
+  "projectType": "application",
+  "tags": ["react-19"],
+  "targets": {
+    "type-check:integration": {
+      "dependsOn": ["build:integration"],
+      "command": "tsc -p tsconfig.react-19.json",
+      "options": {
+        "cwd": "{projectRoot}"
+      },
+      "inputs": [
+        "{projectRoot}/tsconfig.react-19.json",
+        "{workspaceRoot}/packages/**/stories/**/*.stories.tsx?",
+        "!{workspaceRoot}/packages/**/stories/**/index.stories.tsx?"
+      ]
+    },
+    "build:integration": {
+      "command": "nx run-many -t build,type-check"
+    },
+    "e2e:integration": {
+      "command": "nx run-many -t component-test --reactVersion 19 --skipInstall",
+      "options": {
+        "cwd": "{workspaceRoot}"
+      },
+      "inputs": [
+        "{workspaceRoot}/packages/**/stories/**/*.stories.tsx?",
+        "!{workspaceRoot}/packages/**/stories/**/index.stories.tsx?",
+        "{workspaceRoot}/packages/**/*.component-browser-spec.tsx",
+        "{projectRoot}/.storybook/**"
+      ],
+      "dependsOn": []
+    },
+    "test:integration": {
+      "command": "jest --passWithNoTests",
+      "options": {
+        "cwd": "{projectRoot}"
+      }
+    }
+  }
+}

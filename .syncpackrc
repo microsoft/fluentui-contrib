@@ -33,7 +33,8 @@
     {
       "packages": [
         "react-17-tests",
-        "react-18-tests"
+        "react-18-tests",
+        "react-19-tests"
       ],
       "dependencies": [
         "**"
