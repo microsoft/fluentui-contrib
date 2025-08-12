@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { assertSlots } from '@fluentui/react-utilities';
 import {
   VirtualizerScrollViewDynamicSlots,
