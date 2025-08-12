@@ -1,7 +1,0 @@
-{
-  "type": "none",
-  "comment": "docs: Update docs to use the current storybook meta",
-  "packageName": "@fluentui-contrib/react-virtualizer",
-  "email": "mifraser@microsoft.com",
-  "dependentChangeType": "none"
-}
