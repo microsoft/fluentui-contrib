@@ -1,3 +1,5 @@
+/** @jsxRuntime classic */
+/** @jsx createElement */
 import * as React from 'react';
 import type { VirtualizerSlots, VirtualizerState } from './Virtualizer.types';
 

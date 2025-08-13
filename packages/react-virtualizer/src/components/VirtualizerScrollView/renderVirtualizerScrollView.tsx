@@ -1,4 +1,5 @@
-import * as React from 'react';
+/** @jsxRuntime classic */
+/** @jsx createElement */
 import type {
   VirtualizerScrollViewSlots,
   VirtualizerScrollViewState,

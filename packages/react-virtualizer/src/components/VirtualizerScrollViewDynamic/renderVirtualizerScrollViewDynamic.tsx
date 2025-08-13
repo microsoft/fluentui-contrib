@@ -1,4 +1,5 @@
-import * as React from 'react';
+/** @jsxRuntime classic */
+/** @jsx createElement */
 import { assertSlots } from '@fluentui/react-utilities';
 import {
   VirtualizerScrollViewDynamicSlots,
