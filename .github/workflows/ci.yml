@@ -41,7 +41,7 @@ jobs:
 
       - run: yarn nx affected --target=verify-integrity
       - run: yarn nx affected --target=build
-      - run: yarn nx affected --target=build-storybook
+      - run: yarn nx affected --target=build-storybook,extract-storybook-llms
       - run: yarn nx affected --target=type-check
       - run: yarn nx affected --target=lint
       - run: yarn nx affected --target=test
