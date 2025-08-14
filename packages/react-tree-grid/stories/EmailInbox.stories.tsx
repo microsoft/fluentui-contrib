@@ -139,7 +139,7 @@ type EmailProps = {
   subject: React.ReactNode;
   summary: React.ReactNode;
   email: string;
-  replies?: Slot<{ children?: React.ReactNode }>;
+  replies?: Slot<typeof React.Fragment>;
 };
 
 const Email = (props: EmailProps) => {
