@@ -36,11 +36,7 @@
       }
     },
     "extract-storybook-llms": {
-      "dependsOn": ["build-storybook"],
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "storybook-llms-extractor --distPath dist/storybook/docsite --summaryBaseUrl https://microsoft.github.io/fluentui-contrib/docsite"
-      }
+      "command": "storybook-llms-extractor --distPath dist/storybook/docsite --summaryBaseUrl https://microsoft.github.io/fluentui-contrib/docsite"
     }
   }
 }
