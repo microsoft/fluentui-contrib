@@ -108,9 +108,11 @@ export const useDraggableDialog = (
         return;
       }
 
+      const { deltaX, deltaY } = calcPositionDelta(boundary);
+
       setInitialDropPosition({
-        x: rect.left,
-        y: rect.top,
+        x: rect.left - deltaX,
+        y: rect.top - deltaY,
       });
       onDragMove(event);
     },
@@ -187,3 +189,24 @@ export const useDraggableDialog = (
     ]
   );
 };
+
+function calcPositionDelta(
+  boundary: React.RefObject<HTMLElement> | 'viewport' | null
+) {
+  let deltaX = 0;
+  let deltaY = 0;
+
+  if (!boundary || boundary === 'viewport') {
+    return { deltaX, deltaY };
+  }
+
+  const boundaryEl = boundary.current;
+
+  if (boundaryEl) {
+    const boundingClientRect = boundaryEl.getBoundingClientRect();
+    deltaX = boundingClientRect.left - boundaryEl.offsetLeft;
+    deltaY = boundingClientRect.top - boundaryEl.offsetTop;
+  }
+
+  return { deltaX, deltaY };
+}
