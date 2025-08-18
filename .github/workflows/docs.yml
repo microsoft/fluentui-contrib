@@ -40,7 +40,8 @@ jobs:
           node-version: '20'
 
       - run: yarn install --frozen-lockfile
-      - run: yarn nx run-many --target=build-storybook
+      - run: npx playwright install --with-deps
+      - run: yarn nx run-many --target=build-storybook,extract-storybook-llms
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
