@@ -9,7 +9,7 @@ import {
   DataGridHeaderRowState,
 } from './DataGridHeaderRow.types';
 import { useHeaderListRefContext } from '../../contexts/headerListRefContext';
-import { ListOnScrollProps } from 'react-window';
+import { ListOnScrollProps, VariableSizeList } from 'react-window';
 import { useBodyRefContext } from '../../contexts/bodyRefContext';
 import {
   ColumnIndexContextProvider,
@@ -69,7 +69,7 @@ export const useDataGridHeaderRow_unstable = (
     virtualizedCell,
     width,
     listProps,
-    listRef: listRef,
+    listRef: listRef as React.RefObject<VariableSizeList<any>>,
     onScroll,
   };
 };

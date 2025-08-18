@@ -14,6 +14,7 @@ import {
   MenuItem,
   MenuPopover,
 } from '@fluentui/react-components';
+import type { JSXElement } from '@fluentui/react-utilities';
 
 const CalendarIcon = bundleIcon(CalendarFilled, CalendarRegular);
 
@@ -70,7 +71,7 @@ export const Default = () => {
   );
 };
 
-const withMenu = (component: JSX.Element) => (
+const withMenu = (component: JSXElement) => (
   <Menu positioning={{ autoSize: true }}>
     <MenuTrigger disableButtonEnhancement>{component}</MenuTrigger>
 

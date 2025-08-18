@@ -5,8 +5,8 @@ import {
 import { RefObject } from 'react';
 import { VariableSizeGrid, VariableSizeList } from 'react-window';
 export type DataGridProps = BaseDataGridProps & {
-  bodyRef?: RefObject<VariableSizeGrid>;
-  headerRef?: RefObject<VariableSizeList>;
+  bodyRef?: RefObject<VariableSizeGrid | null>;
+  headerRef?: RefObject<VariableSizeList | null>;
 };
 
 export type DataGridState = BaseDataGridState &

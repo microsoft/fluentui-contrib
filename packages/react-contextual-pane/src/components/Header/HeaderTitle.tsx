@@ -30,7 +30,7 @@ export function HeaderTitle({ caption }: HeaderTitleProps) {
       <span
         className={styles.title}
         data-testid="header-title-tooltip"
-        ref={titleRef}
+        ref={titleRef as React.Ref<HTMLSpanElement>}
         {...(titleHasEllipsis ? { tabIndex: 0, role: 'heading' } : {})}
       >
         {caption}
