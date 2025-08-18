@@ -41,7 +41,7 @@ export type DraggableDialogProps = DialogProps & {
    * Element to be used as a boundary when dragging the dialog.
    * @default viewport
    */
-  boundary?: React.RefObject<HTMLElement> | 'viewport' | null;
+  boundary?: React.RefObject<HTMLElement | null> | 'viewport' | null;
 
   /**
    * The margin from the boundary to keep the element in when dragged. Only used when boundary is set.
