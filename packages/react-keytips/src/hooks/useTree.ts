@@ -45,7 +45,7 @@ export function useTree() {
     new Map([[KTP_ROOT_ID, root]])
   );
 
-  const currentKeytip = React.useRef<KeytipTreeNode | undefined>();
+  const currentKeytip = React.useRef<KeytipTreeNode | undefined>(undefined);
 
   const addNode = React.useCallback((newNode: KeytipWithId) => {
     const node = createNode({
