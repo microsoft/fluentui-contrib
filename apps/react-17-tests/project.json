@@ -18,7 +18,7 @@
       ]
     },
     "build:integration": {
-      "command": "nx run-many -t build && nx run-many -t type-check"
+      "command": "nx run-many -t build,type-check"
     },
     "e2e:integration": {
       "command": "nx run-many -t component-test --reactVersion 17 --skipInstall",
