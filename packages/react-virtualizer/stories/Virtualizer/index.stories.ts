@@ -1,5 +1,6 @@
-import { Virtualizer } from '@fluentui/react-virtualizer';
-import descriptionMd from './VirtualizerDescription.md';
+import description from '../../README.md';
+import { Meta } from '@storybook/react';
+import { Virtualizer } from '../../src/Virtualizer';
 
 export { Default } from './Default.stories';
 export { DefaultUnbounded } from './DefaultUnbounded.stories';
@@ -10,14 +11,16 @@ export { Reversed } from './Reversed.stories';
 export { RTL } from './RTL.stories';
 export { MultiUnbounded } from './MultiUnbounded.stories';
 
-export default {
-  title: 'Preview Components/Virtualizer',
+const meta: Meta<typeof Virtualizer> = {
+  title: 'Packages/react-virtualizer/Virtualizer',
   component: Virtualizer,
   parameters: {
     docs: {
       description: {
-        component: [descriptionMd].join('\n'),
+        component: description,
       },
     },
   },
 };
+
+export default meta;

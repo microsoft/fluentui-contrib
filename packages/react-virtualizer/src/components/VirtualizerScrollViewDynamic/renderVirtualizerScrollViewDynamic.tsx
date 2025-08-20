@@ -1,5 +1,6 @@
-/** @jsxRuntime automatic */
-/** @jsxImportSource @fluentui/react-jsx-runtime */
+/** @jsxRuntime classic */
+/** @jsx createElement */
+import { createElement } from '@fluentui/react-jsx-runtime';
 import { assertSlots } from '@fluentui/react-utilities';
 import {
   VirtualizerScrollViewDynamicSlots,

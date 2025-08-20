@@ -10,15 +10,15 @@ import { useDataGridHeaderStyles_unstable } from './useDataGridHeaderStyles.styl
 /**
  * DataGridHeader component
  */
-export const DataGridHeader: ForwardRefComponent<DataGridHeaderProps> &
-  ((props: DataGridHeaderProps) => JSX.Element) = React.forwardRef(
-  (props, ref) => {
-    const state = useDataGridHeader_unstable(props, ref);
+export const DataGridHeader = React.forwardRef<
+  HTMLElement,
+  DataGridHeaderProps
+>((props, ref) => {
+  const state = useDataGridHeader_unstable(props, ref);
 
-    useDataGridHeaderStyles_unstable(state);
-    return renderDataGridHeader_unstable(state);
-  }
-) as ForwardRefComponent<DataGridHeaderProps> &
+  useDataGridHeaderStyles_unstable(state);
+  return renderDataGridHeader_unstable(state);
+}) as ForwardRefComponent<DataGridHeaderProps> &
   ((props: DataGridHeaderProps) => JSX.Element);
 
 DataGridHeader.displayName = 'DataGridHeader';
