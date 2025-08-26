@@ -43,7 +43,7 @@
     "@nx/js": "21.3.10",
     "@nx/playwright": "21.3.10",
     "@nx/plugin": "21.3.10",
-    "@nx/react": "21.3.10",
+    "@nx/react": "21.4.1",
     "@nx/storybook": "21.3.10",
     "@nx/web": "21.3.10",
     "@nx/webpack": "21.3.10",
