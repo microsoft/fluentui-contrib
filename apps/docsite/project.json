@@ -34,6 +34,10 @@
           "quiet": true
         }
       }
+    },
+    "extract-storybook-llms": {
+      "dependsOn": ["build-storybook"],
+      "command": "storybook-llms-extractor --distPath dist/storybook/docsite --summaryBaseUrl https://microsoft.github.io/fluentui-contrib/docsite"
     }
   }
 }

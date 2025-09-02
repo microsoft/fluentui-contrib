@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-gamepad-navigation
 
-This log was last generated on Thu, 10 Apr 2025 14:11:17 GMT and should not be manually modified.
+This log was last generated on Fri, 01 Aug 2025 18:07:48 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.1.3
+
+Fri, 01 Aug 2025 18:07:48 GMT
+
+### Patches
+
+- fix(react-gamepad-navigation): handling Gamepad API access denied (hectorjimenez@outlook.com)
 
 ## 0.1.2
 
