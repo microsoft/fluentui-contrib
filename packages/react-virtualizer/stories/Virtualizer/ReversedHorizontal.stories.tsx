@@ -2,7 +2,7 @@ import * as React from 'react';
 import {
   useStaticVirtualizerMeasure,
   Virtualizer,
-} from '@fluentui/react-virtualizer';
+} from '@fluentui-contrib/react-virtualizer';
 import { makeStyles } from '@fluentui/react-components';
 
 const useStyles = makeStyles({

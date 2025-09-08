@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { VirtualizerScrollView } from '@fluentui/react-virtualizer';
-import type { ScrollToInterface } from '@fluentui/react-virtualizer';
+import { VirtualizerScrollView } from '@fluentui-contrib/react-virtualizer';
+import type { ScrollToInterface } from '@fluentui-contrib/react-virtualizer';
 import { Text, Input, makeStyles } from '@fluentui/react-components';
 import { Button } from '@fluentui/react-components';
 

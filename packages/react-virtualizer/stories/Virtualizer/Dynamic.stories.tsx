@@ -4,8 +4,8 @@ import {
   Virtualizer,
   useDynamicVirtualizerMeasure,
   VirtualizerContextProvider,
-} from '@fluentui/react-virtualizer';
-import type { DynamicVirtualizerContextProps } from '@fluentui/react-virtualizer';
+} from '@fluentui-contrib/react-virtualizer';
+import type { DynamicVirtualizerContextProps } from '@fluentui-contrib/react-virtualizer';
 import { makeStyles } from '@fluentui/react-components';
 
 const smallSize = 100;

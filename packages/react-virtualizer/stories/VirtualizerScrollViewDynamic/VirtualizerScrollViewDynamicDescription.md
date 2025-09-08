@@ -3,7 +3,7 @@
 >
 > ```jsx
 >
-> import { VirtualizerScrollViewDynamic } from '@fluentui/react-virtualizer';
+> import { VirtualizerScrollViewDynamic } from '@fluentui-contrib/react-virtualizer';
 >
 > ```
 >
