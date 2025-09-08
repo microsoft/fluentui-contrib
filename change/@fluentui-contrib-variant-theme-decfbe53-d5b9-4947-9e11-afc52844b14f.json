@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "feat: add react 19 support",
+  "packageName": "@fluentui-contrib/variant-theme",
+  "email": "dmytrokirpa@microsoft.com",
+  "dependentChangeType": "patch"
+}
