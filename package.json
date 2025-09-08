@@ -46,7 +46,7 @@
     "@nx/react": "21.3.10",
     "@nx/storybook": "21.3.10",
     "@nx/web": "21.3.10",
-    "@nx/webpack": "21.3.10",
+    "@nx/webpack": "21.5.1",
     "@nx/workspace": "21.3.10",
     "@playwright/experimental-ct-react": "1.49.1",
     "@playwright/experimental-ct-react17": "1.49.1",
