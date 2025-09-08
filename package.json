@@ -44,7 +44,7 @@
     "@nx/playwright": "21.3.10",
     "@nx/plugin": "21.3.10",
     "@nx/react": "21.3.10",
-    "@nx/storybook": "21.3.10",
+    "@nx/storybook": "21.5.1",
     "@nx/web": "21.3.10",
     "@nx/webpack": "21.3.10",
     "@nx/workspace": "21.3.10",
