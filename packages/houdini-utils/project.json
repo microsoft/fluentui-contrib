@@ -3,6 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/houdini-utils/src",
   "projectType": "library",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@fluentui-contrib/nx-plugin:build"
@@ -16,7 +17,8 @@
       "options": {
         "lintFilePatterns": [
           "packages/houdini-utils/**/*.ts",
-          "packages/houdini-utils/**/*.tsx"
+          "packages/houdini-utils/**/*.tsx",
+          "packages/houdini-utils/package.json"
         ]
       }
     },
@@ -62,6 +64,5 @@
         "command": "test-storybook -c packages/houdini-utils/.storybook --url=http://localhost:4400"
       }
     }
-  },
-  "tags": []
+  }
 }

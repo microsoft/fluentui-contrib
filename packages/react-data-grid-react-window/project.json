@@ -3,6 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/react-data-grid-react-window/src",
   "projectType": "library",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@fluentui-contrib/nx-plugin:build"
@@ -12,12 +13,13 @@
       "dependsOn": ["build"]
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
           "packages/react-data-grid-react-window/**/*.ts",
-          "packages/react-data-grid-react-window/**/*.tsx"
+          "packages/react-data-grid-react-window/**/*.tsx",
+          "packages/react-data-grid-react-window/package.json"
         ]
       }
     },
@@ -63,6 +65,5 @@
         }
       }
     }
-  },
-  "tags": []
+  }
 }

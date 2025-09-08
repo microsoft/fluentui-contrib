@@ -2,6 +2,50 @@
   "name": "@fluentui-contrib/react-themeless-provider",
   "entries": [
     {
+      "date": "Thu, 10 Apr 2025 14:11:17 GMT",
+      "tag": "@fluentui-contrib/react-themeless-provider_v0.1.1",
+      "version": "0.1.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "@fluentui-contrib/react-themeless-provider",
+            "commit": "02f6d1c4176fb0c9f852b14fb2d2b019ba768edc",
+            "comment": "fix: normalize package dependencies"
+          },
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "@fluentui-contrib/react-themeless-provider",
+            "commit": "dba02ab6b87eef63dda236155ec0330cd56673ec",
+            "comment": "fix: bump @swc/helpers to monorepo version"
+          }
+        ],
+        "none": [
+          {
+            "author": "vgenaev@gmail.com",
+            "package": "@fluentui-contrib/react-themeless-provider",
+            "commit": "d0a3792e7ce7c3281e7c4aa7ee2bd7bfe8d8f4f5",
+            "comment": "chore: remove old .eslintrc files"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Wed, 22 Jan 2025 09:16:56 GMT",
+      "tag": "@fluentui-contrib/react-themeless-provider_v0.1.0",
+      "version": "0.1.0",
+      "comments": {
+        "none": [
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "@fluentui-contrib/react-themeless-provider",
+            "commit": "4fd45fcbe6264bf5fa6bfc9bd2d2ba83cb61fc01",
+            "comment": "chore: resolve invalid ts config and devDep"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 05 Apr 2024 08:15:59 GMT",
       "tag": "@fluentui-contrib/react-themeless-provider_v0.1.0",
       "version": "0.1.0",

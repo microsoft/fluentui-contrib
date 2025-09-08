@@ -1,22 +1,24 @@
 import { useFluent, useEventCallback } from '@fluentui/react-components';
 import {
   getEventClientCoords,
-  NativeTouchOrMouseEvent,
   isMouseEvent,
   isTouchEvent,
+  type NativeTouchOrMouseEvent,
+  type EventHandler,
 } from '@fluentui/react-utilities';
 import * as React from 'react';
-import { GrowDirection } from '../types';
-import { elementDimension } from '../utils';
+
+import { EVENTS, GrowDirection, ResizeHandleUpdateEventData } from '../types';
+import type { UnitHandle } from './useUnitHandle';
 
 export type UseMouseHandlerParams = {
-  onDown?: (event: NativeTouchOrMouseEvent) => void;
-  onMove?: (event: NativeTouchOrMouseEvent) => void;
-  elementRef: React.RefObject<HTMLElement>;
   growDirection: GrowDirection;
-  onValueChange: (value: number) => void;
-  onDragEnd?: (e: NativeTouchOrMouseEvent) => void;
-  onDragStart?: (e: NativeTouchOrMouseEvent) => void;
+  onValueChange: EventHandler<ResizeHandleUpdateEventData>;
+  onDragEnd?: EventHandler<Omit<ResizeHandleUpdateEventData, 'value'>>;
+  onDragStart?: EventHandler<Omit<ResizeHandleUpdateEventData, 'value'>>;
+
+  getCurrentValue: () => number;
+  unitHandle: UnitHandle;
 };
 
 export function useMouseHandler(params: UseMouseHandlerParams) {
@@ -24,11 +26,9 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
   const targetWindow = targetDocument?.defaultView;
 
   const dragStartOriginCoords = React.useRef({ clientX: 0, clientY: 0 });
-  const { growDirection, onValueChange, elementRef } = params;
+  const { growDirection, getCurrentValue, onValueChange, unitHandle } = params;
 
-  const initialElementSize = React.useRef(
-    elementDimension(elementRef.current, growDirection)
-  );
+  const startValue = React.useRef(0);
 
   const recalculatePosition = useEventCallback(
     (event: NativeTouchOrMouseEvent) => {
@@ -38,38 +38,44 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
         clientY - dragStartOriginCoords.current.clientY,
       ];
 
-      let newValue = initialElementSize.current;
+      let newValue = startValue.current;
 
       switch (growDirection) {
         case 'end':
-          newValue += deltaCoords[0] * (dir === 'rtl' ? -1 : 1);
+          newValue += unitHandle.fromPxToValue(
+            deltaCoords[0] * (dir === 'rtl' ? -1 : 1)
+          );
           break;
         case 'start':
-          newValue -= deltaCoords[0] * (dir === 'rtl' ? -1 : 1);
+          newValue -= unitHandle.fromPxToValue(
+            deltaCoords[0] * (dir === 'rtl' ? -1 : 1)
+          );
           break;
         case 'up':
-          newValue -= deltaCoords[1];
+          newValue -= unitHandle.fromPxToValue(deltaCoords[1]);
           break;
         case 'down':
-          newValue += deltaCoords[1];
+          newValue += unitHandle.fromPxToValue(deltaCoords[1]);
           break;
       }
 
-      onValueChange(Math.round(newValue));
-
-      // If, after resize, the element size is different than the value we set, that we have reached the boundary
-      // and the element size is controlled by something else (minmax, clamp, max, min css functions etc.)
-      // In this case, we need to update the value to the actual element size so that the css var and a11y props
-      // reflect the reality.
-      const elSize = elementDimension(elementRef.current, growDirection);
-      if (elSize !== newValue) {
-        onValueChange(elSize);
-      }
+      onValueChange(event, {
+        value: unitHandle.roundValue(newValue),
+        unit: unitHandle.name,
+        ...(isTouchEvent(event)
+          ? { event, type: EVENTS.touch }
+          : { event, type: EVENTS.mouse }),
+      });
     }
   );
 
+  const rafIdRef = React.useRef<number | null>(null);
   const onDrag = useEventCallback((event: NativeTouchOrMouseEvent) => {
-    targetWindow?.requestAnimationFrame(() => recalculatePosition(event));
+    if (targetWindow) {
+      rafIdRef.current = targetWindow.requestAnimationFrame(() =>
+        recalculatePosition(event)
+      );
+    }
   });
 
   const onDragEnd = useEventCallback((event: NativeTouchOrMouseEvent) => {
@@ -83,15 +89,30 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
       targetDocument?.removeEventListener('touchmove', onDrag);
     }
 
-    params.onDragEnd?.(event);
+    // Heads up!
+    //
+    // To keep the order of events, we need to cancel the animation frame i.e. the order should be always:
+    // - onChange
+    // - onDragEnd
+
+    if (targetWindow && rafIdRef.current) {
+      targetWindow.cancelAnimationFrame(rafIdRef.current);
+    }
+
+    recalculatePosition(event);
+    params.onDragEnd?.(
+      event,
+      isTouchEvent(event)
+        ? { event, type: EVENTS.touch, unit: unitHandle.name }
+        : { event, type: EVENTS.mouse, unit: unitHandle.name }
+    );
   });
 
   const onPointerDown = useEventCallback((event: NativeTouchOrMouseEvent) => {
     dragStartOriginCoords.current = getEventClientCoords(event);
-    initialElementSize.current = elementDimension(
-      elementRef.current,
-      growDirection
-    );
+    // As we start dragging, save the current value otherwise the value increases,
+    // the delta compounds and the element grows/shrinks too fast.
+    startValue.current = getCurrentValue();
 
     if (event.defaultPrevented) {
       return;
@@ -111,7 +132,12 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
       targetDocument?.addEventListener('touchmove', onDrag);
     }
 
-    params.onDragStart?.(event);
+    params.onDragStart?.(
+      event,
+      isTouchEvent(event)
+        ? { event, type: EVENTS.touch, unit: unitHandle.name }
+        : { event, type: EVENTS.mouse, unit: unitHandle.name }
+    );
   });
 
   const attachHandlers = React.useCallback(
@@ -129,6 +155,14 @@ export function useMouseHandler(params: UseMouseHandlerParams) {
     },
     [onPointerDown]
   );
+
+  React.useEffect(() => {
+    return () => {
+      if (targetWindow && rafIdRef.current) {
+        targetWindow.cancelAnimationFrame(rafIdRef.current);
+      }
+    };
+  }, [targetWindow]);
 
   return {
     attachHandlers,

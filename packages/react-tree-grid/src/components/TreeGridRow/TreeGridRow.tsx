@@ -15,8 +15,10 @@ import {
 } from '@fluentui/react-components';
 import { useTreeGridRowStyles } from './useTreeGridRowStyles.styles';
 import { TreeGridRowProps } from './TreeGridRow.types';
-import { useMergedTabsterAttributes_unstable } from '@fluentui/react-tabster';
-import { isHTMLElement } from '@fluentui/react-utilities';
+import {
+  TabsterDOMAttribute,
+  useMergedTabsterAttributes_unstable,
+} from '@fluentui/react-tabster';
 import { ArrowLeft, ArrowRight, Enter } from '@fluentui/keyboard-keys';
 import {
   TreeGridRowProvider,
@@ -38,7 +40,8 @@ export const TreeGridRow = React.forwardRef(
       useFocusableGroup({
         tabBehavior: 'limited-trap-focus',
         ignoreDefaultKeydown: { Enter: true },
-      })
+      }),
+      props as TabsterDOMAttribute
     );
     const handleKeyDown = useEventCallback(
       (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -66,10 +69,7 @@ export const TreeGridRow = React.forwardRef(
     const handleClick = useEventCallback(
       (event: React.MouseEvent<HTMLDivElement>) => {
         props.onClick?.(event);
-        if (!isHTMLElement(event.target)) {
-          return;
-        }
-        let element: HTMLElement | null = event.target;
+        let element = event.target as HTMLElement | SVGElement | null;
         while (element && element !== event.currentTarget) {
           if (element.tabIndex >= 0) return;
           element = element.parentElement;
@@ -87,26 +87,22 @@ export const TreeGridRow = React.forwardRef(
         tabIndex: 0,
         'aria-level': level,
         ...props,
-        className: mergeClasses(styles, props.className),
         ...tabsterAttributes,
+        className: mergeClasses(styles, props.className),
         ...(Subtree && {
           onKeyDown: handleKeyDown,
           onClick: handleClick,
-          'aria-expanded': open,
-          'aria-level': level,
+          'aria-expanded': props['aria-expanded'] ?? open,
+          'aria-level': props['aria-level'] ?? level,
         }),
       }),
       { elementType: 'div' }
     );
     return (
-      <>
+      <TreeGridRowProvider value={context}>
         <Root />
-        {open && Subtree && (
-          <TreeGridRowProvider value={context}>
-            <Subtree />
-          </TreeGridRowProvider>
-        )}
-      </>
+        {open && Subtree && <Subtree />}
+      </TreeGridRowProvider>
     );
   }
 );

@@ -1,8 +1,41 @@
 # Change Log - @fluentui-contrib/houdini-utils
 
-This log was last generated on Mon, 11 Mar 2024 16:03:34 GMT and should not be manually modified.
+This log was last generated on Wed, 07 May 2025 14:30:21 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.3.5
+
+Wed, 07 May 2025 14:30:21 GMT
+
+### Patches
+
+- fix: resolve Safari issue when referencing fallback (seanmonahan@microsoft.com)
+
+## 0.3.4
+
+Wed, 16 Apr 2025 16:21:21 GMT
+
+### Patches
+
+- fix: add more robust feature detection (seanmonahan@microsoft.com)
+
+## 0.3.3
+
+Thu, 10 Apr 2025 14:11:17 GMT
+
+### Patches
+
+- fix: bump @swc/helpers to monorepo version (hochelmartin@gmail.com)
+- fix: normalize package dependencies (hochelmartin@gmail.com)
+
+## 0.3.2
+
+Fri, 21 Jun 2024 06:08:36 GMT
+
+### Patches
+
+- chore: temporarily disable no-restricted-globals for houdini-utils (seanmonahan@microsoft.com)
 
 ## 0.3.1
 

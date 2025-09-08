@@ -1,0 +1,30 @@
+{
+  "jsc": {
+    "target": "es2019",
+    "parser": {
+      "syntax": "typescript",
+      "tsx": true,
+      "decorators": false,
+      "dynamicImport": false
+    },
+    "transform": {
+      "react": {
+        "runtime": "classic",
+        "useSpread": true
+      }
+    },
+    "keepClassNames": true,
+    "externalHelpers": true,
+    "loose": true
+  },
+  "sourceMaps": true,
+  "exclude": [
+    "jest.config.ts",
+    ".*\\.spec.tsx?$",
+    ".*\\.test.tsx?$",
+    "./src/jest-setup.ts$",
+    "./**/jest-setup.ts$",
+    ".*.js$"
+  ],
+  "$schema": "https://json.schemastore.org/swcrc"
+}

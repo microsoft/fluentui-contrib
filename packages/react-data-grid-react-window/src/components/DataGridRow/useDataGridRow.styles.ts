@@ -1,24 +1,25 @@
-import * as React from 'react';
-import type {
-  DataGridRowProps,
+import {
+  makeStyles,
+  mergeClasses,
+  useDataGridRowStyles_unstable as useDataGridRowStylesBase_unstable,
   DataGridRowState,
 } from '@fluentui/react-components';
-import { useDataGridRow_unstable as useBaseState } from '@fluentui/react-components';
-import { useTableRowIndexContext } from '../../contexts/rowIndexContext';
+
+const useStyles = makeStyles({
+  root: {
+    minWidth: 'fit-content',
+  },
+});
 
 /**
- * Create the state required to render DataGridRow.
- *
- * The returned state can be modified with hooks such as useDataGridRowStyles_unstable,
- * before being passed to renderDataGridRow_unstable.
- *
- * @param props - props from this instance of DataGridRow
- * @param ref - reference to root HTMLElement of DataGridRow
+ * Apply styling to the DataGridRow slots based on the state
  */
-export const useDataGridRow_unstable = (
-  props: DataGridRowProps,
-  ref: React.Ref<HTMLElement>
+export const useDataGridRowStyles_unstable = (
+  state: DataGridRowState
 ): DataGridRowState => {
-  const rowIndex = useTableRowIndexContext();
-  return useBaseState({ ...props, 'aria-rowindex': rowIndex }, ref);
+  const classes = useStyles();
+  state.root.className = mergeClasses(classes.root, state.root.className);
+
+  useDataGridRowStylesBase_unstable(state);
+  return state;
 };

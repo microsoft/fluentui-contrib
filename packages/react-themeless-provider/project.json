@@ -3,6 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/react-themeless-provider/src",
   "projectType": "library",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@fluentui-contrib/nx-plugin:build"
@@ -16,7 +17,8 @@
       "options": {
         "lintFilePatterns": [
           "packages/react-themeless-provider/**/*.ts",
-          "packages/react-themeless-provider/**/*.tsx"
+          "packages/react-themeless-provider/**/*.tsx",
+          "packages/react-themeless-provider/package.json"
         ]
       }
     },
@@ -62,6 +64,5 @@
         "command": "test-storybook -c packages/react-themeless-provider/.storybook --url=http://localhost:4400"
       }
     }
-  },
-  "tags": []
+  }
 }

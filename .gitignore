@@ -7,6 +7,8 @@ tmp
 
 # dependencies
 node_modules
+# we use yarn
+package-lock.json
 
 # IDEs and editors
 /.idea
@@ -23,6 +25,7 @@ node_modules
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+!.vscode/mcp.json
 
 # misc
 /.sass-cache
@@ -40,8 +43,12 @@ Thumbs.db
 
 # nx
 .nx/cache
+.nx/workspace-data
 
 # playwright
 **/test-results/
 **/playwright-report/
 **/playwright/.cache/
+
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md

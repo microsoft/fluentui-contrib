@@ -1,0 +1,64 @@
+{
+  "name": "@fluentui-contrib/teams-components",
+  "entries": [
+    {
+      "date": "Mon, 28 Apr 2025 08:56:33 GMT",
+      "tag": "@fluentui-contrib/teams-components_v0.1.2",
+      "version": "0.1.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "patrycja.fogelman@microsoft.com",
+            "package": "@fluentui-contrib/teams-components",
+            "commit": "c2b851a8ff5ea24057bb401cf2bed17a1dd5d835",
+            "comment": "Added aria-pressed to a list of allowed props for ToggleButton"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Thu, 10 Apr 2025 14:11:17 GMT",
+      "tag": "@fluentui-contrib/teams-components_v0.1.1",
+      "version": "0.1.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "@fluentui-contrib/teams-components",
+            "commit": "dba02ab6b87eef63dda236155ec0330cd56673ec",
+            "comment": "fix: bump @swc/helpers to monorepo version"
+          },
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "@fluentui-contrib/teams-components",
+            "commit": "02f6d1c4176fb0c9f852b14fb2d2b019ba768edc",
+            "comment": "fix: normalize package dependencies"
+          }
+        ],
+        "none": [
+          {
+            "author": "vgenaev@gmail.com",
+            "package": "@fluentui-contrib/teams-components",
+            "commit": "d0a3792e7ce7c3281e7c4aa7ee2bd7bfe8d8f4f5",
+            "comment": "chore: migrate to eslint v9"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Fri, 21 Mar 2025 12:18:49 GMT",
+      "tag": "@fluentui-contrib/teams-components_v0.1.0",
+      "version": "0.1.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "@fluentui-contrib/teams-components",
+            "commit": "daccf3cce75d05aa210b1346be62dc5c69ee523a",
+            "comment": "chore: initial release"
+          }
+        ]
+      }
+    }
+  ]
+}

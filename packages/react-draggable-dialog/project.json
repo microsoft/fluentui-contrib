@@ -3,6 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/react-draggable-dialog/src",
   "projectType": "library",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@fluentui-contrib/nx-plugin:build"
@@ -12,12 +13,13 @@
       "dependsOn": ["build"]
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
           "packages/react-draggable-dialog/**/*.ts",
-          "packages/react-draggable-dialog/**/*.tsx"
+          "packages/react-draggable-dialog/**/*.tsx",
+          "packages/react-draggable-dialog/package.json"
         ]
       }
     },
@@ -71,6 +73,5 @@
         "config": "packages/react-draggable-dialog/playwright.config.ts"
       }
     }
-  },
-  "tags": []
+  }
 }

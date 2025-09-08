@@ -34,7 +34,8 @@ export default defineConfig({
     trace: 'on-first-retry',
 
     /* Port to use for Playwright component endpoint. */
-    ctPort: 3100,
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    ctPort: 3100 + Number(require('./package.json').name.length),
   },
 
   /* Configure projects for major browsers */

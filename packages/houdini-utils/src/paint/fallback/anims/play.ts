@@ -16,8 +16,12 @@ export const playAnim = (
   animationParams: FallbackAnimationParams
 ) => {
   const props = new Map<string, string>();
+  // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
+  // eslint-disable-next-line no-restricted-globals
   const styles = getComputedStyle(state.target);
   const rect = { width: 0, height: 0 };
+  // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
+  // eslint-disable-next-line no-restricted-globals
   const resizeObserver = new ResizeObserver((entries) => {
     for (const entry of entries) {
       if (entry.target === state.target) {
@@ -68,7 +72,9 @@ export const playAnim = (
       if (hasMozElement()) {
         state.target.style.backgroundImage = `-moz-element(#${state.id})`;
       } else if (hasWebkitCanvas()) {
-        state.target.style.backgroundImage = `-webkit-canvas(#${state.id})`;
+        // Note: Safari references its vendor-specific CSSCanvasContext
+        // ID which does not use the CSS ID selector (#).
+        state.target.style.backgroundImage = `-webkit-canvas(${state.id})`;
       } else {
         const urlBackgroundImage = `url(${state.ctx.canvas.toDataURL(
           'image/png'

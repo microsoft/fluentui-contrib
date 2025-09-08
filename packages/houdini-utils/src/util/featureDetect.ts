@@ -24,13 +24,23 @@ declare global {
 export type FeatureDetectFn = () => boolean;
 export type AsyncFeatureDetectFn = () => Promise<boolean>;
 
+export const hasDom: FeatureDetectFn = () => {
+  return (
+    // This will hold regardless of the specific `document` object
+    // eslint-disable-next-line no-restricted-globals
+    typeof document !== 'undefined'
+  );
+};
+
 /**
  * Test if the APIs neccessary for the Firefox fallback exist.
  *
  * @returns `true` if the browser supports the necessary APIs, `false` otherwise.
  */
 export const hasMozElement: FeatureDetectFn = () => {
-  return typeof document?.mozSetImageElement === 'function';
+  // This will hold regardless of the specific `document` object
+  // eslint-disable-next-line no-restricted-globals
+  return hasDom() && typeof document.mozSetImageElement === 'function';
 };
 
 /**
@@ -38,7 +48,9 @@ export const hasMozElement: FeatureDetectFn = () => {
  * @returns `true` if the browser supports the necessary APIs, `false` otherwise.
  */
 export const hasWebkitCanvas: FeatureDetectFn = () => {
-  return typeof document?.getCSSCanvasContext === 'function';
+  // This will hold regardless of the specific `document` object
+  // eslint-disable-next-line no-restricted-globals
+  return hasDom() && typeof document.getCSSCanvasContext === 'function';
 };
 
 /**
@@ -48,7 +60,11 @@ export const hasWebkitCanvas: FeatureDetectFn = () => {
  */
 export const hasHoudini: FeatureDetectFn = () => {
   return (
+    // This will hold regardless of the specific `window` object
+    // eslint-disable-next-line no-restricted-globals
     typeof window !== 'undefined' &&
+    // This will hold regardless of the specific `window` object
+    // eslint-disable-next-line no-restricted-globals
     window.CSS &&
     'paintWorklet' in CSS &&
     'registerProperty' in CSS

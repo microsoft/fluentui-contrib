@@ -1,0 +1,1 @@
+export { getVariantTheme } from './ThemeGenerator';

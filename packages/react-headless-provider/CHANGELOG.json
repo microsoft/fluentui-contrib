@@ -2,6 +2,29 @@
   "name": "@fluentui-contrib/react-headless-provider",
   "entries": [
     {
+      "date": "Thu, 10 Apr 2025 14:11:17 GMT",
+      "tag": "@fluentui-contrib/react-headless-provider_v1.0.3",
+      "version": "1.0.3",
+      "comments": {
+        "none": [
+          {
+            "author": "vgenaev@gmail.com",
+            "package": "@fluentui-contrib/react-headless-provider",
+            "commit": "d0a3792e7ce7c3281e7c4aa7ee2bd7bfe8d8f4f5",
+            "comment": "chore: remove old .eslintrc files"
+          }
+        ],
+        "patch": [
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "@fluentui-contrib/react-headless-provider",
+            "commit": "dba02ab6b87eef63dda236155ec0330cd56673ec",
+            "comment": "fix: add missing runtime @swc/helper dependency"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 06 Feb 2024 09:15:09 GMT",
       "tag": "@fluentui-contrib/react-headless-provider_v1.0.2",
       "version": "1.0.2",

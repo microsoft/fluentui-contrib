@@ -15,6 +15,31 @@
         "peer"
       ],
       "isIgnored": true
+    },
+    {
+      "packages": [
+        "@fluentui-contrib/react-interactive-tab",
+        "@fluentui-contrib/react-keytips"
+      ],
+      "dependencies": [
+        "@fluentui/react-jsx-runtime",
+        "@fluentui/react-utilities"
+      ],
+      "dependencyTypes": [
+        "prod"
+      ],
+      "isIgnored": true
+    },
+    {
+      "packages": [
+        "react-17-tests",
+        "react-18-tests",
+        "react-19-tests"
+      ],
+      "dependencies": [
+        "**"
+      ],
+      "isIgnored": true
     }
   ]
 }

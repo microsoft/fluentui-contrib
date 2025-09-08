@@ -25,8 +25,8 @@ export const useChat_unstable = (
     root: slot.always(
       getIntrinsicElementProps('div', {
         ref,
-        ...props,
         ...arrowAttrs,
+        ...props,
       }),
       { elementType: 'div' }
     ),

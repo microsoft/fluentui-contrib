@@ -1,4 +1,4 @@
-# stylelint-plugin
+# @fluentui-contrib/stylelint-plugin
 
 This stylelint plugin contains rules that are (first and foremost) applicable to Fluent UI. These rules
 can also be used with projects that do not use Fluent UI or [Griffel](https://griffel.js.org/), but support

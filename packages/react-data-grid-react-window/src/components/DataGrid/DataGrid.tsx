@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { useDataGrid_unstable } from './useDataGrid';
+import { renderDataGrid_unstable } from './renderDataGrid';
+
 import {
-  renderDataGrid_unstable,
-  useDataGridStyles_unstable,
   useDataGridContextValues_unstable,
   DataGridProps,
+  useDataGridStyles_unstable,
 } from '@fluentui/react-components';
-import type { ForwardRefComponent } from '@fluentui/react-utilities';
+import type { ForwardRefComponent } from '@fluentui/react-components';
 
 export const DataGrid: ForwardRefComponent<DataGridProps> = React.forwardRef(
   (props, ref) => {

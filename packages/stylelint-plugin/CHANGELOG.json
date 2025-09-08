@@ -2,6 +2,65 @@
   "name": "@fluentui-contrib/stylelint-plugin",
   "entries": [
     {
+      "date": "Thu, 10 Apr 2025 14:11:17 GMT",
+      "tag": "@fluentui-contrib/stylelint-plugin_v0.2.2",
+      "version": "0.2.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "@fluentui-contrib/stylelint-plugin",
+            "commit": "dba02ab6b87eef63dda236155ec0330cd56673ec",
+            "comment": "fix: add missing runtime @swc/helper dependency"
+          },
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "@fluentui-contrib/stylelint-plugin",
+            "commit": "02f6d1c4176fb0c9f852b14fb2d2b019ba768edc",
+            "comment": "fix: normalize package dependencies"
+          }
+        ],
+        "none": [
+          {
+            "author": "vgenaev@gmail.com",
+            "package": "@fluentui-contrib/stylelint-plugin",
+            "commit": "d0a3792e7ce7c3281e7c4aa7ee2bd7bfe8d8f4f5",
+            "comment": "chore: remove old .eslintrc files"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Wed, 22 Jan 2025 09:16:56 GMT",
+      "tag": "@fluentui-contrib/stylelint-plugin_v0.2.1",
+      "version": "0.2.1",
+      "comments": {
+        "none": [
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "@fluentui-contrib/stylelint-plugin",
+            "commit": "fd9525da4bb93ad6e74db027fbb3fd47f67b2ea9",
+            "comment": "chore: sync failed release pipeline with git"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Wed, 15 Jan 2025 10:59:44 GMT",
+      "tag": "@fluentui-contrib/stylelint-plugin_v0.2.1",
+      "version": "0.2.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "lingfangao@hotmail.com",
+            "package": "@fluentui-contrib/stylelint-plugin",
+            "commit": "af00411605b4dd57ae3b33ee5c9f991c3cee38f0",
+            "comment": "fix: Add null guard for depth check"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 09 Nov 2023 13:33:19 GMT",
       "tag": "@fluentui-contrib/stylelint-plugin_v0.2.0",
       "version": "0.2.0",

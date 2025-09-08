@@ -19,12 +19,16 @@
       "@fluentui-contrib/accessible-chat": [
         "packages/accessible-chat/src/index.ts"
       ],
+      "@fluentui-contrib/azure-theme": ["packages/azure-theme/src/index.ts"],
       "@fluentui-contrib/houdini-utils": [
         "packages/houdini-utils/src/index.ts"
       ],
       "@fluentui-contrib/nx-plugin": ["packages/nx-plugin/src/index.ts"],
       "@fluentui-contrib/pierce-dom": ["packages/pierce-dom/src/index.ts"],
       "@fluentui-contrib/react-chat": ["packages/react-chat/src/index.ts"],
+      "@fluentui-contrib/react-contextual-pane": [
+        "packages/react-contextual-pane/src/index.ts"
+      ],
       "@fluentui-contrib/react-data-grid-react-window": [
         "packages/react-data-grid-react-window/src/index.ts"
       ],
@@ -34,8 +38,17 @@
       "@fluentui-contrib/react-draggable-dialog": [
         "packages/react-draggable-dialog/src/index.ts"
       ],
+      "@fluentui-contrib/react-gamepad-navigation": [
+        "packages/react-gamepad-navigation/src/index.ts"
+      ],
       "@fluentui-contrib/react-headless-provider": [
         "packages/react-headless-provider/src/index.ts"
+      ],
+      "@fluentui-contrib/react-interactive-tab": [
+        "packages/react-interactive-tab/src/index.ts"
+      ],
+      "@fluentui-contrib/react-keytips": [
+        "packages/react-keytips/src/index.ts"
       ],
       "@fluentui-contrib/react-resize-handle": [
         "packages/react-resize-handle/src/index.ts"
@@ -47,9 +60,19 @@
       "@fluentui-contrib/react-tree-grid": [
         "packages/react-tree-grid/src/index.ts"
       ],
+      "@fluentui-contrib/react-virtualizer": [
+        "packages/react-virtualizer/src/index.ts"
+      ],
       "@fluentui-contrib/stylelint-plugin": [
         "packages/stylelint-plugin/src/index.ts"
-      ]
+      ],
+      "@fluentui-contrib/teams-components": [
+        "packages/teams-components/src/index.ts"
+      ],
+      "@fluentui-contrib/token-analyzer": [
+        "packages/token-analyzer/src/index.ts"
+      ],
+      "@fluentui-contrib/variant-theme": ["packages/variant-theme/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

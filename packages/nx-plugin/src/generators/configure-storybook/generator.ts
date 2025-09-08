@@ -6,8 +6,10 @@ import {
   readProjectConfiguration,
   updateJson,
   ProjectConfiguration,
+  offsetFromRoot,
 } from '@nx/devkit';
-import { configurationGenerator } from '@nx/storybook';
+// TODO: enable once migrated to Storybook 8/9
+// import { configurationGenerator } from '@nx/storybook';
 import * as path from 'path';
 import { ConfigureStorybookGeneratorSchema } from './schema';
 
@@ -21,17 +23,7 @@ export default async function (
 
   const { root: projectRoot } = project;
 
-  await configurationGenerator(tree, {
-    project: name,
-    configureCypress: false,
-    uiFramework: '@storybook/react-webpack5',
-    tsConfiguration: true,
-    interactionTests: false,
-  });
-
-  // remove nx/storybook generator defaults that we don't need
-  tree.delete(joinPathFragments(projectRoot, '.storybook/preview.ts'));
-  tree.delete(joinPathFragments(projectRoot, 'tsconfig.storybook.json'));
+  await sbConfigurationGenerator(tree, { project });
 
   updateJson(tree, '/package.json', (json) => {
     json.devDependencies = json.devDependencies ?? {};
@@ -41,7 +33,10 @@ export default async function (
   });
 
   // add our boilerplate
-  generateFiles(tree, path.join(__dirname, 'files'), projectRoot, options);
+  generateFiles(tree, path.join(__dirname, 'files'), projectRoot, {
+    ...offsetFromRoot,
+    rootOffset: [offsetFromRoot(projectRoot), '..'].join(''),
+  });
   updateSolutionTsConfig(tree, { project });
 
   await formatFiles(tree);
@@ -63,4 +58,75 @@ function updateSolutionTsConfig(
     json.references.push({ path: './.storybook/tsconfig.json' });
     return json;
   });
+}
+
+async function sbConfigurationGenerator(
+  tree: Tree,
+  options: { project: ProjectConfiguration }
+) {
+  // TODO: enable once migrated to Storybook 8/9
+  // await configurationGenerator(tree, {
+  //   project: name,
+  //   uiFramework: '@storybook/react-webpack5',
+  //   tsConfiguration: true,
+  //   interactionTests: false,
+  // });
+
+  // remove nx/storybook generator defaults that we don't need
+  tree.delete(joinPathFragments(options.project.root, '.storybook/preview.ts'));
+  tree.delete(
+    joinPathFragments(options.project.root, 'tsconfig.storybook.json')
+  );
+
+  updateJson(
+    tree,
+    joinPathFragments(options.project.root, 'tsconfig.lib.json'),
+    (json) => {
+      json.exclude = json.exclude ?? [];
+      json.exclude.push(
+        '**/*.stories.ts',
+        '**/*.stories.js',
+        '**/*.stories.jsx',
+        '**/*.stories.tsx'
+      );
+      return json;
+    }
+  );
+
+  updateJson(
+    tree,
+    joinPathFragments(options.project.root, 'project.json'),
+    (json) => {
+      json.targets = json.targets ?? {};
+      json.targets.storybook = {
+        executor: '@nx/storybook:storybook',
+        options: {
+          port: 4400,
+          configDir: 'packages/hello/.storybook',
+        },
+        configurations: {
+          ci: {
+            quiet: true,
+          },
+        },
+      };
+      json.targets['build-storybook'] = {
+        executor: '@nx/storybook:build',
+        outputs: ['{options.outputDir}'],
+        options: {
+          outputDir: joinPathFragments(
+            'dist/storybook',
+            options.project.name as string
+          ),
+          configDir: 'packages/hello/.storybook',
+        },
+        configurations: {
+          ci: {
+            quiet: true,
+          },
+        },
+      };
+      return json;
+    }
+  );
 }

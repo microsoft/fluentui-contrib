@@ -1,0 +1,66 @@
+{
+  "name": "react-keytips",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/react-keytips/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@fluentui-contrib/nx-plugin:build"
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "packages/react-keytips/**/*.ts",
+          "packages/react-keytips/**/*.tsx",
+          "packages/react-keytips/package.json"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/react-keytips/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "type-check": {
+      "executor": "@fluentui-contrib/nx-plugin:type-check"
+    },
+    "storybook": {
+      "executor": "@nx/storybook:storybook",
+      "options": {
+        "port": 4400,
+        "configDir": "packages/react-keytips/.storybook"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@nx/storybook:build",
+      "outputs": ["{options.outputDir}"],
+      "options": {
+        "outputDir": "dist/storybook/react-keytips",
+        "configDir": "packages/react-keytips/.storybook"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "component-test": {
+      "executor": "@fluentui-contrib/nx-plugin:playwright",
+      "options": {
+        "testingType": "component",
+        "output": "{workspaceRoot}/dist/.playwright/packages/react-keytips",
+        "config": "packages/react-keytips/playwright.config.ts"
+      }
+    }
+  }
+}

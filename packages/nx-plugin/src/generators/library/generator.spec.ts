@@ -3,13 +3,13 @@ import {
   Tree,
   readProjectConfiguration,
   readJson,
-  workspaceRoot,
   joinPathFragments,
+  readNxJson,
+  updateNxJson,
 } from '@nx/devkit';
 
 import generator from './generator';
 import { LibraryGeneratorSchema } from './schema';
-import { getPackagePaths } from '../../utils';
 import {
   createCodeowners,
   setupWorkspaceDependencies,
@@ -22,6 +22,9 @@ describe('create-package generator', () => {
   beforeEach(() => {
     tree = createTreeWithEmptyWorkspace();
     setupWorkspaceDependencies(tree);
+    updateNxJson(tree, {
+      release: { projects: ['packages/**/*', '!tag:npm:private'] },
+    });
     createCodeowners(tree);
   });
 
@@ -32,16 +35,16 @@ describe('create-package generator', () => {
 
       expect(tree.children(config.root)).toMatchInlineSnapshot(`
         [
-          "tsconfig.json",
-          "README.md",
-          "src",
           "tsconfig.lib.json",
+          "tsconfig.json",
+          "src",
+          "README.md",
           ".swcrc",
           "package.json",
           "project.json",
-          ".eslintrc.json",
-          "jest.config.ts",
           "tsconfig.spec.json",
+          "jest.config.ts",
+          "eslint.config.js",
         ]
       `);
 
@@ -76,7 +79,7 @@ describe('create-package generator', () => {
         }
 
         // Uncomment if using global setup/teardown files being transformed via swc
-        // https://nx.dev/packages/jest/documents/overview#global-setup/teardown-with-nx-libraries
+        // https://nx.dev/nx-api/jest/documents/overview#global-setupteardown-with-nx-libraries
         // jest needs EsModule Interop to find the default exported setup/teardown functions
         // swcJestConfig.module.noInterop = false;
 
@@ -92,24 +95,6 @@ describe('create-package generator', () => {
         };
         "
       `);
-    });
-  });
-
-  describe(`package.json`, () => {
-    it('should generate peer dependencies', async () => {
-      await generator(tree, options);
-      const config = readProjectConfiguration(tree, 'test');
-      const paths = getPackagePaths(workspaceRoot, config.root);
-      const pkgJson = readJson(tree, paths.packageJson);
-      expect(pkgJson.peerDependencies).toMatchInlineSnapshot(`
-              {
-                "@fluentui/react-components": ">=9.46.3 <10.0.0",
-                "@types/react": ">=16.8.0 <19.0.0",
-                "@types/react-dom": ">=16.8.0 <19.0.0",
-                "react": ">=16.8.0 <19.0.0",
-                "react-dom": ">=16.8.0 <19.0.0",
-              }
-          `);
     });
   });
 
@@ -165,6 +150,43 @@ describe('create-package generator', () => {
           },
         }
       `);
+    });
+  });
+
+  describe(`nx generators overrides`, () => {
+    it(`should not update /package.json with deps we dont need`, async () => {
+      await generator(tree, options);
+
+      expect(readJson(tree, '/package.json').devDependencies).not.toEqual(
+        expect.objectContaining({ 'ts-jest': expect.any(String) })
+      );
+    });
+
+    it(`should not update /project.json with release metadata`, async () => {
+      await generator(tree, options);
+
+      const project = readProjectConfiguration(tree, 'test');
+
+      expect(project.release).toEqual(undefined);
+      expect(project.targets?.['nx-release-publish']).toEqual(undefined);
+    });
+
+    it(`should not force update nx.json#release`, async () => {
+      await generator(tree, options);
+
+      const nxJson = readNxJson(tree);
+
+      expect(nxJson?.release).toEqual({
+        projects: ['packages/**/*', '!tag:npm:private'],
+      });
+    });
+
+    it(`should not force update nx.json#targetDefaults`, async () => {
+      await generator(tree, options);
+
+      const nxJson = readNxJson(tree);
+
+      expect(nxJson?.targetDefaults?.['@nx/js:swc']).toEqual(undefined);
     });
   });
 });

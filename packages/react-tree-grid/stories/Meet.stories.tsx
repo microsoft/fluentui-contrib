@@ -22,7 +22,7 @@ import {
   Image,
   mergeClasses,
 } from '@fluentui/react-components';
-import { EventHandler, useId } from '@fluentui/react-utilities';
+import { EventHandler } from '@fluentui/react-utilities';
 import {
   CaretRightFilled,
   CaretDownFilled,

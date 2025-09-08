@@ -26,7 +26,11 @@ export type CellRenderer<TItem = unknown> = (
   /**
    * The index of each column
    */
-  columnIndex: number
+  columnIndex: number,
+  /**
+   * Indicates whether the grid is currently being scrolled.
+   */
+  isScrolling?: boolean | undefined
 ) => React.ReactNode;
 /**
  * DataGridBody Props

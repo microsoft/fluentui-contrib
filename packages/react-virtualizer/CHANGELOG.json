@@ -1,0 +1,20 @@
+{
+  "name": "@fluentui-contrib/react-virtualizer",
+  "entries": [
+    {
+      "date": "Fri, 01 Aug 2025 18:07:48 GMT",
+      "tag": "@fluentui-contrib/react-virtualizer_v0.1.0",
+      "version": "0.1.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "mifraser@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "5f6a289e3982982d5ffa8751eeac03541e5fec59",
+            "comment": "feat: Release react-virtualizer in initial stable state"
+          }
+        ]
+      }
+    }
+  ]
+}

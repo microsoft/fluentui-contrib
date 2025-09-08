@@ -11,14 +11,15 @@ import { DataGridHeaderRowProps } from './DataGridHeaderRow.types';
 /**
  * DataGridHeaderRow component
  */
-export const DataGridHeaderRow: ForwardRefComponent<DataGridHeaderRowProps> &
-  (<TItem>(props: DataGridHeaderRowProps<TItem>) => JSX.Element) =
-  React.forwardRef((props, ref) => {
-    const state = useDataGridHeaderRow_unstable(props, ref);
+export const DataGridHeaderRow = React.forwardRef<
+  HTMLElement,
+  DataGridHeaderRowProps
+>((props, ref) => {
+  const state = useDataGridHeaderRow_unstable(props, ref);
 
-    useDataGridRowStyles_unstable(state as unknown as DataGridRowState);
-    return renderDataGridHeaderRow_unstable(state);
-  }) as ForwardRefComponent<DataGridHeaderRowProps> &
-    (<TItem>(props: DataGridHeaderRowProps<TItem>) => JSX.Element);
+  useDataGridRowStyles_unstable(state as unknown as DataGridRowState);
+  return renderDataGridHeaderRow_unstable(state);
+}) as ForwardRefComponent<DataGridHeaderRowProps> &
+  (<TItem>(props: DataGridHeaderRowProps<TItem>) => JSX.Element);
 
 DataGridHeaderRow.displayName = 'DataGridHeaderRow';

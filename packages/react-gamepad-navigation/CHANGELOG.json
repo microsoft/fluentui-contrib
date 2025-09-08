@@ -1,0 +1,106 @@
+{
+  "name": "@fluentui-contrib/react-gamepad-navigation",
+  "entries": [
+    {
+      "date": "Fri, 01 Aug 2025 18:07:48 GMT",
+      "tag": "@fluentui-contrib/react-gamepad-navigation_v0.1.3",
+      "version": "0.1.3",
+      "comments": {
+        "patch": [
+          {
+            "author": "hectorjimenez@outlook.com",
+            "package": "@fluentui-contrib/react-gamepad-navigation",
+            "commit": "f5bccada5cb2cd23c5c2e44e811b91f021bf53f9",
+            "comment": "fix(react-gamepad-navigation): handling Gamepad API access denied"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Thu, 10 Apr 2025 14:11:17 GMT",
+      "tag": "@fluentui-contrib/react-gamepad-navigation_v0.1.2",
+      "version": "0.1.2",
+      "comments": {
+        "none": [
+          {
+            "author": "vgenaev@gmail.com",
+            "package": "@fluentui-contrib/react-gamepad-navigation",
+            "commit": "d0a3792e7ce7c3281e7c4aa7ee2bd7bfe8d8f4f5",
+            "comment": "chore: replace old eslintrc config file with js flat config"
+          }
+        ],
+        "patch": [
+          {
+            "author": "hectorjimenez@outlook.com",
+            "package": "@fluentui-contrib/react-gamepad-navigation",
+            "commit": "0a20601678ee3faf17e997507f6c601f6c8b2ed2",
+            "comment": "fix combobox issue when pressing B button"
+          },
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "@fluentui-contrib/react-gamepad-navigation",
+            "commit": "02f6d1c4176fb0c9f852b14fb2d2b019ba768edc",
+            "comment": "fix: normalize package dependencies"
+          },
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "@fluentui-contrib/react-gamepad-navigation",
+            "commit": "dba02ab6b87eef63dda236155ec0330cd56673ec",
+            "comment": "fix: bump @swc/helpers to monorepo version"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Wed, 12 Mar 2025 09:45:17 GMT",
+      "tag": "@fluentui-contrib/react-gamepad-navigation_v0.1.1",
+      "version": "0.1.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "hectorjimenez@outlook.com",
+            "package": "@fluentui-contrib/react-gamepad-navigation",
+            "commit": "e57ba3b1f2531d15c075971c34f1ad3446a68dc4",
+            "comment": "upgrading react-tabster dependency"
+          },
+          {
+            "author": "hectorjimenez@outlook.com",
+            "package": "@fluentui-contrib/react-gamepad-navigation",
+            "commit": "6242e1e6622360efaf8640287611cccfb6f14b4c",
+            "comment": "remove mouseevent type augmentation"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Thu, 27 Feb 2025 18:01:54 GMT",
+      "tag": "@fluentui-contrib/react-gamepad-navigation_v0.1.0",
+      "version": "0.1.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "hectorjimenez@outlook.com",
+            "package": "@fluentui-contrib/react-gamepad-navigation",
+            "commit": "9b351c13ed3b5a213737d9cac807a8cd2484dfe7",
+            "comment": "Implementation for gamepad navigation package"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Fri, 21 Feb 2025 18:05:51 GMT",
+      "tag": "@fluentui-contrib/react-gamepad-navigation_v0.0.1",
+      "version": "0.0.1",
+      "comments": {
+        "none": [
+          {
+            "author": "hectorjimenez@outlook.com",
+            "package": "@fluentui-contrib/react-gamepad-navigation",
+            "commit": "10de2c65ed621518d688e6bbd234aafff835acc8",
+            "comment": "generate package files"
+          }
+        ]
+      }
+    }
+  ]
+}

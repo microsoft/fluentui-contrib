@@ -1,6 +1,7 @@
 {
   "name": "fluentui-contrib",
   "$schema": "node_modules/nx/schemas/project-schema.json",
+  "includedScripts": [],
   "targets": {
     "local-registry": {
       "executor": "@nx/js:verdaccio",
@@ -9,6 +10,9 @@
         "config": ".verdaccio/config.yml",
         "storage": "tmp/local-registry/storage"
       }
+    },
+    "verify-integrity": {
+      "command": "node ./tools/scripts/verify-repo-integrity.mjs"
     }
   }
 }

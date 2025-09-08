@@ -1,5 +1,9 @@
 import { playAnim } from './anims/play';
-import { hasMozElement, hasWebkitCanvas } from '../../util/featureDetect';
+import {
+  hasDom,
+  hasMozElement,
+  hasWebkitCanvas,
+} from '../../util/featureDetect';
 import { appendWrapper } from './util/wrapper';
 import {
   appendCanvas,
@@ -31,6 +35,10 @@ export const fallbackPaintAnimation = (
   paintWorklet: PaintWorklet,
   animationParams: FallbackAnimationParams
 ): FallbackAnimationReturn => {
+  if (!hasDom()) {
+    return cannotDraw;
+  }
+
   const state: FallbackAnimationState = {
     target,
     ctx: null,
@@ -44,6 +52,8 @@ export const fallbackPaintAnimation = (
   // Create a wrapper for us to store these elements in so we avoid
   // thrashing the DOM with appends.
   if (!state.wrapper) {
+    // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
+    // eslint-disable-next-line no-restricted-globals
     state.wrapper = appendWrapper(document.body);
   }
 

@@ -15,7 +15,11 @@ export type RowRenderer<TItem = unknown> = (
   /**
    * The index of each row
    */
-  index: number
+  index: number,
+  /**
+   * Indicates whether the grid is currently being scrolled.
+   */
+  isScrolling?: boolean | undefined
 ) => React.ReactNode;
 
 /**
@@ -68,4 +72,6 @@ export type DataGridBodyState = Omit<DataGridBodyStateBase, 'renderRow'> &
     virtualizedRow: (props: ListChildComponentProps) => React.ReactElement;
   } & {
     listProps?: Partial<FixedSizeListProps>;
+
+    outerRef?: React.Ref<unknown>;
   };

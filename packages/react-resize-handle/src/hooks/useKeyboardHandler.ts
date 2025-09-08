@@ -1,15 +1,22 @@
 import { useEventCallback, useFluent } from '@fluentui/react-components';
+import type { EventHandler } from '@fluentui/react-utilities';
 import * as React from 'react';
-import { GrowDirection, SupportedKeys } from '../types';
-import { elementDimension } from '../utils/index';
+
+import {
+  EVENTS,
+  GrowDirection,
+  ResizeHandleUpdateEventData,
+  SupportedKeys,
+} from '../types';
+import type { UnitHandle } from './useUnitHandle';
 
 export type UseKeyboardHandlerOptions = {
-  onValueChange: (value: number) => void;
-  elementRef: React.RefObject<HTMLElement>;
+  onValueChange: EventHandler<ResizeHandleUpdateEventData>;
   growDirection: GrowDirection;
-};
 
-const DEFAULT_STEP = 20;
+  getCurrentValue: () => number;
+  unitHandle: UnitHandle;
+};
 
 const multipliers: Record<
   GrowDirection,
@@ -44,21 +51,28 @@ function isSupportedKey(
 }
 
 export const useKeyboardHandler = (options: UseKeyboardHandlerOptions) => {
-  const { elementRef, onValueChange, growDirection } = options;
+  const { onValueChange, growDirection, getCurrentValue, unitHandle } = options;
   const { dir } = useFluent();
 
   const onKeyDown = useEventCallback((event: KeyboardEvent) => {
-    let newValue = elementDimension(elementRef.current, growDirection);
-
-    if (isSupportedKey(growDirection, event.key)) {
-      const multiplier = multipliers[growDirection][event.key] ?? 1;
-      const directionMultiplier =
-        dir === 'rtl' && ['start', 'end'].includes(growDirection) ? -1 : 1;
-
-      newValue += multiplier * DEFAULT_STEP * directionMultiplier;
+    if (!isSupportedKey(growDirection, event.key)) {
+      return;
     }
 
-    onValueChange(Math.round(newValue));
+    const currentValue = getCurrentValue();
+
+    const multiplier = multipliers[growDirection][event.key] ?? 1;
+    const directionMultiplier =
+      dir === 'rtl' && ['start', 'end'].includes(growDirection) ? -1 : 1;
+    const offset =
+      multiplier * unitHandle.getOffsetStep() * directionMultiplier;
+
+    onValueChange(event, {
+      event,
+      value: unitHandle.roundValue(currentValue + offset),
+      type: EVENTS.keyboard,
+      unit: unitHandle.name,
+    });
   });
 
   const attachHandlers = React.useCallback(
@@ -67,6 +81,7 @@ export const useKeyboardHandler = (options: UseKeyboardHandlerOptions) => {
     },
     [onKeyDown]
   );
+
   const detachHandlers = React.useCallback(
     (node: HTMLElement) => {
       node.removeEventListener('keydown', onKeyDown);

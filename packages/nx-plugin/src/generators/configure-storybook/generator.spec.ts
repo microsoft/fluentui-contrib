@@ -32,9 +32,9 @@ describe('configure-storybook generator', () => {
 
     const config = readProjectConfiguration(tree, 'hello');
 
-    expect(tree.children(joinPathFragments(config.root, '.storybook'))).toEqual(
-      ['main.ts', 'tsconfig.json', 'preview.tsx']
-    );
+    expect(
+      tree.children(joinPathFragments(config.root, '.storybook')).sort()
+    ).toEqual(['main.ts', 'preview.tsx', 'tsconfig.json']);
 
     expect(
       tree.exists(joinPathFragments(config.root, 'stories/.gitkeep'))
@@ -47,6 +47,50 @@ describe('configure-storybook generator', () => {
     expect(
       readJson(tree, joinPathFragments(config.root, 'tsconfig.json')).references
     ).toContainEqual({ path: './.storybook/tsconfig.json' });
+
+    expect(
+      readJson(tree, joinPathFragments(config.root, 'tsconfig.lib.json'))
+        .exclude
+    ).toEqual(
+      expect.arrayContaining([
+        '**/*.stories.ts',
+        '**/*.stories.js',
+        '**/*.stories.jsx',
+        '**/*.stories.tsx',
+      ])
+    );
+
+    expect(
+      readJson(tree, joinPathFragments(config.root, 'project.json')).targets
+    ).toEqual(
+      expect.objectContaining({
+        storybook: {
+          executor: '@nx/storybook:storybook',
+          options: {
+            port: 4400,
+            configDir: 'packages/hello/.storybook',
+          },
+          configurations: {
+            ci: {
+              quiet: true,
+            },
+          },
+        },
+        'build-storybook': {
+          executor: '@nx/storybook:build',
+          outputs: ['{options.outputDir}'],
+          options: {
+            outputDir: 'dist/storybook/hello',
+            configDir: 'packages/hello/.storybook',
+          },
+          configurations: {
+            ci: {
+              quiet: true,
+            },
+          },
+        },
+      })
+    );
   });
 
   it('should generate storybook config boilerplate', async () => {
@@ -59,30 +103,15 @@ describe('configure-storybook generator', () => {
     ).toMatchInlineSnapshot(`
       "import type { StorybookConfig } from '@storybook/react-webpack5';
 
+      // eslint-disable-next-line @nx/enforce-module-boundaries
+      import rootConfig from '../../../.storybook/main';
+
       const config: StorybookConfig = {
+        ...rootConfig,
         stories: ['../stories/**/index.stories.@(js|jsx|ts|tsx|mdx)'],
-        addons: [
-          '@nx/react/plugins/storybook',
-          {
-            name: '@storybook/addon-storysource',
-            options: {
-              loaderOptions: {
-                injectStoryParameters: true,
-              },
-            },
-          },
-        ],
-        framework: {
-          name: '@storybook/react-webpack5',
-          options: {},
-        },
       };
 
       export default config;
-
-      // To customize your webpack configuration you can use the webpackFinal field.
-      // Check https://storybook.js.org/docs/react/builders/webpack#extending-storybooks-webpack-config
-      // and https://nx.dev/packages/storybook/documents/custom-builder-configs
       "
     `);
 
@@ -92,20 +121,13 @@ describe('configure-storybook generator', () => {
         'utf-8'
       )
     ).toMatchInlineSnapshot(`
-      "import * as React from 'react';
+      "import type { Preview } from '@storybook/react';
 
-      import { Preview } from '@storybook/react';
-
-      import { FluentProvider, webLightTheme } from '@fluentui/react-components';
+      // eslint-disable-next-line @nx/enforce-module-boundaries
+      import rootPreview from '../../../.storybook/preview';
 
       const preview: Preview = {
-        decorators: [
-          (Story) => (
-            <FluentProvider theme={webLightTheme}>
-              <Story />
-            </FluentProvider>
-          ),
-        ],
+        ...rootPreview,
       };
 
       export default preview;
@@ -145,11 +167,13 @@ describe('configure-storybook generator', () => {
     `);
   });
 
-  it(`should not update root package.json`, async () => {
-    await generator(tree, options);
+  describe(`nx generators overrides`, () => {
+    it(`should not update /package.json with deps we dont need`, async () => {
+      await generator(tree, options);
 
-    expect(
-      readJson(tree, '/package.json').devDependencies['core-js']
-    ).toBeUndefined();
+      expect(
+        readJson(tree, '/package.json').devDependencies['core-js']
+      ).toBeUndefined();
+    });
   });
 });

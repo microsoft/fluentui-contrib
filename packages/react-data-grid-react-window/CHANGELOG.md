@@ -1,8 +1,41 @@
 # Change Log - @fluentui-contrib/react-data-grid-react-window
 
-This log was last generated on Wed, 25 Oct 2023 09:11:36 GMT and should not be manually modified.
+This log was last generated on Thu, 10 Apr 2025 14:11:17 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 1.3.2
+
+Thu, 10 Apr 2025 14:11:17 GMT
+
+### Patches
+
+- fix: add missing runtime @swc/helper dependency (hochelmartin@gmail.com)
+- fix: normalize package dependencies (hochelmartin@gmail.com)
+
+## 1.3.1
+
+Tue, 17 Dec 2024 11:27:26 GMT
+
+### Patches
+
+- refactor (react-data-grid-react-window): export all types and hooks (alton@microsoft.com)
+
+## 1.3.0
+
+Tue, 03 Dec 2024 12:55:55 GMT
+
+### Minor changes
+
+- Keep header and body in sync when the DataGrid columns are overflowing #176 (reubenrakete@microsoft.com)
+
+## 1.2.0
+
+Fri, 21 Jun 2024 06:08:36 GMT
+
+### Minor changes
+
+- feat(react-data-grid-react-window*): add scrolling indicators (sghorashi@microsoft.com)
 
 ## 1.1.2
 

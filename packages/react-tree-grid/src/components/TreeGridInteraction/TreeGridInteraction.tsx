@@ -10,20 +10,27 @@ import {
   useFocusableGroup,
 } from '@fluentui/react-components';
 import type { TreeGridInteractionProps } from './TreeGridInteraction.types';
+import {
+  TabsterDOMAttribute,
+  useMergedTabsterAttributes_unstable,
+} from '@fluentui/react-tabster';
 
 export const TreeGridInteraction: ForwardRefComponent<TreeGridInteractionProps> =
   React.forwardRef((props, ref) => {
-    const focusableGroupAttribute = useFocusableGroup({
-      tabBehavior: 'limited-trap-focus',
-    });
+    const tabsterAttributes = useMergedTabsterAttributes_unstable(
+      useFocusableGroup({
+        tabBehavior: 'limited-trap-focus',
+      }),
+      props as unknown as TabsterDOMAttribute
+    );
 
     const Root = slot.always(
       {
         tabIndex: 0,
         role: 'group',
-        ...focusableGroupAttribute,
         ref,
         ...props,
+        ...tabsterAttributes,
       },
       { elementType: 'div' }
     );

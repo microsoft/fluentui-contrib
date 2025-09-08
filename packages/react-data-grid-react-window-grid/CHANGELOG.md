@@ -1,8 +1,33 @@
 # Change Log - @fluentui-contrib/react-data-grid-react-window-grid
 
-This log was last generated on Fri, 05 Apr 2024 08:15:59 GMT and should not be manually modified.
+This log was last generated on Thu, 10 Apr 2025 14:11:17 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 2.3.1
+
+Thu, 10 Apr 2025 14:11:17 GMT
+
+### Patches
+
+- fix: add missing runtime @swc/helper dependency (hochelmartin@gmail.com)
+- fix: normalize package dependencies (hochelmartin@gmail.com)
+
+## 2.3.0
+
+Fri, 21 Jun 2024 06:08:36 GMT
+
+### Minor changes
+
+- feat(react-data-grid-react-window*): add scrolling indicators (sghorashi@microsoft.com)
+
+## 2.2.1
+
+Thu, 25 Apr 2024 09:32:18 GMT
+
+### Patches
+
+- Fix columns update not trigger rerender (fengqi@microsoft.com)
 
 ## 2.2.0
 
