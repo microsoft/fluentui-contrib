@@ -1,5 +1,5 @@
 import { type KeytipProps } from '@fluentui-contrib/react-keytips';
-import type { JSXElement } from '@fluentui/react-utilities';
+import type { JSXElement } from '@fluentui/react-components';
 
 export type MenuItemType = {
   id: string;

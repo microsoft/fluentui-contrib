@@ -4,7 +4,7 @@ import {
   type DataGridHeaderProps,
   type ForwardRefComponent,
 } from '@fluentui/react-components';
-import type { JSXElement } from '@fluentui/react-utilities';
+import type { JSXElement } from '@fluentui/react-components';
 import { useDataGridHeader_unstable } from './useDataGridHeader';
 import { useDataGridHeaderStyles_unstable } from './useDataGridHeaderStyles.styles';
 

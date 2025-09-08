@@ -4,7 +4,7 @@ import type {
   DataGridRowState,
   ForwardRefComponent,
 } from '@fluentui/react-components';
-import type { JSXElement } from '@fluentui/react-utilities';
+import type { JSXElement } from '@fluentui/react-components';
 import { useDataGridHeaderRow_unstable } from './useDataGridHeaderRow';
 import { renderDataGridHeaderRow_unstable } from './renderDataGridHeaderRow';
 import { DataGridHeaderRowProps } from './DataGridHeaderRow.types';

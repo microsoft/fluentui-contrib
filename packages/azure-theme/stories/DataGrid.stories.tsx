@@ -24,7 +24,7 @@ import {
   createTableColumn,
   FluentProvider,
 } from '@fluentui/react-components';
-import type { JSXElement } from '@fluentui/react-utilities';
+import type { JSXElement } from '@fluentui/react-components';
 
 type FileCell = {
   label: string;

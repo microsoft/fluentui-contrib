@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { JSXElement } from '@fluentui/react-utilities';
+import type { JSXElement } from '@fluentui/react-components';
 
 export type DataAttributeProps = { [key: `data-${string}`]: string };
 export type SafeAriaAttributeProps = Pick<

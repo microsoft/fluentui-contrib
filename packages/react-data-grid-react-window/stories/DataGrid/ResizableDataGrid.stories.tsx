@@ -34,7 +34,7 @@ import {
   DataGridHeaderCell,
   RowRenderer,
 } from '@fluentui-contrib/react-data-grid-react-window';
-import type { JSXElement } from '@fluentui/react-utilities';
+import type { JSXElement } from '@fluentui/react-components';
 
 type FileCell = {
   label: string;
