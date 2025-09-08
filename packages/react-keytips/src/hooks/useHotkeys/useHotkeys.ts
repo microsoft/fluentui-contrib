@@ -8,7 +8,7 @@ import { parseHotkey } from './parseHotkey';
 export const useHotkeys = (
   hotkeys: Hotkey[],
   options?: { invokeEvent?: KeytipsProps['invokeEvent']; target?: Document }
-) => {
+): void => {
   const { targetDocument } = useFluent();
   const { target, invokeEvent = 'keydown' } = options ?? {};
   const [setDelayTimeout, clearDelayTimeout] = useTimeout();

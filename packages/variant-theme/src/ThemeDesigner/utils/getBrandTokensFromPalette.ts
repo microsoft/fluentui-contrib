@@ -25,7 +25,7 @@ type Options = {
 export function getBrandTokensFromPalette(
   keyColor: string,
   options: Options = {}
-) {
+): BrandVariants {
   const { darkCp = 2 / 3, lightCp = 1 / 3, hueTorsion = 0 } = options;
   const brandPalette: Palette = {
     keyColor: hex_to_LCH(keyColor),

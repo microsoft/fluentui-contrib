@@ -7,7 +7,7 @@ export type HeaderTitleProps = {
   caption: string;
 };
 
-export function HeaderTitle({ caption }: HeaderTitleProps) {
+export function HeaderTitle({ caption }: HeaderTitleProps): JSX.Element {
   const [titleHasEllipsis, titleRef] = useEllipsisCheck();
   const [isVisibleTooltip, setIsVisibleTooltip] = React.useState(false);
 

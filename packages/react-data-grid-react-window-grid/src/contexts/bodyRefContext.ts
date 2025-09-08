@@ -10,7 +10,8 @@ const bodyRefContext: React.Context<
 export const bodyRefContextDefaultValue: React.MutableRefObject<VariableSizeGrid | null> =
   { current: null };
 
-export const useBodyRefContext = () =>
-  React.useContext(bodyRefContext) ?? bodyRefContextDefaultValue;
+export const useBodyRefContext =
+  (): React.MutableRefObject<VariableSizeGrid | null> =>
+    React.useContext(bodyRefContext) ?? bodyRefContextDefaultValue;
 
 export const BodyRefContextProvider = bodyRefContext.Provider;

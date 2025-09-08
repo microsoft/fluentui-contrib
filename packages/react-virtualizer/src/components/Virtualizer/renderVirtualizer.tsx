@@ -5,8 +5,11 @@ import * as React from 'react';
 import type { VirtualizerSlots, VirtualizerState } from './Virtualizer.types';
 
 import { assertSlots } from '@fluentui/react-utilities';
+import type { JSXElement } from '@fluentui/react-utilities';
 
-export const renderVirtualizer_unstable = (state: VirtualizerState) => {
+export const renderVirtualizer_unstable = (
+  state: VirtualizerState
+): JSXElement => {
   assertSlots<VirtualizerSlots>(state);
   return (
     <React.Fragment>
@@ -27,7 +30,7 @@ export const renderVirtualizer_unstable = (state: VirtualizerState) => {
 export const renderVirtualizerChildPlaceholder = (
   child: React.ReactNode,
   index: number
-) => {
+): JSXElement => {
   return (
     <React.Suspense
       key={`fui-virtualizer-placeholder-${index}`}

@@ -25,7 +25,7 @@ import { IconDirectionContextProvider } from '@fluentui/react-icons';
 export const renderThemelessFluentProvider_unstable = (
   state: FluentProviderState,
   contextValues: FluentProviderContextValues
-) => {
+): JSX.Element => {
   assertSlots<FluentProviderSlots>(state);
 
   // Typescript (vscode) incorrectly references the FluentProviderProps.customStyleHooks_unstable

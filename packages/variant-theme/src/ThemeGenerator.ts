@@ -31,7 +31,7 @@ export function getVariantTheme(
   theme: Theme,
   type: VariantThemeType,
   isInverted: boolean
-) {
+): Theme {
   // Need a way to detect custom neutrals in the theme
   // Need a way to detect if the theme is light or dark
 

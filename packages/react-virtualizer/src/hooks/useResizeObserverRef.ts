@@ -9,7 +9,7 @@ import { ResizeCallbackWithRef } from './hooks.types';
  */
 export const useResizeObserverRef_unstable = (
   resizeCallback: ResizeCallbackWithRef
-) => {
+): React.RefCallback<HTMLElement | HTMLDivElement | null> => {
   'use no memo';
 
   const { targetDocument } = useFluent();

@@ -10,7 +10,7 @@ import type { ChatState, ChatSlots } from './Chat.types';
 /**
  * Render the final JSX of Chat
  */
-export const renderChat_unstable = (state: ChatState) => {
+export const renderChat_unstable = (state: ChatState): JSX.Element => {
   assertSlots<ChatSlots>(state);
 
   return <state.root />;

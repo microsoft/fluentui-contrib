@@ -74,6 +74,7 @@ module.exports = [
     },
     rules: {
       'no-restricted-globals': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
     },
   },
   {
@@ -93,6 +94,7 @@ module.exports = [
           ],
         },
       ],
+      '@typescript-eslint/explicit-module-boundary-types': 'error',
     },
   },
   {
@@ -113,6 +115,7 @@ module.exports = [
     files: ['**/*.component-browser-spec.tsx'],
     rules: {
       ...playwright.configs['flat/recommended'].rules,
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
     },
   },
   {

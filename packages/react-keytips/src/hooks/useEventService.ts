@@ -31,7 +31,18 @@ function createEventHandler<T>(
   };
 }
 
-export function useEventService() {
+export function useEventService(): {
+  dispatch: <T extends EventType>(
+    eventName: T,
+    payload?: PayloadDefinition[T]
+  ) => void;
+  subscribe: <T extends EventType>(
+    event: T,
+    handler: (payload: PayloadDefinition[T]) => void
+  ) => () => void;
+  reset: () => void;
+  abort: () => void;
+} {
   const { targetDocument } = useFluent();
   const controller = React.useRef<AbortController | null>(
     new AbortController()

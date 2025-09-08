@@ -1,6 +1,13 @@
 const MODIFIERS = new Set(['shift', 'alt', 'control', 'meta', 'mod']);
 
-export function parseHotkey(hotkey: string) {
+export function parseHotkey(hotkey: string): {
+  key: string | undefined;
+  alt: boolean;
+  ctrl: boolean;
+  shift: boolean;
+  meta: boolean;
+  mod: boolean;
+} {
   const keys = hotkey.toLowerCase().split('+');
 
   const modifiers = {

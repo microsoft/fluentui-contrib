@@ -11,7 +11,7 @@ import { renderVirtualizer_unstable } from '../Virtualizer/renderVirtualizer';
 
 export const renderVirtualizerScrollView_unstable = (
   state: VirtualizerScrollViewState
-) => {
+): JSX.Element => {
   assertSlots<VirtualizerScrollViewSlots>(state);
 
   return <state.container>{renderVirtualizer_unstable(state)}</state.container>;

@@ -8,7 +8,7 @@ import {
 
 export const getDecorationIcon = (
   decoration?: 'important' | 'urgent' | 'mention' | 'mentionEveryone'
-) => {
+): JSX.Element | null => {
   switch (decoration) {
     case 'important':
       return <ImportantFilled />;

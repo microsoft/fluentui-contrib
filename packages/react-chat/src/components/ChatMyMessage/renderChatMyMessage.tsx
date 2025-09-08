@@ -11,7 +11,9 @@ import type {
   ChatMyMessageState,
 } from './ChatMyMessage.types';
 
-export const renderChatMyMessage_unstable = (state: ChatMyMessageState) => {
+export const renderChatMyMessage_unstable = (
+  state: ChatMyMessageState
+): JSX.Element => {
   assertSlots<ChatMyMessageSlots>(state);
   return (
     <state.root>

@@ -11,7 +11,8 @@ export function createResizeObserver(
   host: Window & typeof globalThis,
   setHasEllipsisState: (hasEllipsis: boolean) => void,
   element: HTMLDivElement
-) {
+  // eslint-disable-next-line no-restricted-globals
+): ResizeObserver {
   return new host.ResizeObserver(() => {
     if (timeoutId) host.clearTimeout(timeoutId);
 
@@ -44,7 +45,7 @@ export function useEllipsisCheck(): [boolean, React.RefObject<HTMLDivElement>] {
 
     resizeObserver.observe(element);
 
-    return () => {
+    return (): void => {
       resizeObserver.disconnect();
       if (timeoutId) host.clearTimeout(timeoutId);
     };

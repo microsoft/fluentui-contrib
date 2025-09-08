@@ -10,7 +10,7 @@ export const brandRamp: Brands[] = [
 
 export const sortOverrideableColorTokens = (
   overridableColorTokens: string[]
-) => {
+): string[] => {
   return overridableColorTokens.sort((a, b) => {
     if (a.includes('Inverted') && b.includes('Inverted')) {
       return a.localeCompare(b);

@@ -13,7 +13,9 @@ const headerListRefContext: React.Context<
 export const headerListRefContextDefaultValue: React.RefObject<// eslint-disable-next-line @typescript-eslint/no-explicit-any
 VariableSizeList<any> | null> = { current: null };
 
-export const useHeaderListRefContext = () =>
-  React.useContext(headerListRefContext) ?? headerListRefContextDefaultValue;
+export const useHeaderListRefContext = (): React.RefObject<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  VariableSizeList<any>
+> => React.useContext(headerListRefContext) ?? headerListRefContextDefaultValue;
 
 export const HeaderListRefContextProvider = headerListRefContext.Provider;

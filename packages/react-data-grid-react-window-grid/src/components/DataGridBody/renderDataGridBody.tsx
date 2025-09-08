@@ -10,7 +10,9 @@ import { dataGridBodyGridClassName } from './useDataGridBodyStyles.styles';
 /**
  * Render the final JSX of DataGridVirtualizedBody
  */
-export const renderDataGridBody_unstable = (state: DataGridBodyState) => {
+export const renderDataGridBody_unstable = (
+  state: DataGridBodyState
+): JSX.Element => {
   const { slots, slotProps } = getSlots<DataGridBodySlots>(state);
 
   return (

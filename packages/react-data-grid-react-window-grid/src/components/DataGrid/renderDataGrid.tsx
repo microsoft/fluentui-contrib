@@ -12,7 +12,7 @@ import { DataGridState } from './DataGrid.types';
 export const renderDataGrid_unstable = (
   state: DataGridState,
   contextValues: DataGridContextValues
-) => {
+): JSX.Element => {
   return (
     <HeaderListRefContextProvider value={state.headerRef}>
       <BodyRefContextProvider value={state.bodyRef}>

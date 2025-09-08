@@ -3,7 +3,15 @@ import { useEventService } from './useEventService';
 import { EVENTS } from '../constants';
 import type { KeytipProps } from '../Keytip';
 
-export function useKeytipsManager() {
+export function useKeytipsManager(): {
+  enterKeytipMode: () => void;
+  exitKeytipMode: () => void;
+  update: (keytip: KeytipProps & { uniqueId: string }) => void;
+  register: (keytip: KeytipProps) => string;
+  unregister: (uniqueId: string) => void;
+  getKeytips: () => Record<string, KeytipProps>;
+  getKeytipsModeStatus: () => boolean;
+} {
   const { dispatch, subscribe, reset } = useEventService();
   const id = React.useId();
   const keytips = React.useRef<Record<string, KeytipProps>>({});

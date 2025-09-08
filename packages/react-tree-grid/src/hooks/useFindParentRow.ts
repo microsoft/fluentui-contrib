@@ -4,7 +4,9 @@ import { useFocusFinders } from '@fluentui/react-components';
 /**
  * returns a method to find the parent row of the current row
  */
-export const useFindParentRow = () => {
+export const useFindParentRow = (): ((
+  currentRow: HTMLElement
+) => HTMLElement | null) => {
   const { findPrevFocusable } = useFocusFinders();
   return React.useCallback(
     (currentRow: HTMLElement): HTMLElement | null => {

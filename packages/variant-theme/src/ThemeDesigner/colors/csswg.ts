@@ -69,7 +69,7 @@ export default function multiplyMatrices(
 
 // sRGB-related functions
 
-export function lin_sRGB(RGB: Vec3) {
+export function lin_sRGB(RGB: Vec3): Vec3 {
   // convert an array of sRGB values
   // where in-gamut values are in the range [0 - 1]
   // to linear light (un-companded) form.
@@ -89,7 +89,7 @@ export function lin_sRGB(RGB: Vec3) {
   }) as Vec3;
 }
 
-export function gam_sRGB(RGB: Vec3) {
+export function gam_sRGB(RGB: Vec3): Vec3 {
   // convert an array of linear-light sRGB values in the range 0.0-1.0
   // to gamma corrected form
   // https://en.wikipedia.org/wiki/SRGB
@@ -108,7 +108,7 @@ export function gam_sRGB(RGB: Vec3) {
   }) as Vec3;
 }
 
-export function lin_sRGB_to_XYZ(rgb: Vec3) {
+export function lin_sRGB_to_XYZ(rgb: Vec3): Vec3 {
   // convert an array of linear-light sRGB values to CIE XYZ
   // using sRGB's own white, D65 (no chromatic adaptation)
 
@@ -120,7 +120,7 @@ export function lin_sRGB_to_XYZ(rgb: Vec3) {
   return multiplyMatrices(M, rgb) as Vec3;
 }
 
-export function XYZ_to_lin_sRGB(XYZ: Vec3) {
+export function XYZ_to_lin_sRGB(XYZ: Vec3): Vec3 {
   // convert XYZ to linear-light sRGB
 
   const M = [
@@ -134,21 +134,21 @@ export function XYZ_to_lin_sRGB(XYZ: Vec3) {
 
 //  display-p3-related functions
 
-export function lin_P3(RGB: Vec3) {
+export function lin_P3(RGB: Vec3): Vec3 {
   // convert an array of display-p3 RGB values in the range 0.0 - 1.0
   // to linear light (un-companded) form.
 
   return lin_sRGB(RGB) as Vec3; // same as sRGB
 }
 
-export function gam_P3(RGB: Vec3) {
+export function gam_P3(RGB: Vec3): Vec3 {
   // convert an array of linear-light display-p3 RGB  in the range 0.0-1.0
   // to gamma corrected form
 
   return gam_sRGB(RGB) as Vec3; // same as sRGB
 }
 
-export function lin_P3_to_XYZ(rgb: Vec3) {
+export function lin_P3_to_XYZ(rgb: Vec3): Vec3 {
   // convert an array of linear-light display-p3 values to CIE XYZ
   // using  D65 (no chromatic adaptation)
   // http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
@@ -162,7 +162,7 @@ export function lin_P3_to_XYZ(rgb: Vec3) {
   return multiplyMatrices(M, rgb) as Vec3;
 }
 
-export function XYZ_to_lin_P3(XYZ: Vec3) {
+export function XYZ_to_lin_P3(XYZ: Vec3): Vec3 {
   // convert XYZ to linear-light P3
   const M = [
     [2.493496911941425, -0.9313836179191239, -0.40271078445071684],
@@ -175,7 +175,7 @@ export function XYZ_to_lin_P3(XYZ: Vec3) {
 
 // prophoto-rgb functions
 
-export function lin_ProPhoto(RGB: Vec3) {
+export function lin_ProPhoto(RGB: Vec3): Vec3 {
   // convert an array of prophoto-rgb values
   // where in-gamut colors are in the range [0.0 - 1.0]
   // to linear light (un-companded) form.
@@ -194,7 +194,7 @@ export function lin_ProPhoto(RGB: Vec3) {
   }) as Vec3;
 }
 
-export function gam_ProPhoto(RGB: Vec3) {
+export function gam_ProPhoto(RGB: Vec3): Vec3 {
   // convert an array of linear-light prophoto-rgb  in the range 0.0-1.0
   // to gamma corrected form
   // Transfer curve is gamma 1.8 with a small linear portion
@@ -212,7 +212,7 @@ export function gam_ProPhoto(RGB: Vec3) {
   }) as Vec3;
 }
 
-export function lin_ProPhoto_to_XYZ(rgb: Vec3) {
+export function lin_ProPhoto_to_XYZ(rgb: Vec3): Vec3 {
   // convert an array of linear-light prophoto-rgb values to CIE XYZ
   // using  D50 (so no chromatic adaptation needed afterwards)
   // http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
@@ -225,7 +225,7 @@ export function lin_ProPhoto_to_XYZ(rgb: Vec3) {
   return multiplyMatrices(M, rgb) as Vec3;
 }
 
-export function XYZ_to_lin_ProPhoto(XYZ: Vec3) {
+export function XYZ_to_lin_ProPhoto(XYZ: Vec3): Vec3 {
   // convert XYZ to linear-light prophoto-rgb
   const M = [
     [1.3457989731028281, -0.25558010007997534, -0.05110628506753401],
@@ -238,7 +238,7 @@ export function XYZ_to_lin_ProPhoto(XYZ: Vec3) {
 
 // a98-rgb functions
 
-export function lin_a98rgb(RGB: Vec3) {
+export function lin_a98rgb(RGB: Vec3): Vec3 {
   // convert an array of a98-rgb values in the range 0.0 - 1.0
   // to linear light (un-companded) form.
   // negative values are also now accepted
@@ -250,7 +250,7 @@ export function lin_a98rgb(RGB: Vec3) {
   }) as Vec3;
 }
 
-export function gam_a98rgb(RGB: Vec3) {
+export function gam_a98rgb(RGB: Vec3): Vec3 {
   // convert an array of linear-light a98-rgb  in the range 0.0-1.0
   // to gamma corrected form
   // negative values are also now accepted
@@ -262,7 +262,7 @@ export function gam_a98rgb(RGB: Vec3) {
   }) as Vec3;
 }
 
-export function lin_a98rgb_to_XYZ(rgb: Vec3) {
+export function lin_a98rgb_to_XYZ(rgb: Vec3): Vec3 {
   // convert an array of linear-light a98-rgb values to CIE XYZ
   // http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
   // has greater numerical precision than section 4.3.5.3 of
@@ -279,7 +279,7 @@ export function lin_a98rgb_to_XYZ(rgb: Vec3) {
   return multiplyMatrices(M, rgb) as Vec3;
 }
 
-export function XYZ_to_lin_a98rgb(XYZ: Vec3) {
+export function XYZ_to_lin_a98rgb(XYZ: Vec3): Vec3 {
   // convert XYZ to linear-light a98-rgb
   const M = [
     [2.0415879038107465, -0.5650069742788596, -0.34473135077832956],
@@ -292,7 +292,7 @@ export function XYZ_to_lin_a98rgb(XYZ: Vec3) {
 
 // Rec. 2020-related functions
 
-export function lin_2020(RGB: Vec3) {
+export function lin_2020(RGB: Vec3): Vec3 {
   // convert an array of rec2020 RGB values in the range 0.0 - 1.0
   // to linear light (un-companded) form.
   // ITU-R BT.2020-2 p.4
@@ -312,7 +312,7 @@ export function lin_2020(RGB: Vec3) {
   }) as Vec3;
 }
 
-export function gam_2020(RGB: Vec3) {
+export function gam_2020(RGB: Vec3): Vec3 {
   // convert an array of linear-light rec2020 RGB  in the range 0.0-1.0
   // to gamma corrected form
   // ITU-R BT.2020-2 p.4
@@ -332,7 +332,7 @@ export function gam_2020(RGB: Vec3) {
   }) as Vec3;
 }
 
-export function lin_2020_to_XYZ(rgb: Vec3) {
+export function lin_2020_to_XYZ(rgb: Vec3): Vec3 {
   // convert an array of linear-light rec2020 values to CIE XYZ
   // using  D65 (no chromatic adaptation)
   // http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
@@ -346,7 +346,7 @@ export function lin_2020_to_XYZ(rgb: Vec3) {
   return multiplyMatrices(M, rgb) as Vec3;
 }
 
-export function XYZ_to_lin_2020(XYZ: Vec3) {
+export function XYZ_to_lin_2020(XYZ: Vec3): Vec3 {
   // convert XYZ to linear-light rec2020
   const M = [
     [1.7166511879712674, -0.35567078377639233, -0.25336628137365974],
@@ -359,7 +359,7 @@ export function XYZ_to_lin_2020(XYZ: Vec3) {
 
 // Chromatic adaptation
 
-export function D65_to_D50(XYZ: Vec3) {
+export function D65_to_D50(XYZ: Vec3): Vec3 {
   // Bradford chromatic adaptation from D65 to D50
   // The matrix below is the result of three operations:
   // - convert from XYZ to retinal cone domain
@@ -375,7 +375,7 @@ export function D65_to_D50(XYZ: Vec3) {
   return multiplyMatrices(M, XYZ) as Vec3;
 }
 
-export function D50_to_D65(XYZ: Vec3) {
+export function D50_to_D65(XYZ: Vec3): Vec3 {
   // Bradford chromatic adaptation from D50 to D65
   const M = [
     [0.9554734527042182, -0.023098536874261423, 0.0632593086610217],
@@ -388,7 +388,7 @@ export function D50_to_D65(XYZ: Vec3) {
 
 // Lab and LCH
 
-export function XYZ_to_Lab(XYZ: Vec3) {
+export function XYZ_to_Lab(XYZ: Vec3): Vec3 {
   // Assuming XYZ is relative to D50, convert to CIE Lab
   // from CIE standard, which now defines these as a rational fraction
   const ε = 216 / 24389; // 6^3/29^3
@@ -410,7 +410,7 @@ export function XYZ_to_Lab(XYZ: Vec3) {
   ] as Vec3;
 }
 
-export function Lab_to_XYZ(Lab: Vec3) {
+export function Lab_to_XYZ(Lab: Vec3): Vec3 {
   // Convert Lab to D50-adapted XYZ
   // http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
   const κ = 24389 / 27; // 29^3/3^3
@@ -434,7 +434,7 @@ export function Lab_to_XYZ(Lab: Vec3) {
   return xyz.map((value, i) => value * white[i]) as Vec3;
 }
 
-export function Lab_to_LCH(Lab: Vec3) {
+export function Lab_to_LCH(Lab: Vec3): Vec3 {
   // Convert to polar form
   const hue = (Math.atan2(Lab[2], Lab[1]) * 180) / Math.PI;
   return [
@@ -444,7 +444,7 @@ export function Lab_to_LCH(Lab: Vec3) {
   ] as Vec3;
 }
 
-export function LCH_to_Lab(LCH: Vec3) {
+export function LCH_to_Lab(LCH: Vec3): Vec3 {
   // Convert from polar form
   return [
     LCH[0], // L is still L
@@ -462,7 +462,7 @@ export function LCH_to_Lab(LCH: Vec3) {
  * @param   rgb      The red, green, and blue color values
  * @return  Array    The HSV representation
  */
-export function rgbToHsv(rgb: Vec3) {
+export function rgbToHsv(rgb: Vec3): Vec3 {
   const [r, g, b] = rgb;
   const max = Math.max(r, g, b);
   const min = Math.min(r, g, b);
@@ -498,7 +498,7 @@ export function rgbToHsv(rgb: Vec3) {
 // [willshown]: Adjusted to export a TypeScript module.
 // Retrieved on 24 May 2021 from https://drafts.csswg.org/css-color-4/utilities.js
 
-export function sRGB_to_luminance(RGB: Vec3) {
+export function sRGB_to_luminance(RGB: Vec3): number {
   // convert an array of gamma-corrected sRGB values
   // in the 0.0 to 1.0 range
   // to linear-light sRGB, then to CIE XYZ
@@ -508,7 +508,7 @@ export function sRGB_to_luminance(RGB: Vec3) {
   return XYZ[1];
 }
 
-export function contrast(RGB1: Vec3, RGB2: Vec3) {
+export function contrast(RGB1: Vec3, RGB2: Vec3): number {
   // return WCAG 2.1 contrast ratio
   // https://www.w3.org/TR/WCAG21/#dfn-contrast-ratio
   // for two sRGB values
@@ -524,7 +524,7 @@ export function contrast(RGB1: Vec3, RGB2: Vec3) {
   return (L2 + 0.05) / (L1 + 0.05);
 }
 
-export function sRGB_to_LCH(RGB: Vec3) {
+export function sRGB_to_LCH(RGB: Vec3): Vec3 {
   // convert an array of gamma-corrected sRGB values
   // in the 0.0 to 1.0 range
   // to linear-light sRGB, then to CIE XYZ,
@@ -535,7 +535,7 @@ export function sRGB_to_LCH(RGB: Vec3) {
   return Lab_to_LCH(XYZ_to_Lab(D65_to_D50(lin_sRGB_to_XYZ(lin_sRGB(RGB)))));
 }
 
-export function sRGB_to_LAB(RGB: Vec3) {
+export function sRGB_to_LAB(RGB: Vec3): Vec3 {
   // convert an array of gamma-corrected sRGB values
   // in the 0.0 to 1.0 range
   // to linear-light sRGB, then to CIE XYZ,
@@ -545,7 +545,7 @@ export function sRGB_to_LAB(RGB: Vec3) {
   return XYZ_to_Lab(D65_to_D50(lin_sRGB_to_XYZ(lin_sRGB(RGB))));
 }
 
-export function P3_to_LCH(RGB: Vec3) {
+export function P3_to_LCH(RGB: Vec3): Vec3 {
   // convert an array of gamma-corrected display-p3 values
   // in the 0.0 to 1.0 range
   // to linear-light display-p3, then to CIE XYZ,
@@ -556,7 +556,7 @@ export function P3_to_LCH(RGB: Vec3) {
   return Lab_to_LCH(XYZ_to_Lab(D65_to_D50(lin_P3_to_XYZ(lin_P3(RGB)))));
 }
 
-export function r2020_to_LCH(RGB: Vec3) {
+export function r2020_to_LCH(RGB: Vec3): Vec3 {
   // convert an array of gamma-corrected rec.2020 values
   // in the 0.0 to 1.0 range
   // to linear-light sRGB, then to CIE XYZ,
@@ -567,7 +567,7 @@ export function r2020_to_LCH(RGB: Vec3) {
   return Lab_to_LCH(XYZ_to_Lab(D65_to_D50(lin_2020_to_XYZ(lin_2020(RGB)))));
 }
 
-export function LCH_to_sRGB(LCH: Vec3) {
+export function LCH_to_sRGB(LCH: Vec3): Vec3 {
   // convert an array of CIE LCH values
   // to CIE Lab, and then to XYZ,
   // adapt from D50 to D65,
@@ -581,7 +581,7 @@ export function LCH_to_sRGB(LCH: Vec3) {
   return gam_sRGB(XYZ_to_lin_sRGB(D50_to_D65(Lab_to_XYZ(LCH_to_Lab(LCH)))));
 }
 
-export function LAB_to_sRGB(LAB: Vec3) {
+export function LAB_to_sRGB(LAB: Vec3): Vec3 {
   // convert an array of CIE Lab values to XYZ,
   // adapt from D50 to D65,
   // then convert XYZ to linear-light sRGB
@@ -594,7 +594,7 @@ export function LAB_to_sRGB(LAB: Vec3) {
   return gam_sRGB(XYZ_to_lin_sRGB(D50_to_D65(Lab_to_XYZ(LAB))));
 }
 
-export function LCH_to_P3(LCH: Vec3) {
+export function LCH_to_P3(LCH: Vec3): Vec3 {
   // convert an array of CIE LCH values
   // to CIE Lab, and then to XYZ,
   // adapt from D50 to D65,
@@ -608,7 +608,7 @@ export function LCH_to_P3(LCH: Vec3) {
   return gam_P3(XYZ_to_lin_P3(D50_to_D65(Lab_to_XYZ(LCH_to_Lab(LCH)))));
 }
 
-export function LCH_to_r2020(LCH: Vec3) {
+export function LCH_to_r2020(LCH: Vec3): Vec3 {
   // convert an array of CIE LCH values
   // to CIE Lab, and then to XYZ,
   // adapt from D50 to D65,
@@ -624,7 +624,7 @@ export function LCH_to_r2020(LCH: Vec3) {
 
 // this is straight from the CSS Color 4 spec
 
-export function hslToRgb(hue: number, sat: number, light: number) {
+export function hslToRgb(hue: number, sat: number, light: number): Vec3 {
   // 	For simplicity, this algorithm assumes that the hue has been normalized
   //  to a number in the half-open range [0, 6), and the saturation and lightness
   //  have been normalized to the range [0, 1]. It returns an array of three numbers
@@ -659,7 +659,7 @@ export function hueToChannel(t1: number, t2: number, hue: number): number {
 
 // These are the naive algorithms from CS Color 4
 
-export function naive_CMYK_to_sRGB(CMYK: Vec4) {
+export function naive_CMYK_to_sRGB(CMYK: Vec4): Vec3 {
   // CMYK is an array of four values
   // in the range [0.0, 1.0]
   // the optput is an array of [RGB]
@@ -679,7 +679,7 @@ export function naive_CMYK_to_sRGB(CMYK: Vec4) {
   return [red, green, blue] as Vec3;
 }
 
-export function naive_sRGB_to_CMYK(RGB: Vec3) {
+export function naive_sRGB_to_CMYK(RGB: Vec3): Vec4 {
   // RGB is an arravy of three values
   // in the range [0.0, 1.0]
   // the output is an array of [CMYK]
@@ -702,7 +702,7 @@ export function naive_sRGB_to_CMYK(RGB: Vec3) {
 
 // Chromaticity utilities
 
-export function XYZ_to_xy(XYZ: Vec3) {
+export function XYZ_to_xy(XYZ: Vec3): Vec2 {
   // Convert an array of three XYZ values
   // to x,y chromaticity coordinates
 
@@ -713,7 +713,7 @@ export function XYZ_to_xy(XYZ: Vec3) {
   return [X / sum, Y / sum] as Vec2;
 }
 
-export function xy_to_uv(xy: Vec2) {
+export function xy_to_uv(xy: Vec2): Vec2 {
   // convert an x,y chromaticity pair
   // to u*,v* chromaticities
 
@@ -723,7 +723,7 @@ export function xy_to_uv(xy: Vec2) {
   return [(4 * x) / denom, (9 * y) / denom] as Vec2;
 }
 
-export function XYZ_to_uv(XYZ: Vec3) {
+export function XYZ_to_uv(XYZ: Vec3): Vec2 {
   // Convert an array of three XYZ values
   // to u*,v* chromaticity coordinates
 

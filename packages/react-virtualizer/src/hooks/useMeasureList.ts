@@ -19,7 +19,15 @@ export function useMeasureList<
   refLength: number,
   totalLength: number,
   defaultItemSize: number
-) {
+): {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  widthArray: React.MutableRefObject<any[]>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  heightArray: React.MutableRefObject<any[]>;
+  createIndexedRef: (index: number) => (el: TElement) => void;
+  refArray: React.MutableRefObject<(TElement | null | undefined)[]>;
+  sizeUpdateCount: number;
+} {
   const widthArray = React.useRef(new Array(totalLength).fill(defaultItemSize));
   const heightArray = React.useRef(
     new Array(totalLength).fill(defaultItemSize)
@@ -157,7 +165,8 @@ export function useMeasureList<
 export function createResizeObserverFromDocument(
   targetDocument: Document | null | undefined,
   callback: ResizeObserverCallback
-) {
+  // eslint-disable-next-line no-restricted-globals
+): ResizeObserver | null {
   if (!targetDocument?.defaultView?.ResizeObserver) {
     return null;
   }

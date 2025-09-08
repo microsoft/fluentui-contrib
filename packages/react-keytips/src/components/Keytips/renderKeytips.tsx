@@ -16,7 +16,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const renderKeytips_unstable = (state: KeytipsState) => {
+export const renderKeytips_unstable = (state: KeytipsState): JSX.Element => {
   assertSlots<KeytipsSlots>(state);
   const classes = useStyles();
 

@@ -15,7 +15,7 @@ export const dataGridHeaderListClassName =
  */
 export const renderDataGridHeaderRow_unstable = (
   state: DataGridHeaderRowState
-) => {
+): JSX.Element => {
   const { slots, slotProps } = getSlots<DataGridRowSlots>(state);
   const { dir } = useFluent();
   const layout = 'horizontal';

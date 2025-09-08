@@ -13,7 +13,9 @@ import type {
 /**
  * Render the final JSX of InteractiveTab
  */
-export const renderInteractiveTab_unstable = (state: InteractiveTabState) => {
+export const renderInteractiveTab_unstable = (
+  state: InteractiveTabState
+): JSX.Element => {
   assertSlots<InteractiveTabInternalSlots>(state);
 
   return (

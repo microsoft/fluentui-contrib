@@ -7,7 +7,7 @@ export const validateIconButton = (props: {
   title?: unknown;
   'aria-label'?: string;
   'aria-labelledby'?: string;
-}) => {
+}): void => {
   if (
     !props.children &&
     props.icon &&
@@ -24,7 +24,7 @@ export const validateIconButton = (props: {
  * Infers a Menu being used by detecting `aria-haspopup` of the MenuTrigger
  * @throws Error if a menu is used
  */
-export const validateMenuButton = (props: unknown) => {
+export const validateMenuButton = (props: unknown): void => {
   if (
     typeof props === 'object' &&
     props &&

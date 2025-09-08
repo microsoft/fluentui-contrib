@@ -10,5 +10,5 @@ const useResetStyles = makeResetStyles({
   ...createFocusOutlineStyle(),
 });
 
-export const useTreeGridRowStyles = () =>
+export const useTreeGridRowStyles = (): string =>
   mergeClasses('fui-TreeGridRow', useResetStyles());

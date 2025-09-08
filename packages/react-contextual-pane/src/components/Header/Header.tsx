@@ -40,7 +40,7 @@ export const Header = ({
   toolbarLabels = defaultToolbarLabels,
   onArrowBackClick,
   onDismissClick,
-}: HeaderProps) => {
+}: HeaderProps): JSX.Element => {
   const styles = useStyles();
 
   const hasLeftConetent = Boolean(hasArrowBack || brandIcon);

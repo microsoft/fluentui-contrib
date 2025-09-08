@@ -16,7 +16,7 @@ export const Footer = ({
   rightActions,
   toolbarLables,
   children,
-}: React.PropsWithChildren<FooterProps>) => {
+}: React.PropsWithChildren<FooterProps>): JSX.Element => {
   const styles = useStyles();
 
   return (

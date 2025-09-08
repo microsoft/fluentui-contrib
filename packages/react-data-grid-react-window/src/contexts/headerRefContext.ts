@@ -9,7 +9,8 @@ const headerRefContext: React.Context<
 export const headerRefContextDefaultValue: React.MutableRefObject<HTMLElement | null> =
   { current: null };
 
-export const useHeaderRefContext = () =>
-  React.useContext(headerRefContext) ?? headerRefContextDefaultValue;
+export const useHeaderRefContext =
+  (): React.MutableRefObject<HTMLElement | null> =>
+    React.useContext(headerRefContext) ?? headerRefContextDefaultValue;
 
 export const HeaderRefContextProvider = headerRefContext.Provider;
