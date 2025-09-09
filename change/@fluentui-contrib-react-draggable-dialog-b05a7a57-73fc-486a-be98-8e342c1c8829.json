@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix(react-draggable-dialog): improve calculation performance after motion upgrade on Dialog",
+  "packageName": "@fluentui-contrib/react-draggable-dialog",
+  "email": "marcosvmmoura@gmail.com",
+  "dependentChangeType": "patch"
+}
