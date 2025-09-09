@@ -4,9 +4,7 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {
-        "@typescript-eslint/explicit-module-boundary-types": "off"
-      }
+      "rules": {}
     },
     {
       "files": ["*.ts", "*.tsx"],
@@ -16,8 +14,7 @@
     },
     {
       "files": ["*.js", "*.jsx"],
-      "rules": {
-        "@typescript-eslint/explicit-module-boundary-types": "off"
-      }
+      "rules": {}
+    }
   ]
 }
