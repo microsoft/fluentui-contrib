@@ -11,7 +11,7 @@ import { useTimeout } from '@fluentui/react-utilities';
 export const useStaticVirtualizerPagination = (
   virtualizerProps: VirtualizerStaticPaginationProps,
   paginationEnabled = true
-) => {
+): React.RefCallback<HTMLElement | HTMLDivElement | null> => {
   'use no memo';
 
   const { itemSize, axis = 'vertical' } = virtualizerProps;

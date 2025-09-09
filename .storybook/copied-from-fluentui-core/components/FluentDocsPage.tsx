@@ -8,6 +8,7 @@ import {
 } from '@storybook/addon-docs';
 import type { SBEnumType, PreparedStory, Renderer } from '@storybook/types';
 import { makeStyles, shorthands, tokens } from '@fluentui/react-components';
+import type { JSXElement } from '@fluentui/react-components';
 import { InfoFilled } from '@fluentui/react-icons';
 import { Toc } from './Toc';
 
@@ -65,7 +66,7 @@ const useStyles = makeStyles({
   },
 });
 
-const getNativeElementsList = (elements: SBEnumType['value']): JSX.Element => {
+const getNativeElementsList = (elements: SBEnumType['value']): JSXElement => {
   const elementsArr = elements.map((el, idx) => [
     <code key={idx}>{`<${el}>`}</code>,
     idx !== elements.length - 1 ? ', ' : ' ',
@@ -111,7 +112,7 @@ const RenderArgsTable = ({
   );
 };
 
-export const FluentDocsPage = () => {
+export const FluentDocsPage = (): JSXElement => {
   const context = React.useContext(DocsContext);
   const stories = context.componentStories();
   const primaryStory = stories[0];

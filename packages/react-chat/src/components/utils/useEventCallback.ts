@@ -7,7 +7,7 @@ import { useIsomorphicLayoutEffect } from '@fluentui/react-components';
  */
 export const useEventCallback = <Args extends unknown[], Return>(
   fn: (...args: Args) => Return
-) => {
+): ((...args: Args) => Return) => {
   const callbackRef = React.useRef<typeof fn>(() => {
     throw new Error('Cannot call an event handler while rendering');
   });

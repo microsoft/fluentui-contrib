@@ -40,7 +40,8 @@ const gamepadButtonToControllerMappingKey: Map<
 
 export const getControllerMappingKeyFromGamepadButton = (
   button: GamepadButton
-) => gamepadButtonToControllerMappingKey.get(button);
+): keyof ControllerMapping | undefined =>
+  gamepadButtonToControllerMappingKey.get(button);
 
 export const defaultMapping: ControllerMapping = {
   a: { index: 0, isButton: true },
@@ -61,7 +62,7 @@ export const defaultMapping: ControllerMapping = {
 
 let gamepadMappings: ControllerMapping | undefined;
 
-export const getGamepadMappings = () => {
+export const getGamepadMappings = (): ControllerMapping => {
   if (gamepadMappings) {
     return gamepadMappings;
   }
@@ -78,5 +79,5 @@ const moverKeyToKeyboardKeyMapping: Map<MoverKey, KeyboardKey> = new Map([
   [MoverKeys.ArrowDown, KeyboardKey.ArrowDown],
 ]);
 
-export const getMoverKeyToKeyboardKeyMapping = (key: MoverKey) =>
+export const getMoverKeyToKeyboardKeyMapping = (key: MoverKey): KeyboardKey =>
   moverKeyToKeyboardKeyMapping.get(key) ?? KeyboardKey.None;

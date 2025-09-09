@@ -66,7 +66,8 @@ const updateGamepadState = (targetDocument: Document) => {
 };
 
 let windowFocused = true;
-export const shouldPollGamepads = () => windowFocused && isPollingEnabled();
+export const shouldPollGamepads = (): boolean =>
+  windowFocused && isPollingEnabled();
 
 let scanInterval: IntervalId;
 
@@ -190,7 +191,9 @@ export type GamepadNavigationOptions = {
  * @param options {GamepadNavigationOptions} - The options to use for gamepad navigation
  * @returns removeEventListeners function
  */
-export const useGamepadNavigation = (options: GamepadNavigationOptions) => {
+export const useGamepadNavigation = (
+  options: GamepadNavigationOptions
+): (() => void) => {
   const { targetDocument } = useFluent();
   const defaultView = targetDocument?.defaultView;
   let shadowDOMAPI = getShadowDOMAPI(targetDocument);

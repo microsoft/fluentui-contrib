@@ -14,7 +14,7 @@ export const playAnim = (
   state: FallbackAnimationState,
   paintWorklet: PaintWorklet,
   animationParams: FallbackAnimationParams
-) => {
+): ((onComplete: CallbackFn, onUpdate?: CallbackFn) => void) => {
   const props = new Map<string, string>();
   // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
   // eslint-disable-next-line no-restricted-globals

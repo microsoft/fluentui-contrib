@@ -9,7 +9,8 @@ const bodyRefContext: React.Context<
 export const bodyRefContextDefaultValue: React.MutableRefObject<HTMLElement | null> =
   { current: null };
 
-export const useBodyRefContext = () =>
-  React.useContext(bodyRefContext) ?? bodyRefContextDefaultValue;
+export const useBodyRefContext =
+  (): React.MutableRefObject<HTMLElement | null> =>
+    React.useContext(bodyRefContext) ?? bodyRefContextDefaultValue;
 
 export const BodyRefContextProvider = bodyRefContext.Provider;

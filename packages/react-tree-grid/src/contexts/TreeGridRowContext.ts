@@ -28,7 +28,7 @@ const TreeGridRowContext = React.createContext<
 
 export const { Provider: TreeGridRowProvider } = TreeGridRowContext;
 
-export const useTreeGridRowContext = () =>
+export const useTreeGridRowContext = (): TreeGridRowContextValue =>
   React.useContext(TreeGridRowContext) ?? defaultTreeGridRowContextValue;
 
 export const useTreeGridRowContextValue = (

@@ -13,7 +13,7 @@ declare namespace CSS {
  * @param fileName Name of the PaintWorklet file (e.g., "Flair.min.js")
  * @returns Promise that resolves when the module is added and throws when there is an error.
  */
-export const addModule = (baseUrl: string, fileName: string) => {
+export const addModule = (baseUrl: string, fileName: string): Promise<void> => {
   if (hasHoudini()) {
     const url = `${baseUrl}${fileName}`;
     return CSS.paintWorklet.addModule(url);

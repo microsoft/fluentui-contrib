@@ -118,7 +118,9 @@ export const useChatMessageBodyClasses = makeStyles({
 /**
  * Apply styling to the ChatMessage slots based on the state
  */
-export const useChatMessageStyles_unstable = (state: ChatMessageState) => {
+export const useChatMessageStyles_unstable = (
+  state: ChatMessageState
+): ChatMessageState => {
   const classes = useChatMessageClasses();
   state.root.className = mergeClasses(
     chatMessageClassNames.root,

@@ -5,6 +5,7 @@
 import { createElement } from '@fluentui/react-jsx-runtime';
 
 import { assertSlots } from '@fluentui/react-components';
+import type { JSXElement } from '@fluentui/react-components';
 import type {
   InteractiveTabState,
   InteractiveTabInternalSlots,
@@ -13,7 +14,9 @@ import type {
 /**
  * Render the final JSX of InteractiveTab
  */
-export const renderInteractiveTab_unstable = (state: InteractiveTabState) => {
+export const renderInteractiveTab_unstable = (
+  state: InteractiveTabState
+): JSXElement => {
   assertSlots<InteractiveTabInternalSlots>(state);
 
   return (

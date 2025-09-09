@@ -3,7 +3,7 @@ import type { StrictCssClass } from './types';
 
 export const validateStrictClasses = <TExtension>(
   className?: StrictCssClass<TExtension> | false | undefined
-) => {
+): void => {
   if (!className) {
     return;
   }

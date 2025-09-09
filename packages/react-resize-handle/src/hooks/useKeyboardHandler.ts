@@ -50,7 +50,12 @@ function isSupportedKey(
   );
 }
 
-export const useKeyboardHandler = (options: UseKeyboardHandlerOptions) => {
+export const useKeyboardHandler = (
+  options: UseKeyboardHandlerOptions
+): {
+  attachHandlers: (node: HTMLElement) => void;
+  detachHandlers: (node: HTMLElement) => void;
+} => {
   const { onValueChange, growDirection, getCurrentValue, unitHandle } = options;
   const { dir } = useFluent();
 

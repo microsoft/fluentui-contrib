@@ -155,7 +155,9 @@ export const chatMyMessageClassNames: SlotClassNames<ChatMyMessageSlots> = {
   timestamp: 'fui-ChatMyMessage__timestamp',
 };
 
-export const useChatMyMessageStyles_unstable = (state: ChatMyMessageState) => {
+export const useChatMyMessageStyles_unstable = (
+  state: ChatMyMessageState
+): ChatMyMessageState => {
   const classes = useChatMyMessageClasses();
 
   state.root.className = mergeClasses(

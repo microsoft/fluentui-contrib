@@ -5,7 +5,7 @@
  * @returns debounced function
  */
 // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-export function debounce(fn: Function) {
+export function debounce(fn: Function): () => void {
   let pending: boolean;
   return () => {
     if (!pending) {

@@ -1,6 +1,6 @@
 import { useFluent } from '@fluentui/react-components';
 
-export function useIsMacOS() {
+export function useIsMacOS(): boolean {
   const { targetDocument } = useFluent();
   const platform =
     targetDocument?.defaultView?.navigator?.platform || 'Windows';

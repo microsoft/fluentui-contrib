@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Toolbar } from '@fluentui/react-components';
+import type { JSXElement } from '@fluentui/react-components';
 import { useStyles } from './Footer.styles';
 
 export type FooterProps = {
@@ -16,7 +17,7 @@ export const Footer = ({
   rightActions,
   toolbarLables,
   children,
-}: React.PropsWithChildren<FooterProps>) => {
+}: React.PropsWithChildren<FooterProps>): JSXElement => {
   const styles = useStyles();
 
   return (

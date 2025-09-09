@@ -4,6 +4,7 @@ import {
   useFluent,
   getSlots,
 } from '@fluentui/react-components';
+import type { JSXElement } from '@fluentui/react-components';
 import { VariableSizeList as List } from 'react-window';
 import { DataGridHeaderRowState } from './DataGridHeaderRow.types';
 
@@ -15,7 +16,7 @@ export const dataGridHeaderListClassName =
  */
 export const renderDataGridHeaderRow_unstable = (
   state: DataGridHeaderRowState
-) => {
+): JSXElement => {
   const { slots, slotProps } = getSlots<DataGridRowSlots>(state);
   const { dir } = useFluent();
   const layout = 'horizontal';

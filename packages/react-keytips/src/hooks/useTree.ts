@@ -26,7 +26,20 @@ const getParentID = (sequence: string[]): string =>
     ? KTP_ROOT_ID
     : sequencesToID(sequence.slice(0, sequence.length - 1));
 
-export function useTree() {
+export function useTree(): {
+  nodeMap: React.MutableRefObject<Map<string, KeytipTreeNode>>;
+  addNode: (newNode: KeytipWithId) => void;
+  getNode: (id: string) => KeytipTreeNode | undefined;
+  updateNode: (keytip: KeytipWithId) => void;
+  root: KeytipTreeNode;
+  currentKeytip: React.MutableRefObject<KeytipTreeNode | undefined>;
+  getMatchingNode: (sequence: string) => KeytipTreeNode | undefined;
+  getPartiallyMatched: (sequence: string) => (KeytipTreeNode | undefined)[];
+  getChildren: (node?: KeytipTreeNode) => string[];
+  removeNode: (id: string) => void;
+  isCurrentKeytipParent: (keytip: KeytipProps) => boolean;
+  getBack: () => void;
+} {
   const { targetDocument } = useFluent();
   const root: KeytipTreeNode = React.useMemo(
     () => ({
