@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { JSXElement } from '@fluentui/react-components';
 
 export type DataAttributeProps = { [key: `data-${string}`]: string };
 export type SafeAriaAttributeProps = Pick<
@@ -6,7 +7,7 @@ export type SafeAriaAttributeProps = Pick<
   'aria-label' | 'aria-labelledby' | 'aria-describedby'
 >;
 
-export type StrictSlotShorthand = JSX.Element | string | undefined | null;
+export type StrictSlotShorthand = JSXElement | string | undefined | null;
 
 export interface StrictSlotLonghand
   extends DataAttributeProps,

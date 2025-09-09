@@ -13,6 +13,6 @@
     ]
   },
   "peerDependencies": {
-    "@fluentui/react-components": ">=9.46.3 <10.0.0"
+    "@fluentui/react-components": ">=9.70.0 <10.0.0"
   }
 }

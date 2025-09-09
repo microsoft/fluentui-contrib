@@ -4,6 +4,7 @@ import {
   DataGridRowProps,
 } from '@fluentui/react-components';
 import type { ForwardRefComponent } from '@fluentui/react-components';
+import type { JSXElement } from '@fluentui/react-components';
 import { useDataGridRow_unstable } from './useDataGridRow';
 import { useDataGridRowStyles_unstable } from './useDataGridRow.styles';
 
@@ -18,6 +19,6 @@ export const DataGridRow = React.forwardRef<HTMLElement, DataGridRowProps>(
     return renderDataGridRow_unstable(state);
   }
 ) as ForwardRefComponent<DataGridRowProps> &
-  (<TItem>(props: DataGridRowProps<TItem>) => JSX.Element);
+  (<TItem>(props: DataGridRowProps<TItem>) => JSXElement);
 
 DataGridRow.displayName = 'DataGridRow';

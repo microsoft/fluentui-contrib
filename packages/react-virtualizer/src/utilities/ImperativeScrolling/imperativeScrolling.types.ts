@@ -4,7 +4,7 @@ export type ScrollToItemStaticParams = {
   index: number;
   itemSize: number;
   totalItems: number;
-  scrollViewRef: React.RefObject<HTMLDivElement>;
+  scrollViewRef: React.RefObject<HTMLDivElement | null>;
   axis?: 'horizontal' | 'vertical';
   reversed?: boolean;
   behavior?: ScrollBehavior;
@@ -14,7 +14,7 @@ export type ScrollToItemDynamicParams = {
   index: number;
   itemSizes: React.RefObject<number[]>;
   totalSize: number;
-  scrollViewRef: React.RefObject<HTMLDivElement>;
+  scrollViewRef: React.RefObject<HTMLDivElement | null>;
   axis?: 'horizontal' | 'vertical';
   reversed?: boolean;
   behavior?: ScrollBehavior;
@@ -26,6 +26,6 @@ export type ScrollToInterface = {
     behavior?: ScrollBehavior,
     callback?: (index: number) => void
   ) => void;
-  virtualizerLength: React.RefObject<number>;
-  currentIndex: React.RefObject<number> | undefined;
+  virtualizerLength: React.RefObject<number | null>;
+  currentIndex: React.RefObject<number | null> | undefined;
 };

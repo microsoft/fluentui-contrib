@@ -4,8 +4,8 @@ import {
   Virtualizer,
   useDynamicVirtualizerMeasure,
   VirtualizerContextProvider,
-} from '@fluentui/react-virtualizer';
-import type { DynamicVirtualizerContextProps } from '@fluentui/react-virtualizer';
+} from '@fluentui-contrib/react-virtualizer';
+import type { DynamicVirtualizerContextProps } from '@fluentui-contrib/react-virtualizer';
 import { makeStyles } from '@fluentui/react-components';
 
 const smallSize = 100;
@@ -40,14 +40,18 @@ export const Dynamic = () => {
   const [flag, toggleFlag] = React.useState(false);
   const styles = useStyles();
   const childLength = 1000;
-  const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
+  const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined
+  );
 
   React.useEffect(() => {
     updateTimeout();
   }, []);
 
   const updateTimeout = () => {
-    clearTimeout(timeoutRef.current);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
     timeoutRef.current = setTimeout(() => {
       toggleFlag((iFlag) => !iFlag);
       updateTimeout();

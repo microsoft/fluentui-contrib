@@ -36,10 +36,11 @@ import {
   RowRenderer,
 } from '@fluentui-contrib/react-data-grid-react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
+import type { JSXElement } from '@fluentui/react-components';
 
 type FileCell = {
   label: string;
-  icon: JSX.Element;
+  icon: JSXElement;
 };
 
 type LastUpdatedCell = {
@@ -49,7 +50,7 @@ type LastUpdatedCell = {
 
 type LastUpdateCell = {
   label: string;
-  icon: JSX.Element;
+  icon: JSXElement;
 };
 
 type AuthorCell = {
@@ -259,7 +260,7 @@ export const ReactWindowOverrides = () => {
 };
 
 ReactWindowOverrides.decorators = [
-  (Story: () => JSX.Element) => (
+  (Story: () => JSXElement) => (
     <div style={{ height: '100vh' }}>
       <Story />
     </div>

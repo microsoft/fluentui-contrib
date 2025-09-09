@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { VirtualizerScrollViewDynamic } from '@fluentui/react-virtualizer';
+import { VirtualizerScrollViewDynamic } from '@fluentui-contrib/react-virtualizer';
 import { makeStyles } from '@fluentui/react-components';
 
 const useStyles = makeStyles({

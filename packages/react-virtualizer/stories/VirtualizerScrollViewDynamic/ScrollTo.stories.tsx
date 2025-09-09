@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { VirtualizerScrollViewDynamic } from '@fluentui/react-virtualizer';
-import type { ScrollToInterface } from '@fluentui/react-virtualizer';
-import type { VirtualizerDataRef } from '@fluentui/react-virtualizer';
+import { VirtualizerScrollViewDynamic } from '@fluentui-contrib/react-virtualizer';
+import type { ScrollToInterface } from '@fluentui-contrib/react-virtualizer';
+import type { VirtualizerDataRef } from '@fluentui-contrib/react-virtualizer';
 import { Button, Input, makeStyles, Text } from '@fluentui/react-components';
 
 const useStyles = makeStyles({
