@@ -8,7 +8,7 @@ import { useDraggableDialogHandle } from './useDraggableDialogHandle';
 /**
  * DraggableDialogHandle is the handle element that can be used to drag the DraggableDialog.
  */
-export const DraggableDialogHandle: React.FC<DraggableDialogHandleProps> = ({
+export const DraggableDialogHandle: React.FC<DraggableDialogHandleProps> = React.memo(({
   children,
   className,
 }) => {
@@ -17,12 +17,12 @@ export const DraggableDialogHandle: React.FC<DraggableDialogHandleProps> = ({
     useDraggableDialogHandle();
 
   const child = React.Children.only(children);
-  const classnames = mergeClasses(
+  const classnames = React.useMemo(() => mergeClasses(
     'fui-DraggableDialogHandle',
     styles.root,
     child.props.className,
     className
-  );
+  ), [styles.root, child.props.className, className]);
 
   return React.cloneElement(child, {
     ref: setActivatorNodeRef,
@@ -30,4 +30,6 @@ export const DraggableDialogHandle: React.FC<DraggableDialogHandleProps> = ({
     ...attributes,
     ...listeners,
   });
-};
+});
+
+DraggableDialogHandle.displayName = 'DraggableDialogHandle';
