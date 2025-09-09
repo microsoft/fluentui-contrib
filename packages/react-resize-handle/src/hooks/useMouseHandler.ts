@@ -21,7 +21,10 @@ export type UseMouseHandlerParams = {
   unitHandle: UnitHandle;
 };
 
-export function useMouseHandler(params: UseMouseHandlerParams) {
+export function useMouseHandler(params: UseMouseHandlerParams): {
+  attachHandlers: (node: HTMLElement) => void;
+  detachHandlers: (node: HTMLElement) => void;
+} {
   const { targetDocument, dir } = useFluent();
   const targetWindow = targetDocument?.defaultView;
 

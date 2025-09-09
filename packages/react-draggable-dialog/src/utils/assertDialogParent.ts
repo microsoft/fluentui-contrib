@@ -1,7 +1,7 @@
 export const assertDialogParent = (
   hasParent: boolean,
   componentName: string
-) => {
+): void => {
   if (process.env.NODE_ENV !== 'production') {
     if (!hasParent) {
       console.error(

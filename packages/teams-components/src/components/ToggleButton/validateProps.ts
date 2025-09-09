@@ -2,7 +2,7 @@ export const validateAriaPressed = (props: {
   'aria-pressed'?: null | undefined;
   'aria-label'?: string;
   'aria-labelledby'?: string;
-}) => {
+}): void => {
   if (
     'aria-pressed' in props &&
     !(props['aria-label'] || props['aria-labelledby'])

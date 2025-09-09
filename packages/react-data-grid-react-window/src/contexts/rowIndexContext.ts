@@ -4,7 +4,7 @@ const rowIndexContext = React.createContext<number | undefined>(undefined);
 
 export const tableRowIndexContextDefaultValue = undefined;
 
-export const useTableRowIndexContext = () =>
+export const useTableRowIndexContext = (): number | undefined =>
   React.useContext(rowIndexContext) ?? tableRowIndexContextDefaultValue;
 
 export const TableRowIndexContextProvider = rowIndexContext.Provider;

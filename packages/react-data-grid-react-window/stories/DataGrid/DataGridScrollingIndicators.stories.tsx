@@ -36,10 +36,11 @@ import {
   DataGridHeaderCell,
   RowRenderer,
 } from '@fluentui-contrib/react-data-grid-react-window';
+import type { JSXElement } from '@fluentui/react-components';
 
 type FileCell = {
   label: string;
-  icon: JSX.Element;
+  icon: JSXElement;
 };
 
 type LastUpdatedCell = {
@@ -49,7 +50,7 @@ type LastUpdatedCell = {
 
 type LastUpdateCell = {
   label: string;
-  icon: JSX.Element;
+  icon: JSXElement;
 };
 
 type AuthorCell = {

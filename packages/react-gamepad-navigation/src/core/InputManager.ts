@@ -306,13 +306,13 @@ let inputStack: InputStackItem[] = [];
  * Clears any ongoing input direction repetitions.
  * This is typically used to reset the state of repeated navigations.
  */
-export const clearDirectionRepeats = (targetDocument: Document) => {
+export const clearDirectionRepeats = (targetDocument: Document): void => {
   targetDocument.defaultView?.clearTimeout(directionDelayTimer);
   targetDocument.defaultView?.clearInterval(directionRepeatInterval);
   directionRepeatCount = 0;
 };
 
-export const clearDirectionalInputStack = () => {
+export const clearDirectionalInputStack = (): void => {
   inputStack.length = 0;
 };
 
@@ -325,7 +325,7 @@ export const clearDirectionalInputStack = () => {
 export const handleGamepadDisconnect = (
   targetDocument: Document,
   gamepadId: number
-) => {
+): void => {
   const previousDirection = getCurrentFocusDirection();
 
   // Filter out all entries with the disconnected gamepadId

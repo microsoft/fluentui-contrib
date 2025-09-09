@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "feat: add react 19 support",
+  "packageName": "@fluentui-contrib/azure-theme",
+  "email": "dmytrokirpa@microsoft.com",
+  "dependentChangeType": "patch"
+}

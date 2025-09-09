@@ -1,21 +1,30 @@
-import { WindowWithFluentGPNShadowDOMAPI } from '../types/FluentGPNShadowDOMAPI';
+import {
+  FluentGPNShadowDOMAPI,
+  WindowWithFluentGPNShadowDOMAPI,
+} from '../types/FluentGPNShadowDOMAPI';
 import { consolePrefix } from './Constants';
 
 export type TimeoutId = number | undefined;
 export type IntervalId = number | undefined;
 
-export const shouldSubmitForm = (element: Element | null | undefined) =>
+export const shouldSubmitForm = (
+  element: Element | null | undefined
+): boolean =>
   element instanceof HTMLInputElement &&
   (element.type === 'password' ||
     element.type === 'text' ||
     element.type === 'email' ||
     element.type === 'tel');
 
-export const isComboboxElement = (element: Element | null | undefined) => {
+export const isComboboxElement = (
+  element: Element | null | undefined
+): boolean => {
   return element?.getAttribute('role') === 'combobox';
 };
 
-export const isMenuItemElement = (element: Element | null | undefined) => {
+export const isMenuItemElement = (
+  element: Element | null | undefined
+): boolean => {
   return element?.getAttribute('role') === 'menuitem';
 };
 
@@ -27,7 +36,9 @@ export const isRadioElement = (
   );
 };
 
-export const getShadowDOMAPI = (targetDocument: Document | undefined) => {
+export const getShadowDOMAPI = (
+  targetDocument: Document | undefined
+): FluentGPNShadowDOMAPI | undefined => {
   const defaultView = targetDocument?.defaultView;
   const shadowDOMAPI = (defaultView as WindowWithFluentGPNShadowDOMAPI)
     ?.__FluentGPNShadowDOMAPI;

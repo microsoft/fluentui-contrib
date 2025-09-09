@@ -10,7 +10,9 @@ const VirtualizerContext = React.createContext<
 
 export const VirtualizerContextProvider = VirtualizerContext.Provider;
 
-export const useVirtualizerContext_unstable = () => {
+export const useVirtualizerContext_unstable = ():
+  | VirtualizerContextProps
+  | undefined => {
   return React.useContext(VirtualizerContext);
 };
 

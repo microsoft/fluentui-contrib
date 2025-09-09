@@ -97,7 +97,15 @@ const DEFAULT_GET_A11_VALUE_TEXT: UseResizeHandleParams['getA11ValueText'] = (
   unit
 ) => (value === UNMEASURED ? undefined : `${value.toFixed(0)}${unit}`);
 
-export const useResizeHandle = (params: UseResizeHandleParams) => {
+export const useResizeHandle = (
+  params: UseResizeHandleParams
+): {
+  setValue: (value: number) => void;
+  elementRef: React.RefCallback<HTMLElement>;
+  handleRef: React.RefCallback<HTMLElement>;
+  wrapperRef: React.RefCallback<HTMLElement>;
+  growDirection: GrowDirection;
+} => {
   const {
     growDirection,
     variableName,

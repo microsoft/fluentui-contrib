@@ -5,7 +5,7 @@ const columnIndexContext = React.createContext<number | undefined>(undefined);
 export const columnIndexContextDefaultValue: number | undefined = undefined;
 
 export const ariaColumnIndexStart = 1;
-export const useColumnIndexContext = () =>
+export const useColumnIndexContext = (): number | undefined =>
   React.useContext(columnIndexContext) ?? columnIndexContextDefaultValue;
 
 export const ColumnIndexContextProvider = columnIndexContext.Provider;

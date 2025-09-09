@@ -52,6 +52,7 @@ import {
   Tag,
 } from '@fluentui/react-components';
 import { useGamepadNavigationGroup } from '@fluentui-contrib/react-gamepad-navigation';
+import type { JSXElement } from '@fluentui/react-components';
 
 const useStyles = makeStyles({
   container: {
@@ -112,7 +113,7 @@ const useStyles = makeStyles({
 
 type FileCell = {
   label: string;
-  icon: JSX.Element;
+  icon: JSXElement;
 };
 
 type LastUpdatedCell = {
@@ -122,7 +123,7 @@ type LastUpdatedCell = {
 
 type LastUpdateCell = {
   label: string;
-  icon: JSX.Element;
+  icon: JSXElement;
 };
 
 type AuthorCell = {

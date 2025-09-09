@@ -55,7 +55,7 @@ const draggableDialogContext = React.createContext<DraggableDialogContextValue>(
   draggableDialogContextDefaultValue
 );
 
-export const useDraggableDialogContext = () => {
+export const useDraggableDialogContext = (): DraggableDialogContextValue => {
   return (
     React.useContext(draggableDialogContext) ??
     draggableDialogContextDefaultValue

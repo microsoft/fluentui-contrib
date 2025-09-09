@@ -5,10 +5,11 @@ import {
   MentionFilled,
   PeopleFilled,
 } from '@fluentui/react-icons';
+import type { JSXElement } from '@fluentui/react-components';
 
 export const getDecorationIcon = (
   decoration?: 'important' | 'urgent' | 'mention' | 'mentionEveryone'
-) => {
+): JSXElement | null => {
   switch (decoration) {
     case 'important':
       return <ImportantFilled />;

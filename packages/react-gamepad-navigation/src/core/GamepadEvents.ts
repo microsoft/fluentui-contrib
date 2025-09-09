@@ -30,7 +30,7 @@ export const emitSyntheticKeyboardEvent = (
   key: KeyboardKey,
   bubbles: boolean,
   targetDocument: Document
-) => {
+): void => {
   const activeElement = targetDocument.activeElement;
   const keyboardEvent = new KeyboardEvent(event, {
     key: key,
@@ -55,7 +55,7 @@ export const emitSyntheticMouseEvent = (
   event: 'mousedown' | 'mouseup' | 'click',
   bubbles: boolean,
   targetDocument: Document
-) => {
+): void => {
   const activeElement = targetDocument.activeElement;
   const mouseEvent = new MouseEvent(event, {
     bubbles,
@@ -85,7 +85,7 @@ export const emitSyntheticMouseEvent = (
 export const emitSyntheticMoverMoveFocusEvent = (
   key: MoverKey,
   targetDocument: Document
-) => {
+): void => {
   const activeElement = targetDocument.activeElement;
   if (isComboboxElement(activeElement)) {
     const button = getMoverKeyToKeyboardKeyMapping(key);
@@ -98,7 +98,7 @@ export const emitSyntheticMoverMoveFocusEvent = (
 export const emitSyntheticGroupperMoveFocusEvent = (
   action: KeyboardKey,
   targetDocument: Document
-) => {
+): void => {
   const activeElement = targetDocument.activeElement;
   if (action === KeyboardKey.Enter) {
     // Note: GroupperMoveFocusActions.Enter has no effect on components

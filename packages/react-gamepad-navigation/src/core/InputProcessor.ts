@@ -95,7 +95,7 @@ export const handleGamepadInput = (
   gamepadMappings: ControllerMapping,
   gamepadState: GamepadState,
   targetDocument: Document
-) => {
+): void => {
   /*
         Buttons
     */

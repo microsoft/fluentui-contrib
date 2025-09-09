@@ -10,7 +10,7 @@ import { ChatMyMessageState } from '../ChatMyMessage/ChatMyMessage.types';
 
 export const useChatMessagePopoverTrigger = (
   state: Pick<ChatMessageState | ChatMyMessageState, 'body'>
-) => {
+): void => {
   // V9 PopoverTrigger uses useARIAButtonProps and triggers click event on space key.
   // We don't want this behavior because it means we can't type with space key in the `input` within chat message.
   // If we don't do custom trigger, we'd have to stop keydown/keyup propagation for space key within chat message children.

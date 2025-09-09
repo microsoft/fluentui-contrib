@@ -6,7 +6,7 @@ import { usePrevious } from '@fluentui/react-utilities';
 import type { KeytipProps } from '../components/Keytip';
 import { sequencesToID } from '../utilities/index';
 
-const isEqualArray = (a: string[], b: string[]) => {
+const isEqualArray = (a: string[], b: string[]): boolean => {
   return a.length === b.length && a.every((v, i) => v === b[i]);
 };
 
@@ -16,7 +16,7 @@ export const useKeytipRef = <
   content,
   truncated = true,
   ...keytip
-}: KeytipProps) => {
+}: KeytipProps): React.Dispatch<React.SetStateAction<T | null>> => {
   const { targetDocument } = useFluent();
   const [node, setNode] = React.useState<T | null>(null);
   const { register, unregister, update } = useKeytipsManager();
@@ -72,7 +72,7 @@ export const useKeytipRef = <
     }
 
     register(ktp);
-    return () => {
+    return (): void => {
       unregister(ktp.uniqueId);
     };
   }, [node]);

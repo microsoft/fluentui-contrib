@@ -4,6 +4,7 @@ import type {
   DataGridRowState,
   ForwardRefComponent,
 } from '@fluentui/react-components';
+import type { JSXElement } from '@fluentui/react-components';
 import { useDataGridHeaderRow_unstable } from './useDataGridHeaderRow';
 import { renderDataGridHeaderRow_unstable } from './renderDataGridHeaderRow';
 import { DataGridHeaderRowProps } from './DataGridHeaderRow.types';
@@ -20,6 +21,6 @@ export const DataGridHeaderRow = React.forwardRef<
   useDataGridRowStyles_unstable(state as unknown as DataGridRowState);
   return renderDataGridHeaderRow_unstable(state);
 }) as ForwardRefComponent<DataGridHeaderRowProps> &
-  (<TItem>(props: DataGridHeaderRowProps<TItem>) => JSX.Element);
+  (<TItem>(props: DataGridHeaderRowProps<TItem>) => JSXElement);
 
 DataGridHeaderRow.displayName = 'DataGridHeaderRow';

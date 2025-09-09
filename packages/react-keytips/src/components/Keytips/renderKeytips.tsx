@@ -5,6 +5,7 @@
 import { createElement } from '@fluentui/react-jsx-runtime';
 import type { KeytipsState, KeytipsSlots } from './Keytips.types';
 import { Portal, makeStyles, assertSlots } from '@fluentui/react-components';
+import type { JSXElement } from '@fluentui/react-components';
 import { KTP_ROOT_ID, VISUALLY_HIDDEN_STYLES } from '../../constants';
 /**
  * Render the final JSX of Keytips
@@ -16,7 +17,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const renderKeytips_unstable = (state: KeytipsState) => {
+export const renderKeytips_unstable = (state: KeytipsState): JSXElement => {
   assertSlots<KeytipsSlots>(state);
   const classes = useStyles();
 

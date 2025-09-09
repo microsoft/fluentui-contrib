@@ -6,7 +6,7 @@ export const getBrandValues = (
   overrideList: Partial<Theme>,
   name: string,
   spacer: string
-) => {
+): string => {
   const hexToBrand: Record<string, string> = {};
 
   brandRamp.map((i) => {
@@ -28,7 +28,7 @@ export const getBrandValues = (
 export const objectToString = (
   input: Record<string, string>,
   spacer: string
-) => {
+): string => {
   return (
     Object.keys(input).map((key) => {
       return '\n' + spacer + key + ': "' + input[key].toUpperCase() + '"';

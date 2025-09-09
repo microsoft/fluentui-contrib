@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { ForwardRefComponent } from '@fluentui/react-components';
+import type { JSXElement } from '@fluentui/react-components';
 import { useDataGridBodyStyles_unstable } from './useDataGridBodyStyles.styles';
 import { useDataGridBody_unstable } from './useDataGridBody';
 import { renderDataGridBody_unstable } from './renderDataGridBody';
@@ -16,6 +17,6 @@ export const DataGridBody = React.forwardRef<HTMLElement, DataGridBodyProps>(
     return renderDataGridBody_unstable(state);
   }
 ) as ForwardRefComponent<DataGridBodyProps> &
-  (<TItem>(props: DataGridBodyProps<TItem>) => JSX.Element);
+  (<TItem>(props: DataGridBodyProps<TItem>) => JSXElement);
 
 DataGridBody.displayName = 'DataGridBody';

@@ -9,7 +9,7 @@ import { emitSyntheticMoverMoveFocusEvent } from './GamepadEvents';
 export const navigate = (
   direction: FocusDirection,
   targetDocument: Document
-) => {
+): void => {
   const activeElement = targetDocument.activeElement;
   const finalDirection = !activeElement ? FocusDirection.None : direction;
 
