@@ -22,7 +22,7 @@
     "node": "^20.19.0 || ^22.12.0"
   },
   "devDependencies": {
-    "@babel/preset-env": "7.27.1",
+    "@babel/preset-env": "7.28.3",
     "@babel/preset-react": "7.27.1",
     "@babel/preset-typescript": "7.27.1",
     "@dnd-kit/core": "^6.1.0",
