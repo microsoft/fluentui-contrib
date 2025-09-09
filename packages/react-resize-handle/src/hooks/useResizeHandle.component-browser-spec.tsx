@@ -16,6 +16,7 @@ import {
 test.use({ viewport: { width: 500, height: 500 } });
 
 type PwMountFn = <HooksConfig>(
+  // eslint-disable-next-line @typescript-eslint/no-restricted-types
   component: React.JSX.Element,
   options?: PwMountOptions<HooksConfig>
 ) => Promise<PwMountResult>;
