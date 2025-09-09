@@ -7,11 +7,12 @@ import type {
 } from './VirtualizerScrollView.types';
 
 import { assertSlots } from '@fluentui/react-utilities';
+import type { JSXElement } from '@fluentui/react-utilities';
 import { renderVirtualizer_unstable } from '../Virtualizer/renderVirtualizer';
 
 export const renderVirtualizerScrollView_unstable = (
   state: VirtualizerScrollViewState
-): JSX.Element => {
+): JSXElement => {
   assertSlots<VirtualizerScrollViewSlots>(state);
 
   return <state.container>{renderVirtualizer_unstable(state)}</state.container>;

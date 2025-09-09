@@ -5,6 +5,7 @@
 import { createElement } from '@fluentui/react-jsx-runtime';
 
 import { assertSlots } from '@fluentui/react-components';
+import type { JSXElement } from '@fluentui/react-components';
 import type { ChatMessageState, ChatMessageSlots } from './ChatMessage.types';
 
 /**
@@ -12,7 +13,7 @@ import type { ChatMessageState, ChatMessageSlots } from './ChatMessage.types';
  */
 export const renderChatMessage_unstable = (
   state: ChatMessageState
-): JSX.Element => {
+): JSXElement => {
   assertSlots<ChatMessageSlots>(state);
 
   return (

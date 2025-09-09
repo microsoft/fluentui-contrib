@@ -4,6 +4,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createElement, Fragment } from '@fluentui/react-jsx-runtime';
 import { assertSlots } from '@fluentui/react-components';
+import type { JSXElement } from '@fluentui/react-components';
 import { TextDirectionProvider } from '@griffel/react';
 import {
   OverridesProvider_unstable as OverridesProvider,
@@ -25,7 +26,7 @@ import { IconDirectionContextProvider } from '@fluentui/react-icons';
 export const renderThemelessFluentProvider_unstable = (
   state: FluentProviderState,
   contextValues: FluentProviderContextValues
-): JSX.Element => {
+): JSXElement => {
   assertSlots<FluentProviderSlots>(state);
 
   // Typescript (vscode) incorrectly references the FluentProviderProps.customStyleHooks_unstable

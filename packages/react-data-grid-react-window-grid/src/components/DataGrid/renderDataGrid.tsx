@@ -3,6 +3,7 @@ import {
   renderDataGrid_unstable as renderDataGridBase,
   DataGridContextValues,
 } from '@fluentui/react-components';
+import type { JSXElement } from '@fluentui/react-components';
 import { HeaderListRefContextProvider } from '../../contexts/headerListRefContext';
 import { BodyRefContextProvider } from '../../contexts/bodyRefContext';
 import { DataGridState } from './DataGrid.types';
@@ -12,7 +13,7 @@ import { DataGridState } from './DataGrid.types';
 export const renderDataGrid_unstable = (
   state: DataGridState,
   contextValues: DataGridContextValues
-): JSX.Element => {
+): JSXElement => {
   return (
     <HeaderListRefContextProvider value={state.headerRef}>
       <BodyRefContextProvider value={state.bodyRef}>

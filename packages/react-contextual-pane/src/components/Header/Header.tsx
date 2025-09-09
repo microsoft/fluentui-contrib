@@ -5,6 +5,7 @@ import {
   Toolbar,
   ToolbarButton,
 } from '@fluentui/react-components';
+import type { JSXElement } from '@fluentui/react-components';
 import { ArrowLeftRegular, DismissRegular } from '@fluentui/react-icons';
 import { HeaderTitle } from './HeaderTitle';
 
@@ -40,7 +41,7 @@ export const Header = ({
   toolbarLabels = defaultToolbarLabels,
   onArrowBackClick,
   onDismissClick,
-}: HeaderProps): JSX.Element => {
+}: HeaderProps): JSXElement => {
   const styles = useStyles();
 
   const hasLeftConetent = Boolean(hasArrowBack || brandIcon);

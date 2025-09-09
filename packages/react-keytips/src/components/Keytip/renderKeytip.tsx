@@ -1,6 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx createElement */
 
+import type { JSXElement } from '@fluentui/react-components';
 import type { KeytipSlots, KeytipState } from './Keytip.types';
 import { assertSlots } from '@fluentui/react-utilities';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -11,7 +12,7 @@ import { createElement } from '@fluentui/react-jsx-runtime';
  */
 export const renderKeytip_unstable = (
   state: KeytipState
-): JSX.Element | null => {
+): JSXElement | null => {
   assertSlots<KeytipSlots>(state);
   if (!state.shouldRenderKeytip) return null;
   return <state.content>{state.content.children}</state.content>;
