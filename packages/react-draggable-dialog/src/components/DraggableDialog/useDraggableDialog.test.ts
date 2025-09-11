@@ -19,8 +19,8 @@ describe('DraggableDialog', () => {
       'sensors',
       'modifiers',
       'accessibility',
-      'contextValue',
       'dialogProps',
+      'contextValue',
     ]);
     expect(result.current.modifiers).toHaveLength(1);
     expect(result.current.accessibility).toEqual(undefined);
@@ -47,10 +47,10 @@ describe('DraggableDialog', () => {
     const sensorNames = result.current.sensors.map(({ sensor }) => sensor.name);
 
     expect(sensorNames).toStrictEqual([
-      'PointerSensor',
-      'MouseSensor',
-      'TouchSensor',
       'KeyboardSensor',
+      'MouseSensor',
+      'PointerSensor',
+      'TouchSensor',
     ]);
   });
 
