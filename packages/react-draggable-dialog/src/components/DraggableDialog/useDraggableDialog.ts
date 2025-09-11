@@ -159,6 +159,11 @@ export const useDraggableDialog = (
     };
   }, [announcements]);
 
+  React.useEffect(
+    () => () => cancelOnDragAnimationFrame(),
+    [cancelOnDragAnimationFrame]
+  );
+
   return React.useMemo(
     () => ({
       onDragMove,
