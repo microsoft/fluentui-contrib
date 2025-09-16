@@ -45,7 +45,9 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
   const container = React.useRef<HTMLElement | null>(null);
   const handleScrollResize = React.useCallback(
     (scrollRef: React.MutableRefObject<HTMLElement | null>) => {
-      if (!scrollRef?.current) {
+      const hasReachedEnd =
+        virtualizerContext.contextIndex + virtualizerLength >= numItems;
+      if (!scrollRef?.current || hasReachedEnd) {
         // Error? ignore?
         return;
       }
