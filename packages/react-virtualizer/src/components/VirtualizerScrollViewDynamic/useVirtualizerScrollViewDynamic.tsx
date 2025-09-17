@@ -189,14 +189,13 @@ export function useVirtualizerScrollViewDynamic_unstable(
     axis,
     requestScrollBy: (sizeChange: number) => {
       if (enableScrollAnchor) {
-        scrollViewRef.current?.scrollBy(
-          {
-            top: axis === 'vertical' ? sizeChange : 0,
-            left: axis === 'vertical' ? 0 : sizeChange,
-            behavior: 'instant'
-          });
+        scrollViewRef.current?.scrollBy({
+          top: axis === 'vertical' ? sizeChange : 0,
+          left: axis === 'vertical' ? 0 : sizeChange,
+          behavior: 'instant',
+        });
       }
-    }
+    },
   });
 
   if (!props.getItemSize) {

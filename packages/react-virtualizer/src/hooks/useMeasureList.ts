@@ -33,7 +33,7 @@ export function useMeasureList<
     sizeTrackingArray,
     axis,
     sizeUpdated,
-    requestScrollBy
+    requestScrollBy,
   } = measureParams;
 
   const refArray = React.useRef<Array<TElement | undefined | null>>([]);
@@ -49,11 +49,20 @@ export function useMeasureList<
           ? boundClientRect?.height
           : boundClientRect?.width) ?? defaultItemSize;
 
-      const sizeDifference = sizeTrackingArray.current[currentIndex + index] - containerSize;
+      const sizeDifference =
+        sizeTrackingArray.current[currentIndex + index] - containerSize;
 
-      if (axis === 'vertical' && boundClientRect && boundClientRect.bottom < 0) {
+      if (
+        axis === 'vertical' &&
+        boundClientRect &&
+        boundClientRect.bottom < 0
+      ) {
         requestScrollBy?.(sizeDifference);
-      } else if (axis === 'horizontal' && boundClientRect && boundClientRect.right < 0) {
+      } else if (
+        axis === 'horizontal' &&
+        boundClientRect &&
+        boundClientRect.right < 0
+      ) {
         requestScrollBy?.(sizeDifference);
       }
 
