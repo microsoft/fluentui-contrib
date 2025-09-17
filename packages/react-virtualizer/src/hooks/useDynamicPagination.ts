@@ -64,6 +64,8 @@ export const useDynamicVirtualizerPagination = (
         ? scrollContainer.current.scrollTop
         : scrollContainer.current.scrollLeft
     );
+
+    console.log("Current scroll pos:", currentScrollPos)
     let closestItemPos = 0;
     let closestItem = 0;
     const endItem = Math.min(
@@ -106,6 +108,8 @@ export const useDynamicVirtualizerPagination = (
       nextItem = closestItem;
     }
 
+    console.log("Next item:", nextItem);
+
     // Safeguard nextItem
     nextItem = Math.min(
       Math.max(0, nextItem),
@@ -113,6 +117,8 @@ export const useDynamicVirtualizerPagination = (
     );
     closestItemPos = progressiveItemSizes.current[nextItem];
 
+    console.log("progressiveItemSizes.current:", progressiveItemSizes.current);
+    console.log("closestItemPos:", closestItemPos);
     if (axis === 'vertical') {
       scrollContainer.current.scrollTo({
         top: closestItemPos,

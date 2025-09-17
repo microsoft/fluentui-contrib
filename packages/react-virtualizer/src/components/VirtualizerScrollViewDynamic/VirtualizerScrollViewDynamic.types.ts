@@ -52,10 +52,14 @@ export type VirtualizerScrollViewDynamicProps = ComponentProps<
     children: VirtualizerChildRenderFunction;
     /**
      * Imperative ref contains our scrollTo index functionality for user control.
+     * WARNING: These tools are not intended for items that shift in size during render
+     * For more complex functionality, applications will need to handle their own scroll
      */
     imperativeRef?: React.RefObject<ScrollToInterface | null>;
     /**
-     * Imperative ref contains our scrollTo index functionality for user control.
+     * Enable pagination will auto scroll to the top of the closest item
+     * WARNING: These tools are not intended for items that shift in size during render
+     * For more complex functionality, applications will need to handle their own scroll
      */
     enablePagination?: boolean;
     /**

@@ -562,6 +562,7 @@ export function useVirtualizer_unstable(
         setFlaggedIndex: (index: number | null) =>
           (flaggedIndex.current = index),
         currentIndex: actualIndexRef,
+        virtualizerLength,
       };
     },
     [childProgressiveSizes, childSizes]

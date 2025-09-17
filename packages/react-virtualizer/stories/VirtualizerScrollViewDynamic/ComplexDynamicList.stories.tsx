@@ -4,7 +4,7 @@
 /* eslint-disable no-restricted-globals */
 import { createElement, Fragment } from '@fluentui/react-jsx-runtime';
 import * as React from 'react';
-import { VirtualizerScrollViewDynamic, ScrollToInterface } from '@fluentui-contrib/react-virtualizer';
+import { VirtualizerScrollViewDynamic, ScrollToInterface, VirtualizerDataRef } from '@fluentui-contrib/react-virtualizer';
 import { Text, Button, Input, makeStyles, Switch, useMergedRefs } from '@fluentui/react-components';
 
 const useStyles = makeStyles({
@@ -53,14 +53,13 @@ const LazyLoadingComponent = React.forwardRef(
       // );
 
       // Let's set the image to loaded immediatly to stress-test an immediate size update
-      setImageLoaded(true);
       // Phase 1: "Image" loads - longer delay to allow scrolling during loading
-      // const timer1 = setTimeout(() => {
-      //   console.log(
-      //     `LazyLoadingComponent ${index} entering phase 1 - image loading`
-      //   );
-      //   setImageLoaded(true);
-      // }, 2000 + (index % 3) * 500); // 2-3.5 seconds
+      const timer1 = setTimeout(() => {
+        // console.log(
+        //   `LazyLoadingComponent ${index} entering phase 1 - image loading`
+        // );
+        setImageLoaded(true);
+      }, 2000 + (index % 3) * 500); // 2-3.5 seconds
 
       // Phase 2: "Content" loads - even longer delay
       const timer2 = setTimeout(() => {
@@ -82,6 +81,7 @@ const LazyLoadingComponent = React.forwardRef(
         // console.log(
         //   `LazyLoadingComponent ${index} unmounting, clearing timers and resetting state`
         // );
+        clearTimeout(timer1);
         clearTimeout(timer2);
         clearTimeout(timer3);
       };
@@ -225,19 +225,45 @@ export const ComplexDynamicList = () => {
   const childLength = 100;
   const [goToIndex, setGoToIndex] = React.useState(0);
   const [message, setMessage] = React.useState('');
-  const scrollRef = React.useRef<ScrollToInterface>(null);
+  const virtualizerScrollRef = React.useRef<HTMLDivElement & ScrollToInterface>(null);
+  const virtualizerRef = React.useRef<VirtualizerDataRef>(null);
+
+  // We will track this array locally per-render
+  // That way we can use it to see what sizes have changed post-render
+  // This enables us to track scrolling more precisely
+  let sizeTrackingArrayPrevious = new Array(childLength).fill(baseHeight);
+  if (virtualizerScrollRef.current?.sizeTrackingArray?.current) {
+    sizeTrackingArrayPrevious = [...virtualizerScrollRef.current?.sizeTrackingArray.current];
+  }
 
   const scrollToIndex = () => {
-    if (scrollRef?.current?.scrollTo) {
-      setMessage(`Going to index: ${goToIndex}`);
-      scrollRef.current.scrollTo(goToIndex, 'smooth', (index: number) => {
-        if (scrollRef?.current?.scrollTo) {
-          scrollRef.current.scrollTo(goToIndex, 'instant', (index: number) => {
-            setMessage(`Reached index: ${index}`);
-          });
-        }
-      });
+    if (!virtualizerRef.current
+      || virtualizerRef.current.virtualizerLength <= 0
+      || !virtualizerScrollRef.current?.sizeTrackingArray?.current
+      || !virtualizerRef.current.nodeSizes.current
+    ) {
+      // No virtualizer length, error (shouldn't happen);
+      return;
     }
+    let shiftSinceRender = 0;
+    const _currentIndex = virtualizerRef.current.currentIndex.current ?? -1;
+    const _virtualizerLength = virtualizerRef.current.virtualizerLength;
+    const virtualizerEndPos = _currentIndex + _virtualizerLength;
+    const virtualizeInternalSizeState = virtualizerRef.current.nodeSizes.current;
+    const actualSizes = virtualizerScrollRef.current.sizeTrackingArray.current;
+    const checkIndex = virtualizerEndPos < goToIndex ? virtualizerEndPos : goToIndex;
+    if (_currentIndex >= 0) {
+      for (let i = _currentIndex; i <= checkIndex; i++) {
+        shiftSinceRender += actualSizes[i] - virtualizeInternalSizeState[i];
+
+      }
+    }
+
+    const itemsOriginalPosition = virtualizerRef.current?.progressiveSizes.current?.[goToIndex];
+    if (itemsOriginalPosition && itemsOriginalPosition >= 0) {
+      virtualizerScrollRef.current?.scrollTo(0, itemsOriginalPosition + shiftSinceRender)
+    }
+
   };
 
 
@@ -308,7 +334,8 @@ export const ComplexDynamicList = () => {
       <VirtualizerScrollViewDynamic
         numItems={childLength}
         itemSize={60} // Average expected size
-        imperativeRef={scrollRef}
+        imperativeRef={virtualizerScrollRef}
+        imperativeVirtualizerRef={virtualizerRef}
         container={{
           role: 'list',
           className: styles.container,

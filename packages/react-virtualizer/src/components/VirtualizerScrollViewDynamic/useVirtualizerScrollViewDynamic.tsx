@@ -16,7 +16,7 @@ import type { IndexedResizeCallbackElement } from '../../hooks/useMeasureList';
 import { useDynamicVirtualizerPagination } from '../../hooks/useDynamicPagination';
 
 export function useVirtualizerScrollViewDynamic_unstable(
-  props: VirtualizerScrollViewDynamicProps
+  props: VirtualizerScrollViewDynamicProps,
 ): VirtualizerScrollViewDynamicState {
   'use no memo';
 
@@ -135,6 +135,7 @@ export function useVirtualizerScrollViewDynamic_unstable(
         },
         currentIndex: _imperativeVirtualizerRef.current?.currentIndex,
         virtualizerLength: virtualizerLengthRef,
+        sizeTrackingArray,
       };
     },
     [axis, scrollViewRef, reversed, _imperativeVirtualizerRef]
@@ -160,24 +161,13 @@ export function useVirtualizerScrollViewDynamic_unstable(
     updateScrollPosition,
   });
 
-  const measureObject = useMeasureList(
-    virtualizerState.virtualizerStartIndex,
-    virtualizerLength,
-    props.numItems,
-    props.itemSize
-  );
-
-  if (enablePagination && measureObject.sizeUpdateCount !== sizeUpdateCount) {
-    /* This enables us to let callback know that the sizes have been updated
-    triggers a re-render but is only required on pagination (else index change handles) */
-    setSizeUpdateCount(measureObject.sizeUpdateCount);
-  }
-
-  if (axis === 'horizontal') {
-    sizeTrackingArray = measureObject.widthArray;
-  } else {
-    sizeTrackingArray = measureObject.heightArray;
-  }
+  const measureObject = useMeasureList({
+    currentIndex: virtualizerState.virtualizerStartIndex,
+    totalLength:props.numItems,
+    defaultItemSize: props.itemSize,
+    sizeTrackingArray,
+    axis,
+  });
 
   if (!props.getItemSize) {
     // Auto-measuring is required

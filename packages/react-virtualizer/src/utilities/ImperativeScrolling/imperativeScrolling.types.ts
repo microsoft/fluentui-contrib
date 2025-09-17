@@ -28,4 +28,5 @@ export type ScrollToInterface = {
   ) => void;
   virtualizerLength: React.RefObject<number | null>;
   currentIndex: React.RefObject<number | null> | undefined;
+  sizeTrackingArray?: React.RefObject<number[]>;
 };
