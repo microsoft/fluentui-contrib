@@ -188,6 +188,7 @@ export function useVirtualizerScrollViewDynamic_unstable(
     sizeTrackingArray,
     axis,
     requestScrollBy: (sizeChange: number) => {
+      // Handle any size changes so that scroll view doesn't jump around
       if (enableScrollAnchor) {
         scrollViewRef.current?.scrollBy({
           top: axis === 'vertical' ? sizeChange : 0,
