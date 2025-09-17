@@ -56,15 +56,9 @@ export function useMeasureList<
         sizeTrackingArray.current[currentIndex + index] - containerSize;
 
       // This requests a scrollBy to offset the new change
-      if (
-        axis === 'vertical' &&
-        boundClientRect.bottom < 0
-      ) {
+      if (axis === 'vertical' && boundClientRect.bottom < 0) {
         requestScrollBy?.(sizeDifference);
-      } else if (
-        axis === 'horizontal' &&
-        boundClientRect.right < 0
-      ) {
+      } else if (axis === 'horizontal' && boundClientRect.right < 0) {
         requestScrollBy?.(sizeDifference);
       }
 
