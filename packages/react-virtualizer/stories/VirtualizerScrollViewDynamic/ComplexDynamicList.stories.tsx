@@ -17,6 +17,7 @@ import {
   Switch,
   useMergedRefs,
 } from '@fluentui/react-components';
+import { start } from 'repl';
 
 const useStyles = makeStyles({
   container: {
@@ -106,7 +107,7 @@ const LazyLoadingComponent = React.forwardRef(
 
     const totalHeight =
       baseHeight + imageHeight + contentHeight + massiveHeight;
-    // Final range: 60px → 1160px to 2560px
+    // Final range: 90px → 1160px to 2560px
 
     // Typecast ref via useMergedRefs
     const _ref = useMergedRefs(ref);
@@ -119,7 +120,6 @@ const LazyLoadingComponent = React.forwardRef(
         style={{
           boxSizing: 'border-box', // If you want border/padding etc. on the outside div, use border-box
           minHeight: totalHeight, // This will jump from ~60px to ~2000px+
-          transition: 'min-height 0.2s ease', // Faster transition to see jumps
           border: `2px solid ${massiveContentLoaded ? '#ff4444' : '#ddd'}`, // Visual indicator
         }}
       >
@@ -234,67 +234,10 @@ const LazyLoadingComponent = React.forwardRef(
 export const ComplexDynamicList = () => {
   const styles = useStyles();
   const childLength = 100;
-  const [goToIndex, setGoToIndex] = React.useState(0);
-  const [message, setMessage] = React.useState('');
   const virtualizerScrollRef = React.useRef<HTMLDivElement & ScrollToInterface>(
     null
   );
   const virtualizerRef = React.useRef<VirtualizerDataRef>(null);
-
-  const scrollToIndex = () => {
-    const sizeTrackingArray =
-      virtualizerScrollRef.current?.sizeTrackingArray?.current;
-    if (!sizeTrackingArray) {
-      // No virtualizer sizes, error (shouldn't happen);
-      return;
-    }
-
-    let actualPosition = 0;
-    for (let i = 0; i <= goToIndex - 1; i++) {
-      if (i >= sizeTrackingArray.length) {
-        break;
-        }
-      actualPosition += sizeTrackingArray[i];
-    }
-    const bleedInForAnchor = 5;
-
-    virtualizerScrollRef.current?.scrollToPosition(
-      actualPosition + bleedInForAnchor, // +bleedInForAnchor to ensure scrollAnchor detects it as the top element
-      'instant', // Smooth scrolling will require more complex handling due to size changes in-scroll
-      goToIndex,
-      (indexFound: number) => {
-        setMessage(`Reached ${goToIndex}`);
-        // Our items may have changed size/position post-render due to dynamic nature, go to target again w/ smooth
-        let actualPosition = 0;
-        for (let i = 0; i <= goToIndex - 1; i++) {
-          if (i >= sizeTrackingArray.length) {
-            break;
-          }
-          actualPosition += sizeTrackingArray[i];
-        }
-        const targetTop = document.getElementById(
-          `virtualizer-item-${goToIndex}`
-        )?.offsetTop;
-        if (targetTop != undefined) {
-          virtualizerScrollRef.current?.scrollToPosition(
-            actualPosition + bleedInForAnchor,
-            'smooth'
-          );
-        }
-      }
-    );
-  };
-
-  const onChangeGoToIndex = (
-    ev?: React.FormEvent<HTMLElement | HTMLInputElement>
-  ) => {
-    const indexValue = ev ? (ev.currentTarget as HTMLInputElement).value : '';
-    const newIndex = Math.min(
-      Math.max(parseInt(indexValue, 10), 0),
-      childLength - 1
-    );
-    setGoToIndex(newIndex);
-  };
 
   return (
     <div>
@@ -340,11 +283,6 @@ export const ComplexDynamicList = () => {
         <p style={{ margin: '4px 0 0 0', fontSize: '12px' }}>
           Auto-measurement enabled - NO getItemSize prop provided.
         </p>
-        <div>
-          <Input defaultValue={'0'} onChange={onChangeGoToIndex} />
-          <Button onClick={scrollToIndex}>{'GoTo'}</Button>
-          <Text aria-live="polite">{message}</Text>
-        </div>
       </div>
 
       <VirtualizerScrollViewDynamic
