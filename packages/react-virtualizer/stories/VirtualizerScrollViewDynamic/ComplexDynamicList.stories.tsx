@@ -244,45 +244,30 @@ export const ComplexDynamicList = () => {
   const scrollToIndex = () => {
     const sizeTrackingArray =
       virtualizerScrollRef.current?.sizeTrackingArray?.current;
-    if (!sizeTrackingArray) {
+    const renderSizeTrackingArray =
+      virtualizerRef.current?.nodeSizes?.current;
+    const progressiveSizeArray =
+      virtualizerRef.current?.progressiveSizes?.current;
+    if (!sizeTrackingArray || !renderSizeTrackingArray || !progressiveSizeArray) {
       // No virtualizer sizes, error (shouldn't happen);
       return;
     }
 
-    let actualPosition = 0;
-    for (let i = 0; i <= goToIndex - 1; i++) {
-      if (i >= sizeTrackingArray.length) {
-        break;
+    // Update all internal virtualizer size tracking so that it accounts for post-render changes
+    for (let i = 0; i < childLength; i++) {
+      renderSizeTrackingArray[i] = sizeTrackingArray[i];
+      if (i > 0) {
+        progressiveSizeArray[i] = progressiveSizeArray[i - 1] + sizeTrackingArray[i];
+      } else {
+        progressiveSizeArray[0] = sizeTrackingArray[0];
       }
-      actualPosition += sizeTrackingArray[i];
     }
 
-    const bleedInForAnchor = 5;
+    const bleedInForAnchor = 2;
     virtualizerScrollRef.current?.scrollToPosition(
-      actualPosition + bleedInForAnchor, // +bleedInForAnchor to ensure scrollAnchor detects it as the top element
-      'instant', // Smooth scrolling will require more complex handling due to size changes in-scroll
-      goToIndex,
-      (indexFound: number) => {
-        setMessage(`Reached ${goToIndex}`);
-        // Our items may have changed size/position post-render due to dynamic nature, go to target again w/ smooth
-        let actualPosition = 0;
-        for (let i = 0; i <= goToIndex - 1; i++) {
-          if (i >= sizeTrackingArray.length) {
-            break;
-          }
-          actualPosition += sizeTrackingArray[i];
-        }
-        const targetTop = document.getElementById(
-          `virtualizer-item-${goToIndex}`
-        )?.offsetTop;
-        if (targetTop != undefined) {
-          virtualizerScrollRef.current?.scrollToPosition(
-            actualPosition + bleedInForAnchor,
-            'smooth'
-          );
-        }
-      }
-    );
+      progressiveSizeArray[goToIndex - 1] + bleedInForAnchor,
+      'instant'
+    )
   };
 
   const onChangeGoToIndex = (
@@ -337,8 +322,8 @@ export const ComplexDynamicList = () => {
         >
           ⚠️ Scroll while items are loading! When massive content loads during
           scrolling there will be some scroll jumping due to 'anchorScroll' only
-          partially handling In order to handle this more gracefully,
-          applications should 'scrollBy' any previous-index content size changes
+          partially handling - In order to handle this more gracefully,
+          applications should 'scrollBy' any previous-index inline size changes
         </p>
         <p style={{ margin: '4px 0 0 0', fontSize: '12px' }}>
           Auto-measurement enabled - NO getItemSize prop provided.
