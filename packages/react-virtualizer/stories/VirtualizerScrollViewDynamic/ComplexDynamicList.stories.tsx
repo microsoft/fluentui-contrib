@@ -244,27 +244,30 @@ export const ComplexDynamicList = () => {
   const scrollToIndex = () => {
     const sizeTrackingArray =
       virtualizerScrollRef.current?.sizeTrackingArray?.current;
-    const renderSizeTrackingArray =
-      virtualizerRef.current?.nodeSizes?.current;
+    const renderSizeTrackingArray = virtualizerRef.current?.nodeSizes?.current;
     const progressiveSizeArray =
       virtualizerRef.current?.progressiveSizes?.current;
-    if (!sizeTrackingArray || !renderSizeTrackingArray || !progressiveSizeArray) {
+    if (
+      !sizeTrackingArray ||
+      !renderSizeTrackingArray ||
+      !progressiveSizeArray
+    ) {
       // No virtualizer sizes, error (shouldn't happen);
       return;
     }
 
-    const updateSizing =() => {
+    const updateSizing = () => {
       // Update all internal virtualizer size tracking so that it accounts for post-render changes
       for (let i = 0; i < childLength; i++) {
         renderSizeTrackingArray[i] = sizeTrackingArray[i];
         if (i > 0) {
-          progressiveSizeArray[i] = progressiveSizeArray[i - 1] + sizeTrackingArray[i];
+          progressiveSizeArray[i] =
+            progressiveSizeArray[i - 1] + sizeTrackingArray[i];
         } else {
           progressiveSizeArray[0] = sizeTrackingArray[0];
         }
       }
-    }
-
+    };
 
     updateSizing();
     setMessage(`Going to index: ${goToIndex}`);
@@ -284,9 +287,9 @@ export const ComplexDynamicList = () => {
           (index: number) => {
             setMessage(`Reached index: ${goToIndex}`);
           }
-        )
+        );
       }
-    )
+    );
   };
 
   const onChangeGoToIndex = (
@@ -340,8 +343,8 @@ export const ComplexDynamicList = () => {
           }}
         >
           ⚠️ Scroll while items are loading! When massive content loads during
-          scrolling there will be some scroll jumping due to 'overflowAnchor' only
-          partially handling - In order to handle this more gracefully,
+          scrolling there will be some scroll jumping due to 'overflowAnchor'
+          only partially handling - In order to handle this more gracefully,
           applications should 'scrollBy' any previous-index inline size changes
         </p>
         <p style={{ margin: '4px 0 0 0', fontSize: '12px' }}>
