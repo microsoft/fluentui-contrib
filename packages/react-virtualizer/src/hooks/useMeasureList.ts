@@ -20,7 +20,6 @@ export function useMeasureList<
   defaultItemSize: number;
   sizeTrackingArray: React.MutableRefObject<number[]>;
   axis: 'horizontal' | 'vertical';
-  sizeUpdated?: (sizeArray: React.MutableRefObject<number[]>) => void;
   requestScrollBy?: (sizeChange: number) => void;
 }): {
   createIndexedRef: (index: number) => (el: TElement) => void;
@@ -32,7 +31,6 @@ export function useMeasureList<
     defaultItemSize,
     sizeTrackingArray,
     axis,
-    sizeUpdated,
     requestScrollBy,
   } = measureParams;
 
@@ -44,6 +42,11 @@ export function useMeasureList<
     (index: number) => {
       let isChanged = false;
       const boundClientRect = refArray.current[index]?.getBoundingClientRect();
+
+      if (!boundClientRect) {
+        return;
+      }
+
       const containerSize =
         (axis === 'vertical'
           ? boundClientRect?.height
@@ -52,15 +55,14 @@ export function useMeasureList<
       const sizeDifference =
         sizeTrackingArray.current[currentIndex + index] - containerSize;
 
+      // This requests a scrollBy to offset the new change
       if (
         axis === 'vertical' &&
-        boundClientRect &&
         boundClientRect.bottom < 0
       ) {
         requestScrollBy?.(sizeDifference);
       } else if (
         axis === 'horizontal' &&
-        boundClientRect &&
         boundClientRect.right < 0
       ) {
         requestScrollBy?.(sizeDifference);
@@ -68,8 +70,8 @@ export function useMeasureList<
 
       if (sizeDifference !== 0) {
         isChanged = true;
+        // Size tracking array gets exposed if teams need it
         sizeTrackingArray.current[currentIndex + index] = containerSize;
-        sizeUpdated?.(sizeTrackingArray);
       }
     },
     [currentIndex, defaultItemSize]
