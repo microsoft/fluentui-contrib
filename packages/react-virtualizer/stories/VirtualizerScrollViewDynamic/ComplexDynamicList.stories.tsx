@@ -174,7 +174,7 @@ const LazyLoadingComponent = React.forwardRef(
             <div style={{ fontWeight: 'bold', color: '#cc0000' }}>
               🚨 MASSIVE CONTENT LOADED ({massiveHeight}px)
             </div>
-            <div>This content is HUGE and will cause major scroll jumps!</div>
+            <div>This content is HUGE!</div>
             <div>Height range: 800px - 1800px per item</div>
             <div>This simulates:</div>
             <ul style={{ textAlign: 'left' }}>
@@ -185,8 +185,7 @@ const LazyLoadingComponent = React.forwardRef(
               <li>Lazy-loaded galleries</li>
             </ul>
             <div style={{ marginTop: '20px', fontWeight: 'bold' }}>
-              When this loads, the virtualizer's scroll position should jump
-              significantly!
+              When this loads, the virtualizer's sizing changes significantly!
             </div>
 
             {/* Add some filler content to reach the massive height */}
@@ -322,8 +321,9 @@ export const ComplexDynamicList = () => {
           }}
         >
           ⚠️ Scroll while items are loading! When massive content loads during
-          scrolling, watch for severe scroll position jumping and potential
-          infinite loops!
+          scrolling there will be some scroll jumping due to 'anchorScroll' only partially handling
+
+          In order to handle this more gracefully, applications should 'scrollBy' any previous-index content size changes
         </p>
         <p style={{ margin: '4px 0 0 0', fontSize: '12px' }}>
           Auto-measurement enabled - NO getItemSize prop provided.
