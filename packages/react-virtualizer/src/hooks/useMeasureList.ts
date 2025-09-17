@@ -21,6 +21,7 @@ export function useMeasureList<
   sizeTrackingArray: React.MutableRefObject<number[]>;
   axis: 'horizontal' | 'vertical';
   sizeUpdated?: (sizeArray: React.MutableRefObject<number[]>) => void;
+  requestScrollBy?: (sizeChange: number) => void;
 }): {
   createIndexedRef: (index: number) => (el: TElement) => void;
   refArray: React.MutableRefObject<(TElement | null | undefined)[]>;
@@ -32,6 +33,7 @@ export function useMeasureList<
     sizeTrackingArray,
     axis,
     sizeUpdated,
+    requestScrollBy
   } = measureParams;
 
   const refArray = React.useRef<Array<TElement | undefined | null>>([]);
@@ -46,7 +48,16 @@ export function useMeasureList<
         (axis === 'vertical'
           ? boundClientRect?.height
           : boundClientRect?.width) ?? defaultItemSize;
-      if (containerSize !== sizeTrackingArray.current[currentIndex + index]) {
+
+      const sizeDifference = sizeTrackingArray.current[currentIndex + index] - containerSize;
+
+      if (axis === 'vertical' && boundClientRect && boundClientRect.bottom < 0) {
+        requestScrollBy?.(sizeDifference);
+      } else if (axis === 'horizontal' && boundClientRect && boundClientRect.right < 0) {
+        requestScrollBy?.(sizeDifference);
+      }
+
+      if (sizeDifference !== 0) {
         isChanged = true;
         sizeTrackingArray.current[currentIndex + index] = containerSize;
         sizeUpdated?.(sizeTrackingArray);

@@ -31,6 +31,7 @@ export function useVirtualizerScrollViewDynamic_unstable(
     enablePagination = false,
     bufferItems: _bufferItems,
     bufferSize: _bufferSize,
+    enableScrollAnchor,
   } = props;
 
   const sizeTrackingArray = React.useRef<number[]>(
@@ -186,6 +187,16 @@ export function useVirtualizerScrollViewDynamic_unstable(
     defaultItemSize: props.itemSize,
     sizeTrackingArray,
     axis,
+    requestScrollBy: (sizeChange: number) => {
+      if (enableScrollAnchor) {
+        scrollViewRef.current?.scrollBy(
+          {
+            top: axis === 'vertical' ? sizeChange : 0,
+            left: axis === 'vertical' ? 0 : sizeChange,
+            behavior: 'instant'
+          });
+      }
+    }
   });
 
   if (!props.getItemSize) {

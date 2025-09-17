@@ -101,7 +101,7 @@ const LazyLoadingComponent = React.forwardRef(
     const imageHeight = imageLoaded ? 100 + (index % 3) * 50 : 0; // 0 → 100-200px
     const contentHeight = contentLoaded ? 200 + (index % 4) * 100 : 0; // 0 → 200-500px
 
-    // MASSIVE content that will cause huge jumps
+    // MASSIVE content
     const massiveHeight = massiveContentLoaded ? 800 + (index % 6) * 200 : 0; // 0 → 800-1800px
 
     const totalHeight =
@@ -342,10 +342,7 @@ export const ComplexDynamicList = () => {
             color: '#cc0000',
           }}
         >
-          ⚠️ Scroll while items are loading! When massive content loads during
-          scrolling there will be some scroll jumping due to 'overflowAnchor'
-          only partially handling - In order to handle this more gracefully,
-          applications should 'scrollBy' any previous-index inline size changes
+          ⚠️ Scroll while items are loading!
         </p>
         <p style={{ margin: '4px 0 0 0', fontSize: '12px' }}>
           Auto-measurement enabled - NO getItemSize prop provided.
@@ -367,14 +364,11 @@ export const ComplexDynamicList = () => {
           className: styles.container,
           style: {
             maxHeight: '80vh',
-            // Overflow anchor does an ok job of handling jumps
-            // For complete smoothness, applications will
-            // need to handle their dynamic sizes with 'scrollBy'
-            overflowAnchor: 'auto',
           },
         }}
         bufferItems={1}
         bufferSize={30}
+        enableScrollAnchor
         // NO getItemSize prop = auto-measurement enabled!
       >
         {(index: number) => (
