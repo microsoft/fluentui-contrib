@@ -10,7 +10,6 @@ export function createResizeObserverFromDocument(
   callback: ResizeObserverCallback
   // eslint-disable-next-line no-restricted-globals
 ): ResizeObserver | null {
-
   if (!targetDocument?.defaultView?.ResizeObserver) {
     return null;
   }

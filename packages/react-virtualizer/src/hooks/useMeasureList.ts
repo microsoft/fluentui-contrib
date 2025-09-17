@@ -15,26 +15,24 @@ export function useMeasureList<
   TElement extends HTMLElement & IndexedResizeCallbackElement = HTMLElement &
     IndexedResizeCallbackElement
 >(measureParams: {
-  currentIndex: number,
-  totalLength: number,
-  defaultItemSize: number,
-  sizeTrackingArray: React.MutableRefObject<number[]>,
-  axis: 'horizontal' | 'vertical',
+  currentIndex: number;
+  totalLength: number;
+  defaultItemSize: number;
+  sizeTrackingArray: React.MutableRefObject<number[]>;
+  axis: 'horizontal' | 'vertical';
   sizeUpdated?: (sizeArray: React.MutableRefObject<number[]>) => void;
 }): {
   createIndexedRef: (index: number) => (el: TElement) => void;
   refArray: React.MutableRefObject<(TElement | null | undefined)[]>;
 } {
-
   const {
     currentIndex,
     totalLength,
     defaultItemSize,
     sizeTrackingArray,
     axis,
-    sizeUpdated
+    sizeUpdated,
   } = measureParams;
-
 
   const refArray = React.useRef<Array<TElement | undefined | null>>([]);
   const { targetDocument } = useFluent();
@@ -44,7 +42,10 @@ export function useMeasureList<
     (index: number) => {
       let isChanged = false;
       const boundClientRect = refArray.current[index]?.getBoundingClientRect();
-      const containerSize = (axis === 'vertical' ? boundClientRect?.height : boundClientRect?.width) ?? defaultItemSize;
+      const containerSize =
+        (axis === 'vertical'
+          ? boundClientRect?.height
+          : boundClientRect?.width) ?? defaultItemSize;
       if (containerSize !== sizeTrackingArray.current[currentIndex + index]) {
         isChanged = true;
         sizeTrackingArray.current[currentIndex + index] = containerSize;
@@ -72,7 +73,10 @@ export function useMeasureList<
         new Array(newLength).fill(defaultItemSize)
       );
     } else if (newLength < 0) {
-      sizeTrackingArray.current = sizeTrackingArray.current.slice(0, totalLength);
+      sizeTrackingArray.current = sizeTrackingArray.current.slice(
+        0,
+        totalLength
+      );
     }
   }, [defaultItemSize, totalLength]);
 

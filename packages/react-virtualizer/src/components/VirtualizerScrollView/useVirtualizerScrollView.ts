@@ -75,6 +75,28 @@ export function useVirtualizerScrollView_unstable(
             behavior,
           });
         },
+        scrollToPosition(
+          position: number,
+          behavior: ScrollBehavior = 'auto',
+          index?: number, // So we can callback when index rendered
+          callback?: (index: number) => void
+        ) {
+          if (callback) {
+            scrollCallbackRef.current = callback ?? null;
+          }
+
+          if (imperativeVirtualizerRef.current) {
+            if (index !== undefined) {
+              imperativeVirtualizerRef.current.setFlaggedIndex(index);
+            }
+            const positionOptions =
+              axis == 'vertical' ? { top: position } : { left: position };
+            scrollViewRef.current?.scrollTo({
+              behavior,
+              ...positionOptions,
+            });
+          }
+        },
         currentIndex: imperativeVirtualizerRef.current?.currentIndex,
         virtualizerLength: virtualizerLengthRef,
       };

@@ -4,8 +4,19 @@
 /* eslint-disable no-restricted-globals */
 import { createElement, Fragment } from '@fluentui/react-jsx-runtime';
 import * as React from 'react';
-import { VirtualizerScrollViewDynamic, ScrollToInterface, VirtualizerDataRef } from '@fluentui-contrib/react-virtualizer';
-import { Text, Button, Input, makeStyles, Switch, useMergedRefs } from '@fluentui/react-components';
+import {
+  VirtualizerScrollViewDynamic,
+  ScrollToInterface,
+  VirtualizerDataRef,
+} from '@fluentui-contrib/react-virtualizer';
+import {
+  Text,
+  Button,
+  Input,
+  makeStyles,
+  Switch,
+  useMergedRefs,
+} from '@fluentui/react-components';
 
 const useStyles = makeStyles({
   container: {
@@ -225,11 +236,14 @@ export const ComplexDynamicList = () => {
   const childLength = 100;
   const [goToIndex, setGoToIndex] = React.useState(0);
   const [message, setMessage] = React.useState('');
-  const virtualizerScrollRef = React.useRef<HTMLDivElement & ScrollToInterface>(null);
+  const virtualizerScrollRef = React.useRef<HTMLDivElement & ScrollToInterface>(
+    null
+  );
   const virtualizerRef = React.useRef<VirtualizerDataRef>(null);
 
   const scrollToIndex = () => {
-    const sizeTrackingArray = virtualizerScrollRef.current?.sizeTrackingArray?.current;
+    const sizeTrackingArray =
+      virtualizerScrollRef.current?.sizeTrackingArray?.current;
     if (!sizeTrackingArray) {
       // No virtualizer sizes, error (shouldn't happen);
       return;
@@ -249,7 +263,7 @@ export const ComplexDynamicList = () => {
       'instant', // Smooth scrolling will require more complex handling due to size changes in-scroll
       goToIndex,
       (indexFound: number) => {
-        setMessage(`Reached ${goToIndex}`)
+        setMessage(`Reached ${goToIndex}`);
         // Our items may have changed size/position post-render due to dynamic nature, go to target again w/ smooth
         let actualPosition = 0;
         for (let i = 0; i <= goToIndex - 1; i++) {
@@ -258,16 +272,17 @@ export const ComplexDynamicList = () => {
           }
           actualPosition += sizeTrackingArray[i];
         }
-        const targetTop = document.getElementById(`virtualizer-item-${goToIndex}`)?.offsetTop;
+        const targetTop = document.getElementById(
+          `virtualizer-item-${goToIndex}`
+        )?.offsetTop;
         if (targetTop != undefined) {
           virtualizerScrollRef.current?.scrollToPosition(
             actualPosition + bleedInForAnchor,
             'smooth'
-          )
+          );
         }
       }
-    )
-
+    );
   };
 
   const onChangeGoToIndex = (
@@ -321,17 +336,17 @@ export const ComplexDynamicList = () => {
           }}
         >
           ⚠️ Scroll while items are loading! When massive content loads during
-          scrolling there will be some scroll jumping due to 'anchorScroll' only partially handling
-
-          In order to handle this more gracefully, applications should 'scrollBy' any previous-index content size changes
+          scrolling there will be some scroll jumping due to 'anchorScroll' only
+          partially handling In order to handle this more gracefully,
+          applications should 'scrollBy' any previous-index content size changes
         </p>
         <p style={{ margin: '4px 0 0 0', fontSize: '12px' }}>
           Auto-measurement enabled - NO getItemSize prop provided.
         </p>
         <div>
-            <Input defaultValue={'0'} onChange={onChangeGoToIndex} />
-            <Button onClick={scrollToIndex}>{'GoTo'}</Button>
-            <Text aria-live="polite">{message}</Text>
+          <Input defaultValue={'0'} onChange={onChangeGoToIndex} />
+          <Button onClick={scrollToIndex}>{'GoTo'}</Button>
+          <Text aria-live="polite">{message}</Text>
         </div>
       </div>
 
@@ -345,7 +360,7 @@ export const ComplexDynamicList = () => {
           className: styles.container,
           style: {
             maxHeight: '80vh',
-            overflowAnchor: 'auto'
+            overflowAnchor: 'auto',
           },
         }}
         bufferItems={1}

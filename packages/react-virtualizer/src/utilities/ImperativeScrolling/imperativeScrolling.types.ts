@@ -30,7 +30,7 @@ export type ScrollToInterface = {
     position: number,
     behavior?: ScrollBehavior,
     index?: number,
-    callback?: ((index: number) => void)
+    callback?: (index: number) => void
   ) => void;
   virtualizerLength: React.RefObject<number | null>;
   currentIndex: React.RefObject<number | null> | undefined;

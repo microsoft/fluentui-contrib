@@ -16,8 +16,7 @@ import type { IndexedResizeCallbackElement } from '../../hooks/useMeasureList';
 import { useDynamicVirtualizerPagination } from '../../hooks/useDynamicPagination';
 
 export function useVirtualizerScrollViewDynamic_unstable(
-  props: VirtualizerScrollViewDynamicProps,
-  ref: React.Ref<HTMLElement>
+  props: VirtualizerScrollViewDynamicProps
 ): VirtualizerScrollViewDynamicState {
   'use no memo';
 
@@ -109,21 +108,23 @@ export function useVirtualizerScrollViewDynamic_unstable(
           position: number,
           behavior: ScrollBehavior = 'auto',
           index?: number, // So we can callback when index rendered
-          callback?: ((index: number) => void)) {
-            if (callback) {
-              scrollCallbackRef.current = callback ?? null;
-            }
+          callback?: (index: number) => void
+        ) {
+          if (callback) {
+            scrollCallbackRef.current = callback ?? null;
+          }
 
-            if (_imperativeVirtualizerRef.current) {
-              if (index !== undefined) {
-                _imperativeVirtualizerRef.current.setFlaggedIndex(index);
-              }
-              const positionOptions = axis == 'vertical' ? {top: position} : {left: position};
-              scrollViewRef.current?.scrollTo({
-                behavior,
-                ...positionOptions
-              });
+          if (_imperativeVirtualizerRef.current) {
+            if (index !== undefined) {
+              _imperativeVirtualizerRef.current.setFlaggedIndex(index);
             }
+            const positionOptions =
+              axis == 'vertical' ? { top: position } : { left: position };
+            scrollViewRef.current?.scrollTo({
+              behavior,
+              ...positionOptions,
+            });
+          }
         },
         scrollTo(
           index: number,
@@ -181,7 +182,7 @@ export function useVirtualizerScrollViewDynamic_unstable(
 
   const measureObject = useMeasureList({
     currentIndex: virtualizerState.virtualizerStartIndex,
-    totalLength:props.numItems,
+    totalLength: props.numItems,
     defaultItemSize: props.itemSize,
     sizeTrackingArray,
     axis,
