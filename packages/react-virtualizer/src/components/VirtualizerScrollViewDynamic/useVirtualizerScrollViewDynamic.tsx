@@ -17,6 +17,7 @@ import { useDynamicVirtualizerPagination } from '../../hooks/useDynamicPaginatio
 
 export function useVirtualizerScrollViewDynamic_unstable(
   props: VirtualizerScrollViewDynamicProps,
+  ref: React.Ref<HTMLElement>
 ): VirtualizerScrollViewDynamicState {
   'use no memo';
 
@@ -33,12 +34,9 @@ export function useVirtualizerScrollViewDynamic_unstable(
     bufferSize: _bufferSize,
   } = props;
 
-  let sizeTrackingArray = React.useRef<number[]>(
+  const sizeTrackingArray = React.useRef<number[]>(
     new Array(props.numItems).fill(props.itemSize)
   );
-
-  // This lets us trigger updates when a size change occurs.
-  const [sizeUpdateCount, setSizeUpdateCount] = React.useState(0);
 
   const getChildSizeAuto = React.useCallback(
     (index: number) => {
@@ -54,7 +52,7 @@ export function useVirtualizerScrollViewDynamic_unstable(
        */
       return sizeTrackingArray.current[index];
     },
-    [sizeTrackingArray, props.itemSize, sizeUpdateCount]
+    [sizeTrackingArray, props.itemSize]
   );
 
   const {
@@ -107,6 +105,26 @@ export function useVirtualizerScrollViewDynamic_unstable(
     imperativeRef,
     () => {
       return {
+        scrollToPosition(
+          position: number,
+          behavior: ScrollBehavior = 'auto',
+          index?: number, // So we can callback when index rendered
+          callback?: ((index: number) => void)) {
+            if (callback) {
+              scrollCallbackRef.current = callback ?? null;
+            }
+
+            if (_imperativeVirtualizerRef.current) {
+              if (index !== undefined) {
+                _imperativeVirtualizerRef.current.setFlaggedIndex(index);
+              }
+              const positionOptions = axis == 'vertical' ? {top: position} : {left: position};
+              scrollViewRef.current?.scrollTo({
+                behavior,
+                ...positionOptions
+              });
+            }
+        },
         scrollTo(
           index: number,
           behavior = 'auto',

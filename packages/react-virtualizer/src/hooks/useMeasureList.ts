@@ -47,9 +47,9 @@ export function useMeasureList<
       const containerSize = (axis === 'vertical' ? boundClientRect?.height : boundClientRect?.width) ?? defaultItemSize;
       if (containerSize !== sizeTrackingArray.current[currentIndex + index]) {
         isChanged = true;
+        sizeTrackingArray.current[currentIndex + index] = containerSize;
+        sizeUpdated?.(sizeTrackingArray);
       }
-      sizeTrackingArray.current[currentIndex + index] = containerSize;
-      sizeUpdated?.(sizeTrackingArray);
     },
     [currentIndex, defaultItemSize]
   );

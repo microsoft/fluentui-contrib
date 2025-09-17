@@ -16,6 +16,7 @@ export const getRTLRootMargin = (
   target?: Element | Document | null | undefined,
   win?: Window | null
 ): string => {
+
   if (target && win) {
     // get the computed dir for the target element
     const newDir = win.getComputedStyle(target as Element).direction;
