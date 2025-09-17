@@ -253,20 +253,39 @@ export const ComplexDynamicList = () => {
       return;
     }
 
-    // Update all internal virtualizer size tracking so that it accounts for post-render changes
-    for (let i = 0; i < childLength; i++) {
-      renderSizeTrackingArray[i] = sizeTrackingArray[i];
-      if (i > 0) {
-        progressiveSizeArray[i] = progressiveSizeArray[i - 1] + sizeTrackingArray[i];
-      } else {
-        progressiveSizeArray[0] = sizeTrackingArray[0];
+    const updateSizing =() => {
+      // Update all internal virtualizer size tracking so that it accounts for post-render changes
+      for (let i = 0; i < childLength; i++) {
+        renderSizeTrackingArray[i] = sizeTrackingArray[i];
+        if (i > 0) {
+          progressiveSizeArray[i] = progressiveSizeArray[i - 1] + sizeTrackingArray[i];
+        } else {
+          progressiveSizeArray[0] = sizeTrackingArray[0];
+        }
       }
     }
 
+
+    updateSizing();
+    setMessage(`Going to index: ${goToIndex}`);
     const bleedInForAnchor = 2;
     virtualizerScrollRef.current?.scrollToPosition(
       progressiveSizeArray[goToIndex - 1] + bleedInForAnchor,
-      'instant'
+      'instant', // Smooth would create more size changes while scrolling
+      goToIndex,
+      (index: number) => {
+        // The newly rendered items may have shifted due to dynamic sizes
+        // do a double scroll to be sure we get the right position
+        updateSizing();
+        virtualizerScrollRef.current?.scrollToPosition(
+          progressiveSizeArray[goToIndex - 1] + bleedInForAnchor,
+          'instant', // Smooth would create more size changes while scrolling
+          goToIndex,
+          (index: number) => {
+            setMessage(`Reached index: ${goToIndex}`);
+          }
+        )
+      }
     )
   };
 
@@ -321,7 +340,7 @@ export const ComplexDynamicList = () => {
           }}
         >
           ⚠️ Scroll while items are loading! When massive content loads during
-          scrolling there will be some scroll jumping due to 'anchorScroll' only
+          scrolling there will be some scroll jumping due to 'overflowAnchor' only
           partially handling - In order to handle this more gracefully,
           applications should 'scrollBy' any previous-index inline size changes
         </p>
@@ -345,6 +364,9 @@ export const ComplexDynamicList = () => {
           className: styles.container,
           style: {
             maxHeight: '80vh',
+            // Overflow anchor does an ok job of handling jumps
+            // For complete smoothness, applications will
+            // need to handle their dynamic sizes with 'scrollBy'
             overflowAnchor: 'auto',
           },
         }}
