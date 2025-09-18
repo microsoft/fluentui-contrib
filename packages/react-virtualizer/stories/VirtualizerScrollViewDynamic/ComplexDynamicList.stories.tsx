@@ -10,14 +10,11 @@ import {
   VirtualizerDataRef,
 } from '@fluentui-contrib/react-virtualizer';
 import {
-  Text,
   Button,
   Input,
   makeStyles,
-  Switch,
   useMergedRefs,
 } from '@fluentui/react-components';
-import { start } from 'repl';
 
 const useStyles = makeStyles({
   container: {
@@ -81,39 +78,45 @@ const LazyLoadingComponent = React.forwardRef(
     );
 
     React.useEffect(() => {
-      // console.log(
-      //   `LazyLoadingComponent ${index} mounting, starting phase progression`
-      // );
+      console.log(
+        `LazyLoadingComponent ${index} mounting, starting phase progression`
+      );
 
       // Let's set the image to loaded immediatly to stress-test an immediate size update
       // Phase 1: "Image" loads - longer delay to allow scrolling during loading
       const timer1 = setTimeout(() => {
-        // console.log(
-        //   `LazyLoadingComponent ${index} entering phase 1 - image loading`
-        // );
-        setImageLoaded(true);
+        if (!imageLoaded) {
+          console.log(
+            `LazyLoadingComponent ${index} entering phase 1 - image loading`
+          );
+          setImageLoaded(true);
+        }
       }, 2000 + (index % 3) * 500); // 2-3.5 seconds
 
       // Phase 2: "Content" loads - even longer delay
       const timer2 = setTimeout(() => {
-        // console.log(
-        //   `LazyLoadingComponent ${index} entering phase 2 - content loading`
-        // );
+        if (!contentLoaded) {
+          console.log(
+            `LazyLoadingComponent ${index} entering phase 2 - content loading`
+          );
+        }
         setContentLoaded(true);
       }, 4000 + (index % 4) * 800); // 4-7.2 seconds
 
       // Phase 3: "Massive content" loads - very long delay to ensure user is scrolling
       const timer3 = setTimeout(() => {
-        // console.log(
-        //   `LazyLoadingComponent ${index} entering phase 3 - MASSIVE CONTENT loading`
-        // );
-        setMassiveContentLoaded(true);
+        if (!massiveContentLoaded) {
+          console.log(
+            `LazyLoadingComponent ${index} entering phase 3 - MASSIVE CONTENT loading`
+          );
+          setMassiveContentLoaded(true);
+        }
       }, 6000 + (index % 5) * 1000); // 6-10 seconds
 
       return () => {
-        // console.log(
-        //   `LazyLoadingComponent ${index} unmounting, clearing timers and resetting state`
-        // );
+        console.log(
+          `LazyLoadingComponent ${index} unmounting, clearing timers and resetting state`
+        );
         clearTimeout(timer1);
         clearTimeout(timer2);
         clearTimeout(timer3);
@@ -127,7 +130,8 @@ const LazyLoadingComponent = React.forwardRef(
     // MASSIVE content
     const massiveHeight = massiveContentLoaded ? 800 + (index % 6) * 200 : 0; // 0 → 800-1800px
 
-    let totalHeight = baseHeight + imageHeight + contentHeight + massiveHeight;
+    const totalHeight =
+      baseHeight + imageHeight + contentHeight + massiveHeight;
     // Final range: 90px → 1160px to 2560px
 
     // Don't forget to cache, virtualizer won't handle size updates outside of DOM
@@ -148,6 +152,7 @@ const LazyLoadingComponent = React.forwardRef(
         style={{
           boxSizing: 'border-box', // If you want border/padding etc. on the outside div, use border-box
           minHeight: totalHeight, // This will jump from ~60px to ~2000px+
+          transition: 'min-height 0.2s ease', // Faster transition to see jumps
           border: `2px solid ${massiveContentLoaded ? '#ff4444' : '#ddd'}`, // Visual indicator
         }}
       >
@@ -278,7 +283,10 @@ export const ComplexDynamicList = () => {
   const [goToIndex, setGoToIndex] = React.useState(0);
 
   const scrollToIndex = () => {
-    if (!virtualizerScrollRef.current || !virtualizerScrollRef.current.sizeTrackingArray?.current) {
+    if (
+      !virtualizerScrollRef.current ||
+      !virtualizerScrollRef.current.sizeTrackingArray?.current
+    ) {
       return;
     }
 
@@ -287,9 +295,14 @@ export const ComplexDynamicList = () => {
     for (let i = 0; i < goToIndex; i++) {
       position += actualSizes[i];
     }
-    virtualizerScrollRef.current.scrollToPosition(position,'instant', goToIndex, (index: number) => {
-      console.log("Reached index: ", goToIndex);
-    });
+    virtualizerScrollRef.current.scrollToPosition(
+      position,
+      'instant',
+      goToIndex,
+      (index: number) => {
+        console.log('Reached index: ', index);
+      }
+    );
   };
 
   const onChangeGoToIndex = (
@@ -302,7 +315,6 @@ export const ComplexDynamicList = () => {
     );
     setGoToIndex(newIndex);
   };
-
 
   return (
     <div>

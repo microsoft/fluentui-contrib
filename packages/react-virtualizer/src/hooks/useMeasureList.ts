@@ -40,7 +40,6 @@ export function useMeasureList<
   // the handler for resize observer
   const handleIndexUpdate = React.useCallback(
     (index: number) => {
-      let isChanged = false;
       const boundClientRect = refArray.current[index]?.getBoundingClientRect();
 
       if (!boundClientRect) {
@@ -63,7 +62,6 @@ export function useMeasureList<
       }
 
       if (sizeDifference !== 0) {
-        isChanged = true;
         // Size tracking array gets exposed if teams need it
         sizeTrackingArray.current[currentIndex + index] = containerSize;
       }
