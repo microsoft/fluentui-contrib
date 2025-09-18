@@ -250,6 +250,7 @@ const LazyLoadingComponent = React.forwardRef(
 
         <div
           style={{
+            boxSizing: 'border-box',
             padding: '8px',
             backgroundColor: '#f0f0f0',
             fontSize: '11px',
