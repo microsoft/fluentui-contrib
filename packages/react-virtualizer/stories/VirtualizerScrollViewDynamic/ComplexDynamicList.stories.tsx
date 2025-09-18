@@ -266,7 +266,7 @@ export const ComplexDynamicList = () => {
     null
   );
   const virtualizerRef = React.useRef<VirtualizerDataRef>(null);
-  // We must cache item sizes - virtualizer will not handle item sizes that massively change OUTSIDE of DOM logic
+  // We must cache item sizes - virtualizer will not handle item sizes that massively change OUTSIDE of DOM
   const cachedLoadedItems = React.useRef<LoadCache[]>(
     new Array(childLength).fill({
       imageLoaded: false,
