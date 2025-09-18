@@ -53,16 +53,32 @@ type LoadCache = {
   imageLoaded: boolean;
   contentLoaded: boolean;
   massiveContentLoaded: boolean;
-}
+};
 
 // Component that simulates real async loading with actual DOM size changes
 const LazyLoadingComponent = React.forwardRef(
-  ({ index, cachedItems, setCachedItems }: { index: number, cachedItems: LoadCache, setCachedItems:(cachedItems: LoadCache)=>void }, ref) => {
+  (
+    {
+      index,
+      cachedItems,
+      setCachedItems,
+    }: {
+      index: number;
+      cachedItems: LoadCache;
+      setCachedItems: (cachedItems: LoadCache) => void;
+    },
+    ref
+  ) => {
     const styles = useStyles();
-    const [imageLoaded, setImageLoaded] = React.useState(cachedItems.imageLoaded);
-    const [contentLoaded, setContentLoaded] = React.useState(cachedItems.contentLoaded);
-    const [massiveContentLoaded, setMassiveContentLoaded] =
-      React.useState(cachedItems.massiveContentLoaded);
+    const [imageLoaded, setImageLoaded] = React.useState(
+      cachedItems.imageLoaded
+    );
+    const [contentLoaded, setContentLoaded] = React.useState(
+      cachedItems.contentLoaded
+    );
+    const [massiveContentLoaded, setMassiveContentLoaded] = React.useState(
+      cachedItems.massiveContentLoaded
+    );
 
     React.useEffect(() => {
       // console.log(
@@ -111,7 +127,6 @@ const LazyLoadingComponent = React.forwardRef(
     // MASSIVE content
     const massiveHeight = massiveContentLoaded ? 800 + (index % 6) * 200 : 0; // 0 → 800-1800px
 
-
     let totalHeight = baseHeight + imageHeight + contentHeight + massiveHeight;
     // Final range: 90px → 1160px to 2560px
 
@@ -119,7 +134,7 @@ const LazyLoadingComponent = React.forwardRef(
     setCachedItems({
       imageLoaded,
       contentLoaded,
-      massiveContentLoaded
+      massiveContentLoaded,
     });
 
     // Typecast ref via useMergedRefs
@@ -251,12 +266,14 @@ export const ComplexDynamicList = () => {
     null
   );
   const virtualizerRef = React.useRef<VirtualizerDataRef>(null);
-
-  const cachedLoadedItems = React.useRef<LoadCache[]>(new Array(childLength).fill({
-    imageLoaded: false,
-    contentLoaded: false,
-    massiveContentLoaded: false,
-  }));
+  // We must cache item sizes - virtualizer will not handle item sizes that massively change OUTSIDE of DOM logic
+  const cachedLoadedItems = React.useRef<LoadCache[]>(
+    new Array(childLength).fill({
+      imageLoaded: false,
+      contentLoaded: false,
+      massiveContentLoaded: false,
+    })
+  );
 
   return (
     <div>
@@ -323,14 +340,14 @@ export const ComplexDynamicList = () => {
       >
         {(index: number) => {
           return (
-          <LazyLoadingComponent
-            key={`item-${index}`}
-            index={index}
-            cachedItems={cachedLoadedItems.current[index]}
-            setCachedItems={(cache: LoadCache) => {
-              cachedLoadedItems.current[index] = cache;
-            }}
-          />
+            <LazyLoadingComponent
+              key={`item-${index}`}
+              index={index}
+              cachedItems={cachedLoadedItems.current[index]}
+              setCachedItems={(cache: LoadCache) => {
+                cachedLoadedItems.current[index] = cache;
+              }}
+            />
           );
         }}
       </VirtualizerScrollViewDynamic>
