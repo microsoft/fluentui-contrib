@@ -49,49 +49,55 @@ const useStyles = makeStyles({
 
 const baseHeight = 90;
 
+type LoadCache = {
+  imageLoaded: boolean;
+  contentLoaded: boolean;
+  massiveContentLoaded: boolean;
+}
+
 // Component that simulates real async loading with actual DOM size changes
 const LazyLoadingComponent = React.forwardRef(
-  ({ index }: { index: number }, ref) => {
+  ({ index, cachedItems, setCachedItems }: { index: number, cachedItems: LoadCache, setCachedItems:(cachedItems: LoadCache)=>void }, ref) => {
     const styles = useStyles();
-    const [imageLoaded, setImageLoaded] = React.useState(false);
-    const [contentLoaded, setContentLoaded] = React.useState(false);
+    const [imageLoaded, setImageLoaded] = React.useState(cachedItems.imageLoaded);
+    const [contentLoaded, setContentLoaded] = React.useState(cachedItems.contentLoaded);
     const [massiveContentLoaded, setMassiveContentLoaded] =
-      React.useState(false);
+      React.useState(cachedItems.massiveContentLoaded);
 
     React.useEffect(() => {
-      console.log(
-        `LazyLoadingComponent ${index} mounting, starting phase progression`
-      );
+      // console.log(
+      //   `LazyLoadingComponent ${index} mounting, starting phase progression`
+      // );
 
       // Let's set the image to loaded immediatly to stress-test an immediate size update
       // Phase 1: "Image" loads - longer delay to allow scrolling during loading
       const timer1 = setTimeout(() => {
-        console.log(
-          `LazyLoadingComponent ${index} entering phase 1 - image loading`
-        );
+        // console.log(
+        //   `LazyLoadingComponent ${index} entering phase 1 - image loading`
+        // );
         setImageLoaded(true);
       }, 2000 + (index % 3) * 500); // 2-3.5 seconds
 
       // Phase 2: "Content" loads - even longer delay
       const timer2 = setTimeout(() => {
-        console.log(
-          `LazyLoadingComponent ${index} entering phase 2 - content loading`
-        );
+        // console.log(
+        //   `LazyLoadingComponent ${index} entering phase 2 - content loading`
+        // );
         setContentLoaded(true);
       }, 4000 + (index % 4) * 800); // 4-7.2 seconds
 
       // Phase 3: "Massive content" loads - very long delay to ensure user is scrolling
       const timer3 = setTimeout(() => {
-        console.log(
-          `LazyLoadingComponent ${index} entering phase 3 - MASSIVE CONTENT loading`
-        );
+        // console.log(
+        //   `LazyLoadingComponent ${index} entering phase 3 - MASSIVE CONTENT loading`
+        // );
         setMassiveContentLoaded(true);
       }, 6000 + (index % 5) * 1000); // 6-10 seconds
 
       return () => {
-        console.log(
-          `LazyLoadingComponent ${index} unmounting, clearing timers and resetting state`
-        );
+        // console.log(
+        //   `LazyLoadingComponent ${index} unmounting, clearing timers and resetting state`
+        // );
         clearTimeout(timer1);
         clearTimeout(timer2);
         clearTimeout(timer3);
@@ -105,9 +111,16 @@ const LazyLoadingComponent = React.forwardRef(
     // MASSIVE content
     const massiveHeight = massiveContentLoaded ? 800 + (index % 6) * 200 : 0; // 0 → 800-1800px
 
-    const totalHeight =
-      baseHeight + imageHeight + contentHeight + massiveHeight;
+
+    let totalHeight = baseHeight + imageHeight + contentHeight + massiveHeight;
     // Final range: 90px → 1160px to 2560px
+
+    // Don't forget to cache, virtualizer won't handle size updates outside of DOM
+    setCachedItems({
+      imageLoaded,
+      contentLoaded,
+      massiveContentLoaded
+    });
 
     // Typecast ref via useMergedRefs
     const _ref = useMergedRefs(ref);
@@ -239,6 +252,12 @@ export const ComplexDynamicList = () => {
   );
   const virtualizerRef = React.useRef<VirtualizerDataRef>(null);
 
+  const cachedLoadedItems = React.useRef<LoadCache[]>(new Array(childLength).fill({
+    imageLoaded: false,
+    contentLoaded: false,
+    massiveContentLoaded: false,
+  }));
+
   return (
     <div>
       <div
@@ -287,7 +306,7 @@ export const ComplexDynamicList = () => {
 
       <VirtualizerScrollViewDynamic
         numItems={childLength}
-        itemSize={baseHeight + 2} // Current base size on render + border
+        itemSize={baseHeight}
         imperativeRef={virtualizerScrollRef}
         imperativeVirtualizerRef={virtualizerRef}
         container={{
@@ -302,9 +321,18 @@ export const ComplexDynamicList = () => {
         enableScrollAnchor
         // NO getItemSize prop = auto-measurement enabled!
       >
-        {(index: number) => (
-          <LazyLoadingComponent key={`item-${index}`} index={index} />
-        )}
+        {(index: number) => {
+          return (
+          <LazyLoadingComponent
+            key={`item-${index}`}
+            index={index}
+            cachedItems={cachedLoadedItems.current[index]}
+            setCachedItems={(cache: LoadCache) => {
+              cachedLoadedItems.current[index] = cache;
+            }}
+          />
+          );
+        }}
       </VirtualizerScrollViewDynamic>
     </div>
   );
