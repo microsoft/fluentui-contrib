@@ -275,6 +275,35 @@ export const ComplexDynamicList = () => {
     })
   );
 
+  const [goToIndex, setGoToIndex] = React.useState(0);
+
+  const scrollToIndex = () => {
+    if (!virtualizerScrollRef.current || !virtualizerScrollRef.current.sizeTrackingArray?.current) {
+      return;
+    }
+
+    const actualSizes = virtualizerScrollRef.current.sizeTrackingArray.current;
+    let position = 0;
+    for (let i = 0; i < goToIndex; i++) {
+      position += actualSizes[i];
+    }
+    virtualizerScrollRef.current.scrollToPosition(position,'instant', goToIndex, (index: number) => {
+      console.log("Reached index: ", goToIndex);
+    });
+  };
+
+  const onChangeGoToIndex = (
+    ev?: React.FormEvent<HTMLElement | HTMLInputElement>
+  ) => {
+    const indexValue = ev ? (ev.currentTarget as HTMLInputElement).value : '';
+    const newIndex = Math.min(
+      Math.max(parseInt(indexValue, 10), 0),
+      childLength - 1
+    );
+    setGoToIndex(newIndex);
+  };
+
+
   return (
     <div>
       <div
@@ -319,6 +348,10 @@ export const ComplexDynamicList = () => {
         <p style={{ margin: '4px 0 0 0', fontSize: '12px' }}>
           Auto-measurement enabled - NO getItemSize prop provided.
         </p>
+        <div>
+          <Input defaultValue={'0'} onChange={onChangeGoToIndex} />
+          <Button onClick={scrollToIndex}>{'GoTo'}</Button>
+        </div>
       </div>
 
       <VirtualizerScrollViewDynamic
