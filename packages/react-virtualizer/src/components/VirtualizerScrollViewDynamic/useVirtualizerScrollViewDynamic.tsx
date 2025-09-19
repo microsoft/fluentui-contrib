@@ -182,7 +182,7 @@ export function useVirtualizerScrollViewDynamic_unstable(
   });
 
   const measureObject = useMeasureList({
-    currentIndex: virtualizerState.virtualizerStartIndex,
+    currentIndex: Math.max(virtualizerState.virtualizerStartIndex, 0),
     totalLength: props.numItems,
     defaultItemSize: props.itemSize,
     sizeTrackingArray,
