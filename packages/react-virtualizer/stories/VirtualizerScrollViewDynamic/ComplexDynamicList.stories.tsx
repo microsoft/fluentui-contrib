@@ -152,7 +152,7 @@ const LazyLoadingComponent = React.forwardRef(
         style={{
           boxSizing: 'border-box', // If you want border/padding etc. on the outside div, use border-box
           minHeight: totalHeight, // This will jump from ~60px to ~2000px+
-          transition: 'min-height 0.2s ease', // Faster transition to see jumps
+          // transition: 'min-height 0.2s ease', // Transitions work, but they cause scrollAnchor to be a little jumpy
           border: `2px solid ${massiveContentLoaded ? '#ff4444' : '#ddd'}`, // Visual indicator
         }}
       >
@@ -293,7 +293,7 @@ export const ComplexDynamicList = () => {
 
     virtualizerScrollRef.current.scrollTo(
       goToIndex,
-      'instant', // We need instant to avoid size changes mid-scroll
+      'instant', // Instant is safer in a dynamic environment (might move while scrolling there)
       (index: number) => {
         console.log('Reached index: ', index);
       }

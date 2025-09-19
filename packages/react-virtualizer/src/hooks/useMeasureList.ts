@@ -52,13 +52,17 @@ export function useMeasureList<
           : boundClientRect?.width) ?? defaultItemSize;
 
       const sizeDifference =
-        sizeTrackingArray.current[currentIndex + index] - containerSize;
+        containerSize - sizeTrackingArray.current[currentIndex + index];
 
+      // Todo: Handle reverse setup
       // This requests a scrollBy to offset the new change
-      if (axis === 'vertical' && boundClientRect.bottom < 0) {
-        requestScrollBy?.(sizeDifference);
-      } else if (axis === 'horizontal' && boundClientRect.right < 0) {
-        requestScrollBy?.(sizeDifference);
+      if (axis === 'vertical' && boundClientRect.bottom < sizeDifference) {
+        requestScrollBy?.(-sizeDifference);
+      } else if (
+        axis === 'horizontal' &&
+        boundClientRect.right < sizeDifference
+      ) {
+        requestScrollBy?.(-sizeDifference);
       }
 
       if (sizeDifference !== 0) {
