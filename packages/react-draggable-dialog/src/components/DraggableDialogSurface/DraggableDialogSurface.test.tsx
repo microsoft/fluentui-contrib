@@ -2,23 +2,16 @@ import * as React from 'react';
 import { render } from '@testing-library/react';
 import { DraggableDialogSurface } from './DraggableDialogSurface';
 
-jest.mock('../../contexts/DraggableDialogContext', () => ({
-  __esModule: true,
-  ...jest.requireActual('../../contexts/DraggableDialogContext'),
-}));
-
 describe('DraggableDialogSurface', () => {
-  let consoleErrorMock: jest.SpyInstance;
+  let consoleErrorSpy: jest.SpyInstance;
 
-  beforeEach(() => {
-    consoleErrorMock = jest
+  beforeAll(() => {
+    consoleErrorSpy = jest
       .spyOn(console, 'error')
       .mockImplementation((error: string) => error);
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
+  afterAll(() => jest.resetAllMocks());
 
   it('should render', () => {
     const text = 'Surface';
@@ -38,7 +31,7 @@ describe('DraggableDialogSurface', () => {
       </DraggableDialogSurface>
     );
 
-    expect(consoleErrorMock).toHaveBeenCalledWith(expect.any(String));
+    expect(consoleErrorSpy).toHaveBeenCalledWith(expect.any(String));
   });
 
   it('should render DialogSurface with draggable class', () => {
