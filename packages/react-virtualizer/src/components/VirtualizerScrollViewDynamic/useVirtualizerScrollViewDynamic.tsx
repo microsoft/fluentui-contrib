@@ -81,6 +81,7 @@ export function useVirtualizerScrollViewDynamic_unstable(
     {
       axis,
       progressiveItemSizes: _imperativeVirtualizerRef.current?.progressiveSizes,
+      actualNodeSizes: sizeTrackingArray,
       virtualizerLength,
       currentIndex: contextState?.contextIndex ?? 0,
     },
