@@ -13,6 +13,7 @@ export const useResizeObserverRef_unstable = (
   'use no memo';
 
   const { targetDocument } = useFluent();
+
   const container = React.useRef<HTMLElement | null>(null);
   const containerHeightRef = React.useRef<number>(0);
   const containerWidthRef = React.useRef<number>(0);

@@ -14,56 +14,63 @@ export interface IndexedResizeCallbackElement {
 export function useMeasureList<
   TElement extends HTMLElement & IndexedResizeCallbackElement = HTMLElement &
     IndexedResizeCallbackElement
->(
-  currentIndex: number,
-  refLength: number,
-  totalLength: number,
-  defaultItemSize: number
-): {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  widthArray: React.MutableRefObject<any[]>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  heightArray: React.MutableRefObject<any[]>;
+>(measureParams: {
+  currentIndex: number;
+  totalLength: number;
+  defaultItemSize: number;
+  sizeTrackingArray: React.MutableRefObject<number[]>;
+  axis: 'horizontal' | 'vertical';
+  requestScrollBy?: (sizeChange: number) => void;
+}): {
   createIndexedRef: (index: number) => (el: TElement) => void;
   refArray: React.MutableRefObject<(TElement | null | undefined)[]>;
-  sizeUpdateCount: number;
 } {
-  const widthArray = React.useRef(new Array(totalLength).fill(defaultItemSize));
-  const heightArray = React.useRef(
-    new Array(totalLength).fill(defaultItemSize)
-  );
+  const {
+    currentIndex,
+    totalLength,
+    defaultItemSize,
+    sizeTrackingArray,
+    axis,
+    requestScrollBy,
+  } = measureParams;
 
   const refArray = React.useRef<Array<TElement | undefined | null>>([]);
   const { targetDocument } = useFluent();
 
-  // This lets us trigger updates when a size change occurs.
-  const sizeUpdateCount = React.useRef(0);
-
   // the handler for resize observer
   const handleIndexUpdate = React.useCallback(
     (index: number) => {
-      let isChanged = false;
       const boundClientRect = refArray.current[index]?.getBoundingClientRect();
-      const containerWidth = boundClientRect?.width;
-      if (containerWidth !== widthArray.current[currentIndex + index]) {
-        isChanged = true;
+
+      if (!boundClientRect) {
+        return;
       }
-      widthArray.current[currentIndex + index] =
-        containerWidth || defaultItemSize;
 
-      const containerHeight = boundClientRect?.height;
+      const containerSize =
+        (axis === 'vertical'
+          ? boundClientRect?.height
+          : boundClientRect?.width) ?? defaultItemSize;
 
-      if (containerHeight !== heightArray.current[currentIndex + index]) {
-        isChanged = true;
+      const sizeDifference =
+        containerSize - sizeTrackingArray.current[currentIndex + index];
+
+      // Todo: Handle reverse setup
+      // This requests a scrollBy to offset the new change
+      if (axis === 'vertical' && boundClientRect.bottom < sizeDifference) {
+        requestScrollBy?.(-sizeDifference);
+      } else if (
+        axis === 'horizontal' &&
+        boundClientRect.right < sizeDifference
+      ) {
+        requestScrollBy?.(-sizeDifference);
       }
-      heightArray.current[currentIndex + index] =
-        containerHeight || defaultItemSize;
 
-      if (isChanged) {
-        sizeUpdateCount.current = sizeUpdateCount.current + 1;
+      if (sizeDifference !== 0) {
+        // Size tracking array gets exposed if teams need it
+        sizeTrackingArray.current[currentIndex + index] = containerSize;
       }
     },
-    [currentIndex, defaultItemSize, sizeUpdateCount]
+    [currentIndex, defaultItemSize]
   );
 
   const handleElementResizeCallback = (entries: ResizeObserverEntry[]) => {
@@ -75,24 +82,19 @@ export function useMeasureList<
   };
 
   React.useEffect(() => {
-    const newHeightLength = totalLength - heightArray.current.length;
-    const newWidthLength = totalLength - widthArray.current.length;
+    const newLength = totalLength - sizeTrackingArray.current.length;
     /* Ensure we grow or truncate arrays with prior properties,
     keeping the existing values is important for whitespace assumptions.
     Even if items in the 'middle' are deleted, we will recalc the whitespace as it is explored.*/
-    if (newWidthLength > 0) {
-      widthArray.current = widthArray.current.concat(
-        new Array(newWidthLength).fill(defaultItemSize)
+    if (newLength > 0) {
+      sizeTrackingArray.current = sizeTrackingArray.current.concat(
+        new Array(newLength).fill(defaultItemSize)
       );
-    } else if (newWidthLength < 0) {
-      widthArray.current = widthArray.current.slice(0, totalLength);
-    }
-    if (newHeightLength > 0) {
-      heightArray.current = heightArray.current.concat(
-        new Array(newHeightLength).fill(defaultItemSize)
+    } else if (newLength < 0) {
+      sizeTrackingArray.current = sizeTrackingArray.current.slice(
+        0,
+        totalLength
       );
-    } else if (newHeightLength < 0) {
-      heightArray.current = heightArray.current.slice(0, totalLength);
     }
   }, [defaultItemSize, totalLength]);
 
@@ -147,11 +149,8 @@ export function useMeasureList<
   }, [resizeObserver]);
 
   return {
-    widthArray,
-    heightArray,
     createIndexedRef,
     refArray,
-    sizeUpdateCount: sizeUpdateCount.current,
   };
 }
 

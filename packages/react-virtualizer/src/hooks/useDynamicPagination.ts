@@ -17,13 +17,14 @@ export const useDynamicVirtualizerPagination = (
   const {
     axis = 'vertical',
     currentIndex,
+    actualNodeSizes,
     progressiveItemSizes,
     virtualizerLength,
   } = virtualizerProps;
 
   const [setScrollTimer, clearScrollTimer] = useTimeout();
   const lastScrollPos = React.useRef<number>(-1);
-  const lastIndexScrolled = React.useRef<number>(-1);
+  const lastIndexScrolled = React.useRef<number>(0);
 
   const scrollContainer = React.useRef<HTMLElement | null>(null);
 
@@ -53,7 +54,8 @@ export const useDynamicVirtualizerPagination = (
     if (
       !scrollContainer.current ||
       !paginationEnabled ||
-      !progressiveItemSizes?.current
+      !progressiveItemSizes?.current ||
+      !actualNodeSizes.current
     ) {
       // No container found
       return;
@@ -64,24 +66,24 @@ export const useDynamicVirtualizerPagination = (
         ? scrollContainer.current.scrollTop
         : scrollContainer.current.scrollLeft
     );
+
+    const actualItemSizes = [0, ...progressiveItemSizes.current];
     let closestItemPos = 0;
     let closestItem = 0;
-    const endItem = Math.min(
-      currentIndex + virtualizerLength,
-      progressiveItemSizes.current.length
-    );
-
-    for (let i = currentIndex; i < endItem - 1; i++) {
+    for (let i = 0; i < actualItemSizes.length - 1; i++) {
+      // First, update our progressive size array to the actual post-render measurement
+      if (i + 1 < actualItemSizes.length) {
+        actualItemSizes[i + 1] =
+          actualItemSizes[i] + actualNodeSizes.current[i];
+      }
       if (
-        currentScrollPos <= progressiveItemSizes.current[i + 1] &&
-        currentScrollPos >= progressiveItemSizes.current[i]
+        currentScrollPos <= actualItemSizes[i + 1] &&
+        currentScrollPos >= actualItemSizes[i]
       ) {
         // Found our in between position
-        const distanceToPrev = Math.abs(
-          currentScrollPos - progressiveItemSizes.current[i]
-        );
+        const distanceToPrev = Math.abs(currentScrollPos - actualItemSizes[i]);
         const distanceToNext = Math.abs(
-          progressiveItemSizes.current[i + 1] - currentScrollPos
+          actualItemSizes[i + 1] - currentScrollPos
         );
         if (distanceToPrev < distanceToNext) {
           closestItem = i;
@@ -92,8 +94,8 @@ export const useDynamicVirtualizerPagination = (
       }
     }
 
-    let nextItem;
-    if (Math.round(closestItem - lastIndexScrolled.current) === 0) {
+    let nextItem = closestItem;
+    if (nextItem === lastIndexScrolled.current) {
       // Special case for go to next/previous with minimum amount of scroll needed
       const nextTarget = lastScrollPos.current < currentScrollPos ? 1 : -1;
       // This will also handle a case where we scrolled to the exact correct position (noop)
@@ -101,17 +103,11 @@ export const useDynamicVirtualizerPagination = (
         Math.round(lastScrollPos.current - currentScrollPos) === 0;
       const posMod = isSecondaryScroll ? 0 : nextTarget;
       nextItem = closestItem + posMod;
-    } else {
-      // Pagination for anything else can just jump to the closest!
-      nextItem = closestItem;
     }
 
     // Safeguard nextItem
-    nextItem = Math.min(
-      Math.max(0, nextItem),
-      progressiveItemSizes.current.length
-    );
-    closestItemPos = progressiveItemSizes.current[nextItem];
+    nextItem = Math.min(Math.max(0, nextItem), actualItemSizes.length);
+    closestItemPos = actualItemSizes[nextItem];
 
     if (axis === 'vertical') {
       scrollContainer.current.scrollTo({
@@ -124,7 +120,7 @@ export const useDynamicVirtualizerPagination = (
         behavior: 'smooth',
       });
     }
-    lastScrollPos.current = progressiveItemSizes.current[nextItem];
+    lastScrollPos.current = closestItemPos;
     lastIndexScrolled.current = nextItem;
   }, [
     paginationEnabled,

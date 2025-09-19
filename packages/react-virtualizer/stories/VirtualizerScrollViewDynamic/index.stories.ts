@@ -8,6 +8,7 @@ export { Default } from './Default.stories';
 export { ScrollTo } from './ScrollTo.stories';
 export { ScrollLoading } from './ScrollLoading.stories';
 export { SnapToAlignment } from './SnapToAlignment.stories';
+export { ComplexDynamicList } from './ComplexDynamicList.stories';
 
 const meta: Meta<typeof VirtualizerScrollViewDynamic> = {
   title: 'Packages/react-virtualizer/VirtualizerScrollViewDynamic',

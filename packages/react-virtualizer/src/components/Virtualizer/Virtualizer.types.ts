@@ -92,6 +92,7 @@ export type VirtualizerDataRef = {
   nodeSizes: React.RefObject<number[]>;
   setFlaggedIndex: (index: number | null) => void;
   currentIndex: React.RefObject<number>;
+  virtualizerLength: number;
 };
 
 export type VirtualizerConfigProps = {
