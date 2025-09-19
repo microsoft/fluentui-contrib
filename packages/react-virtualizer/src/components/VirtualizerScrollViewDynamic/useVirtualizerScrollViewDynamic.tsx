@@ -199,35 +199,33 @@ export function useVirtualizerScrollViewDynamic_unstable(
     },
   });
 
-  if (!props.getItemSize) {
-    // Auto-measuring is required
-    React.Children.map(virtualizerState.virtualizedChildren, (child, index) => {
-      if (React.isValidElement(child)) {
-        virtualizerState.virtualizedChildren[index] = (
-          <child.type
-            {...child.props}
-            key={child.key}
-            ref={(element: HTMLElement & IndexedResizeCallbackElement) => {
-              if (Object.prototype.hasOwnProperty.call(child, 'ref')) {
-                // We must access this from the child directly, not props (forward ref).
-                // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-                const localRef = (child as any)?.ref;
+  // Enables auto-measuring and tracking post render sizes externally
+  React.Children.map(virtualizerState.virtualizedChildren, (child, index) => {
+    if (React.isValidElement(child)) {
+      virtualizerState.virtualizedChildren[index] = (
+        <child.type
+          {...child.props}
+          key={child.key}
+          ref={(element: HTMLElement & IndexedResizeCallbackElement) => {
+            if (Object.prototype.hasOwnProperty.call(child, 'ref')) {
+              // We must access this from the child directly, not props (forward ref).
+              // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+              const localRef = (child as any)?.ref;
 
-                if (typeof localRef === 'function') {
-                  localRef(element);
-                } else if (localRef) {
-                  localRef.current = element;
-                }
+              if (typeof localRef === 'function') {
+                localRef(element);
+              } else if (localRef) {
+                localRef.current = element;
               }
+            }
 
-              // Call the auto-measure ref attachment.
-              measureObject.createIndexedRef(index)(element);
-            }}
-          />
-        );
-      }
-    });
-  }
+            // Call the auto-measure ref attachment.
+            measureObject.createIndexedRef(index)(element);
+          }}
+        />
+      );
+    }
+  });
 
   return {
     ...virtualizerState,
