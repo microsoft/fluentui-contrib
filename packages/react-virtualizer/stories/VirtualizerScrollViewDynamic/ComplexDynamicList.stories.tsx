@@ -291,15 +291,9 @@ export const ComplexDynamicList = () => {
       return;
     }
 
-    const actualSizes = virtualizerScrollRef.current.sizeTrackingArray.current;
-    let position = 0;
-    for (let i = 0; i < goToIndex; i++) {
-      position += actualSizes[i];
-    }
-    virtualizerScrollRef.current.scrollToPosition(
-      position,
-      'instant',
+    virtualizerScrollRef.current.scrollTo(
       goToIndex,
+      'instant', // We need instant to avoid size changes mid-scroll
       (index: number) => {
         console.log('Reached index: ', index);
       }
