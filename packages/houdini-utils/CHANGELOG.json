@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/houdini-utils",
   "entries": [
     {
+      "date": "Mon, 22 Sep 2025 16:02:24 GMT",
+      "tag": "@fluentui-contrib/houdini-utils_v0.4.0",
+      "version": "0.4.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/houdini-utils",
+            "commit": "513e54d8c1a60a13d80afaec1bb006ae26492a39",
+            "comment": "feat: enforce explicit module boundary types"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 07 May 2025 14:30:21 GMT",
       "tag": "@fluentui-contrib/houdini-utils_v0.3.5",
       "version": "0.3.5",

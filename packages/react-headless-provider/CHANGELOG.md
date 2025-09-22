@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-headless-provider
 
-This log was last generated on Thu, 10 Apr 2025 14:11:17 GMT and should not be manually modified.
+This log was last generated on Mon, 22 Sep 2025 16:02:24 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 1.0.4
+
+Mon, 22 Sep 2025 16:02:24 GMT
+
+### Patches
+
+- feat: add react 19 support (dmytrokirpa@microsoft.com)
 
 ## 1.0.3
 

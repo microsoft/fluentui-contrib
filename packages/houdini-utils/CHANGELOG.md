@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/houdini-utils
 
-This log was last generated on Wed, 07 May 2025 14:30:21 GMT and should not be manually modified.
+This log was last generated on Mon, 22 Sep 2025 16:02:24 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.4.0
+
+Mon, 22 Sep 2025 16:02:24 GMT
+
+### Minor changes
+
+- feat: enforce explicit module boundary types (dmytrokirpa@microsoft.com)
 
 ## 0.3.5
 

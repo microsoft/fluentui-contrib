@@ -1,6 +1,6 @@
 {
   "name": "@fluentui-contrib/react-shadow",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "React components for Shadow DOM",
   "dependencies": {
     "@griffel/shadow-dom": "~0.2.0",

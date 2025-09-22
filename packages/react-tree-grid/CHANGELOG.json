@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-tree-grid",
   "entries": [
     {
+      "date": "Mon, 22 Sep 2025 16:02:24 GMT",
+      "tag": "@fluentui-contrib/react-tree-grid_v0.3.0",
+      "version": "0.3.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-tree-grid",
+            "commit": "513e54d8c1a60a13d80afaec1bb006ae26492a39",
+            "comment": "feat: enforce explicit module boundary types"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 09 May 2025 17:14:55 GMT",
       "tag": "@fluentui-contrib/react-tree-grid_v0.2.1",
       "version": "0.2.1",

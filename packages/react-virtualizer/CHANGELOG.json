@@ -2,6 +2,41 @@
   "name": "@fluentui-contrib/react-virtualizer",
   "entries": [
     {
+      "date": "Mon, 22 Sep 2025 16:02:24 GMT",
+      "tag": "@fluentui-contrib/react-virtualizer_v0.2.0",
+      "version": "0.2.0",
+      "comments": {
+        "patch": [
+          {
+            "author": "mifraser@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "f3a326c56ee964aaa31513c64a00b9e684df64fa",
+            "comment": "fix: Remove jsx automatic runtime from render functions, import react instead"
+          },
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "f83a0d0a7b961a677ead51442b35c1b3e8183bce",
+            "comment": "feat: add react 19 support"
+          },
+          {
+            "author": "mifraser@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "745323ba687dfed87b8194e2eae2c3c1b3b5ad68",
+            "comment": "fix: Ensure dynamic virtualizer doesn't get stuck at end"
+          }
+        ],
+        "minor": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "513e54d8c1a60a13d80afaec1bb006ae26492a39",
+            "comment": "feat: enforce explicit module boundary types"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 01 Aug 2025 18:07:48 GMT",
       "tag": "@fluentui-contrib/react-virtualizer_v0.1.0",
       "version": "0.1.0",

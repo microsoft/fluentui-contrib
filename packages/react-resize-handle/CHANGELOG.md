@@ -1,8 +1,20 @@
 # Change Log - @fluentui-contrib/react-resize-handle
 
-This log was last generated on Mon, 19 May 2025 11:51:48 GMT and should not be manually modified.
+This log was last generated on Mon, 22 Sep 2025 16:02:24 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.8.0
+
+Mon, 22 Sep 2025 16:02:24 GMT
+
+### Minor changes
+
+- feat: enforce explicit module boundary types (dmytrokirpa@microsoft.com)
+
+### Patches
+
+- feat: add react 19 support (dmytrokirpa@microsoft.com)
 
 ## 0.7.1
 

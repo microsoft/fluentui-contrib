@@ -2,6 +2,35 @@
   "name": "@fluentui-contrib/react-data-grid-react-window",
   "entries": [
     {
+      "date": "Mon, 22 Sep 2025 16:02:24 GMT",
+      "tag": "@fluentui-contrib/react-data-grid-react-window_v1.4.0",
+      "version": "1.4.0",
+      "comments": {
+        "patch": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-data-grid-react-window",
+            "commit": "b1ab23f32c1649753f35af9ba43e6499d9633c4a",
+            "comment": "chore: bump react-components to latest and adjust types to support react 18"
+          },
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-data-grid-react-window",
+            "commit": "f83a0d0a7b961a677ead51442b35c1b3e8183bce",
+            "comment": "feat: add react 19 support"
+          }
+        ],
+        "minor": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-data-grid-react-window",
+            "commit": "513e54d8c1a60a13d80afaec1bb006ae26492a39",
+            "comment": "feat: enforce explicit module boundary types"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 10 Apr 2025 14:11:17 GMT",
       "tag": "@fluentui-contrib/react-data-grid-react-window_v1.3.2",
       "version": "1.3.2",

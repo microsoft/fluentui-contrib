@@ -1,6 +1,6 @@
 {
   "name": "@fluentui-contrib/react-tree-grid",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "peerDependencies": {
     "@fluentui/react-components": ">=9.44.5 < 10.0.0",
     "@types/react": ">=16.8.0 <19.0.0",
