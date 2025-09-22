@@ -49,6 +49,7 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
       const hasReachedEnd =
         virtualizerContext.contextIndex + virtualizerLength >= numItems;
       if (!scrollRef?.current || hasReachedEnd) {
+        numItemsRef.current = numItems;
         // Error? ignore?
         return;
       }
