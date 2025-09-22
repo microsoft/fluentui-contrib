@@ -22,10 +22,6 @@ const useStyles = makeStyles({
     border: '2px solid red',
     backgroundColor: '#f5f5f5',
   },
-  row: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
   child: {
     width: '100%',
     padding: '12px',
