@@ -121,7 +121,10 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
       const newBufferSize = bufferSize ?? Math.max(defaultItemSize / 2, 1);
       const totalLength = length + newBufferItems * 2;
 
-      if (virtualizerLength <= 0 || numItemsRef.current === numItems) {
+      if (
+        virtualizerLength <= totalLength ||
+        numItemsRef.current === numItems
+      ) {
         setState({
           virtualizerLength: totalLength,
           virtualizerBufferSize: newBufferSize,
