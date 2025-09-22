@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-virtualizer
 
-This log was last generated on Mon, 22 Sep 2025 16:02:24 GMT and should not be manually modified.
+This log was last generated on Mon, 22 Sep 2025 16:45:21 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.3.0
+
+Mon, 22 Sep 2025 16:45:21 GMT
+
+### Minor changes
+
+- feat: Enable external size tracking of resizes post-render (seperate from intenral virtualizers rendered sizes) for complex scroll behavior, added scrollToPosition for x,y coord scrolling and removed unnessecary renders from pagination (should be handled externally if complex) (mifraser@microsoft.com)
 
 ## 0.2.0
 

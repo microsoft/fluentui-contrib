@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "feat: Enable external size tracking of resizes post-render (seperate from intenral virtualizers rendered sizes) for complex scroll behavior, added scrollToPosition for x,y coord scrolling and removed unnessecary renders from pagination (should be handled externally if complex)",
-  "packageName": "@fluentui-contrib/react-virtualizer",
-  "email": "mifraser@microsoft.com",
-  "dependentChangeType": "patch"
-}
