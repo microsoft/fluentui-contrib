@@ -327,7 +327,7 @@ export const ComplexDynamicList = () => {
 
   const removeRow = () => {
     if (childLength > 0) {
-      setChildLength(childLength - 1);
+      setChildLength(Math.max(childLength - 1, 0));
       // Also remove from cache
       cachedLoadedItems.current.pop();
     }
