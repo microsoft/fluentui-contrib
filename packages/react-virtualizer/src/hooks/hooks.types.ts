@@ -49,6 +49,11 @@ export type VirtualizerDynamicPaginationProps = {
    */
   progressiveItemSizes: React.RefObject<number[]> | undefined;
   /**
+   * An array that tracks the current size of each item
+   * Should be up to date with any post-render changes via resizeObserver
+   */
+  actualNodeSizes: React.RefObject<number[]>;
+  /**
    * The current starting index of the virtualizer's DOM elements
    */
   currentIndex: number;
