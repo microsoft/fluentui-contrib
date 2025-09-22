@@ -36,6 +36,7 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
     virtualizerBufferSize: 0,
   });
 
+  // numItemsRef tracks total length changes and avoids unmounts/remounts
   const numItemsRef = React.useRef<number>(numItems);
   const containerSizeRef = React.useRef<number>(0);
   const scrollPosition = React.useRef<number>(0);
