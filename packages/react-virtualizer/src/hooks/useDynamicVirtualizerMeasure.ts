@@ -36,8 +36,6 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
     virtualizerBufferSize: 0,
   });
 
-  // numItemsRef tracks total length changes and avoids unmounts/remounts
-  const numItemsRef = React.useRef<number>(numItems);
   const containerSizeRef = React.useRef<number>(0);
   const scrollPosition = React.useRef<number>(0);
   const { virtualizerLength, virtualizerBufferItems, virtualizerBufferSize } =
@@ -50,7 +48,6 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
       const hasReachedEnd =
         virtualizerContext.contextIndex + virtualizerLength >= numItems;
       if (!scrollRef?.current || hasReachedEnd) {
-        numItemsRef.current = numItems;
         // Error? ignore?
         return;
       }
@@ -120,18 +117,17 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
        */
       const newBufferSize = bufferSize ?? Math.max(defaultItemSize / 2, 1);
       const totalLength = length + newBufferItems * 2;
-
-      if (
-        virtualizerLength <= totalLength ||
-        numItemsRef.current === numItems
-      ) {
-        setState({
-          virtualizerLength: totalLength,
-          virtualizerBufferSize: newBufferSize,
-          virtualizerBufferItems: newBufferItems,
-        });
-      }
-      numItemsRef.current = numItems;
+      const newStartIndex = Math.max(
+        virtualizerContext.contextIndex + virtualizerLength - totalLength,
+        0
+      );
+      // We need to update the index to account for vLength changes
+      virtualizerContext.setContextIndex(newStartIndex);
+      setState({
+        virtualizerLength: totalLength,
+        virtualizerBufferSize: newBufferSize,
+        virtualizerBufferItems: newBufferItems,
+      });
     },
     [
       bufferItems,
