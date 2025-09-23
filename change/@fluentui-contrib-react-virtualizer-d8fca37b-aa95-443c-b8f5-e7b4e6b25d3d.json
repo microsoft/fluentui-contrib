@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: Prevent virtualizer from unmounting components when numItems changes",
-  "packageName": "@fluentui-contrib/react-virtualizer",
-  "email": "mifraser@microsoft.com",
-  "dependentChangeType": "patch"
-}
