@@ -2,7 +2,7 @@
 /** @jsx createElement */
 /** @jsxFrag Fragment */
 /* eslint-disable no-restricted-globals */
-import { createElement, Fragment } from '@fluentui/react-jsx-runtime';
+import { createElement } from '@fluentui/react-jsx-runtime';
 import * as React from 'react';
 import {
   VirtualizerScrollViewDynamic,
@@ -267,7 +267,7 @@ const LazyLoadingComponent = React.forwardRef(
 
 export const ComplexDynamicList = () => {
   const styles = useStyles();
-  const childLength = 100;
+  const [childLength, setChildLength] = React.useState(1);
   const virtualizerScrollRef = React.useRef<HTMLDivElement & ScrollToInterface>(
     null
   );
@@ -309,6 +309,24 @@ export const ComplexDynamicList = () => {
       childLength - 1
     );
     setGoToIndex(newIndex);
+  };
+
+  const addRow = () => {
+    setChildLength(childLength + 1);
+    // Also add to cache
+    cachedLoadedItems.current.push({
+      imageLoaded: false,
+      contentLoaded: false,
+      massiveContentLoaded: false,
+    });
+  };
+
+  const removeRow = () => {
+    if (childLength > 0) {
+      setChildLength(Math.max(childLength - 1, 0));
+      // Also remove from cache
+      cachedLoadedItems.current.pop();
+    }
   };
 
   return (
@@ -358,6 +376,17 @@ export const ComplexDynamicList = () => {
         <div>
           <Input defaultValue={'0'} onChange={onChangeGoToIndex} />
           <Button onClick={scrollToIndex}>{'GoTo'}</Button>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            gap: '8px',
+            marginTop: '12px',
+          }}
+        >
+          <Button onClick={addRow}>{'Add Row'}</Button>
+          <Button onClick={removeRow}>{'Remove Row'}</Button>
         </div>
       </div>
 
