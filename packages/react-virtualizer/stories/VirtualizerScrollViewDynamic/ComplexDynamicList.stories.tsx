@@ -277,7 +277,7 @@ const LazyLoadingComponent = React.forwardRef(
 
 export const ComplexDynamicList = () => {
   const styles = useStyles();
-  const [childLength, setChildLength] = React.useState(8);
+  const [childLength, setChildLength] = React.useState(100);
   const virtualizerScrollRef = React.useRef<HTMLDivElement & ScrollToInterface>(
     null
   );

@@ -50,7 +50,6 @@ export function useVirtualizer_unstable(
     (index: number) => {
       actualIndexRef.current = index;
       _virtualizerContext.setContextIndex(index);
-      console.log('Setting index:', index);
     },
     [_virtualizerContext]
   );
