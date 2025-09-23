@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: Only run vlength index change logic on numItems change",
-  "packageName": "@fluentui-contrib/react-virtualizer",
-  "email": "mifraser@microsoft.com",
-  "dependentChangeType": "patch"
-}
