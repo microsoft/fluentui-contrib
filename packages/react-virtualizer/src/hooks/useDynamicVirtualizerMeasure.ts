@@ -127,7 +127,6 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
         );
         // We need to update the index to account for vLength changes
         virtualizerContext.setContextIndex(newStartIndex);
-        console.log('Calculate new index:', newStartIndex);
       }
       setState({
         virtualizerLength: totalLength,
