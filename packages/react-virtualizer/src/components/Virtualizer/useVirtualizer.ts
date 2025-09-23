@@ -45,10 +45,12 @@ export function useVirtualizer_unstable(
   if (_virtualizerContext.contextIndex !== actualIndexRef.current) {
     actualIndexRef.current = _virtualizerContext.contextIndex;
   }
+
   const setActualIndex = React.useCallback(
     (index: number) => {
       actualIndexRef.current = index;
       _virtualizerContext.setContextIndex(index);
+      console.log('Setting index:', index);
     },
     [_virtualizerContext]
   );
@@ -79,7 +81,7 @@ export function useVirtualizer_unstable(
     new Array(virtualizerLength)
   );
 
-  const populateSizeArrays = () => {
+  const populateSizeArrays = React.useCallback(() => {
     if (!getItemSize) {
       // Static sizes, never mind!
       return;
@@ -107,7 +109,7 @@ export function useVirtualizer_unstable(
           childProgressiveSizes.current[index - 1] + childSizes.current[index];
       }
     }
-  };
+  }, [getItemSize, numItems, gap, virtualizerContext]);
 
   const [isScrolling, setIsScrolling] = React.useState<boolean>(false);
   const [setScrollTimer, clearScrollTimer] = useTimeout();
@@ -151,10 +153,6 @@ export function useVirtualizer_unstable(
         return;
       }
 
-      /*
-        We reset the array every time to ensure children are re-rendered
-        This function should only be called when update is nessecary
-       */
       childArray.current = new Array(virtualizerLength);
       const _actualIndex = Math.max(newIndex, 0);
       const end = Math.min(_actualIndex + virtualizerLength, numItems);
@@ -200,9 +198,7 @@ export function useVirtualizer_unstable(
   const batchUpdateNewIndex = React.useCallback(
     (index: number) => {
       // Local updates
-      updateChildRows(index);
       updateCurrentItemSizes(index);
-
       // State setters
       setActualIndex(index);
     },
@@ -574,28 +570,12 @@ export function useVirtualizer_unstable(
     if (actualIndex < 0) {
       batchUpdateNewIndex(0);
     }
+    initializeSizeArray();
   }, []);
 
-  /*
-   * forceUpdate:
-   * We only want to trigger this when child render or scroll loading changes,
-   * it will force re-render all children elements
-   */
-  const forceUpdate = React.useReducer(() => ({}), {})[1];
-  // If the user passes in an updated renderChild function - update current children
   React.useEffect(() => {
-    if (actualIndex >= 0) {
-      updateChildRows(actualIndex);
-      forceUpdate();
-    }
-  }, [renderChild, isScrolling]);
-
-  React.useEffect(() => {
-    // Ensure we repopulate if getItemSize callback changes
     populateSizeArrays();
-
-    // We only run this effect on getItemSize change (recalc dynamic sizes)
-  }, [getItemSize, gap]);
+  }, [populateSizeArrays]);
 
   // Effect to check flag index on updates
   React.useEffect(() => {
@@ -611,28 +591,13 @@ export function useVirtualizer_unstable(
     }
   }, [actualIndex, onRenderedFlaggedIndex, virtualizerLength]);
 
-  // Ensure we have run through and updated the whole size list array at least once.
-  initializeSizeArray();
+  const isFullyInitialized = hasInitialized.current && actualIndex >= 0;
 
-  if (
-    getItemSize &&
-    (numItems !== childSizes.current.length ||
-      numItems !== childProgressiveSizes.current.length)
-  ) {
-    // Child length mismatch, repopulate size arrays.
-    populateSizeArrays();
-  }
-
-  // Ensure we recalc if virtualizer length changes
-  const maxCompare = Math.min(virtualizerLength, numItems);
-  if (
-    childArray.current.length !== maxCompare &&
-    actualIndex + childArray.current.length < numItems
-  ) {
+  // We update child rows prior to every render
+  if (isFullyInitialized) {
     updateChildRows(actualIndex);
   }
 
-  const isFullyInitialized = hasInitialized.current && actualIndex >= 0;
   return {
     components: {
       before: 'div',

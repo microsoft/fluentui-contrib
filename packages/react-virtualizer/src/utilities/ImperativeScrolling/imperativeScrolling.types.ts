@@ -11,8 +11,9 @@ export type ScrollToItemStaticParams = {
 };
 
 export type ScrollToItemDynamicParams = {
+  // The goto index
   index: number;
-  itemSizes: React.RefObject<number[]>;
+  getItemSize: (index: number) => number;
   totalSize: number;
   scrollViewRef: React.RefObject<HTMLDivElement | null>;
   axis?: 'horizontal' | 'vertical';
