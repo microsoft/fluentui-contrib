@@ -53,7 +53,12 @@ export function useVirtualizer_unstable(
 
   const setActualIndex = React.useCallback(
     (index: number) => {
-      console.log('Setting actual index:', index);
+      console.log(
+        'Setting actual index:',
+        index,
+        ' previous:',
+        actualIndexRef.current
+      );
       actualIndexRef.current = index;
       _virtualizerContext.setContextIndex(index);
     },
@@ -158,10 +163,13 @@ export function useVirtualizer_unstable(
         return [];
       }
 
+      // TODO: Dont use virtualizer length (might be out of bounds)
+      const arrayLength = Math.min(virtualizerLength, numItems - newIndex);
       if (
         hasInitializedChildren.current &&
         prevIndex.current === newIndex &&
-        prevVirtualizerLength.current === virtualizerLength
+        prevVirtualizerLength.current === virtualizerLength &&
+        arrayLength === childArray.current.length
       ) {
         console.log('Return current child array');
         // We only want to re-render if the index or virtualizer length has changed
@@ -170,8 +178,6 @@ export function useVirtualizer_unstable(
         return childArray.current;
       }
 
-      // TODO: Dont use virtualizer length (might be out of bounds)
-      const arrayLength = Math.min(virtualizerLength, numItems - newIndex);
       const newChildArray = new Array(arrayLength);
       const indexChange = prevIndex.current - newIndex;
       if (Math.abs(indexChange) < prevVirtualizerLength.current) {

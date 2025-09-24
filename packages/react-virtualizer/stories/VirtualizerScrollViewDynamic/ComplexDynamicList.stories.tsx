@@ -338,7 +338,27 @@ export const ComplexDynamicList = () => {
       cachedLoadedItems.current.pop();
     }
   };
-  console.log('cachedLoadedItems.length: ', cachedLoadedItems.current.length);
+
+  const renderChild = React.useCallback(
+    (index: number) => {
+      console.log('Rendering item: ', index);
+      console.log(
+        'cachedLoadedItems.current[index]: ',
+        cachedLoadedItems.current[index]
+      );
+      return (
+        <LazyLoadingComponent
+          key={`item-${index}`}
+          index={index}
+          cachedItems={cachedLoadedItems.current[index]}
+          setCachedItems={(cache: LoadCache) => {
+            cachedLoadedItems.current[index] = cache;
+          }}
+        />
+      );
+    },
+    [cachedLoadedItems]
+  );
 
   return (
     <div>
@@ -418,23 +438,7 @@ export const ComplexDynamicList = () => {
         enableScrollAnchor
         // NO getItemSize prop = auto-measurement enabled!
       >
-        {(index: number) => {
-          console.log('Rendering item: ', index);
-          console.log(
-            'cachedLoadedItems.current[index]: ',
-            cachedLoadedItems.current[index]
-          );
-          return (
-            <LazyLoadingComponent
-              key={`item-${index}`}
-              index={index}
-              cachedItems={cachedLoadedItems.current[index]}
-              setCachedItems={(cache: LoadCache) => {
-                cachedLoadedItems.current[index] = cache;
-              }}
-            />
-          );
-        }}
+        {renderChild}
       </VirtualizerScrollViewDynamic>
     </div>
   );
