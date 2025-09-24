@@ -53,6 +53,7 @@ export function useVirtualizer_unstable(
 
   const setActualIndex = React.useCallback(
     (index: number) => {
+      console.log('Setting actual index:', index);
       actualIndexRef.current = index;
       _virtualizerContext.setContextIndex(index);
     },
@@ -169,39 +170,26 @@ export function useVirtualizer_unstable(
         return childArray.current;
       }
 
-      const newChildArray = new Array(virtualizerLength);
+      // TODO: Dont use virtualizer length (might be out of bounds)
+      const arrayLength = Math.min(virtualizerLength, numItems - newIndex);
+      const newChildArray = new Array(arrayLength);
       const indexChange = prevIndex.current - newIndex;
-      console.log(
-        'New index ',
-        newIndex,
-        ' from old index ',
-        prevIndex.current
-      );
-      console.log(
-        'New length ',
-        virtualizerLength,
-        ' from old length ',
-        prevVirtualizerLength.current
-      );
       if (Math.abs(indexChange) < prevVirtualizerLength.current) {
         // We can copy some of the existing children
-        for (let i = 0; i < virtualizerLength; i++) {
+        for (let i = 0; i < arrayLength; i++) {
           const oldIndex = i - indexChange;
-          if (oldIndex >= 0 && oldIndex < prevVirtualizerLength.current) {
-            console.log('Setting index ', i, ' from old index ', oldIndex);
+          if (
+            childArray.current[oldIndex] !== undefined &&
+            oldIndex >= 0 &&
+            oldIndex < prevVirtualizerLength.current
+          ) {
             newChildArray[i] = childArray.current[oldIndex];
+          } else {
+            newChildArray[i] = renderChild(newIndex + i, isScrolling);
           }
         }
       }
 
-      for (let i = 0; i < virtualizerLength; i++) {
-        if (newChildArray[i] === undefined) {
-          console.log('Setting index: ', i, 'to index', newIndex + i);
-          newChildArray[i] = renderChild(newIndex + i, isScrolling);
-        }
-      }
-
-      console.log('Return new child array: ', newChildArray);
       hasInitializedChildren.current = newIndex > 0 && virtualizerLength > 0;
       prevIndex.current = newIndex;
       prevVirtualizerLength.current = virtualizerLength;
@@ -212,7 +200,7 @@ export function useVirtualizer_unstable(
   );
 
   React.useEffect(() => {
-    console.log('Array changed, re-rendering children');
+    console.log('renderChild changed, re-rendering children');
     // Render child changed, regenerate the child array
     const newChildArray = new Array(virtualizerLength);
     for (let i = 0; i < virtualizerLength; i++) {
@@ -220,6 +208,8 @@ export function useVirtualizer_unstable(
         newChildArray[i] = renderChild(actualIndex + i, isScrolling);
       }
     }
+    prevIndex.current = actualIndex;
+    prevVirtualizerLength.current = virtualizerLength;
     childArray.current = newChildArray;
   }, [renderChild]);
 

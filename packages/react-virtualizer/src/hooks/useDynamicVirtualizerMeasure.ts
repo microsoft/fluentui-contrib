@@ -42,19 +42,24 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
   const { targetDocument } = useFluent();
   const container = React.useRef<HTMLElement | null>(null);
 
-  const getIndexFromSizeArray = React.useCallback(
+  const getIndexFromScrollPos = React.useCallback(
     (scrollPos: number): number => {
       /* This is used on numItems change
        * It checks via current render sizes what the current index should be
        */
-      let sizeTracker = 0;
-      for (let i = 0; i < numItems; i++) {
+      let sizeTracker =
+        virtualizerContext.childProgressiveSizes.current[
+          virtualizerContext.contextIndex
+        ] || 0;
+      for (let i = virtualizerContext.contextIndex; i < numItems; i++) {
         sizeTracker += getItemSize(i) + gap;
         if (sizeTracker >= scrollPos) {
           return i;
         }
       }
-      return 0;
+
+      console.log('Did not find size index:', scrollPos);
+      return -1;
     },
     [getItemSize, numItems]
   );
@@ -88,13 +93,14 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
 
       const sizeToBeat = containerSizeRef.current + virtualizerBufferSize * 2;
       let startIndex = virtualizerContext.contextIndex;
-      const currentScrollPos =
-        scrollRef.current.scrollTop ?? scrollPosition.current;
       if (numItemsRef.current !== numItems) {
         // Our item count has changed, ensure we have an accurate start index
         const newIndex =
-          getIndexFromSizeArray(currentScrollPos) - virtualizerBufferItems;
-        startIndex = Math.max(newIndex, 0);
+          getIndexFromScrollPos(scrollPosition.current) -
+          virtualizerBufferItems;
+        if (newIndex >= 0) {
+          startIndex = Math.max(newIndex, 0);
+        }
       }
       numItemsRef.current = numItems;
 
@@ -104,13 +110,13 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
           virtualizerContext.childProgressiveSizes.current[startIndex + i] -
           iItemSize;
 
-        if (currentScrollPos > currentItemPos + iItemSize) {
+        if (scrollPosition.current > currentItemPos + iItemSize) {
           // The item isn't in view, ignore for now.
           i++;
           continue;
-        } else if (currentScrollPos > currentItemPos) {
+        } else if (scrollPosition.current > currentItemPos) {
           // The item is partially out of view, ignore the out of bounds portion
-          const variance = currentItemPos + iItemSize - currentScrollPos;
+          const variance = currentItemPos + iItemSize - scrollPosition.current;
           indexSizer += variance;
         } else {
           // Item is in view
@@ -135,7 +141,7 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
 
       // This will only trigger if dynamic resize causes changes
       if (virtualizerContext.contextIndex !== startIndex) {
-        console.log('Set context index:', startIndex);
+        console.log('Setting context index from parent:', startIndex);
         virtualizerContext.setContextIndex(startIndex);
       }
       console.log(

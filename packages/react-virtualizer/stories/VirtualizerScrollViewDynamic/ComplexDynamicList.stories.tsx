@@ -322,13 +322,13 @@ export const ComplexDynamicList = () => {
   };
 
   const addRow = () => {
-    setChildLength(childLength + 1);
     // Also add to cache
     cachedLoadedItems.current.push({
       imageLoaded: false,
       contentLoaded: false,
       massiveContentLoaded: false,
     });
+    setChildLength(childLength + 1);
   };
 
   const removeRow = () => {
@@ -338,6 +338,7 @@ export const ComplexDynamicList = () => {
       cachedLoadedItems.current.pop();
     }
   };
+  console.log('cachedLoadedItems.length: ', cachedLoadedItems.current.length);
 
   return (
     <div>
@@ -419,6 +420,10 @@ export const ComplexDynamicList = () => {
       >
         {(index: number) => {
           console.log('Rendering item: ', index);
+          console.log(
+            'cachedLoadedItems.current[index]: ',
+            cachedLoadedItems.current[index]
+          );
           return (
             <LazyLoadingComponent
               key={`item-${index}`}
