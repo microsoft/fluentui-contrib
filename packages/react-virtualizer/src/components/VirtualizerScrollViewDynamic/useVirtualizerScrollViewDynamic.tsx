@@ -145,7 +145,7 @@ export function useVirtualizerScrollViewDynamic_unstable(
             _imperativeVirtualizerRef.current.setFlaggedIndex(index);
             scrollToItemDynamic({
               index,
-              itemSizes: sizeTrackingArray,
+              getItemSize: props.getItemSize ?? getChildSizeAuto,
               totalSize,
               scrollViewRef: scrollViewRef as React.RefObject<HTMLDivElement>,
               axis,

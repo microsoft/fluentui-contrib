@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: Ensure scrollTo uses the correct item size",
+  "packageName": "@fluentui-contrib/react-virtualizer",
+  "email": "mifraser@microsoft.com",
+  "dependentChangeType": "patch"
+}
