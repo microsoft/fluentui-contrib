@@ -145,19 +145,21 @@ export function useVirtualizer_unstable(
     initializeScrollingTimer();
   }, [actualIndex, initializeScrollingTimer]);
 
-  const updateChildRows = React.useCallback(
+  const renderChildRows = React.useCallback(
     (newIndex: number) => {
-      if (numItems === 0) {
+      if (numItems === 0 || !isFullyInitialized) {
         /* Nothing to virtualize */
-        return;
+        return [];
       }
 
-      childArray.current = new Array(virtualizerLength);
+      const childArray = new Array(virtualizerLength);
       const _actualIndex = Math.max(newIndex, 0);
       const end = Math.min(_actualIndex + virtualizerLength, numItems);
       for (let i = _actualIndex; i < end; i++) {
-        childArray.current[i - _actualIndex] = renderChild(i, isScrolling);
+        childArray[i - _actualIndex] = renderChild(i, isScrolling);
       }
+
+      return childArray;
     },
     [isScrolling, numItems, renderChild, virtualizerLength]
   );
@@ -201,7 +203,7 @@ export function useVirtualizer_unstable(
       // State setters
       setActualIndex(index);
     },
-    [setActualIndex, updateChildRows, updateCurrentItemSizes]
+    [setActualIndex, updateCurrentItemSizes]
   );
 
   const findIndexRecursive = React.useCallback(
@@ -541,6 +543,7 @@ export function useVirtualizer_unstable(
 
   // Initialize the size array before first render.
   const hasInitialized = React.useRef<boolean>(false);
+  const isFullyInitialized = hasInitialized.current && actualIndex >= 0;
   const initializeSizeArray = () => {
     if (hasInitialized.current === false) {
       hasInitialized.current = true;
@@ -590,12 +593,7 @@ export function useVirtualizer_unstable(
     }
   }, [actualIndex, onRenderedFlaggedIndex, virtualizerLength]);
 
-  const isFullyInitialized = hasInitialized.current && actualIndex >= 0;
-
-  // We update child rows prior to every render
-  if (isFullyInitialized) {
-    updateChildRows(actualIndex);
-  }
+  console.log('Rendering index:', actualIndex);
 
   return {
     components: {
@@ -604,7 +602,7 @@ export function useVirtualizer_unstable(
       beforeContainer: 'div',
       afterContainer: 'div',
     },
-    virtualizedChildren: childArray.current,
+    virtualizedChildren: renderChildRows(actualIndex) ?? [],
     before: slot.always(props.before, {
       defaultProps: {
         ref: setBeforeRef,

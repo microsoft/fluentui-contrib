@@ -31,17 +31,13 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
     gap = 0,
   } = virtualizerProps;
 
-  const [state, setState] = React.useState({
-    virtualizerLength: 0,
-    virtualizerBufferItems: bufferItems ?? 0,
-    virtualizerBufferSize: bufferSize ?? 0,
-  });
+  const [virtualizerLength, setVirtualizerLength] = React.useState(0);
+  const [virtualizerBufferItems, setVirtualizerBufferItems] = React.useState(0);
+  const [virtualizerBufferSize, setVirtualizerBufferSize] = React.useState(0);
 
   const numItemsRef = React.useRef<number>(numItems);
   const containerSizeRef = React.useRef<number>(0);
   const scrollPosition = React.useRef<number>(0);
-  const { virtualizerLength, virtualizerBufferItems, virtualizerBufferSize } =
-    state;
 
   const { targetDocument } = useFluent();
   const container = React.useRef<HTMLElement | null>(null);
@@ -138,12 +134,19 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
       const totalLength = length + newBufferItems * 2;
 
       // This will only trigger if dynamic resize causes changes
-      virtualizerContext.setContextIndex(startIndex);
-      setState({
-        virtualizerLength: totalLength,
-        virtualizerBufferSize: newBufferSize,
-        virtualizerBufferItems: newBufferItems,
-      });
+      if (virtualizerContext.contextIndex !== startIndex) {
+        console.log('Set context index:', startIndex);
+        virtualizerContext.setContextIndex(startIndex);
+      }
+      console.log(
+        'Set virtualizerLength:',
+        virtualizerLength,
+        '->',
+        totalLength
+      );
+      setVirtualizerLength(totalLength);
+      setVirtualizerBufferItems(newBufferItems);
+      setVirtualizerBufferSize(newBufferSize);
     },
     [
       bufferItems,
