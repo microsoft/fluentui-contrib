@@ -140,6 +140,7 @@ export function useVirtualizer_unstable(
     }
     clearScrollTimer();
     setScrollTimer(() => {
+      updateChildArray(false);
       setIsScrolling(false);
       scrollCounter.current = 0;
     }, INIT_SCROLL_FLAG_DELAY);
@@ -196,17 +197,21 @@ export function useVirtualizer_unstable(
     [isScrolling, numItems, renderChild, virtualizerLength]
   );
 
-  React.useEffect(() => {
+  const updateChildArray = (_isScrolling: boolean) => {
     // Render child changed, regenerate the child array
     const arrayLength = Math.min(virtualizerLength, numItems - actualIndex);
     const newChildArray = new Array(arrayLength);
     for (let i = 0; i < arrayLength; i++) {
-      newChildArray[i] = renderChild(actualIndex + i, isScrolling);
+      newChildArray[i] = renderChild(actualIndex + i, _isScrolling);
     }
     prevIndex.current = actualIndex;
     prevVirtualizerLength.current = virtualizerLength;
     childArray.current = newChildArray;
-  }, [renderChild]);
+  };
+
+  React.useEffect(() => {
+    updateChildArray(isScrolling);
+  }, [renderChild, isScrolling]);
 
   const updateCurrentItemSizes = React.useCallback(
     (newIndex: number) => {
@@ -496,7 +501,10 @@ export function useVirtualizer_unstable(
         const measurementPos = calculateOverBuffer();
         updateScrollPosition?.(measurementPos);
 
-        const maxIndex = Math.max(numItems - virtualizerLength, 0);
+        const maxIndex = Math.max(
+          numItems + bufferItems - virtualizerLength,
+          0
+        );
 
         const startIndex =
           getIndexFromScrollPosition(measurementPos) - bufferItems;

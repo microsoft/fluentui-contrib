@@ -100,7 +100,7 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
         // Our item count has changed, ensure we have an accurate start index
         const newIndex =
           getIndexFromScrollPos(scrollPosition.current) -
-          virtualizerBufferItems * 2;
+          virtualizerBufferItems;
         if (newIndex >= 0) {
           // Only update if index was found
           startIndex = newIndex;
