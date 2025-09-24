@@ -156,12 +156,11 @@ export function useVirtualizer_unstable(
   }, [actualIndex, initializeScrollingTimer]);
 
   // We track changes to prevent unnecessary renders
-  const hasInitializedChildren = React.useRef<boolean>(false);
   const prevIndex = React.useRef<number>(actualIndex);
   const prevVirtualizerLength = React.useRef<number>(virtualizerLength);
   const renderChildRows = React.useCallback(
     (newIndex: number) => {
-      if (numItems === 0 || !hasInitialized.current) {
+      if (numItems === 0 || !isFullyInitialized) {
         console.log(
           'Not initialized, return: ',
           numItems,
@@ -173,7 +172,6 @@ export function useVirtualizer_unstable(
 
       const arrayLength = Math.min(virtualizerLength, numItems - newIndex);
       if (
-        hasInitializedChildren.current &&
         prevIndex.current === newIndex &&
         prevVirtualizerLength.current === virtualizerLength &&
         arrayLength === childArray.current.length
@@ -200,7 +198,6 @@ export function useVirtualizer_unstable(
         }
       }
 
-      hasInitializedChildren.current = newIndex >= 0 && virtualizerLength > 0;
       prevIndex.current = newIndex;
       prevVirtualizerLength.current = virtualizerLength;
       childArray.current = newChildArray;
