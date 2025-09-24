@@ -53,14 +53,11 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
         ] || 0;
 
       let sizeDiff = 0;
-      console.log('Calculate index from scroll position:', scrollPos);
       for (let i = virtualizerContext.contextIndex; i < numItems; i++) {
         sizeTracker += getItemSize(i) + gap;
         sizeDiff =
           sizeTracker - virtualizerContext.childProgressiveSizes.current[i];
-        console.log('Size diff:', sizeDiff, ' for index:', i);
         if (sizeTracker >= scrollPos + sizeDiff) {
-          console.log('Calculated new index from scroll position:', i);
           return i;
         }
       }
@@ -74,9 +71,7 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
     (scrollRef: React.MutableRefObject<HTMLElement | null>) => {
       const hasReachedEnd =
         virtualizerContext.contextIndex + virtualizerLength >= numItems;
-      console.log('Handle scroll resize');
       if (!scrollRef?.current || hasReachedEnd) {
-        console.log('Has reached end');
         // Error? ignore?
         return;
       }
@@ -101,19 +96,13 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
 
       const sizeToBeat = containerSizeRef.current + virtualizerBufferSize * 2;
       let startIndex = virtualizerContext.contextIndex;
-      console.log(
-        'Check this out - numItems changed?',
-        numItemsRef.current,
-        numItems
-      );
       if (numItemsRef.current !== numItems) {
         // Our item count has changed, ensure we have an accurate start index
         const newIndex =
           getIndexFromScrollPos(scrollPosition.current) -
-          virtualizerBufferItems;
+          virtualizerBufferItems * 2;
         if (newIndex >= 0) {
           // Only update if index was found
-          console.log('Setting new index from parent container:', newIndex);
           startIndex = newIndex;
         }
       }
@@ -154,19 +143,11 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
       const newBufferSize = bufferSize ?? Math.max(defaultItemSize / 2, 1);
       const totalLength = length + newBufferItems * 2;
 
-      console.log('Current calculated startIndex:', startIndex);
       // This will only trigger if dynamic resize causes nessecary changes
       if (virtualizerContext.contextIndex !== startIndex) {
-        console.log('Setting context index:', startIndex);
         virtualizerContext.setContextIndex(startIndex);
       }
 
-      console.log(
-        'New totalLength:',
-        totalLength,
-        'vs previous:',
-        virtualizerLength
-      );
       setVirtualizerLength(totalLength);
       setVirtualizerBufferItems(newBufferItems);
       setVirtualizerBufferSize(newBufferSize);
@@ -203,8 +184,7 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
   );
 
   React.useEffect(() => {
-    // Initial measure
-    console.log('Num items changed: ', numItems, 'from', numItemsRef.current);
+    // Track numItems changes (consumed in handleScrollResize)
     numItemsRef.current = numItems;
   }, [numItems]);
 

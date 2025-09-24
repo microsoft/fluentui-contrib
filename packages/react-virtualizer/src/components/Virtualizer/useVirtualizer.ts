@@ -57,7 +57,6 @@ export function useVirtualizer_unstable(
 
   const setActualIndex = React.useCallback(
     (index: number) => {
-      console.log('Setting actual index:', index);
       actualIndexRef.current = index;
       _virtualizerContext.setContextIndex(index);
     },
@@ -198,7 +197,6 @@ export function useVirtualizer_unstable(
   );
 
   React.useEffect(() => {
-    console.log('renderChild changed, re-rendering children');
     // Render child changed, regenerate the child array
     const arrayLength = Math.min(virtualizerLength, numItems - actualIndex);
     const newChildArray = new Array(arrayLength);
@@ -496,7 +494,6 @@ export function useVirtualizer_unstable(
 
         // Get exact relative 'scrollTop' via IO values
         const measurementPos = calculateOverBuffer();
-        console.log('Updating scroll position:', measurementPos);
         updateScrollPosition?.(measurementPos);
 
         const maxIndex = Math.max(numItems - virtualizerLength, 0);
@@ -636,7 +633,6 @@ export function useVirtualizer_unstable(
     }
   }, [actualIndex, onRenderedFlaggedIndex, virtualizerLength]);
 
-  console.log('Rendering index:', actualIndex);
   return {
     components: {
       before: 'div',
