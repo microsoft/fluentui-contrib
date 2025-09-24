@@ -75,11 +75,6 @@ export function useVirtualizer_unstable(
       childProgressiveSizes.current;
   }
 
-  // The internal tracking REF for child array (updates often).
-  const childArray = React.useRef<React.ReactNode[]>(
-    new Array(virtualizerLength)
-  );
-
   const populateSizeArrays = React.useCallback(() => {
     if (!getItemSize) {
       // Static sizes, never mind!
