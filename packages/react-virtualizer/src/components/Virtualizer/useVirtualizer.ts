@@ -46,6 +46,10 @@ export function useVirtualizer_unstable(
   const flaggedIndex = React.useRef<number | null>(null);
   const actualIndex = _virtualizerContext.contextIndex;
 
+  // Initialize the size array before first render.
+  const hasInitialized = React.useRef<boolean>(false);
+  const isFullyInitialized = hasInitialized.current && actualIndex >= 0;
+
   // Just in case our ref gets out of date vs the context during a re-render
   if (_virtualizerContext.contextIndex !== actualIndexRef.current) {
     actualIndexRef.current = _virtualizerContext.contextIndex;
@@ -157,13 +161,16 @@ export function useVirtualizer_unstable(
   const prevVirtualizerLength = React.useRef<number>(virtualizerLength);
   const renderChildRows = React.useCallback(
     (newIndex: number) => {
-      if (numItems === 0 || !isFullyInitialized) {
-        console.log('Not initialized, return');
+      if (numItems === 0 || !hasInitialized.current) {
+        console.log(
+          'Not initialized, return: ',
+          numItems,
+          hasInitialized.current
+        );
         /* Nothing to virtualize */
         return [];
       }
 
-      // TODO: Dont use virtualizer length (might be out of bounds)
       const arrayLength = Math.min(virtualizerLength, numItems - newIndex);
       if (
         hasInitializedChildren.current &&
@@ -171,7 +178,6 @@ export function useVirtualizer_unstable(
         prevVirtualizerLength.current === virtualizerLength &&
         arrayLength === childArray.current.length
       ) {
-        console.log('Return current child array');
         // We only want to re-render if the index or virtualizer length has changed
         prevIndex.current = newIndex;
         prevVirtualizerLength.current = virtualizerLength;
@@ -180,26 +186,25 @@ export function useVirtualizer_unstable(
 
       const newChildArray = new Array(arrayLength);
       const indexChange = prevIndex.current - newIndex;
-      if (Math.abs(indexChange) < prevVirtualizerLength.current) {
-        // We can copy some of the existing children
-        for (let i = 0; i < arrayLength; i++) {
-          const oldIndex = i - indexChange;
-          if (
-            childArray.current[oldIndex] !== undefined &&
-            oldIndex >= 0 &&
-            oldIndex < prevVirtualizerLength.current
-          ) {
-            newChildArray[i] = childArray.current[oldIndex];
-          } else {
-            newChildArray[i] = renderChild(newIndex + i, isScrolling);
-          }
+      // We can copy some of the existing children
+      for (let i = 0; i < arrayLength; i++) {
+        const oldIndex = i - indexChange;
+        if (
+          childArray.current[oldIndex] !== undefined &&
+          oldIndex >= 0 &&
+          oldIndex < prevVirtualizerLength.current
+        ) {
+          newChildArray[i] = childArray.current[oldIndex];
+        } else {
+          newChildArray[i] = renderChild(newIndex + i, isScrolling);
         }
       }
 
-      hasInitializedChildren.current = newIndex > 0 && virtualizerLength > 0;
+      hasInitializedChildren.current = newIndex >= 0 && virtualizerLength > 0;
       prevIndex.current = newIndex;
       prevVirtualizerLength.current = virtualizerLength;
       childArray.current = newChildArray;
+
       return newChildArray;
     },
     [isScrolling, numItems, renderChild, virtualizerLength]
@@ -208,11 +213,10 @@ export function useVirtualizer_unstable(
   React.useEffect(() => {
     console.log('renderChild changed, re-rendering children');
     // Render child changed, regenerate the child array
-    const newChildArray = new Array(virtualizerLength);
-    for (let i = 0; i < virtualizerLength; i++) {
-      if (newChildArray[i] === undefined) {
-        newChildArray[i] = renderChild(actualIndex + i, isScrolling);
-      }
+    const arrayLength = Math.min(virtualizerLength, numItems - actualIndex);
+    const newChildArray = new Array(arrayLength);
+    for (let i = 0; i < arrayLength; i++) {
+      newChildArray[i] = renderChild(actualIndex + i, isScrolling);
     }
     prevIndex.current = actualIndex;
     prevVirtualizerLength.current = virtualizerLength;
@@ -595,10 +599,16 @@ export function useVirtualizer_unstable(
     [setObserverList]
   );
 
-  // Initialize the size array before first render.
-  const hasInitialized = React.useRef<boolean>(false);
-  const isFullyInitialized = hasInitialized.current && actualIndex >= 0;
+  console.log(
+    'hasInitialized.current:',
+    hasInitialized.current,
+    ' actualIndex:',
+    actualIndex,
+    ' isFullyInitialized:',
+    isFullyInitialized
+  );
   const initializeSizeArray = () => {
+    console.log('Initialize size array');
     if (hasInitialized.current === false) {
       hasInitialized.current = true;
       populateSizeArrays();
@@ -656,7 +666,7 @@ export function useVirtualizer_unstable(
       beforeContainer: 'div',
       afterContainer: 'div',
     },
-    virtualizedChildren: renderChildRows(actualIndex) ?? [],
+    virtualizedChildren: renderChildRows(actualIndex),
     before: slot.always(props.before, {
       defaultProps: {
         ref: setBeforeRef,
