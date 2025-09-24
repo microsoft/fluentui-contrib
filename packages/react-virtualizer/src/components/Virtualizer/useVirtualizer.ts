@@ -496,6 +496,8 @@ export function useVirtualizer_unstable(
 
         // Get exact relative 'scrollTop' via IO values
         const measurementPos = calculateOverBuffer();
+        console.log('Updating scroll position:', measurementPos);
+        updateScrollPosition?.(measurementPos);
 
         const maxIndex = Math.max(numItems - virtualizerLength, 0);
 
@@ -515,7 +517,6 @@ export function useVirtualizer_unstable(
           }
           // We should ensure we update virtualizer calculations if the length changes
           previousNumItems.current = virtualizerLength;
-          updateScrollPosition?.(measurementPos);
           if (actualIndex !== newStartIndex) {
             batchUpdateNewIndex(newStartIndex);
           }
@@ -635,6 +636,7 @@ export function useVirtualizer_unstable(
     }
   }, [actualIndex, onRenderedFlaggedIndex, virtualizerLength]);
 
+  console.log('Rendering index:', actualIndex);
   return {
     components: {
       before: 'div',
