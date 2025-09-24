@@ -155,7 +155,7 @@ export function useVirtualizer_unstable(
   const prevVirtualizerLength = React.useRef<number>(virtualizerLength);
   const renderChildRows = React.useCallback(
     (newIndex: number) => {
-      if (numItems === 0 || !isFullyInitialized) {
+      if (numItems === 0) {
         /* Nothing to virtualize */
         return [];
       }
