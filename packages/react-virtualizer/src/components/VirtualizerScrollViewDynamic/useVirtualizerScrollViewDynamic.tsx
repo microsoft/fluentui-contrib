@@ -31,14 +31,12 @@ export function useVirtualizerScrollViewDynamic_unstable(
     enablePagination = false,
     bufferItems: _bufferItems,
     bufferSize: _bufferSize,
+    enableScrollAnchor,
   } = props;
 
-  let sizeTrackingArray = React.useRef<number[]>(
+  const sizeTrackingArray = React.useRef<number[]>(
     new Array(props.numItems).fill(props.itemSize)
   );
-
-  // This lets us trigger updates when a size change occurs.
-  const [sizeUpdateCount, setSizeUpdateCount] = React.useState(0);
 
   const getChildSizeAuto = React.useCallback(
     (index: number) => {
@@ -54,7 +52,7 @@ export function useVirtualizerScrollViewDynamic_unstable(
        */
       return sizeTrackingArray.current[index];
     },
-    [sizeTrackingArray, props.itemSize, sizeUpdateCount]
+    [sizeTrackingArray, props.itemSize]
   );
 
   const {
@@ -83,6 +81,7 @@ export function useVirtualizerScrollViewDynamic_unstable(
     {
       axis,
       progressiveItemSizes: _imperativeVirtualizerRef.current?.progressiveSizes,
+      actualNodeSizes: sizeTrackingArray,
       virtualizerLength,
       currentIndex: contextState?.contextIndex ?? 0,
     },
@@ -107,6 +106,28 @@ export function useVirtualizerScrollViewDynamic_unstable(
     imperativeRef,
     () => {
       return {
+        scrollToPosition(
+          position: number,
+          behavior: ScrollBehavior = 'auto',
+          index?: number, // So we can callback when index rendered
+          callback?: (index: number) => void
+        ) {
+          if (callback) {
+            scrollCallbackRef.current = callback ?? null;
+          }
+
+          if (_imperativeVirtualizerRef.current) {
+            if (index !== undefined) {
+              _imperativeVirtualizerRef.current.setFlaggedIndex(index);
+            }
+            const positionOptions =
+              axis == 'vertical' ? { top: position } : { left: position };
+            scrollViewRef.current?.scrollTo({
+              behavior,
+              ...positionOptions,
+            });
+          }
+        },
         scrollTo(
           index: number,
           behavior = 'auto',
@@ -124,7 +145,7 @@ export function useVirtualizerScrollViewDynamic_unstable(
             _imperativeVirtualizerRef.current.setFlaggedIndex(index);
             scrollToItemDynamic({
               index,
-              itemSizes: _imperativeVirtualizerRef.current?.nodeSizes,
+              getItemSize: props.getItemSize ?? getChildSizeAuto,
               totalSize,
               scrollViewRef: scrollViewRef as React.RefObject<HTMLDivElement>,
               axis,
@@ -135,6 +156,7 @@ export function useVirtualizerScrollViewDynamic_unstable(
         },
         currentIndex: _imperativeVirtualizerRef.current?.currentIndex,
         virtualizerLength: virtualizerLengthRef,
+        sizeTrackingArray,
       };
     },
     [axis, scrollViewRef, reversed, _imperativeVirtualizerRef]
@@ -160,54 +182,51 @@ export function useVirtualizerScrollViewDynamic_unstable(
     updateScrollPosition,
   });
 
-  const measureObject = useMeasureList(
-    virtualizerState.virtualizerStartIndex,
-    virtualizerLength,
-    props.numItems,
-    props.itemSize
-  );
-
-  if (enablePagination && measureObject.sizeUpdateCount !== sizeUpdateCount) {
-    /* This enables us to let callback know that the sizes have been updated
-    triggers a re-render but is only required on pagination (else index change handles) */
-    setSizeUpdateCount(measureObject.sizeUpdateCount);
-  }
-
-  if (axis === 'horizontal') {
-    sizeTrackingArray = measureObject.widthArray;
-  } else {
-    sizeTrackingArray = measureObject.heightArray;
-  }
-
-  if (!props.getItemSize) {
-    // Auto-measuring is required
-    React.Children.map(virtualizerState.virtualizedChildren, (child, index) => {
-      if (React.isValidElement(child)) {
-        virtualizerState.virtualizedChildren[index] = (
-          <child.type
-            {...child.props}
-            key={child.key}
-            ref={(element: HTMLElement & IndexedResizeCallbackElement) => {
-              if (Object.prototype.hasOwnProperty.call(child, 'ref')) {
-                // We must access this from the child directly, not props (forward ref).
-                // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-                const localRef = (child as any)?.ref;
-
-                if (typeof localRef === 'function') {
-                  localRef(element);
-                } else if (localRef) {
-                  localRef.current = element;
-                }
-              }
-
-              // Call the auto-measure ref attachment.
-              measureObject.createIndexedRef(index)(element);
-            }}
-          />
-        );
+  const measureObject = useMeasureList({
+    currentIndex: Math.max(virtualizerState.virtualizerStartIndex, 0),
+    totalLength: props.numItems,
+    defaultItemSize: props.itemSize,
+    sizeTrackingArray,
+    axis,
+    requestScrollBy: (sizeChange: number) => {
+      // Handle any size changes so that scroll view doesn't jump around
+      if (enableScrollAnchor) {
+        scrollViewRef.current?.scrollBy({
+          top: axis === 'vertical' ? sizeChange : 0,
+          left: axis === 'vertical' ? 0 : sizeChange,
+          behavior: 'instant',
+        });
       }
-    });
-  }
+    },
+  });
+
+  // Enables auto-measuring and tracking post render sizes externally
+  React.Children.map(virtualizerState.virtualizedChildren, (child, index) => {
+    if (React.isValidElement(child)) {
+      virtualizerState.virtualizedChildren[index] = (
+        <child.type
+          {...child.props}
+          key={child.key}
+          ref={(element: HTMLElement & IndexedResizeCallbackElement) => {
+            if (Object.prototype.hasOwnProperty.call(child, 'ref')) {
+              // We must access this from the child directly, not props (forward ref).
+              // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+              const localRef = (child as any)?.ref;
+
+              if (typeof localRef === 'function') {
+                localRef(element);
+              } else if (localRef) {
+                localRef.current = element;
+              }
+            }
+
+            // Call the auto-measure ref attachment.
+            measureObject.createIndexedRef(index)(element);
+          }}
+        />
+      );
+    }
+  });
 
   return {
     ...virtualizerState,

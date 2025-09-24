@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "chore: bump react-components to latest and adjust types to support react 18",
-  "packageName": "@fluentui-contrib/react-data-grid-react-window-grid",
-  "email": "dmytrokirpa@microsoft.com",
-  "dependentChangeType": "patch"
-}

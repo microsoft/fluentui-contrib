@@ -2,6 +2,29 @@
   "name": "@fluentui-contrib/teams-components",
   "entries": [
     {
+      "date": "Mon, 22 Sep 2025 16:02:24 GMT",
+      "tag": "@fluentui-contrib/teams-components_v0.2.0",
+      "version": "0.2.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/teams-components",
+            "commit": "513e54d8c1a60a13d80afaec1bb006ae26492a39",
+            "comment": "feat: enforce explicit module boundary types"
+          }
+        ],
+        "patch": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/teams-components",
+            "commit": "f83a0d0a7b961a677ead51442b35c1b3e8183bce",
+            "comment": "feat: add react 19 support"
+          }
+        ]
+      }
+    },
+    {
       "date": "Mon, 28 Apr 2025 08:56:33 GMT",
       "tag": "@fluentui-contrib/teams-components_v0.1.2",
       "version": "0.1.2",

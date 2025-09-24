@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-tree-grid
 
-This log was last generated on Fri, 09 May 2025 17:14:55 GMT and should not be manually modified.
+This log was last generated on Mon, 22 Sep 2025 16:02:24 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.3.0
+
+Mon, 22 Sep 2025 16:02:24 GMT
+
+### Minor changes
+
+- feat: enforce explicit module boundary types (dmytrokirpa@microsoft.com)
 
 ## 0.2.1
 

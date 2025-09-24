@@ -1,7 +1,7 @@
 {
   "type": "patch",
-  "comment": "feat: add react 19 support",
+  "comment": "fix: Ensure scrollTo uses the correct item size",
   "packageName": "@fluentui-contrib/react-virtualizer",
-  "email": "dmytrokirpa@microsoft.com",
+  "email": "mifraser@microsoft.com",
   "dependentChangeType": "patch"
 }

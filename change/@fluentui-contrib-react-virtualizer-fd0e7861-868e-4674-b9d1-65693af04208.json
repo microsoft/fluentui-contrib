@@ -1,0 +1,7 @@
+{
+  "type": "none",
+  "comment": "fix: Revert changes",
+  "packageName": "@fluentui-contrib/react-virtualizer",
+  "email": "mifraser@microsoft.com",
+  "dependentChangeType": "none"
+}

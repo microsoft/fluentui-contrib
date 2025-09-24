@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "feat: enforce explicit module boundary types",
-  "packageName": "@fluentui-contrib/teams-components",
-  "email": "dmytrokirpa@microsoft.com",
-  "dependentChangeType": "patch"
-}

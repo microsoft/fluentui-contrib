@@ -562,9 +562,10 @@ export function useVirtualizer_unstable(
         setFlaggedIndex: (index: number | null) =>
           (flaggedIndex.current = index),
         currentIndex: actualIndexRef,
+        virtualizerLength,
       };
     },
-    [childProgressiveSizes, childSizes]
+    [childProgressiveSizes, childSizes, virtualizerLength]
   );
 
   // Initialization on mount - update array index to 0 (ready state).

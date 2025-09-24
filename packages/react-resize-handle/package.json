@@ -1,6 +1,6 @@
 {
   "name": "@fluentui-contrib/react-resize-handle",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "peerDependencies": {
     "@fluentui/react-components": ">=9.70.0 <10.0.0",
     "@types/react": ">=16.8.0 <20.0.0",
