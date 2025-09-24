@@ -58,7 +58,6 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
         }
       }
 
-      console.log('Did not find size index:', scrollPos);
       return -1;
     },
     [getItemSize, numItems]
@@ -99,7 +98,8 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
           getIndexFromScrollPos(scrollPosition.current) -
           virtualizerBufferItems;
         if (newIndex >= 0) {
-          startIndex = Math.max(newIndex, 0);
+          // Only update if index was found
+          startIndex = newIndex;
         }
       }
       numItemsRef.current = numItems;
@@ -139,17 +139,12 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
       const newBufferSize = bufferSize ?? Math.max(defaultItemSize / 2, 1);
       const totalLength = length + newBufferItems * 2;
 
-      // This will only trigger if dynamic resize causes changes
+      // This will only trigger if dynamic resize causes nessecary changes
       if (virtualizerContext.contextIndex !== startIndex) {
-        console.log('Setting context index from parent:', startIndex);
+        console.log('Setting context index:', startIndex);
         virtualizerContext.setContextIndex(startIndex);
       }
-      console.log(
-        'Set virtualizerLength:',
-        virtualizerLength,
-        '->',
-        totalLength
-      );
+
       setVirtualizerLength(totalLength);
       setVirtualizerBufferItems(newBufferItems);
       setVirtualizerBufferSize(newBufferSize);

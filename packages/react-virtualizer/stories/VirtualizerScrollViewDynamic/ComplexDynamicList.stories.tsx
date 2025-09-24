@@ -341,11 +341,7 @@ export const ComplexDynamicList = () => {
 
   const renderChild = React.useCallback(
     (index: number) => {
-      console.log('Rendering item: ', index);
-      console.log(
-        'cachedLoadedItems.current[index]: ',
-        cachedLoadedItems.current[index]
-      );
+      console.log('Rendering child:', index);
       return (
         <LazyLoadingComponent
           key={`item-${index}`}

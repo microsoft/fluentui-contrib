@@ -57,12 +57,7 @@ export function useVirtualizer_unstable(
 
   const setActualIndex = React.useCallback(
     (index: number) => {
-      console.log(
-        'Setting actual index:',
-        index,
-        ' previous:',
-        actualIndexRef.current
-      );
+      console.log('Setting actual index:', index);
       actualIndexRef.current = index;
       _virtualizerContext.setContextIndex(index);
     },
@@ -161,11 +156,6 @@ export function useVirtualizer_unstable(
   const renderChildRows = React.useCallback(
     (newIndex: number) => {
       if (numItems === 0 || !isFullyInitialized) {
-        console.log(
-          'Not initialized, return: ',
-          numItems,
-          hasInitialized.current
-        );
         /* Nothing to virtualize */
         return [];
       }
@@ -596,16 +586,7 @@ export function useVirtualizer_unstable(
     [setObserverList]
   );
 
-  console.log(
-    'hasInitialized.current:',
-    hasInitialized.current,
-    ' actualIndex:',
-    actualIndex,
-    ' isFullyInitialized:',
-    isFullyInitialized
-  );
   const initializeSizeArray = () => {
-    console.log('Initialize size array');
     if (hasInitialized.current === false) {
       hasInitialized.current = true;
       populateSizeArrays();
@@ -653,8 +634,6 @@ export function useVirtualizer_unstable(
       flaggedIndex.current = null;
     }
   }, [actualIndex, onRenderedFlaggedIndex, virtualizerLength]);
-
-  console.log('Rendering new start index:', actualIndex);
 
   return {
     components: {
