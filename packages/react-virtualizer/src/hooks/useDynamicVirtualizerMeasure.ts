@@ -137,7 +137,14 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
        * This is how far we deviate into the bufferItems to detect a redraw.
        */
       const newBufferSize = bufferSize ?? Math.max(defaultItemSize / 2, 1);
-      const totalLength = length + newBufferItems * 2;
+      let totalLength = length + newBufferItems * 2;
+      if (
+        startIndex === 0 ||
+        startIndex + totalLength >= numItems + newBufferItems
+      ) {
+        // Remove the 'edge' buffer if we are at either end
+        totalLength = length + newBufferItems;
+      }
 
       // This will only trigger if dynamic resize causes changes
       if (virtualizerContext.contextIndex !== startIndex) {

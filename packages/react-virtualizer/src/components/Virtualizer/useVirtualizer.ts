@@ -514,7 +514,6 @@ export function useVirtualizer_unstable(
         // Safety limits
         const newStartIndex = Math.min(Math.max(startIndex, 0), maxIndex);
         flushSync(() => {
-          // Callback to allow measure functions to check virtualizer length
           if (
             previousNumItems.current === numItems &&
             newStartIndex + virtualizerLength >= numItems &&
