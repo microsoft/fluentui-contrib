@@ -52,12 +52,9 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
           virtualizerContext.contextIndex
         ] || 0;
 
-      let sizeDiff = 0;
       for (let i = virtualizerContext.contextIndex; i < numItems; i++) {
         sizeTracker += getItemSize(i) + gap;
-        sizeDiff =
-          sizeTracker - virtualizerContext.childProgressiveSizes.current[i];
-        if (sizeTracker >= scrollPos + sizeDiff) {
+        if (sizeTracker >= scrollPos) {
           return i;
         }
       }
