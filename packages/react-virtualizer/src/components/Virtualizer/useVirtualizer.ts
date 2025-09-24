@@ -38,6 +38,11 @@ export function useVirtualizer_unstable(
   // We use this ref as a constant source to access the virtualizer's state imperatively
   const actualIndexRef = React.useRef<number>(_virtualizerContext.contextIndex);
 
+  // The internal tracking REF for child array (updates often).
+  const childArray = React.useRef<React.ReactNode[]>(
+    new Array(virtualizerLength)
+  );
+
   const flaggedIndex = React.useRef<number | null>(null);
   const actualIndex = _virtualizerContext.contextIndex;
 
@@ -140,24 +145,83 @@ export function useVirtualizer_unstable(
     initializeScrollingTimer();
   }, [actualIndex, initializeScrollingTimer]);
 
+  // We track changes to prevent unnecessary renders
+  const hasInitializedChildren = React.useRef<boolean>(false);
+  const prevIndex = React.useRef<number>(actualIndex);
+  const prevVirtualizerLength = React.useRef<number>(virtualizerLength);
   const renderChildRows = React.useCallback(
     (newIndex: number) => {
       if (numItems === 0 || !isFullyInitialized) {
+        console.log('Not initialized, return');
         /* Nothing to virtualize */
         return [];
       }
 
-      const childArray = new Array(virtualizerLength);
-      const _actualIndex = Math.max(newIndex, 0);
-      const end = Math.min(_actualIndex + virtualizerLength, numItems);
-      for (let i = _actualIndex; i < end; i++) {
-        childArray[i - _actualIndex] = renderChild(i, isScrolling);
+      if (
+        hasInitializedChildren.current &&
+        prevIndex.current === newIndex &&
+        prevVirtualizerLength.current === virtualizerLength
+      ) {
+        console.log('Return current child array');
+        // We only want to re-render if the index or virtualizer length has changed
+        prevIndex.current = newIndex;
+        prevVirtualizerLength.current = virtualizerLength;
+        return childArray.current;
       }
 
-      return childArray;
+      const newChildArray = new Array(virtualizerLength);
+      const indexChange = prevIndex.current - newIndex;
+      console.log(
+        'New index ',
+        newIndex,
+        ' from old index ',
+        prevIndex.current
+      );
+      console.log(
+        'New length ',
+        virtualizerLength,
+        ' from old length ',
+        prevVirtualizerLength.current
+      );
+      if (Math.abs(indexChange) < prevVirtualizerLength.current) {
+        // We can copy some of the existing children
+        for (let i = 0; i < virtualizerLength; i++) {
+          const oldIndex = i - indexChange;
+          if (oldIndex >= 0 && oldIndex < prevVirtualizerLength.current) {
+            console.log('Setting index ', i, ' from old index ', oldIndex);
+            newChildArray[i] = childArray.current[oldIndex];
+          }
+        }
+      }
+
+      for (let i = 0; i < virtualizerLength; i++) {
+        if (newChildArray[i] === undefined) {
+          console.log('Setting index: ', i, 'to index', newIndex + i);
+          newChildArray[i] = renderChild(newIndex + i, isScrolling);
+        }
+      }
+
+      console.log('Return new child array: ', newChildArray);
+      hasInitializedChildren.current = newIndex > 0 && virtualizerLength > 0;
+      prevIndex.current = newIndex;
+      prevVirtualizerLength.current = virtualizerLength;
+      childArray.current = newChildArray;
+      return newChildArray;
     },
     [isScrolling, numItems, renderChild, virtualizerLength]
   );
+
+  React.useEffect(() => {
+    console.log('Array changed, re-rendering children');
+    // Render child changed, regenerate the child array
+    const newChildArray = new Array(virtualizerLength);
+    for (let i = 0; i < virtualizerLength; i++) {
+      if (newChildArray[i] === undefined) {
+        newChildArray[i] = renderChild(actualIndex + i, isScrolling);
+      }
+    }
+    childArray.current = newChildArray;
+  }, [renderChild]);
 
   const updateCurrentItemSizes = React.useCallback(
     (newIndex: number) => {
@@ -588,7 +652,7 @@ export function useVirtualizer_unstable(
     }
   }, [actualIndex, onRenderedFlaggedIndex, virtualizerLength]);
 
-  console.log('Rendering index:', actualIndex);
+  console.log('Rendering new start index:', actualIndex);
 
   return {
     components: {

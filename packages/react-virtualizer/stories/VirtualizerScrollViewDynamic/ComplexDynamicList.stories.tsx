@@ -418,6 +418,7 @@ export const ComplexDynamicList = () => {
         // NO getItemSize prop = auto-measurement enabled!
       >
         {(index: number) => {
+          console.log('Rendering item: ', index);
           return (
             <LazyLoadingComponent
               key={`item-${index}`}
