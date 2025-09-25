@@ -28,21 +28,42 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
     bufferItems,
     bufferSize,
     virtualizerContext,
+    gap = 0,
   } = virtualizerProps;
 
-  const [state, setState] = React.useState({
-    virtualizerLength: 0,
-    virtualizerBufferItems: 0,
-    virtualizerBufferSize: 0,
-  });
+  const [virtualizerLength, setVirtualizerLength] = React.useState(0);
+  const [virtualizerBufferItems, setVirtualizerBufferItems] = React.useState(0);
+  const [virtualizerBufferSize, setVirtualizerBufferSize] = React.useState(0);
 
+  const numItemsRef = React.useRef<number>(numItems);
   const containerSizeRef = React.useRef<number>(0);
   const scrollPosition = React.useRef<number>(0);
-  const { virtualizerLength, virtualizerBufferItems, virtualizerBufferSize } =
-    state;
 
   const { targetDocument } = useFluent();
   const container = React.useRef<HTMLElement | null>(null);
+
+  const getIndexFromScrollPos = React.useCallback(
+    (scrollPos: number): number => {
+      /* This is used on numItems change
+       * It checks via current render sizes what the current index should be
+       */
+      let sizeTracker =
+        virtualizerContext.childProgressiveSizes.current[
+          virtualizerContext.contextIndex
+        ] || 0;
+
+      for (let i = virtualizerContext.contextIndex; i < numItems; i++) {
+        sizeTracker += getItemSize(i) + gap;
+        if (sizeTracker >= scrollPos) {
+          return i;
+        }
+      }
+
+      return -1;
+    },
+    [getItemSize, numItems]
+  );
+
   const handleScrollResize = React.useCallback(
     (scrollRef: React.MutableRefObject<HTMLElement | null>) => {
       const hasReachedEnd =
@@ -70,32 +91,33 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
       let i = 0;
       let length = 0;
 
-      const startIndex = virtualizerContext.contextIndex;
       const sizeToBeat = containerSizeRef.current + virtualizerBufferSize * 2;
+      let startIndex = virtualizerContext.contextIndex;
+      if (numItemsRef.current !== numItems) {
+        // Our item count has changed, ensure we have an accurate start index
+        const newIndex =
+          getIndexFromScrollPos(scrollPosition.current) -
+          virtualizerBufferItems;
+        if (newIndex >= 0) {
+          // Only update if index was found
+          startIndex = newIndex;
+        }
+      }
+      numItemsRef.current = numItems;
 
       while (indexSizer <= sizeToBeat && i + startIndex < numItems) {
         const iItemSize = getItemSize(startIndex + i);
-        if (
-          virtualizerContext.childProgressiveSizes.current.length < numItems
-        ) {
-          /* We are in unknown territory, either an initial render or an update
-            in virtualizer item length has occurred.
-            We need to let the new items render first then we can accurately assess.*/
-          return virtualizerLength - virtualizerBufferSize * 2;
-        }
-
-        const currentScrollPos = scrollPosition.current;
         const currentItemPos =
           virtualizerContext.childProgressiveSizes.current[startIndex + i] -
           iItemSize;
 
-        if (currentScrollPos > currentItemPos + iItemSize) {
+        if (scrollPosition.current > currentItemPos + iItemSize) {
           // The item isn't in view, ignore for now.
           i++;
           continue;
-        } else if (currentScrollPos > currentItemPos) {
+        } else if (scrollPosition.current > currentItemPos) {
           // The item is partially out of view, ignore the out of bounds portion
-          const variance = currentItemPos + iItemSize - currentScrollPos;
+          const variance = currentItemPos + iItemSize - scrollPosition.current;
           indexSizer += variance;
         } else {
           // Item is in view
@@ -118,11 +140,14 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
       const newBufferSize = bufferSize ?? Math.max(defaultItemSize / 2, 1);
       const totalLength = length + newBufferItems * 2;
 
-      setState({
-        virtualizerLength: totalLength,
-        virtualizerBufferSize: newBufferSize,
-        virtualizerBufferItems: newBufferItems,
-      });
+      // This will only trigger if dynamic resize causes nessecary changes
+      if (virtualizerContext.contextIndex !== startIndex) {
+        virtualizerContext.setContextIndex(startIndex);
+      }
+
+      setVirtualizerLength(totalLength);
+      setVirtualizerBufferItems(newBufferItems);
+      setVirtualizerBufferSize(newBufferSize);
     },
     [
       bufferItems,
@@ -154,6 +179,11 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
     },
     [handleScrollResize]
   );
+
+  React.useEffect(() => {
+    // Track numItems changes (consumed in handleScrollResize)
+    numItemsRef.current = numItems;
+  }, [numItems]);
 
   const scrollRef = useMergedRefs(
     container,

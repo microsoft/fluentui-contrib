@@ -22,6 +22,7 @@ export type VirtualizerMeasureDynamicProps = {
   numItems: number;
   getItemSize: (index: number) => number;
   direction?: 'vertical' | 'horizontal';
+  gap?: number;
 
   /**
    * Override recommended number of buffer items

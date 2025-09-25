@@ -65,10 +65,8 @@ export function useMeasureList<
         requestScrollBy?.(-sizeDifference);
       }
 
-      if (sizeDifference !== 0) {
-        // Size tracking array gets exposed if teams need it
-        sizeTrackingArray.current[currentIndex + index] = containerSize;
-      }
+      // Size tracking array gets exposed if teams need it
+      sizeTrackingArray.current[currentIndex + index] = containerSize;
     },
     [currentIndex, defaultItemSize]
   );

@@ -2,7 +2,7 @@
 /** @jsx createElement */
 /** @jsxFrag Fragment */
 /* eslint-disable no-restricted-globals */
-import { createElement, Fragment } from '@fluentui/react-jsx-runtime';
+import { createElement } from '@fluentui/react-jsx-runtime';
 import * as React from 'react';
 import {
   VirtualizerScrollViewDynamic,
@@ -45,6 +45,7 @@ const useStyles = makeStyles({
 });
 
 const baseHeight = 90;
+const bottomCalcDisplayHeight = 44;
 
 type LoadCache = {
   imageLoaded: boolean;
@@ -131,7 +132,11 @@ const LazyLoadingComponent = React.forwardRef(
     const massiveHeight = massiveContentLoaded ? 800 + (index % 6) * 200 : 0; // 0 → 800-1800px
 
     const totalHeight =
-      baseHeight + imageHeight + contentHeight + massiveHeight;
+      bottomCalcDisplayHeight +
+      baseHeight +
+      imageHeight +
+      contentHeight +
+      massiveHeight;
     // Final range: 90px → 1160px to 2560px
 
     // Don't forget to cache, virtualizer won't handle size updates outside of DOM
@@ -152,7 +157,7 @@ const LazyLoadingComponent = React.forwardRef(
         style={{
           boxSizing: 'border-box', // If you want border/padding etc. on the outside div, use border-box
           minHeight: totalHeight, // This will jump from ~60px to ~2000px+
-          // transition: 'min-height 0.2s ease', // Transitions work, but they cause scrollAnchor to be a little jumpy
+          transition: 'min-height 0.2s ease', // Transitions work, but they cause scrollAnchor to be a little jumpy
           border: `2px solid ${massiveContentLoaded ? '#ff4444' : '#ddd'}`, // Visual indicator
         }}
       >
@@ -172,6 +177,7 @@ const LazyLoadingComponent = React.forwardRef(
             className={styles.lazyImage}
             style={{
               height: imageHeight,
+              boxSizing: 'border-box',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -188,6 +194,7 @@ const LazyLoadingComponent = React.forwardRef(
           <div
             className={styles.asyncContent}
             style={{
+              boxSizing: 'border-box',
               height: contentHeight,
               display: 'flex',
               flexDirection: 'column',
@@ -205,6 +212,7 @@ const LazyLoadingComponent = React.forwardRef(
           <div
             style={{
               height: massiveHeight,
+              boxSizing: 'border-box',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-around',
@@ -251,13 +259,15 @@ const LazyLoadingComponent = React.forwardRef(
         <div
           style={{
             boxSizing: 'border-box',
+            height: bottomCalcDisplayHeight + 'px',
             padding: '8px',
             backgroundColor: '#f0f0f0',
             fontSize: '11px',
             borderTop: '1px solid #ccc',
           }}
         >
-          Loading phases: Base({baseHeight}) + Image({imageHeight}) + Content(
+          Loading phases: This({bottomCalcDisplayHeight}) + Base({baseHeight}) +
+          Image({imageHeight}) + Content(
           {contentHeight}) + Massive({massiveHeight}) = {totalHeight}px
         </div>
       </div>
@@ -267,7 +277,7 @@ const LazyLoadingComponent = React.forwardRef(
 
 export const ComplexDynamicList = () => {
   const styles = useStyles();
-  const childLength = 100;
+  const [childLength, setChildLength] = React.useState(100);
   const virtualizerScrollRef = React.useRef<HTMLDivElement & ScrollToInterface>(
     null
   );
@@ -310,6 +320,41 @@ export const ComplexDynamicList = () => {
     );
     setGoToIndex(newIndex);
   };
+
+  const addRow = () => {
+    // Also add to cache
+    cachedLoadedItems.current.push({
+      imageLoaded: false,
+      contentLoaded: false,
+      massiveContentLoaded: false,
+    });
+    setChildLength(childLength + 1);
+  };
+
+  const removeRow = () => {
+    if (childLength > 0) {
+      setChildLength(Math.max(childLength - 1, 0));
+      // Also remove from cache
+      cachedLoadedItems.current.pop();
+    }
+  };
+
+  const renderChild = React.useCallback(
+    (index: number) => {
+      console.log('Rendering child:', index);
+      return (
+        <LazyLoadingComponent
+          key={`item-${index}`}
+          index={index}
+          cachedItems={cachedLoadedItems.current[index]}
+          setCachedItems={(cache: LoadCache) => {
+            cachedLoadedItems.current[index] = cache;
+          }}
+        />
+      );
+    },
+    [cachedLoadedItems]
+  );
 
   return (
     <div>
@@ -359,11 +404,22 @@ export const ComplexDynamicList = () => {
           <Input defaultValue={'0'} onChange={onChangeGoToIndex} />
           <Button onClick={scrollToIndex}>{'GoTo'}</Button>
         </div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            gap: '8px',
+            marginTop: '12px',
+          }}
+        >
+          <Button onClick={addRow}>{'Add Row'}</Button>
+          <Button onClick={removeRow}>{'Remove Row'}</Button>
+        </div>
       </div>
 
       <VirtualizerScrollViewDynamic
         numItems={childLength}
-        itemSize={baseHeight}
+        itemSize={baseHeight + bottomCalcDisplayHeight} // Initial row height
         imperativeRef={virtualizerScrollRef}
         imperativeVirtualizerRef={virtualizerRef}
         container={{
@@ -378,18 +434,7 @@ export const ComplexDynamicList = () => {
         enableScrollAnchor
         // NO getItemSize prop = auto-measurement enabled!
       >
-        {(index: number) => {
-          return (
-            <LazyLoadingComponent
-              key={`item-${index}`}
-              index={index}
-              cachedItems={cachedLoadedItems.current[index]}
-              setCachedItems={(cache: LoadCache) => {
-                cachedLoadedItems.current[index] = cache;
-              }}
-            />
-          );
-        }}
+        {renderChild}
       </VirtualizerScrollViewDynamic>
     </div>
   );

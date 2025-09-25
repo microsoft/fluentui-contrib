@@ -32,6 +32,7 @@ export function useVirtualizerScrollViewDynamic_unstable(
     bufferItems: _bufferItems,
     bufferSize: _bufferSize,
     enableScrollAnchor,
+    gap = 0,
   } = props;
 
   const sizeTrackingArray = React.useRef<number[]>(
@@ -70,6 +71,7 @@ export function useVirtualizerScrollViewDynamic_unstable(
     numItems: props.numItems,
     bufferItems: _bufferItems,
     bufferSize: _bufferSize,
+    gap,
   });
 
   const _imperativeVirtualizerRef = useMergedRefs(
