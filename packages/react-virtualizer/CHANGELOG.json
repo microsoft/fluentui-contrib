@@ -2,6 +2,37 @@
   "name": "@fluentui-contrib/react-virtualizer",
   "entries": [
     {
+      "date": "Thu, 25 Sep 2025 17:20:48 GMT",
+      "tag": "@fluentui-contrib/react-virtualizer_v0.4.0",
+      "version": "0.4.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "mifraser@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "5b26c48a3a1a393bd56b2bf1d5a14c7d1783c848",
+            "comment": "feat: Enable complex dynamic scenarios with add and remove items, reduce remounting"
+          }
+        ],
+        "patch": [
+          {
+            "author": "mifraser@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "8050c2528603087c818a444714eb04a74e3e55c9",
+            "comment": "fix: Ensure scrollTo uses the correct item size"
+          }
+        ],
+        "none": [
+          {
+            "author": "mifraser@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "24f8e86a72d3febf005ce090f1579bdb3017c318",
+            "comment": "fix: Revert changes"
+          }
+        ]
+      }
+    },
+    {
       "date": "Mon, 22 Sep 2025 16:45:21 GMT",
       "tag": "@fluentui-contrib/react-virtualizer_v0.3.0",
       "version": "0.3.0",

@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "feat: Enable complex dynamic scenarios with add and remove items, reduce remounting",
-  "packageName": "@fluentui-contrib/react-virtualizer",
-  "email": "mifraser@microsoft.com",
-  "dependentChangeType": "patch"
-}
