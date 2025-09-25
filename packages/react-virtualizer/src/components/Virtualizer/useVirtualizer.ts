@@ -57,7 +57,6 @@ export function useVirtualizer_unstable(
 
   const setActualIndex = React.useCallback(
     (index: number) => {
-      console.log('Setting actual internal index:', index);
       actualIndexRef.current = index;
       _virtualizerContext.setContextIndex(index);
     },
@@ -429,7 +428,7 @@ export function useVirtualizer_unstable(
             // Add to original after position
             measurementPos += overflowAmount;
             // Ignore buffer size (IO offset)
-            measurementPos -= bufferSize;
+            measurementPos += bufferSize;
             // we hit the after buffer and detected the end of view, we need to find the start index.
             measurementPos -= containerSizeRef.current ?? 0;
 
@@ -642,7 +641,6 @@ export function useVirtualizer_unstable(
     }
   }, [actualIndex, onRenderedFlaggedIndex, virtualizerLength]);
 
-  console.log('Virtualizer internal render:', actualIndex);
   return {
     components: {
       before: 'div',

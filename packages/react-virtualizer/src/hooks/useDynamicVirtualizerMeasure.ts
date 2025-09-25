@@ -37,7 +37,6 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
 
   const numItemsRef = React.useRef<number>(numItems);
   const containerSizeRef = React.useRef<number>(0);
-  const scrollPosition = React.useRef<number>(0);
 
   const { targetDocument } = useFluent();
   const container = React.useRef<HTMLElement | null>(null);
@@ -54,14 +53,14 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
 
       for (let i = virtualizerContext.contextIndex; i < numItems; i++) {
         sizeTracker += getItemSize(i) + gap;
-        if (sizeTracker >= scrollPos) {
+        if (sizeTracker >= scrollPos - virtualizerBufferSize) {
           return i;
         }
       }
 
       return -1;
     },
-    [getItemSize, numItems]
+    [numItems]
   );
 
   const handleScrollResize = React.useCallback(
@@ -92,12 +91,14 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
       let length = 0;
 
       const sizeToBeat = containerSizeRef.current + virtualizerBufferSize * 2;
+      const scrollPosition =
+        direction === 'horizontal'
+          ? scrollRef.current?.scrollLeft
+          : scrollRef.current?.scrollTop;
       let startIndex = virtualizerContext.contextIndex;
       if (numItemsRef.current !== numItems) {
         // Our item count has changed, ensure we have an accurate start index
-        const newIndex =
-          getIndexFromScrollPos(scrollPosition.current) -
-          virtualizerBufferItems;
+        const newIndex = getIndexFromScrollPos(scrollPosition);
         if (newIndex >= 0) {
           // Only update if index was found
           startIndex = newIndex;
@@ -111,13 +112,13 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
           virtualizerContext.childProgressiveSizes.current[startIndex + i] -
           iItemSize;
 
-        if (scrollPosition.current > currentItemPos + iItemSize) {
+        if (scrollPosition > currentItemPos + iItemSize) {
           // The item isn't in view, ignore for now.
           i++;
           continue;
-        } else if (scrollPosition.current > currentItemPos) {
+        } else if (scrollPosition > currentItemPos) {
           // The item is partially out of view, ignore the out of bounds portion
-          const variance = currentItemPos + iItemSize - scrollPosition.current;
+          const variance = currentItemPos + iItemSize - scrollPosition;
           indexSizer += variance;
         } else {
           // Item is in view
@@ -154,7 +155,6 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
       bufferSize,
       defaultItemSize,
       direction,
-      getItemSize,
       numItems,
       targetDocument?.body,
       targetDocument?.defaultView,
@@ -204,7 +204,6 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
 
   const updateScrollPosition = React.useCallback(
     (_scrollPosition: number) => {
-      scrollPosition.current = _scrollPosition;
       // Check if our vLength's need recalculating
       handleScrollResize(scrollRef);
     },
