@@ -124,11 +124,12 @@ export function useMeasureList<
 
         // cleanup previous container
         const prevEl = refArray.current[index];
-        if (prevEl) {
+        refArray.current[index] = undefined;
+        if (prevEl && !refArray.current.includes(prevEl)) {
+          // Only remove if it doesn't exist in array now (might have moved index)
           resizeObserver.current.unobserve(prevEl);
         }
 
-        refArray.current[index] = undefined;
         if (el) {
           refArray.current[index] = el;
           resizeObserver.current.observe(el);
