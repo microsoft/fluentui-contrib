@@ -57,6 +57,7 @@ export function useVirtualizer_unstable(
 
   const setActualIndex = React.useCallback(
     (index: number) => {
+      console.log('Setting actual internal index:', index);
       actualIndexRef.current = index;
       _virtualizerContext.setContextIndex(index);
     },
@@ -154,12 +155,12 @@ export function useVirtualizer_unstable(
   const prevIndex = React.useRef<number>(actualIndex);
   const prevVirtualizerLength = React.useRef<number>(virtualizerLength);
   const renderChildRows = React.useCallback(
-    (newIndex: number) => {
+    (_newIndex: number) => {
       if (numItems === 0) {
         /* Nothing to virtualize */
         return [];
       }
-
+      const newIndex = Math.max(_newIndex, 0);
       const arrayLength = Math.min(virtualizerLength, numItems - newIndex);
       if (
         prevIndex.current === newIndex &&
@@ -641,6 +642,7 @@ export function useVirtualizer_unstable(
     }
   }, [actualIndex, onRenderedFlaggedIndex, virtualizerLength]);
 
+  console.log('Virtualizer internal render:', actualIndex);
   return {
     components: {
       before: 'div',
