@@ -17,13 +17,16 @@ export function useMeasureList<
 >(measureParams: {
   currentIndex: number;
   totalLength: number;
+  virtualizerLength: number;
   defaultItemSize: number;
   sizeTrackingArray: React.MutableRefObject<number[]>;
   axis: 'horizontal' | 'vertical';
   requestScrollBy?: (sizeChange: number) => void;
 }): {
   createIndexedRef: (index: number) => (el: TElement) => void;
-  refArray: React.MutableRefObject<(TElement | null | undefined)[]>;
+  refObject: React.MutableRefObject<{
+    [key: string]: TElement | null;
+  }>;
 } {
   const {
     currentIndex,
@@ -32,15 +35,19 @@ export function useMeasureList<
     sizeTrackingArray,
     axis,
     requestScrollBy,
+    virtualizerLength,
   } = measureParams;
 
-  const refArray = React.useRef<Array<TElement | undefined | null>>([]);
   const { targetDocument } = useFluent();
+
+  // Use ref object to track and delete observed elements
+  const refObject = React.useRef<{ [key: string]: TElement | null }>({});
 
   // the handler for resize observer
   const handleIndexUpdate = React.useCallback(
     (index: number) => {
-      const boundClientRect = refArray.current[index]?.getBoundingClientRect();
+      const boundClientRect =
+        refObject.current[index.toString()]?.getBoundingClientRect();
 
       if (!boundClientRect) {
         return;
@@ -51,8 +58,7 @@ export function useMeasureList<
           ? boundClientRect?.height
           : boundClientRect?.width) ?? defaultItemSize;
 
-      const sizeDifference =
-        containerSize - sizeTrackingArray.current[currentIndex + index];
+      const sizeDifference = containerSize - sizeTrackingArray.current[index];
 
       // Todo: Handle reverse setup
       // This requests a scrollBy to offset the new change
@@ -66,9 +72,9 @@ export function useMeasureList<
       }
 
       // Update size tracking array which gets exposed if teams need it
-      sizeTrackingArray.current[currentIndex + index] = containerSize;
+      sizeTrackingArray.current[index] = containerSize;
     },
-    [currentIndex, defaultItemSize]
+    [defaultItemSize]
   );
 
   const handleElementResizeCallback = (entries: ResizeObserverEntry[]) => {
@@ -118,29 +124,45 @@ export function useMeasureList<
 
         if (el) {
           el.handleResize = () => {
-            handleIndexUpdate(index);
+            handleIndexUpdate(currentIndex + index);
           };
         }
 
+        const stringIndex = (index + currentIndex).toString();
+
         // cleanup previous container
-        const prevEl = refArray.current[index];
-        refArray.current[index] = undefined;
-        if (prevEl && !refArray.current.includes(prevEl)) {
+        const prevEl = refObject.current[stringIndex];
+        delete refObject.current[stringIndex];
+        if (prevEl) {
           // Only remove if it doesn't exist in array now (might have moved index)
           resizeObserver.current.unobserve(prevEl);
         }
 
         if (el) {
-          refArray.current[index] = el;
+          refObject.current[stringIndex] = el;
           resizeObserver.current.observe(el);
-          handleIndexUpdate(index);
+          handleIndexUpdate(currentIndex + index);
         }
       };
 
       return measureElementRef;
     },
-    [handleIndexUpdate, resizeObserver, targetDocument]
+    [handleIndexUpdate, resizeObserver, targetDocument, currentIndex]
   );
+
+  React.useEffect(() => {
+    // Delete and unobserve any removed elements on index change
+    Object.keys(refObject.current).forEach((key: string) => {
+      const intKey = parseInt(key, 10);
+      if (intKey < currentIndex || intKey >= currentIndex + virtualizerLength) {
+        const el = refObject.current[key];
+        delete refObject.current[key];
+        if (el) {
+          resizeObserver.current?.unobserve(el);
+        }
+      }
+    });
+  }, [virtualizerLength, currentIndex]);
 
   React.useEffect(() => {
     const _resizeObserver = resizeObserver;
@@ -149,7 +171,7 @@ export function useMeasureList<
 
   return {
     createIndexedRef,
-    refArray,
+    refObject,
   };
 }
 

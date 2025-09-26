@@ -15,9 +15,7 @@ export const scrollToItemDynamic = (
 
   let itemDepth = 0;
   for (let i = 0; i < index; i++) {
-    if (i < index) {
-      itemDepth += getItemSize(i);
-    }
+    itemDepth += getItemSize(i);
   }
 
   if (axis === 'horizontal') {

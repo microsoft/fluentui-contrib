@@ -101,10 +101,6 @@ export function useVirtualizer_unstable(
     if (numItems !== childProgressiveSizes.current.length) {
       // Item added/removed could have been from anywhere in array, reset all.
       childProgressiveSizes.current = new Array<number>(numItems);
-      if (virtualizerContext?.childProgressiveSizes) {
-        virtualizerContext.childProgressiveSizes.current =
-          childProgressiveSizes.current;
-      }
     }
 
     for (let index = 0; index < numItems; index++) {
@@ -117,7 +113,12 @@ export function useVirtualizer_unstable(
           childProgressiveSizes.current[index - 1] + childSizes.current[index];
       }
     }
-  }, [getItemSize, numItems, gap]);
+
+    if (virtualizerContext?.childProgressiveSizes) {
+      virtualizerContext.childProgressiveSizes.current =
+        childProgressiveSizes.current;
+    }
+  }, [numItems, gap]);
 
   const [isScrolling, setIsScrolling] = React.useState<boolean>(false);
   const [setScrollTimer, clearScrollTimer] = useTimeout();
@@ -247,7 +248,7 @@ export function useVirtualizer_unstable(
         }
       }
     },
-    [getItemSize, numItems, virtualizerLength, gap]
+    [numItems, virtualizerLength, gap]
   );
 
   const batchUpdateNewIndex = React.useCallback(
@@ -326,7 +327,7 @@ export function useVirtualizer_unstable(
 
       return getIndexFromSizeArray(scrollPos);
     },
-    [getIndexFromSizeArray, getItemSize, itemSize, gap]
+    [getIndexFromSizeArray, itemSize, gap]
   );
 
   const calculateTotalSize = React.useCallback(() => {
@@ -336,11 +337,10 @@ export function useVirtualizer_unstable(
 
     // Time for custom size calcs
     return childProgressiveSizes.current[numItems - 1];
-  }, [getItemSize, itemSize, numItems, gap]);
+  }, [itemSize, numItems, gap]);
 
   const calculateBefore = React.useCallback(() => {
     const currentIndex = Math.min(actualIndex, numItems - 1);
-
     if (!getItemSize) {
       // The missing items from before virtualization starts height
       return currentIndex * (itemSize + gap);
@@ -352,7 +352,7 @@ export function useVirtualizer_unstable(
 
     // Time for custom size calcs
     return childProgressiveSizes.current[currentIndex - 1];
-  }, [actualIndex, getItemSize, itemSize, numItems, gap]);
+  }, [actualIndex, itemSize, numItems, gap]);
 
   const calculateAfter = React.useCallback(() => {
     if (numItems === 0 || actualIndex + virtualizerLength >= numItems) {
@@ -371,7 +371,7 @@ export function useVirtualizer_unstable(
       childProgressiveSizes.current[numItems - 1] -
       childProgressiveSizes.current[lastItemIndex - 1]
     );
-  }, [actualIndex, getItemSize, itemSize, numItems, virtualizerLength, gap]);
+  }, [actualIndex, itemSize, numItems, virtualizerLength, gap]);
 
   // We store the number of items since last render, we will allow an update if the number of items changes
   const previousNumItems = React.useRef<number>(numItems);
