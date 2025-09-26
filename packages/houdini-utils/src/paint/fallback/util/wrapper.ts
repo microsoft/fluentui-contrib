@@ -1,12 +1,14 @@
-const createWrapper = (id: string): HTMLElement => {
-  // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
-  // eslint-disable-next-line no-restricted-globals
-  let wrapper = document.getElementById(id);
+import { getDocument } from '../../../util/featureDetect';
+
+const createWrapper = (
+  id: string,
+  target?: HTMLElement | null
+): HTMLElement => {
+  const localDocument = getDocument(target);
+  let wrapper = localDocument.getElementById(id);
 
   if (!wrapper) {
-    // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
-    // eslint-disable-next-line no-restricted-globals
-    wrapper = document.createElement('div');
+    wrapper = localDocument.createElement('div');
     wrapper.id = id;
     // Safari requires the canvas to have be visible in the
     // viewport at some point (from what I can tell, the feature
