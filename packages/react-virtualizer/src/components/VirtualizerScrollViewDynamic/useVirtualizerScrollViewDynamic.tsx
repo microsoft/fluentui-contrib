@@ -39,7 +39,7 @@ export function useVirtualizerScrollViewDynamic_unstable(
     new Array(props.numItems).fill(props.itemSize)
   );
 
-  const getChildSizeAuto = (index: number) => {
+  const getChildSizeAuto = React.useCallback((index: number) => {
     if (
       sizeTrackingArray.current.length <= index ||
       sizeTrackingArray.current[index] <= 0
@@ -51,7 +51,7 @@ export function useVirtualizerScrollViewDynamic_unstable(
      * we use a sizing array ref that we will update post-render
      */
     return sizeTrackingArray.current[index];
-  };
+  }, []);
 
   const {
     virtualizerLength,

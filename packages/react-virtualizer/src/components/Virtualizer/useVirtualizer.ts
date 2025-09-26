@@ -55,6 +55,10 @@ export function useVirtualizer_unstable(
     actualIndexRef.current = _virtualizerContext.contextIndex;
   }
 
+  React.useEffect(() => {
+    populateSizeArrays();
+  }, [numItems]);
+
   const setActualIndex = React.useCallback(
     (index: number) => {
       actualIndexRef.current = index;
@@ -95,6 +99,7 @@ export function useVirtualizer_unstable(
     }
 
     if (numItems !== childProgressiveSizes.current.length) {
+      // Item added/removed could have been from anywhere in array, reset all.
       childProgressiveSizes.current = new Array<number>(numItems);
       if (virtualizerContext?.childProgressiveSizes) {
         virtualizerContext.childProgressiveSizes.current =
@@ -112,7 +117,7 @@ export function useVirtualizer_unstable(
           childProgressiveSizes.current[index - 1] + childSizes.current[index];
       }
     }
-  }, [getItemSize, numItems, gap, virtualizerContext]);
+  }, [getItemSize, numItems, gap]);
 
   const [isScrolling, setIsScrolling] = React.useState<boolean>(false);
   const [setScrollTimer, clearScrollTimer] = useTimeout();
@@ -622,10 +627,6 @@ export function useVirtualizer_unstable(
     }
     initializeSizeArray();
   }, []);
-
-  React.useEffect(() => {
-    populateSizeArrays();
-  }, [populateSizeArrays]);
 
   // Effect to check flag index on updates
   React.useEffect(() => {

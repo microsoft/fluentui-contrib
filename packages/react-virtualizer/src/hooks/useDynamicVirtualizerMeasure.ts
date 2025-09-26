@@ -28,40 +28,18 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
     bufferItems,
     bufferSize,
     virtualizerContext,
-    gap = 0,
   } = virtualizerProps;
 
   const [virtualizerLength, setVirtualizerLength] = React.useState(0);
   const [virtualizerBufferItems, setVirtualizerBufferItems] = React.useState(0);
   const [virtualizerBufferSize, setVirtualizerBufferSize] = React.useState(0);
 
+  const scrollPositionRef = React.useRef(0);
   const numItemsRef = React.useRef<number>(numItems);
   const containerSizeRef = React.useRef<number>(0);
 
   const { targetDocument } = useFluent();
   const container = React.useRef<HTMLElement | null>(null);
-
-  const getIndexFromScrollPos = React.useCallback(
-    (scrollPos: number): number => {
-      /* This is used on numItems change
-       * It checks via current render sizes what the current index should be
-       */
-      let sizeTracker =
-        virtualizerContext.childProgressiveSizes.current[
-          virtualizerContext.contextIndex
-        ] || 0;
-
-      for (let i = virtualizerContext.contextIndex; i < numItems; i++) {
-        sizeTracker += getItemSize(i) + gap;
-        if (sizeTracker >= scrollPos - virtualizerBufferSize) {
-          return i;
-        }
-      }
-
-      return -1;
-    },
-    [numItems]
-  );
 
   const handleScrollResize = React.useCallback(
     (scrollRef: React.MutableRefObject<HTMLElement | null>) => {
@@ -90,20 +68,22 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
       let i = 0;
       let length = 0;
 
-      const sizeToBeat = containerSizeRef.current + virtualizerBufferSize * 2;
-      const scrollPosition =
-        direction === 'horizontal'
-          ? scrollRef.current?.scrollLeft
-          : scrollRef.current?.scrollTop;
-      let startIndex = virtualizerContext.contextIndex;
-      if (numItemsRef.current !== numItems) {
-        // Our item count has changed, ensure we have an accurate start index
-        const newIndex = getIndexFromScrollPos(scrollPosition);
-        if (newIndex >= 0) {
-          // Only update if index was found
-          startIndex = newIndex;
-        }
-      }
+      const actualScrollPos =
+        direction === 'vertical'
+          ? scrollRef.current.scrollTop
+          : scrollRef.current.scrollLeft;
+
+      // Our scrollable window may have increased in size due to dynamic content
+      // We don't want to over-optimize here, just ensure vLength is long enough to cover
+      // If we return to these items, index change will optimize
+      // (Safer to have slightly more rows rendered than to complicate/rerender index changes)
+      const scrollPosDiff = Math.max(
+        0,
+        actualScrollPos - scrollPositionRef.current
+      );
+      const sizeToBeat =
+        containerSizeRef.current + scrollPosDiff + virtualizerBufferSize * 2;
+      const startIndex = virtualizerContext.contextIndex;
       numItemsRef.current = numItems;
 
       while (indexSizer <= sizeToBeat && i + startIndex < numItems) {
@@ -112,13 +92,14 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
           virtualizerContext.childProgressiveSizes.current[startIndex + i] -
           iItemSize;
 
-        if (scrollPosition > currentItemPos + iItemSize) {
+        if (scrollPositionRef.current > currentItemPos + iItemSize) {
           // The item isn't in view, ignore for now.
           i++;
           continue;
-        } else if (scrollPosition > currentItemPos) {
+        } else if (scrollPositionRef.current > currentItemPos) {
           // The item is partially out of view, ignore the out of bounds portion
-          const variance = currentItemPos + iItemSize - scrollPosition;
+          const variance =
+            currentItemPos + iItemSize - scrollPositionRef.current;
           indexSizer += variance;
         } else {
           // Item is in view
@@ -140,11 +121,6 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
        */
       const newBufferSize = bufferSize ?? Math.max(defaultItemSize / 2, 1);
       const totalLength = length + newBufferItems * 2;
-
-      // This will only trigger if dynamic resize causes nessecary changes
-      if (virtualizerContext.contextIndex !== startIndex) {
-        virtualizerContext.setContextIndex(startIndex);
-      }
 
       setVirtualizerLength(totalLength);
       setVirtualizerBufferItems(newBufferItems);
@@ -205,6 +181,7 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
   const updateScrollPosition = React.useCallback(
     (_scrollPosition: number) => {
       // Check if our vLength's need recalculating
+      scrollPositionRef.current = _scrollPosition;
       handleScrollResize(scrollRef);
     },
     [handleScrollResize, scrollRef]
