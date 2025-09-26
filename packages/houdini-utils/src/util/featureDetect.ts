@@ -64,7 +64,8 @@ export const hasWebkitCanvas: FeatureDetectFn = (
   target?: HTMLElement | null
 ) => {
   return (
-    hasDom() && typeof getDocument(target).getCSSCanvasContext === 'function'
+    hasDom(target) &&
+    typeof getDocument(target).getCSSCanvasContext === 'function'
   );
 };
 
