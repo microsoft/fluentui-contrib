@@ -1,12 +1,5 @@
 import { getCSS, hasHoudini } from './featureDetect';
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
-declare namespace CSS {
-  export const paintWorklet: {
-    addModule: (url: string) => Promise<void>;
-  };
-}
-
 /**
  * Add a PaintWorklet module to the CSS Paint API.
  * @param baseUrl Base URL (e.g., https://cdn.example.com/paintworklets/)
@@ -14,7 +7,11 @@ declare namespace CSS {
  * @param target Optional target element to determine the document context.
  * @returns Promise that resolves when the module is added and throws when there is an error.
  */
-export const addModule = (baseUrl: string, fileName: string, target?: HTMLElement | null): Promise<void> => {
+export const addModule = (
+  baseUrl: string,
+  fileName: string,
+  target?: HTMLElement | null
+): Promise<void> => {
   if (hasHoudini(target)) {
     const url = `${baseUrl}${fileName}`;
     return getCSS(target).paintWorklet.addModule(url);
