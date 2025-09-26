@@ -1,5 +1,6 @@
 import { playAnim } from './anims/play';
 import {
+  getDocument,
   hasDom,
   hasMozElement,
   hasWebkitCanvas,
@@ -35,7 +36,7 @@ export const fallbackPaintAnimation = (
   paintWorklet: PaintWorklet,
   animationParams: FallbackAnimationParams
 ): FallbackAnimationReturn => {
-  if (!hasDom()) {
+  if (!hasDom(target)) {
     return cannotDraw;
   }
 
@@ -52,13 +53,11 @@ export const fallbackPaintAnimation = (
   // Create a wrapper for us to store these elements in so we avoid
   // thrashing the DOM with appends.
   if (!state.wrapper) {
-    // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
-    // eslint-disable-next-line no-restricted-globals
-    state.wrapper = appendWrapper(document.body);
+    state.wrapper = appendWrapper(getDocument(target).body);
   }
 
-  if (hasMozElement()) {
-    const ctx = createMozContext(state.id);
+  if (hasMozElement(target)) {
+    const ctx = createMozContext(state.id, target);
     if (!ctx) {
       return cannotDraw;
     }
@@ -66,7 +65,7 @@ export const fallbackPaintAnimation = (
     state.ctx = ctx;
     state.mode = 'moz-element';
     appendCanvas(state.wrapper as HTMLElement, state.ctx.canvas);
-  } else if (hasWebkitCanvas()) {
+  } else if (hasWebkitCanvas(target)) {
     state.mode = 'webkit-canvas';
     // We need to get a new context for every draw to account for potential
     // size changes. We're just doing a null check here so we won't absorb
