@@ -40,6 +40,7 @@ export const hasDom: FeatureDetectFn = (target?: HTMLElement | null) => {
 /**
  * Test if the APIs neccessary for the Firefox fallback exist.
  *
+ * @param target Optional target element to determine the document context.
  * @returns `true` if the browser supports the necessary APIs, `false` otherwise.
  */
 export const hasMozElement: FeatureDetectFn = (target?: HTMLElement | null) => {
@@ -48,6 +49,7 @@ export const hasMozElement: FeatureDetectFn = (target?: HTMLElement | null) => {
 
 /**
  * Test if the APIs necessary for the Safari fallback exist.
+ * @param target Optional target element to determine the document context.
  * @returns `true` if the browser supports the necessary APIs, `false` otherwise.
  */
 export const hasWebkitCanvas: FeatureDetectFn = (target?: HTMLElement | null) => {
@@ -57,6 +59,7 @@ export const hasWebkitCanvas: FeatureDetectFn = (target?: HTMLElement | null) =>
 /**
  * Test if CSS Houdini APIs are availabe.
  * @see canUseHoudini() for a more robust test.
+ * @param target Optional target element to determine the document context.
  * @returns `true` if the browser supports necessary Houdini APIs, `false` otherwise.
  */
 export const hasHoudini: FeatureDetectFn = (target?: HTMLElement | null) => {
@@ -76,6 +79,7 @@ let canUseHoudiniCache: boolean | undefined = undefined;
  *
  * Note that this check will add a PaintWorklet as a blob URL, apps with CSP policies will always fail this check.
  * @see hasHoudini
+ * @param target Optional target element to determine the document context.
  * @returns `Promise<true>` if the browser supports necessary Houdini APIs, `Promise<false>` otherwise.
  */
 export const canUseHoudini: AsyncFeatureDetectFn = async (target?: HTMLElement | null) => {
