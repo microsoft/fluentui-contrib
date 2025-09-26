@@ -11,6 +11,9 @@ export interface IndexedResizeCallbackElement {
  * `height` - element height ref (0 by default),
  * `measureElementRef` - a ref function to be passed as `ref` to the element you want to measure
  */
+
+const SCROLL_ALLOWANCE = 100;
+
 export function useMeasureList<
   TElement extends HTMLElement & IndexedResizeCallbackElement = HTMLElement &
     IndexedResizeCallbackElement
@@ -21,6 +24,7 @@ export function useMeasureList<
   defaultItemSize: number;
   sizeTrackingArray: React.MutableRefObject<number[]>;
   axis: 'horizontal' | 'vertical';
+  requestScrollBy?: (sizeChange: number) => void;
 }): {
   createIndexedRef: (index: number) => (el: TElement) => void;
   refObject: React.MutableRefObject<{
@@ -33,6 +37,7 @@ export function useMeasureList<
     defaultItemSize,
     sizeTrackingArray,
     axis,
+    requestScrollBy,
     virtualizerLength,
   } = measureParams;
 
@@ -56,10 +61,22 @@ export function useMeasureList<
           ? boundClientRect?.height
           : boundClientRect?.width) ?? defaultItemSize;
 
+      const sizeDifference = containerSize - sizeTrackingArray.current[index];
+      // Todo: Handle reverse setup
+      // This requests a scrollBy to offset the new change
+      if (sizeDifference !== 0) {
+        const itemPosition = boundClientRect.bottom - SCROLL_ALLOWANCE;
+        if (axis === 'vertical' && itemPosition <= sizeDifference) {
+          requestScrollBy?.(sizeDifference);
+        } else if (axis === 'horizontal' && itemPosition <= sizeDifference) {
+          requestScrollBy?.(sizeDifference);
+        }
+      }
+
       // Update size tracking array which gets exposed if teams need it
       sizeTrackingArray.current[index] = containerSize;
     },
-    [defaultItemSize]
+    [defaultItemSize, requestScrollBy, axis, sizeTrackingArray]
   );
 
   const handleElementResizeCallback = (entries: ResizeObserverEntry[]) => {

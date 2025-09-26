@@ -40,6 +40,10 @@ const useStyles = makeStyles({
     flexDirection: 'row-reverse',
     overflowX: 'auto',
   },
+  enableScrollAnchor: {
+    // When scroll anchor is enabled, we handle scroll changes ourselves
+    overflowAnchor: 'none',
+  },
 });
 
 /**
@@ -50,6 +54,7 @@ export const useVirtualizerScrollViewDynamicStyles_unstable = (
 ): VirtualizerScrollViewDynamicState => {
   'use no memo';
 
+  const { enableScrollAnchor } = state;
   const styles = useStyles();
 
   // Default virtualizer styles base
@@ -69,7 +74,9 @@ export const useVirtualizerScrollViewDynamicStyles_unstable = (
     virtualizerScrollViewDynamicClassNames.container,
     styles.base,
     containerStyle,
-    state.container.className
+    state.container.className,
+    // Ensure browser-based anchor is disabled if our prop is set (override user)
+    enableScrollAnchor && styles.enableScrollAnchor
   );
 
   return state;

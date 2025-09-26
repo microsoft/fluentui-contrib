@@ -31,6 +31,7 @@ export function useVirtualizerScrollViewDynamic_unstable(
     enablePagination = false,
     bufferItems: _bufferItems,
     bufferSize: _bufferSize,
+    enableScrollAnchor,
     gap = 0,
   } = props;
 
@@ -91,7 +92,6 @@ export function useVirtualizerScrollViewDynamic_unstable(
   if (virtualizerLengthRef.current !== virtualizerLength) {
     virtualizerLengthRef.current = virtualizerLength;
   }
-
   const localScrollRef = React.useRef<HTMLDivElement>(null);
   const scrollViewRef = useMergedRefs(
     props.scrollViewRef,
@@ -183,6 +183,20 @@ export function useVirtualizerScrollViewDynamic_unstable(
     updateScrollPosition,
   });
 
+  const requestScrollBy = React.useCallback(
+    (sizeChange: number) => {
+      // Handle any size changes so that scroll view doesn't jump around
+      if (enableScrollAnchor) {
+        localScrollRef.current?.scrollBy({
+          top: axis === 'vertical' ? sizeChange : 0,
+          left: axis === 'vertical' ? 0 : sizeChange,
+          behavior: 'instant',
+        });
+      }
+    },
+    [enableScrollAnchor, axis, localScrollRef]
+  );
+
   const measureObject = useMeasureList({
     currentIndex: Math.max(virtualizerState.virtualizerStartIndex, 0),
     totalLength: props.numItems,
@@ -190,6 +204,7 @@ export function useVirtualizerScrollViewDynamic_unstable(
     sizeTrackingArray,
     axis,
     virtualizerLength,
+    requestScrollBy,
   });
 
   // Enables auto-measuring and tracking post render sizes externally
@@ -222,6 +237,7 @@ export function useVirtualizerScrollViewDynamic_unstable(
 
   return {
     ...virtualizerState,
+    enableScrollAnchor,
     components: {
       ...virtualizerState.components,
       container: 'div',
