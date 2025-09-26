@@ -21,14 +21,19 @@ declare global {
   }
 }
 
-export type FeatureDetectFn = () => boolean;
-export type AsyncFeatureDetectFn = () => Promise<boolean>;
+export interface CSSWithPaintWorklet {
+  paintWorklet: {
+    addModule: (url: string) => Promise<void>;
+  };
+  registerProperty?: any;
+}
 
-export const hasDom: FeatureDetectFn = () => {
+export type FeatureDetectFn = (target?: HTMLElement | null) => boolean;
+export type AsyncFeatureDetectFn = (target?: HTMLElement | null) => Promise<boolean>;
+
+export const hasDom: FeatureDetectFn = (target?: HTMLElement | null) => {
   return (
-    // This will hold regardless of the specific `document` object
-    // eslint-disable-next-line no-restricted-globals
-    typeof document !== 'undefined'
+    typeof getDocument(target) !== 'undefined'
   );
 };
 
@@ -37,20 +42,16 @@ export const hasDom: FeatureDetectFn = () => {
  *
  * @returns `true` if the browser supports the necessary APIs, `false` otherwise.
  */
-export const hasMozElement: FeatureDetectFn = () => {
-  // This will hold regardless of the specific `document` object
-  // eslint-disable-next-line no-restricted-globals
-  return hasDom() && typeof document.mozSetImageElement === 'function';
+export const hasMozElement: FeatureDetectFn = (target?: HTMLElement | null) => {
+  return hasDom(target) && typeof getDocument(target).mozSetImageElement === 'function';
 };
 
 /**
  * Test if the APIs necessary for the Safari fallback exist.
  * @returns `true` if the browser supports the necessary APIs, `false` otherwise.
  */
-export const hasWebkitCanvas: FeatureDetectFn = () => {
-  // This will hold regardless of the specific `document` object
-  // eslint-disable-next-line no-restricted-globals
-  return hasDom() && typeof document.getCSSCanvasContext === 'function';
+export const hasWebkitCanvas: FeatureDetectFn = (target?: HTMLElement | null) => {
+  return hasDom() && typeof getDocument(target).getCSSCanvasContext === 'function';
 };
 
 /**
@@ -58,16 +59,13 @@ export const hasWebkitCanvas: FeatureDetectFn = () => {
  * @see canUseHoudini() for a more robust test.
  * @returns `true` if the browser supports necessary Houdini APIs, `false` otherwise.
  */
-export const hasHoudini: FeatureDetectFn = () => {
+export const hasHoudini: FeatureDetectFn = (target?: HTMLElement | null) => {
+  const localWindow = getWindow(target);
   return (
-    // This will hold regardless of the specific `window` object
-    // eslint-disable-next-line no-restricted-globals
-    typeof window !== 'undefined' &&
-    // This will hold regardless of the specific `window` object
-    // eslint-disable-next-line no-restricted-globals
-    window.CSS &&
-    'paintWorklet' in CSS &&
-    'registerProperty' in CSS
+    typeof localWindow !== 'undefined' &&
+    localWindow.CSS &&
+    'paintWorklet' in localWindow.CSS &&
+    'registerProperty' in localWindow.CSS
   );
 };
 
@@ -80,12 +78,12 @@ let canUseHoudiniCache: boolean | undefined = undefined;
  * @see hasHoudini
  * @returns `Promise<true>` if the browser supports necessary Houdini APIs, `Promise<false>` otherwise.
  */
-export const canUseHoudini: AsyncFeatureDetectFn = async () => {
+export const canUseHoudini: AsyncFeatureDetectFn = async (target?: HTMLElement | null) => {
   if (typeof canUseHoudiniCache === 'boolean') {
     return canUseHoudiniCache;
   }
 
-  if (!hasHoudini()) {
+  if (!hasHoudini(target)) {
     return false;
   }
 
@@ -99,7 +97,8 @@ export const canUseHoudini: AsyncFeatureDetectFn = async () => {
       `data:text/javascript,${encodeURIComponent(
         `registerPaint('fluent-ai-can-use-houdini-feature-detect', class { paint() {} })`
       )}`,
-      ''
+      '',
+      target
     );
     canUseHoudiniCache = true;
     return true;
@@ -108,3 +107,25 @@ export const canUseHoudini: AsyncFeatureDetectFn = async () => {
     return false;
   }
 };
+
+/**
+ * Get the document object for a specific target element.
+ * @param target Optional target element to determine the document context.
+ * @returns The document object for the specified target element or the global document.
+ */
+export const getDocument = (target?: HTMLElement | null): Document => target?.ownerDocument ?? document;
+
+/**
+ * Get the window object for a specific target element.
+ * @param target Optional target element to determine the window context.
+ * @returns The window object for the specified target element or the global window.
+ */
+export const getWindow = (target?: HTMLElement | null): Window & typeof globalThis => getDocument(target).defaultView ?? window;
+
+/**
+ * Get the CSS object for a specific target element.
+ * @param target Optional target element to determine the document context.
+ * @returns The CSS object for the specified target element or the global CSS object.
+ */
+export const getCSS = (target?: HTMLElement | null): CSSWithPaintWorklet =>
+  getWindow(target).CSS as unknown as CSSWithPaintWorklet;
