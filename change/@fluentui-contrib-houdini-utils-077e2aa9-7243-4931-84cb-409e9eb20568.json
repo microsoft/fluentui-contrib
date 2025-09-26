@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "Add support for multi window detection",
+  "packageName": "@fluentui-contrib/houdini-utils",
+  "email": "marcim@microsoft.com",
+  "dependentChangeType": "patch"
+}
