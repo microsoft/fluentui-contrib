@@ -11,6 +11,7 @@ import type {
   FallbackAnimationValues,
   EaseMap,
 } from '../../types';
+import { getWindow } from '../../util/featureDetect';
 
 const eases: EaseMap = {
   linear: lerp,
@@ -31,9 +32,7 @@ export const createKeyframeAnimation: CreateKeyframeAnimationFn = ({
 
   const anims = [] as FallbackAnimation[];
   let overallDuration = 0;
-  // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
-  // eslint-disable-next-line no-restricted-globals
-  const styles = getComputedStyle(target);
+  const styles = getWindow(target).getComputedStyle(target);
   for (
     let animationIndex = 0;
     animationIndex < animations.length;

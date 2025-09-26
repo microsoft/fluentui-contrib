@@ -6,23 +6,25 @@ import type {
   FallbackAnimationState,
   PaintWorklet,
 } from '../../../types';
-import { hasMozElement, hasWebkitCanvas } from '../../../util/featureDetect';
+import {
+  getWindow,
+  hasMozElement,
+  hasWebkitCanvas,
+} from '../../../util/featureDetect';
 
 export type PlayAnimFn = () => (state: FallbackAnimationState) => () => void;
 
 export const playAnim = (
   state: FallbackAnimationState,
   paintWorklet: PaintWorklet,
-  animationParams: FallbackAnimationParams
+  animationParams: FallbackAnimationParams,
+  target?: HTMLElement | null
 ): ((onComplete: CallbackFn, onUpdate?: CallbackFn) => void) => {
   const props = new Map<string, string>();
-  // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
-  // eslint-disable-next-line no-restricted-globals
-  const styles = getComputedStyle(state.target);
+  const localWindow = getWindow(target);
+  const styles = localWindow.getComputedStyle(state.target);
   const rect = { width: 0, height: 0 };
-  // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
-  // eslint-disable-next-line no-restricted-globals
-  const resizeObserver = new ResizeObserver((entries) => {
+  const resizeObserver = new localWindow.ResizeObserver((entries) => {
     for (const entry of entries) {
       if (entry.target === state.target) {
         if (Array.isArray(entry.borderBoxSize)) {
@@ -69,9 +71,9 @@ export const playAnim = (
 
       // Firefox and webkit both support using canvas as a background image
       // For all other browsers, we'll use a data url
-      if (hasMozElement()) {
+      if (hasMozElement(target)) {
         state.target.style.backgroundImage = `-moz-element(#${state.id})`;
-      } else if (hasWebkitCanvas()) {
+      } else if (hasWebkitCanvas(target)) {
         // Note: Safari references its vendor-specific CSSCanvasContext
         // ID which does not use the CSS ID selector (#).
         state.target.style.backgroundImage = `-webkit-canvas(${state.id})`;

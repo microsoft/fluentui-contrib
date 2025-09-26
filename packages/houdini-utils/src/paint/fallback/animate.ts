@@ -5,6 +5,7 @@ import type {
   FallbackAnimationFn,
   TickFn,
 } from '../../types';
+import { getWindow } from '../../util/featureDetect';
 
 export const animate: FallbackAnimationFn = (params) => {
   const { onComplete, isStopped, onUpdate, ...otherParams } = params;
@@ -16,7 +17,7 @@ export const animate: FallbackAnimationFn = (params) => {
 
   const { anims, overallDuration } = result;
 
-  tick(anims, overallDuration, onComplete, onUpdate, isStopped);
+  tick(anims, overallDuration, onComplete, onUpdate, isStopped, params.target);
 };
 
 const stringifyValue = (value: number | number[]): string =>
@@ -27,17 +28,17 @@ const tick: TickFn = (
   overallDuration,
   onComplete,
   onUpdate,
-  isStopped
+  isStopped,
+  target?: HTMLElement | null
 ) => {
-  // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
-  // eslint-disable-next-line no-restricted-globals
-  let start = performance.now();
+  const localWindow = getWindow(target);
+  const localPerformance = localWindow.performance;
+
+  let start = localPerformance.now();
   const currentValues = new Map<string, string>();
   let currentIteration = 1;
 
-  // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
-  // eslint-disable-next-line no-restricted-globals
-  const raf = (time: number = performance.now()) => {
+  const raf = (time: number = localPerformance.now()) => {
     const currentDuration = time - start;
     currentValues.clear();
 
@@ -119,18 +120,12 @@ const tick: TickFn = (
       )
     ) {
       currentIteration++;
-      // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
-      // eslint-disable-next-line no-restricted-globals
-      start = performance.now();
-      // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
-      // eslint-disable-next-line no-restricted-globals
-      requestAnimationFrame(raf);
+      start = localPerformance.now();
+      localWindow.requestAnimationFrame(raf);
     } else if (currentDuration >= overallDuration) {
       onComplete(currentValues);
     } else {
-      // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
-      // eslint-disable-next-line no-restricted-globals
-      requestAnimationFrame(raf);
+      localWindow.requestAnimationFrame(raf);
     }
 
     onUpdate(currentValues);

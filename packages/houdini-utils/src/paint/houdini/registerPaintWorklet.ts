@@ -3,10 +3,11 @@ import { hasHoudini } from '../../util/featureDetect';
 
 export const registerPaintWorklet = (
   baseUrl: string,
-  filebaseUrl: string
+  filebaseUrl: string,
+  target?: HTMLElement | null
 ): Promise<void> => {
-  if (hasHoudini()) {
-    return addModule(baseUrl, filebaseUrl);
+  if (hasHoudini(target)) {
+    return addModule(baseUrl, filebaseUrl, target);
   }
 
   return Promise.resolve();

@@ -196,7 +196,9 @@ export type TickFn = (
    */
   onUpdate: CallbackFn,
 
-  isStopped: () => boolean
+  isStopped: () => boolean,
+
+  target?: HTMLElement | null
 ) => void;
 
 export type FallbackAnimationReturn = {
