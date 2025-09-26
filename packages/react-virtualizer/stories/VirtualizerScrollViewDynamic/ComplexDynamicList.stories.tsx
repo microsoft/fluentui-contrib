@@ -426,6 +426,7 @@ export const ComplexDynamicList = () => {
           role: 'list',
           className: styles.container,
           style: {
+            overflowAnchor: 'auto',
             maxHeight: '80vh',
           },
         }}

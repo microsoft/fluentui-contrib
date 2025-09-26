@@ -34,7 +34,6 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
   const [virtualizerBufferItems, setVirtualizerBufferItems] = React.useState(0);
   const [virtualizerBufferSize, setVirtualizerBufferSize] = React.useState(0);
 
-  const prevStartIndex = React.useRef(0);
   const numItemsRef = React.useRef<number>(numItems);
   const containerSizeRef = React.useRef<number>(0);
 
@@ -70,8 +69,7 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
           : scrollRef.current.scrollLeft;
 
       const sizeToBeat = containerSizeRef.current + virtualizerBufferSize * 2;
-      const startIndex = virtualizerContext.contextIndex;
-      numItemsRef.current = numItems;
+      const startIndex = Math.max(virtualizerContext.contextIndex, 0);
 
       let indexSizer = 0;
       let i = 0;
@@ -120,13 +118,15 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
       const newBufferSize = bufferSize ?? Math.max(defaultItemSize / 2, 1);
       const totalLength = length + newBufferItems * 2;
 
-      if (indexMod - newBufferItems > 0) {
+      if (numItemsRef.current !== numItems && indexMod - newBufferItems > 0) {
+        // Virtualizer will recalculate on numItems change, but from the old index
+        // We should get ahead of that update to prevent unnessecary recalculations
         virtualizerContext.setContextIndex(
           startIndex + indexMod - newBufferItems
         );
       }
 
-      prevStartIndex.current = startIndex;
+      numItemsRef.current = numItems;
       setVirtualizerLength(totalLength);
       setVirtualizerBufferItems(newBufferItems);
       setVirtualizerBufferSize(newBufferSize);
