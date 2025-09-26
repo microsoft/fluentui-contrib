@@ -56,16 +56,16 @@ export function useMeasureList<
 
       // Todo: Handle reverse setup
       // This requests a scrollBy to offset the new change
-      if (axis === 'vertical' && boundClientRect.bottom < sizeDifference) {
+      if (axis === 'vertical' && boundClientRect.bottom <= sizeDifference) {
         requestScrollBy?.(-sizeDifference);
       } else if (
         axis === 'horizontal' &&
-        boundClientRect.right < sizeDifference
+        boundClientRect.right <= sizeDifference
       ) {
         requestScrollBy?.(-sizeDifference);
       }
 
-      // Size tracking array gets exposed if teams need it
+      // Update size tracking array which gets exposed if teams need it
       sizeTrackingArray.current[currentIndex + index] = containerSize;
     },
     [currentIndex, defaultItemSize]
