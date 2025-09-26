@@ -21,7 +21,6 @@ export function useMeasureList<
   defaultItemSize: number;
   sizeTrackingArray: React.MutableRefObject<number[]>;
   axis: 'horizontal' | 'vertical';
-  requestScrollBy?: (sizeChange: number) => void;
 }): {
   createIndexedRef: (index: number) => (el: TElement) => void;
   refObject: React.MutableRefObject<{
@@ -34,7 +33,6 @@ export function useMeasureList<
     defaultItemSize,
     sizeTrackingArray,
     axis,
-    requestScrollBy,
     virtualizerLength,
   } = measureParams;
 
@@ -57,19 +55,6 @@ export function useMeasureList<
         (axis === 'vertical'
           ? boundClientRect?.height
           : boundClientRect?.width) ?? defaultItemSize;
-
-      const sizeDifference = containerSize - sizeTrackingArray.current[index];
-
-      // Todo: Handle reverse setup
-      // This requests a scrollBy to offset the new change
-      if (axis === 'vertical' && boundClientRect.bottom <= sizeDifference) {
-        requestScrollBy?.(-sizeDifference);
-      } else if (
-        axis === 'horizontal' &&
-        boundClientRect.right <= sizeDifference
-      ) {
-        requestScrollBy?.(-sizeDifference);
-      }
 
       // Update size tracking array which gets exposed if teams need it
       sizeTrackingArray.current[index] = containerSize;

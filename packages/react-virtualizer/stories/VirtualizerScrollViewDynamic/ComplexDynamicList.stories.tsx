@@ -426,13 +426,11 @@ export const ComplexDynamicList = () => {
           role: 'list',
           className: styles.container,
           style: {
-            // overflowAnchor: 'auto', // Also an option instead of enableScrollAnchor
             maxHeight: '80vh',
           },
         }}
         bufferItems={1}
         bufferSize={30}
-        enableScrollAnchor // Helps with size jumps in scrollview
         // NO getItemSize prop = auto-measurement enabled!
       >
         {renderChild}
