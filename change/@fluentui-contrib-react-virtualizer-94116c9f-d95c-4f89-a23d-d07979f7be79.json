@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "fix: Ensure RO fires on correct indexes and sizing is up to date, prevent remounts and massive layout changes from dynamic content",
+  "packageName": "@fluentui-contrib/react-virtualizer",
+  "email": "mifraser@microsoft.com",
+  "dependentChangeType": "patch"
+}
