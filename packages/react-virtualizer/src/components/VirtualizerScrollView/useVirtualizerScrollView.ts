@@ -20,7 +20,9 @@ export function useVirtualizerScrollView_unstable(
     axis = 'vertical',
     reversed,
     enablePagination = false,
+    gap,
   } = props;
+
   const {
     virtualizerLength,
     bufferItems,
@@ -73,6 +75,7 @@ export function useVirtualizerScrollView_unstable(
             axis,
             reversed,
             behavior,
+            gap,
           });
         },
         scrollToPosition(
@@ -118,6 +121,7 @@ export function useVirtualizerScrollView_unstable(
     onRenderedFlaggedIndex: handleRenderedIndex,
     imperativeVirtualizerRef,
     containerSizeRef,
+    gap,
   });
 
   return {

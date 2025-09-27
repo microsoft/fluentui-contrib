@@ -28,12 +28,14 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
     bufferItems,
     bufferSize,
     virtualizerContext,
+    gap = 0,
   } = virtualizerProps;
 
   const [virtualizerLength, setVirtualizerLength] = React.useState(0);
   const [virtualizerBufferItems, setVirtualizerBufferItems] = React.useState(0);
   const [virtualizerBufferSize, setVirtualizerBufferSize] = React.useState(0);
 
+  const scrollPosition = React.useRef(0);
   const numItemsRef = React.useRef<number>(numItems);
   const containerSizeRef = React.useRef<number>(0);
 
@@ -63,10 +65,18 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
             : targetDocument?.defaultView?.innerWidth;
       }
 
-      const actualScrollPos =
+      const _actualScrollPos =
         direction === 'vertical'
           ? scrollRef.current.scrollTop
           : scrollRef.current.scrollLeft;
+
+      /* If the numItems changed, we're going to calc
+       * a new index based on actual scroll position
+       */
+      const actualScrollPos =
+        numItemsRef.current !== numItems
+          ? _actualScrollPos
+          : scrollPosition.current;
 
       const sizeToBeat = containerSizeRef.current + virtualizerBufferSize * 2;
       const startIndex = Math.max(virtualizerContext.contextIndex, 0);
@@ -82,12 +92,9 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
           : 0;
 
       while (indexSizer <= sizeToBeat && i < numItems - startIndex) {
-        const iItemSize = getItemSize(startIndex + i);
-        if (
-          actualScrollPos - virtualizerBufferSize >
-          currentItemPos + iItemSize
-        ) {
-          // The item isn't in view, we'll update index to skip it (unless buffer).
+        const iItemSize = getItemSize(startIndex + i) + gap;
+        if (actualScrollPos > currentItemPos + iItemSize) {
+          // The item isn't in view, we'll update index to skip it.
           i++;
           indexMod++;
           currentItemPos += iItemSize;
@@ -126,6 +133,7 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
         );
       }
 
+      scrollPosition.current = actualScrollPos;
       numItemsRef.current = numItems;
       setVirtualizerLength(totalLength);
       setVirtualizerBufferItems(newBufferItems);
@@ -185,6 +193,7 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
 
   const updateScrollPosition = React.useCallback(
     (_scrollPosition: number) => {
+      scrollPosition.current = _scrollPosition;
       handleScrollResize(scrollRef);
     },
     [handleScrollResize, scrollRef]

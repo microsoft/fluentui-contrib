@@ -152,6 +152,7 @@ export function useVirtualizerScrollViewDynamic_unstable(
               axis,
               reversed,
               behavior,
+              gap,
             });
           }
         },

@@ -11,11 +11,12 @@ export const scrollToItemDynamic = (
     axis = 'vertical',
     reversed = false,
     behavior = 'auto',
+    gap = 0,
   } = params;
 
   let itemDepth = 0;
   for (let i = 0; i < index; i++) {
-    itemDepth += getItemSize(i);
+    itemDepth += getItemSize(i) + gap;
   }
 
   if (axis === 'horizontal') {

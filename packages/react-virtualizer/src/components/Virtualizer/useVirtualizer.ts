@@ -518,15 +518,12 @@ export function useVirtualizer_unstable(
         const newStartIndex = Math.min(Math.max(startIndex, 0), maxIndex);
         flushSync(() => {
           if (
-            previousNumItems.current === numItems &&
             newStartIndex + virtualizerLength >= numItems &&
             actualIndex + virtualizerLength >= numItems
           ) {
             // We've already hit the end, no need to update state.
             return;
           }
-          // We should ensure we update virtualizer calculations if the length changes
-          previousNumItems.current = virtualizerLength;
           if (actualIndex !== newStartIndex) {
             batchUpdateNewIndex(newStartIndex);
           }
