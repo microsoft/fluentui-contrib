@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-virtualizer",
   "entries": [
     {
+      "date": "Mon, 29 Sep 2025 16:08:33 GMT",
+      "tag": "@fluentui-contrib/react-virtualizer_v0.5.0",
+      "version": "0.5.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "mifraser@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "25a168abf85d505b244cbf98a68f09bb1c679392",
+            "comment": "fix: Ensure RO fires on correct indexes and sizing is up to date, prevent remounts and massive layout changes from dynamic content"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 25 Sep 2025 17:20:48 GMT",
       "tag": "@fluentui-contrib/react-virtualizer_v0.4.0",
       "version": "0.4.0",
