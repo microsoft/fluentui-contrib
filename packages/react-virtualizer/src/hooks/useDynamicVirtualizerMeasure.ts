@@ -129,7 +129,6 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
       const totalLength = length + newBufferItems * 2;
 
       if (numItemsChanged && indexMod - newBufferItems > 0) {
-        console.log('Num items changed, adjusting index');
         // Virtualizer will recalculate on numItems change, but from the old index
         // We should get ahead of that update to prevent unnessecary recalculations
         virtualizerContext.setContextIndex(

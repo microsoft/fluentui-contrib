@@ -528,7 +528,6 @@ export function useVirtualizer_unstable(
             // We've already hit the end, no need to update state.
             return;
           }
-
           if (actualIndex !== newStartIndex) {
             batchUpdateNewIndex(newStartIndex);
           }
