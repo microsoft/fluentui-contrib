@@ -46,8 +46,12 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
     (scrollRef: React.MutableRefObject<HTMLElement | null>) => {
       const hasReachedEnd =
         virtualizerContext.contextIndex + virtualizerLength >= numItems;
-      if (!scrollRef?.current || hasReachedEnd) {
-        // Error? ignore?
+
+      // Track whether this update was driven by a change in numItems
+      const numItemsChanged = numItemsRef.current !== numItems;
+      numItemsRef.current = numItems;
+
+      if (!scrollRef?.current || (hasReachedEnd && !numItemsChanged)) {
         return;
       }
 
@@ -73,10 +77,9 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
       /* If the numItems changed, we're going to calc
        * a new index based on actual scroll position
        */
-      const actualScrollPos =
-        numItemsRef.current !== numItems
-          ? _actualScrollPos
-          : scrollPosition.current;
+      const actualScrollPos = numItemsChanged
+        ? _actualScrollPos
+        : scrollPosition.current;
 
       const sizeToBeat = containerSizeRef.current + virtualizerBufferSize * 2;
       const startIndex = Math.max(virtualizerContext.contextIndex, 0);
@@ -125,7 +128,8 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
       const newBufferSize = bufferSize ?? Math.max(defaultItemSize / 2, 1);
       const totalLength = length + newBufferItems * 2;
 
-      if (numItemsRef.current !== numItems && indexMod - newBufferItems > 0) {
+      if (numItemsChanged && indexMod - newBufferItems > 0) {
+        console.log('Num items changed, adjusting index');
         // Virtualizer will recalculate on numItems change, but from the old index
         // We should get ahead of that update to prevent unnessecary recalculations
         virtualizerContext.setContextIndex(
@@ -134,7 +138,6 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
       }
 
       scrollPosition.current = actualScrollPos;
-      numItemsRef.current = numItems;
       setVirtualizerLength(totalLength);
       setVirtualizerBufferItems(newBufferItems);
       setVirtualizerBufferSize(newBufferSize);

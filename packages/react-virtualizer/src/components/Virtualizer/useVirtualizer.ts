@@ -375,6 +375,7 @@ export function useVirtualizer_unstable(
 
   // We store the number of items since last render, we will allow an update if the number of items changes
   const previousNumItems = React.useRef<number>(numItems);
+
   // Observe intersections of virtualized components
   const { setObserverList } = useIntersectionObserver(
     React.useCallback(
@@ -517,13 +518,18 @@ export function useVirtualizer_unstable(
         // Safety limits
         const newStartIndex = Math.min(Math.max(startIndex, 0), maxIndex);
         flushSync(() => {
+          // When the number of items change, we DO want to recalc even if at end of list
+          const numItemsChanged = previousNumItems.current !== numItems;
+          previousNumItems.current = numItems;
           if (
             newStartIndex + virtualizerLength >= numItems &&
-            actualIndex + virtualizerLength >= numItems
+            actualIndex + virtualizerLength >= numItems &&
+            !numItemsChanged
           ) {
             // We've already hit the end, no need to update state.
             return;
           }
+
           if (actualIndex !== newStartIndex) {
             batchUpdateNewIndex(newStartIndex);
           }
