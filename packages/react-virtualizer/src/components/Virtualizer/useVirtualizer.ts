@@ -375,7 +375,6 @@ export function useVirtualizer_unstable(
 
   // We store the number of items since last render, we will allow an update if the number of items changes
   const previousNumItems = React.useRef<number>(numItems);
-
   // Observe intersections of virtualized components
   const { setObserverList } = useIntersectionObserver(
     React.useCallback(
