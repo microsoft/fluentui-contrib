@@ -55,6 +55,10 @@ export function useVirtualizer_unstable(
     actualIndexRef.current = _virtualizerContext.contextIndex;
   }
 
+  React.useEffect(() => {
+    populateSizeArrays();
+  }, [numItems]);
+
   const setActualIndex = React.useCallback(
     (index: number) => {
       actualIndexRef.current = index;
@@ -95,11 +99,8 @@ export function useVirtualizer_unstable(
     }
 
     if (numItems !== childProgressiveSizes.current.length) {
+      // Item added/removed could have been from anywhere in array, reset all.
       childProgressiveSizes.current = new Array<number>(numItems);
-      if (virtualizerContext?.childProgressiveSizes) {
-        virtualizerContext.childProgressiveSizes.current =
-          childProgressiveSizes.current;
-      }
     }
 
     for (let index = 0; index < numItems; index++) {
@@ -112,7 +113,12 @@ export function useVirtualizer_unstable(
           childProgressiveSizes.current[index - 1] + childSizes.current[index];
       }
     }
-  }, [getItemSize, numItems, gap, virtualizerContext]);
+
+    if (virtualizerContext?.childProgressiveSizes) {
+      virtualizerContext.childProgressiveSizes.current =
+        childProgressiveSizes.current;
+    }
+  }, [numItems, gap]);
 
   const [isScrolling, setIsScrolling] = React.useState<boolean>(false);
   const [setScrollTimer, clearScrollTimer] = useTimeout();
@@ -154,12 +160,12 @@ export function useVirtualizer_unstable(
   const prevIndex = React.useRef<number>(actualIndex);
   const prevVirtualizerLength = React.useRef<number>(virtualizerLength);
   const renderChildRows = React.useCallback(
-    (newIndex: number) => {
+    (_newIndex: number) => {
       if (numItems === 0) {
         /* Nothing to virtualize */
         return [];
       }
-
+      const newIndex = Math.max(_newIndex, 0);
       const arrayLength = Math.min(virtualizerLength, numItems - newIndex);
       if (
         prevIndex.current === newIndex &&
@@ -242,7 +248,7 @@ export function useVirtualizer_unstable(
         }
       }
     },
-    [getItemSize, numItems, virtualizerLength, gap]
+    [numItems, virtualizerLength, gap]
   );
 
   const batchUpdateNewIndex = React.useCallback(
@@ -321,7 +327,7 @@ export function useVirtualizer_unstable(
 
       return getIndexFromSizeArray(scrollPos);
     },
-    [getIndexFromSizeArray, getItemSize, itemSize, gap]
+    [getIndexFromSizeArray, itemSize, gap]
   );
 
   const calculateTotalSize = React.useCallback(() => {
@@ -331,11 +337,10 @@ export function useVirtualizer_unstable(
 
     // Time for custom size calcs
     return childProgressiveSizes.current[numItems - 1];
-  }, [getItemSize, itemSize, numItems, gap]);
+  }, [itemSize, numItems, gap]);
 
   const calculateBefore = React.useCallback(() => {
     const currentIndex = Math.min(actualIndex, numItems - 1);
-
     if (!getItemSize) {
       // The missing items from before virtualization starts height
       return currentIndex * (itemSize + gap);
@@ -347,7 +352,7 @@ export function useVirtualizer_unstable(
 
     // Time for custom size calcs
     return childProgressiveSizes.current[currentIndex - 1];
-  }, [actualIndex, getItemSize, itemSize, numItems, gap]);
+  }, [actualIndex, itemSize, numItems, gap]);
 
   const calculateAfter = React.useCallback(() => {
     if (numItems === 0 || actualIndex + virtualizerLength >= numItems) {
@@ -366,7 +371,7 @@ export function useVirtualizer_unstable(
       childProgressiveSizes.current[numItems - 1] -
       childProgressiveSizes.current[lastItemIndex - 1]
     );
-  }, [actualIndex, getItemSize, itemSize, numItems, virtualizerLength, gap]);
+  }, [actualIndex, itemSize, numItems, virtualizerLength, gap]);
 
   // We store the number of items since last render, we will allow an update if the number of items changes
   const previousNumItems = React.useRef<number>(numItems);
@@ -513,15 +518,12 @@ export function useVirtualizer_unstable(
         const newStartIndex = Math.min(Math.max(startIndex, 0), maxIndex);
         flushSync(() => {
           if (
-            previousNumItems.current === numItems &&
             newStartIndex + virtualizerLength >= numItems &&
             actualIndex + virtualizerLength >= numItems
           ) {
             // We've already hit the end, no need to update state.
             return;
           }
-          // We should ensure we update virtualizer calculations if the length changes
-          previousNumItems.current = virtualizerLength;
           if (actualIndex !== newStartIndex) {
             batchUpdateNewIndex(newStartIndex);
           }
@@ -622,10 +624,6 @@ export function useVirtualizer_unstable(
     }
     initializeSizeArray();
   }, []);
-
-  React.useEffect(() => {
-    populateSizeArrays();
-  }, [populateSizeArrays]);
 
   // Effect to check flag index on updates
   React.useEffect(() => {

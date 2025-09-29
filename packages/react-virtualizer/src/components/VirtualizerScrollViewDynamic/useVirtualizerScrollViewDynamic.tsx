@@ -39,22 +39,19 @@ export function useVirtualizerScrollViewDynamic_unstable(
     new Array(props.numItems).fill(props.itemSize)
   );
 
-  const getChildSizeAuto = React.useCallback(
-    (index: number) => {
-      if (
-        sizeTrackingArray.current.length <= index ||
-        sizeTrackingArray.current[index] <= 0
-      ) {
-        // Default size for initial state or untracked
-        return props.itemSize;
-      }
-      /* Required to be defined prior to our measure function
-       * we use a sizing array ref that we will update post-render
-       */
-      return sizeTrackingArray.current[index];
-    },
-    [sizeTrackingArray, props.itemSize]
-  );
+  const getChildSizeAuto = (index: number) => {
+    if (
+      sizeTrackingArray.current.length <= index ||
+      sizeTrackingArray.current[index] <= 0
+    ) {
+      // Default size for initial state or untracked
+      return props.itemSize;
+    }
+    /* Required to be defined prior to our measure function
+     * we use a sizing array ref that we will update post-render
+     */
+    return sizeTrackingArray.current[index];
+  };
 
   const {
     virtualizerLength,
@@ -95,10 +92,12 @@ export function useVirtualizerScrollViewDynamic_unstable(
   if (virtualizerLengthRef.current !== virtualizerLength) {
     virtualizerLengthRef.current = virtualizerLength;
   }
+  const localScrollRef = React.useRef<HTMLDivElement>(null);
   const scrollViewRef = useMergedRefs(
     props.scrollViewRef,
     scrollRef,
-    paginationRef
+    paginationRef,
+    localScrollRef
   );
   const scrollCallbackRef = React.useRef<null | ((index: number) => void)>(
     null
@@ -153,6 +152,7 @@ export function useVirtualizerScrollViewDynamic_unstable(
               axis,
               reversed,
               behavior,
+              gap,
             });
           }
         },
@@ -184,22 +184,28 @@ export function useVirtualizerScrollViewDynamic_unstable(
     updateScrollPosition,
   });
 
-  const measureObject = useMeasureList({
-    currentIndex: Math.max(virtualizerState.virtualizerStartIndex, 0),
-    totalLength: props.numItems,
-    defaultItemSize: props.itemSize,
-    sizeTrackingArray,
-    axis,
-    requestScrollBy: (sizeChange: number) => {
+  const requestScrollBy = React.useCallback(
+    (sizeChange: number) => {
       // Handle any size changes so that scroll view doesn't jump around
       if (enableScrollAnchor) {
-        scrollViewRef.current?.scrollBy({
+        localScrollRef.current?.scrollBy({
           top: axis === 'vertical' ? sizeChange : 0,
           left: axis === 'vertical' ? 0 : sizeChange,
           behavior: 'instant',
         });
       }
     },
+    [enableScrollAnchor, axis, localScrollRef]
+  );
+
+  const measureObject = useMeasureList({
+    currentIndex: Math.max(virtualizerState.virtualizerStartIndex, 0),
+    totalLength: props.numItems,
+    defaultItemSize: props.itemSize,
+    sizeTrackingArray,
+    axis,
+    virtualizerLength,
+    requestScrollBy,
   });
 
   // Enables auto-measuring and tracking post render sizes externally
@@ -232,6 +238,7 @@ export function useVirtualizerScrollViewDynamic_unstable(
 
   return {
     ...virtualizerState,
+    enableScrollAnchor,
     components: {
       ...virtualizerState.components,
       container: 'div',

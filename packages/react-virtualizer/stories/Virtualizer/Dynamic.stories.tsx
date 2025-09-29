@@ -103,7 +103,7 @@ export const Dynamic = () => {
           bufferSize={bufferSize}
           bufferItems={bufferItems}
           virtualizerLength={virtualizerLength}
-          itemSize={100}
+          itemSize={smallSize}
           containerSizeRef={containerSizeRef}
           virtualizerContext={contextState}
           updateScrollPosition={updateScrollPosition}

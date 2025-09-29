@@ -67,10 +67,13 @@ export type VirtualizerScrollViewDynamicProps = ComponentProps<
      */
     virtualizerContext?: DynamicVirtualizerContextProps;
     /**
-     * Enables override of dynamic virtualizer context if required.
+     * WARNING: Experimental - browser scroll anchoring works well in most cases.
+     * Enables custom scroll anchor behavior
      */
     enableScrollAnchor?: boolean;
   };
 
 export type VirtualizerScrollViewDynamicState =
-  ComponentState<VirtualizerScrollViewDynamicSlots> & VirtualizerConfigState;
+  ComponentState<VirtualizerScrollViewDynamicSlots> &
+    VirtualizerConfigState &
+    Pick<VirtualizerScrollViewDynamicProps, 'enableScrollAnchor'>;

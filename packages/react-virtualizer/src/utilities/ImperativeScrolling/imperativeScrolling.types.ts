@@ -8,6 +8,7 @@ export type ScrollToItemStaticParams = {
   axis?: 'horizontal' | 'vertical';
   reversed?: boolean;
   behavior?: ScrollBehavior;
+  gap?: number;
 };
 
 export type ScrollToItemDynamicParams = {
@@ -19,6 +20,7 @@ export type ScrollToItemDynamicParams = {
   axis?: 'horizontal' | 'vertical';
   reversed?: boolean;
   behavior?: ScrollBehavior;
+  gap?: number;
 };
 
 export type ScrollToInterface = {
