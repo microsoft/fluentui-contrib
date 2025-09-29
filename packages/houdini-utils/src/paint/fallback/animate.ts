@@ -5,11 +5,11 @@ import type {
   FallbackAnimationFn,
   TickFn,
 } from '../../types';
-import { getWindow } from '../../util/featureDetect';
 
 export const animate: FallbackAnimationFn = (params) => {
   const { onComplete, isStopped, onUpdate, ...otherParams } = params;
   const result = createKeyframeAnimation(otherParams);
+
   if (!result) {
     console.error('Unable to create keyframe animation.');
     return;
@@ -17,22 +17,28 @@ export const animate: FallbackAnimationFn = (params) => {
 
   const { anims, overallDuration } = result;
 
-  tick(anims, overallDuration, onComplete, onUpdate, isStopped, params.target);
+  tick(
+    params.targetWindow,
+    anims,
+    overallDuration,
+    onComplete,
+    onUpdate,
+    isStopped
+  );
 };
 
 const stringifyValue = (value: number | number[]): string =>
   typeof value === 'number' ? String(value) : arrayToRgba(value);
 
 const tick: TickFn = (
+  targetWindow,
   anims,
   overallDuration,
   onComplete,
   onUpdate,
-  isStopped,
-  target?: HTMLElement | null
+  isStopped
 ) => {
-  const localWindow = getWindow(target);
-  const localPerformance = localWindow.performance;
+  const localPerformance = targetWindow.performance;
 
   let start = localPerformance.now();
   const currentValues = new Map<string, string>();
@@ -121,11 +127,11 @@ const tick: TickFn = (
     ) {
       currentIteration++;
       start = localPerformance.now();
-      localWindow.requestAnimationFrame(raf);
+      targetWindow.requestAnimationFrame(raf);
     } else if (currentDuration >= overallDuration) {
       onComplete(currentValues);
     } else {
-      localWindow.requestAnimationFrame(raf);
+      targetWindow.requestAnimationFrame(raf);
     }
 
     onUpdate(currentValues);

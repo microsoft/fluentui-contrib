@@ -22,11 +22,12 @@ export type FallbackKeyframeParams = Pick<
   FallbackAnimationParams,
   'animations' | 'delay' | 'duration' | 'iterationCount' | 'timingFunction'
 > & {
-  target: HTMLElement;
+  targetEl: HTMLElement;
+  targetWindow: NonNullable<Document['defaultView']>;
 };
 
 export type FallbackAnimationParamsInternal = FallbackKeyframeParams & {
-  target: HTMLElement;
+  targetEl: HTMLElement;
 
   /**
    * Callback function that will be called on every animation frame.
@@ -76,11 +77,6 @@ export type FallbackAnimationParams = {
    */
   timingFunction: string;
 };
-
-export type CreateKeyframeAnimationParams = Omit<
-  FallbackAnimationParams,
-  'onUpdate' | 'onComplete' | 'isStopped'
->;
 
 export type FallbackAnimation = {
   /**
@@ -176,6 +172,8 @@ export type LerpFn = (
 ) => number | number[];
 export type CallbackFn = (currentValues: Map<string, string>) => void;
 export type TickFn = (
+  targetWindow: NonNullable<Document['defaultView']>,
+
   /**
    * Ordered list of animations to play.
    */
@@ -196,9 +194,7 @@ export type TickFn = (
    */
   onUpdate: CallbackFn,
 
-  isStopped: () => boolean,
-
-  target?: HTMLElement | null
+  isStopped: () => boolean
 ) => void;
 
 export type FallbackAnimationReturn = {
@@ -214,7 +210,9 @@ export type FallbackAnimationReturn = {
 };
 
 export type FallbackAnimationState = {
-  target: HTMLElement;
+  targetEl: HTMLElement;
+  targetWindow: NonNullable<Document['defaultView']>;
+
   ctx: CanvasRenderingContext2D | null;
   id: string;
   mode: 'moz-element' | 'webkit-canvas' | 'to-data-url';

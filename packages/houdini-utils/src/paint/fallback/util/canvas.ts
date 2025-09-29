@@ -1,10 +1,8 @@
-import { getDocument } from '../../../util/featureDetect';
-
 export const createMozContext = (
   id: string,
-  target?: HTMLElement | null
+  targetEl: HTMLElement
 ): CanvasRenderingContext2D | null => {
-  const canvas = getDocument(target).createElement('canvas');
+  const canvas = targetEl.ownerDocument.createElement('canvas');
   canvas.id = id;
   const ctx = canvas.getContext('2d');
 
@@ -12,6 +10,7 @@ export const createMozContext = (
     console.error('Unable to create moz-element rendering context');
     return null;
   }
+
   // Canvas needs to be in the DOM
   // Move it waaaay off screen
   ctx.canvas.style.position = 'absolute';
@@ -23,19 +22,20 @@ export const createMozContext = (
 
 export const createDataUrlContext = (
   id: string,
-  target?: HTMLElement | null
+  targetEl: HTMLElement
 ): CanvasRenderingContext2D | null => {
-  return createMozContext(id, target);
+  return createMozContext(id, targetEl);
 };
 
 export const createWebkitContext = (
   id: string,
+  targetEl: HTMLElement,
   width: number,
-  height: number,
-  target?: HTMLElement | null
+  height: number
 ): CanvasRenderingContext2D | null => {
   const ctx =
-    getDocument(target).getCSSCanvasContext?.('2d', id, width, height) ?? null;
+    targetEl.ownerDocument.getCSSCanvasContext?.('2d', id, width, height) ??
+    null;
   if (!ctx) {
     return null;
   }
@@ -57,19 +57,21 @@ export const appendCanvas = (
 };
 
 export const handleCanvasResize = (
-  wrapper: HTMLElement,
-  ctx: CanvasRenderingContext2D | null,
   id: string,
+  wrapperEl: HTMLElement,
+  ctx: CanvasRenderingContext2D | null,
   width: number,
   height: number
 ): CanvasRenderingContext2D | null => {
   if (!ctx) {
-    const newCtx = createWebkitContext(id, width, height, wrapper);
+    const newCtx = createWebkitContext(id, wrapperEl, width, height);
+
     if (!newCtx) {
       return null;
     }
 
-    appendCanvas(wrapper as HTMLElement, newCtx.canvas);
+    appendCanvas(wrapperEl, newCtx.canvas);
+
     return newCtx;
   }
 

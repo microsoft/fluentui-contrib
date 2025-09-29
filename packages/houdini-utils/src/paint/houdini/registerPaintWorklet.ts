@@ -1,14 +1,9 @@
 import { addModule } from '../../util/addModule';
-import { hasHoudini } from '../../util/featureDetect';
 
 export const registerPaintWorklet = (
+  targetWindow: Window | undefined,
   baseUrl: string,
-  filebaseUrl: string,
-  target?: HTMLElement | null
+  filebaseUrl: string
 ): Promise<void> => {
-  if (hasHoudini(target)) {
-    return addModule(baseUrl, filebaseUrl, target);
-  }
-
-  return Promise.resolve();
+  return addModule(targetWindow, baseUrl, filebaseUrl);
 };
