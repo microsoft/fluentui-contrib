@@ -2,6 +2,8 @@
 /** @jsx createElement */
 /** @jsxFrag Fragment */
 /* eslint-disable no-restricted-globals */
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createElement } from '@fluentui/react-jsx-runtime';
 import * as React from 'react';
 import {
