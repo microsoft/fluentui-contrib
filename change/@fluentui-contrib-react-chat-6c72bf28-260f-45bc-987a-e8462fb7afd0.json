@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "chore: update peer dependencies for React and @types/react to support versions <20.0.0",
+  "packageName": "@fluentui-contrib/react-chat",
+  "email": "dmytrokirpa@microsoft.com",
+  "dependentChangeType": "patch"
+}
