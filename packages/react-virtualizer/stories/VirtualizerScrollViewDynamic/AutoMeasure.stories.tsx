@@ -39,13 +39,16 @@ export const AutoMeasure = () => {
   return (
     <VirtualizerScrollViewDynamic
       numItems={childLength}
-      // We can use itemSize to set average height and reduce unknown whitespace
-      itemSize={minHeight + maxHeightIncrease / 2.0 + 100}
+      // We can use min itemSize to ensure safe calcs
+      itemSize={minHeight}
       container={{
         role: 'list',
         'aria-label': `Virtualized list with ${childLength} children`,
         tabIndex: 0,
-        style: { maxHeight: '80vh', gap: '20px' },
+        style: {
+          maxHeight: '80vh',
+          gap: '20px',
+        },
       }}
       bufferItems={1}
       bufferSize={minHeight / 2.0}

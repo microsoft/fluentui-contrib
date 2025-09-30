@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-virtualizer
 
-This log was last generated on Thu, 25 Sep 2025 17:20:48 GMT and should not be manually modified.
+This log was last generated on Mon, 29 Sep 2025 16:08:33 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.5.0
+
+Mon, 29 Sep 2025 16:08:33 GMT
+
+### Minor changes
+
+- fix: Ensure RO fires on correct indexes and sizing is up to date, prevent remounts and massive layout changes from dynamic content (mifraser@microsoft.com)
 
 ## 0.4.0
 

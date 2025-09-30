@@ -11,19 +11,25 @@ export interface IndexedResizeCallbackElement {
  * `height` - element height ref (0 by default),
  * `measureElementRef` - a ref function to be passed as `ref` to the element you want to measure
  */
+
+const SCROLL_ALLOWANCE = 100;
+
 export function useMeasureList<
   TElement extends HTMLElement & IndexedResizeCallbackElement = HTMLElement &
     IndexedResizeCallbackElement
 >(measureParams: {
   currentIndex: number;
   totalLength: number;
+  virtualizerLength: number;
   defaultItemSize: number;
   sizeTrackingArray: React.MutableRefObject<number[]>;
   axis: 'horizontal' | 'vertical';
   requestScrollBy?: (sizeChange: number) => void;
 }): {
   createIndexedRef: (index: number) => (el: TElement) => void;
-  refArray: React.MutableRefObject<(TElement | null | undefined)[]>;
+  refObject: React.MutableRefObject<{
+    [key: string]: TElement | null;
+  }>;
 } {
   const {
     currentIndex,
@@ -32,15 +38,19 @@ export function useMeasureList<
     sizeTrackingArray,
     axis,
     requestScrollBy,
+    virtualizerLength,
   } = measureParams;
 
-  const refArray = React.useRef<Array<TElement | undefined | null>>([]);
   const { targetDocument } = useFluent();
+
+  // Use ref object to track and delete observed elements
+  const refObject = React.useRef<{ [key: string]: TElement | null }>({});
 
   // the handler for resize observer
   const handleIndexUpdate = React.useCallback(
     (index: number) => {
-      const boundClientRect = refArray.current[index]?.getBoundingClientRect();
+      const boundClientRect =
+        refObject.current[index.toString()]?.getBoundingClientRect();
 
       if (!boundClientRect) {
         return;
@@ -51,24 +61,22 @@ export function useMeasureList<
           ? boundClientRect?.height
           : boundClientRect?.width) ?? defaultItemSize;
 
-      const sizeDifference =
-        containerSize - sizeTrackingArray.current[currentIndex + index];
-
+      const sizeDifference = containerSize - sizeTrackingArray.current[index];
       // Todo: Handle reverse setup
       // This requests a scrollBy to offset the new change
-      if (axis === 'vertical' && boundClientRect.bottom < sizeDifference) {
-        requestScrollBy?.(-sizeDifference);
-      } else if (
-        axis === 'horizontal' &&
-        boundClientRect.right < sizeDifference
-      ) {
-        requestScrollBy?.(-sizeDifference);
+      if (sizeDifference !== 0) {
+        const itemPosition = boundClientRect.bottom - SCROLL_ALLOWANCE;
+        if (axis === 'vertical' && itemPosition <= sizeDifference) {
+          requestScrollBy?.(sizeDifference);
+        } else if (axis === 'horizontal' && itemPosition <= sizeDifference) {
+          requestScrollBy?.(sizeDifference);
+        }
       }
 
-      // Size tracking array gets exposed if teams need it
-      sizeTrackingArray.current[currentIndex + index] = containerSize;
+      // Update size tracking array which gets exposed if teams need it
+      sizeTrackingArray.current[index] = containerSize;
     },
-    [currentIndex, defaultItemSize]
+    [defaultItemSize, requestScrollBy, axis, sizeTrackingArray]
   );
 
   const handleElementResizeCallback = (entries: ResizeObserverEntry[]) => {
@@ -118,28 +126,45 @@ export function useMeasureList<
 
         if (el) {
           el.handleResize = () => {
-            handleIndexUpdate(index);
+            handleIndexUpdate(currentIndex + index);
           };
         }
 
+        const stringIndex = (index + currentIndex).toString();
+
         // cleanup previous container
-        const prevEl = refArray.current[index];
+        const prevEl = refObject.current[stringIndex];
+        delete refObject.current[stringIndex];
         if (prevEl) {
+          // Only remove if it doesn't exist in array now (might have moved index)
           resizeObserver.current.unobserve(prevEl);
         }
 
-        refArray.current[index] = undefined;
         if (el) {
-          refArray.current[index] = el;
+          refObject.current[stringIndex] = el;
           resizeObserver.current.observe(el);
-          handleIndexUpdate(index);
+          handleIndexUpdate(currentIndex + index);
         }
       };
 
       return measureElementRef;
     },
-    [handleIndexUpdate, resizeObserver, targetDocument]
+    [handleIndexUpdate, resizeObserver, targetDocument, currentIndex]
   );
+
+  React.useEffect(() => {
+    // Delete and unobserve any removed elements on index change
+    Object.keys(refObject.current).forEach((key: string) => {
+      const intKey = parseInt(key, 10);
+      if (intKey < currentIndex || intKey >= currentIndex + virtualizerLength) {
+        const el = refObject.current[key];
+        delete refObject.current[key];
+        if (el) {
+          resizeObserver.current?.unobserve(el);
+        }
+      }
+    });
+  }, [virtualizerLength, currentIndex]);
 
   React.useEffect(() => {
     const _resizeObserver = resizeObserver;
@@ -148,7 +173,7 @@ export function useMeasureList<
 
   return {
     createIndexedRef,
-    refArray,
+    refObject,
   };
 }
 
