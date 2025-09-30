@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: Ensure IO buffer is ignored in the correct direction (remove, don't add)",
+  "packageName": "@fluentui-contrib/react-virtualizer",
+  "email": "mifraser@microsoft.com",
+  "dependentChangeType": "patch"
+}

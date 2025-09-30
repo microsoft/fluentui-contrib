@@ -473,7 +473,7 @@ export function useVirtualizer_unstable(
             // Minus from original before position
             measurementPos -= overflowAmount;
             // Ignore buffer size (IO offset)
-            measurementPos += bufferSize;
+            measurementPos -= bufferSize;
             // Calculate how far past the window bounds we are (this will be zero if IO is within window)
             const hOverflow =
               latestEntry.boundingClientRect.bottom -
