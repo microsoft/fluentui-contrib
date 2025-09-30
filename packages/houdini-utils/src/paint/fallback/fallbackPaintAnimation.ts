@@ -1,5 +1,4 @@
 import { playAnim } from './anims/play';
-import { canUseDOM } from '../../util/canUseDOM';
 import { hasMozElement, hasWebkitCanvas } from '../../util/featureDetect';
 import { appendWrapper } from './util/wrapper';
 import {
@@ -32,10 +31,6 @@ export const fallbackPaintAnimation = (
   paintWorklet: PaintWorklet,
   animationParams: FallbackAnimationParams
 ): FallbackAnimationReturn => {
-  if (!canUseDOM()) {
-    return cannotDraw;
-  }
-
   const targetDocument = targetEl.ownerDocument;
   const targetWindow =
     // eslint-disable-next-line no-restricted-globals
