@@ -473,7 +473,7 @@ export function useVirtualizer_unstable(
             // Minus from original before position
             measurementPos -= overflowAmount;
             // Ignore buffer size (IO offset)
-            measurementPos += bufferSize;
+            measurementPos -= bufferSize;
             // Calculate how far past the window bounds we are (this will be zero if IO is within window)
             const hOverflow =
               latestEntry.boundingClientRect.bottom -
@@ -517,9 +517,13 @@ export function useVirtualizer_unstable(
         // Safety limits
         const newStartIndex = Math.min(Math.max(startIndex, 0), maxIndex);
         flushSync(() => {
+          // When the number of items change, we DO want to recalc even if at end of list
+          const numItemsChanged = previousNumItems.current !== numItems;
+          previousNumItems.current = numItems;
           if (
             newStartIndex + virtualizerLength >= numItems &&
-            actualIndex + virtualizerLength >= numItems
+            actualIndex + virtualizerLength >= numItems &&
+            !numItemsChanged
           ) {
             // We've already hit the end, no need to update state.
             return;

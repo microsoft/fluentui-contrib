@@ -2,6 +2,33 @@
   "name": "@fluentui-contrib/react-virtualizer",
   "entries": [
     {
+      "date": "Wed, 01 Oct 2025 08:00:02 GMT",
+      "tag": "@fluentui-contrib/react-virtualizer_v0.5.1",
+      "version": "0.5.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "mifraser@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "0801b923f251e356b406767c5e139bebc7965772",
+            "comment": "fix: Ensure IO buffer is ignored in the correct direction (remove, don't add)"
+          },
+          {
+            "author": "mifraser@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "0be80a0645ad1b98ebf4aef1594a3f1f46197723",
+            "comment": "fix: Ensure base virtualizer hooks recalc index if numItems changes"
+          },
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "b028e124e0b76688c5daff7792b8b82b94b2de93",
+            "comment": "chore: update peer dependencies for React and @types/react to support versions <20.0.0"
+          }
+        ]
+      }
+    },
+    {
       "date": "Mon, 29 Sep 2025 16:08:33 GMT",
       "tag": "@fluentui-contrib/react-virtualizer_v0.5.0",
       "version": "0.5.0",
