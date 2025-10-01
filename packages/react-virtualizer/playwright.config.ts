@@ -33,7 +33,6 @@ export default defineConfig({
     trace: 'on-first-retry',
 
     /* Port to use for Playwright component endpoint. */
-     
     ctPort: 3100 + Number(require('./package.json').name.length),
   },
 
