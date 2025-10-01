@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "fix: make DOM access to utils safe",
-  "packageName": "@fluentui-contrib/houdini-utils",
-  "email": "marcim@microsoft.com",
-  "dependentChangeType": "patch"
-}

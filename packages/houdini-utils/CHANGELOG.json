@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/houdini-utils",
   "entries": [
     {
+      "date": "Wed, 01 Oct 2025 08:00:02 GMT",
+      "tag": "@fluentui-contrib/houdini-utils_v0.5.0",
+      "version": "0.5.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "marcim@microsoft.com",
+            "package": "@fluentui-contrib/houdini-utils",
+            "commit": "137ce2fd012cbd6b1657ba914e6e4c2e378b986b",
+            "comment": "fix: make DOM access to utils safe"
+          }
+        ]
+      }
+    },
+    {
       "date": "Mon, 22 Sep 2025 16:02:24 GMT",
       "tag": "@fluentui-contrib/houdini-utils_v0.4.0",
       "version": "0.4.0",

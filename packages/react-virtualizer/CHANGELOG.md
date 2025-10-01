@@ -1,8 +1,18 @@
 # Change Log - @fluentui-contrib/react-virtualizer
 
-This log was last generated on Mon, 29 Sep 2025 16:08:33 GMT and should not be manually modified.
+This log was last generated on Wed, 01 Oct 2025 08:00:02 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.5.1
+
+Wed, 01 Oct 2025 08:00:02 GMT
+
+### Patches
+
+- fix: Ensure IO buffer is ignored in the correct direction (remove, don't add) (mifraser@microsoft.com)
+- fix: Ensure base virtualizer hooks recalc index if numItems changes (mifraser@microsoft.com)
+- chore: update peer dependencies for React and @types/react to support versions <20.0.0 (dmytrokirpa@microsoft.com)
 
 ## 0.5.0
 

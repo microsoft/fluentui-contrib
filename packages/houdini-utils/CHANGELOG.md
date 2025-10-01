@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/houdini-utils
 
-This log was last generated on Mon, 22 Sep 2025 16:02:24 GMT and should not be manually modified.
+This log was last generated on Wed, 01 Oct 2025 08:00:02 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.5.0
+
+Wed, 01 Oct 2025 08:00:02 GMT
+
+### Minor changes
+
+- fix: make DOM access to utils safe (marcim@microsoft.com)
 
 ## 0.4.0
 
