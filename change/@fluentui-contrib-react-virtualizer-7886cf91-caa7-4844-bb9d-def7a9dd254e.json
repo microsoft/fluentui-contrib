@@ -1,6 +1,6 @@
 {
   "type": "patch",
-  "comment": "fix(react-virtualizer): add missing react-jsx-runtime dependency",
+  "comment": "fix: add missing react-jsx-runtime dependency",
   "packageName": "@fluentui-contrib/react-virtualizer",
   "email": "dmytrokirpa@microsoft.com",
   "dependentChangeType": "patch"
