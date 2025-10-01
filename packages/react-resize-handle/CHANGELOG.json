@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-resize-handle",
   "entries": [
     {
+      "date": "Wed, 01 Oct 2025 08:00:02 GMT",
+      "tag": "@fluentui-contrib/react-resize-handle_v0.8.1",
+      "version": "0.8.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-resize-handle",
+            "commit": "b028e124e0b76688c5daff7792b8b82b94b2de93",
+            "comment": "chore: update peer dependencies for React and @types/react to support versions <20.0.0"
+          }
+        ]
+      }
+    },
+    {
       "date": "Mon, 22 Sep 2025 16:02:24 GMT",
       "tag": "@fluentui-contrib/react-resize-handle_v0.8.0",
       "version": "0.8.0",

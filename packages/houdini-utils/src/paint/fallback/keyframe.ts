@@ -20,9 +20,11 @@ export const createKeyframeAnimation: CreateKeyframeAnimationFn = ({
   animations,
   delay,
   duration,
-  timingFunction,
   iterationCount = [1],
-  target,
+  timingFunction,
+
+  targetEl,
+  targetWindow,
 }) => {
   const iterations = iterationCount;
   const durations = duration.split(',').map(timeToNumber);
@@ -30,10 +32,9 @@ export const createKeyframeAnimation: CreateKeyframeAnimationFn = ({
   const timingFunctions = timingFunction.split(',').map(processTimingFunction);
 
   const anims = [] as FallbackAnimation[];
+  const lazyStyles = targetWindow.getComputedStyle(targetEl);
+
   let overallDuration = 0;
-  // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
-  // eslint-disable-next-line no-restricted-globals
-  const styles = getComputedStyle(target);
   for (
     let animationIndex = 0;
     animationIndex < animations.length;
@@ -82,7 +83,7 @@ export const createKeyframeAnimation: CreateKeyframeAnimationFn = ({
       const tweenStartValues = {} as FallbackAnimationValues;
       const tweenEndValues = {} as FallbackAnimationValues;
       for (const value of Object.keys(startValues)) {
-        const v = parseValue(startValues[value], value, styles);
+        const v = parseValue(startValues[value], value, lazyStyles);
         if (v === undefined) {
           return;
         }
@@ -91,7 +92,7 @@ export const createKeyframeAnimation: CreateKeyframeAnimationFn = ({
       }
 
       for (const value of Object.keys(endValues)) {
-        const v = parseValue(endValues[value], value, styles);
+        const v = parseValue(endValues[value], value, lazyStyles);
         if (v === undefined) {
           return;
         }

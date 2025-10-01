@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: Ensure base virtualizer hooks recalc index if numItems changes",
-  "packageName": "@fluentui-contrib/react-virtualizer",
-  "email": "mifraser@microsoft.com",
-  "dependentChangeType": "patch"
-}

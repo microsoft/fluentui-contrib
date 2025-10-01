@@ -1,6 +1,6 @@
 {
   "name": "@fluentui-contrib/react-headless-provider",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "dependencies": {
     "@swc/helpers": "~0.5.11"
   },

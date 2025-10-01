@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-headless-provider
 
-This log was last generated on Mon, 22 Sep 2025 16:02:24 GMT and should not be manually modified.
+This log was last generated on Wed, 01 Oct 2025 08:00:02 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 1.0.5
+
+Wed, 01 Oct 2025 08:00:02 GMT
+
+### Patches
+
+- chore: update peer dependencies for React and @types/react to support versions <20.0.0 (dmytrokirpa@microsoft.com)
 
 ## 1.0.4
 
