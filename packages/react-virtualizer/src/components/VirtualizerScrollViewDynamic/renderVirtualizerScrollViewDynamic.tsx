@@ -1,5 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx createElement */
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createElement } from '@fluentui/react-jsx-runtime';
 import { assertSlots, JSXElement } from '@fluentui/react-utilities';
 import {
