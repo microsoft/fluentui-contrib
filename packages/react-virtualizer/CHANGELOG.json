@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-virtualizer",
   "entries": [
     {
+      "date": "Thu, 02 Oct 2025 17:49:04 GMT",
+      "tag": "@fluentui-contrib/react-virtualizer_v0.5.2",
+      "version": "0.5.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "8863fefe349d995aefd1b1f64de6a5b08168f85f",
+            "comment": "fix: add missing react-jsx-runtime dependency"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 01 Oct 2025 08:00:02 GMT",
       "tag": "@fluentui-contrib/react-virtualizer_v0.5.1",
       "version": "0.5.1",

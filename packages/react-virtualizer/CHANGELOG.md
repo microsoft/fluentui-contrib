@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-virtualizer
 
-This log was last generated on Wed, 01 Oct 2025 08:00:02 GMT and should not be manually modified.
+This log was last generated on Thu, 02 Oct 2025 17:49:04 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.5.2
+
+Thu, 02 Oct 2025 17:49:04 GMT
+
+### Patches
+
+- fix: add missing react-jsx-runtime dependency (dmytrokirpa@microsoft.com)
 
 ## 0.5.1
 
