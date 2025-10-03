@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: Give fallback wrapper a different id.",
+  "packageName": "@fluentui-contrib/houdini-utils",
+  "email": "owcampbe@microsoft.com",
+  "dependentChangeType": "patch"
+}
