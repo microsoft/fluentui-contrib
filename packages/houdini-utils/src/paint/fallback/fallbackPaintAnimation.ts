@@ -47,7 +47,6 @@ export const fallbackPaintAnimation = (
     running: false,
   };
 
-
   // Non-Houdini fallbacks require a canvas element be present in the DOM.
   // Create a wrapper for us to store these elements in so we avoid
   // thrashing the DOM with appends.
