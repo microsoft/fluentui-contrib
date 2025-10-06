@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/houdini-utils",
   "entries": [
     {
+      "date": "Mon, 06 Oct 2025 16:03:54 GMT",
+      "tag": "@fluentui-contrib/houdini-utils_v0.5.1",
+      "version": "0.5.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "owcampbe@microsoft.com",
+            "package": "@fluentui-contrib/houdini-utils",
+            "commit": "f40bdf8c21b35b7159ed1454c6904903106260ca",
+            "comment": "fix: Give fallback wrapper a different id."
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 01 Oct 2025 08:00:02 GMT",
       "tag": "@fluentui-contrib/houdini-utils_v0.5.0",
       "version": "0.5.0",

@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/houdini-utils
 
-This log was last generated on Wed, 01 Oct 2025 08:00:02 GMT and should not be manually modified.
+This log was last generated on Mon, 06 Oct 2025 16:03:54 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.5.1
+
+Mon, 06 Oct 2025 16:03:54 GMT
+
+### Patches
+
+- fix: Give fallback wrapper a different id. (owcampbe@microsoft.com)
 
 ## 0.5.0
 
