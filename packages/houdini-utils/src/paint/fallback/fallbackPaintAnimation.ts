@@ -51,7 +51,8 @@ export const fallbackPaintAnimation = (
   // Create a wrapper for us to store these elements in so we avoid
   // thrashing the DOM with appends.
   if (!state.wrapper) {
-    state.wrapper = appendWrapper(state.id, targetDocument.body);
+    const wrapperId = `houdini-fallback-wrapper-${flairFallbackId}`;
+    state.wrapper = appendWrapper(wrapperId, targetDocument.body);
   }
 
   if (hasMozElement(targetWindow)) {
