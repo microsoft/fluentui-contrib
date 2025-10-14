@@ -5,27 +5,18 @@ export const scrollToItemDynamic = (
 ): void => {
   const {
     index,
-    itemSizes,
+    getItemSize,
     totalSize,
     scrollViewRef,
     axis = 'vertical',
     reversed = false,
     behavior = 'auto',
+    gap = 0,
   } = params;
-  if (!itemSizes.current) {
-    return;
-  }
-
-  if (itemSizes.current === null || itemSizes.current.length < index) {
-    // null check - abort
-    return;
-  }
 
   let itemDepth = 0;
   for (let i = 0; i < index; i++) {
-    if (i < index) {
-      itemDepth += itemSizes.current[i];
-    }
+    itemDepth += getItemSize(i) + gap;
   }
 
   if (axis === 'horizontal') {

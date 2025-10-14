@@ -66,6 +66,8 @@ class MyPaintWorklet implements PaintWorklet {
 }
 
 registerPaintWorklet(
+  // eslint-disable-next-line no-restricted-globals
+  window,
   URL.createObjectURL(blobify('mypaintworklet', MyPaintWorklet)),
   ''
 ).then(() => console.log('registered'));
@@ -74,6 +76,7 @@ export const Default = () => {
   const ref = React.useRef<HTMLDivElement>(null);
   const animationRef = React.useRef<Animation | null>(null);
   const [running, setRunning] = React.useState(true);
+
   React.useLayoutEffect(() => {
     if (!ref.current) {
       return;
@@ -110,7 +113,8 @@ export const Default = () => {
     }
   }, [running]);
 
-  if (!hasHoudini()) {
+  // eslint-disable-next-line no-restricted-globals
+  if (!hasHoudini(window)) {
     return (
       <div>
         ⚠️ This browser does not support houdini, please take a look at the

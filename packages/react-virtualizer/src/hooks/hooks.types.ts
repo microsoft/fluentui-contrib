@@ -22,6 +22,7 @@ export type VirtualizerMeasureDynamicProps = {
   numItems: number;
   getItemSize: (index: number) => number;
   direction?: 'vertical' | 'horizontal';
+  gap?: number;
 
   /**
    * Override recommended number of buffer items
@@ -48,6 +49,11 @@ export type VirtualizerDynamicPaginationProps = {
    * An array that tracks the sizing of each item in virtualizer cumulatively
    */
   progressiveItemSizes: React.RefObject<number[]> | undefined;
+  /**
+   * An array that tracks the current size of each item
+   * Should be up to date with any post-render changes via resizeObserver
+   */
+  actualNodeSizes: React.RefObject<number[]>;
   /**
    * The current starting index of the virtualizer's DOM elements
    */

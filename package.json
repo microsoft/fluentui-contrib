@@ -115,6 +115,7 @@
     "packages/*"
   ],
   "resolutions": {
-    "@storybook/addon-docs/@jest/transform": "^30"
+    "@storybook/addon-docs/@jest/transform": "^30",
+    "**/axios": "^1.12.0"
   }
 }

@@ -43,6 +43,8 @@ class MyPaintWorklet implements PaintWorklet {
 }
 
 registerPaintWorklet(
+  // eslint-disable-next-line no-restricted-globals
+  window,
   URL.createObjectURL(blobify('mypaintworklet', MyPaintWorklet)),
   ''
 ).then(() => console.log('registered'));
