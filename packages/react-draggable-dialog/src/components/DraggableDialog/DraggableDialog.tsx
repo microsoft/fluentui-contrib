@@ -9,16 +9,19 @@ import { useDraggableDialog } from './useDraggableDialog';
 /**
  * DraggableDialog is a wrapper around the Dialog component that makes it draggable.
  */
-export const DraggableDialog: React.FC<DraggableDialogProps> = React.memo((props) => {
-  const { contextValue, dialogProps, ...dndProps } = useDraggableDialog(props);
+export const DraggableDialog: React.FC<DraggableDialogProps> = React.memo(
+  (props) => {
+    const { contextValue, dialogProps, ...dndProps } =
+      useDraggableDialog(props);
 
-  return (
-    <DndContext {...dndProps}>
-      <DraggableDialogContextProvider value={contextValue}>
-        <Dialog {...dialogProps} />
-      </DraggableDialogContextProvider>
-    </DndContext>
-  );
-});
+    return (
+      <DndContext {...dndProps}>
+        <DraggableDialogContextProvider value={contextValue}>
+          <Dialog {...dialogProps} />
+        </DraggableDialogContextProvider>
+      </DndContext>
+    );
+  }
+);
 
 DraggableDialog.displayName = 'DraggableDialog';
