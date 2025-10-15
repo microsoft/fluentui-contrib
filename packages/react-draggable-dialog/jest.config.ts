@@ -1,15 +1,10 @@
 /* eslint-disable */
 import { readFileSync } from 'fs';
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 // Reading the SWC compilation config and remove the "exclude"
 // for the test files to be compiled by SWC
 const { exclude: _, ...swcJestConfig } = JSON.parse(
-  readFileSync(join(__dirname, '.swcrc'), 'utf-8')
+  readFileSync(`${__dirname}/.swcrc`, 'utf-8')
 );
 
 // disable .swcrc look-up by SWC core because we're passing in swcJestConfig ourselves.
@@ -19,7 +14,7 @@ if (swcJestConfig.swcrc === undefined) {
 }
 
 // Uncomment if using global setup/teardown files being transformed via swc
-// https://nx.dev/packages/jest/documents/overview#global-setup/teardown-with-nx-libraries
+// https://nx.dev/nx-api/jest/documents/overview#global-setupteardown-with-nx-libraries
 // jest needs EsModule Interop to find the default exported setup/teardown functions
 // swcJestConfig.module.noInterop = false;
 
@@ -29,6 +24,7 @@ export default {
   transform: {
     '^.+\\.[tj]sx?$': ['@swc/jest', swcJestConfig],
   },
-  moduleFileExtensions: ['js', 'ts', 'tsx', 'html'],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'html'],
+  testEnvironment: 'jsdom',
   coverageDirectory: '../../coverage/packages/react-draggable-dialog',
 };
