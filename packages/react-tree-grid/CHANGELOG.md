@@ -1,8 +1,24 @@
 # Change Log - @fluentui-contrib/react-tree-grid
 
-This log was last generated on Fri, 09 May 2025 17:14:55 GMT and should not be manually modified.
+This log was last generated on Wed, 01 Oct 2025 08:00:02 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.3.1
+
+Wed, 01 Oct 2025 08:00:02 GMT
+
+### Patches
+
+- chore: update peer dependencies for React and @types/react to support versions <20.0.0 (dmytrokirpa@microsoft.com)
+
+## 0.3.0
+
+Mon, 22 Sep 2025 16:02:24 GMT
+
+### Minor changes
+
+- feat: enforce explicit module boundary types (dmytrokirpa@microsoft.com)
 
 ## 0.2.1
 

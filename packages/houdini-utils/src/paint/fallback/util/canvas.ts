@@ -1,9 +1,8 @@
 export const createMozContext = (
-  id: string
+  id: string,
+  targetEl: HTMLElement
 ): CanvasRenderingContext2D | null => {
-  // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
-  // eslint-disable-next-line no-restricted-globals
-  const canvas = document.createElement('canvas');
+  const canvas = targetEl.ownerDocument.createElement('canvas');
   canvas.id = id;
   const ctx = canvas.getContext('2d');
 
@@ -11,6 +10,7 @@ export const createMozContext = (
     console.error('Unable to create moz-element rendering context');
     return null;
   }
+
   // Canvas needs to be in the DOM
   // Move it waaaay off screen
   ctx.canvas.style.position = 'absolute';
@@ -21,19 +21,21 @@ export const createMozContext = (
 };
 
 export const createDataUrlContext = (
-  id: string
+  id: string,
+  targetEl: HTMLElement
 ): CanvasRenderingContext2D | null => {
-  return createMozContext(id);
+  return createMozContext(id, targetEl);
 };
 
 export const createWebkitContext = (
   id: string,
+  targetEl: HTMLElement,
   width: number,
   height: number
 ): CanvasRenderingContext2D | null => {
-  // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
-  // eslint-disable-next-line no-restricted-globals
-  const ctx = document.getCSSCanvasContext?.('2d', id, width, height) ?? null;
+  const ctx =
+    targetEl.ownerDocument.getCSSCanvasContext?.('2d', id, width, height) ??
+    null;
   if (!ctx) {
     return null;
   }
@@ -55,19 +57,21 @@ export const appendCanvas = (
 };
 
 export const handleCanvasResize = (
-  wrapper: HTMLElement,
-  ctx: CanvasRenderingContext2D | null,
   id: string,
+  wrapperEl: HTMLElement,
+  ctx: CanvasRenderingContext2D | null,
   width: number,
   height: number
 ): CanvasRenderingContext2D | null => {
   if (!ctx) {
-    const newCtx = createWebkitContext(id, width, height);
+    const newCtx = createWebkitContext(id, wrapperEl, width, height);
+
     if (!newCtx) {
       return null;
     }
 
-    appendCanvas(wrapper as HTMLElement, newCtx.canvas);
+    appendCanvas(wrapperEl, newCtx.canvas);
+
     return newCtx;
   }
 

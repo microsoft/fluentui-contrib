@@ -24,27 +24,18 @@ export const DraggableDialogSurface: ForwardRefComponent<DraggableDialogSurfaceP
         mountNode,
       } = useDraggableDialogSurface(props, forwardedRef);
 
-      // Memoize merged styles to avoid object recreation on every render
-      const mergedStyle = React.useMemo(
-        () => ({
-          ...style,
-          ...draggableStyle,
-        }),
-        [style, draggableStyle]
-      );
-
-      // Memoize merged className to avoid string concatenation on every render
-      const mergedClassName = React.useMemo(
-        () =>
-          mergeClasses('fui-DraggableDialogSurface', styles.root, className),
-        [styles.root, className]
-      );
-
       return (
         <DialogSurface
           ref={ref}
-          style={mergedStyle}
-          className={mergedClassName}
+          style={{
+            ...style,
+            ...draggableStyle,
+          }}
+          className={mergeClasses(
+            'fui-DraggableDialogSurface',
+            styles.root,
+            className
+          )}
           mountNode={mountNode}
           {...rest}
         >

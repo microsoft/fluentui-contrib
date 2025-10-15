@@ -1,8 +1,32 @@
 # Change Log - @fluentui-contrib/houdini-utils
 
-This log was last generated on Wed, 07 May 2025 14:30:21 GMT and should not be manually modified.
+This log was last generated on Mon, 06 Oct 2025 16:03:54 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.5.1
+
+Mon, 06 Oct 2025 16:03:54 GMT
+
+### Patches
+
+- fix: Give fallback wrapper a different id. (owcampbe@microsoft.com)
+
+## 0.5.0
+
+Wed, 01 Oct 2025 08:00:02 GMT
+
+### Minor changes
+
+- fix: make DOM access to utils safe (marcim@microsoft.com)
+
+## 0.4.0
+
+Mon, 22 Sep 2025 16:02:24 GMT
+
+### Minor changes
+
+- feat: enforce explicit module boundary types (dmytrokirpa@microsoft.com)
 
 ## 0.3.5
 

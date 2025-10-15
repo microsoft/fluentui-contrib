@@ -2,6 +2,51 @@
   "name": "@fluentui-contrib/houdini-utils",
   "entries": [
     {
+      "date": "Mon, 06 Oct 2025 16:03:54 GMT",
+      "tag": "@fluentui-contrib/houdini-utils_v0.5.1",
+      "version": "0.5.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "owcampbe@microsoft.com",
+            "package": "@fluentui-contrib/houdini-utils",
+            "commit": "f40bdf8c21b35b7159ed1454c6904903106260ca",
+            "comment": "fix: Give fallback wrapper a different id."
+          }
+        ]
+      }
+    },
+    {
+      "date": "Wed, 01 Oct 2025 08:00:02 GMT",
+      "tag": "@fluentui-contrib/houdini-utils_v0.5.0",
+      "version": "0.5.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "marcim@microsoft.com",
+            "package": "@fluentui-contrib/houdini-utils",
+            "commit": "137ce2fd012cbd6b1657ba914e6e4c2e378b986b",
+            "comment": "fix: make DOM access to utils safe"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Mon, 22 Sep 2025 16:02:24 GMT",
+      "tag": "@fluentui-contrib/houdini-utils_v0.4.0",
+      "version": "0.4.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/houdini-utils",
+            "commit": "513e54d8c1a60a13d80afaec1bb006ae26492a39",
+            "comment": "feat: enforce explicit module boundary types"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 07 May 2025 14:30:21 GMT",
       "tag": "@fluentui-contrib/houdini-utils_v0.3.5",
       "version": "0.3.5",

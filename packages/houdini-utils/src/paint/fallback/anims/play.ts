@@ -8,23 +8,21 @@ import type {
 } from '../../../types';
 import { hasMozElement, hasWebkitCanvas } from '../../../util/featureDetect';
 
-export type PlayAnimFn = () => (state: FallbackAnimationState) => () => void;
-
 export const playAnim = (
-  state: FallbackAnimationState,
   paintWorklet: PaintWorklet,
+  state: FallbackAnimationState,
   animationParams: FallbackAnimationParams
 ): ((onComplete: CallbackFn, onUpdate?: CallbackFn) => void) => {
+  const targetEl = state.targetEl;
+  const targetWindow = state.targetWindow;
+
   const props = new Map<string, string>();
-  // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
-  // eslint-disable-next-line no-restricted-globals
-  const styles = getComputedStyle(state.target);
+  const lazyStyles = targetWindow.getComputedStyle(targetEl);
   const rect = { width: 0, height: 0 };
-  // TODO: fix global. See: https://github.com/microsoft/fluentui-contrib/issues/183
-  // eslint-disable-next-line no-restricted-globals
-  const resizeObserver = new ResizeObserver((entries) => {
+
+  const resizeObserver = new targetWindow.ResizeObserver((entries) => {
     for (const entry of entries) {
-      if (entry.target === state.target) {
+      if (entry.target === targetEl) {
         if (Array.isArray(entry.borderBoxSize)) {
           rect.width = entry.borderBoxSize[0].inlineSize;
           rect.height = entry.borderBoxSize[0].blockSize;
@@ -36,9 +34,9 @@ export const playAnim = (
 
         // Move to resize observer callback
         state.ctx = handleCanvasResize(
+          state.id,
           state.wrapper as HTMLElement,
           state.ctx,
-          state.id,
           rect.width,
           rect.height
         );
@@ -48,14 +46,14 @@ export const playAnim = (
 
   return (onComplete: CallbackFn, onUpdate?: CallbackFn) => {
     state.running = true;
-    resizeObserver.observe(state.target);
+    resizeObserver.observe(state.targetEl);
 
     const onAnimUpdate: CallbackFn = (currentValues) => {
       const inputProperties: string[] =
         (paintWorklet.constructor as { inputProperties?: string[] })
           .inputProperties ?? [];
       for (const prop of inputProperties) {
-        props.set(prop, styles.getPropertyValue(prop));
+        props.set(prop, lazyStyles.getPropertyValue(prop));
       }
 
       if (!state.ctx) {
@@ -69,17 +67,17 @@ export const playAnim = (
 
       // Firefox and webkit both support using canvas as a background image
       // For all other browsers, we'll use a data url
-      if (hasMozElement()) {
-        state.target.style.backgroundImage = `-moz-element(#${state.id})`;
-      } else if (hasWebkitCanvas()) {
+      if (hasMozElement(targetWindow)) {
+        state.targetEl.style.backgroundImage = `-moz-element(#${state.id})`;
+      } else if (hasWebkitCanvas(targetWindow)) {
         // Note: Safari references its vendor-specific CSSCanvasContext
         // ID which does not use the CSS ID selector (#).
-        state.target.style.backgroundImage = `-webkit-canvas(${state.id})`;
+        state.targetEl.style.backgroundImage = `-webkit-canvas(${state.id})`;
       } else {
         const urlBackgroundImage = `url(${state.ctx.canvas.toDataURL(
           'image/png'
         )})`;
-        state.target.style.backgroundImage = urlBackgroundImage;
+        state.targetEl.style.backgroundImage = urlBackgroundImage;
       }
 
       onUpdate?.(currentValues);
@@ -87,12 +85,15 @@ export const playAnim = (
 
     animate({
       ...animationParams,
-      target: state.target,
+
+      targetEl: state.targetEl,
+      targetWindow,
+
       isStopped: () => !state.running,
       onUpdate: onAnimUpdate,
       onComplete: (currentValues) => {
         state.running = false;
-        resizeObserver.unobserve(state.target);
+        resizeObserver.unobserve(state.targetEl);
         onComplete(currentValues);
       },
     });

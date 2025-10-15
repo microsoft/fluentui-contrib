@@ -23,7 +23,7 @@ packages/react-gamepad-navigation @microsoft/cxe-prg @hectorjjb
 packages/teams-components @microsoft/teams-prg
 packages/token-analyzer @microsoft/xc-uxe
 packages/react-contextual-pane @microsoft/teams-prg
-packages/react-virtualizer @microsoft/xc-uxe
+packages/react-virtualizer @microsoft/xc-uxe @microsoft/cxe-prg
 # <%= NX-CODEOWNER-PLACEHOLDER %>
 
 #### Build/Infra

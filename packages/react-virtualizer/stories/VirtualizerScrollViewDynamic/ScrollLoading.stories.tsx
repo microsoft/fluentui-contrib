@@ -53,7 +53,10 @@ export const ScrollLoading = () => {
       {(index: number, isScrolling = false) => {
         const backgroundColor = index % 2 ? '#FFFFFF' : '#ABABAB';
         return isScrolling ? (
-          <div style={{ minHeight: arraySize.current[index], backgroundColor }}>
+          <div
+            key={`test-virtualizer-child-${index}`}
+            style={{ minHeight: arraySize.current[index], backgroundColor }}
+          >
             LOADING
           </div>
         ) : (

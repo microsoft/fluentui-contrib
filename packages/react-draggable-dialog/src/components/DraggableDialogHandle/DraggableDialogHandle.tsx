@@ -15,20 +15,15 @@ export const DraggableDialogHandle: React.FC<DraggableDialogHandleProps> =
       useDraggableDialogHandle();
 
     const child = React.Children.only(children);
-    const classnames = React.useMemo(
-      () =>
-        mergeClasses(
-          'fui-DraggableDialogHandle',
-          styles.root,
-          child.props.className,
-          className
-        ),
-      [styles.root, child.props.className, className]
-    );
 
     return React.cloneElement(child, {
       ref: setActivatorNodeRef,
-      className: classnames,
+      className: mergeClasses(
+        'fui-DraggableDialogHandle',
+        styles.root,
+        child.props.className,
+        className
+      ),
       ...attributes,
       ...listeners,
     });

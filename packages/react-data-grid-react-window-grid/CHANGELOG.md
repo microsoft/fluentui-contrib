@@ -1,8 +1,29 @@
 # Change Log - @fluentui-contrib/react-data-grid-react-window-grid
 
-This log was last generated on Thu, 10 Apr 2025 14:11:17 GMT and should not be manually modified.
+This log was last generated on Wed, 01 Oct 2025 08:00:02 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 2.4.1
+
+Wed, 01 Oct 2025 08:00:02 GMT
+
+### Patches
+
+- chore: update peer dependencies for React and @types/react to support versions <20.0.0 (dmytrokirpa@microsoft.com)
+
+## 2.4.0
+
+Mon, 22 Sep 2025 16:02:24 GMT
+
+### Minor changes
+
+- feat: enforce explicit module boundary types (dmytrokirpa@microsoft.com)
+
+### Patches
+
+- chore: bump react-components to latest and adjust types to support react 18 (dmytrokirpa@microsoft.com)
+- feat: add react 19 support (dmytrokirpa@microsoft.com)
 
 ## 2.3.1
 
