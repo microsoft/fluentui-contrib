@@ -156,9 +156,6 @@ export function useVirtualizer_unstable(
     initializeScrollingTimer();
   }, [actualIndex, initializeScrollingTimer]);
 
-  // We track changes to prevent unnecessary renders
-  const prevIndex = React.useRef<number>(actualIndex);
-  const prevVirtualizerLength = React.useRef<number>(virtualizerLength);
   const renderChildRows = React.useCallback(
     (_newIndex: number) => {
       if (numItems === 0) {
@@ -167,36 +164,15 @@ export function useVirtualizer_unstable(
       }
       const newIndex = Math.max(_newIndex, 0);
       const arrayLength = Math.min(virtualizerLength, numItems - newIndex);
-      if (
-        prevIndex.current === newIndex &&
-        prevVirtualizerLength.current === virtualizerLength &&
-        arrayLength === childArray.current.length
-      ) {
-        // We only want to re-render if the index or virtualizer length has changed
-        prevIndex.current = newIndex;
-        prevVirtualizerLength.current = virtualizerLength;
-        return childArray.current;
-      }
 
+      // Always create fresh React elements to prevent key reconciliation issues
+      // when items order changes or when re-rendering is needed.
+      // Creating React elements is cheap (just object creation), and React's
+      // reconciliation with proper keys is very efficient.
       const newChildArray = new Array(arrayLength);
-      const indexChange = prevIndex.current - newIndex;
-      // We can copy some of the existing children
       for (let i = 0; i < arrayLength; i++) {
-        const oldIndex = i - indexChange;
-        if (
-          childArray.current[oldIndex] !== undefined &&
-          oldIndex >= 0 &&
-          oldIndex < prevVirtualizerLength.current
-        ) {
-          newChildArray[i] = childArray.current[oldIndex];
-        } else {
-          newChildArray[i] = renderChild(newIndex + i, isScrolling);
-        }
+        newChildArray[i] = renderChild(newIndex + i, isScrolling);
       }
-
-      prevIndex.current = newIndex;
-      prevVirtualizerLength.current = virtualizerLength;
-      childArray.current = newChildArray;
 
       return newChildArray;
     },
@@ -210,8 +186,6 @@ export function useVirtualizer_unstable(
     for (let i = 0; i < arrayLength; i++) {
       newChildArray[i] = renderChild(actualIndex + i, _isScrolling);
     }
-    prevIndex.current = actualIndex;
-    prevVirtualizerLength.current = virtualizerLength;
     childArray.current = newChildArray;
   };
 
