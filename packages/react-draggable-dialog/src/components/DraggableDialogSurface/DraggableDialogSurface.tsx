@@ -14,27 +14,35 @@ import { useDraggableDialogSurface } from './useDraggableDialogSurface';
  * when composed with DraggableDialog, can be dragged.
  */
 export const DraggableDialogSurface: ForwardRefComponent<DraggableDialogSurfaceProps> =
-  React.forwardRef((props, forwardedRef) => {
-    const { children, className } = props;
-    const styles = useStyles();
-    const { ref, style, mountNode } = useDraggableDialogSurface(
-      props,
-      forwardedRef
-    );
+  React.memo(
+    React.forwardRef((props, forwardedRef) => {
+      const { children, className, style, ...rest } = props;
+      const styles = useStyles();
+      const {
+        ref,
+        style: draggableStyle,
+        mountNode,
+      } = useDraggableDialogSurface(props, forwardedRef);
 
-    return (
-      <DialogSurface
-        ref={ref}
-        style={style}
-        className={mergeClasses(
-          'fui-DraggableDialogSurface',
-          styles.root,
-          className
-        )}
-        mountNode={mountNode}
-        {...props}
-      >
-        {children}
-      </DialogSurface>
-    );
-  });
+      return (
+        <DialogSurface
+          ref={ref}
+          style={{
+            ...style,
+            ...draggableStyle,
+          }}
+          className={mergeClasses(
+            'fui-DraggableDialogSurface',
+            styles.root,
+            className
+          )}
+          mountNode={mountNode}
+          {...rest}
+        >
+          {children}
+        </DialogSurface>
+      );
+    })
+  );
+
+DraggableDialogSurface.displayName = 'DraggableDialogSurface';
