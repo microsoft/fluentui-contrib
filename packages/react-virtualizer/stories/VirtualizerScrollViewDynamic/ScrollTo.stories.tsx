@@ -3,6 +3,7 @@ import { VirtualizerScrollViewDynamic } from '@fluentui-contrib/react-virtualize
 import type { ScrollToInterface } from '@fluentui-contrib/react-virtualizer';
 import type { VirtualizerDataRef } from '@fluentui-contrib/react-virtualizer';
 import { Button, Input, makeStyles, Text } from '@fluentui/react-components';
+import type { JSXElement } from '@fluentui/react-components';
 
 const useStyles = makeStyles({
   child: {
@@ -12,7 +13,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const ScrollTo = () => {
+export const ScrollTo = (): JSXElement => {
   const styles = useStyles();
   const childLength = 1000;
   const minHeight = 42;

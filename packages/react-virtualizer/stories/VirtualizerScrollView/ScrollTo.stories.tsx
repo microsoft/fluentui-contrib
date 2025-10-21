@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { VirtualizerScrollView } from '@fluentui-contrib/react-virtualizer';
 import type { ScrollToInterface } from '@fluentui-contrib/react-virtualizer';
-import { Text, Input, makeStyles } from '@fluentui/react-components';
-import { Button } from '@fluentui/react-components';
+import { Button, Text, Input, makeStyles } from '@fluentui/react-components';
+import type { JSXElement } from '@fluentui/react-components';
 
 const useStyles = makeStyles({
   child: {
@@ -12,7 +12,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const ScrollTo = () => {
+export const ScrollTo = (): JSXElement => {
   const styles = useStyles();
   const childLength = 1000;
   const scrollRef = React.useRef<ScrollToInterface>(null);

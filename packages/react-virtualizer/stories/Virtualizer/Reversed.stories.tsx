@@ -4,6 +4,7 @@ import {
   Virtualizer,
 } from '@fluentui-contrib/react-virtualizer';
 import { makeStyles } from '@fluentui/react-components';
+import type { JSXElement } from '@fluentui/react-components';
 
 const useStyles = makeStyles({
   container: {
@@ -21,7 +22,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const Reversed = () => {
+export const Reversed = (): JSXElement => {
   const styles = useStyles();
   const childLength = 1000;
   const itemSize = 100;

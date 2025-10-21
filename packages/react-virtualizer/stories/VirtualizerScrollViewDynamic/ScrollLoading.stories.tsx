@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { VirtualizerScrollViewDynamic } from '@fluentui-contrib/react-virtualizer';
 import { makeStyles } from '@fluentui/react-components';
+import type { JSXElement } from '@fluentui/react-components';
 
 const useStyles = makeStyles({
   child: {
@@ -10,7 +11,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const ScrollLoading = () => {
+export const ScrollLoading = (): JSXElement => {
   const styles = useStyles();
   const childLength = 1000;
   const minHeight = 42;

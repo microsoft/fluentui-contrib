@@ -1,10 +1,5 @@
-/** @jsxRuntime classic */
-/** @jsx createElement */
-/** @jsxFrag Fragment */
 /* eslint-disable no-restricted-globals */
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { createElement } from '@fluentui/react-jsx-runtime';
 import * as React from 'react';
 import {
   VirtualizerScrollViewDynamic,
@@ -17,6 +12,7 @@ import {
   makeStyles,
   useMergedRefs,
 } from '@fluentui/react-components';
+import { JSXElement } from '@fluentui/react-utilities';
 
 const useStyles = makeStyles({
   container: {
@@ -277,7 +273,7 @@ const LazyLoadingComponent = React.forwardRef(
   }
 );
 
-export const ComplexDynamicList = () => {
+export const ComplexDynamicList = (): JSXElement => {
   const styles = useStyles();
   const [childLength, setChildLength] = React.useState(100);
   const virtualizerScrollRef = React.useRef<HTMLDivElement & ScrollToInterface>(
