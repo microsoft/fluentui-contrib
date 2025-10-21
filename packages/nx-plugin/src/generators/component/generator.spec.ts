@@ -90,8 +90,8 @@ describe('component generator', () => {
 
       expect(pkgJson.peerDependencies).toEqual({
         '@fluentui/react-components': '>=9.46.3 <10.0.0',
-        '@types/react': '>=16.8.0 <19.0.0',
-        react: '>=16.8.0 <19.0.0',
+        '@types/react': '>=16.8.0 <20.0.0',
+        react: '>=16.8.0 <20.0.0',
       });
     });
   });

@@ -70,10 +70,10 @@ function copyPackageJson(paths: PackagePaths) {
       ...packageJson.dependencies,
     },
     peerDependencies: {
-      '@types/react': '>=16.8.0 <19.0.0',
-      '@types/react-dom': '>=16.8.0 <19.0.0',
-      react: '>=16.8.0 <19.0.0',
-      'react-dom': '>=16.8.0 <19.0.0',
+      '@types/react': '>=16.8.0 <20.0.0',
+      '@types/react-dom': '>=16.8.0 <20.0.0',
+      react: '>=16.8.0 <20.0.0',
+      'react-dom': '>=16.8.0 <20.0.0',
       ...packageJson.peerDependencies,
     },
     exports: {
