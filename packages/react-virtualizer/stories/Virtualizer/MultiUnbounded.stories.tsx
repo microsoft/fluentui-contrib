@@ -4,6 +4,7 @@ import {
   useStaticVirtualizerMeasure,
 } from '@fluentui-contrib/react-virtualizer';
 import { makeStyles, useFluent } from '@fluentui/react-components';
+import type { JSXElement } from '@fluentui/react-components';
 
 const useStyles = makeStyles({
   container: {
@@ -34,7 +35,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const MultiUnbounded = () => {
+export const MultiUnbounded = (): JSXElement => {
   const styles = useStyles();
   const childLength = 100;
   const repeatingVirtualizers = 5;
