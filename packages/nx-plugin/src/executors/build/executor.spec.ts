@@ -144,11 +144,11 @@ describe('Build Executor', () => {
         "main": "./lib-commonjs/index.js",
         "module": "./lib/index.js",
         "peerDependencies": {
-          "@types/react": ">=16.8.0 <19.0.0",
-          "@types/react-dom": ">=16.8.0 <19.0.0",
+          "@types/react": ">=16.8.0 <20.0.0",
+          "@types/react-dom": ">=16.8.0 <20.0.0",
           "one-two": ">=1.0.0 <2.0.0",
-          "react": ">=16.8.0 <19.0.0",
-          "react-dom": ">=16.8.0 <19.0.0",
+          "react": ">=16.8.0 <20.0.0",
+          "react-dom": ">=16.8.0 <20.0.0",
         },
         "repository": {
           "type": "git",
