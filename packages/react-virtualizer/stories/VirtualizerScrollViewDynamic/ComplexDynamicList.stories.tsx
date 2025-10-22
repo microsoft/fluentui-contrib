@@ -438,4 +438,4 @@ export const ComplexDynamicList = (): JSXElement => {
   );
 };
 
-ComplexDynamicList.storyName = 'Infinite Scroll Bug - Auto Measurement';
+ComplexDynamicList.storyName = 'Complex Dynamic List - Auto Measurement';
