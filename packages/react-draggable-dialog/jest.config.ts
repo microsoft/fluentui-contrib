@@ -1,5 +1,6 @@
 /* eslint-disable */
 import { readFileSync } from 'fs';
+import { Config } from 'jest';
 
 // Reading the SWC compilation config and remove the "exclude"
 // for the test files to be compiled by SWC
@@ -14,11 +15,11 @@ if (swcJestConfig.swcrc === undefined) {
 }
 
 // Uncomment if using global setup/teardown files being transformed via swc
-// https://nx.dev/nx-api/jest/documents/overview#global-setupteardown-with-nx-libraries
+// https://nx.dev/docs/technologies/test-tools/jest/introduction#global-setupteardown-with-nx-libraries
 // jest needs EsModule Interop to find the default exported setup/teardown functions
 // swcJestConfig.module.noInterop = false;
 
-export default {
+const config: Config = {
   displayName: 'react-draggable-dialog',
   preset: '../../jest.preset.js',
   transform: {
@@ -28,3 +29,5 @@ export default {
   testEnvironment: 'jsdom',
   coverageDirectory: '../../coverage/packages/react-draggable-dialog',
 };
+
+export default config;
