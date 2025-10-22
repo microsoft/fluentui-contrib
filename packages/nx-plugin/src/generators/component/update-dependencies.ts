@@ -25,8 +25,8 @@ export function updateDependencies(
   const reactComponentsVersion = getReactComponentsVersion(tree);
   const peerDeps = {
     '@fluentui/react-components': `>=${reactComponentsVersion} <10.0.0`,
-    '@types/react': '>=16.8.0 <19.0.0',
-    react: '>=16.8.0 <19.0.0',
+    '@types/react': '>=16.8.0 <20.0.0',
+    react: '>=16.8.0 <20.0.0',
   };
 
   updateJson(tree, options.paths.packageJson, (packageJson) => {
