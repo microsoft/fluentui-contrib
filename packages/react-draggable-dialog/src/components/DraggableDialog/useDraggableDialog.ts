@@ -5,9 +5,7 @@ import {
   DragEndEvent,
   DragMoveEvent,
   KeyboardSensor,
-  MouseSensor,
   PointerSensor,
-  TouchSensor,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
@@ -75,15 +73,9 @@ export const useDraggableDialog = (
   const [setOnDragAnimationFrame, cancelOnDragAnimationFrame] =
     useAnimationFrame();
 
-  const keyboardSensor = useSensor(KeyboardSensor);
-  const mouseSensor = useSensor(MouseSensor);
-  const pointerSensor = useSensor(PointerSensor);
-  const touchSensor = useSensor(TouchSensor);
   const sensors = useSensors(
-    keyboardSensor,
-    mouseSensor,
-    pointerSensor,
-    touchSensor
+    useSensor(KeyboardSensor),
+    useSensor(PointerSensor)
   );
 
   const onDragMove = React.useCallback(

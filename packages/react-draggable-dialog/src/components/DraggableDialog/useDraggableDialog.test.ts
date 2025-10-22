@@ -46,12 +46,7 @@ describe('DraggableDialog', () => {
 
     const sensorNames = result.current.sensors.map(({ sensor }) => sensor.name);
 
-    expect(sensorNames).toStrictEqual([
-      'KeyboardSensor',
-      'MouseSensor',
-      'PointerSensor',
-      'TouchSensor',
-    ]);
+    expect(sensorNames).toStrictEqual(['KeyboardSensor', 'PointerSensor']);
   });
 
   it('should return default values with announcements', () => {
