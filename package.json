@@ -116,6 +116,7 @@
   ],
   "resolutions": {
     "@storybook/addon-docs/@jest/transform": "^30",
+    "**/tar-fs": "^2.1.4",
     "**/axios": "^1.12.0"
   }
 }
