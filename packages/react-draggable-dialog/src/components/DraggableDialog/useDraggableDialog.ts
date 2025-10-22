@@ -74,10 +74,11 @@ export const useDraggableDialog = (
   const [setOnDragAnimationFrame, cancelOnDragAnimationFrame] =
     useAnimationFrame();
 
-  const keyboardSensor = useSensor(KeyboardSensor);
-  const mouseSensor = useSensor(MouseSensor);
-  const touchSensor = useSensor(TouchSensor);
-  const sensors = useSensors(keyboardSensor, mouseSensor, touchSensor);
+  const sensors = useSensors(
+    useSensor(KeyboardSensor),
+    useSensor(MouseSensor),
+    useSensor(TouchSensor)
+  );
 
   const onDragMove = React.useCallback(
     ({ active }: DragMoveEvent | DragEndEvent) => {
