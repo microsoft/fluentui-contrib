@@ -6,7 +6,6 @@ import {
   DragMoveEvent,
   KeyboardSensor,
   PointerSensor,
-  TouchSensor,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
@@ -76,8 +75,7 @@ export const useDraggableDialog = (
 
   const sensors = useSensors(
     useSensor(KeyboardSensor),
-    useSensor(PointerSensor),
-    useSensor(TouchSensor)
+    useSensor(PointerSensor)
   );
 
   const onDragMove = React.useCallback(
