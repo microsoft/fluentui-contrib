@@ -5,7 +5,7 @@ import {
   DragEndEvent,
   DragMoveEvent,
   KeyboardSensor,
-  MouseSensor,
+  PointerSensor,
   TouchSensor,
   useSensor,
   useSensors,
@@ -76,7 +76,7 @@ export const useDraggableDialog = (
 
   const sensors = useSensors(
     useSensor(KeyboardSensor),
-    useSensor(MouseSensor),
+    useSensor(PointerSensor),
     useSensor(TouchSensor)
   );
 
