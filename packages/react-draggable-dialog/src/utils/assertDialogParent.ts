@@ -5,7 +5,8 @@ export const assertDialogParent = (
   if (process.env.NODE_ENV !== 'production') {
     if (!hasParent) {
       console.error(
-        `Warning: ${componentName} is not a descendant of DraggableDialog`
+        `Warning: ${componentName} needs to be a descendant of DraggableDialog. Example:\n` +
+          `  <DraggableDialog>\n    <${componentName} />\n  </DraggableDialog>`
       );
     }
   }

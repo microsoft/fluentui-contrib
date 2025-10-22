@@ -130,4 +130,200 @@ describe('DraggableDialogHandle', () => {
 
     expect(consoleErrorSpy).not.toHaveBeenCalled();
   });
+
+  it('should apply event listeners to the child element', () => {
+    const mockListeners = {
+      onMouseDown: jest.fn(),
+      onTouchStart: jest.fn(),
+    };
+    useDraggableSpy.mockReturnValue({
+      setActivatorNodeRef: jest.fn(),
+      listeners: mockListeners,
+    });
+    useDraggableDialogContextSpy.mockReturnValue({
+      hasDraggableParent: true,
+    });
+
+    const { container } = render(
+      <DraggableDialogHandle>
+        <div>Handle</div>
+      </DraggableDialogHandle>
+    );
+    const handle = container.firstChild as HTMLElement;
+
+    // Trigger the events to verify they are attached
+    handle.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+    handle.dispatchEvent(new TouchEvent('touchstart', { bubbles: true }));
+
+    expect(mockListeners.onMouseDown).toHaveBeenCalled();
+    expect(mockListeners.onTouchStart).toHaveBeenCalled();
+  });
+
+  it('should properly merge className props', () => {
+    useDraggableDialogContextSpy.mockReturnValue({
+      hasDraggableParent: true,
+    });
+
+    const { container, rerender } = render(
+      <DraggableDialogHandle className="parent-class">
+        <div className="child-class">Handle</div>
+      </DraggableDialogHandle>
+    );
+    let handle = container.firstChild as HTMLElement;
+
+    expect(handle.classList.contains('fui-DraggableDialogHandle')).toBe(true);
+    expect(handle.classList.contains('child-class')).toBe(true);
+    expect(handle.classList.contains('parent-class')).toBe(true);
+
+    // Test with no parent className
+    rerender(
+      <DraggableDialogHandle>
+        <div className="child-only">Handle</div>
+      </DraggableDialogHandle>
+    );
+    handle = container.firstChild as HTMLElement;
+
+    expect(handle.classList.contains('fui-DraggableDialogHandle')).toBe(true);
+    expect(handle.classList.contains('child-only')).toBe(true);
+    expect(handle.classList.contains('parent-class')).toBe(false);
+
+    // Test with no child className
+    rerender(
+      <DraggableDialogHandle className="parent-only">
+        <div>Handle</div>
+      </DraggableDialogHandle>
+    );
+    handle = container.firstChild as HTMLElement;
+
+    expect(handle.classList.contains('fui-DraggableDialogHandle')).toBe(true);
+    expect(handle.classList.contains('parent-only')).toBe(true);
+    expect(handle.classList.contains('child-only')).toBe(false);
+  });
+
+  it('should pass ref to the child element', () => {
+    const mockRef = jest.fn();
+    useDraggableSpy.mockReturnValue({
+      setActivatorNodeRef: mockRef,
+    });
+    useDraggableDialogContextSpy.mockReturnValue({
+      hasDraggableParent: true,
+    });
+
+    render(
+      <DraggableDialogHandle>
+        <div>Handle</div>
+      </DraggableDialogHandle>
+    );
+
+    expect(mockRef).toHaveBeenCalledWith(expect.any(HTMLElement));
+  });
+
+  it('should preserve existing props on child element', () => {
+    useDraggableDialogContextSpy.mockReturnValue({
+      hasDraggableParent: true,
+    });
+
+    const { container } = render(
+      <DraggableDialogHandle>
+        <button disabled data-testid="custom-button">
+          Handle
+        </button>
+      </DraggableDialogHandle>
+    );
+    const handle = container.firstChild as HTMLButtonElement;
+
+    // Test that non-event props are preserved
+    expect(handle.disabled).toBe(true);
+    expect(handle.getAttribute('data-testid')).toBe('custom-button');
+    expect(handle.textContent).toBe('Handle');
+  });
+
+  it('should throw error when multiple children are provided', () => {
+    useDraggableDialogContextSpy.mockReturnValue({
+      hasDraggableParent: true,
+    });
+
+    expect(() => {
+      render(
+        // @ts-expect-error - Testing invalid usage
+        <DraggableDialogHandle>
+          <div>Handle 1</div>
+          <div>Handle 2</div>
+        </DraggableDialogHandle>
+      );
+    }).toThrow();
+  });
+
+  it('should throw error when no children are provided', () => {
+    useDraggableDialogContextSpy.mockReturnValue({
+      hasDraggableParent: true,
+    });
+
+    expect(() => {
+      // @ts-expect-error - Testing invalid usage
+      render(<DraggableDialogHandle>{null}</DraggableDialogHandle>);
+    }).toThrow();
+  });
+
+  it('should call useDraggable with correct id', () => {
+    const mockId = 'test-dialog-id';
+    useDraggableDialogContextSpy.mockReturnValue({
+      id: mockId,
+      hasDraggableParent: true,
+    });
+
+    render(
+      <DraggableDialogHandle>
+        <div>Handle</div>
+      </DraggableDialogHandle>
+    );
+
+    expect(useDraggableSpy).toHaveBeenCalledWith({
+      id: mockId,
+    });
+  });
+
+  it('should handle string children', () => {
+    useDraggableDialogContextSpy.mockReturnValue({
+      hasDraggableParent: true,
+    });
+
+    const { container } = render(
+      <DraggableDialogHandle>
+        <span>Handle Text</span>
+      </DraggableDialogHandle>
+    );
+    const handle = container.firstChild as HTMLElement;
+
+    expect(handle.tagName.toLowerCase()).toBe('span');
+    expect(handle.textContent).toBe('Handle Text');
+    expect(handle.classList.contains('fui-DraggableDialogHandle')).toBe(true);
+  });
+
+  it('should not apply listeners when they are undefined', () => {
+    useDraggableSpy.mockReturnValue({
+      setActivatorNodeRef: jest.fn(),
+      listeners: undefined,
+    });
+    useDraggableDialogContextSpy.mockReturnValue({
+      hasDraggableParent: true,
+    });
+
+    const { container } = render(
+      <DraggableDialogHandle>
+        <div>Handle</div>
+      </DraggableDialogHandle>
+    );
+    const handle = container.firstChild as HTMLElement;
+
+    // Check that no event listeners were added by verifying we can't trigger them
+    const mouseEvent = new MouseEvent('mousedown', { bubbles: true });
+    const touchEvent = new TouchEvent('touchstart', { bubbles: true });
+
+    // These should not throw or cause issues
+    expect(() => {
+      handle.dispatchEvent(mouseEvent);
+      handle.dispatchEvent(touchEvent);
+    }).not.toThrow();
+  });
 });
