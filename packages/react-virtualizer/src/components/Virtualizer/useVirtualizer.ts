@@ -169,6 +169,7 @@ export function useVirtualizer_unstable(
       // when items order changes or when re-rendering is needed.
       // Creating React elements is cheap (just object creation), and React's
       // reconciliation with proper keys is very efficient.
+      // See: https://github.com/microsoft/fluentui-contrib/issues/526
       const newChildArray = new Array(arrayLength);
       for (let i = 0; i < arrayLength; i++) {
         newChildArray[i] = renderChild(newIndex + i, isScrolling);

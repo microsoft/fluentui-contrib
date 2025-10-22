@@ -4,6 +4,20 @@ import { VirtualizerExample } from './VirtualizerExample.component-browser-spec'
 
 test.use({ viewport: { width: 800, height: 600 } });
 
+/**
+ * Helper function to check if console errors contain React key reconciliation errors
+ */
+const hasKeyErrors = (errors: string[]): boolean => {
+  const keyErrorPatterns = [
+    'key',
+    'unique',
+    'Warning: Encountered two children with the same key',
+  ];
+  return errors.some((err) =>
+    keyErrorPatterns.some((pattern) => err.includes(pattern))
+  );
+};
+
 test.describe('Virtualizer', () => {
   test('should render only visible items initially', async ({ mount }) => {
     const component = await mount(<VirtualizerExample numItems={1000} />);
@@ -65,7 +79,6 @@ test.describe('Virtualizer', () => {
 
   test('should handle rapid scrolling without whitespace', async ({
     mount,
-    page,
   }) => {
     const component = await mount(<VirtualizerExample numItems={1000} />);
     const container = component.getByTestId('scroll-container');
@@ -75,11 +88,12 @@ test.describe('Virtualizer', () => {
       await container.evaluate((el, offset) => {
         el.scrollTop += offset;
       }, 500);
-      await page.waitForTimeout(100);
     }
 
-    // Wait for final virtualization update
-    await page.waitForTimeout(500);
+    // Wait for items to be rendered after scrolling
+    await expect(component.locator('[role="listitem"]').first()).toBeVisible({
+      timeout: 5000,
+    });
 
     // Should still have items rendered (no blank space)
     const items = await component.locator('[role="listitem"]').count();
@@ -101,7 +115,7 @@ test.describe('Virtualizer', () => {
     });
   });
 
-  test('should handle scroll to top', async ({ mount, page }) => {
+  test('should handle scroll to top', async ({ mount }) => {
     const component = await mount(<VirtualizerExample numItems={1000} />);
     const container = component.getByTestId('scroll-container');
 
@@ -111,7 +125,9 @@ test.describe('Virtualizer', () => {
     });
 
     // Wait for middle items to appear
-    await page.waitForTimeout(500);
+    await expect(component.getByTestId('item-100')).toBeVisible({
+      timeout: 5000,
+    });
 
     // Then scroll back to top
     await container.evaluate((el) => {
@@ -124,11 +140,16 @@ test.describe('Virtualizer', () => {
     });
   });
 
-  test('should maintain correct item count', async ({ mount, page }) => {
+  test('should maintain correct item count', async ({ mount }) => {
     const component = await mount(<VirtualizerExample numItems={1000} />);
     const container = component.getByTestId('scroll-container');
 
     await expect(container).toBeVisible();
+
+    // Wait for initial items to be rendered
+    await expect(component.getByTestId('item-0')).toBeVisible({
+      timeout: 5000,
+    });
 
     // Count rendered items
     const itemCount = await component.locator('[role="listitem"]').count();
@@ -138,13 +159,14 @@ test.describe('Virtualizer', () => {
     expect(itemCount).toBeLessThan(1000);
 
     // After scrolling, count should be similar
-
     await container.evaluate((el) => {
       el.scrollTop = 2500;
     });
 
-    // Wait for virtualization update with longer timeout
-    await page.waitForTimeout(800);
+    // Wait for virtualization to update by checking that the expected item is visible
+    await expect(component.getByTestId('item-50')).toBeVisible({
+      timeout: 5000,
+    });
 
     const itemCountAfterScroll = await component
       .locator('[role="listitem"]')
@@ -217,43 +239,32 @@ test.describe('Virtualizer', () => {
 
     // Wait for initial render
     await expect(component.getByTestId('scroll-container')).toBeVisible();
-    await page.waitForTimeout(500); // Wait for virtualizer to measure
 
     // Initially, list should be empty
-    const items = await component.locator('[role="listitem"]').count();
-    expect(items).toBe(0);
+    await expect(component.locator('[role="listitem"]')).toHaveCount(0);
 
     // Add first item
     await component.getByTestId('add-item-button').click();
-    await page.waitForTimeout(500);
 
     // Should have one item now
     const firstItem = component.getByTestId('item-0');
-    await expect(firstItem).toBeVisible({ timeout: 3000 });
+    await expect(firstItem).toBeVisible({ timeout: 5000 });
     await expect(firstItem).toHaveAttribute('data-value', '0');
     await expect(firstItem).toContainText('Item 0');
 
     // Add second item (should be prepended)
     await component.getByTestId('add-item-button').click();
-    await page.waitForTimeout(500);
 
     // item-1 should now be first (prepended)
     const newFirstItem = component.getByTestId('item-1');
-    await expect(newFirstItem).toBeVisible({ timeout: 3000 });
+    await expect(newFirstItem).toBeVisible({ timeout: 5000 });
     await expect(newFirstItem).toHaveAttribute('data-value', '1');
 
     // item-0 should still be visible but below item-1
     await expect(firstItem).toBeVisible();
 
     // Verify no React key reconciliation errors
-    const keyErrors = consoleErrors.filter(
-      (err) =>
-        err.includes('key') ||
-        err.includes('unique') ||
-        err.includes('Warning: Encountered two children with the same key')
-    );
-
-    expect(keyErrors).toHaveLength(0);
+    expect(hasKeyErrors(consoleErrors)).toBe(false);
   });
 
   test('should handle prepending multiple items without React key errors', async ({
@@ -270,11 +281,14 @@ test.describe('Virtualizer', () => {
     const component = await mount(<VirtualizerExample numItems={0} />);
 
     await expect(component.getByTestId('scroll-container')).toBeVisible();
-    await page.waitForTimeout(500);
 
     // Add 10 items at once
     await component.getByTestId('add-multiple-button').click();
-    await page.waitForTimeout(500);
+
+    // First visible item should be item-0 (the first of the 10 added)
+    const firstItem = component.getByTestId('item-0');
+    await expect(firstItem).toBeVisible({ timeout: 5000 });
+    await expect(firstItem).toHaveAttribute('data-value', '0');
 
     // Should have items visible
     const itemsAfterFirst = await component
@@ -282,57 +296,54 @@ test.describe('Virtualizer', () => {
       .count();
     expect(itemsAfterFirst).toBeGreaterThan(0);
 
-    // First visible item should be item-0 (the first of the 10 added)
-    const firstItem = component.getByTestId('item-0');
-    await expect(firstItem).toBeVisible({ timeout: 3000 });
-    await expect(firstItem).toHaveAttribute('data-value', '0');
-
     // Add 10 more items (should be prepended)
     await component.getByTestId('add-multiple-button').click();
-    await page.waitForTimeout(500);
 
     // Now item-10 should be first
     const newFirstItem = component.getByTestId('item-10');
-    await expect(newFirstItem).toBeVisible({ timeout: 3000 });
+    await expect(newFirstItem).toBeVisible({ timeout: 5000 });
     await expect(newFirstItem).toHaveAttribute('data-value', '10');
 
     // No key reconciliation errors
-    const keyErrors = consoleErrors.filter(
-      (err) =>
-        err.includes('key') ||
-        err.includes('unique') ||
-        err.includes('Warning: Encountered two children with the same key')
-    );
-
-    expect(keyErrors).toHaveLength(0);
+    expect(hasKeyErrors(consoleErrors)).toBe(false);
   });
 
   test('should correctly update when scrolled and items are prepended', async ({
     mount,
     page,
   }) => {
-    const component = await mount(<VirtualizerExample numItems={0} />);
+    const component = await mount(<VirtualizerExample numItems={50} />);
 
     await expect(component.getByTestId('scroll-container')).toBeVisible();
-    await page.waitForTimeout(500);
 
-    // Add many items to enable scrolling
-    for (let i = 0; i < 5; i++) {
-      await component.getByTestId('add-multiple-button').click();
-      await page.waitForTimeout(100);
-    }
-    await page.waitForTimeout(500);
+    // Wait for initial items to be rendered
+    await expect(component.getByTestId('item-0')).toBeVisible({
+      timeout: 5000,
+    });
 
     // Scroll down
     const container = component.getByTestId('scroll-container');
     await container.evaluate((el) => {
       el.scrollTop = 1000;
     });
-    await page.waitForTimeout(500);
+
+    // Wait for scrolled items to appear
+    await expect(component.getByTestId('item-20')).toBeVisible({
+      timeout: 5000,
+    });
 
     // Add more items while scrolled (prepend to top)
     await component.getByTestId('add-multiple-button').click();
-    await page.waitForTimeout(500);
+
+    // Scroll back to top to see the newly prepended items
+    await container.evaluate((el) => {
+      el.scrollTop = 0;
+    });
+
+    // Wait for new items to be visible at the top - item-50 is the first of the newly added 10 items
+    await expect(component.getByTestId('item-50')).toBeVisible({
+      timeout: 5000,
+    });
 
     // Items should still render correctly
     const items = await component.locator('[role="listitem"]').count();
@@ -340,7 +351,7 @@ test.describe('Virtualizer', () => {
 
     // No errors should occur
     const errors = await page.evaluate(() => {
-      // eslint-disable-next-line no-restricted-globals
+      // eslint-disable-next-line no-restricted-globals, @typescript-eslint/no-explicit-any
       return (window as any).__reactErrors || [];
     });
     expect(errors).toHaveLength(0);
