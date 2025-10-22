@@ -6,7 +6,6 @@ import {
   DragMoveEvent,
   KeyboardSensor,
   MouseSensor,
-  PointerSensor,
   TouchSensor,
   useSensor,
   useSensors,
@@ -77,14 +76,8 @@ export const useDraggableDialog = (
 
   const keyboardSensor = useSensor(KeyboardSensor);
   const mouseSensor = useSensor(MouseSensor);
-  const pointerSensor = useSensor(PointerSensor);
   const touchSensor = useSensor(TouchSensor);
-  const sensors = useSensors(
-    keyboardSensor,
-    mouseSensor,
-    pointerSensor,
-    touchSensor
-  );
+  const sensors = useSensors(keyboardSensor, mouseSensor, touchSensor);
 
   const onDragMove = React.useCallback(
     ({ active }: DragMoveEvent | DragEndEvent) => {
