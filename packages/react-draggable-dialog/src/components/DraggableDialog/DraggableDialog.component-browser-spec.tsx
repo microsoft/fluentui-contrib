@@ -2,8 +2,16 @@ import * as React from 'react';
 import { test, expect } from '@playwright/experimental-ct-react';
 
 import { DraggableDialogTestExample } from './DraggableDialogExample.component-browser-spec';
+import { Locator } from 'playwright/test';
 
 test.use({ viewport: { width: 500, height: 500 } });
+
+const evaluate = async (locator: Locator) => {
+  return locator.evaluate((el: HTMLElement) => ({
+    top: el.style.top,
+    left: el.style.left,
+  }));
+};
 
 test.describe('DraggableDialog (Playwright)', () => {
   test('does not render when open is false', async ({ mount, page }) => {
@@ -25,11 +33,11 @@ test.describe('DraggableDialog (Playwright)', () => {
       <DraggableDialogTestExample open position={{ x: 40, y: 60 }} />
     );
     const surface = page.locator('.fui-DraggableDialogSurface');
+
     await expect(surface).toBeVisible();
-    const inlinePos = await surface.evaluate((el) => ({
-      top: (el as HTMLElement).style.top,
-      left: (el as HTMLElement).style.left,
-    }));
+
+    const inlinePos = await evaluate(surface);
+
     expect(inlinePos.top).toBe('60px');
     expect(inlinePos.left).toBe('40px');
   });
@@ -39,6 +47,7 @@ test.describe('DraggableDialog (Playwright)', () => {
     page,
   }) => {
     const margin = 50;
+
     await mount(
       <DraggableDialogTestExample
         open
@@ -46,13 +55,12 @@ test.describe('DraggableDialog (Playwright)', () => {
         contentText="Viewport Boundary"
       />
     );
+
     const surface = page.locator('.fui-DraggableDialogSurface');
-    const styles = await surface.evaluate((el) => ({
-      top: (el as HTMLElement).style.top,
-      left: (el as HTMLElement).style.left,
-    }));
+    const styles = await evaluate(surface);
     const topNum = parseInt(styles.top, 10);
     const leftNum = parseInt(styles.left, 10);
+
     expect(topNum).toBeGreaterThanOrEqual(margin);
     expect(leftNum).toBeGreaterThanOrEqual(margin);
   });

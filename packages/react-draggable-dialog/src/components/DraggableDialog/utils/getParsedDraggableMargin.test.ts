@@ -21,144 +21,105 @@ describe('getParsedDraggableMargin', () => {
   });
 
   describe('when margin is a number', () => {
-    it('should return uniform margins for various number types', () => {
-      // Test positive number
-      expect(getParsedDraggableMargin(10)).toEqual({
-        top: 10,
-        end: 10,
-        bottom: 10,
-        start: 10,
-      });
-
-      // Test zero
-      expect(getParsedDraggableMargin(0)).toEqual(defaultMargin);
-
-      // Test negative and decimal numbers
-      expect(getParsedDraggableMargin(-5)).toEqual({
-        top: -5,
-        end: -5,
-        bottom: -5,
-        start: -5,
-      });
-
-      expect(getParsedDraggableMargin(12.5)).toEqual({
-        top: 12.5,
-        end: 12.5,
-        bottom: 12.5,
-        start: 12.5,
-      });
-    });
+    it.each([
+      {
+        input: 10,
+        expected: { top: 10, end: 10, bottom: 10, start: 10 },
+        description: 'positive number',
+      },
+      {
+        input: 0,
+        expected: defaultMargin,
+        description: 'zero',
+      },
+      {
+        input: -5,
+        expected: { top: -5, end: -5, bottom: -5, start: -5 },
+        description: 'negative number',
+      },
+      {
+        input: 12.5,
+        expected: { top: 12.5, end: 12.5, bottom: 12.5, start: 12.5 },
+        description: 'decimal number',
+      },
+    ])(
+      'should return uniform margins for $description',
+      ({ input, expected }) => {
+        expect(getParsedDraggableMargin(input)).toEqual(expected);
+      }
+    );
   });
 
   describe('when margin has mainAxis and crossAxis properties', () => {
-    it('should map mainAxis to horizontal and crossAxis to vertical', () => {
-      const margin: DraggableDialogMarginAxis = {
-        mainAxis: 15,
-        crossAxis: 20,
-      };
-      const result = getParsedDraggableMargin(margin);
-
-      expect(result).toEqual({
-        top: 20,
-        end: 15,
-        bottom: 20,
-        start: 15,
-      });
-    });
-
-    it('should handle partial axis properties and various value types', () => {
-      // Only mainAxis
-      expect(getParsedDraggableMargin({ mainAxis: 10 })).toEqual({
-        top: 0,
-        end: 10,
-        bottom: 0,
-        start: 10,
-      });
-
-      // Only crossAxis
-      expect(getParsedDraggableMargin({ crossAxis: 8 })).toEqual({
-        top: 8,
-        end: 0,
-        bottom: 8,
-        start: 0,
-      });
-
-      // Zero values
-      expect(getParsedDraggableMargin({ mainAxis: 0, crossAxis: 0 })).toEqual(
-        defaultMargin
-      );
-
-      // Negative and decimal values
-      expect(
-        getParsedDraggableMargin({ mainAxis: -5, crossAxis: 12.3 })
-      ).toEqual({
-        top: 12.3,
-        end: -5,
-        bottom: 12.3,
-        start: -5,
-      });
+    it.each([
+      {
+        input: { mainAxis: 15, crossAxis: 20 },
+        expected: { top: 20, end: 15, bottom: 20, start: 15 },
+        description: 'mainAxis to horizontal and crossAxis to vertical',
+      },
+      {
+        input: { mainAxis: 10 },
+        expected: { top: 0, end: 10, bottom: 0, start: 10 },
+        description: 'only mainAxis',
+      },
+      {
+        input: { crossAxis: 8 },
+        expected: { top: 8, end: 0, bottom: 8, start: 0 },
+        description: 'only crossAxis',
+      },
+      {
+        input: { mainAxis: 0, crossAxis: 0 },
+        expected: defaultMargin,
+        description: 'zero values',
+      },
+      {
+        input: { mainAxis: -5, crossAxis: 12.3 },
+        expected: { top: 12.3, end: -5, bottom: 12.3, start: -5 },
+        description: 'negative and decimal values',
+      },
+    ])('should handle $description', ({ input, expected }) => {
+      expect(getParsedDraggableMargin(input)).toEqual(expected);
     });
   });
 
   describe('when margin has viewport properties', () => {
-    it('should handle complete and partial viewport margins', () => {
-      // All properties provided
-      const fullMargin: DraggableDialogMarginViewport = {
-        top: 5,
-        end: 10,
-        bottom: 15,
-        start: 20,
-      };
-      expect(getParsedDraggableMargin(fullMargin)).toEqual({
-        top: 5,
-        end: 10,
-        bottom: 15,
-        start: 20,
-      });
-
-      // Partial properties
-      expect(getParsedDraggableMargin({ top: 10, end: 15 })).toEqual({
-        top: 10,
-        end: 15,
-        bottom: 0,
-        start: 0,
-      });
-
-      // Single property
-      expect(getParsedDraggableMargin({ bottom: 25 })).toEqual({
-        top: 0,
-        end: 0,
-        bottom: 25,
-        start: 0,
-      });
+    it.each([
+      {
+        input: { top: 5, end: 10, bottom: 15, start: 20 },
+        expected: { top: 5, end: 10, bottom: 15, start: 20 },
+        description: 'all properties provided',
+      },
+      {
+        input: { top: 10, end: 15 },
+        expected: { top: 10, end: 15, bottom: 0, start: 0 },
+        description: 'partial properties',
+      },
+      {
+        input: { bottom: 25 },
+        expected: { top: 0, end: 0, bottom: 25, start: 0 },
+        description: 'single property',
+      },
+    ])('should handle $description', ({ input, expected }) => {
+      expect(getParsedDraggableMargin(input)).toEqual(expected);
     });
 
-    it('should handle various value types in viewport properties', () => {
-      // Zero values
-      expect(
-        getParsedDraggableMargin({
-          top: 0,
-          end: 0,
-          bottom: 0,
-          start: 0,
-        })
-      ).toEqual(defaultMargin);
-
-      // Mixed positive/negative and decimal values
-      expect(
-        getParsedDraggableMargin({
-          top: -5,
-          end: 10.5,
-          bottom: -3,
-          start: 8.2,
-        })
-      ).toEqual({
-        top: -5,
-        end: 10.5,
-        bottom: -3,
-        start: 8.2,
-      });
-    });
+    it.each([
+      {
+        input: { top: 0, end: 0, bottom: 0, start: 0 },
+        expected: defaultMargin,
+        description: 'zero values',
+      },
+      {
+        input: { top: -5, end: 10.5, bottom: -3, start: 8.2 },
+        expected: { top: -5, end: 10.5, bottom: -3, start: 8.2 },
+        description: 'mixed positive/negative and decimal values',
+      },
+    ])(
+      'should handle $description in viewport properties',
+      ({ input, expected }) => {
+        expect(getParsedDraggableMargin(input)).toEqual(expected);
+      }
+    );
   });
 
   describe('edge cases', () => {
