@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-virtualizer
 
-This log was last generated on Thu, 02 Oct 2025 17:49:04 GMT and should not be manually modified.
+This log was last generated on Thu, 23 Oct 2025 15:06:11 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.5.3
+
+Thu, 23 Oct 2025 15:06:11 GMT
+
+### Patches
+
+- fix: fix errors when the items order changes (dmytrokirpa@microsoft.com)
 
 ## 0.5.2
 

@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: add comprehensive number of tests",
-  "packageName": "@fluentui-contrib/react-draggable-dialog",
-  "email": "marcosvmmoura@gmail.com",
-  "dependentChangeType": "patch"
-}

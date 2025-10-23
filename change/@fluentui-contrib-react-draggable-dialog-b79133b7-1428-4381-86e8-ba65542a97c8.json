@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: touch events not working when using both Pointer and Touch sensors",
-  "packageName": "@fluentui-contrib/react-draggable-dialog",
-  "email": "marcosvmmoura@gmail.com",
-  "dependentChangeType": "patch"
-}

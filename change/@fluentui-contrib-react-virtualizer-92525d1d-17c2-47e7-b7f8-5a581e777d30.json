@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: fix errors when the items order changes",
-  "packageName": "@fluentui-contrib/react-virtualizer",
-  "email": "dmytrokirpa@microsoft.com",
-  "dependentChangeType": "patch"
-}

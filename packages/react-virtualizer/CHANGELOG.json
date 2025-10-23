@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-virtualizer",
   "entries": [
     {
+      "date": "Thu, 23 Oct 2025 15:06:11 GMT",
+      "tag": "@fluentui-contrib/react-virtualizer_v0.5.3",
+      "version": "0.5.3",
+      "comments": {
+        "patch": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "016d0abbeb5fdadb795007960c6db7a3b20ef177",
+            "comment": "fix: fix errors when the items order changes"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 02 Oct 2025 17:49:04 GMT",
       "tag": "@fluentui-contrib/react-virtualizer_v0.5.2",
       "version": "0.5.2",
