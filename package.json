@@ -78,7 +78,7 @@
     "beachball": "^2.33.2",
     "eslint": "9.26.0",
     "eslint-config-prettier": "10.1.8",
-    "eslint-plugin-playwright": "2.2.0",
+    "eslint-plugin-playwright": "2.2.2",
     "globals": "15.15.0",
     "jest": "30.0.5",
     "jest-environment-jsdom": "30.0.5",
