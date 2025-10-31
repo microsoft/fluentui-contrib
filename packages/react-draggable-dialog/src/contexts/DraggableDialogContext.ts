@@ -13,10 +13,6 @@ export type DraggableDialogContextValue = {
   id: string;
   boundary: DraggableDialogProps['boundary'];
   margin: Required<DraggableDialogMarginViewport>;
-  /**
-   * @deprecated
-   * This function has no effect and will be removed in a future version.
-   */
   setDropPosition?: (position: DraggablePosition) => void;
   onPositionChange?: DraggableDialogProps['onPositionChange'];
   position?: DraggablePosition | null;

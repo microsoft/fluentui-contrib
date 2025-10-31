@@ -17,14 +17,26 @@ type RestrictToBoundaryModifier = (
 const getRectWithMargin = (
   rect: ClientRect,
   margin: Required<DraggableDialogMarginViewport>
-): ClientRect => ({
-  width: rect.width - margin.start - margin.end,
-  height: rect.height - margin.top - margin.bottom,
-  top: rect.top + margin.top,
-  right: rect.right + margin.end,
-  bottom: rect.bottom + margin.bottom,
-  left: rect.left + margin.start,
-});
+): ClientRect => {
+  // Return early if no margins are applied for better performance
+  if (
+    margin.start === 0 &&
+    margin.end === 0 &&
+    margin.top === 0 &&
+    margin.bottom === 0
+  ) {
+    return rect;
+  }
+
+  return {
+    width: rect.width - margin.start - margin.end,
+    height: rect.height - margin.top - margin.bottom,
+    top: rect.top + margin.top,
+    right: rect.right + margin.end,
+    bottom: rect.bottom + margin.bottom,
+    left: rect.left + margin.start,
+  };
+};
 
 export const restrictToBoundaryModifier: RestrictToBoundaryModifier =
   ({ margin, boundary }) =>
