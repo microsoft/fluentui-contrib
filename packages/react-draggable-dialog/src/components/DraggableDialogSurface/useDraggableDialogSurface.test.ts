@@ -1,4 +1,5 @@
-import { renderHook } from '@testing-library/react';
+import type { RefCallback } from 'react';
+import { renderHook, act } from '@testing-library/react';
 import { useDraggable } from '@dnd-kit/core';
 import { useFluent, useMergedRefs } from '@fluentui/react-components';
 
@@ -28,11 +29,14 @@ describe('DraggableDialogSurface', () => {
   let consoleErrorMock: jest.SpyInstance;
   const mockSetNodeRef = jest.fn();
   const mockMergedRef = jest.fn();
+  let mockSetDropPosition: jest.Mock;
 
   beforeEach(() => {
     consoleErrorMock = jest
       .spyOn(console, 'error')
       .mockImplementation((error: string) => error);
+
+    mockSetDropPosition = jest.fn();
 
     // Set up default mocks
     useDraggableDialogContextSpy.mockReturnValue({
@@ -48,6 +52,7 @@ describe('DraggableDialogSurface', () => {
       hasBeenDragged: false,
       position: null,
       dropPosition: { x: 0, y: 0 },
+      setDropPosition: mockSetDropPosition,
     });
 
     useDraggableSpy.mockReturnValue({
@@ -338,6 +343,7 @@ describe('DraggableDialogSurface', () => {
       hasBeenDragged: false,
       position: null,
       dropPosition: { x: 0, y: 0 },
+      setDropPosition: mockSetDropPosition,
     });
 
     renderHook(() => useDraggableDialogSurface({}, mockForwardedRef), {
@@ -345,7 +351,6 @@ describe('DraggableDialogSurface', () => {
     });
 
     expect(useMergedRefsSpy).toHaveBeenCalledWith(
-      mockSetNodeRef,
       expect.any(Function), // The internal ref callback
       mockForwardedRef
     );
@@ -365,6 +370,7 @@ describe('DraggableDialogSurface', () => {
       hasBeenDragged: false,
       position: { x: 100, y: 50 },
       dropPosition: { x: 0, y: 0 },
+      setDropPosition: mockSetDropPosition,
     });
 
     const { result } = renderHook(() => useDraggableDialogSurface({}, null), {
@@ -374,5 +380,184 @@ describe('DraggableDialogSurface', () => {
     // Since currentEl is null initially, style will be undefined
     // The position logic is tested through the style calculation when currentEl is set
     expect(result.current.ref).toBe(mockMergedRef);
+  });
+
+  it('should center the surface within the viewport and update drop position on mount', () => {
+    useDraggableDialogContextSpy.mockReturnValue({
+      id: 'test-dialog-id',
+      boundary: 'viewport',
+      margin: {
+        top: 0,
+        end: 0,
+        bottom: 0,
+        start: 0,
+      },
+      hasDraggableParent: true,
+      hasBeenDragged: false,
+      position: null,
+      dropPosition: { x: 0, y: 0 },
+      setDropPosition: mockSetDropPosition,
+    });
+
+    const mockElement = {
+      clientHeight: 200,
+      clientWidth: 400,
+    } as unknown as HTMLDivElement;
+
+    const { result } = renderHook(() => useDraggableDialogSurface({}, null), {
+      wrapper: ({ children }) => children,
+    });
+
+    const refCallback = useMergedRefsSpy.mock
+      .calls[0][0] as RefCallback<HTMLDivElement>;
+
+    act(() => {
+      refCallback(mockElement);
+    });
+
+    const expectedTop = 384 - 100; // (768 / 2) - ceil(200 / 2)
+    const expectedLeft = 512 - 200; // (1024 / 2) - ceil(400 / 2)
+
+    expect(mockSetNodeRef).toHaveBeenCalledWith(mockElement);
+    expect(result.current.style).toEqual({
+      margin: 0,
+      top: expectedTop,
+      left: expectedLeft,
+    });
+    expect(mockSetDropPosition).toHaveBeenCalledWith({
+      x: expectedLeft,
+      y: expectedTop,
+    });
+  });
+
+  it('should not update drop position while dragging', () => {
+    useDraggableDialogContextSpy.mockReturnValue({
+      id: 'test-dialog-id',
+      boundary: 'viewport',
+      margin: {
+        top: 0,
+        end: 0,
+        bottom: 0,
+        start: 0,
+      },
+      hasDraggableParent: true,
+      hasBeenDragged: false,
+      position: null,
+      dropPosition: { x: 0, y: 0 },
+      setDropPosition: mockSetDropPosition,
+    });
+
+    const mockTransform = { x: 10, y: 20, scaleX: 1, scaleY: 1 };
+    useDraggableSpy.mockReturnValue({
+      setNodeRef: mockSetNodeRef,
+      transform: mockTransform,
+      isDragging: true,
+    });
+
+    const mockElement = {
+      clientHeight: 120,
+      clientWidth: 240,
+    } as unknown as HTMLDivElement;
+
+    const { result } = renderHook(() => useDraggableDialogSurface({}, null), {
+      wrapper: ({ children }) => children,
+    });
+
+    const refCallback = useMergedRefsSpy.mock
+      .calls[0][0] as RefCallback<HTMLDivElement>;
+
+    act(() => {
+      refCallback(mockElement);
+    });
+
+    expect(result.current.style).toMatchObject({
+      transitionDuration: '0s',
+    });
+    expect(result.current.style?.transform).toEqual(
+      expect.stringContaining('translate')
+    );
+    expect(mockSetDropPosition).not.toHaveBeenCalled();
+  });
+
+  it('should respect controlled position and sync drop position', () => {
+    useDraggableDialogContextSpy.mockReturnValue({
+      id: 'test-dialog-id',
+      boundary: 'viewport',
+      margin: {
+        top: 0,
+        end: 0,
+        bottom: 0,
+        start: 0,
+      },
+      hasDraggableParent: true,
+      hasBeenDragged: false,
+      position: { x: 200, y: 160 },
+      dropPosition: { x: 0, y: 0 },
+      setDropPosition: mockSetDropPosition,
+    });
+
+    const mockElement = {
+      clientHeight: 80,
+      clientWidth: 100,
+    } as unknown as HTMLDivElement;
+
+    const { result } = renderHook(() => useDraggableDialogSurface({}, null), {
+      wrapper: ({ children }) => children,
+    });
+
+    const refCallback = useMergedRefsSpy.mock
+      .calls[0][0] as RefCallback<HTMLDivElement>;
+
+    act(() => {
+      refCallback(mockElement);
+    });
+
+    expect(result.current.style).toEqual({
+      margin: 0,
+      top: 160,
+      left: 200,
+    });
+    expect(mockSetDropPosition).toHaveBeenCalledWith({ x: 200, y: 160 });
+  });
+
+  it('should not sync drop position when already dragged', () => {
+    useDraggableDialogContextSpy.mockReturnValue({
+      id: 'test-dialog-id',
+      boundary: 'viewport',
+      margin: {
+        top: 0,
+        end: 0,
+        bottom: 0,
+        start: 0,
+      },
+      hasDraggableParent: true,
+      hasBeenDragged: true,
+      position: null,
+      dropPosition: { x: 30, y: 40 },
+      setDropPosition: mockSetDropPosition,
+    });
+
+    const mockElement = {
+      clientHeight: 60,
+      clientWidth: 60,
+    } as unknown as HTMLDivElement;
+
+    const { result } = renderHook(() => useDraggableDialogSurface({}, null), {
+      wrapper: ({ children }) => children,
+    });
+
+    const refCallback = useMergedRefsSpy.mock
+      .calls[0][0] as RefCallback<HTMLDivElement>;
+
+    act(() => {
+      refCallback(mockElement);
+    });
+
+    expect(result.current.style).toEqual({
+      margin: 0,
+      top: 40,
+      left: 30,
+    });
+    expect(mockSetDropPosition).not.toHaveBeenCalled();
   });
 });
