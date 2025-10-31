@@ -190,8 +190,15 @@ export function useVirtualizer_unstable(
     childArray.current = newChildArray;
   };
 
+  /*
+   * forceUpdate:
+   * We only want to trigger this when child render or scroll loading changes,
+   * it will force re-render all children elements
+   */
+  const forceUpdate = React.useReducer(() => ({}), {})[1];
   React.useEffect(() => {
     updateChildArray(isScrolling);
+    forceUpdate();
   }, [renderChild, isScrolling]);
 
   const updateCurrentItemSizes = React.useCallback(

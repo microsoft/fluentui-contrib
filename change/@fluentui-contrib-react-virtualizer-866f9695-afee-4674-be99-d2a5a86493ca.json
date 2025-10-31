@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: Ensure items re-render when render function changes",
+  "packageName": "@fluentui-contrib/react-virtualizer",
+  "email": "99835933+Mitch-At-Work@users.noreply.github.com",
+  "dependentChangeType": "patch"
+}
