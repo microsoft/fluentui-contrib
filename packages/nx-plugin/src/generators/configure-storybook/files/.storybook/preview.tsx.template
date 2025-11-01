@@ -5,6 +5,7 @@ import rootPreview from '<%= rootOffset %>/.storybook/preview';
 
 const preview: Preview = {
   ...rootPreview,
+  tags: ['autodocs'],
 };
 
 export default preview;
