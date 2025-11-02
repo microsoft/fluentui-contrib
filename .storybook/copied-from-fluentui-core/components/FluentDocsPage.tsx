@@ -5,14 +5,13 @@ import {
   Description,
   Stories,
   type DocsContextProps,
-} from '@storybook/addon-docs';
+} from '@storybook/addon-docs/blocks';
 import type {
   SBEnumType,
   PreparedStory,
   Renderer,
-} from '@storybook/core-common';
+} from 'storybook/internal/types';
 import { makeStyles, shorthands, tokens } from '@fluentui/react-components';
-import type { JSXElement } from '@fluentui/react-components';
 import { InfoFilled } from '@fluentui/react-icons';
 import { Toc } from './Toc';
 
@@ -70,7 +69,9 @@ const useStyles = makeStyles({
   },
 });
 
-const getNativeElementsList = (elements: SBEnumType['value']): JSXElement => {
+const getNativeElementsList = (
+  elements: SBEnumType['value']
+): React.ReactElement => {
   const elementsArr = elements.map((el, idx) => [
     <code key={idx}>{`<${el}>`}</code>,
     idx !== elements.length - 1 ? ', ' : ' ',
@@ -116,7 +117,7 @@ const RenderArgsTable = ({
   );
 };
 
-export const FluentDocsPage = (): JSXElement => {
+export const FluentDocsPage = (): React.ReactElement => {
   const context = React.useContext(DocsContext);
   const stories = context.componentStories();
   const primaryStory = stories[0];

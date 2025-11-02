@@ -8,7 +8,7 @@ import { FluentDocsPage } from './copied-from-fluentui-core/components/FluentDoc
 import './copied-from-fluentui-core/docs-root.css';
 import './copied-from-fluentui-core/docs-root-v9.css';
 
-const preview: Preview = {
+const preview = {
   decorators: [
     (Story) => (
       <FluentProvider theme={webLightTheme}>
@@ -26,6 +26,7 @@ const preview: Preview = {
     docs: {
       container: FluentDocsContainer,
       page: FluentDocsPage,
+      codePanel: true,
     },
   },
 
