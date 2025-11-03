@@ -95,7 +95,7 @@ export const useDraggableDialog = (
   );
 
   const reportPositionChange = React.useCallback(
-    (rect: ClientRect, debounced: boolean = true) => {
+    (rect: ClientRect, debounced = true) => {
       const handler = onPositionChangeRef.current;
 
       if (handler === noopPositionChange) {
