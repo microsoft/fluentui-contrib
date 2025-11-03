@@ -62,11 +62,11 @@ test.describe('DraggableDialog (Playwright)', () => {
     // When boundary is viewport and dialog hasn't been dragged, inline styles are not applied
     // The dialog is centered using CSS. We should verify the margin is respected in the bounding box.
     const boundingBox = await surface.boundingBox();
-    
+
     // TypeScript guard: boundingBox should exist for a visible element
     expect(boundingBox).toBeTruthy();
     const box = boundingBox as NonNullable<typeof boundingBox>;
-    
+
     // Verify the dialog is positioned within the viewport accounting for margin
     expect(box.x).toBeGreaterThanOrEqual(margin);
     expect(box.y).toBeGreaterThanOrEqual(margin);
