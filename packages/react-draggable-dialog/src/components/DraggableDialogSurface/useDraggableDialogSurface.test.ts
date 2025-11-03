@@ -415,19 +415,12 @@ describe('DraggableDialogSurface', () => {
       refCallback(mockElement);
     });
 
-    const expectedTop = 384 - 100; // (768 / 2) - ceil(200 / 2)
-    const expectedLeft = 512 - 200; // (1024 / 2) - ceil(400 / 2)
-
     expect(mockSetNodeRef).toHaveBeenCalledWith(mockElement);
-    expect(result.current.style).toEqual({
-      margin: 0,
-      top: expectedTop,
-      left: expectedLeft,
-    });
-    expect(mockSetDropPosition).toHaveBeenCalledWith({
-      x: expectedLeft,
-      y: expectedTop,
-    });
+    // When boundary is viewport and not dragged yet, style is undefined
+    // (dialog uses default CSS centering)
+    expect(result.current.style).toBeUndefined();
+    // setDropPosition is not called in this case since style is undefined
+    expect(mockSetDropPosition).not.toHaveBeenCalled();
   });
 
   it('should not update drop position while dragging', () => {
