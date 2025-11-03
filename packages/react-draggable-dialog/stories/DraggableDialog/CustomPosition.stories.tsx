@@ -60,7 +60,7 @@ const CustomDialogContent = React.memo(() => {
   );
 });
 
-export const InitialPosition = () => {
+export const CustomPosition = () => {
   const containerStyles = useContainerStyles();
   const [position, setPosition] = React.useState({ x: 100, y: 100 });
 
