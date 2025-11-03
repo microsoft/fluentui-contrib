@@ -45,12 +45,12 @@ const useDialogContentStyles = makeStyles({
 
 /* React.memo is used to prevent unnecessary re-renders of the dialog content */
 const CustomDialogContent = React.memo(() => {
-  const styles = useDialogContentStyles();
+  const contentStyles = useDialogContentStyles();
 
   return (
-    <DraggableDialogSurface className={styles.surface}>
+    <DraggableDialogSurface className={contentStyles.surface}>
       <DialogContent>
-        <DraggableDialogHandle className={styles.handle}>
+        <DraggableDialogHandle className={contentStyles.handle}>
           <div></div>
         </DraggableDialogHandle>
 
@@ -93,7 +93,7 @@ export const CustomPosition = () => {
         modalType="non-modal"
       >
         <DialogTrigger>
-          <Button>Toggle dialog</Button>
+          <Button>Open dialog</Button>
         </DialogTrigger>
 
         <CustomDialogContent />

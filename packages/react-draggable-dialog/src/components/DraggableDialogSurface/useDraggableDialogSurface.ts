@@ -83,6 +83,19 @@ export const useDraggableDialogSurface = (
     };
   }, [boundary, doc, margin.start, margin.end, margin.top, margin.bottom]);
 
+  const boundaryCoords = React.useMemo(() => {
+    if (!boundaryRect || !currentEl) {
+      return undefined;
+    }
+
+    const boundaryTopReference = boundaryRect.top + boundaryRect.height / 2;
+    const boundaryLeftReference = boundaryRect.left + boundaryRect.width / 2;
+    const top = boundaryTopReference - Math.ceil(currentEl.clientHeight / 2);
+    const left = boundaryLeftReference - Math.ceil(currentEl.clientWidth / 2);
+
+    return { top, left };
+  }, [boundaryRect, currentEl]);
+
   const style = React.useMemo(() => {
     if (!currentEl) {
       return undefined;
@@ -124,50 +137,42 @@ export const useDraggableDialogSurface = (
       };
     }
 
-    // After dragging or initial centered position
-    if (!hasBeenDragged && boundaryRect) {
-      const boundaryTopReference = boundaryRect.top + boundaryRect.height / 2;
-      const boundaryLeftReference = boundaryRect.left + boundaryRect.width / 2;
-      const top = boundaryTopReference - Math.ceil(currentEl.clientHeight / 2);
-      const left = boundaryLeftReference - Math.ceil(currentEl.clientWidth / 2);
-
-      return {
-        margin: 0,
-        top,
-        left,
-      };
+    if (!hasBeenDragged && (boundary === 'viewport' || !boundary)) {
+      return undefined;
     }
 
-    if (hasBeenDragged) {
-      return {
-        margin: 0,
-        top: dropPosition.y,
-        left: dropPosition.x,
-      };
-    }
-
-    return undefined;
+    return {
+      margin: 0,
+      top: dropPosition.y,
+      left: dropPosition.x,
+    };
   }, [
     currentEl,
-    position,
     isDragging,
-    hasBeenDragged,
-    boundaryRect,
-    dropPosition.x,
-    dropPosition.y,
     transform,
+    hasBeenDragged,
+    position,
+    dropPosition,
+    boundary,
   ]);
 
   React.useEffect(() => {
-    if (!style || 'transform' in style || hasBeenDragged || !boundaryRect) {
+    if (!style || 'transform' in style || hasBeenDragged || !boundaryCoords) {
       return;
     }
 
-    const top = style.top || 0;
-    const left = style.left || 0;
+    if (position) {
+      const top = style.top || 0;
+      const left = style.left || 0;
 
-    setDropPosition?.({ x: left, y: top });
-  }, [style, hasBeenDragged && boundaryRect]);
+      setDropPosition?.({ x: left, y: top });
+    } else {
+      const top = boundaryCoords.top || 0;
+      const left = boundaryCoords.left || 0;
+
+      setDropPosition?.({ x: left, y: top });
+    }
+  }, [style, setDropPosition, hasBeenDragged, position, boundaryCoords]);
 
   assertDialogParent(hasDraggableParent, 'DraggableDialogSurface');
 

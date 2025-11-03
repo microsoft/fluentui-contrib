@@ -84,8 +84,6 @@ export const useDraggableDialog = (
     y: Number.NaN,
   });
 
-  const lastReportedTimeRef = React.useRef(0);
-
   const [setOnDragAnimationFrame, cancelOnDragAnimationFrame] =
     useAnimationFrame();
 
@@ -95,7 +93,7 @@ export const useDraggableDialog = (
   );
 
   const reportPositionChange = React.useCallback(
-    (rect: ClientRect, debounced = true) => {
+    (rect: ClientRect) => {
       const handler = onPositionChangeRef.current;
 
       if (handler === noopPositionChange) {
@@ -113,16 +111,7 @@ export const useDraggableDialog = (
           return;
         }
 
-        const now = Date.now();
-        const timeSinceLastReport = now - lastReportedTimeRef.current;
-
-        // Debounce to report at most once every 16.66ms (~60fps)
-        if (debounced && timeSinceLastReport < 16.66) {
-          return;
-        }
-
         lastReportedPositionRef.current = { x, y };
-        lastReportedTimeRef.current = now;
         handler({ x, y });
       });
     },
@@ -137,7 +126,7 @@ export const useDraggableDialog = (
         return;
       }
 
-      reportPositionChange(rect, true);
+      reportPositionChange(rect);
     },
     [cancelOnDragAnimationFrame, setOnDragAnimationFrame]
   );
@@ -165,7 +154,7 @@ export const useDraggableDialog = (
         x: rect.left,
         y: rect.top,
       });
-      reportPositionChange(rect, false);
+      reportPositionChange(rect);
     },
     [onDragMove, setInitialDropPosition]
   );
