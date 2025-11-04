@@ -2827,10 +2827,10 @@
   dependencies:
     tslib "^2.1.0"
 
-"@fluentui/storybook-llms-extractor@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@fluentui/storybook-llms-extractor/-/storybook-llms-extractor-0.0.2.tgz#b31182fdab862823275e9c444b2be5b154329cb5"
-  integrity sha512-FocJtlWkmOOazwrvNGUnQosIJjMC6AAUJ8oAGMqDDAPq0QCrVUw170VaPTOT/8LJxJCPXj8GoKt83RDNX1JFcw==
+"@fluentui/storybook-llms-extractor@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@fluentui/storybook-llms-extractor/-/storybook-llms-extractor-0.0.3.tgz#026bd8647076d203ddfff7a8a30bba17c4549c44"
+  integrity sha512-U3NvUd2D8JFdC9x582s4pNoN/GbildsNlP9TZskEDyhe45Zhaer1qnsgLNRWwowRoo1zGJoDMFYUFaISANFUvA==
   dependencies:
     "@swc/helpers" "^0.5.1"
     playwright "^1.49.1"
