@@ -3,7 +3,11 @@ import type { VirtualizerProps, VirtualizerState } from './Virtualizer.types';
 
 import { useIntersectionObserver } from '../../hooks/useIntersectionObserver';
 import { useVirtualizerContextState_unstable } from '../../Utilities';
-import { slot, useTimeout } from '@fluentui/react-utilities';
+import {
+  slot,
+  useIsomorphicLayoutEffect,
+  useTimeout,
+} from '@fluentui/react-utilities';
 import { flushSync } from 'react-dom';
 
 export function useVirtualizer_unstable(
@@ -188,7 +192,8 @@ export function useVirtualizer_unstable(
         if (
           childArray.current[oldIndex] !== undefined &&
           oldIndex >= 0 &&
-          oldIndex < prevVirtualizerLength.current
+          oldIndex < prevVirtualizerLength.current &&
+          !didRefresh.current
         ) {
           newChildArray[i] = childArray.current[oldIndex];
         } else {
@@ -226,8 +231,8 @@ export function useVirtualizer_unstable(
   const forceUpdate = React.useReducer(() => ({}), {})[1];
   React.useEffect(() => {
     didRefresh.current = true;
-    forceUpdate();
     updateChildArray(isScrolling);
+    forceUpdate();
   }, [renderChild, isScrolling]);
 
   const updateCurrentItemSizes = React.useCallback(

@@ -245,6 +245,7 @@ test.describe('Virtualizer', () => {
 
     // Add first item
     await component.getByTestId('add-item-button').click();
+    await component.waitFor({ timeout: 1000 }); // Wait a bit for virtualization to process
 
     // Should have one item now
     const firstItem = component.getByTestId('item-0');
@@ -254,6 +255,7 @@ test.describe('Virtualizer', () => {
 
     // Add second item (should be prepended)
     await component.getByTestId('add-item-button').click();
+    await component.waitFor({ timeout: 1000 }); // Wait a bit for virtualization to process
 
     // item-1 should now be first (prepended)
     const newFirstItem = component.getByTestId('item-1');

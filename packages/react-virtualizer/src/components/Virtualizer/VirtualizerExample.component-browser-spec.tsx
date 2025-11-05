@@ -93,6 +93,26 @@ export const VirtualizerExample: React.FC<VirtualizerExampleProps> = ({
     defaultItemSize: itemSize,
   });
 
+  const renderChild = React.useCallback(
+    (index: number) => {
+      const item = items[index];
+      return (
+        <div
+          key={item.id} // Unique key based on item ID, not index
+          role="listitem"
+          className={styles.item}
+          data-testid={item.id}
+          data-value={item.value}
+          aria-posinset={index + 1}
+          aria-setsize={items.length}
+        >
+          Item {item.value}
+        </div>
+      );
+    },
+    [items, items.length]
+  );
+
   return (
     <div>
       <button
@@ -124,22 +144,7 @@ export const VirtualizerExample: React.FC<VirtualizerExampleProps> = ({
           itemSize={50}
           containerSizeRef={containerSizeRef}
         >
-          {(index) => {
-            const item = items[index];
-            return (
-              <div
-                key={item.id} // Unique key based on item ID, not index
-                role="listitem"
-                className={styles.item}
-                data-testid={item.id}
-                data-value={item.value}
-                aria-posinset={index + 1}
-                aria-setsize={items.length}
-              >
-                Item {item.value}
-              </div>
-            );
-          }}
+          {renderChild}
         </Virtualizer>
       </div>
     </div>
