@@ -157,6 +157,7 @@ export function useVirtualizer_unstable(
   }, [actualIndex, initializeScrollingTimer]);
 
   // We track changes to prevent unnecessary renders
+  const didRefresh = React.useRef<boolean>(false);
   const prevIndex = React.useRef<number>(actualIndex);
   const prevVirtualizerLength = React.useRef<number>(virtualizerLength);
   const renderChildRows = React.useCallback(
@@ -168,6 +169,7 @@ export function useVirtualizer_unstable(
       const newIndex = Math.max(_newIndex, 0);
       const arrayLength = Math.min(virtualizerLength, numItems - newIndex);
       if (
+        !didRefresh.current &&
         prevIndex.current === newIndex &&
         prevVirtualizerLength.current === virtualizerLength &&
         arrayLength === childArray.current.length
@@ -197,6 +199,7 @@ export function useVirtualizer_unstable(
       prevIndex.current = newIndex;
       prevVirtualizerLength.current = virtualizerLength;
       childArray.current = newChildArray;
+      didRefresh.current = false;
 
       return newChildArray;
     },
@@ -215,7 +218,15 @@ export function useVirtualizer_unstable(
     childArray.current = newChildArray;
   };
 
+  /*
+   * forceUpdate:
+   * We only want to trigger this when child render or scroll loading changes,
+   * it will force re-render all children elements
+   */
+  const forceUpdate = React.useReducer(() => ({}), {})[1];
   React.useEffect(() => {
+    didRefresh.current = true;
+    forceUpdate();
     updateChildArray(isScrolling);
   }, [renderChild, isScrolling]);
 
