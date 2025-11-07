@@ -128,6 +128,7 @@ describe('configure-storybook generator', () => {
 
       const preview: Preview = {
         ...rootPreview,
+        tags: ['autodocs'],
       };
 
       export default preview;

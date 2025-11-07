@@ -16,6 +16,7 @@ const preview: Preview = {
       </FluentProvider>
     ),
   ],
+
   parameters: {
     viewMode: 'docs',
     controls: {
@@ -27,6 +28,8 @@ const preview: Preview = {
       page: FluentDocsPage,
     },
   },
+
+  tags: ['autodocs'],
 };
 
 export default preview;
