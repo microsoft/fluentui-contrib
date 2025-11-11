@@ -31,6 +31,6 @@ const preview = {
   },
 
   tags: ['autodocs'],
-};
+} satisfies Preview;
 
 export default preview;
