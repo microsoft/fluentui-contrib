@@ -4,17 +4,8 @@ const config: StorybookConfig = {
   stories: [],
 
   addons: [
-    '@storybook/addon-actions',
     '@storybook/addon-docs',
     '@nx/react/plugins/storybook',
-    {
-      name: '@storybook/addon-storysource',
-      options: {
-        loaderOptions: {
-          injectStoryParameters: true,
-        },
-      },
-    },
     '@storybook/addon-webpack5-compiler-babel',
   ],
 
