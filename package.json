@@ -82,7 +82,7 @@
     "nx": "21.3.10",
     "parsel-js": "^1.1.2",
     "patch-package": "^7.0.2",
-    "playwright": "1.49.1",
+    "playwright": "1.56.1",
     "prettier": "^2.6.2",
     "react": "18.3.1",
     "react-dom": "18.3.1",
