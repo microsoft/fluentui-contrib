@@ -28,25 +28,30 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
     bufferItems,
     bufferSize,
     virtualizerContext,
+    gap = 0,
   } = virtualizerProps;
 
-  const [state, setState] = React.useState({
-    virtualizerLength: 0,
-    virtualizerBufferItems: 0,
-    virtualizerBufferSize: 0,
-  });
+  const [virtualizerLength, setVirtualizerLength] = React.useState(0);
+  const [virtualizerBufferItems, setVirtualizerBufferItems] = React.useState(0);
+  const [virtualizerBufferSize, setVirtualizerBufferSize] = React.useState(0);
 
+  const scrollPosition = React.useRef(0);
+  const numItemsRef = React.useRef<number>(numItems);
   const containerSizeRef = React.useRef<number>(0);
-  const scrollPosition = React.useRef<number>(0);
-  const { virtualizerLength, virtualizerBufferItems, virtualizerBufferSize } =
-    state;
 
   const { targetDocument } = useFluent();
   const container = React.useRef<HTMLElement | null>(null);
+
   const handleScrollResize = React.useCallback(
     (scrollRef: React.MutableRefObject<HTMLElement | null>) => {
-      if (!scrollRef?.current) {
-        // Error? ignore?
+      const hasReachedEnd =
+        virtualizerContext.contextIndex + virtualizerLength >= numItems;
+
+      // Track whether this update was driven by a change in numItems
+      const numItemsChanged = numItemsRef.current !== numItems;
+      numItemsRef.current = numItems;
+
+      if (!scrollRef?.current || (hasReachedEnd && !numItemsChanged)) {
         return;
       }
 
@@ -64,36 +69,42 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
             : targetDocument?.defaultView?.innerWidth;
       }
 
+      const _actualScrollPos =
+        direction === 'vertical'
+          ? scrollRef.current.scrollTop
+          : scrollRef.current.scrollLeft;
+
+      /* If the numItems changed, we're going to calc
+       * a new index based on actual scroll position
+       */
+      const actualScrollPos = numItemsChanged
+        ? _actualScrollPos
+        : scrollPosition.current;
+
+      const sizeToBeat = containerSizeRef.current + virtualizerBufferSize * 2;
+      const startIndex = Math.max(virtualizerContext.contextIndex, 0);
+
       let indexSizer = 0;
       let i = 0;
       let length = 0;
+      let indexMod = 0;
 
-      const startIndex = virtualizerContext.contextIndex;
-      const sizeToBeat = containerSizeRef.current + virtualizerBufferSize * 2;
+      let currentItemPos =
+        startIndex > 0
+          ? virtualizerContext.childProgressiveSizes.current[startIndex - 1]
+          : 0;
 
-      while (indexSizer <= sizeToBeat && i + startIndex < numItems) {
-        const iItemSize = getItemSize(startIndex + i);
-        if (
-          virtualizerContext.childProgressiveSizes.current.length < numItems
-        ) {
-          /* We are in unknown territory, either an initial render or an update
-            in virtualizer item length has occurred.
-            We need to let the new items render first then we can accurately assess.*/
-          return virtualizerLength - virtualizerBufferSize * 2;
-        }
-
-        const currentScrollPos = scrollPosition.current;
-        const currentItemPos =
-          virtualizerContext.childProgressiveSizes.current[startIndex + i] -
-          iItemSize;
-
-        if (currentScrollPos > currentItemPos + iItemSize) {
-          // The item isn't in view, ignore for now.
+      while (indexSizer <= sizeToBeat && i < numItems - startIndex) {
+        const iItemSize = getItemSize(startIndex + i) + gap;
+        if (actualScrollPos > currentItemPos + iItemSize) {
+          // The item isn't in view, we'll update index to skip it.
           i++;
+          indexMod++;
+          currentItemPos += iItemSize;
           continue;
-        } else if (currentScrollPos > currentItemPos) {
+        } else if (actualScrollPos > currentItemPos) {
           // The item is partially out of view, ignore the out of bounds portion
-          const variance = currentItemPos + iItemSize - currentScrollPos;
+          const variance = currentItemPos + iItemSize - actualScrollPos;
           indexSizer += variance;
         } else {
           // Item is in view
@@ -102,6 +113,7 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
         // Increment
         i++;
         length++;
+        currentItemPos += iItemSize;
       }
 
       /*
@@ -116,18 +128,24 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
       const newBufferSize = bufferSize ?? Math.max(defaultItemSize / 2, 1);
       const totalLength = length + newBufferItems * 2;
 
-      setState({
-        virtualizerLength: totalLength,
-        virtualizerBufferSize: newBufferSize,
-        virtualizerBufferItems: newBufferItems,
-      });
+      if (numItemsChanged && indexMod - newBufferItems > 0) {
+        // Virtualizer will recalculate on numItems change, but from the old index
+        // We should get ahead of that update to prevent unnessecary recalculations
+        virtualizerContext.setContextIndex(
+          startIndex + indexMod - newBufferItems
+        );
+      }
+
+      scrollPosition.current = actualScrollPos;
+      setVirtualizerLength(totalLength);
+      setVirtualizerBufferItems(newBufferItems);
+      setVirtualizerBufferSize(newBufferSize);
     },
     [
       bufferItems,
       bufferSize,
       defaultItemSize,
       direction,
-      getItemSize,
       numItems,
       targetDocument?.body,
       targetDocument?.defaultView,
@@ -153,6 +171,11 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
     [handleScrollResize]
   );
 
+  React.useEffect(() => {
+    // Track numItems changes (consumed in handleScrollResize)
+    numItemsRef.current = numItems;
+  }, [numItems]);
+
   const scrollRef = useMergedRefs(
     container,
     useResizeObserverRef_unstable(resizeCallback)
@@ -173,7 +196,6 @@ export const useDynamicVirtualizerMeasure = <TElement extends HTMLElement>(
   const updateScrollPosition = React.useCallback(
     (_scrollPosition: number) => {
       scrollPosition.current = _scrollPosition;
-      // Check if our vLength's need recalculating
       handleScrollResize(scrollRef);
     },
     [handleScrollResize, scrollRef]

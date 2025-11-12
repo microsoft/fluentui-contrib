@@ -38,13 +38,27 @@ export function useVirtualizer_unstable(
   // We use this ref as a constant source to access the virtualizer's state imperatively
   const actualIndexRef = React.useRef<number>(_virtualizerContext.contextIndex);
 
+  // The internal tracking REF for child array (updates often).
+  const childArray = React.useRef<React.ReactNode[]>(
+    new Array(virtualizerLength)
+  );
+
   const flaggedIndex = React.useRef<number | null>(null);
   const actualIndex = _virtualizerContext.contextIndex;
+
+  // Initialize the size array before first render.
+  const hasInitialized = React.useRef<boolean>(false);
+  const isFullyInitialized = hasInitialized.current && actualIndex >= 0;
 
   // Just in case our ref gets out of date vs the context during a re-render
   if (_virtualizerContext.contextIndex !== actualIndexRef.current) {
     actualIndexRef.current = _virtualizerContext.contextIndex;
   }
+
+  React.useEffect(() => {
+    populateSizeArrays();
+  }, [numItems]);
+
   const setActualIndex = React.useCallback(
     (index: number) => {
       actualIndexRef.current = index;
@@ -74,12 +88,7 @@ export function useVirtualizer_unstable(
       childProgressiveSizes.current;
   }
 
-  // The internal tracking REF for child array (updates often).
-  const childArray = React.useRef<React.ReactNode[]>(
-    new Array(virtualizerLength)
-  );
-
-  const populateSizeArrays = () => {
+  const populateSizeArrays = React.useCallback(() => {
     if (!getItemSize) {
       // Static sizes, never mind!
       return;
@@ -90,11 +99,8 @@ export function useVirtualizer_unstable(
     }
 
     if (numItems !== childProgressiveSizes.current.length) {
+      // Item added/removed could have been from anywhere in array, reset all.
       childProgressiveSizes.current = new Array<number>(numItems);
-      if (virtualizerContext?.childProgressiveSizes) {
-        virtualizerContext.childProgressiveSizes.current =
-          childProgressiveSizes.current;
-      }
     }
 
     for (let index = 0; index < numItems; index++) {
@@ -107,7 +113,12 @@ export function useVirtualizer_unstable(
           childProgressiveSizes.current[index - 1] + childSizes.current[index];
       }
     }
-  };
+
+    if (virtualizerContext?.childProgressiveSizes) {
+      virtualizerContext.childProgressiveSizes.current =
+        childProgressiveSizes.current;
+    }
+  }, [numItems, gap]);
 
   const [isScrolling, setIsScrolling] = React.useState<boolean>(false);
   const [setScrollTimer, clearScrollTimer] = useTimeout();
@@ -135,6 +146,7 @@ export function useVirtualizer_unstable(
     }
     clearScrollTimer();
     setScrollTimer(() => {
+      updateChildArray(false);
       setIsScrolling(false);
       scrollCounter.current = 0;
     }, INIT_SCROLL_FLAG_DELAY);
@@ -144,26 +156,43 @@ export function useVirtualizer_unstable(
     initializeScrollingTimer();
   }, [actualIndex, initializeScrollingTimer]);
 
-  const updateChildRows = React.useCallback(
-    (newIndex: number) => {
+  const renderChildRows = React.useCallback(
+    (_newIndex: number) => {
       if (numItems === 0) {
         /* Nothing to virtualize */
-        return;
+        return [];
+      }
+      const newIndex = Math.max(_newIndex, 0);
+      const arrayLength = Math.min(virtualizerLength, numItems - newIndex);
+
+      // Always create fresh React elements to prevent key reconciliation issues
+      // when items order changes or when re-rendering is needed.
+      // Creating React elements is cheap (just object creation), and React's
+      // reconciliation with proper keys is very efficient.
+      // See: https://github.com/microsoft/fluentui-contrib/issues/526
+      const newChildArray = new Array(arrayLength);
+      for (let i = 0; i < arrayLength; i++) {
+        newChildArray[i] = renderChild(newIndex + i, isScrolling);
       }
 
-      /*
-        We reset the array every time to ensure children are re-rendered
-        This function should only be called when update is nessecary
-       */
-      childArray.current = new Array(virtualizerLength);
-      const _actualIndex = Math.max(newIndex, 0);
-      const end = Math.min(_actualIndex + virtualizerLength, numItems);
-      for (let i = _actualIndex; i < end; i++) {
-        childArray.current[i - _actualIndex] = renderChild(i, isScrolling);
-      }
+      return newChildArray;
     },
     [isScrolling, numItems, renderChild, virtualizerLength]
   );
+
+  const updateChildArray = (_isScrolling: boolean) => {
+    // Render child changed, regenerate the child array
+    const arrayLength = Math.min(virtualizerLength, numItems - actualIndex);
+    const newChildArray = new Array(arrayLength);
+    for (let i = 0; i < arrayLength; i++) {
+      newChildArray[i] = renderChild(actualIndex + i, _isScrolling);
+    }
+    childArray.current = newChildArray;
+  };
+
+  React.useEffect(() => {
+    updateChildArray(isScrolling);
+  }, [renderChild, isScrolling]);
 
   const updateCurrentItemSizes = React.useCallback(
     (newIndex: number) => {
@@ -194,19 +223,17 @@ export function useVirtualizer_unstable(
         }
       }
     },
-    [getItemSize, numItems, virtualizerLength, gap]
+    [numItems, virtualizerLength, gap]
   );
 
   const batchUpdateNewIndex = React.useCallback(
     (index: number) => {
       // Local updates
-      updateChildRows(index);
       updateCurrentItemSizes(index);
-
       // State setters
       setActualIndex(index);
     },
-    [setActualIndex, updateChildRows, updateCurrentItemSizes]
+    [setActualIndex, updateCurrentItemSizes]
   );
 
   const findIndexRecursive = React.useCallback(
@@ -275,7 +302,7 @@ export function useVirtualizer_unstable(
 
       return getIndexFromSizeArray(scrollPos);
     },
-    [getIndexFromSizeArray, getItemSize, itemSize, gap]
+    [getIndexFromSizeArray, itemSize, gap]
   );
 
   const calculateTotalSize = React.useCallback(() => {
@@ -285,11 +312,10 @@ export function useVirtualizer_unstable(
 
     // Time for custom size calcs
     return childProgressiveSizes.current[numItems - 1];
-  }, [getItemSize, itemSize, numItems, gap]);
+  }, [itemSize, numItems, gap]);
 
   const calculateBefore = React.useCallback(() => {
     const currentIndex = Math.min(actualIndex, numItems - 1);
-
     if (!getItemSize) {
       // The missing items from before virtualization starts height
       return currentIndex * (itemSize + gap);
@@ -301,7 +327,7 @@ export function useVirtualizer_unstable(
 
     // Time for custom size calcs
     return childProgressiveSizes.current[currentIndex - 1];
-  }, [actualIndex, getItemSize, itemSize, numItems, gap]);
+  }, [actualIndex, itemSize, numItems, gap]);
 
   const calculateAfter = React.useCallback(() => {
     if (numItems === 0 || actualIndex + virtualizerLength >= numItems) {
@@ -320,7 +346,7 @@ export function useVirtualizer_unstable(
       childProgressiveSizes.current[numItems - 1] -
       childProgressiveSizes.current[lastItemIndex - 1]
     );
-  }, [actualIndex, getItemSize, itemSize, numItems, virtualizerLength, gap]);
+  }, [actualIndex, itemSize, numItems, virtualizerLength, gap]);
 
   // We store the number of items since last render, we will allow an update if the number of items changes
   const previousNumItems = React.useRef<number>(numItems);
@@ -422,7 +448,7 @@ export function useVirtualizer_unstable(
             // Minus from original before position
             measurementPos -= overflowAmount;
             // Ignore buffer size (IO offset)
-            measurementPos += bufferSize;
+            measurementPos -= bufferSize;
             // Calculate how far past the window bounds we are (this will be zero if IO is within window)
             const hOverflow =
               latestEntry.boundingClientRect.bottom -
@@ -453,8 +479,12 @@ export function useVirtualizer_unstable(
 
         // Get exact relative 'scrollTop' via IO values
         const measurementPos = calculateOverBuffer();
+        updateScrollPosition?.(measurementPos);
 
-        const maxIndex = Math.max(numItems - virtualizerLength, 0);
+        const maxIndex = Math.max(
+          numItems + bufferItems - virtualizerLength,
+          0
+        );
 
         const startIndex =
           getIndexFromScrollPosition(measurementPos) - bufferItems;
@@ -462,18 +492,17 @@ export function useVirtualizer_unstable(
         // Safety limits
         const newStartIndex = Math.min(Math.max(startIndex, 0), maxIndex);
         flushSync(() => {
-          // Callback to allow measure functions to check virtualizer length
+          // When the number of items change, we DO want to recalc even if at end of list
+          const numItemsChanged = previousNumItems.current !== numItems;
+          previousNumItems.current = numItems;
           if (
-            previousNumItems.current === numItems &&
             newStartIndex + virtualizerLength >= numItems &&
-            actualIndex + virtualizerLength >= numItems
+            actualIndex + virtualizerLength >= numItems &&
+            !numItemsChanged
           ) {
             // We've already hit the end, no need to update state.
             return;
           }
-          // We should ensure we update virtualizer calculations if the length changes
-          previousNumItems.current = virtualizerLength;
-          updateScrollPosition?.(measurementPos);
           if (actualIndex !== newStartIndex) {
             batchUpdateNewIndex(newStartIndex);
           }
@@ -544,8 +573,6 @@ export function useVirtualizer_unstable(
     [setObserverList]
   );
 
-  // Initialize the size array before first render.
-  const hasInitialized = React.useRef<boolean>(false);
   const initializeSizeArray = () => {
     if (hasInitialized.current === false) {
       hasInitialized.current = true;
@@ -562,9 +589,10 @@ export function useVirtualizer_unstable(
         setFlaggedIndex: (index: number | null) =>
           (flaggedIndex.current = index),
         currentIndex: actualIndexRef,
+        virtualizerLength,
       };
     },
-    [childProgressiveSizes, childSizes]
+    [childProgressiveSizes, childSizes, virtualizerLength]
   );
 
   // Initialization on mount - update array index to 0 (ready state).
@@ -573,28 +601,8 @@ export function useVirtualizer_unstable(
     if (actualIndex < 0) {
       batchUpdateNewIndex(0);
     }
+    initializeSizeArray();
   }, []);
-
-  /*
-   * forceUpdate:
-   * We only want to trigger this when child render or scroll loading changes,
-   * it will force re-render all children elements
-   */
-  const forceUpdate = React.useReducer(() => ({}), {})[1];
-  // If the user passes in an updated renderChild function - update current children
-  React.useEffect(() => {
-    if (actualIndex >= 0) {
-      updateChildRows(actualIndex);
-      forceUpdate();
-    }
-  }, [renderChild, isScrolling]);
-
-  React.useEffect(() => {
-    // Ensure we repopulate if getItemSize callback changes
-    populateSizeArrays();
-
-    // We only run this effect on getItemSize change (recalc dynamic sizes)
-  }, [getItemSize, gap]);
 
   // Effect to check flag index on updates
   React.useEffect(() => {
@@ -610,28 +618,6 @@ export function useVirtualizer_unstable(
     }
   }, [actualIndex, onRenderedFlaggedIndex, virtualizerLength]);
 
-  // Ensure we have run through and updated the whole size list array at least once.
-  initializeSizeArray();
-
-  if (
-    getItemSize &&
-    (numItems !== childSizes.current.length ||
-      numItems !== childProgressiveSizes.current.length)
-  ) {
-    // Child length mismatch, repopulate size arrays.
-    populateSizeArrays();
-  }
-
-  // Ensure we recalc if virtualizer length changes
-  const maxCompare = Math.min(virtualizerLength, numItems);
-  if (
-    childArray.current.length !== maxCompare &&
-    actualIndex + childArray.current.length < numItems
-  ) {
-    updateChildRows(actualIndex);
-  }
-
-  const isFullyInitialized = hasInitialized.current && actualIndex >= 0;
   return {
     components: {
       before: 'div',
@@ -639,7 +625,7 @@ export function useVirtualizer_unstable(
       beforeContainer: 'div',
       afterContainer: 'div',
     },
-    virtualizedChildren: childArray.current,
+    virtualizedChildren: renderChildRows(actualIndex),
     before: slot.always(props.before, {
       defaultProps: {
         ref: setBeforeRef,

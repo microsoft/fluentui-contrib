@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { addons } from '@storybook/preview-api';
-import { NAVIGATE_URL } from '@storybook/core-events';
+import { addons } from 'storybook/preview-api';
+import { NAVIGATE_URL } from 'storybook/internal/core-events';
 import { makeStyles, shorthands } from '@fluentui/react-components';
 
 const useTocStyles = makeStyles({
@@ -74,7 +74,11 @@ const navigate = (url: string) => {
 export const nameToHash = (id: string): string =>
   id.toLowerCase().replace(/[^a-z0-9]/gi, '-');
 
-export const Toc = ({ stories }: { stories: TocItem[] }) => {
+export const Toc = ({
+  stories,
+}: {
+  stories: TocItem[];
+}): React.ReactElement => {
   const [selected, setSelected] = React.useState('');
   const isNavigating = React.useRef<boolean>(false);
 

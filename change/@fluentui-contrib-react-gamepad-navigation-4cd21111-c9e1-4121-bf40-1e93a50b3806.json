@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "feat: add react 19 support",
-  "packageName": "@fluentui-contrib/react-gamepad-navigation",
-  "email": "dmytrokirpa@microsoft.com",
-  "dependentChangeType": "patch"
-}

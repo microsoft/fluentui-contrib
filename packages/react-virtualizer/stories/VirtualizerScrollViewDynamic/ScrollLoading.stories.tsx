@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { VirtualizerScrollViewDynamic } from '@fluentui-contrib/react-virtualizer';
 import { makeStyles } from '@fluentui/react-components';
+import type { JSXElement } from '@fluentui/react-components';
 
 const useStyles = makeStyles({
   child: {
@@ -10,7 +11,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const ScrollLoading = () => {
+export const ScrollLoading = (): JSXElement => {
   const styles = useStyles();
   const childLength = 1000;
   const minHeight = 42;
@@ -53,7 +54,10 @@ export const ScrollLoading = () => {
       {(index: number, isScrolling = false) => {
         const backgroundColor = index % 2 ? '#FFFFFF' : '#ABABAB';
         return isScrolling ? (
-          <div style={{ minHeight: arraySize.current[index], backgroundColor }}>
+          <div
+            key={`test-virtualizer-child-${index}`}
+            style={{ minHeight: arraySize.current[index], backgroundColor }}
+          >
             LOADING
           </div>
         ) : (

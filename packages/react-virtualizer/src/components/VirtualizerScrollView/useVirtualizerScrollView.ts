@@ -20,7 +20,9 @@ export function useVirtualizerScrollView_unstable(
     axis = 'vertical',
     reversed,
     enablePagination = false,
+    gap,
   } = props;
+
   const {
     virtualizerLength,
     bufferItems,
@@ -73,7 +75,30 @@ export function useVirtualizerScrollView_unstable(
             axis,
             reversed,
             behavior,
+            gap,
           });
+        },
+        scrollToPosition(
+          position: number,
+          behavior: ScrollBehavior = 'auto',
+          index?: number, // So we can callback when index rendered
+          callback?: (index: number) => void
+        ) {
+          if (callback) {
+            scrollCallbackRef.current = callback ?? null;
+          }
+
+          if (imperativeVirtualizerRef.current) {
+            if (index !== undefined) {
+              imperativeVirtualizerRef.current.setFlaggedIndex(index);
+            }
+            const positionOptions =
+              axis == 'vertical' ? { top: position } : { left: position };
+            scrollViewRef.current?.scrollTo({
+              behavior,
+              ...positionOptions,
+            });
+          }
         },
         currentIndex: imperativeVirtualizerRef.current?.currentIndex,
         virtualizerLength: virtualizerLengthRef,
@@ -96,6 +121,7 @@ export function useVirtualizerScrollView_unstable(
     onRenderedFlaggedIndex: handleRenderedIndex,
     imperativeVirtualizerRef,
     containerSizeRef,
+    gap,
   });
 
   return {

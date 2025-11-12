@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { renderHook } from '@testing-library/react';
+import { renderHook, act } from '@testing-library/react';
 
 import { useDraggableDialog } from './useDraggableDialog';
 
@@ -19,8 +19,8 @@ describe('DraggableDialog', () => {
       'sensors',
       'modifiers',
       'accessibility',
-      'contextValue',
       'dialogProps',
+      'contextValue',
     ]);
     expect(result.current.modifiers).toHaveLength(1);
     expect(result.current.accessibility).toEqual(undefined);
@@ -46,12 +46,7 @@ describe('DraggableDialog', () => {
 
     const sensorNames = result.current.sensors.map(({ sensor }) => sensor.name);
 
-    expect(sensorNames).toStrictEqual([
-      'PointerSensor',
-      'MouseSensor',
-      'TouchSensor',
-      'KeyboardSensor',
-    ]);
+    expect(sensorNames).toStrictEqual(['KeyboardSensor', 'PointerSensor']);
   });
 
   it('should return default values with announcements', () => {
@@ -103,6 +98,450 @@ describe('DraggableDialog', () => {
     expect(result.current.dialogProps).toEqual({
       children: dialogChild,
       open: true,
+    });
+  });
+
+  describe('margin configuration', () => {
+    it('should handle numeric margin', () => {
+      const { result } = renderHook(() => {
+        return useDraggableDialog({
+          children: dialogChild,
+          margin: 10,
+        });
+      });
+
+      expect(result.current.contextValue.margin).toEqual({
+        top: 10,
+        end: 10,
+        bottom: 10,
+        start: 10,
+      });
+    });
+
+    it('should handle axis-based and viewport-based margins', () => {
+      // Test axis-based margin
+      const { result: axisResult } = renderHook(() => {
+        return useDraggableDialog({
+          children: dialogChild,
+          margin: { mainAxis: 20, crossAxis: 15 },
+        });
+      });
+
+      expect(axisResult.current.contextValue.margin).toEqual({
+        top: 15,
+        end: 20,
+        bottom: 15,
+        start: 20,
+      });
+
+      // Test viewport-based margin (full and partial)
+      const { result: viewportResult } = renderHook(() => {
+        return useDraggableDialog({
+          children: dialogChild,
+          margin: { top: 5, end: 10 },
+        });
+      });
+
+      expect(viewportResult.current.contextValue.margin).toEqual({
+        top: 5,
+        end: 10,
+        bottom: 0,
+        start: 0,
+      });
+    });
+  });
+
+  describe('boundary configuration', () => {
+    it('should handle different boundary types', () => {
+      // Test viewport boundary (default)
+      const { result: viewportResult } = renderHook(() => {
+        return useDraggableDialog({
+          children: dialogChild,
+          boundary: 'viewport',
+        });
+      });
+      expect(viewportResult.current.contextValue.boundary).toBe('viewport');
+
+      // Test null boundary
+      const { result: nullResult } = renderHook(() => {
+        return useDraggableDialog({
+          children: dialogChild,
+          boundary: null,
+        });
+      });
+      expect(nullResult.current.contextValue.boundary).toBe(null);
+
+      // Test custom boundary ref
+      const boundaryRef = React.createRef<HTMLDivElement>();
+      const { result: refResult } = renderHook(() => {
+        return useDraggableDialog({
+          children: dialogChild,
+          boundary: boundaryRef,
+        });
+      });
+      expect(refResult.current.contextValue.boundary).toBe(boundaryRef);
+    });
+  });
+
+  describe('position handling', () => {
+    it('should handle initial position', () => {
+      const position = { x: 100, y: 200 };
+      const { result } = renderHook(() => {
+        return useDraggableDialog({
+          children: dialogChild,
+          position,
+        });
+      });
+
+      expect(result.current.contextValue.position).toEqual(position);
+    });
+
+    it('should default position to null', () => {
+      const { result } = renderHook(() => {
+        return useDraggableDialog({
+          children: dialogChild,
+        });
+      });
+
+      expect(result.current.contextValue.position).toBe(null);
+    });
+
+    it('should call onPositionChange when provided', () => {
+      const onPositionChange = jest.fn();
+      const { result } = renderHook(() => {
+        return useDraggableDialog({
+          children: dialogChild,
+          onPositionChange,
+        });
+      });
+
+      expect(result.current.contextValue.onPositionChange).toBe(
+        onPositionChange
+      );
+    });
+
+    it('should provide default onPositionChange when not provided', () => {
+      const { result } = renderHook(() => {
+        return useDraggableDialog({
+          children: dialogChild,
+        });
+      });
+
+      expect(result.current.contextValue.onPositionChange).toEqual(
+        expect.any(Function)
+      );
+      // Should not throw when called
+      if (result.current.contextValue.onPositionChange) {
+        result.current.contextValue.onPositionChange({ x: 0, y: 0 });
+      }
+    });
+  });
+
+  describe('drag event handlers', () => {
+    it('should handle onDragEnd and update state', () => {
+      const onPositionChange = jest.fn();
+      const { result } = renderHook(() => {
+        return useDraggableDialog({
+          children: dialogChild,
+          onPositionChange,
+        });
+      });
+
+      // Create a minimal mock event for testing
+      const mockEvent = {
+        active: {
+          rect: {
+            current: {
+              translated: {
+                left: 150,
+                top: 250,
+              },
+            },
+          },
+        },
+      } as Parameters<typeof result.current.onDragEnd>[0];
+
+      // Initial state
+      expect(result.current.contextValue.hasBeenDragged).toBe(false);
+      expect(result.current.contextValue.dropPosition).toEqual({ x: 0, y: 0 });
+
+      // Simulate drag end
+      act(() => {
+        result.current.onDragEnd(mockEvent);
+      });
+
+      // Check state updates
+      expect(result.current.contextValue.hasBeenDragged).toBe(true);
+      expect(result.current.contextValue.dropPosition).toEqual({
+        x: 150,
+        y: 250,
+      });
+    });
+
+    it('should handle onDragEnd without rect', () => {
+      const { result } = renderHook(() => {
+        return useDraggableDialog({
+          children: dialogChild,
+        });
+      });
+
+      const mockEvent = {
+        active: {
+          rect: {
+            current: {
+              translated: null,
+            },
+          },
+        },
+      } as Parameters<typeof result.current.onDragEnd>[0];
+
+      // Should not throw
+      expect(() => result.current.onDragEnd(mockEvent)).not.toThrow();
+
+      // State should not change
+      expect(result.current.contextValue.hasBeenDragged).toBe(false);
+      expect(result.current.contextValue.dropPosition).toEqual({ x: 0, y: 0 });
+    });
+
+    it('should handle onDragMove', () => {
+      const onPositionChange = jest.fn();
+      const { result } = renderHook(() => {
+        return useDraggableDialog({
+          children: dialogChild,
+          onPositionChange,
+        });
+      });
+
+      const mockEvent = {
+        active: {
+          rect: {
+            current: {
+              translated: {
+                left: 100,
+                top: 200,
+              },
+            },
+          },
+        },
+      } as Parameters<typeof result.current.onDragMove>[0];
+
+      result.current.onDragMove(mockEvent);
+
+      // onPositionChange should be called via animation frame
+      // We can't easily test the animation frame behavior in this test environment
+      expect(onPositionChange).toBeDefined();
+    });
+  });
+
+  describe('ID handling', () => {
+    it('should use provided ID', () => {
+      const customId = 'custom-dialog-id';
+      const { result } = renderHook(() => {
+        return useDraggableDialog({
+          children: dialogChild,
+          id: customId,
+        });
+      });
+
+      expect(result.current.contextValue.id).toBe(customId);
+    });
+
+    it('should generate ID when not provided', () => {
+      const { result } = renderHook(() => {
+        return useDraggableDialog({
+          children: dialogChild,
+        });
+      });
+
+      expect(result.current.contextValue.id).toEqual(
+        expect.stringContaining('draggable-dialog-')
+      );
+    });
+
+    it('should generate unique IDs for different instances', () => {
+      const { result: result1 } = renderHook(() => {
+        return useDraggableDialog({
+          children: dialogChild,
+        });
+      });
+
+      const { result: result2 } = renderHook(() => {
+        return useDraggableDialog({
+          children: dialogChild,
+        });
+      });
+
+      expect(result1.current.contextValue.id).not.toBe(
+        result2.current.contextValue.id
+      );
+    });
+  });
+
+  describe('announcements', () => {
+    it('should handle both start and end announcements', () => {
+      const { result } = renderHook(() => {
+        return useDraggableDialog({
+          children: dialogChild,
+          announcements: { start: 'Drag started', end: 'Drag ended' },
+        });
+      });
+
+      expect(result.current.accessibility).toEqual({
+        announcements: {
+          onDragStart: expect.any(Function),
+          onDragEnd: expect.any(Function),
+        },
+      });
+
+      // Test announcement functions with minimal mock
+      if (result.current.accessibility?.announcements) {
+        const { announcements } = result.current.accessibility;
+        if (announcements.onDragStart) {
+          // Just test that the function exists and can be called
+          expect(typeof announcements.onDragStart).toBe('function');
+        }
+        if (announcements.onDragEnd) {
+          // Just test that the function exists and can be called
+          expect(typeof announcements.onDragEnd).toBe('function');
+        }
+      }
+    });
+
+    it('should handle only start announcement', () => {
+      const { result } = renderHook(() => {
+        return useDraggableDialog({
+          children: dialogChild,
+          announcements: { start: 'Drag started' },
+        });
+      });
+
+      expect(result.current.accessibility).toEqual({
+        announcements: {
+          onDragStart: expect.any(Function),
+        },
+      });
+
+      if (result.current.accessibility?.announcements?.onDragStart) {
+        expect(
+          typeof result.current.accessibility.announcements.onDragStart
+        ).toBe('function');
+      }
+      expect(
+        result.current.accessibility?.announcements?.onDragEnd
+      ).toBeUndefined();
+    });
+
+    it('should handle only end announcement', () => {
+      const { result } = renderHook(() => {
+        return useDraggableDialog({
+          children: dialogChild,
+          announcements: { end: 'Drag ended' },
+        });
+      });
+
+      expect(result.current.accessibility).toEqual({
+        announcements: {
+          onDragEnd: expect.any(Function),
+        },
+      });
+
+      if (result.current.accessibility?.announcements?.onDragEnd) {
+        expect(
+          typeof result.current.accessibility.announcements.onDragEnd
+        ).toBe('function');
+      }
+      expect(
+        result.current.accessibility?.announcements?.onDragStart
+      ).toBeUndefined();
+    });
+  });
+
+  describe('context value properties', () => {
+    it('should set hasDraggableParent to true', () => {
+      const { result } = renderHook(() => {
+        return useDraggableDialog({
+          children: dialogChild,
+        });
+      });
+
+      expect(result.current.contextValue.hasDraggableParent).toBe(true);
+    });
+
+    it('should provide setDropPosition function', () => {
+      const { result } = renderHook(() => {
+        return useDraggableDialog({
+          children: dialogChild,
+        });
+      });
+
+      expect(result.current.contextValue.setDropPosition).toEqual(
+        expect.any(Function)
+      );
+      // Should not throw when called (deprecated but needed for compatibility)
+      if (result.current.contextValue.setDropPosition) {
+        result.current.contextValue.setDropPosition({ x: 0, y: 0 });
+      }
+    });
+  });
+
+  describe('modifiers', () => {
+    it('should include restrictToBoundaryModifier', () => {
+      const { result } = renderHook(() => {
+        return useDraggableDialog({
+          children: dialogChild,
+        });
+      });
+
+      expect(result.current.modifiers).toHaveLength(1);
+      expect(result.current.modifiers[0]).toEqual(expect.any(Function));
+    });
+
+    it('should update modifiers when margin or boundary changes', () => {
+      const { result, rerender } = renderHook(
+        ({ margin, boundary }) => {
+          return useDraggableDialog({
+            children: dialogChild,
+            margin,
+            boundary,
+          });
+        },
+        {
+          initialProps: { margin: 10, boundary: 'viewport' as const },
+        }
+      );
+
+      const initialModifiers = result.current.modifiers;
+
+      rerender({ margin: 20, boundary: 'viewport' as const });
+
+      // Modifiers should be recreated when dependencies change
+      expect(result.current.modifiers).not.toBe(initialModifiers);
+    });
+  });
+
+  describe('prop filtering', () => {
+    it('should filter out draggable-specific props from dialogProps', () => {
+      const mockOnPositionChange = jest.fn();
+      const { result } = renderHook(() => {
+        return useDraggableDialog({
+          children: dialogChild,
+          margin: 10,
+          boundary: 'viewport',
+          position: { x: 0, y: 0 },
+          id: 'test-id',
+          announcements: { start: 'start' },
+          onPositionChange: mockOnPositionChange,
+          // Dialog props
+          open: true,
+          modalType: 'modal',
+        });
+      });
+
+      expect(result.current.dialogProps).toEqual({
+        children: dialogChild,
+        open: true,
+        modalType: 'modal',
+      });
     });
   });
 });

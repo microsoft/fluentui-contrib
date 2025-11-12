@@ -1,14 +1,17 @@
 import * as React from 'react';
 import {
   DocsContext,
-  ArgsTable,
+  ArgTypes,
   Description,
   Stories,
   type DocsContextProps,
-} from '@storybook/addon-docs';
-import type { SBEnumType, PreparedStory, Renderer } from '@storybook/types';
+} from '@storybook/addon-docs/blocks';
+import type {
+  SBEnumType,
+  PreparedStory,
+  Renderer,
+} from 'storybook/internal/types';
 import { makeStyles, shorthands, tokens } from '@fluentui/react-components';
-import type { JSXElement } from '@fluentui/react-components';
 import { InfoFilled } from '@fluentui/react-icons';
 import { Toc } from './Toc';
 
@@ -66,7 +69,7 @@ const useStyles = makeStyles({
   },
 });
 
-const getNativeElementsList = (elements: SBEnumType['value']): JSXElement => {
+const getNativeElementsList = (elements: SBEnumType['value']) => {
   const elementsArr = elements.map((el, idx) => [
     <code key={idx}>{`<${el}>`}</code>,
     idx !== elements.length - 1 ? ', ' : ' ',
@@ -90,7 +93,7 @@ const RenderArgsTable = ({
   const styles = useStyles();
   return hideArgsTable ? null : (
     <>
-      <ArgsTable of={primaryStory.component} />
+      <ArgTypes />
       {primaryStory.argTypes.as &&
         primaryStory.argTypes.as?.type?.name === 'enum' && (
           <div className={styles.nativeProps}>
@@ -112,7 +115,7 @@ const RenderArgsTable = ({
   );
 };
 
-export const FluentDocsPage = (): JSXElement => {
+export const FluentDocsPage = (): React.ReactElement => {
   const context = React.useContext(DocsContext);
   const stories = context.componentStories();
   const primaryStory = stories[0];

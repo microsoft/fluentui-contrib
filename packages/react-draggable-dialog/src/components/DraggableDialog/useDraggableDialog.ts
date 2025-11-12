@@ -5,20 +5,18 @@ import {
   DragEndEvent,
   DragMoveEvent,
   KeyboardSensor,
-  MouseSensor,
   PointerSensor,
-  TouchSensor,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
-import { useId } from '@fluentui/react-components';
+import { useAnimationFrame, useId } from '@fluentui/react-components';
 
 import {
   DraggableDialogProps,
   DraggableDialogState,
 } from './DraggableDialog.types';
 import { getParsedDraggableMargin } from './utils/getParsedDraggableMargin';
-import { restrictToMarginModifier } from './utils/restrictToMarginModifier';
+import { restrictToBoundaryModifier } from './utils/restrictToBoundaryModifier';
 
 /**
  * This function is used to partition the props into two separate objects. The first object contains
@@ -68,36 +66,46 @@ export const useDraggableDialog = (
     },
     dialogProps,
   } = usePartitionedDraggableProps(props);
+
   const [dropPosition, setDropPosition] = React.useState({ x: 0, y: 0 });
   const [hasBeenDragged, setHasBeenDragged] = React.useState(false);
 
-  const mouseSensor = useSensor(MouseSensor);
-  const pointerSensor = useSensor(PointerSensor);
-  const touchSensor = useSensor(TouchSensor);
-  const keyboardSensor = useSensor(KeyboardSensor);
+  const [setOnDragAnimationFrame, cancelOnDragAnimationFrame] =
+    useAnimationFrame();
+
   const sensors = useSensors(
-    pointerSensor,
-    mouseSensor,
-    touchSensor,
-    keyboardSensor
+    useSensor(KeyboardSensor),
+    useSensor(PointerSensor)
   );
 
   const onDragMove = React.useCallback(
     ({ active }: DragMoveEvent | DragEndEvent) => {
-      const { translated: rect } = active.rect.current;
+      cancelOnDragAnimationFrame();
+      setOnDragAnimationFrame(() => {
+        const { translated: rect } = active.rect.current;
 
-      if (!onPositionChange || !rect) {
-        return;
-      }
+        if (!onPositionChange || !rect) {
+          return;
+        }
 
-      const position = {
-        x: rect.left,
-        y: rect.top,
-      };
-
-      onPositionChange(position);
+        onPositionChange({
+          x: rect.left,
+          y: rect.top,
+        });
+      });
     },
-    [onPositionChange]
+    [cancelOnDragAnimationFrame, setOnDragAnimationFrame, onPositionChange]
+  );
+
+  const setInitialDropPosition = React.useCallback(
+    ({ x, y }: typeof dropPosition) => {
+      setHasBeenDragged(true);
+      setDropPosition({
+        x,
+        y,
+      });
+    },
+    []
   );
 
   const onDragEnd = React.useCallback(
@@ -114,22 +122,11 @@ export const useDraggableDialog = (
       });
       onDragMove(event);
     },
-    [onDragMove]
-  );
-
-  const setInitialDropPosition = React.useCallback(
-    ({ x, y }: typeof dropPosition) => {
-      setHasBeenDragged(true);
-      setDropPosition({
-        x,
-        y,
-      });
-    },
-    []
+    [onDragMove, setInitialDropPosition]
   );
 
   const modifiers = React.useMemo(() => {
-    return [restrictToMarginModifier({ margin, boundary })];
+    return [restrictToBoundaryModifier({ margin, boundary })];
   }, [margin, boundary]);
 
   const accessibility = React.useMemo(() => {
@@ -154,17 +151,10 @@ export const useDraggableDialog = (
     };
   }, [announcements]);
 
-  const contextValue = {
-    hasDraggableParent: true,
-    setDropPosition: setInitialDropPosition,
-    dropPosition,
-    position,
-    onPositionChange,
-    id,
-    hasBeenDragged,
-    margin,
-    boundary,
-  };
+  React.useEffect(
+    () => () => cancelOnDragAnimationFrame(),
+    [cancelOnDragAnimationFrame]
+  );
 
   return React.useMemo(
     () => ({
@@ -173,8 +163,18 @@ export const useDraggableDialog = (
       sensors,
       modifiers,
       accessibility,
-      contextValue,
       dialogProps,
+      contextValue: {
+        hasDraggableParent: true,
+        dropPosition,
+        position,
+        onPositionChange,
+        id,
+        hasBeenDragged,
+        margin,
+        boundary,
+        setDropPosition: () => undefined, // deprecated but needed for compatibility
+      },
     }),
     [
       onDragMove,
@@ -182,8 +182,14 @@ export const useDraggableDialog = (
       sensors,
       modifiers,
       accessibility,
-      contextValue,
       dialogProps,
+      dropPosition,
+      position,
+      onPositionChange,
+      id,
+      hasBeenDragged,
+      margin,
+      boundary,
     ]
   );
 };

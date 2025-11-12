@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/azure-theme",
   "entries": [
     {
+      "date": "Mon, 22 Sep 2025 16:02:24 GMT",
+      "tag": "@fluentui-contrib/azure-theme_v0.2.0",
+      "version": "0.2.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/azure-theme",
+            "commit": "f83a0d0a7b961a677ead51442b35c1b3e8183bce",
+            "comment": "feat: add react 19 support"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 10 Apr 2025 14:11:17 GMT",
       "tag": "@fluentui-contrib/azure-theme_v0.1.1",
       "version": "0.1.1",

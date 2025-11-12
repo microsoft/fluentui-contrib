@@ -2,6 +2,159 @@
   "name": "@fluentui-contrib/react-virtualizer",
   "entries": [
     {
+      "date": "Thu, 23 Oct 2025 15:06:11 GMT",
+      "tag": "@fluentui-contrib/react-virtualizer_v0.5.3",
+      "version": "0.5.3",
+      "comments": {
+        "patch": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "016d0abbeb5fdadb795007960c6db7a3b20ef177",
+            "comment": "fix: fix errors when the items order changes"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Thu, 02 Oct 2025 17:49:04 GMT",
+      "tag": "@fluentui-contrib/react-virtualizer_v0.5.2",
+      "version": "0.5.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "8863fefe349d995aefd1b1f64de6a5b08168f85f",
+            "comment": "fix: add missing react-jsx-runtime dependency"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Wed, 01 Oct 2025 08:00:02 GMT",
+      "tag": "@fluentui-contrib/react-virtualizer_v0.5.1",
+      "version": "0.5.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "mifraser@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "0801b923f251e356b406767c5e139bebc7965772",
+            "comment": "fix: Ensure IO buffer is ignored in the correct direction (remove, don't add)"
+          },
+          {
+            "author": "mifraser@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "0be80a0645ad1b98ebf4aef1594a3f1f46197723",
+            "comment": "fix: Ensure base virtualizer hooks recalc index if numItems changes"
+          },
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "b028e124e0b76688c5daff7792b8b82b94b2de93",
+            "comment": "chore: update peer dependencies for React and @types/react to support versions <20.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Mon, 29 Sep 2025 16:08:33 GMT",
+      "tag": "@fluentui-contrib/react-virtualizer_v0.5.0",
+      "version": "0.5.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "mifraser@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "25a168abf85d505b244cbf98a68f09bb1c679392",
+            "comment": "fix: Ensure RO fires on correct indexes and sizing is up to date, prevent remounts and massive layout changes from dynamic content"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Thu, 25 Sep 2025 17:20:48 GMT",
+      "tag": "@fluentui-contrib/react-virtualizer_v0.4.0",
+      "version": "0.4.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "mifraser@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "5b26c48a3a1a393bd56b2bf1d5a14c7d1783c848",
+            "comment": "feat: Enable complex dynamic scenarios with add and remove items, reduce remounting"
+          }
+        ],
+        "patch": [
+          {
+            "author": "mifraser@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "8050c2528603087c818a444714eb04a74e3e55c9",
+            "comment": "fix: Ensure scrollTo uses the correct item size"
+          }
+        ],
+        "none": [
+          {
+            "author": "mifraser@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "24f8e86a72d3febf005ce090f1579bdb3017c318",
+            "comment": "fix: Revert changes"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Mon, 22 Sep 2025 16:45:21 GMT",
+      "tag": "@fluentui-contrib/react-virtualizer_v0.3.0",
+      "version": "0.3.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "mifraser@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "8eb32a9df4ff760630596974d79b25644b6b5d8e",
+            "comment": "feat: Enable external size tracking of resizes post-render (seperate from intenral virtualizers rendered sizes) for complex scroll behavior, added scrollToPosition for x,y coord scrolling and removed unnessecary renders from pagination (should be handled externally if complex)"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Mon, 22 Sep 2025 16:02:24 GMT",
+      "tag": "@fluentui-contrib/react-virtualizer_v0.2.0",
+      "version": "0.2.0",
+      "comments": {
+        "patch": [
+          {
+            "author": "mifraser@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "f3a326c56ee964aaa31513c64a00b9e684df64fa",
+            "comment": "fix: Remove jsx automatic runtime from render functions, import react instead"
+          },
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "f83a0d0a7b961a677ead51442b35c1b3e8183bce",
+            "comment": "feat: add react 19 support"
+          },
+          {
+            "author": "mifraser@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "745323ba687dfed87b8194e2eae2c3c1b3b5ad68",
+            "comment": "fix: Ensure dynamic virtualizer doesn't get stuck at end"
+          }
+        ],
+        "minor": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "513e54d8c1a60a13d80afaec1bb006ae26492a39",
+            "comment": "feat: enforce explicit module boundary types"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 01 Aug 2025 18:07:48 GMT",
       "tag": "@fluentui-contrib/react-virtualizer_v0.1.0",
       "version": "0.1.0",

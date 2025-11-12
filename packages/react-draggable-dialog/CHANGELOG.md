@@ -1,8 +1,38 @@
 # Change Log - @fluentui-contrib/react-draggable-dialog
 
-This log was last generated on Thu, 10 Apr 2025 14:11:17 GMT and should not be manually modified.
+This log was last generated on Thu, 23 Oct 2025 15:06:11 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.2.2
+
+Thu, 23 Oct 2025 15:06:11 GMT
+
+### Patches
+
+- fix: add comprehensive number of tests (marcosvmmoura@gmail.com)
+- fix: improve calculation performance after motion upgrade on Dialog (marcosvmmoura@gmail.com)
+- fix: touch events not working when using both Pointer and Touch sensors (marcosvmmoura@gmail.com)
+
+## 0.2.1
+
+Wed, 01 Oct 2025 08:00:02 GMT
+
+### Patches
+
+- chore: update peer dependencies for React and @types/react to support versions <20.0.0 (dmytrokirpa@microsoft.com)
+
+## 0.2.0
+
+Mon, 22 Sep 2025 16:02:24 GMT
+
+### Minor changes
+
+- feat: enforce explicit module boundary types (dmytrokirpa@microsoft.com)
+
+### Patches
+
+- feat: add react 19 support (dmytrokirpa@microsoft.com)
 
 ## 0.1.2
 

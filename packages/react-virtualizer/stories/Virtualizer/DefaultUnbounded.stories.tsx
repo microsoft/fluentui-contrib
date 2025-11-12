@@ -3,9 +3,8 @@ import {
   Virtualizer,
   useStaticVirtualizerMeasure,
 } from '@fluentui-contrib/react-virtualizer';
-import { makeStyles } from '@fluentui/react-components';
-
-import { useFluent } from '@fluentui/react-components';
+import { makeStyles, useFluent } from '@fluentui/react-components';
+import type { JSXElement } from '@fluentui/react-components';
 
 const useStyles = makeStyles({
   container: {
@@ -36,7 +35,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const DefaultUnbounded = () => {
+export const DefaultUnbounded = (): JSXElement => {
   const styles = useStyles();
   const childLength = 1000;
   const {

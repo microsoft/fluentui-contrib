@@ -2,6 +2,71 @@
   "name": "@fluentui-contrib/react-draggable-dialog",
   "entries": [
     {
+      "date": "Thu, 23 Oct 2025 15:06:11 GMT",
+      "tag": "@fluentui-contrib/react-draggable-dialog_v0.2.2",
+      "version": "0.2.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "marcosvmmoura@gmail.com",
+            "package": "@fluentui-contrib/react-draggable-dialog",
+            "commit": "f1bd55b3dbd43ca60a823c0c2158258745b97012",
+            "comment": "fix: add comprehensive number of tests"
+          },
+          {
+            "author": "marcosvmmoura@gmail.com",
+            "package": "@fluentui-contrib/react-draggable-dialog",
+            "commit": "044dbb8d2c098c7d1c4b89279bd00f5ac0ea41ac",
+            "comment": "fix: improve calculation performance after motion upgrade on Dialog"
+          },
+          {
+            "author": "marcosvmmoura@gmail.com",
+            "package": "@fluentui-contrib/react-draggable-dialog",
+            "commit": "9231a927b53e18ed00dfa4ad6dc112cf26deab64",
+            "comment": "fix: touch events not working when using both Pointer and Touch sensors"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Wed, 01 Oct 2025 08:00:02 GMT",
+      "tag": "@fluentui-contrib/react-draggable-dialog_v0.2.1",
+      "version": "0.2.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-draggable-dialog",
+            "commit": "b028e124e0b76688c5daff7792b8b82b94b2de93",
+            "comment": "chore: update peer dependencies for React and @types/react to support versions <20.0.0"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Mon, 22 Sep 2025 16:02:24 GMT",
+      "tag": "@fluentui-contrib/react-draggable-dialog_v0.2.0",
+      "version": "0.2.0",
+      "comments": {
+        "patch": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-draggable-dialog",
+            "commit": "f83a0d0a7b961a677ead51442b35c1b3e8183bce",
+            "comment": "feat: add react 19 support"
+          }
+        ],
+        "minor": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-draggable-dialog",
+            "commit": "513e54d8c1a60a13d80afaec1bb006ae26492a39",
+            "comment": "feat: enforce explicit module boundary types"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 10 Apr 2025 14:11:17 GMT",
       "tag": "@fluentui-contrib/react-draggable-dialog_v0.1.2",
       "version": "0.1.2",

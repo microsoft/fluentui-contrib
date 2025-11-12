@@ -6,12 +6,12 @@ import {
   DraggableDialogMarginViewport,
 } from '../DraggableDialog.types';
 
-type RestrictToMarginModifierOptions = {
+type RestrictToBoundaryModifierOptions = {
   margin: Required<DraggableDialogMarginViewport>;
 } & Pick<DraggableDialogProps, 'boundary'>;
 
-type RestrictToMarginModifier = (
-  options: RestrictToMarginModifierOptions
+type RestrictToBoundaryModifier = (
+  options: RestrictToBoundaryModifierOptions
 ) => Modifier;
 
 const getRectWithMargin = (
@@ -26,7 +26,7 @@ const getRectWithMargin = (
   left: rect.left + margin.start,
 });
 
-export const restrictToMarginModifier: RestrictToMarginModifier =
+export const restrictToBoundaryModifier: RestrictToBoundaryModifier =
   ({ margin, boundary }) =>
   ({ windowRect, containerNodeRect, transform, ...modifier }) => {
     if (!boundary) {

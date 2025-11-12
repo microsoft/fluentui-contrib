@@ -1,5 +1,8 @@
 import * as React from 'react';
-import { DocsContainer, type DocsContextProps } from '@storybook/addon-docs';
+import {
+  DocsContainer,
+  type DocsContextProps,
+} from '@storybook/addon-docs/blocks';
 import { webLightTheme, FluentProvider } from '@fluentui/react-components';
 
 interface FluentDocsContainerProps {
@@ -13,7 +16,7 @@ interface FluentDocsContainerProps {
 export const FluentDocsContainer = ({
   children,
   context,
-}: FluentDocsContainerProps) => {
+}: FluentDocsContainerProps): React.ReactElement => {
   return (
     <FluentProvider
       className="sb-unstyled"
