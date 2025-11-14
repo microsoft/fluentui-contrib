@@ -7,7 +7,7 @@ import {
   DialogTrigger,
   Field,
   Input,
-  shorthands,
+  makeResetStyles,
 } from '@fluentui/react-components';
 
 import {
@@ -17,15 +17,15 @@ import {
   DraggableDialogPosition,
 } from '@fluentui-contrib/react-draggable-dialog';
 
-const useStyles = makeStyles({
-  container: {
-    ...shorthands.gap('16px'),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-  },
+const useContainerStyles = makeResetStyles({
+  gap: '16px',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+});
 
-  dialog: {
+const useDialogContentStyles = makeStyles({
+  surface: {
     width: '215px',
     height: '120px',
     display: 'flex',
@@ -43,8 +43,25 @@ const useStyles = makeStyles({
   },
 });
 
-export const InitialPosition = () => {
-  const styles = useStyles();
+/* React.memo is used to prevent unnecessary re-renders of the dialog content */
+const CustomDialogContent = React.memo(() => {
+  const contentStyles = useDialogContentStyles();
+
+  return (
+    <DraggableDialogSurface className={contentStyles.surface}>
+      <DialogContent>
+        <DraggableDialogHandle className={contentStyles.handle}>
+          <div></div>
+        </DraggableDialogHandle>
+
+        <Avatar initials="JD" color="brown" name="John Doe" size={48} />
+      </DialogContent>
+    </DraggableDialogSurface>
+  );
+});
+
+export const CustomPosition = () => {
+  const containerStyles = useContainerStyles();
   const [position, setPosition] = React.useState({ x: 100, y: 100 });
 
   const onFieldChange = React.useCallback(
@@ -68,25 +85,18 @@ export const InitialPosition = () => {
   );
 
   return (
-    <div className={styles.container}>
+    <div className={containerStyles}>
       <DraggableDialog
         margin={16}
         position={position}
         onPositionChange={onPositionChange}
+        modalType="non-modal"
       >
         <DialogTrigger>
-          <Button>Toggle dialog</Button>
+          <Button>Open dialog</Button>
         </DialogTrigger>
 
-        <DraggableDialogSurface className={styles.dialog}>
-          <DialogContent>
-            <DraggableDialogHandle className={styles.handle}>
-              <div></div>
-            </DraggableDialogHandle>
-
-            <Avatar initials="JD" color="brown" name="John Doe" size={48} />
-          </DialogContent>
-        </DraggableDialogSurface>
+        <CustomDialogContent />
       </DraggableDialog>
 
       <div>

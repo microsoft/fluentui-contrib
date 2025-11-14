@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import {
   Announcements,
+  ClientRect,
   DragEndEvent,
   DragMoveEvent,
   KeyboardSensor,
@@ -17,6 +18,9 @@ import {
 } from './DraggableDialog.types';
 import { getParsedDraggableMargin } from './utils/getParsedDraggableMargin';
 import { restrictToBoundaryModifier } from './utils/restrictToBoundaryModifier';
+import { DraggableDialogContextValue } from '../../contexts/DraggableDialogContext';
+
+const noopPositionChange = () => ({});
 
 /**
  * This function is used to partition the props into two separate objects. The first object contains
@@ -70,6 +74,16 @@ export const useDraggableDialog = (
   const [dropPosition, setDropPosition] = React.useState({ x: 0, y: 0 });
   const [hasBeenDragged, setHasBeenDragged] = React.useState(false);
 
+  const onPositionChangeRef = React.useRef(onPositionChange);
+  React.useEffect(() => {
+    onPositionChangeRef.current = onPositionChange;
+  }, [onPositionChange]);
+
+  const lastReportedPositionRef = React.useRef({
+    x: Number.NaN,
+    y: Number.NaN,
+  });
+
   const [setOnDragAnimationFrame, cancelOnDragAnimationFrame] =
     useAnimationFrame();
 
@@ -78,32 +92,52 @@ export const useDraggableDialog = (
     useSensor(PointerSensor)
   );
 
-  const onDragMove = React.useCallback(
-    ({ active }: DragMoveEvent | DragEndEvent) => {
+  const reportPositionChange = React.useCallback(
+    (rect: ClientRect) => {
+      const handler = onPositionChangeRef.current;
+
+      if (handler === noopPositionChange) {
+        return;
+      }
+
       cancelOnDragAnimationFrame();
       setOnDragAnimationFrame(() => {
-        const { translated: rect } = active.rect.current;
+        const x = rect.left;
+        const y = rect.top;
 
-        if (!onPositionChange || !rect) {
+        const last = lastReportedPositionRef.current;
+
+        if (last.x === x && last.y === y) {
           return;
         }
 
-        onPositionChange({
-          x: rect.left,
-          y: rect.top,
-        });
+        lastReportedPositionRef.current = { x, y };
+        handler({ x, y });
       });
     },
-    [cancelOnDragAnimationFrame, setOnDragAnimationFrame, onPositionChange]
+    [cancelOnDragAnimationFrame, setOnDragAnimationFrame]
+  );
+
+  const onDragMove = React.useCallback(
+    ({ active }: DragMoveEvent | DragEndEvent) => {
+      const { translated: rect } = active.rect.current;
+
+      if (!rect) {
+        return;
+      }
+
+      reportPositionChange(rect);
+    },
+    [cancelOnDragAnimationFrame, setOnDragAnimationFrame]
   );
 
   const setInitialDropPosition = React.useCallback(
     ({ x, y }: typeof dropPosition) => {
-      setHasBeenDragged(true);
-      setDropPosition({
-        x,
-        y,
-      });
+      setHasBeenDragged((prev) => (prev ? prev : true));
+      lastReportedPositionRef.current = { x, y };
+      setDropPosition((prev) =>
+        prev.x === x && prev.y === y ? prev : { x, y }
+      );
     },
     []
   );
@@ -120,7 +154,7 @@ export const useDraggableDialog = (
         x: rect.left,
         y: rect.top,
       });
-      onDragMove(event);
+      reportPositionChange(rect);
     },
     [onDragMove, setInitialDropPosition]
   );
@@ -130,30 +164,54 @@ export const useDraggableDialog = (
   }, [margin, boundary]);
 
   const accessibility = React.useMemo(() => {
-    const { start, end } = announcements || {};
-
-    if (!announcements || (!start && !end)) {
+    if (!announcements?.start && !announcements?.end) {
       return undefined;
     }
 
     const announcementsProps: Partial<Announcements> = {};
 
-    if (start) {
-      announcementsProps.onDragStart = () => start;
+    if (announcements.start) {
+      const startMsg = announcements.start;
+      announcementsProps.onDragStart = () => startMsg;
     }
 
-    if (end) {
-      announcementsProps.onDragEnd = () => end;
+    if (announcements.end) {
+      const endMsg = announcements.end;
+      announcementsProps.onDragEnd = () => endMsg;
     }
 
     return {
       announcements: announcementsProps,
     };
-  }, [announcements]);
+  }, [announcements?.start, announcements?.end]);
 
   React.useEffect(
     () => () => cancelOnDragAnimationFrame(),
     [cancelOnDragAnimationFrame]
+  );
+
+  const contextValue = React.useMemo<DraggableDialogContextValue>(
+    () => ({
+      hasDraggableParent: true,
+      dropPosition,
+      position,
+      onPositionChange,
+      id,
+      hasBeenDragged,
+      margin,
+      boundary,
+      setDropPosition: setInitialDropPosition,
+    }),
+    [
+      dropPosition,
+      position,
+      onPositionChange,
+      id,
+      hasBeenDragged,
+      margin,
+      boundary,
+      setInitialDropPosition,
+    ]
   );
 
   return React.useMemo(
@@ -164,17 +222,7 @@ export const useDraggableDialog = (
       modifiers,
       accessibility,
       dialogProps,
-      contextValue: {
-        hasDraggableParent: true,
-        dropPosition,
-        position,
-        onPositionChange,
-        id,
-        hasBeenDragged,
-        margin,
-        boundary,
-        setDropPosition: () => undefined, // deprecated but needed for compatibility
-      },
+      contextValue,
     }),
     [
       onDragMove,
@@ -183,13 +231,7 @@ export const useDraggableDialog = (
       modifiers,
       accessibility,
       dialogProps,
-      dropPosition,
-      position,
-      onPositionChange,
-      id,
-      hasBeenDragged,
-      margin,
-      boundary,
+      contextValue,
     ]
   );
 };
