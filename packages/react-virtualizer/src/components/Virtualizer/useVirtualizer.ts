@@ -182,10 +182,14 @@ export function useVirtualizer_unstable(
 
   const updateChildArray = (_isScrolling: boolean) => {
     // Render child changed, regenerate the child array
-    const arrayLength = Math.min(virtualizerLength, numItems - actualIndex);
+    const startIndex = Math.max(actualIndex, 0);
+    const arrayLength = Math.min(
+      virtualizerLength,
+      Math.max(0, numItems - startIndex)
+    );
     const newChildArray = new Array(arrayLength);
     for (let i = 0; i < arrayLength; i++) {
-      newChildArray[i] = renderChild(actualIndex + i, _isScrolling);
+      newChildArray[i] = renderChild(startIndex + i, _isScrolling);
     }
     childArray.current = newChildArray;
   };

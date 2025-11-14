@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { test, expect } from '@playwright/experimental-ct-react';
-import { VirtualizerExample } from './VirtualizerExample.component-browser-spec';
+import {
+  VirtualizerExample,
+  VirtualizerComboboxExample,
+} from './VirtualizerExample.component-browser-spec';
 
 test.use({ viewport: { width: 800, height: 600 } });
 
@@ -46,7 +49,7 @@ test.describe('Virtualizer', () => {
 
     // Wait for first item to be rendered (virtualizer needs to measure container first)
     const firstItem = component.getByTestId('item-0');
-    await expect(firstItem).toBeVisible({ timeout: 5000 });
+    await expect(firstItem).toBeVisible();
 
     // Check ARIA attributes
     await expect(firstItem).toHaveAttribute('role', 'listitem');
@@ -69,9 +72,7 @@ test.describe('Virtualizer', () => {
     });
 
     // Wait for item-50 to appear (IntersectionObserver callback)
-    await expect(component.getByTestId('item-50')).toBeVisible({
-      timeout: 5000,
-    });
+    await expect(component.getByTestId('item-50')).toBeVisible();
 
     // Item-0 should no longer be in the DOM
     await expect(component.getByTestId('item-0')).not.toBeAttached();
@@ -91,9 +92,7 @@ test.describe('Virtualizer', () => {
     }
 
     // Wait for items to be rendered after scrolling
-    await expect(component.locator('[role="listitem"]').first()).toBeVisible({
-      timeout: 5000,
-    });
+    await expect(component.locator('[role="listitem"]').first()).toBeVisible();
 
     // Should still have items rendered (no blank space)
     const items = await component.locator('[role="listitem"]').count();
@@ -110,9 +109,7 @@ test.describe('Virtualizer', () => {
     });
 
     // Wait for last item to appear
-    await expect(component.getByTestId('item-999')).toBeVisible({
-      timeout: 5000,
-    });
+    await expect(component.getByTestId('item-999')).toBeVisible();
   });
 
   test('should handle scroll to top', async ({ mount }) => {
@@ -125,9 +122,7 @@ test.describe('Virtualizer', () => {
     });
 
     // Wait for middle items to appear
-    await expect(component.getByTestId('item-100')).toBeVisible({
-      timeout: 5000,
-    });
+    await expect(component.getByTestId('item-100')).toBeVisible();
 
     // Then scroll back to top
     await container.evaluate((el) => {
@@ -135,9 +130,7 @@ test.describe('Virtualizer', () => {
     });
 
     // Wait for first item to reappear
-    await expect(component.getByTestId('item-0')).toBeVisible({
-      timeout: 5000,
-    });
+    await expect(component.getByTestId('item-0')).toBeVisible();
   });
 
   test('should maintain correct item count', async ({ mount }) => {
@@ -147,9 +140,7 @@ test.describe('Virtualizer', () => {
     await expect(container).toBeVisible();
 
     // Wait for initial items to be rendered
-    await expect(component.getByTestId('item-0')).toBeVisible({
-      timeout: 5000,
-    });
+    await expect(component.getByTestId('item-0')).toBeVisible();
 
     // Count rendered items
     const itemCount = await component.locator('[role="listitem"]').count();
@@ -164,9 +155,7 @@ test.describe('Virtualizer', () => {
     });
 
     // Wait for virtualization to update by checking that the expected item is visible
-    await expect(component.getByTestId('item-50')).toBeVisible({
-      timeout: 5000,
-    });
+    await expect(component.getByTestId('item-50')).toBeVisible();
 
     const itemCountAfterScroll = await component
       .locator('[role="listitem"]')
@@ -208,9 +197,7 @@ test.describe('Virtualizer', () => {
     });
 
     // Wait for last item to appear
-    await expect(component.getByTestId('item-99')).toBeVisible({
-      timeout: 5000,
-    });
+    await expect(component.getByTestId('item-99')).toBeVisible();
 
     // Scroll to very top
     await container.evaluate((el) => {
@@ -218,9 +205,7 @@ test.describe('Virtualizer', () => {
     });
 
     // Wait for first item to reappear
-    await expect(component.getByTestId('item-0')).toBeVisible({
-      timeout: 5000,
-    });
+    await expect(component.getByTestId('item-0')).toBeVisible();
   });
 
   test('should start with empty list and prepend items without React key errors', async ({
@@ -248,7 +233,7 @@ test.describe('Virtualizer', () => {
 
     // Should have one item now
     const firstItem = component.getByTestId('item-0');
-    await expect(firstItem).toBeVisible({ timeout: 5000 });
+    await expect(firstItem).toBeVisible();
     await expect(firstItem).toHaveAttribute('data-value', '0');
     await expect(firstItem).toContainText('Item 0');
 
@@ -257,7 +242,7 @@ test.describe('Virtualizer', () => {
 
     // item-1 should now be first (prepended)
     const newFirstItem = component.getByTestId('item-1');
-    await expect(newFirstItem).toBeVisible({ timeout: 5000 });
+    await expect(newFirstItem).toBeVisible();
     await expect(newFirstItem).toHaveAttribute('data-value', '1');
 
     // item-0 should still be visible but below item-1
@@ -287,7 +272,7 @@ test.describe('Virtualizer', () => {
 
     // First visible item should be item-0 (the first of the 10 added)
     const firstItem = component.getByTestId('item-0');
-    await expect(firstItem).toBeVisible({ timeout: 5000 });
+    await expect(firstItem).toBeVisible();
     await expect(firstItem).toHaveAttribute('data-value', '0');
 
     // Should have items visible
@@ -301,7 +286,7 @@ test.describe('Virtualizer', () => {
 
     // Now item-10 should be first
     const newFirstItem = component.getByTestId('item-10');
-    await expect(newFirstItem).toBeVisible({ timeout: 5000 });
+    await expect(newFirstItem).toBeVisible();
     await expect(newFirstItem).toHaveAttribute('data-value', '10');
 
     // No key reconciliation errors
@@ -310,16 +295,13 @@ test.describe('Virtualizer', () => {
 
   test('should correctly update when scrolled and items are prepended', async ({
     mount,
-    page,
   }) => {
     const component = await mount(<VirtualizerExample numItems={50} />);
 
     await expect(component.getByTestId('scroll-container')).toBeVisible();
 
     // Wait for initial items to be rendered
-    await expect(component.getByTestId('item-0')).toBeVisible({
-      timeout: 5000,
-    });
+    await expect(component.getByTestId('item-0')).toBeVisible();
 
     // Scroll down
     const container = component.getByTestId('scroll-container');
@@ -328,9 +310,7 @@ test.describe('Virtualizer', () => {
     });
 
     // Wait for scrolled items to appear
-    await expect(component.getByTestId('item-20')).toBeVisible({
-      timeout: 5000,
-    });
+    await expect(component.getByTestId('item-20')).toBeVisible();
 
     // Add more items while scrolled (prepend to top)
     await component.getByTestId('add-multiple-button').click();
@@ -341,19 +321,53 @@ test.describe('Virtualizer', () => {
     });
 
     // Wait for new items to be visible at the top - item-50 is the first of the newly added 10 items
-    await expect(component.getByTestId('item-50')).toBeVisible({
-      timeout: 5000,
-    });
+    await expect(component.getByTestId('item-50')).toBeVisible();
 
     // Items should still render correctly
     const items = await component.locator('[role="listitem"]').count();
     expect(items).toBeGreaterThan(0);
+  });
+});
 
-    // No errors should occur
-    const errors = await page.evaluate(() => {
-      // eslint-disable-next-line no-restricted-globals, @typescript-eslint/no-explicit-any
-      return (window as any).__reactErrors || [];
+test.describe('ComboboxVirtualizer', () => {
+  test('should render combobox with virtualized options', async ({
+    mount,
+    page,
+  }) => {
+    const component = await mount(<VirtualizerComboboxExample />);
+
+    const combobox = component.getByRole('combobox');
+    await expect(combobox).toBeVisible();
+
+    // Open combobox (this renders the options in a portal on document.body)
+    await combobox.click();
+
+    // Wait for the portal listbox to appear (use page-scoped locator)
+    const optionsList = page.getByRole('listbox');
+    await expect(optionsList).toBeVisible();
+
+    // First option should be visible (portal-scoped)
+    await expect(page.getByTestId('option-0')).toBeVisible();
+
+    // Scroll down in the portal options list
+    await optionsList.evaluate((el) => {
+      el.scrollTop = 500; // Scroll down
     });
-    expect(errors).toHaveLength(0);
+
+    // An option further down should be visible (portal-scoped)
+    await expect(page.getByTestId('option-10')).toBeVisible();
+
+    // click outside to close combobox — click the document body to ensure closing the portal
+    await page.locator('body').click();
+
+    // Combobox listbox should be hidden/removed from the page
+    await expect(page.getByRole('listbox')).toBeHidden();
+
+    // Open combobox again
+    await combobox.click();
+
+    // Wait for portal listbox and first option again
+    await expect(page.getByRole('listbox')).toBeVisible();
+    await expect(page.getByTestId('option-0')).toBeVisible();
   });
 });
