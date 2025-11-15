@@ -45,6 +45,7 @@ export const fallbackPaintAnimation = (
     id: `houdini-fallback-${++flairFallbackId}`,
     wrapper: null,
     running: false,
+    resizeObserver: null,
   };
 
   // Non-Houdini fallbacks require a canvas element be present in the DOM.
@@ -88,6 +89,7 @@ export const fallbackPaintAnimation = (
     state.running = false;
   };
   const cleanup = () => {
+    state.resizeObserver?.disconnect();
     state.ctx?.canvas.remove();
 
     if (state.wrapper?.childElementCount === 0) {

@@ -20,7 +20,7 @@ export const playAnim = (
   const lazyStyles = targetWindow.getComputedStyle(targetEl);
   const rect = { width: 0, height: 0 };
 
-  const resizeObserver = new targetWindow.ResizeObserver((entries) => {
+  state.resizeObserver = new targetWindow.ResizeObserver((entries) => {
     for (const entry of entries) {
       if (entry.target === targetEl) {
         if (Array.isArray(entry.borderBoxSize)) {
@@ -46,7 +46,7 @@ export const playAnim = (
 
   return (onComplete: CallbackFn, onUpdate?: CallbackFn) => {
     state.running = true;
-    resizeObserver.observe(state.targetEl);
+    state.resizeObserver?.observe(state.targetEl);
 
     const onAnimUpdate: CallbackFn = (currentValues) => {
       const inputProperties: string[] =
@@ -93,7 +93,8 @@ export const playAnim = (
       onUpdate: onAnimUpdate,
       onComplete: (currentValues) => {
         state.running = false;
-        resizeObserver.unobserve(state.targetEl);
+        state.resizeObserver?.unobserve(state.targetEl);
+        state.resizeObserver?.disconnect();
         onComplete(currentValues);
       },
     });
