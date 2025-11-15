@@ -12,6 +12,6 @@
     "react": "19.1.1",
     "react-dom": "19.1.1",
     "react-test-renderer": "19.1.1",
-    "@playwright/experimental-ct-react": "1.49.1"
+    "@playwright/experimental-ct-react": "1.55.1"
   }
 }

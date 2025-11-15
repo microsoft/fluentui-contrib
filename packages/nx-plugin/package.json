@@ -13,8 +13,8 @@
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@playwright/experimental-ct-react": "^1.49.1",
-    "@playwright/experimental-ct-react17": "^1.49.1",
+    "@playwright/experimental-ct-react": "^1.55.1",
+    "@playwright/experimental-ct-react17": "^1.55.1",
     "nx": "^21"
   },
   "peerDependenciesMeta": {
