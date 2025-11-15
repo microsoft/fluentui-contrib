@@ -218,5 +218,5 @@ export type FallbackAnimationState = {
   mode: 'moz-element' | 'webkit-canvas' | 'to-data-url';
   wrapper: HTMLElement | null;
   running: boolean;
-  resizeObserver: ResizeObserver | null;
+  resizeObserver: globalThis.ResizeObserver | null;
 };
