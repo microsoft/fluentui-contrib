@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "cleanup resize observer during cleanup",
-  "packageName": "@fluentui-contrib/houdini-utils",
-  "email": "mgodbolt@microsoft.com",
-  "dependentChangeType": "patch"
-}

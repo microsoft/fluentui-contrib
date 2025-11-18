@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-virtualizer
 
-This log was last generated on Thu, 23 Oct 2025 15:06:11 GMT and should not be manually modified.
+This log was last generated on Tue, 18 Nov 2025 08:19:33 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.5.4
+
+Tue, 18 Nov 2025 08:19:33 GMT
+
+### Patches
+
+- fix: improve child array rendering logic  enhance tests (dmytrokirpa@microsoft.com)
 
 ## 0.5.3
 

@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: improve child array rendering logic  enhance tests",
-  "packageName": "@fluentui-contrib/react-virtualizer",
-  "email": "dmytrokirpa@microsoft.com",
-  "dependentChangeType": "patch"
-}

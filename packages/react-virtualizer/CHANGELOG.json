@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-virtualizer",
   "entries": [
     {
+      "date": "Tue, 18 Nov 2025 08:19:33 GMT",
+      "tag": "@fluentui-contrib/react-virtualizer_v0.5.4",
+      "version": "0.5.4",
+      "comments": {
+        "patch": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "38ca0426666cd08c9f0cf58d7036de7447fe6f0f",
+            "comment": "fix: improve child array rendering logic  enhance tests"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 23 Oct 2025 15:06:11 GMT",
       "tag": "@fluentui-contrib/react-virtualizer_v0.5.3",
       "version": "0.5.3",
