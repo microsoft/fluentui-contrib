@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "chore: bump react-dom versions to support React 19",
-  "packageName": "@fluentui-contrib/react-headless-provider",
-  "email": "dmytrokirpa@microsoft.com",
-  "dependentChangeType": "patch"
-}

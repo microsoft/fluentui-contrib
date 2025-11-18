@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-shadow",
   "entries": [
     {
+      "date": "Tue, 18 Nov 2025 14:32:44 GMT",
+      "tag": "@fluentui-contrib/react-shadow_v0.1.4",
+      "version": "0.1.4",
+      "comments": {
+        "patch": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-shadow",
+            "commit": "1d97697e39a8ce90dc2a2ca1a8938230658178ac",
+            "comment": "chore: bump react-dom versions to support React 19"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 01 Oct 2025 08:00:02 GMT",
       "tag": "@fluentui-contrib/react-shadow_v0.1.3",
       "version": "0.1.3",

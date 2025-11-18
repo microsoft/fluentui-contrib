@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "chore: bump react-dom versions to support React 19",
-  "packageName": "@fluentui-contrib/react-resize-handle",
-  "email": "dmytrokirpa@microsoft.com",
-  "dependentChangeType": "patch"
-}

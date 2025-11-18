@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-resize-handle
 
-This log was last generated on Wed, 01 Oct 2025 08:00:02 GMT and should not be manually modified.
+This log was last generated on Tue, 18 Nov 2025 14:32:44 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.8.2
+
+Tue, 18 Nov 2025 14:32:44 GMT
+
+### Patches
+
+- chore: bump react-dom versions to support React 19 (dmytrokirpa@microsoft.com)
 
 ## 0.8.1
 

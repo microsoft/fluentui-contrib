@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-draggable-dialog",
   "entries": [
     {
+      "date": "Tue, 18 Nov 2025 14:32:44 GMT",
+      "tag": "@fluentui-contrib/react-draggable-dialog_v0.2.3",
+      "version": "0.2.3",
+      "comments": {
+        "patch": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-draggable-dialog",
+            "commit": "1d97697e39a8ce90dc2a2ca1a8938230658178ac",
+            "comment": "chore: bump react-dom versions to support React 19"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 23 Oct 2025 15:06:11 GMT",
       "tag": "@fluentui-contrib/react-draggable-dialog_v0.2.2",
       "version": "0.2.2",

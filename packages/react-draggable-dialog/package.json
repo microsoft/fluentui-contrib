@@ -1,6 +1,6 @@
 {
   "name": "@fluentui-contrib/react-draggable-dialog",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "dependencies": {
     "@swc/helpers": "~0.5.11",
     "@dnd-kit/core": "^6.3.1",

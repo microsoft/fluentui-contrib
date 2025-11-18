@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-headless-provider",
   "entries": [
     {
+      "date": "Tue, 18 Nov 2025 14:32:44 GMT",
+      "tag": "@fluentui-contrib/react-headless-provider_v1.0.6",
+      "version": "1.0.6",
+      "comments": {
+        "patch": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-headless-provider",
+            "commit": "1d97697e39a8ce90dc2a2ca1a8938230658178ac",
+            "comment": "chore: bump react-dom versions to support React 19"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 01 Oct 2025 08:00:02 GMT",
       "tag": "@fluentui-contrib/react-headless-provider_v1.0.5",
       "version": "1.0.5",
