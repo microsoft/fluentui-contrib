@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "chore: bump react-dom versions to support React 19",
+  "packageName": "@fluentui-contrib/react-data-grid-react-window",
+  "email": "dmytrokirpa@microsoft.com",
+  "dependentChangeType": "patch"
+}
