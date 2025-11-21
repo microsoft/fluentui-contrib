@@ -16,6 +16,9 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
+      "@fluentui-contrib/@fluentui-contrib/react-cap-theme": [
+        "packages/@fluentui-contrib/react-cap-theme/src/index.ts"
+      ],
       "@fluentui-contrib/accessible-chat": [
         "packages/accessible-chat/src/index.ts"
       ],
@@ -25,6 +28,9 @@
       ],
       "@fluentui-contrib/nx-plugin": ["packages/nx-plugin/src/index.ts"],
       "@fluentui-contrib/pierce-dom": ["packages/pierce-dom/src/index.ts"],
+      "@fluentui-contrib/react-cap-theme": [
+        "packages/react-cap-theme/src/index.ts"
+      ],
       "@fluentui-contrib/react-chat": ["packages/react-chat/src/index.ts"],
       "@fluentui-contrib/react-contextual-pane": [
         "packages/react-contextual-pane/src/index.ts"

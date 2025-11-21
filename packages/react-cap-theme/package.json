@@ -1,0 +1,18 @@
+{
+  "name": "@fluentui-contrib/react-cap-theme",
+  "version": "0.0.1",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "private": true,
+  "peerDependencies": {
+    "@fluentui/react-components": ">=9.70.0 <10.0.0",
+    "@types/react": ">=16.8.0 <20.0.0",
+    "react": ">=16.8.0 <20.0.0",
+    "@griffel/react": "^1.5.14",
+    "@fluentui/react-theme": "^9.0.0",
+    "@fluentui/react-shared-contexts": ">=9.7.2 <10.0.0"
+  },
+  "dependencies": {
+    "@swc/helpers": "~0.5.11"
+  }
+}

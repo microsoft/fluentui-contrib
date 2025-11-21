@@ -1,0 +1,53 @@
+import * as React from 'react';
+import {
+  BadgeState,
+  ButtonState,
+  CardFooterState,
+  CardHeaderState,
+  CardState,
+  FluentProvider,
+  InputState,
+  Theme,
+} from '@fluentui/react-components';
+import { CustomStyleHooksContext_unstable } from '@fluentui/react-shared-contexts';
+import { useCAPButtonStylesHook } from './Button';
+import { CAPTheme } from './Theme';
+import { useCAPBadgeStylesHook } from './Badge';
+import { useCAPInputStylesHook } from './Input';
+import {
+  useCAPCardFooterStylesHook,
+  useCAPCardHeaderStylesHook,
+  useCAPCardStylesHook,
+} from './Card';
+
+export const CAPThemeProvider = ({
+  children,
+  theme,
+}: {
+  children: React.ReactElement;
+  theme: Partial<Theme> & Partial<CAPTheme>;
+}) => {
+  const customStyleHooks = React.useMemo((): React.ContextType<
+    typeof CustomStyleHooksContext_unstable
+  > => {
+    return {
+      useBadgeStyles_unstable: (state) =>
+        useCAPBadgeStylesHook(state as BadgeState),
+      useButtonStyles_unstable: (state) =>
+        useCAPButtonStylesHook(state as ButtonState),
+      useCardStyles_unstable: (state) =>
+        useCAPCardStylesHook(state as CardState),
+      useCardHeaderStyles_unstable: (state) =>
+        useCAPCardHeaderStylesHook(state as CardHeaderState),
+      useCardFooterStyles_unstable: (state) =>
+        useCAPCardFooterStylesHook(state as CardFooterState),
+      useInputStyles_unstable: (state) =>
+        useCAPInputStylesHook(state as InputState),
+    };
+  }, []);
+  return (
+    <FluentProvider theme={theme} customStyleHooks_unstable={customStyleHooks}>
+      {children}
+    </FluentProvider>
+  );
+};
