@@ -24,8 +24,7 @@ packages/teams-components @microsoft/teams-prg
 packages/token-analyzer @microsoft/xc-uxe
 packages/react-contextual-pane @microsoft/teams-prg
 packages/react-virtualizer @microsoft/xc-uxe @microsoft/cxe-prg
-packages/@fluentui-contrib/react-cap-theme @dvdzkwsk
-packages/react-cap-theme @dvdzkwsk
+packages/react-cap-theme @microsoft/teams-prg @dvdzkwsk
 # <%= NX-CODEOWNER-PLACEHOLDER %>
 
 #### Build/Infra

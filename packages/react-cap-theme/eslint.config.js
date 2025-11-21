@@ -5,9 +5,7 @@ module.exports = [
   {
     files: ['**/*.ts', '**/*.tsx'],
     // Override or add rules here
-    rules: {
-      't@typescript-eslint/explicit-module-boundary-types': false,
-    },
+    rules: {},
   },
   {
     files: ['**/*.js', '**/*.jsx'],

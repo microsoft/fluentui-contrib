@@ -1,9 +1,12 @@
-import { makeStyles, mergeClasses, shorthands } from '@griffel/react';
 import {
-  BadgeState,
+  makeStyles,
+  mergeClasses,
+  shorthands,
+  tokens,
+  type BadgeState,
   useBadgeStyles_unstable,
 } from '@fluentui/react-components';
-import { tokens } from '@fluentui/react-theme';
+
 import { CAP_THEME } from './Theme';
 
 const textPadding = tokens.spacingHorizontalXXS;
@@ -115,7 +118,9 @@ const useCAPBadgeIconStyles = makeStyles({
   },
 });
 
-export function useCAPBadgeStylesHook(state: BadgeState) {
+export function useCAPBadgeStylesHook(_state: unknown): BadgeState {
+  const state = _state as BadgeState;
+
   // Apply base Badge styles first
   useBadgeStyles_unstable(state);
 

@@ -48,9 +48,18 @@ const CardTokens = {
   cardForegroundColorPressed: { type: 'color', semanticToken: null },
   cardBackgroundColorDisabled: { type: 'color', semanticToken: null },
   cardForegroundColorDisabled: { type: 'color', semanticToken: null },
-  cardCornerRadius: { type: 'dimension', semanticToken: 'cornerRadius/ctrl/card' },
-  cardHeaderPaddingOutside: { type: 'dimension', semanticToken: 'padding/card/header/body/default/outside' },
-  cardHeaderPaddingInside: { type: 'dimension', semanticToken: 'padding/card/header/body/default/inside' },
+  cardCornerRadius: {
+    type: 'dimension',
+    semanticToken: 'cornerRadius/ctrl/card',
+  },
+  cardHeaderPaddingOutside: {
+    type: 'dimension',
+    semanticToken: 'padding/card/header/body/default/outside',
+  },
+  cardHeaderPaddingInside: {
+    type: 'dimension',
+    semanticToken: 'padding/card/header/body/default/inside',
+  },
   cardFooterHorizontalGap: { type: 'dimension', semanticToken: null },
 } as const satisfies Record<string, TokenSchema>;
 
@@ -72,11 +81,9 @@ export const CAPTokensSchema = {
   ...TooltipTokens,
 } as const satisfies { [key: string]: TokenSchema };
 
-export const CAPTokens = {
-  ...(Object.keys(CAPTokensSchema).reduce((acc: any, key) => {
-    return { ...acc, [key]: `var(--${key})` };
-  }) as any),
-} as Record<keyof typeof CAPTokensSchema, string>;
+export const CAPTokens = Object.keys(CAPTokensSchema).reduce((acc, key) => {
+  return { ...acc, [key]: `var(--${key})` };
+}, {} as Record<keyof typeof CAPTokensSchema, string>);
 
 export type CAPTheme = {
   [k in keyof typeof CAPTokens]: string | null;

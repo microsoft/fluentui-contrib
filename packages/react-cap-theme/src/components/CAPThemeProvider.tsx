@@ -1,50 +1,38 @@
 import * as React from 'react';
 import {
-  BadgeState,
-  ButtonState,
-  CardFooterState,
-  CardHeaderState,
-  CardState,
   FluentProvider,
-  InputState,
-  Theme,
+  FluentProviderProps,
+  type Theme,
 } from '@fluentui/react-components';
-import { CustomStyleHooksContext_unstable } from '@fluentui/react-shared-contexts';
-import { useCAPButtonStylesHook } from './Button';
+
+import { useCAPButtonStylesHook } from './Button.styles';
 import { CAPTheme } from './Theme';
-import { useCAPBadgeStylesHook } from './Badge';
-import { useCAPInputStylesHook } from './Input';
+import { useCAPBadgeStylesHook } from './Badge.styles';
+import { useCAPInputStylesHook } from './Input.styles';
 import {
   useCAPCardFooterStylesHook,
   useCAPCardHeaderStylesHook,
   useCAPCardStylesHook,
-} from './Card';
+} from './Card.styles';
+
+const customStyleHooks: NonNullable<
+  FluentProviderProps['customStyleHooks_unstable']
+> = {
+  useBadgeStyles_unstable: useCAPBadgeStylesHook,
+  useButtonStyles_unstable: useCAPButtonStylesHook,
+  useCardStyles_unstable: useCAPCardStylesHook,
+  useCardHeaderStyles_unstable: useCAPCardHeaderStylesHook,
+  useCardFooterStyles_unstable: useCAPCardFooterStylesHook,
+  useInputStyles_unstable: useCAPInputStylesHook,
+};
 
 export const CAPThemeProvider = ({
   children,
   theme,
 }: {
-  children: React.ReactElement;
+  children: React.ReactNode;
   theme: Partial<Theme> & Partial<CAPTheme>;
-}) => {
-  const customStyleHooks = React.useMemo((): React.ContextType<
-    typeof CustomStyleHooksContext_unstable
-  > => {
-    return {
-      useBadgeStyles_unstable: (state) =>
-        useCAPBadgeStylesHook(state as BadgeState),
-      useButtonStyles_unstable: (state) =>
-        useCAPButtonStylesHook(state as ButtonState),
-      useCardStyles_unstable: (state) =>
-        useCAPCardStylesHook(state as CardState),
-      useCardHeaderStyles_unstable: (state) =>
-        useCAPCardHeaderStylesHook(state as CardHeaderState),
-      useCardFooterStyles_unstable: (state) =>
-        useCAPCardFooterStylesHook(state as CardFooterState),
-      useInputStyles_unstable: (state) =>
-        useCAPInputStylesHook(state as InputState),
-    };
-  }, []);
+}): React.ReactElement => {
   return (
     <FluentProvider theme={theme} customStyleHooks_unstable={customStyleHooks}>
       {children}

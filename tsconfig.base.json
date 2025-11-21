@@ -16,9 +16,6 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@fluentui-contrib/@fluentui-contrib/react-cap-theme": [
-        "packages/@fluentui-contrib/react-cap-theme/src/index.ts"
-      ],
       "@fluentui-contrib/accessible-chat": [
         "packages/accessible-chat/src/index.ts"
       ],

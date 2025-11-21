@@ -1,5 +1,8 @@
-import { makeStyles, mergeClasses } from '@griffel/react';
-import { ButtonState } from '@fluentui/react-components';
+import {
+  makeStyles,
+  mergeClasses,
+  type ButtonState,
+} from '@fluentui/react-components';
 import { CAPTokens } from './Theme';
 
 const useCAPButtonStyles = makeStyles({
@@ -38,12 +41,15 @@ const useCAPButtonStyles = makeStyles({
   transparent: {},
 });
 
-export function useCAPButtonStylesHook(state: ButtonState) {
+export function useCAPButtonStylesHook(_state: unknown): ButtonState {
+  const state = _state as ButtonState;
   const styles = useCAPButtonStyles();
+
   state.root.className = mergeClasses(
     state.root.className,
     styles.root,
     state.appearance && styles[state.appearance]
   );
+
   return state;
 }
