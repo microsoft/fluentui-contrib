@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
-  "private": true,
   "peerDependencies": {
     "@fluentui/react-components": ">=9.70.0 <10.0.0",
     "@types/react": ">=16.8.0 <20.0.0",
