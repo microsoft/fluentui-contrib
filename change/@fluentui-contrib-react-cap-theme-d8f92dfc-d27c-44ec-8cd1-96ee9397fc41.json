@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "chore: prepare for publish @fluentui-contrib/react-cap-theme",
+  "packageName": "@fluentui-contrib/react-cap-theme",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "patch"
+}
