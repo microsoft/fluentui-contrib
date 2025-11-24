@@ -5,7 +5,7 @@ import {
   type CardHeaderState,
   type CardState,
 } from '@fluentui/react-components';
-import { CAPTokens } from './Theme';
+import { CAPTokens } from '../Theme';
 
 const useCAPCardStyles = makeStyles({
   root: {

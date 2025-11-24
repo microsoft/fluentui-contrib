@@ -7,7 +7,7 @@ import {
   useBadgeStyles_unstable,
 } from '@fluentui/react-components';
 
-import { CAP_THEME } from './Theme';
+import { CAP_THEME } from '../Theme';
 
 const textPadding = tokens.spacingHorizontalXXS;
 

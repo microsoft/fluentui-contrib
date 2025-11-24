@@ -3,7 +3,7 @@ import {
   mergeClasses,
   type ButtonState,
 } from '@fluentui/react-components';
-import { CAPTokens } from './Theme';
+import { CAPTokens } from '../../Theme';
 
 const useCAPButtonStyles = makeStyles({
   root: {

@@ -5,15 +5,15 @@ import {
   type Theme,
 } from '@fluentui/react-components';
 
-import { useCAPButtonStylesHook } from './Button.styles';
+import { useCAPButtonStylesHook } from './components/Button/Button.styles';
 import { CAPTheme } from './Theme';
-import { useCAPBadgeStylesHook } from './Badge.styles';
-import { useCAPInputStylesHook } from './Input.styles';
+import { useCAPBadgeStylesHook } from './components/Badge.styles';
+import { useCAPInputStylesHook } from './components/Input.styles';
 import {
   useCAPCardFooterStylesHook,
   useCAPCardHeaderStylesHook,
   useCAPCardStylesHook,
-} from './Card.styles';
+} from './components/Card.styles';
 
 const customStyleHooks: NonNullable<
   FluentProviderProps['customStyleHooks_unstable']
