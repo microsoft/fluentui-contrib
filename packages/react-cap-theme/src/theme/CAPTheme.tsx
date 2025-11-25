@@ -14,7 +14,7 @@ type AllowedTokenName =
   // This token exists in semantic tokens v2
   | `smtc/v2/${string}`
   // This token doesn't follow any known structure and needs to be fixed.
-  | `fixme/ctrl/${string}`;
+  | `fixme/${string}`;
 
 export function formatCAPTokenCssVar(varName: string): string {
   return varName.replace(/\//g, '\\/');
