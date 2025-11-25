@@ -14,15 +14,14 @@ function createMockElement(width = 100, height = 100): HTMLElement {
 }
 
 function createDocumentMock(windowWidth = 2000, windowHeight = 1000) {
-  let windowWidthVar = windowWidth;
-  let windowHeightVar = windowHeight;
+  const getBoundingClientRectMock = jest.fn().mockReturnValue({
+    width: windowWidth,
+    height: windowHeight,
+  });
   const windowMock = {
     document: {
       documentElement: {
-        getBoundingClientRect: jest.fn(() => ({
-          width: windowWidthVar,
-          height: windowHeightVar,
-        })),
+        getBoundingClientRect: getBoundingClientRectMock,
       },
     },
     addEventListener: jest.fn(),
@@ -38,8 +37,10 @@ function createDocumentMock(windowWidth = 2000, windowHeight = 1000) {
   } as unknown as Document;
 
   function updateWindowDimensions(newWidth: number, newHeight: number) {
-    windowWidthVar = newWidth;
-    windowHeightVar = newHeight;
+    getBoundingClientRectMock.mockReturnValue({
+      width: newWidth,
+      height: newHeight,
+    });
 
     windowMock.addEventListener.mock.calls.forEach((call) => {
       const eventName = call[0];
