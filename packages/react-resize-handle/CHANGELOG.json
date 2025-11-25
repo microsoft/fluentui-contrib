@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-resize-handle",
   "entries": [
     {
+      "date": "Tue, 25 Nov 2025 18:02:17 GMT",
+      "tag": "@fluentui-contrib/react-resize-handle_v0.8.3",
+      "version": "0.8.3",
+      "comments": {
+        "patch": [
+          {
+            "author": "fealkhou@microsoft.com",
+            "package": "@fluentui-contrib/react-resize-handle",
+            "commit": "854a544b47a8ebbca0ee82ff9db136efabbb28fc",
+            "comment": "fix: onChangeRejected not called because inaccurate window width results in inaccurate vw unit"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 18 Nov 2025 14:32:44 GMT",
       "tag": "@fluentui-contrib/react-resize-handle_v0.8.2",
       "version": "0.8.2",
