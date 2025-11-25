@@ -7,7 +7,7 @@ import { CAP_TOKENS } from '../../theme/CAPTheme';
 
 export const useCardStyles = makeStyles({
   root: {
-    borderRadius: CAP_TOKENS['cap/ctrl/card/corner-radius'],
+    borderRadius: CAP_TOKENS['fixme/ctrl/card/corner-radius'],
   },
 });
 

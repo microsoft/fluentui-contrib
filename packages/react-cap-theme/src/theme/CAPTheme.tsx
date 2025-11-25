@@ -14,42 +14,50 @@ type AllowedTokenName =
   // This token exists in semantic tokens v2
   | `smtc/v2/${string}`
   // This token doesn't follow any known structure and needs to be fixed.
-  | `fixme/${string}`;
+  | `fixme/ctrl/${string}`;
 
 export function formatCAPTokenCssVar(varName: string): string {
   return varName.replace(/\//g, '\\/');
 }
 
+/**
+ * Extensions to existing fluent tokens (we expect these to be pushed upstream to fluent core).
+ */
+const tokensExt = {
+  borderRadius2XLarge: '12px',
+} as const satisfies Record<string, string>;
+
 const BadgeTokens = {
-  'cap/ctrl/badge/color-brand-foreground-compound': { type: 'color' },
+  'fixme/ctrl/badge/color-brand-foreground-compound': { type: 'color' },
 } as const satisfies Record<AllowedTokenName, TokenSchema>;
 
 const ButtonTokens = {
-  'cap/ctrl/button/primary-background-color': { type: 'color' },
-  'cap/ctrl/button/primary-background-color-hover': { type: 'color' },
-  'cap/ctrl/button/secondary-background-color': { type: 'color' },
-  'cap/ctrl/button/secondary-background-color-hover': { type: 'color' },
-  'cap/ctrl/button/subtle-background-color': { type: 'color' },
-  'cap/ctrl/button/subtle-background-color-hover': { type: 'color' },
-  'cap/ctrl/button/outline-background-color': { type: 'color' },
-  'cap/ctrl/button/outline-background-color-hover': { type: 'color' },
-  'cap/ctrl/button/tint-background-color': { type: 'color' },
-  'cap/ctrl/button/tint-background-color-hover': { type: 'color' },
+  'fixme/ctrl/button/corner-radius': { type: 'dimension' },
+  'fixme/ctrl/button/primary-background-color': { type: 'color' },
+  'fixme/ctrl/button/primary-background-color-hover': { type: 'color' },
+  'fixme/ctrl/button/secondary-background-color': { type: 'color' },
+  'fixme/ctrl/button/secondary-background-color-hover': { type: 'color' },
+  'fixme/ctrl/button/subtle-background-color': { type: 'color' },
+  'fixme/ctrl/button/subtle-background-color-hover': { type: 'color' },
+  'fixme/ctrl/button/outline-background-color': { type: 'color' },
+  'fixme/ctrl/button/outline-background-color-hover': { type: 'color' },
+  'fixme/ctrl/button/tint-background-color': { type: 'color' },
+  'fixme/ctrl/button/tint-background-color-hover': { type: 'color' },
 } as const satisfies Record<AllowedTokenName, TokenSchema>;
 
 const CardTokens = {
-  'cap/ctrl/card/background-color': { type: 'color' },
-  'cap/ctrl/card/foreground-color': { type: 'color' },
-  'cap/ctrl/card/background-color-hover': { type: 'color' },
-  'cap/ctrl/card/foreground-color-hover': { type: 'color' },
-  'cap/ctrl/card/background-color-pressed': { type: 'color' },
-  'cap/ctrl/card/foreground-color-pressed': { type: 'color' },
-  'cap/ctrl/card/background-color-disabled': { type: 'color' },
-  'cap/ctrl/card/foreground-color-disabled': { type: 'color' },
-  'cap/ctrl/card/corner-radius': { type: 'dimension' },
-  'cap/ctrl/card/header-padding-outside': { type: 'dimension' },
-  'cap/ctrl/card/header-padding-inside': { type: 'dimension' },
-  'cap/ctrl/card/footer-horizontal-gap': { type: 'dimension' },
+  'fixme/ctrl/card/background-color': { type: 'color' },
+  'fixme/ctrl/card/foreground-color': { type: 'color' },
+  'fixme/ctrl/card/background-color-hover': { type: 'color' },
+  'fixme/ctrl/card/foreground-color-hover': { type: 'color' },
+  'fixme/ctrl/card/background-color-pressed': { type: 'color' },
+  'fixme/ctrl/card/foreground-color-pressed': { type: 'color' },
+  'fixme/ctrl/card/background-color-disabled': { type: 'color' },
+  'fixme/ctrl/card/foreground-color-disabled': { type: 'color' },
+  'fixme/ctrl/card/corner-radius': { type: 'dimension' },
+  'fixme/ctrl/card/header-padding-outside': { type: 'dimension' },
+  'fixme/ctrl/card/header-padding-inside': { type: 'dimension' },
+  'fixme/ctrl/card/footer-horizontal-gap': { type: 'dimension' },
 } as const satisfies Record<AllowedTokenName, TokenSchema>;
 
 const DialogTokens = {} as const satisfies Record<
@@ -85,38 +93,43 @@ export type CAPTheme = {
 };
 
 export const CAP_THEME_DEFAULTS = {
+  ...tokensExt,
+
   // badge
   // TODO: switch to BrandForegroundCompound when available
-  'cap/ctrl/badge/color-brand-foreground-compound':
+  'fixme/ctrl/badge/color-brand-foreground-compound':
     tokens.colorBrandForeground1,
 
   // button
-  'cap/ctrl/button/primary-background-color': tokens.colorBrandBackground,
-  'cap/ctrl/button/primary-background-color-hover':
+  'fixme/ctrl/button/corner-radius': tokensExt.borderRadius2XLarge,
+  'fixme/ctrl/button/primary-background-color': tokens.colorBrandBackground,
+  'fixme/ctrl/button/primary-background-color-hover':
     tokens.colorBrandBackgroundHover,
-  'cap/ctrl/button/secondary-background-color': null,
-  'cap/ctrl/button/secondary-background-color-hover': null,
-  'cap/ctrl/button/subtle-background-color': tokens.colorBrandBackground,
-  'cap/ctrl/button/subtle-background-color-hover': tokens.colorBrandBackground,
-  'cap/ctrl/button/outline-background-color': tokens.colorTransparentBackground,
-  'cap/ctrl/button/outline-background-color-hover':
+  'fixme/ctrl/button/secondary-background-color': null,
+  'fixme/ctrl/button/secondary-background-color-hover': null,
+  'fixme/ctrl/button/subtle-background-color': tokens.colorBrandBackground,
+  'fixme/ctrl/button/subtle-background-color-hover':
+    tokens.colorBrandBackground,
+  'fixme/ctrl/button/outline-background-color':
     tokens.colorTransparentBackground,
-  'cap/ctrl/button/tint-background-color': 'red',
-  'cap/ctrl/button/tint-background-color-hover': null,
+  'fixme/ctrl/button/outline-background-color-hover':
+    tokens.colorTransparentBackground,
+  'fixme/ctrl/button/tint-background-color': 'red',
+  'fixme/ctrl/button/tint-background-color-hover': null,
 
   // card
-  'cap/ctrl/card/corner-radius': tokens.borderRadiusXLarge, // 8px
-  'cap/ctrl/card/background-color': tokens.colorNeutralBackground1,
-  'cap/ctrl/card/foreground-color': tokens.colorNeutralBackground1,
-  'cap/ctrl/card/background-color-hover': '',
-  'cap/ctrl/card/foreground-color-hover': '',
-  'cap/ctrl/card/background-color-pressed': '',
-  'cap/ctrl/card/foreground-color-pressed': '',
-  'cap/ctrl/card/background-color-disabled': '',
-  'cap/ctrl/card/foreground-color-disabled': '',
-  'cap/ctrl/card/header-padding-outside': tokens.spacingVerticalM,
-  'cap/ctrl/card/header-padding-inside': tokens.spacingVerticalS,
-  'cap/ctrl/card/footer-horizontal-gap': tokens.spacingHorizontalS,
+  'fixme/ctrl/card/corner-radius': tokens.borderRadiusXLarge, // 8px
+  'fixme/ctrl/card/background-color': tokens.colorNeutralBackground1,
+  'fixme/ctrl/card/foreground-color': tokens.colorNeutralBackground1,
+  'fixme/ctrl/card/background-color-hover': '',
+  'fixme/ctrl/card/foreground-color-hover': '',
+  'fixme/ctrl/card/background-color-pressed': '',
+  'fixme/ctrl/card/foreground-color-pressed': '',
+  'fixme/ctrl/card/background-color-disabled': '',
+  'fixme/ctrl/card/foreground-color-disabled': '',
+  'fixme/ctrl/card/header-padding-outside': tokens.spacingVerticalM,
+  'fixme/ctrl/card/header-padding-inside': tokens.spacingVerticalS,
+  'fixme/ctrl/card/footer-horizontal-gap': tokens.spacingHorizontalS,
 } as const satisfies CAPTheme;
 
 export const CAP_THEME_TEAMS = {

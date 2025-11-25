@@ -71,11 +71,13 @@ export const useBadgeStyles = makeStyles({
   },
 
   'tint-brand': {
-    color: CAP_THEME_DEFAULTS['cap/ctrl/badge/color-brand-foreground-compound'],
+    color:
+      CAP_THEME_DEFAULTS['fixme/ctrl/badge/color-brand-foreground-compound'],
   },
 
   'ghost-brand': {
-    color: CAP_THEME_DEFAULTS['cap/ctrl/badge/color-brand-foreground-compound'],
+    color:
+      CAP_THEME_DEFAULTS['fixme/ctrl/badge/color-brand-foreground-compound'],
   },
 
   'filled-warning': {
