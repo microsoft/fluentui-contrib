@@ -7,11 +7,11 @@ import {
   useBadgeStyles_unstable,
 } from '@fluentui/react-components';
 
-import { CAP_THEME } from './Theme';
+import { CAP_THEME_DEFAULTS } from '../../theme/CAPTheme';
 
 const textPadding = tokens.spacingHorizontalXXS;
 
-const useCAPBadgeStyles = makeStyles({
+export const useBadgeStyles = makeStyles({
   root: {
     padding: `0 calc(${tokens.spacingHorizontalSNudge} + ${textPadding})`,
   },
@@ -71,11 +71,13 @@ const useCAPBadgeStyles = makeStyles({
   },
 
   'tint-brand': {
-    color: CAP_THEME.colorBrandForegroundCompound,
+    color:
+      CAP_THEME_DEFAULTS['fixme/ctrl/badge/color-brand-foreground-compound'],
   },
 
   'ghost-brand': {
-    color: CAP_THEME.colorBrandForegroundCompound,
+    color:
+      CAP_THEME_DEFAULTS['fixme/ctrl/badge/color-brand-foreground-compound'],
   },
 
   'filled-warning': {
@@ -109,7 +111,7 @@ const useCAPBadgeStyles = makeStyles({
   },
 });
 
-const useCAPBadgeIconStyles = makeStyles({
+const useBadgeIconStyles = makeStyles({
   beforeTextSmall: {
     marginRight: textPadding,
   },
@@ -118,15 +120,13 @@ const useCAPBadgeIconStyles = makeStyles({
   },
 });
 
-export function useCAPBadgeStylesHook(_state: unknown): BadgeState {
-  const state = _state as BadgeState;
-
+export function useBadgeStylesHook(state: BadgeState): BadgeState {
   // Apply base Badge styles first
   useBadgeStyles_unstable(state);
 
   // Then override with CAP styles
-  const styles = useCAPBadgeStyles();
-  const iconStyles = useCAPBadgeIconStyles();
+  const styles = useBadgeStyles();
+  const iconStyles = useBadgeIconStyles();
 
   state.root.className = mergeClasses(
     state.root.className,
