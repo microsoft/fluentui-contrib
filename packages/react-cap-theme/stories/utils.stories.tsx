@@ -1,5 +1,9 @@
 import * as React from 'react';
-import { makeStyles, teamsLightV21Theme } from '@fluentui/react-components';
+import {
+  FluentProvider,
+  makeStyles,
+  teamsLightV21Theme,
+} from '@fluentui/react-components';
 import {
   CAPThemeProvider,
   CAP_THEME_ONE_DRIVE,
@@ -16,11 +20,13 @@ const CAP_THEMES = {
   current: {
     label: 'Current',
     variant: 'v9' as const,
+    theme: null,
     wrap: (children: React.ReactNode) => <>{children}</>,
   },
   teams: {
     label: 'Visual Refresh (Teams)',
     variant: 'cap' as const,
+    theme: { ...teamsLightV21Theme, ...CAP_THEME_TEAMS },
     wrap: (children: React.ReactNode) => (
       <CAPThemeProvider theme={{ ...teamsLightV21Theme, ...CAP_THEME_TEAMS }}>
         {children}
@@ -30,6 +36,7 @@ const CAP_THEMES = {
   onedrive: {
     label: 'Visual Refresh (OneDrive)',
     variant: 'cap' as const,
+    theme: CAP_THEME_ONE_DRIVE,
     wrap: (children: React.ReactNode) => (
       <CAPThemeProvider theme={{ ...CAP_THEME_ONE_DRIVE }}>
         {children}
@@ -39,6 +46,7 @@ const CAP_THEMES = {
   sharepoint: {
     label: 'Visual Refresh (SharePoint)',
     variant: 'cap' as const,
+    theme: CAP_THEME_SHAREPOINT,
     wrap: (children: React.ReactNode) => (
       <CAPThemeProvider theme={{ ...CAP_THEME_SHAREPOINT }}>
         {children}
@@ -50,8 +58,9 @@ const CAP_THEMES = {
 type CAPThemeKey = keyof typeof CAP_THEMES;
 type CAPThemeSelection = (typeof CAP_THEMES)[CAPThemeKey];
 
-const CAPThemeSelectionContext =
-  React.createContext<CAPThemeSelection>(CAP_THEMES.current);
+const CAPThemeSelectionContext = React.createContext<CAPThemeSelection>(
+  CAP_THEMES.current
+);
 
 export const CAPThemeSelectionProvider = ({
   themeKey,
@@ -71,6 +80,7 @@ export const CAPThemeSelectionProvider = ({
 export const useCAPThemeSelection = () =>
   React.useContext(CAPThemeSelectionContext);
 
+// Single column view that shows only the selected theme
 export const CAPThemeExamples = ({
   examples,
 }: {
@@ -91,6 +101,68 @@ export const CAPThemeExamples = ({
         </div>
       ))}
     </div>
+  );
+};
+
+// Table view that shows Current + all three CAP themes side by side
+export const CAPThemeExamplesTable = ({
+  examples,
+}: {
+  examples: CAPThemeExample[];
+}) => {
+  const styles = useCAPThemeExamplesTableStyles();
+  const selectedTheme = useCAPThemeSelection();
+
+  // Map the selected theme label to our theme config
+  const getSelectedThemeConfig = () => {
+    if (selectedTheme.label === 'Visual Refresh (Teams)')
+      return CAP_THEMES.teams;
+    if (selectedTheme.label === 'Visual Refresh (OneDrive)')
+      return CAP_THEMES.onedrive;
+    if (selectedTheme.label === 'Visual Refresh (SharePoint)')
+      return CAP_THEMES.sharepoint;
+    return CAP_THEMES.current;
+  };
+
+  const selectedConfig = getSelectedThemeConfig();
+  const themesToShow = [
+    selectedConfig,
+    CAP_THEMES.teams,
+    CAP_THEMES.onedrive,
+    CAP_THEMES.sharepoint,
+  ];
+
+  return (
+    <FluentProvider>
+      <div className={styles.table}>
+        <div className={styles.row}>
+          <div style={{ fontWeight: 800 }}>Example</div>
+          {themesToShow.map((config, idx) => (
+            <div key={`${config.label}-${idx}`} style={{ fontWeight: 800 }}>
+              {idx === 0 ? 'Current' : config.label}
+            </div>
+          ))}
+        </div>
+        {examples.map((example, index) => {
+          return (
+            <div className={styles.row} key={index}>
+              <div>{example.title}</div>
+              {themesToShow.map((config, idx) => (
+                <div key={`${config.label}-${idx}`}>
+                  {config.theme ? (
+                    <CAPThemeProvider theme={config.theme}>
+                      {renderExample(example, config.variant)}
+                    </CAPThemeProvider>
+                  ) : (
+                    renderExample(example, config.variant)
+                  )}
+                </div>
+              ))}
+            </div>
+          );
+        })}
+      </div>
+    </FluentProvider>
   );
 };
 
@@ -129,6 +201,21 @@ const useCAPThemeExamplesStyles = makeStyles({
     flex: 1,
     '& > div': {
       width: 'fit-content',
+    },
+  },
+});
+
+const useCAPThemeExamplesTableStyles = makeStyles({
+  table: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  row: {
+    display: 'flex',
+    '& > div': {
+      flex: 1,
+      padding: '16px',
+      border: '1px solid #ddd',
     },
   },
 });
