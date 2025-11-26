@@ -9,6 +9,7 @@
     "react": ">=16.8.0 <20.0.0"
   },
   "dependencies": {
-    "@swc/helpers": "~0.5.11"
+    "@swc/helpers": "~0.5.11",
+    "storybook-addon-pseudo-states": "10.0.8"
   }
 }
