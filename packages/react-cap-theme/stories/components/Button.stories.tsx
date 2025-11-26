@@ -18,11 +18,11 @@ const buttonAppearances = [
   'tint',
 ] as const;
 
-const buttonStates = ['default', 'hover', 'active', 'focus', 'disabled'] as const;
+type ButtonState = 'default' | 'hover' | 'active' | 'focus' | 'disabled';
 
 const stateId = (
   appearance: (typeof buttonAppearances)[number],
-  state: (typeof buttonStates)[number]
+  state: ButtonState
 ) => `cap-button-${appearance}-${state}`;
 
 type ButtonStoryProps = Pick<
@@ -45,14 +45,19 @@ export const CAPButtonStory = ({
 
   React.useEffect(() => {
     // Force pseudo-state classes back onto the demo buttons whenever the story re-renders for a new theme or arg change.
+    const doc = globalThis?.document;
+    if (!doc) {
+      return;
+    }
+
     buttonAppearances.forEach((appearance) => {
-      const hoverButton = document.getElementById(stateId(appearance, 'hover'));
+      const hoverButton = doc.getElementById(stateId(appearance, 'hover'));
       hoverButton?.classList.add('pseudo-hover');
 
-      const activeButton = document.getElementById(stateId(appearance, 'active'));
+      const activeButton = doc.getElementById(stateId(appearance, 'active'));
       activeButton?.classList.add('pseudo-hover', 'pseudo-active');
 
-      const focusButton = document.getElementById(stateId(appearance, 'focus'));
+      const focusButton = doc.getElementById(stateId(appearance, 'focus'));
       if (focusButton) {
         focusButton.classList.add('pseudo-focus-visible');
         focusButton.setAttribute('data-fui-focus-visible', 'true');
@@ -83,7 +88,7 @@ export const CAPButtonStory = ({
                       </div>
                       <Button
                         id={stateId(appearance, 'default')}
-                        icon={<CalendarMonthRegular />}
+                        icon={<CalendarMonth />}
                         {...commonButtonProps}
                         appearance={appearance}
                       >
@@ -91,7 +96,7 @@ export const CAPButtonStory = ({
                       </Button>
                       <Button
                         id={stateId(appearance, 'hover')}
-                        icon={<CalendarMonthRegular />}
+                        icon={<CalendarMonth />}
                         {...commonButtonProps}
                         appearance={appearance}
                       >
@@ -99,7 +104,7 @@ export const CAPButtonStory = ({
                       </Button>
                       <Button
                         id={stateId(appearance, 'active')}
-                        icon={<CalendarMonthRegular />}
+                        icon={<CalendarMonth />}
                         {...commonButtonProps}
                         appearance={appearance}
                       >
@@ -107,7 +112,7 @@ export const CAPButtonStory = ({
                       </Button>
                       <Button
                         id={stateId(appearance, 'focus')}
-                        icon={<CalendarMonthRegular />}
+                        icon={<CalendarMonth />}
                         {...commonButtonProps}
                         appearance={appearance}
                       >
@@ -115,7 +120,7 @@ export const CAPButtonStory = ({
                       </Button>
                       <Button
                         id={stateId(appearance, 'disabled')}
-                        icon={<CalendarMonthRegular />}
+                        icon={<CalendarMonth />}
                         {...commonButtonProps}
                         appearance={appearance}
                         disabled
