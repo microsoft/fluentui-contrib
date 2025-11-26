@@ -1,5 +1,9 @@
 import * as React from 'react';
-import { Button, type ButtonProps } from '@fluentui/react-components';
+import {
+  Button,
+  ButtonAppearance,
+  type ButtonProps,
+} from '@fluentui-contrib/react-cap-theme';
 import { CAPThemeExamples, useCAPThemeSelection } from '../utils.stories';
 import {
   bundleIcon,
@@ -16,7 +20,7 @@ const buttonAppearances = [
   'subtle',
   'transparent',
   'tint',
-] as const;
+] as const satisfies readonly ButtonAppearance[];
 
 const buttonStates = ['default', 'hover', 'active', 'focus', 'disabled'] as const;
 
@@ -83,7 +87,7 @@ export const CAPButtonStory = ({
                       </div>
                       <Button
                         id={stateId(appearance, 'default')}
-                        icon={<CalendarMonthRegular />}
+                        icon={<CalendarMonth />}
                         {...commonButtonProps}
                         appearance={appearance}
                       >
@@ -91,7 +95,7 @@ export const CAPButtonStory = ({
                       </Button>
                       <Button
                         id={stateId(appearance, 'hover')}
-                        icon={<CalendarMonthRegular />}
+                        icon={<CalendarMonth />}
                         {...commonButtonProps}
                         appearance={appearance}
                       >
@@ -99,7 +103,7 @@ export const CAPButtonStory = ({
                       </Button>
                       <Button
                         id={stateId(appearance, 'active')}
-                        icon={<CalendarMonthRegular />}
+                        icon={<CalendarMonth />}
                         {...commonButtonProps}
                         appearance={appearance}
                       >
@@ -107,7 +111,7 @@ export const CAPButtonStory = ({
                       </Button>
                       <Button
                         id={stateId(appearance, 'focus')}
-                        icon={<CalendarMonthRegular />}
+                        icon={<CalendarMonth />}
                         {...commonButtonProps}
                         appearance={appearance}
                       >
@@ -115,7 +119,7 @@ export const CAPButtonStory = ({
                       </Button>
                       <Button
                         id={stateId(appearance, 'disabled')}
-                        icon={<CalendarMonthRegular />}
+                        icon={<CalendarMonth />}
                         {...commonButtonProps}
                         appearance={appearance}
                         disabled

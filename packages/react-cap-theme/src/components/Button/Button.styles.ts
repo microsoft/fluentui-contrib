@@ -1,8 +1,6 @@
-import {
-  makeStyles,
-  mergeClasses,
-  type ButtonState,
-} from '@fluentui/react-components';
+import { makeStyles, mergeClasses } from '@fluentui/react-components';
+
+import type { ButtonState } from './Button.types';
 import { CAP_TOKENS } from '../../theme/CAPTheme';
 
 export const useButtonStyles = makeStyles({

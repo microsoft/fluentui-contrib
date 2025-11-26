@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {
   BadgeState,
-  ButtonState,
   CardFooterState,
   CardHeaderState,
   CardState,
@@ -10,6 +9,8 @@ import {
   InputState,
   type Theme,
 } from '@fluentui/react-components';
+
+import type { ButtonState } from '../components/Button';
 
 import { useButtonStylesHook } from '../components/Button/Button.styles';
 import { CAPTheme, formatCAPTokenCssVar } from './CAPTheme';
