@@ -3,7 +3,7 @@ import type { Decorator, Preview } from '@storybook/react';
 
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import rootPreview from '../../../.storybook/preview';
-import { CAPThemeSelectionProvider } from '../stories/utils.stories';
+import { CAPThemeSelectionProvider } from '../stories/StorybookUtils';
 
 const withCAPTheme: Decorator = (Story, context) => {
   const themeKey =

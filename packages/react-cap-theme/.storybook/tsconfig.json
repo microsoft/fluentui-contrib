@@ -23,5 +23,5 @@
     "../stories/**/*.stories.mdx",
     "*.ts",
     "*.js"
-  ]
+, "../stories/StorybookUtils.tsx"  ]
 }

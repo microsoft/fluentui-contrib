@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { CAPThemeExamples } from './StorybookUtil';
+import { CAPThemeExamplesTable } from '../StorybookUtils';
 
 export const CAPTooltipStory = () => {
-  return <CAPThemeExamples examples={[]} />;
+  return <CAPThemeExamplesTable examples={[]} />;
 };
