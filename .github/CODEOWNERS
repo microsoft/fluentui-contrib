@@ -29,10 +29,7 @@ packages/react-cap-theme @microsoft/cap-theme
 
 #### Build/Infra
 /tools/ @microsoft/fluentui-react-build
-
 /.github/ @microsoft/fluentui-react-build
-/.github/instructions/react-cap-theme.instructions.md @microsoft/cap-theme
-
 /tsconfig.base.json @microsoft/fluentui-react-build
 /yarn.lock @microsoft/fluentui-react-build
 /beachball.config.js @microsoft/fluentui-react-build
