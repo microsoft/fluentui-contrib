@@ -6,7 +6,7 @@ export { Default } from './Default.stories';
 export { WithMargin } from './WithMargin.stories';
 export { NoBoundary } from './NoBoundary.stories';
 export { CustomBoundary } from './CustomBoundary.stories';
-export { InitialPosition } from './InitialPosition.stories';
+export { CustomPosition } from './CustomPosition.stories';
 
 const meta: Meta<typeof DraggableDialog> = {
   title: 'Packages/react-draggable-dialog',
