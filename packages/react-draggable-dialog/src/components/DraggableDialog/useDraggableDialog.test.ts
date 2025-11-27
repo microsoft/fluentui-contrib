@@ -8,16 +8,17 @@ jest.mock('@fluentui/react-components', () => ({
   useAnimationFrame: jest.fn(),
 }));
 
-const setAnimationFrameSpy = jest.fn((callback: () => void) => callback());
+const setAnimationFrameSpy = jest.fn((callback: () => void) => {
+  callback();
+  return 0;
+});
 const cancelAnimationFrameSpy = jest.fn();
 
 const useAnimationFrameMock = jest.mocked(useAnimationFrame);
 
 useAnimationFrameMock.mockImplementation(() => [
-  (callback: () => void) => {
-    setAnimationFrameSpy(callback);
-  },
-  cancelAnimationFrameSpy,
+  (callback: () => void) => setAnimationFrameSpy(callback),
+  () => cancelAnimationFrameSpy(),
 ]);
 
 const dialogChild = React.createElement('div', null, 'Dialog Child');
