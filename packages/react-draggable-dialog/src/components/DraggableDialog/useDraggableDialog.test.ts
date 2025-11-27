@@ -1,11 +1,34 @@
 import * as React from 'react';
 import { renderHook, act } from '@testing-library/react';
-
+import { useAnimationFrame } from '@fluentui/react-components';
 import { useDraggableDialog } from './useDraggableDialog';
+
+jest.mock('@fluentui/react-components', () => ({
+  ...jest.requireActual('@fluentui/react-components'),
+  useAnimationFrame: jest.fn(),
+}));
+
+const setAnimationFrameSpy = jest.fn((callback: () => void) => {
+  callback();
+  return 0;
+});
+const cancelAnimationFrameSpy = jest.fn();
+
+const useAnimationFrameMock = jest.mocked(useAnimationFrame);
+
+useAnimationFrameMock.mockImplementation(() => [
+  (callback: () => void) => setAnimationFrameSpy(callback),
+  () => cancelAnimationFrameSpy(),
+]);
 
 const dialogChild = React.createElement('div', null, 'Dialog Child');
 
 describe('DraggableDialog', () => {
+  beforeEach(() => {
+    setAnimationFrameSpy.mockClear();
+    cancelAnimationFrameSpy.mockClear();
+  });
+
   it('should return default values', () => {
     const { result } = renderHook(() => {
       return useDraggableDialog({
@@ -276,6 +299,9 @@ describe('DraggableDialog', () => {
         x: 150,
         y: 250,
       });
+      expect(cancelAnimationFrameSpy).toHaveBeenCalled();
+      expect(setAnimationFrameSpy).toHaveBeenCalled();
+      expect(onPositionChange).not.toHaveBeenCalled();
     });
 
     it('should handle onDragEnd without rect', () => {
@@ -325,11 +351,78 @@ describe('DraggableDialog', () => {
         },
       } as Parameters<typeof result.current.onDragMove>[0];
 
-      result.current.onDragMove(mockEvent);
+      act(() => {
+        result.current.onDragMove(mockEvent);
+      });
 
-      // onPositionChange should be called via animation frame
-      // We can't easily test the animation frame behavior in this test environment
-      expect(onPositionChange).toBeDefined();
+      expect(cancelAnimationFrameSpy).toHaveBeenCalledTimes(1);
+      expect(setAnimationFrameSpy).toHaveBeenCalledTimes(1);
+      expect(onPositionChange).toHaveBeenCalledWith({ x: 100, y: 200 });
+    });
+
+    it('should debounce repeated onDragMove notifications', () => {
+      const onPositionChange = jest.fn();
+      const { result } = renderHook(() => {
+        return useDraggableDialog({
+          children: dialogChild,
+          onPositionChange,
+        });
+      });
+
+      const dragEvent = {
+        active: {
+          rect: {
+            current: {
+              translated: {
+                left: 10,
+                top: 20,
+              },
+            },
+          },
+        },
+      } as Parameters<typeof result.current.onDragMove>[0];
+
+      const updatedDragEvent = {
+        active: {
+          rect: {
+            current: {
+              translated: {
+                left: 40,
+                top: 60,
+              },
+            },
+          },
+        },
+      } as Parameters<typeof result.current.onDragMove>[0];
+
+      const nowSpy = jest.spyOn(Date, 'now');
+
+      nowSpy.mockReturnValue(20);
+      act(() => {
+        result.current.onDragMove(dragEvent);
+      });
+      expect(onPositionChange).toHaveBeenCalledTimes(1);
+
+      nowSpy.mockReturnValue(25);
+      act(() => {
+        result.current.onDragMove(dragEvent);
+      });
+      expect(onPositionChange).toHaveBeenCalledTimes(1);
+
+      nowSpy.mockReturnValue(60);
+      act(() => {
+        result.current.onDragMove(dragEvent);
+      });
+      expect(onPositionChange).toHaveBeenCalledTimes(1);
+
+      nowSpy.mockReturnValue(120);
+      act(() => {
+        result.current.onDragMove(updatedDragEvent);
+      });
+      expect(onPositionChange).toHaveBeenCalledTimes(2);
+      expect(onPositionChange).toHaveBeenLastCalledWith({ x: 40, y: 60 });
+
+      nowSpy.mockRestore();
     });
   });
 
@@ -477,10 +570,34 @@ describe('DraggableDialog', () => {
       expect(result.current.contextValue.setDropPosition).toEqual(
         expect.any(Function)
       );
-      // Should not throw when called (deprecated but needed for compatibility)
-      if (result.current.contextValue.setDropPosition) {
-        result.current.contextValue.setDropPosition({ x: 0, y: 0 });
-      }
+
+      act(() => {
+        result.current.contextValue.setDropPosition?.({
+          x: 50,
+          y: 60,
+        });
+      });
+
+      expect(result.current.contextValue.dropPosition).toEqual({
+        x: 50,
+        y: 60,
+      });
+      expect(result.current.contextValue.hasBeenDragged).toBe(true);
+
+      const currentDropPosition = result.current.contextValue.dropPosition;
+      const currentContextValue = result.current.contextValue;
+
+      act(() => {
+        result.current.contextValue.setDropPosition?.({
+          x: 50,
+          y: 60,
+        });
+      });
+
+      expect(result.current.contextValue.dropPosition).toBe(
+        currentDropPosition
+      );
+      expect(result.current.contextValue).toBe(currentContextValue);
     });
   });
 

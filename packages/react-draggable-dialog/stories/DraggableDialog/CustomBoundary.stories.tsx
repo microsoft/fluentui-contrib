@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {
   makeStyles,
-  shorthands,
   Button,
   DialogContent,
   Avatar,
@@ -18,8 +17,8 @@ import {
 
 const useStyles = makeStyles({
   boundary: {
-    ...shorthands.padding('16px'),
-    ...shorthands.borderRadius(tokens.borderRadiusLarge),
+    padding: '16px',
+    borderRadius: tokens.borderRadiusLarge,
     width: '640px',
     height: '560px',
     display: 'flex',
