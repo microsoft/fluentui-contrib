@@ -44,7 +44,7 @@ const usePartitionedDraggableProps = (props: DraggableDialogProps) => {
     position: position ?? null,
     announcements,
     margin: getParsedDraggableMargin(margin),
-    onPositionChange: onPositionChange ?? (() => ({})),
+    onPositionChange: onPositionChange ?? noopPositionChange,
   };
 
   return {
