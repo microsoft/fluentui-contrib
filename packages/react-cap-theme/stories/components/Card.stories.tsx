@@ -6,12 +6,12 @@ import {
   CardHeader,
   Text,
 } from '@fluentui/react-components';
-import { CAPThemeExamples } from './StorybookUtil';
+import { CAPThemeExamplesTable } from '../utils.stories';
 import { MoreHorizontal20Regular } from '@fluentui/react-icons';
 
 export const CAPCardStory = () => {
   return (
-    <CAPThemeExamples
+    <CAPThemeExamplesTable
       examples={[
         {
           title: 'Default',

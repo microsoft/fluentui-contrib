@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { CAPThemeExamples } from './StorybookUtil';
+import { CAPThemeExamplesTable } from '../utils.stories';
 
 export const CAPMenuStory = () => {
-  return <CAPThemeExamples examples={[]} />;
+  return <CAPThemeExamplesTable examples={[]} />;
 };
