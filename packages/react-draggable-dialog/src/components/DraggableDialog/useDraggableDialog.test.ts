@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { renderHook, act } from '@testing-library/react';
+import { useAnimationFrame } from '@fluentui/react-components';
 import { useDraggableDialog } from './useDraggableDialog';
 
 jest.mock('@fluentui/react-components', () => ({
@@ -7,14 +8,12 @@ jest.mock('@fluentui/react-components', () => ({
   useAnimationFrame: jest.fn(),
 }));
 
-const fluentComponents = jest.requireMock('@fluentui/react-components') as {
-  useAnimationFrame: jest.Mock;
-};
-
 const setAnimationFrameSpy = jest.fn((callback: () => void) => callback());
 const cancelAnimationFrameSpy = jest.fn();
 
-fluentComponents.useAnimationFrame.mockImplementation(() => [
+const useAnimationFrameMock = jest.mocked(useAnimationFrame);
+
+useAnimationFrameMock.mockImplementation(() => [
   (callback: () => void) => {
     setAnimationFrameSpy(callback);
   },

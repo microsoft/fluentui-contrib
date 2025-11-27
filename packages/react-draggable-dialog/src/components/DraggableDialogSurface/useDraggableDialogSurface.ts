@@ -161,17 +161,12 @@ export const useDraggableDialogSurface = (
       return;
     }
 
-    if (position) {
-      const top = style.top || 0;
-      const left = style.left || 0;
+    const source = position ? style : boundaryCoords;
 
-      setDropPosition?.({ x: left, y: top });
-    } else {
-      const top = boundaryCoords.top || 0;
-      const left = boundaryCoords.left || 0;
-
-      setDropPosition?.({ x: left, y: top });
-    }
+    setDropPosition?.({
+      x: source?.left || 0,
+      y: source?.top || 0,
+    });
   }, [style, setDropPosition, hasBeenDragged, position, boundaryCoords]);
 
   assertDialogParent(hasDraggableParent, 'DraggableDialogSurface');
