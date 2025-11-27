@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-draggable-dialog
 
-This log was last generated on Thu, 23 Oct 2025 15:06:11 GMT and should not be manually modified.
+This log was last generated on Tue, 18 Nov 2025 14:32:44 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.2.3
+
+Tue, 18 Nov 2025 14:32:44 GMT
+
+### Patches
+
+- chore: bump react-dom versions to support React 19 (dmytrokirpa@microsoft.com)
 
 ## 0.2.2
 

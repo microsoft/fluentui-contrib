@@ -127,14 +127,14 @@ export function useUnitHandle(
     const targetWindow = targetDocument?.defaultView;
 
     if (targetWindow && unit === 'viewport') {
-      windowDimensionsRef.current.width = targetWindow.innerWidth;
-      windowDimensionsRef.current.height = targetWindow.innerHeight;
+      windowDimensionsRef.current =
+        targetWindow.document.documentElement.getBoundingClientRect();
 
       const handleResize = () => {
         windowDimensionsRafId.current = targetWindow.requestAnimationFrame(
           () => {
-            windowDimensionsRef.current.width = targetWindow.innerWidth;
-            windowDimensionsRef.current.height = targetWindow.innerHeight;
+            windowDimensionsRef.current =
+              targetWindow.document.documentElement.getBoundingClientRect();
           }
         );
       };

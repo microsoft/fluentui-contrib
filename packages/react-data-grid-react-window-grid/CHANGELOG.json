@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-data-grid-react-window-grid",
   "entries": [
     {
+      "date": "Tue, 18 Nov 2025 14:32:44 GMT",
+      "tag": "@fluentui-contrib/react-data-grid-react-window-grid_v2.4.2",
+      "version": "2.4.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-data-grid-react-window-grid",
+            "commit": "1d97697e39a8ce90dc2a2ca1a8938230658178ac",
+            "comment": "chore: bump react-dom versions to support React 19"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 01 Oct 2025 08:00:02 GMT",
       "tag": "@fluentui-contrib/react-data-grid-react-window-grid_v2.4.1",
       "version": "2.4.1",

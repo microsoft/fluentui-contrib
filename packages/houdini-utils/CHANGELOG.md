@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/houdini-utils
 
-This log was last generated on Mon, 06 Oct 2025 16:03:54 GMT and should not be manually modified.
+This log was last generated on Tue, 18 Nov 2025 08:19:33 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.5.2
+
+Tue, 18 Nov 2025 08:19:33 GMT
+
+### Patches
+
+- cleanup resize observer during cleanup (mgodbolt@microsoft.com)
 
 ## 0.5.1
 
