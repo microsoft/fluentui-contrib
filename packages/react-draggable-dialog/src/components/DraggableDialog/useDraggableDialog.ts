@@ -10,7 +10,11 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
-import { useAnimationFrame, useId } from '@fluentui/react-components';
+import {
+  useAnimationFrame,
+  useEventCallback,
+  useId,
+} from '@fluentui/react-components';
 
 import {
   DraggableDialogProps,
@@ -74,10 +78,7 @@ export const useDraggableDialog = (
   const [dropPosition, setDropPosition] = React.useState({ x: 0, y: 0 });
   const [hasBeenDragged, setHasBeenDragged] = React.useState(false);
 
-  const onPositionChangeRef = React.useRef(onPositionChange);
-  React.useEffect(() => {
-    onPositionChangeRef.current = onPositionChange;
-  }, [onPositionChange]);
+  const handlePositionChange = useEventCallback(onPositionChange);
 
   const lastReportedPositionRef = React.useRef({
     x: 0,
@@ -94,9 +95,7 @@ export const useDraggableDialog = (
 
   const reportPositionChange = React.useCallback(
     (rect: ClientRect) => {
-      const handler = onPositionChangeRef.current;
-
-      if (handler === noopPositionChange) {
+      if (handlePositionChange === noopPositionChange) {
         return;
       }
 
@@ -112,7 +111,7 @@ export const useDraggableDialog = (
         }
 
         lastReportedPositionRef.current = { x, y };
-        handler({ x, y });
+        handlePositionChange({ x, y });
       });
     },
     [cancelOnDragAnimationFrame, setOnDragAnimationFrame]
