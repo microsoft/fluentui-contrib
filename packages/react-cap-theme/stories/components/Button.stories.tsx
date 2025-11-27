@@ -66,6 +66,7 @@ export const CAPButtonStory = () => {
               return 'NOT_IMPLEMENTED';
             }
             return (
+              // @ts-expect-error tint appearance is not part of official v9 API
               <Button appearance="tint" icon={<CalendarMonth />}>
                 Tint
               </Button>
