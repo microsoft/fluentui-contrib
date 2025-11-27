@@ -80,8 +80,8 @@ export const useDraggableDialog = (
   }, [onPositionChange]);
 
   const lastReportedPositionRef = React.useRef({
-    x: Number.NaN,
-    y: Number.NaN,
+    x: 0,
+    y: 0,
   });
 
   const [setOnDragAnimationFrame, cancelOnDragAnimationFrame] =
