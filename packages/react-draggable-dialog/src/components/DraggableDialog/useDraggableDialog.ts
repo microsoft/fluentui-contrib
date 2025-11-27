@@ -128,7 +128,7 @@ export const useDraggableDialog = (
 
       reportPositionChange(rect);
     },
-    [cancelOnDragAnimationFrame, setOnDragAnimationFrame]
+    [reportPositionChange]
   );
 
   const setInitialDropPosition = React.useCallback(
