@@ -17,7 +17,7 @@ jobs:
       actions: 'read'
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -76,7 +76,7 @@ jobs:
       actions: 'read'
     name: React ${{ matrix.react }} Integration
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
