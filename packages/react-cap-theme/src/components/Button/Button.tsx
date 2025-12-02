@@ -11,11 +11,7 @@ import {
 import { useCustomStyleHook_unstable } from '@fluentui/react-shared-contexts';
 import type { ForwardRefComponent } from '@fluentui/react-utilities';
 
-import type {
-  ButtonAppearance,
-  ButtonProps,
-  ButtonState,
-} from './Button.types';
+import type { ButtonProps, ButtonState } from './Button.types';
 
 /**
  * Buttons give people a way to trigger an action.
@@ -37,11 +33,3 @@ export const Button: ForwardRefComponent<ButtonProps> = React.forwardRef(
 ) as ForwardRefComponent<ButtonProps>;
 
 Button.displayName = 'Button';
-
-export type {
-  ButtonAppearance,
-  ButtonProps,
-  ButtonState,
-} from './Button.types';
-
-export { BUTTON_APPEARANCES } from './Button.types';

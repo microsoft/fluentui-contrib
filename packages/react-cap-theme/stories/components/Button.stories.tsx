@@ -1,10 +1,10 @@
 import * as React from 'react';
 import {
   Button,
-  ButtonAppearance,
   type ButtonProps,
+  type ButtonAppearance
 } from '@fluentui-contrib/react-cap-theme';
-import { CAPThemeExamples, useCAPThemeSelection } from '../utils.stories';
+import { CAPThemeExamples, useCAPThemeSelection } from '../StorybookUtils';
 import {
   bundleIcon,
   CalendarMonthFilled,
@@ -13,41 +13,40 @@ import {
 
 const CalendarMonth = bundleIcon(CalendarMonthFilled, CalendarMonthRegular);
 
-const buttonAppearances = [
+type ButtonState = 'default' | 'hover' | 'active' | 'focus' | 'disabled';
+
+const buttonAppearances: ButtonAppearance[] = [
   'secondary',
   'primary',
   'outline',
   'subtle',
   'transparent',
-  'tint',
-] as const satisfies readonly ButtonAppearance[];
-
-const buttonStates = [
-  'default',
-  'hover',
-  'active',
-  'focus',
-  'disabled',
-] as const;
+  'tint'
+];
 
 const stateId = (
-  appearance: (typeof buttonAppearances)[number],
-  state: (typeof buttonStates)[number]
+  appearance: (ButtonAppearance)[number],
+  state: ButtonState
 ) => `cap-button-${appearance}-${state}`;
 
-type ButtonStoryProps = Pick<
-  ButtonProps,
-  'disabledFocusable' | 'iconPosition' | 'shape' | 'size'
->;
+const hoverSelectors = buttonAppearances.map(
+  (appearance) => `#${stateId(appearance, 'hover')}`
+);
+const activeSelectors = buttonAppearances.map(
+  (appearance) => `#${stateId(appearance, 'active')}`
+);
+const focusSelectors = buttonAppearances.map(
+  (appearance) => `#${stateId(appearance, 'focus')}`
+);
 
 export const CAPButtonStory = ({
   disabledFocusable = false,
   iconPosition = 'before',
   shape = 'rounded',
   size = 'medium',
-}: ButtonStoryProps) => {
+}: ButtonProps) => {
   const selectedTheme = useCAPThemeSelection();
-  const commonButtonProps: Partial<ButtonProps> = {
+  const commonButtonProps: ButtonProps = {
     iconPosition,
     shape,
     size,
@@ -55,16 +54,19 @@ export const CAPButtonStory = ({
 
   React.useEffect(() => {
     // Force pseudo-state classes back onto the demo buttons whenever the story re-renders for a new theme or arg change.
+    const doc = globalThis?.document;
+    if (!doc) {
+      return;
+    }
+
     buttonAppearances.forEach((appearance) => {
-      const hoverButton = document.getElementById(stateId(appearance, 'hover'));
+      const hoverButton = doc.getElementById(stateId(appearance, 'hover'));
       hoverButton?.classList.add('pseudo-hover');
 
-      const activeButton = document.getElementById(
-        stateId(appearance, 'active')
-      );
+      const activeButton = doc.getElementById(stateId(appearance, 'active'));
       activeButton?.classList.add('pseudo-hover', 'pseudo-active');
 
-      const focusButton = document.getElementById(stateId(appearance, 'focus'));
+      const focusButton = doc.getElementById(stateId(appearance, 'focus'));
       if (focusButton) {
         focusButton.classList.add('pseudo-focus-visible');
         focusButton.setAttribute('data-fui-focus-visible', 'true');
@@ -164,15 +166,10 @@ export const CAPButtonStory = ({
 
 CAPButtonStory.parameters = {
   pseudo: {
-    hover: buttonAppearances.map(
-      (appearance) => `#${stateId(appearance, 'hover')}`
-    ),
-    active: buttonAppearances.map(
-      (appearance) => `#${stateId(appearance, 'active')}`
-    ),
-    focusVisible: buttonAppearances.map(
-      (appearance) => `#${stateId(appearance, 'focus')}`
-    ),
+    // Keep pressed buttons hovered too since older Button styles rely on :hover:active
+    hover: [...hoverSelectors, ...activeSelectors],
+    active: activeSelectors,
+    focusVisible: focusSelectors,
   },
 };
 

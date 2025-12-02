@@ -1,4 +1,4 @@
-export { Button, BUTTON_APPEARANCES } from './Button';
+export { Button } from './Button';
 export type {
   ButtonAppearance,
   ButtonProps,
