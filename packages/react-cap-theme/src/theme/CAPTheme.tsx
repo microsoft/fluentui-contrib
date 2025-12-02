@@ -9,6 +9,8 @@ export interface TokenSchema {
 type AllowedTokenName =
   // This token does not exist in semantic tokens and is new to CAP.
   | `cap/${string}`
+  // This token should exist in Fluent v9 (we expect it to be pushed upstream to fluent core).
+  | `fluent-ext/${string}`
   // This token exists in semantic tokens v1
   | `smtc/v1/${string}`
   // This token exists in semantic tokens v2
@@ -21,11 +23,29 @@ export function formatCAPTokenCssVar(varName: string): string {
 }
 
 /**
- * Extensions to existing fluent tokens (we expect these to be pushed upstream to fluent core).
+ * FluentExtendedTokens are tokens that should exist in Fluent v9 but don't yet.
+ * We expect them to be pushed upstream to Fluent core, at which point you can swap them:
+ *
+ * ```ts
+ * // before
+ * borderRadius: CAP_TOKENS['fluent-ext/borderRadius2XLarge']
+ *
+ * // after
+ * import { tokens } from '@fluentui/react-components';
+ * borderRadius: tokens.borderRadius2XLarge
+ * ```
  */
-const tokensExt = {
-  borderRadius2XLarge: '12px',
-} as const satisfies Record<string, string>;
+const FluentExtendedTokens = {
+  'fluent-ext/borderRadius2XLarge': { type: 'dimension' },
+} as const satisfies Record<AllowedTokenName, TokenSchema>;
+
+/**
+ * ControlTokens are used across multiple components to control a particular aspect
+ * of the design system (e.g. border radii).
+ */
+const ControlTokens = {
+  'smtc/v1/ctrl/corner/rest': { type: 'dimension' },
+} as const satisfies Record<AllowedTokenName, TokenSchema>;
 
 const BadgeTokens = {
   'fixme/ctrl/badge/color-brand-foreground-compound': { type: 'color' },
@@ -75,6 +95,8 @@ const TooltipTokens = {} as const satisfies Record<
 >;
 
 export const CAPTokensSchema = {
+  ...FluentExtendedTokens,
+  ...ControlTokens,
   ...BadgeTokens,
   ...ButtonTokens,
   ...CardTokens,
@@ -93,7 +115,11 @@ export type CAPTheme = {
 };
 
 export const CAP_THEME_DEFAULTS = {
-  ...tokensExt,
+  // fluent-ext
+  'fluent-ext/borderRadius2XLarge': '12px',
+
+  // smtc/v1
+  'smtc/v1/ctrl/corner/rest': CAP_TOKENS['fluent-ext/borderRadius2XLarge'],
 
   // badge
   // TODO: switch to BrandForegroundCompound when available
@@ -101,7 +127,7 @@ export const CAP_THEME_DEFAULTS = {
     tokens.colorBrandForeground1,
 
   // button
-  'fixme/ctrl/button/corner-radius': tokensExt.borderRadius2XLarge,
+  'fixme/ctrl/button/corner-radius': CAP_TOKENS['smtc/v1/ctrl/corner/rest'],
   'fixme/ctrl/button/primary-background-color': tokens.colorBrandBackground,
   'fixme/ctrl/button/primary-background-color-hover':
     tokens.colorBrandBackgroundHover,
