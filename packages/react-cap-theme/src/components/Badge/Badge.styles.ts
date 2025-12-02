@@ -45,10 +45,6 @@ export const useBadgeStyles = makeStyles({
     borderRadius: CAP_TOKENS['cap/badge-xl/corner-rounded'],
   },
   'rounded-large': { borderRadius: CAP_TOKENS['cap/badge-l/corner-rounded'] },
-  'rounded-medium': { borderRadius: tokens.borderRadiusMedium },
-  'rounded-small': { borderRadius: tokens.borderRadiusMedium },
-  'rounded-extra-small': { borderRadius: tokens.borderRadiusSmall },
-  'rounded-tiny': { borderRadius: tokens.borderRadiusSmall },
 
   'outline-brand': {
     ...shorthands.borderColor(CAP_TOKENS['cap/badge/brand/outlined/stroke']),
@@ -89,7 +85,7 @@ export const useBadgeStyles = makeStyles({
 
   'filled-warning': {
     color: CAP_TOKENS['cap/badge/warning/filled/foreground'],
-    backgroundColor: tokens.colorStatusWarningBackground3,
+    backgroundColor: CAP_TOKENS['cap/badge/warning/filled/background'],
   },
 
   'tint-informative': {
@@ -110,7 +106,7 @@ export const useBadgeStyles = makeStyles({
 
   'filled-subtle': {
     color: CAP_TOKENS['cap/badge/subtle/filled/foreground'],
-    backgroundColor: tokens.colorNeutralBackground5,
+    backgroundColor: CAP_TOKENS['cap/badge/subtle/filled/background'],
   },
 
   'tint-subtle': {
@@ -143,7 +139,9 @@ export function useBadgeStylesHook(state: BadgeState): BadgeState {
     state.root.className,
     styles.root,
     styles[state.size],
-    state.shape === 'rounded' && styles[`rounded-${state.size}`],
+    state.shape === 'rounded' &&
+      `rounded-${state.size}` in styles &&
+      styles[`rounded-${state.size}` as keyof typeof styles],
     `${state.appearance}-${state.color}` in styles &&
       styles[`${state.appearance}-${state.color}` as keyof typeof styles]
   );
