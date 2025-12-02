@@ -115,9 +115,10 @@ export type CAPTheme = {
 };
 
 export const CAP_THEME_DEFAULTS = {
-  // globals
+  // fluent-ext
   'fluent-ext/borderRadius2XLarge': '12px',
 
+  // smtc/v1
   'smtc/v1/ctrl/corner/rest': CAP_TOKENS['fluent-ext/borderRadius2XLarge'],
 
   // badge
