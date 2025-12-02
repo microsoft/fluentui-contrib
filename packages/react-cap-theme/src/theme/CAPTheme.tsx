@@ -9,6 +9,8 @@ export interface TokenSchema {
 type AllowedTokenName =
   // This token does not exist in semantic tokens and is new to CAP.
   | `cap/${string}`
+  // This token should exist in Fluent v9 (we expect it to be pushed upstream to fluent core).
+  | `fluent/${string}`
   // This token exists in semantic tokens v1
   | `smtc/v1/${string}`
   // This token exists in semantic tokens v2
@@ -20,15 +22,9 @@ export function formatCAPTokenCssVar(varName: string): string {
   return varName.replace(/\//g, '\\/');
 }
 
-/**
- * Extensions to existing fluent tokens (we expect these to be pushed upstream to fluent core).
- */
-const tokensExt = {
-  borderRadius2XLarge: '12px',
-} as const satisfies Record<string, string>;
-
 const GlobalTokens = {
   'fixme/global/ctrl/corner/rest': { type: 'dimension' },
+  'fluent/borderRadius2XLarge': { type: 'dimension' },
 } as const satisfies Record<AllowedTokenName, TokenSchema>;
 
 const BadgeTokens = {
@@ -98,10 +94,9 @@ export type CAPTheme = {
 };
 
 export const CAP_THEME_DEFAULTS = {
-  ...tokensExt,
-
   // globals
-  'fixme/global/ctrl/corner/rest': tokensExt.borderRadius2XLarge,
+  'fluent/borderRadius2XLarge': '12px',
+  'fixme/global/ctrl/corner/rest': CAP_TOKENS['fluent/borderRadius2XLarge'],
 
   // badge
   // TODO: switch to BrandForegroundCompound when available
