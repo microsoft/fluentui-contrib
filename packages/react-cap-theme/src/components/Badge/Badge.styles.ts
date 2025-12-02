@@ -7,13 +7,13 @@ import {
   useBadgeStyles_unstable,
 } from '@fluentui/react-components';
 
-import { CAP_THEME_DEFAULTS } from '../../theme/CAPTheme';
+import { CAP_TOKENS } from '../../theme/CAPTheme';
 
 const textPadding = tokens.spacingHorizontalXXS;
 
 export const useBadgeStyles = makeStyles({
   root: {
-    padding: `0 calc(${tokens.spacingHorizontalSNudge} + ${textPadding})`,
+    padding: `0 calc(${CAP_TOKENS['cap/badge-m/padding']} + ${textPadding})`,
   },
 
   tiny: {
@@ -25,7 +25,7 @@ export const useBadgeStyles = makeStyles({
   },
 
   small: {
-    padding: `0 calc(${tokens.spacingHorizontalXS} + ${textPadding})`,
+    padding: `0 calc(${CAP_TOKENS['cap/badge-s/padding']} + ${textPadding})`,
   },
 
   medium: {
@@ -33,89 +33,100 @@ export const useBadgeStyles = makeStyles({
   },
 
   large: {
-    padding: `0 calc(${tokens.spacingHorizontalSNudge} + ${textPadding})`,
+    padding: `0 calc(${CAP_TOKENS['cap/badge-l/padding']} + ${textPadding})`,
   },
 
   'extra-large': {
-    padding: `0 calc(${tokens.spacingHorizontalS} + ${textPadding})`,
+    padding: `0 calc(${CAP_TOKENS['cap/badge-xl/padding']} + ${textPadding})`,
   },
 
   // shape
-  'rounded-extra-large': { borderRadius: tokens.borderRadiusXLarge },
-  'rounded-large': { borderRadius: tokens.borderRadiusLarge },
+  'rounded-extra-large': {
+    borderRadius: CAP_TOKENS['cap/badge-xl/corner-rounded'],
+  },
+  'rounded-large': { borderRadius: CAP_TOKENS['cap/badge-l/corner-rounded'] },
   'rounded-medium': { borderRadius: tokens.borderRadiusMedium },
   'rounded-small': { borderRadius: tokens.borderRadiusMedium },
   'rounded-extra-small': { borderRadius: tokens.borderRadiusSmall },
   'rounded-tiny': { borderRadius: tokens.borderRadiusSmall },
 
   'outline-brand': {
-    ...shorthands.borderColor(tokens.colorBrandStroke2),
+    ...shorthands.borderColor(CAP_TOKENS['cap/badge/brand/outlined/stroke']),
   },
   'outline-warning': {
-    ...shorthands.borderColor(tokens.colorStatusWarningBorder1),
+    ...shorthands.borderColor(CAP_TOKENS['cap/badge/warning/outlined/stroke']),
   },
   'outline-important': {
-    ...shorthands.borderColor(tokens.colorNeutralStroke1),
+    ...shorthands.borderColor(
+      CAP_TOKENS['cap/badge/important/outlined/stroke']
+    ),
   },
   'outline-danger': {
-    ...shorthands.borderColor(tokens.colorStatusDangerBorder1),
+    ...shorthands.borderColor(CAP_TOKENS['cap/badge/danger/outlined/stroke']),
   },
   'outline-success': {
-    ...shorthands.borderColor(tokens.colorStatusSuccessBorder1),
+    ...shorthands.borderColor(CAP_TOKENS['cap/badge/success/outlined/stroke']),
   },
   'outline-informative': {
-    ...shorthands.borderColor(tokens.colorNeutralStroke1),
+    ...shorthands.borderColor(
+      CAP_TOKENS['cap/badge/informative/outlined/stroke']
+    ),
   },
   'outline-subtle': {
-    ...shorthands.borderColor(tokens.colorNeutralForegroundOnBrand),
+    color: CAP_TOKENS['cap/badge/subtle/outlined/foreground'],
+    ...shorthands.borderColor(
+      CAP_TOKENS['cap/badge/subtle/outlined/foreground']
+    ),
   },
 
   'tint-brand': {
-    color:
-      CAP_THEME_DEFAULTS['fixme/ctrl/badge/color-brand-foreground-compound'],
+    color: CAP_TOKENS['cap/badge/brand/tint/foreground'],
   },
 
   'ghost-brand': {
-    color:
-      CAP_THEME_DEFAULTS['fixme/ctrl/badge/color-brand-foreground-compound'],
+    color: CAP_TOKENS['cap/badge/brand/ghost/foreground'],
   },
 
   'filled-warning': {
-    color: tokens.colorNeutralForegroundOnBrand,
+    color: CAP_TOKENS['cap/badge/warning/filled/foreground'],
     backgroundColor: tokens.colorStatusWarningBackground3,
   },
 
   'tint-informative': {
-    backgroundColor: tokens.colorNeutralBackground5,
-    ...shorthands.borderColor(tokens.colorNeutralStroke1),
+    backgroundColor: CAP_TOKENS['cap/badge/informative/tint/background'],
+    ...shorthands.borderColor(CAP_TOKENS['cap/badge/informative/tint/stroke']),
   },
 
   'filled-important': {
-    backgroundColor: tokens.colorNeutralBackgroundInverted,
-    color: tokens.colorNeutralForegroundOnBrand,
+    backgroundColor: CAP_TOKENS['cap/badge/important/filled/background'],
+    color: CAP_TOKENS['cap/badge/important/filled/foreground'],
   },
 
   'tint-important': {
-    backgroundColor: tokens.colorNeutralBackground5,
-    color: tokens.colorNeutralForeground3,
-    ...shorthands.borderColor(tokens.colorNeutralStroke1),
+    backgroundColor: CAP_TOKENS['cap/badge/important/tint/background'],
+    color: CAP_TOKENS['cap/badge/important/tint/foreground'],
+    ...shorthands.borderColor(CAP_TOKENS['cap/badge/important/tint/stroke']),
   },
 
   'filled-subtle': {
-    color: tokens.colorNeutralForeground3,
+    color: CAP_TOKENS['cap/badge/subtle/filled/foreground'],
     backgroundColor: tokens.colorNeutralBackground5,
   },
 
   'tint-subtle': {
-    ...shorthands.borderColor(tokens.colorNeutralStroke1),
+    ...shorthands.borderColor(CAP_TOKENS['cap/badge/subtle/tint/stroke']),
   },
 });
 
 const useBadgeIconStyles = makeStyles({
   beforeTextSmall: {
+    // Should use calc(${CAP_TOKENS['cap/badge-s/gap']}px + ${textPadding}) but for some reason it is not working
+    // as CAP_TOKENS['cap/badge-s/gap'] points to '0' instead of '0px'
     marginRight: textPadding,
   },
   afterTextSmall: {
+    // Should use calc(${CAP_TOKENS['cap/badge-s/gap-toSecondaryIcon']}px + ${textPadding}) but for some reason it is not working
+    // as CAP_TOKENS['cap/badge-s/gap-toSecondaryIcon'] points to '0' instead of '0px'
     marginLeft: textPadding,
   },
 });
