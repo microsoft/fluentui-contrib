@@ -4,3 +4,8 @@ export {
   CAP_THEME_SHAREPOINT,
   CAP_THEME_TEAMS,
 } from './theme/CAPTheme';
+export { Button } from './components/Button/Button';
+export type {
+  ButtonProps,
+  ButtonState,
+} from './components/Button/Button.types';

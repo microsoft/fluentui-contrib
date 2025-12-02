@@ -1,4 +1,4 @@
-The `@fluentui/react-cap-theme` package implements a `@fluentui/react-components` theme.
+The `@fluentui-contrib/react-cap-theme` package implements a `@fluentui/react-components` theme.
 
 ## Component Spec
 
