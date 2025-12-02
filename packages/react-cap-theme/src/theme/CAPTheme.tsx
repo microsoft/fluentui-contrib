@@ -27,6 +27,10 @@ const tokensExt = {
   borderRadius2XLarge: '12px',
 } as const satisfies Record<string, string>;
 
+const GlobalTokens = {
+  'fixme/global/ctrl/corner/rest': { type: 'dimension' },
+} as const satisfies Record<AllowedTokenName, TokenSchema>;
+
 const BadgeTokens = {
   'fixme/ctrl/badge/color-brand-foreground-compound': { type: 'color' },
 } as const satisfies Record<AllowedTokenName, TokenSchema>;
@@ -75,6 +79,7 @@ const TooltipTokens = {} as const satisfies Record<
 >;
 
 export const CAPTokensSchema = {
+  ...GlobalTokens,
   ...BadgeTokens,
   ...ButtonTokens,
   ...CardTokens,
@@ -95,13 +100,17 @@ export type CAPTheme = {
 export const CAP_THEME_DEFAULTS = {
   ...tokensExt,
 
+  // globals
+  'fixme/global/ctrl/corner/rest': tokensExt.borderRadius2XLarge,
+
   // badge
   // TODO: switch to BrandForegroundCompound when available
   'fixme/ctrl/badge/color-brand-foreground-compound':
     tokens.colorBrandForeground1,
 
   // button
-  'fixme/ctrl/button/corner-radius': tokensExt.borderRadius2XLarge,
+  'fixme/ctrl/button/corner-radius':
+    CAP_TOKENS['fixme/global/ctrl/corner/rest'],
   'fixme/ctrl/button/primary-background-color': tokens.colorBrandBackground,
   'fixme/ctrl/button/primary-background-color-hover':
     tokens.colorBrandBackgroundHover,
