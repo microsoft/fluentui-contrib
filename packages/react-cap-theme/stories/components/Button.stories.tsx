@@ -14,8 +14,7 @@ const buttonAppearances = [
   'primary',
   'outline',
   'subtle',
-  'transparent',
-  'tint',
+  'transparent'
 ] as const;
 
 type ButtonState = 'default' | 'hover' | 'active' | 'focus' | 'disabled';
@@ -29,19 +28,14 @@ const hoverSelectors = buttonAppearances.map((appearance) => `#${stateId(appeara
 const activeSelectors = buttonAppearances.map((appearance) => `#${stateId(appearance, 'active')}`);
 const focusSelectors = buttonAppearances.map((appearance) => `#${stateId(appearance, 'focus')}`);
 
-type ButtonStoryProps = Pick<
-  ButtonProps,
-  'disabledFocusable' | 'iconPosition' | 'shape' | 'size'
->;
-
 export const CAPButtonStory = ({
   disabledFocusable = false,
   iconPosition = 'before',
   shape = 'rounded',
   size = 'medium',
-}: ButtonStoryProps) => {
+}: ButtonProps) => {
   const selectedTheme = useCAPThemeSelection();
-  const commonButtonProps: Partial<ButtonProps> = {
+  const commonButtonProps: ButtonProps = {
     iconPosition,
     shape,
     size,
