@@ -22,6 +22,7 @@
     "../stories/**/*.stories.tsx",
     "../stories/**/*.stories.mdx",
     "*.ts",
-    "*.js"
-, "../stories/StorybookUtils.tsx"  ]
+    "*.js",
+    "../stories/StorybookUtils.tsx"
+  ]
 }

@@ -14,7 +14,7 @@ const buttonAppearances = [
   'primary',
   'outline',
   'subtle',
-  'transparent'
+  'transparent',
 ] as const;
 
 type ButtonState = 'default' | 'hover' | 'active' | 'focus' | 'disabled';
@@ -24,9 +24,15 @@ const stateId = (
   state: ButtonState
 ) => `cap-button-${appearance}-${state}`;
 
-const hoverSelectors = buttonAppearances.map((appearance) => `#${stateId(appearance, 'hover')}`);
-const activeSelectors = buttonAppearances.map((appearance) => `#${stateId(appearance, 'active')}`);
-const focusSelectors = buttonAppearances.map((appearance) => `#${stateId(appearance, 'focus')}`);
+const hoverSelectors = buttonAppearances.map(
+  (appearance) => `#${stateId(appearance, 'hover')}`
+);
+const activeSelectors = buttonAppearances.map(
+  (appearance) => `#${stateId(appearance, 'active')}`
+);
+const focusSelectors = buttonAppearances.map(
+  (appearance) => `#${stateId(appearance, 'focus')}`
+);
 
 export const CAPButtonStory = ({
   disabledFocusable = false,
@@ -70,7 +76,14 @@ export const CAPButtonStory = ({
           title: 'States Overview',
           render() {
             return (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', padding: '32px 24px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '32px',
+                  padding: '32px 24px',
+                }}
+              >
                 {buttonAppearances.map((appearance) => {
                   return (
                     <div
@@ -81,7 +94,15 @@ export const CAPButtonStory = ({
                         gap: '24px',
                       }}
                     >
-                      <div style={{ fontWeight: 600, textTransform: 'capitalize', width: '100px', textAlign: 'right', margin: '0 24px 0 0' }}>
+                      <div
+                        style={{
+                          fontWeight: 600,
+                          textTransform: 'capitalize',
+                          width: '100px',
+                          textAlign: 'right',
+                          margin: '0 24px 0 0',
+                        }}
+                      >
                         {appearance}
                       </div>
                       <Button
