@@ -22,7 +22,13 @@ const buttonAppearances = [
   'tint',
 ] as const satisfies readonly ButtonAppearance[];
 
-const buttonStates = ['default', 'hover', 'active', 'focus', 'disabled'] as const;
+const buttonStates = [
+  'default',
+  'hover',
+  'active',
+  'focus',
+  'disabled',
+] as const;
 
 const stateId = (
   appearance: (typeof buttonAppearances)[number],
@@ -53,7 +59,9 @@ export const CAPButtonStory = ({
       const hoverButton = document.getElementById(stateId(appearance, 'hover'));
       hoverButton?.classList.add('pseudo-hover');
 
-      const activeButton = document.getElementById(stateId(appearance, 'active'));
+      const activeButton = document.getElementById(
+        stateId(appearance, 'active')
+      );
       activeButton?.classList.add('pseudo-hover', 'pseudo-active');
 
       const focusButton = document.getElementById(stateId(appearance, 'focus'));
@@ -71,7 +79,14 @@ export const CAPButtonStory = ({
           title: 'States Overview',
           render() {
             return (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', padding: '32px 24px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '32px',
+                  padding: '32px 24px',
+                }}
+              >
                 {buttonAppearances.map((appearance) => {
                   return (
                     <div
@@ -82,7 +97,15 @@ export const CAPButtonStory = ({
                         gap: '24px',
                       }}
                     >
-                      <div style={{ fontWeight: 600, textTransform: 'capitalize', width: '100px', textAlign: 'right', margin: '0 24px 0 0' }}>
+                      <div
+                        style={{
+                          fontWeight: 600,
+                          textTransform: 'capitalize',
+                          width: '100px',
+                          textAlign: 'right',
+                          margin: '0 24px 0 0',
+                        }}
+                      >
                         {appearance}
                       </div>
                       <Button
@@ -141,9 +164,15 @@ export const CAPButtonStory = ({
 
 CAPButtonStory.parameters = {
   pseudo: {
-    hover: buttonAppearances.map((appearance) => `#${stateId(appearance, 'hover')}`),
-    active: buttonAppearances.map((appearance) => `#${stateId(appearance, 'active')}`),
-    focusVisible: buttonAppearances.map((appearance) => `#${stateId(appearance, 'focus')}`),
+    hover: buttonAppearances.map(
+      (appearance) => `#${stateId(appearance, 'hover')}`
+    ),
+    active: buttonAppearances.map(
+      (appearance) => `#${stateId(appearance, 'active')}`
+    ),
+    focusVisible: buttonAppearances.map(
+      (appearance) => `#${stateId(appearance, 'focus')}`
+    ),
   },
 };
 

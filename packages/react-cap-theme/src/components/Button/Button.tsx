@@ -17,7 +17,6 @@ import type {
   ButtonState,
 } from './Button.types';
 
-
 /**
  * Buttons give people a way to trigger an action.
  */
