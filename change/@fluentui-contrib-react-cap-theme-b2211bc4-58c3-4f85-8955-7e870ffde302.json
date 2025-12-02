@@ -1,7 +1,0 @@
-{
-  "type": "none",
-  "comment": "Update react-cap-theme structure to follow new guidelines",
-  "packageName": "@fluentui-contrib/react-cap-theme",
-  "email": "dzukowski@microsoft.com",
-  "dependentChangeType": "none"
-}

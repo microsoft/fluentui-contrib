@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-draggable-dialog",
   "entries": [
     {
+      "date": "Tue, 02 Dec 2025 13:14:00 GMT",
+      "tag": "@fluentui-contrib/react-draggable-dialog_v0.2.4",
+      "version": "0.2.4",
+      "comments": {
+        "patch": [
+          {
+            "author": "marcosvmmoura@gmail.com",
+            "package": "@fluentui-contrib/react-draggable-dialog",
+            "commit": "360c89e816564f1cd06c804c6afcfe2d38cf20b5",
+            "comment": "fix: improve initial position calculation performance"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 18 Nov 2025 14:32:44 GMT",
       "tag": "@fluentui-contrib/react-draggable-dialog_v0.2.3",
       "version": "0.2.3",

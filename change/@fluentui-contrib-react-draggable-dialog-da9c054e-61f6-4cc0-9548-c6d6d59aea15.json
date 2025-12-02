@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: improve initial position calculation performance",
-  "packageName": "@fluentui-contrib/react-draggable-dialog",
-  "email": "marcosvmmoura@gmail.com",
-  "dependentChangeType": "patch"
-}
