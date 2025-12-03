@@ -37,6 +37,9 @@ export function formatCAPTokenCssVar(varName: string): string {
  */
 const FluentExtendedTokens = {
   'fluent-ext/borderRadius2XLarge': { type: 'dimension' },
+  'fluent-ext/brandForegroundCompound': { type: 'color' },
+  // reason we need this token is the fluent version has value of "0" instead of "0px", which causes issues in CSS var usage
+  'fluent-ext/spacingHorizontalNone': { type: 'dimension' },
 } as const satisfies Record<AllowedTokenName, TokenSchema>;
 
 /**
@@ -48,7 +51,42 @@ const ControlTokens = {
 } as const satisfies Record<AllowedTokenName, TokenSchema>;
 
 const BadgeTokens = {
-  'fixme/ctrl/badge/color-brand-foreground-compound': { type: 'color' },
+  'cap/badge-xl/corner-rounded': { type: 'dimension' },
+  'cap/badge-l/corner-rounded': { type: 'dimension' },
+  'cap/badge-xl/padding': { type: 'dimension' },
+  'cap/badge-l/padding': { type: 'dimension' },
+  'cap/badge-m/padding': { type: 'dimension' },
+  'cap/badge-s/padding': { type: 'dimension' },
+  'cap/badge-s/gap': { type: 'dimension' },
+  'cap/badge-s/gap-toSecondaryIcon': { type: 'dimension' },
+  'cap/badge/brand/outlined/stroke': { type: 'color' },
+  'cap/badge/brand/tint/foreground': { type: 'color' },
+  'cap/badge/brand/tint/iconColor': { type: 'color' },
+  'cap/badge/brand/ghost/foreground': { type: 'color' },
+  'cap/badge/brand/ghost/iconColor': { type: 'color' },
+  'cap/badge/danger/outlined/stroke': { type: 'color' },
+  'cap/badge/warning/filled/background': { type: 'color' },
+  'cap/badge/warning/filled/iconColor': { type: 'color' },
+  'cap/badge/warning/filled/foreground': { type: 'color' },
+  'cap/badge/warning/outlined/stroke': { type: 'color' },
+  'cap/badge/success/outlined/stroke': { type: 'color' },
+  'cap/badge/informative/outlined/stroke': { type: 'color' },
+  'cap/badge/informative/tint/background': { type: 'color' },
+  'cap/badge/informative/tint/stroke': { type: 'color' },
+  'cap/badge/important/filled/background': { type: 'color' },
+  'cap/badge/important/filled/foreground': { type: 'color' },
+  'cap/badge/important/filled/iconColor': { type: 'color' },
+  'cap/badge/important/outlined/stroke': { type: 'color' },
+  'cap/badge/important/tint/background': { type: 'color' },
+  'cap/badge/important/tint/foreground': { type: 'color' },
+  'cap/badge/important/tint/iconColor': { type: 'color' },
+  'cap/badge/important/tint/stroke': { type: 'color' },
+  'cap/badge/subtle/filled/background': { type: 'color' },
+  'cap/badge/subtle/filled/foreground': { type: 'color' },
+  'cap/badge/subtle/filled/iconColor': { type: 'color' },
+  'cap/badge/subtle/outlined/foreground': { type: 'color' },
+  'cap/badge/subtle/outlined/iconColor': { type: 'color' },
+  'cap/badge/subtle/tint/stroke': { type: 'color' },
 } as const satisfies Record<AllowedTokenName, TokenSchema>;
 
 const ButtonTokens = {
@@ -117,14 +155,55 @@ export type CAPTheme = {
 export const CAP_THEME_DEFAULTS = {
   // fluent-ext
   'fluent-ext/borderRadius2XLarge': '12px',
+  'fluent-ext/brandForegroundCompound': '#03787C',
+  'fluent-ext/spacingHorizontalNone': '0px',
 
   // smtc/v1
   'smtc/v1/ctrl/corner/rest': CAP_TOKENS['fluent-ext/borderRadius2XLarge'],
 
   // badge
-  // TODO: switch to BrandForegroundCompound when available
-  'fixme/ctrl/badge/color-brand-foreground-compound':
-    tokens.colorBrandForeground1,
+  'cap/badge-xl/corner-rounded': tokens.borderRadiusXLarge,
+  'cap/badge-l/corner-rounded': tokens.borderRadiusLarge,
+  'cap/badge-xl/padding': tokens.spacingHorizontalS,
+  'cap/badge-l/padding': tokens.spacingHorizontalSNudge,
+  'cap/badge-m/padding': tokens.spacingHorizontalSNudge,
+  'cap/badge-s/padding': tokens.spacingHorizontalXS,
+  'cap/badge-s/gap': CAP_TOKENS['fluent-ext/spacingHorizontalNone'],
+  'cap/badge-s/gap-toSecondaryIcon':
+    CAP_TOKENS['fluent-ext/spacingHorizontalNone'],
+  'cap/badge/brand/outlined/stroke': tokens.colorBrandStroke2,
+  'cap/badge/brand/tint/foreground':
+    CAP_TOKENS['fluent-ext/brandForegroundCompound'],
+  'cap/badge/brand/tint/iconColor':
+    CAP_TOKENS['fluent-ext/brandForegroundCompound'],
+  'cap/badge/brand/ghost/foreground':
+    CAP_TOKENS['fluent-ext/brandForegroundCompound'],
+  'cap/badge/brand/ghost/iconColor':
+    CAP_TOKENS['fluent-ext/brandForegroundCompound'],
+  'cap/badge/danger/outlined/stroke': tokens.colorStatusDangerBorder1,
+  'cap/badge/warning/filled/background': tokens.colorStatusWarningBackground3,
+  'cap/badge/warning/filled/iconColor': tokens.colorNeutralForegroundOnBrand,
+  'cap/badge/warning/filled/foreground': tokens.colorNeutralForegroundOnBrand,
+  'cap/badge/warning/outlined/stroke': tokens.colorStatusWarningBorder1,
+  'cap/badge/success/outlined/stroke': tokens.colorStatusSuccessBorder1,
+  'cap/badge/informative/outlined/stroke': tokens.colorNeutralStroke1,
+  'cap/badge/informative/tint/background': tokens.colorNeutralBackground5,
+  'cap/badge/informative/tint/stroke': tokens.colorNeutralStroke1,
+  'cap/badge/important/filled/background':
+    tokens.colorNeutralBackgroundInverted,
+  'cap/badge/important/filled/foreground': tokens.colorNeutralForegroundOnBrand,
+  'cap/badge/important/filled/iconColor': tokens.colorNeutralForegroundOnBrand,
+  'cap/badge/important/outlined/stroke': tokens.colorNeutralStroke1,
+  'cap/badge/important/tint/background': tokens.colorNeutralBackground5,
+  'cap/badge/important/tint/foreground': tokens.colorNeutralForeground3,
+  'cap/badge/important/tint/iconColor': tokens.colorNeutralForeground3,
+  'cap/badge/important/tint/stroke': tokens.colorNeutralStroke1,
+  'cap/badge/subtle/filled/background': tokens.colorNeutralBackground5,
+  'cap/badge/subtle/filled/foreground': tokens.colorNeutralForeground3,
+  'cap/badge/subtle/filled/iconColor': tokens.colorNeutralForeground3,
+  'cap/badge/subtle/outlined/foreground': tokens.colorNeutralForeground3,
+  'cap/badge/subtle/outlined/iconColor': tokens.colorNeutralForeground3,
+  'cap/badge/subtle/tint/stroke': tokens.colorNeutralStroke1,
 
   // button
   'fixme/ctrl/button/corner-radius': CAP_TOKENS['smtc/v1/ctrl/corner/rest'],
