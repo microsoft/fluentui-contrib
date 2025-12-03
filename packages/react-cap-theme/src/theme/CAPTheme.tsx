@@ -37,7 +37,9 @@ export function formatCAPTokenCssVar(varName: string): string {
  */
 const FluentExtendedTokens = {
   'fluent-ext/borderRadius2XLarge': { type: 'dimension' },
-  'fluent-ext/BrandForegroundCompound': { type: 'color' },
+  'fluent-ext/brandForegroundCompound': { type: 'color' },
+  // reason we need this token is the fluent version has value of "0" instead of "0px", which causes issues in CSS var usage
+  'fluent-ext/spacingHorizontalNone': { type: 'dimension' },
 } as const satisfies Record<AllowedTokenName, TokenSchema>;
 
 /**
@@ -153,7 +155,8 @@ export type CAPTheme = {
 export const CAP_THEME_DEFAULTS = {
   // fluent-ext
   'fluent-ext/borderRadius2XLarge': '12px',
-  'fluent-ext/BrandForegroundCompound': '#03787C',
+  'fluent-ext/brandForegroundCompound': '#03787C',
+  'fluent-ext/spacingHorizontalNone': '0px',
 
   // smtc/v1
   'smtc/v1/ctrl/corner/rest': CAP_TOKENS['fluent-ext/borderRadius2XLarge'],
@@ -165,17 +168,18 @@ export const CAP_THEME_DEFAULTS = {
   'cap/badge-l/padding': tokens.spacingHorizontalSNudge,
   'cap/badge-m/padding': tokens.spacingHorizontalSNudge,
   'cap/badge-s/padding': tokens.spacingHorizontalXS,
-  'cap/badge-s/gap': tokens.spacingHorizontalXXS,
-  'cap/badge-s/gap-toSecondaryIcon': tokens.spacingHorizontalXXS,
+  'cap/badge-s/gap': CAP_TOKENS['fluent-ext/spacingHorizontalNone'],
+  'cap/badge-s/gap-toSecondaryIcon':
+    CAP_TOKENS['fluent-ext/spacingHorizontalNone'],
   'cap/badge/brand/outlined/stroke': tokens.colorBrandStroke2,
   'cap/badge/brand/tint/foreground':
-    CAP_TOKENS['fluent-ext/BrandForegroundCompound'],
+    CAP_TOKENS['fluent-ext/brandForegroundCompound'],
   'cap/badge/brand/tint/iconColor':
-    CAP_TOKENS['fluent-ext/BrandForegroundCompound'],
+    CAP_TOKENS['fluent-ext/brandForegroundCompound'],
   'cap/badge/brand/ghost/foreground':
-    CAP_TOKENS['fluent-ext/BrandForegroundCompound'],
+    CAP_TOKENS['fluent-ext/brandForegroundCompound'],
   'cap/badge/brand/ghost/iconColor':
-    CAP_TOKENS['fluent-ext/BrandForegroundCompound'],
+    CAP_TOKENS['fluent-ext/brandForegroundCompound'],
   'cap/badge/danger/outlined/stroke': tokens.colorStatusDangerBorder1,
   'cap/badge/warning/filled/background': tokens.colorStatusWarningBackground3,
   'cap/badge/warning/filled/iconColor': tokens.colorNeutralForegroundOnBrand,

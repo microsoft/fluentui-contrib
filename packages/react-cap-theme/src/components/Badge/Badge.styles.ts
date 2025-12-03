@@ -116,14 +116,10 @@ export const useBadgeStyles = makeStyles({
 
 const useBadgeIconStyles = makeStyles({
   beforeTextSmall: {
-    // Should use calc(${CAP_TOKENS['cap/badge-s/gap']}px + ${textPadding}) but for some reason it is not working
-    // as CAP_TOKENS['cap/badge-s/gap'] points to '0' instead of '0px'
-    marginRight: textPadding,
+    marginRight: `calc(${CAP_TOKENS['cap/badge-s/gap']} + ${textPadding})`,
   },
   afterTextSmall: {
-    // Should use calc(${CAP_TOKENS['cap/badge-s/gap-toSecondaryIcon']}px + ${textPadding}) but for some reason it is not working
-    // as CAP_TOKENS['cap/badge-s/gap-toSecondaryIcon'] points to '0' instead of '0px'
-    marginLeft: textPadding,
+    marginLeft: `calc(${CAP_TOKENS['cap/badge-s/gap-toSecondaryIcon']} + ${textPadding})`,
   },
 });
 
