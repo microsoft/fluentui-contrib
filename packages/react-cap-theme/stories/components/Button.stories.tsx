@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, type ButtonProps } from '@fluentui/react-components';
+import { Button, type ButtonProps } from '@fluentui-contrib/react-cap-theme';
 import { CAPThemeExamples, useCAPThemeSelection } from '../StorybookUtils';
 import {
   bundleIcon,
