@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "Add CAP Button tint appearance and export the button/types from react-cap-theme.",
+  "packageName": "@fluentui-contrib/react-cap-theme",
+  "email": "olkatruk@microsoft.com",
+  "dependentChangeType": "patch"
+}
