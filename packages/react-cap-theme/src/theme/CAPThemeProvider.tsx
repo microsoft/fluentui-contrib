@@ -5,9 +5,17 @@ import {
   CardFooterState,
   CardHeaderState,
   CardState,
+  DrawerBodyState,
+  DrawerFooterState,
+  DrawerHeaderNavigationState,
+  DrawerHeaderState,
+  DrawerHeaderTitleState,
+  DrawerState,
   FluentProvider,
   FluentProviderProps,
   InputState,
+  InlineDrawerState,
+  OverlayDrawerState,
   type Theme,
 } from '@fluentui/react-components';
 
@@ -18,6 +26,14 @@ import { useInputStylesHook } from '../components/Input/Input.styles';
 import { useCardStylesHook } from '../components/Card/Card.styles';
 import { useCardHeaderStylesHook } from '../components/Card/CardHeader.styles';
 import { useCardFooterStylesHook } from '../components/Card/CardFooter.styles';
+import { useDrawerStylesHook } from '../components/Drawer/Drawer.styles';
+import { useDrawerBodyStylesHook } from '../components/Drawer/DrawerBody.styles';
+import { useDrawerHeaderStylesHook } from '../components/Drawer/DrawerHeader.styles';
+import { useDrawerHeaderTitleStylesHook } from '../components/Drawer/DrawerHeaderTitle.styles';
+import { useDrawerHeaderNavigationStylesHook } from '../components/Drawer/DrawerHeaderNavigation.styles';
+import { useDrawerFooterStylesHook } from '../components/Drawer/DrawerFooter.styles';
+import { useInlineDrawerStylesHook } from '../components/Drawer/InlineDrawer.styles';
+import { useOverlayDrawerStylesHook } from '../components/Drawer/OverlayDrawer.styles';
 
 const customStyleHooks: NonNullable<
   FluentProviderProps['customStyleHooks_unstable']
@@ -30,6 +46,26 @@ const customStyleHooks: NonNullable<
     useCardHeaderStylesHook(state as CardHeaderState),
   useCardFooterStyles_unstable: (state) =>
     useCardFooterStylesHook(state as CardFooterState),
+  useDrawerStyles_unstable: (state) =>
+    useDrawerStylesHook(state as DrawerState),
+  useOverlayDrawerStyles_unstable: (state) =>
+    useOverlayDrawerStylesHook(state as OverlayDrawerState),
+  useDrawerOverlayStyles_unstable: (state) =>
+    useOverlayDrawerStylesHook(state as OverlayDrawerState),
+  useInlineDrawerStyles_unstable: (state) =>
+    useInlineDrawerStylesHook(state as InlineDrawerState),
+  useDrawerInlineStyles_unstable: (state) =>
+    useInlineDrawerStylesHook(state as InlineDrawerState),
+  useDrawerBodyStyles_unstable: (state) =>
+    useDrawerBodyStylesHook(state as DrawerBodyState),
+  useDrawerHeaderStyles_unstable: (state) =>
+    useDrawerHeaderStylesHook(state as DrawerHeaderState),
+  useDrawerHeaderTitleStyles_unstable: (state) =>
+    useDrawerHeaderTitleStylesHook(state as DrawerHeaderTitleState),
+  useDrawerHeaderNavigationStyles_unstable: (state) =>
+    useDrawerHeaderNavigationStylesHook(state as DrawerHeaderNavigationState),
+  useDrawerFooterStyles_unstable: (state) =>
+    useDrawerFooterStylesHook(state as DrawerFooterState),
   useInputStyles_unstable: (state) => useInputStylesHook(state as InputState),
 };
 

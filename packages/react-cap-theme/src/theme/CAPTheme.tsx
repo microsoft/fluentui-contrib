@@ -1,6 +1,6 @@
 import { tokens } from '@fluentui/react-components';
 
-type TokenType = 'color' | 'dimension';
+type TokenType = 'color' | 'dimension' | 'shadow' | 'alignment';
 
 export interface TokenSchema {
   type: TokenType;
@@ -37,6 +37,7 @@ export function formatCAPTokenCssVar(varName: string): string {
  */
 const FluentExtendedTokens = {
   'fluent-ext/borderRadius2XLarge': { type: 'dimension' },
+  'fluent-ext/borderRadius3XLarge': { type: 'dimension' },
 } as const satisfies Record<AllowedTokenName, TokenSchema>;
 
 /**
@@ -94,6 +95,22 @@ const TooltipTokens = {} as const satisfies Record<
   TokenSchema
 >;
 
+const DrawerTokens = {
+  'cap/ctrl/flyout/base-corner': { type: 'dimension' },
+  'cap/ctrl/flyout/Elevation': { type: 'shadow' },
+  'smtc/v1/ctrl/flyout/header/paddingTop': { type: 'dimension' },
+  'smtc/v1/ctrl/flyout/header/Padding-Left': { type: 'dimension' },
+  'fixme/ctrl/drawer/header/padding-bottom': { type: 'dimension' },
+  'smtc/v1/ctrl/flyout/header/Padding-Right': { type: 'dimension' },
+  'cap/ctrl/flyout/body-Padding-Left': { type: 'dimension' },
+  'cap/ctrl/flyout/body-Padding-Right': { type: 'dimension' },
+  'cap/ctrl/flyout/Footer-Padding-top': { type: 'dimension' },
+  'cap/ctrl/flyout/Footer-Padding-bottom': { type: 'dimension' },
+  'cap/ctrl/flyout/footer-Padding-Left': { type: 'dimension' },
+  'cap/ctrl/flyout/footer-Padding-Right': { type: 'dimension' },
+  'fixme/ctrl/drawer/footer/content-alignment': { type: 'alignment'}
+} as const satisfies Record<AllowedTokenName, TokenSchema>;
+
 export const CAPTokensSchema = {
   ...FluentExtendedTokens,
   ...ControlTokens,
@@ -104,6 +121,7 @@ export const CAPTokensSchema = {
   ...InputTokens,
   ...MenuTokens,
   ...TooltipTokens,
+  ...DrawerTokens
 } as const satisfies { [key: AllowedTokenName]: TokenSchema };
 
 export const CAP_TOKENS = Object.keys(CAPTokensSchema).reduce((acc, key) => {
@@ -117,6 +135,7 @@ export type CAPTheme = {
 export const CAP_THEME_DEFAULTS = {
   // fluent-ext
   'fluent-ext/borderRadius2XLarge': '12px',
+  'fluent-ext/borderRadius3XLarge': '16px',
 
   // smtc/v1
   'smtc/v1/ctrl/corner/rest': CAP_TOKENS['fluent-ext/borderRadius2XLarge'],
@@ -156,6 +175,22 @@ export const CAP_THEME_DEFAULTS = {
   'fixme/ctrl/card/header-padding-outside': tokens.spacingVerticalM,
   'fixme/ctrl/card/header-padding-inside': tokens.spacingVerticalS,
   'fixme/ctrl/card/footer-horizontal-gap': tokens.spacingHorizontalS,
+
+  // drawer
+  // Notes: Component Drawer at design specs and in code, tokens are using 'flyout'
+  'cap/ctrl/flyout/base-corner': CAP_TOKENS['fluent-ext/borderRadius3XLarge'],
+  'cap/ctrl/flyout/Elevation': tokens.shadow2,
+  'smtc/v1/ctrl/flyout/header/paddingTop': tokens.spacingVerticalL,
+  'smtc/v1/ctrl/flyout/header/Padding-Left': tokens.spacingHorizontalXL,
+  'fixme/ctrl/drawer/header/padding-bottom': '12px', // Not exist in design specs and in tokens
+  'smtc/v1/ctrl/flyout/header/Padding-Right': tokens.spacingHorizontalXL, // layout is different, required different value from design spec tokens.spacingHorizontalMNudge
+  'cap/ctrl/flyout/body-Padding-Left': tokens.spacingHorizontalXL,
+  'cap/ctrl/flyout/body-Padding-Right': tokens.spacingHorizontalXL,
+  'cap/ctrl/flyout/Footer-Padding-top': tokens.spacingVerticalXXL,
+  'cap/ctrl/flyout/Footer-Padding-bottom': tokens.spacingVerticalXL,
+  'cap/ctrl/flyout/footer-Padding-Left': tokens.spacingHorizontalXL,
+  'cap/ctrl/flyout/footer-Padding-Right': tokens.spacingHorizontalXL,
+  'fixme/ctrl/drawer/footer/content-alignment': 'flex-end'
 } as const satisfies CAPTheme;
 
 export const CAP_THEME_TEAMS = {
