@@ -17,11 +17,7 @@ const drawerBodyText = [
   'Eum aliquid aperiam, laborum labore excepturi nisi odio deserunt facilis error. Mollitia dolor quidem a.',
 ].join(' ');
 
-const DrawerContent = ({
-  onClose,
-}: {
-  onClose: () => void;
-}) => (
+const DrawerContent = ({ onClose }: { onClose: () => void }) => (
   <>
     <DrawerHeader>
       <DrawerHeaderTitle
@@ -37,7 +33,11 @@ const DrawerContent = ({
         Title goes here
       </DrawerHeaderTitle>
     </DrawerHeader>
-    <DrawerBody tabIndex={0} role="group" aria-label="Example scrolling content">
+    <DrawerBody
+      tabIndex={0}
+      role="group"
+      aria-label="Example scrolling content"
+    >
       {drawerBodyText}
     </DrawerBody>
     <DrawerFooter>
@@ -75,14 +75,18 @@ const PositionExample = ({
   );
 };
 
-export const CAPDrawerStory = ({ size, position }: { size: DrawerProps['size'], position: DrawerProps['position'] }) => {
+export const CAPDrawerStory = ({
+  size,
+  position,
+}: {
+  size: DrawerProps['size'];
+  position: DrawerProps['position'];
+}) => {
   return (
     <CAPThemeExamples
       examples={[
         {
-          render: () => (
-            <PositionExample size={size} position={position} />
-          ),
+          render: () => <PositionExample size={size} position={position} />,
         },
       ]}
     />

@@ -146,7 +146,7 @@ const DrawerTokens = {
   'cap/ctrl/flyout/Footer-Padding-bottom': { type: 'dimension' },
   'cap/ctrl/flyout/footer-Padding-Left': { type: 'dimension' },
   'cap/ctrl/flyout/footer-Padding-Right': { type: 'dimension' },
-  'fixme/ctrl/drawer/footer/content-alignment': { type: 'alignment'}
+  'fixme/ctrl/drawer/footer/content-alignment': { type: 'alignment' },
 } as const satisfies Record<AllowedTokenName, TokenSchema>;
 
 export const CAPTokensSchema = {
@@ -159,7 +159,7 @@ export const CAPTokensSchema = {
   ...InputTokens,
   ...MenuTokens,
   ...TooltipTokens,
-  ...DrawerTokens
+  ...DrawerTokens,
 } as const satisfies { [key: AllowedTokenName]: TokenSchema };
 
 export const CAP_TOKENS = Object.keys(CAPTokensSchema).reduce((acc, key) => {
@@ -269,7 +269,7 @@ export const CAP_THEME_DEFAULTS = {
   'cap/ctrl/flyout/Footer-Padding-bottom': tokens.spacingVerticalXL,
   'cap/ctrl/flyout/footer-Padding-Left': tokens.spacingHorizontalXL,
   'cap/ctrl/flyout/footer-Padding-Right': tokens.spacingHorizontalXL,
-  'fixme/ctrl/drawer/footer/content-alignment': 'flex-end'
+  'fixme/ctrl/drawer/footer/content-alignment': 'flex-end',
 } as const satisfies CAPTheme;
 
 export const CAP_THEME_TEAMS = {

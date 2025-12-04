@@ -8,6 +8,7 @@ import { CAP_TOKENS } from '../../theme/CAPTheme';
 export const useDrawerStyles = makeStyles({
   root: {
     borderRadius: CAP_TOKENS['cap/ctrl/flyout/base-corner'],
+    boxShadow: CAP_TOKENS['cap/ctrl/flyout/Elevation'],
   },
 });
 
