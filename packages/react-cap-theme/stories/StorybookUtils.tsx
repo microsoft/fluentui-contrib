@@ -94,7 +94,9 @@ export const CAPThemeExamples = ({
       <div className={styles.themeLabel}>Showing: {selectedTheme.label}</div>
       {examples.map((example) => (
         <div className={styles.row} key={example.title}>
-          {example.title && (<div className={styles.example}>{example.title}</div>)}
+          {example.title && (
+            <div className={styles.example}>{example.title}</div>
+          )}
           <div className={styles.rendered}>
             {renderExample(example, selectedTheme.variant)}
           </div>

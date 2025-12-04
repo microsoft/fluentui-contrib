@@ -25,7 +25,10 @@ export function useDrawerHeaderTitleStylesHook(
   }
 
   if (state.action) {
-    state.action.className = mergeClasses(state.action.className, styles.action);
+    state.action.className = mergeClasses(
+      state.action.className,
+      styles.action
+    );
   }
 
   return state;

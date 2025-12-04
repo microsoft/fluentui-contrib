@@ -9,7 +9,7 @@ import { CAP_TOKENS } from '../../theme/CAPTheme';
 export const useDrawerBodyStyles = makeStyles({
   root: {
     paddingLeft: CAP_TOKENS['cap/ctrl/flyout/body-Padding-Left'],
-    paddingRight: CAP_TOKENS['cap/ctrl/flyout/body-Padding-Right']
+    paddingRight: CAP_TOKENS['cap/ctrl/flyout/body-Padding-Right'],
   },
 });
 

@@ -6,7 +6,6 @@ import {
 
 export const useOverlayDrawerStyles = makeStyles({
   root: {},
-  backdrop: {},
 });
 
 export function useOverlayDrawerStylesHook(
@@ -15,11 +14,6 @@ export function useOverlayDrawerStylesHook(
   const styles = useOverlayDrawerStyles();
 
   state.root.className = mergeClasses(state.root.className, styles.root);
-
-  const backdrop = state.root.backdrop;
-  if (backdrop) {
-    backdrop.className = mergeClasses(backdrop.className, styles.backdrop);
-  }
 
   return state;
 }
