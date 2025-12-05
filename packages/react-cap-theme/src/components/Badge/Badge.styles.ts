@@ -6,9 +6,14 @@ import {
   type BadgeState,
   useBadgeStyles_unstable,
 } from '@fluentui/react-components';
+import * as React from 'react';
 
 import { CAP_TOKENS } from '../../theme/CAPTheme';
 
+// Copied from Fluent's badge.styles.ts: we are only overriding a few styles, we don't want to break the styles we don't override
+// so we follow the existing pattern here
+// The text content of the badge has additional horizontal padding, but there is no `text` slot to add that padding to.
+// Instead, add extra padding to the root, and a negative margin on the icon to "remove" the extra padding on the icon.
 const textPadding = tokens.spacingHorizontalXXS;
 
 export const useBadgeStyles = makeStyles({
@@ -142,16 +147,19 @@ export function useBadgeStylesHook(state: BadgeState): BadgeState {
       styles[`${state.appearance}-${state.color}` as keyof typeof styles]
   );
 
-  // Override icon spacing for small size
-  if (state.icon && state.size === 'small') {
-    const iconPositionClass =
-      state.iconPosition === 'after'
-        ? iconStyles.afterTextSmall
-        : iconStyles.beforeTextSmall;
-    state.icon.className = mergeClasses(
-      state.icon.className,
-      iconPositionClass
-    );
+  // Copied from Fluent: Handle the edge case where children is 0 (a falsy value that should still render text and have margin)
+  if (React.Children.toArray(state.root.children).length > 0) {
+    // Override icon spacing for small size
+    if (state.icon && state.size === 'small') {
+      const iconPositionClass =
+        state.iconPosition === 'after'
+          ? iconStyles.afterTextSmall
+          : iconStyles.beforeTextSmall;
+      state.icon.className = mergeClasses(
+        state.icon.className,
+        iconPositionClass
+      );
+    }
   }
 
   return state;
