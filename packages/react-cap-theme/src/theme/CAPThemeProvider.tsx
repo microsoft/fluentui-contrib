@@ -33,19 +33,27 @@ const customStyleHooks: NonNullable<
   useInputStyles_unstable: (state) => useInputStylesHook(state as InputState),
 };
 
+type CAPThemeProviderProps = Omit<
+  FluentProviderProps,
+  'theme' | 'customStyleHooks_unstable'
+> & {
+  theme: Partial<Theme> & Partial<CAPTheme>;
+};
 export const CAPThemeProvider = ({
   children,
   theme: _theme,
-}: {
-  children: React.ReactNode;
-  theme: Partial<Theme> & Partial<CAPTheme>;
-}): React.ReactElement => {
+  ...rest
+}: CAPThemeProviderProps): React.ReactElement => {
   const theme: Record<string, string | number | null> = {};
   for (const [key, value] of Object.entries(_theme)) {
     theme[formatCAPTokenCssVar(key)] = value;
   }
   return (
-    <FluentProvider theme={theme} customStyleHooks_unstable={customStyleHooks}>
+    <FluentProvider
+      theme={theme}
+      customStyleHooks_unstable={customStyleHooks}
+      {...rest}
+    >
       {children}
     </FluentProvider>
   );
