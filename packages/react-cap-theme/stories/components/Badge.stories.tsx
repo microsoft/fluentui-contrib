@@ -8,6 +8,12 @@ export const CAPBadgeStory = () => {
     <CAPThemeExamplesTable
       examples={[
         {
+          title: 'Is it the bug? Right margin space issue',
+          render() {
+            return <Badge size="small" color='informative' shape='rounded' appearance='filled' icon={<CircleRegular />} />;
+          },
+        },
+        {
           title: 'Tiny',
           render() {
             return <Badge size="tiny" icon={<CircleRegular />} />;

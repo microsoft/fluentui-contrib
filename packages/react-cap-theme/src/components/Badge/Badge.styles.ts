@@ -121,10 +121,10 @@ export const useBadgeStyles = makeStyles({
 
 const useBadgeIconStyles = makeStyles({
   beforeTextSmall: {
-    marginRight: `calc(${CAP_TOKENS['cap/badge-s/gap']} + ${textPadding})`,
+    marginRight: `${textPadding})`,
   },
   afterTextSmall: {
-    marginLeft: `calc(${CAP_TOKENS['cap/badge-s/gap-toSecondaryIcon']} + ${textPadding})`,
+    marginLeft: `${textPadding})`,
   },
 });
 
