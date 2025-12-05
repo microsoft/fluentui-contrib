@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "Generated files for Label component",
+  "packageName": "@fluentui-contrib/react-cap-theme",
+  "email": "olkatruk@microsoft.com",
+  "dependentChangeType": "patch"
+}
