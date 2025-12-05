@@ -2,6 +2,6 @@
   "type": "minor",
   "comment": "update CAPThemeProvider props structure",
   "packageName": "@fluentui-contrib/react-cap-theme",
-  "email": "dima.steiteyeh@gmail.com",
+  "email": "dimasteite@microsoft.com",
   "dependentChangeType": "patch"
 }
