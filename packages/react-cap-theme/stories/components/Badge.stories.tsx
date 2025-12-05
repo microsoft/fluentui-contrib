@@ -411,6 +411,20 @@ export const CAPBadgeStory = () => {
             );
           },
         },
+        {
+          title: 'Small Icon only badge',
+          render() {
+            return (
+              <Badge
+                size="small"
+                color="informative"
+                shape="rounded"
+                appearance="filled"
+                icon={<CircleRegular />}
+              />
+            );
+          },
+        },
       ]}
     />
   );
