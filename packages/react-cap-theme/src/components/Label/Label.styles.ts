@@ -1,11 +1,26 @@
 import {
   makeStyles,
   mergeClasses,
+  tokens,
   type LabelState,
 } from '@fluentui/react-components';
 
 export const useLabelStyles = makeStyles({
-  root: {},
+  root: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: tokens.spacingHorizontalXS,
+  },
+  startSlot: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  content: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: tokens.spacingHorizontalXXS,
+  },
 });
 
 export function useLabelStylesHook(state: LabelState): LabelState {

@@ -9,3 +9,5 @@ export type {
   ButtonProps,
   ButtonState,
 } from './components/Button/Button.types';
+export { Label } from './components/Label/Label';
+export type { LabelProps, LabelState } from './components/Label/Label.types';
