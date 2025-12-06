@@ -1,0 +1,400 @@
+diff --git a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js
+index 38e04fb..355d7a7 100644
+--- a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js
++++ b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.development.js
+@@ -113,13 +113,14 @@
+         if ("fulfilled" === moduleExports.status)
+           moduleExports = moduleExports.value;
+         else throw moduleExports.reason;
+-      return "*" === metadata[2]
+-        ? moduleExports
+-        : "" === metadata[2]
+-          ? moduleExports.__esModule
+-            ? moduleExports.default
+-            : moduleExports
+-          : moduleExports[metadata[2]];
++      if ("*" === metadata[2]) return moduleExports;
++      if ("" === metadata[2])
++        return moduleExports.__esModule ? moduleExports.default : moduleExports;
++        
++          
++            
++            if (hasOwnProperty.call(moduleExports, metadata[2]))
++          return moduleExports[metadata[2]];
+     }
+     function loadChunk(chunkId, filename) {
+       chunkMap.set(chunkId, filename);
+diff --git a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.production.js b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.production.js
+index 7a5db2b..f18da9d 100644
+--- a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.production.js
++++ b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.browser.production.js
+@@ -100,13 +100,14 @@ function requireModule(metadata) {
+     if ("fulfilled" === moduleExports.status)
+       moduleExports = moduleExports.value;
+     else throw moduleExports.reason;
+-  return "*" === metadata[2]
+-    ? moduleExports
+-    : "" === metadata[2]
+-      ? moduleExports.__esModule
+-        ? moduleExports.default
+-        : moduleExports
+-      : moduleExports[metadata[2]];
++  if ("*" === metadata[2]) return moduleExports;
++      if ("" === metadata[2])
++    return moduleExports.__esModule ? moduleExports.default : moduleExports;
++    
++      
++        
++        if (hasOwnProperty.call(moduleExports, metadata[2]))
++      return moduleExports[metadata[2]];
+ }
+ var chunkMap = new Map(),
+   webpackGetChunkFilename = __webpack_require__.u;
+diff --git a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.edge.development.js b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.edge.development.js
+index 68f5c64..37d2254 100644
+--- a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.edge.development.js
++++ b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.edge.development.js
+@@ -113,13 +113,14 @@
+         if ("fulfilled" === moduleExports.status)
+           moduleExports = moduleExports.value;
+         else throw moduleExports.reason;
+-      return "*" === metadata[2]
+-        ? moduleExports
+-        : "" === metadata[2]
+-          ? moduleExports.__esModule
+-            ? moduleExports.default
+-            : moduleExports
+-          : moduleExports[metadata[2]];
++      if ("*" === metadata[2]) return moduleExports;
++      if ("" === metadata[2])
++        return moduleExports.__esModule ? moduleExports.default : moduleExports;
++        
++          
++            
++            if (hasOwnProperty.call(moduleExports, metadata[2]))
++          return moduleExports[metadata[2]];
+     }
+     function prepareDestinationWithChunks(
+       moduleLoading,
+diff --git a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.edge.production.js b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.edge.production.js
+index 1697da4..d247b47 100644
+--- a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.edge.production.js
++++ b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.edge.production.js
+@@ -99,13 +99,14 @@ function requireModule(metadata) {
+     if ("fulfilled" === moduleExports.status)
+       moduleExports = moduleExports.value;
+     else throw moduleExports.reason;
+-  return "*" === metadata[2]
+-    ? moduleExports
+-    : "" === metadata[2]
+-      ? moduleExports.__esModule
+-        ? moduleExports.default
+-        : moduleExports
+-      : moduleExports[metadata[2]];
++  if ("*" === metadata[2]) return moduleExports;
++      if ("" === metadata[2])
++    return moduleExports.__esModule ? moduleExports.default : moduleExports;
++    
++      
++        
++        if (hasOwnProperty.call(moduleExports, metadata[2]))
++      return moduleExports[metadata[2]];
+ }
+ function prepareDestinationWithChunks(moduleLoading, chunks, nonce$jscomp$0) {
+   if (null !== moduleLoading)
+diff --git a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.node.development.js b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.node.development.js
+index d58cdc6..54589f6 100644
+--- a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.node.development.js
++++ b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.node.development.js
+@@ -113,13 +113,14 @@
+         if ("fulfilled" === moduleExports.status)
+           moduleExports = moduleExports.value;
+         else throw moduleExports.reason;
+-      return "*" === metadata[2]
+-        ? moduleExports
+-        : "" === metadata[2]
+-          ? moduleExports.__esModule
+-            ? moduleExports.default
+-            : moduleExports
+-          : moduleExports[metadata[2]];
++      if ("*" === metadata[2]) return moduleExports;
++      if ("" === metadata[2])
++        return moduleExports.__esModule ? moduleExports.default : moduleExports;
++        
++          
++            
++            if (hasOwnProperty.call(moduleExports, metadata[2]))
++          return moduleExports[metadata[2]];
+     }
+     function prepareDestinationWithChunks(
+       moduleLoading,
+diff --git a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.node.production.js b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.node.production.js
+index d71dac3..a0a1b76 100644
+--- a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.node.production.js
++++ b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.node.production.js
+@@ -100,13 +100,14 @@ function requireModule(metadata) {
+     if ("fulfilled" === moduleExports.status)
+       moduleExports = moduleExports.value;
+     else throw moduleExports.reason;
+-  return "*" === metadata[2]
+-    ? moduleExports
+-    : "" === metadata[2]
+-      ? moduleExports.__esModule
+-        ? moduleExports.default
+-        : moduleExports
+-      : moduleExports[metadata[2]];
++  if ("*" === metadata[2]) return moduleExports;
++      if ("" === metadata[2])
++    return moduleExports.__esModule ? moduleExports.default : moduleExports;
++    
++      
++        
++        if (hasOwnProperty.call(moduleExports, metadata[2]))
++      return moduleExports[metadata[2]];
+ }
+ function prepareDestinationWithChunks(moduleLoading, chunks, nonce$jscomp$0) {
+   if (null !== moduleLoading)
+diff --git a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.node.unbundled.development.js b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.node.unbundled.development.js
+index 1011b77..6371209 100644
+--- a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.node.unbundled.development.js
++++ b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.node.unbundled.development.js
+@@ -77,11 +77,12 @@
+       if ("fulfilled" === moduleExports.status)
+         moduleExports = moduleExports.value;
+       else throw moduleExports.reason;
+-      return "*" === metadata.name
+-        ? moduleExports
+-        : "" === metadata.name
+-          ? moduleExports.default
+-          : moduleExports[metadata.name];
++      if ("*" === metadata.name) return moduleExports;
++        if ("" === metadata.name) return moduleExports.default;
++        
++          
++          if (hasOwnProperty.call(moduleExports, metadata.name))
++          return moduleExports[metadata.name];
+     }
+     function prepareDestinationWithChunks(
+       moduleLoading,
+diff --git a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.node.unbundled.production.js b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.node.unbundled.production.js
+index 26c69d7..9df6599 100644
+--- a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.node.unbundled.production.js
++++ b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-client.node.unbundled.production.js
+@@ -67,11 +67,12 @@ function requireModule(metadata) {
+   var moduleExports = asyncModuleCache.get(metadata.specifier);
+   if ("fulfilled" === moduleExports.status) moduleExports = moduleExports.value;
+   else throw moduleExports.reason;
+-  return "*" === metadata.name
+-    ? moduleExports
+-    : "" === metadata.name
+-      ? moduleExports.default
+-      : moduleExports[metadata.name];
++  if ("*" === metadata.name) return moduleExports;
++    if ("" === metadata.name) return moduleExports.default;
++    
++      
++      if (hasOwnProperty.call(moduleExports, metadata.name))
++          return moduleExports[metadata.name];
+ }
+ function prepareDestinationWithChunks(moduleLoading, chunks, nonce$jscomp$0) {
+   if (null !== moduleLoading)
+diff --git a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.browser.development.js b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.browser.development.js
+index 77b814b..47b41de 100644
+--- a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.browser.development.js
++++ b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.browser.development.js
+@@ -2500,13 +2500,14 @@
+         if ("fulfilled" === moduleExports.status)
+           moduleExports = moduleExports.value;
+         else throw moduleExports.reason;
+-      return "*" === metadata[2]
+-        ? moduleExports
+-        : "" === metadata[2]
+-          ? moduleExports.__esModule
+-            ? moduleExports.default
+-            : moduleExports
+-          : moduleExports[metadata[2]];
++      if ("*" === metadata[2]) return moduleExports;
++      if ("" === metadata[2])
++        return moduleExports.__esModule ? moduleExports.default : moduleExports;
++        
++          
++            
++            if (hasOwnProperty.call(moduleExports, metadata[2]))
++          return moduleExports[metadata[2]];
+     }
+     function loadChunk(chunkId, filename) {
+       chunkMap.set(chunkId, filename);
+diff --git a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.browser.production.js b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.browser.production.js
+index 0f4e7e1..4f17dc8 100644
+--- a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.browser.production.js
++++ b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.browser.production.js
+@@ -1988,13 +1988,14 @@ function requireModule(metadata) {
+     if ("fulfilled" === moduleExports.status)
+       moduleExports = moduleExports.value;
+     else throw moduleExports.reason;
+-  return "*" === metadata[2]
+-    ? moduleExports
+-    : "" === metadata[2]
+-      ? moduleExports.__esModule
+-        ? moduleExports.default
+-        : moduleExports
+-      : moduleExports[metadata[2]];
++  if ("*" === metadata[2]) return moduleExports;
++      if ("" === metadata[2])
++    return moduleExports.__esModule ? moduleExports.default : moduleExports;
++    
++      
++        
++        if (hasOwnProperty.call(moduleExports, metadata[2]))
++      return moduleExports[metadata[2]];
+ }
+ var chunkMap = new Map(),
+   webpackGetChunkFilename = __webpack_require__.u;
+diff --git a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.edge.development.js b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.edge.development.js
+index 1e5dcac..7dd155c 100644
+--- a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.edge.development.js
++++ b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.edge.development.js
+@@ -2538,13 +2538,14 @@
+         if ("fulfilled" === moduleExports.status)
+           moduleExports = moduleExports.value;
+         else throw moduleExports.reason;
+-      return "*" === metadata[2]
+-        ? moduleExports
+-        : "" === metadata[2]
+-          ? moduleExports.__esModule
+-            ? moduleExports.default
+-            : moduleExports
+-          : moduleExports[metadata[2]];
++      if ("*" === metadata[2]) return moduleExports;
++      if ("" === metadata[2])
++        return moduleExports.__esModule ? moduleExports.default : moduleExports;
++        
++          
++            
++            if (hasOwnProperty.call(moduleExports, metadata[2]))
++          return moduleExports[metadata[2]];
+     }
+     function Chunk(status, value, reason, response) {
+       this.status = status;
+diff --git a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.edge.production.js b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.edge.production.js
+index 56541a6..0694aff 100644
+--- a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.edge.production.js
++++ b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.edge.production.js
+@@ -1998,13 +1998,14 @@ function requireModule(metadata) {
+     if ("fulfilled" === moduleExports.status)
+       moduleExports = moduleExports.value;
+     else throw moduleExports.reason;
+-  return "*" === metadata[2]
+-    ? moduleExports
+-    : "" === metadata[2]
+-      ? moduleExports.__esModule
+-        ? moduleExports.default
+-        : moduleExports
+-      : moduleExports[metadata[2]];
++  if ("*" === metadata[2]) return moduleExports;
++      if ("" === metadata[2])
++    return moduleExports.__esModule ? moduleExports.default : moduleExports;
++    
++      
++        
++        if (hasOwnProperty.call(moduleExports, metadata[2]))
++      return moduleExports[metadata[2]];
+ }
+ var hasOwnProperty = Object.prototype.hasOwnProperty;
+ function Chunk(status, value, reason, response) {
+diff --git a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.node.development.js b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.node.development.js
+index ca68edf..b4764ce 100644
+--- a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.node.development.js
++++ b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.node.development.js
+@@ -2549,13 +2549,14 @@
+         if ("fulfilled" === moduleExports.status)
+           moduleExports = moduleExports.value;
+         else throw moduleExports.reason;
+-      return "*" === metadata[2]
+-        ? moduleExports
+-        : "" === metadata[2]
+-          ? moduleExports.__esModule
+-            ? moduleExports.default
+-            : moduleExports
+-          : moduleExports[metadata[2]];
++      if ("*" === metadata[2]) return moduleExports;
++      if ("" === metadata[2])
++        return moduleExports.__esModule ? moduleExports.default : moduleExports;
++        
++          
++            
++            if (hasOwnProperty.call(moduleExports, metadata[2]))
++          return moduleExports[metadata[2]];
+     }
+     function Chunk(status, value, reason, response) {
+       this.status = status;
+diff --git a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.node.production.js b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.node.production.js
+index 8b66037..c516326 100644
+--- a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.node.production.js
++++ b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.node.production.js
+@@ -2034,13 +2034,14 @@ function requireModule(metadata) {
+     if ("fulfilled" === moduleExports.status)
+       moduleExports = moduleExports.value;
+     else throw moduleExports.reason;
+-  return "*" === metadata[2]
+-    ? moduleExports
+-    : "" === metadata[2]
+-      ? moduleExports.__esModule
+-        ? moduleExports.default
+-        : moduleExports
+-      : moduleExports[metadata[2]];
++  if ("*" === metadata[2]) return moduleExports;
++      if ("" === metadata[2])
++    return moduleExports.__esModule ? moduleExports.default : moduleExports;
++    
++      
++        
++        if (hasOwnProperty.call(moduleExports, metadata[2]))
++      return moduleExports[metadata[2]];
+ }
+ var hasOwnProperty = Object.prototype.hasOwnProperty;
+ function Chunk(status, value, reason, response) {
+diff --git a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.node.unbundled.development.js b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.node.unbundled.development.js
+index e89068b..b2ad9cc 100644
+--- a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.node.unbundled.development.js
++++ b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.node.unbundled.development.js
+@@ -2514,11 +2514,12 @@
+       if ("fulfilled" === moduleExports.status)
+         moduleExports = moduleExports.value;
+       else throw moduleExports.reason;
+-      return "*" === metadata.name
+-        ? moduleExports
+-        : "" === metadata.name
+-          ? moduleExports.default
+-          : moduleExports[metadata.name];
++      if ("*" === metadata.name) return moduleExports;
++        if ("" === metadata.name) return moduleExports.default;
++        
++          
++          if (hasOwnProperty.call(moduleExports, metadata.name))
++          return moduleExports[metadata.name];
+     }
+     function Chunk(status, value, reason, response) {
+       this.status = status;
+diff --git a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.node.unbundled.production.js b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.node.unbundled.production.js
+index 7f1c634..e75078a 100644
+--- a/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.node.unbundled.production.js
++++ b/node_modules/@modern-js/utils/dist/compiled/react-server-dom-webpack/cjs/react-server-dom-webpack-server.node.unbundled.production.js
+@@ -2002,11 +2002,12 @@ function requireModule(metadata) {
+   var moduleExports = asyncModuleCache.get(metadata.specifier);
+   if ("fulfilled" === moduleExports.status) moduleExports = moduleExports.value;
+   else throw moduleExports.reason;
+-  return "*" === metadata.name
+-    ? moduleExports
+-    : "" === metadata.name
+-      ? moduleExports.default
+-      : moduleExports[metadata.name];
++  if ("*" === metadata.name) return moduleExports;
++    if ("" === metadata.name) return moduleExports.default;
++    
++      
++      if (hasOwnProperty.call(moduleExports, metadata.name))
++          return moduleExports[metadata.name];
+ }
+ var hasOwnProperty = Object.prototype.hasOwnProperty;
+ function Chunk(status, value, reason, response) {
