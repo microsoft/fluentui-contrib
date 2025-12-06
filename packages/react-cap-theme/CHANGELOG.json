@@ -2,6 +2,55 @@
   "name": "@fluentui-contrib/react-cap-theme",
   "entries": [
     {
+      "date": "Sat, 06 Dec 2025 20:35:40 GMT",
+      "tag": "@fluentui-contrib/react-cap-theme_v0.2.0",
+      "version": "0.2.0",
+      "comments": {
+        "none": [
+          {
+            "author": "yizhang9@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "5fa83f76bb4519ca0802b6ba68c53949e86afbf9",
+            "comment": "[CAP-theme] apply new placeholder names to badge component"
+          },
+          {
+            "author": "yizhang9@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "642ad96385a861f138df703750102214d56c5adb",
+            "comment": "[CAP-theme] fix icon only small badge margin"
+          },
+          {
+            "author": "dzukowski@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "e19132c6317610a2244ec96b75f07361816e1b51",
+            "comment": "Organize fluent-ext and control tokens"
+          },
+          {
+            "author": "a.katrukhin@gmail.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "75d450e5fd85a34296396603ec5108fd4dd35dce",
+            "comment": "feat: Enhance Storybook configuration for react-cap-theme by adding CAP theme selection and integrating root decorators."
+          }
+        ],
+        "patch": [
+          {
+            "author": "olkatruk@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "1405b3993e58a3b6ffb4fda5ea42deffbd73062c",
+            "comment": "Add CAP Button tint appearance and export the button/types from react-cap-theme."
+          }
+        ],
+        "minor": [
+          {
+            "author": "dimasteite@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "3b741bdb62aa111e662dc0b88a935ff1e114b182",
+            "comment": "update CAPThemeProvider props structure"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 02 Dec 2025 13:14:00 GMT",
       "tag": "@fluentui-contrib/react-cap-theme_v0.1.0",
       "version": "0.1.0",

@@ -1,7 +1,0 @@
-{
-  "type": "none",
-  "comment": "Organize fluent-ext and control tokens",
-  "packageName": "@fluentui-contrib/react-cap-theme",
-  "email": "dzukowski@microsoft.com",
-  "dependentChangeType": "none"
-}

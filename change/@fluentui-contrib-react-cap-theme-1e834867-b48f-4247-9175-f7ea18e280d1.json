@@ -1,7 +1,0 @@
-{
-  "type": "none",
-  "comment": "[CAP-theme] apply new placeholder names to badge component",
-  "packageName": "@fluentui-contrib/react-cap-theme",
-  "email": "yizhang9@microsoft.com",
-  "dependentChangeType": "none"
-}

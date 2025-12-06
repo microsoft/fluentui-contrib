@@ -1,7 +1,0 @@
-{
-  "type": "none",
-  "comment": "feat: Enhance Storybook configuration for react-cap-theme by adding CAP theme selection and integrating root decorators.",
-  "packageName": "@fluentui-contrib/react-cap-theme",
-  "email": "a.katrukhin@gmail.com",
-  "dependentChangeType": "none"
-}

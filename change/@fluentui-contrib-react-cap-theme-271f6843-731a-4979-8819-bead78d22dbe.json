@@ -1,7 +1,0 @@
-{
-  "type": "none",
-  "comment": "[CAP-theme] fix icon only small badge margin",
-  "packageName": "@fluentui-contrib/react-cap-theme",
-  "email": "yizhang9@microsoft.com",
-  "dependentChangeType": "none"
-}
