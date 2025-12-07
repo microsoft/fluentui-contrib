@@ -12,14 +12,10 @@ export const useLabelStyles = makeStyles({
     gap: tokens.spacingHorizontalXS,
   },
   startSlot: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginRight: tokens.spacingHorizontalXXS,
   },
-  content: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: tokens.spacingHorizontalXXS,
+  required: {
+    paddingLeft: 0,
   },
 });
 
@@ -27,6 +23,12 @@ export function useLabelStylesHook(state: LabelState): LabelState {
   const styles = useLabelStyles();
 
   state.root.className = mergeClasses(state.root.className, styles.root);
+  if (state.required) {
+    state.required.className = mergeClasses(
+      state.required.className,
+      styles.required
+    );
+  }
 
   return state;
 }

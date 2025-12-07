@@ -10,14 +10,16 @@ import { useLabelStyles } from './Label.styles';
 import type { LabelProps } from './Label.types';
 
 const defaultStart = (
-  <Badge appearance="ghost" shape="rounded" size="medium" icon={<CircleRegular />} />
+  <Badge
+    appearance="ghost"
+    shape="rounded"
+    size="medium"
+    icon={<CircleRegular />}
+  />
 );
 
 export const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
-  (
-    { badge, showBadge = false, children, className, ...rest },
-    ref
-  ) => {
+  ({ badge, showBadge = false, children, className, ...rest }, ref) => {
     const styles = useLabelStyles();
     const badgeContent = badge ?? (showBadge ? defaultStart : null);
 
