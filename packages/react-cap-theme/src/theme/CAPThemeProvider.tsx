@@ -5,6 +5,7 @@ import {
   CardFooterState,
   CardHeaderState,
   CardState,
+  FieldState,
   LabelState,
   FluentProvider,
   FluentProviderProps,
@@ -20,6 +21,7 @@ import { useCardStylesHook } from '../components/Card/Card.styles';
 import { useCardHeaderStylesHook } from '../components/Card/CardHeader.styles';
 import { useCardFooterStylesHook } from '../components/Card/CardFooter.styles';
 import { useLabelStylesHook } from '../components/Label/Label.styles';
+import { useFieldStylesHook } from '../components/Field/Field.styles';
 
 const customStyleHooks: NonNullable<
   FluentProviderProps['customStyleHooks_unstable']
@@ -34,6 +36,7 @@ const customStyleHooks: NonNullable<
     useCardFooterStylesHook(state as CardFooterState),
   useInputStyles_unstable: (state) => useInputStylesHook(state as InputState),
   useLabelStyles_unstable: (state) => useLabelStylesHook(state as LabelState),
+  useFieldStyles_unstable: (state) => useFieldStylesHook(state as FieldState),
 };
 
 type CAPThemeProviderProps = Omit<

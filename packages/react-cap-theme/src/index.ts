@@ -9,5 +9,7 @@ export type {
   ButtonProps,
   ButtonState,
 } from './components/Button/Button.types';
+export { Field } from './components/Field/Field';
+export type { FieldProps, FieldState } from './components/Field/Field.types';
 export { Label } from './components/Label/Label';
 export type { LabelProps, LabelState } from './components/Label/Label.types';
