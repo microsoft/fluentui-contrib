@@ -43,7 +43,7 @@ describe('create-package generator', () => {
           "package.json",
           "project.json",
           "tsconfig.spec.json",
-          "jest.config.ts",
+          "jest.config.cts",
           "eslint.config.js",
         ]
       `);
@@ -61,10 +61,10 @@ describe('create-package generator', () => {
       const config = readProjectConfiguration(tree, 'test');
 
       expect(
-        tree.read(joinPathFragments(config.root, 'jest.config.ts'), 'utf-8')
+        tree.read(joinPathFragments(config.root, 'jest.config.cts'), 'utf-8')
       ).toMatchInlineSnapshot(`
         "/* eslint-disable */
-        import { readFileSync } from 'fs';
+        const { readFileSync } = require('fs');
 
         // Reading the SWC compilation config and remove the "exclude"
         // for the test files to be compiled by SWC
@@ -83,7 +83,7 @@ describe('create-package generator', () => {
         // jest needs EsModule Interop to find the default exported setup/teardown functions
         // swcJestConfig.module.noInterop = false;
 
-        export default {
+        module.exports = {
           displayName: 'test',
           preset: '../../jest.preset.js',
           transform: {
@@ -106,7 +106,7 @@ describe('create-package generator', () => {
         {
           "executor": "@nx/jest:jest",
           "options": {
-            "jestConfig": "packages/test/jest.config.ts",
+            "jestConfig": "packages/test/jest.config.cts",
             "passWithNoTests": true,
           },
           "outputs": [
