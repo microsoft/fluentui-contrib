@@ -128,8 +128,12 @@ export const CAPThemeExamplesTable = ({
   const themesToShow = [
     selectedConfig,
     CAP_THEMES.teams,
-    CAP_THEMES.onedrive,
-    CAP_THEMES.sharepoint,
+
+    // We intentionally don't show these other themes in the side-by-side comparison tables.
+    // They currently look exactly the same as the Teams theme, so they eat up horizontal
+    // space without adding any value.
+    // CAP_THEMES.onedrive,
+    // CAP_THEMES.sharepoint,
   ];
 
   return (
