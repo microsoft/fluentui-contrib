@@ -3222,10 +3222,10 @@
     "@swc/helpers" "^0.5.17"
     esbuild "0.25.5"
 
-"@modern-js/utils@2.68.2":
-  version "2.68.2"
-  resolved "https://registry.yarnpkg.com/@modern-js/utils/-/utils-2.68.2.tgz#25a1b8d8c3a76543bf344b977de8414563883e01"
-  integrity sha512-revom/i/EhKfI0STNLo/AUbv7gY0JY0Ni2gO6P/Z4cTyZZRgd5j90678YB2DGn+LtmSrEWtUphyDH5Jn1RKjgg==
+"@modern-js/utils@2.68.2", "@modern-js/utils@2.69.3":
+  version "2.69.3"
+  resolved "https://registry.yarnpkg.com/@modern-js/utils/-/utils-2.69.3.tgz#3da6cbd4abf7dc1fdaea99e1ea0ce39c8ca7072e"
+  integrity sha512-CTN1jF6laX/pnz8Z/xzCLW3kxbyLvXpQCHf1eBeGb4I1K4v76vW1JaHU0dxWag23l64ZfSPQbU//QevqHnzT2g==
   dependencies:
     "@swc/helpers" "^0.5.17"
     caniuse-lite "^1.0.30001520"
