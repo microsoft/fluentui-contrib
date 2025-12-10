@@ -37,10 +37,11 @@ export function formatCAPTokenCssVar(varName: string): string {
  */
 const FluentExtendedTokens = {
   'fluent-ext/borderRadius2XLarge': { type: 'dimension' },
-  'fluent-ext/brandForegroundCompound': { type: 'color' },
+  'fluent-ext/borderRadius3XLarge': { type: 'dimension' },
+  'fluent-ext/borderRadius2XXLarge': { type: 'dimension' },
   // reason we need this token is the fluent version has value of "0" instead of "0px", which causes issues in CSS var usage
   'fluent-ext/spacingHorizontalNone': { type: 'dimension' },
-  'fluent-ext/borderRadius3XLarge': { type: 'dimension' },
+  'fluent-ext/brandForegroundCompound': { type: 'color' },
 } as const satisfies Record<AllowedTokenName, TokenSchema>;
 
 /**
@@ -119,10 +120,12 @@ const CardTokens = {
   'fixme/ctrl/card/footer-horizontal-gap': { type: 'dimension' },
 } as const satisfies Record<AllowedTokenName, TokenSchema>;
 
-const DialogTokens = {} as const satisfies Record<
-  AllowedTokenName,
-  TokenSchema
->;
+const DialogTokens = {
+  'cap/Dialog/Corner': { type: 'dimension' },
+  'cap/Dialog/Header/Gap': { type: 'dimension' },
+  'cap/Dialog/strokeColor': { type: 'color' },
+  'cap/Dialog/strokeWidth': { type: 'dimension' },
+} as const satisfies Record<AllowedTokenName, TokenSchema>;
 
 const InputTokens = {} as const satisfies Record<AllowedTokenName, TokenSchema>;
 
@@ -172,10 +175,11 @@ export type CAPTheme = {
 
 export const CAP_THEME_DEFAULTS = {
   // fluent-ext
-  'fluent-ext/borderRadius2XLarge': '12px',
   'fluent-ext/brandForegroundCompound': '#03787C',
   'fluent-ext/spacingHorizontalNone': '0px',
+  'fluent-ext/borderRadius2XLarge': '12px',
   'fluent-ext/borderRadius3XLarge': '16px',
+  'fluent-ext/borderRadius2XXLarge': '24px',
 
   // smtc/v1
   'smtc/v1/ctrl/corner/rest': CAP_TOKENS['fluent-ext/borderRadius2XLarge'],
@@ -223,6 +227,13 @@ export const CAP_THEME_DEFAULTS = {
   'cap/badge/subtle/outlined/foreground': tokens.colorNeutralForeground3,
   'cap/badge/subtle/outlined/iconColor': tokens.colorNeutralForeground3,
   'cap/badge/subtle/tint/stroke': tokens.colorNeutralStroke1,
+
+  // dialog
+  'cap/Dialog/Corner': CAP_TOKENS['fluent-ext/borderRadius2XXLarge'],
+  'cap/Dialog/Header/Gap': tokens.spacingVerticalL,
+  'cap/Dialog/strokeColor': tokens.colorNeutralStroke3,
+  // Note: the strokeWidthThin token was 1px and now it is also 1px, but defined here for clarity as it is in Diff section in figma
+  'cap/Dialog/strokeWidth': tokens.strokeWidthThin,
 
   // button
   'fixme/ctrl/button/corner-radius': CAP_TOKENS['smtc/v1/ctrl/corner/rest'],

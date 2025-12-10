@@ -5,6 +5,8 @@ import {
   CardFooterState,
   CardHeaderState,
   CardState,
+  DialogBodyState,
+  DialogSurfaceState,
   DrawerBodyState,
   DrawerFooterState,
   DrawerHeaderNavigationState,
@@ -26,6 +28,7 @@ import { useInputStylesHook } from '../components/Input/Input.styles';
 import { useCardStylesHook } from '../components/Card/Card.styles';
 import { useCardHeaderStylesHook } from '../components/Card/CardHeader.styles';
 import { useCardFooterStylesHook } from '../components/Card/CardFooter.styles';
+import { useDialogBodyStylesHook } from '../components/Dialog/DialogBody.styles';
 import { useDrawerStylesHook } from '../components/Drawer/Drawer.styles';
 import { useDrawerBodyStylesHook } from '../components/Drawer/DrawerBody.styles';
 import { useDrawerHeaderStylesHook } from '../components/Drawer/DrawerHeader.styles';
@@ -34,6 +37,7 @@ import { useDrawerHeaderNavigationStylesHook } from '../components/Drawer/Drawer
 import { useDrawerFooterStylesHook } from '../components/Drawer/DrawerFooter.styles';
 import { useInlineDrawerStylesHook } from '../components/Drawer/InlineDrawer.styles';
 import { useOverlayDrawerStylesHook } from '../components/Drawer/OverlayDrawer.styles';
+import { useDialogSurfaceStylesHook } from '../components/Dialog/DialogSurface.styles';
 
 const customStyleHooks: NonNullable<
   FluentProviderProps['customStyleHooks_unstable']
@@ -46,6 +50,10 @@ const customStyleHooks: NonNullable<
     useCardHeaderStylesHook(state as CardHeaderState),
   useCardFooterStyles_unstable: (state) =>
     useCardFooterStylesHook(state as CardFooterState),
+  useDialogBodyStyles_unstable: (state) =>
+    useDialogBodyStylesHook(state as DialogBodyState),
+  useDialogSurfaceStyles_unstable: (state) =>
+    useDialogSurfaceStylesHook(state as DialogSurfaceState),
   useDrawerStyles_unstable: (state) =>
     useDrawerStylesHook(state as DrawerState),
   useOverlayDrawerStyles_unstable: (state) =>
