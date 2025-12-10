@@ -72,8 +72,3 @@ export const CAPDialogStory = () => {
     />
   );
 };
-
-export default {
-  title: 'CAP Theme/Components/Dialog',
-  component: CAPDialogStory,
-};

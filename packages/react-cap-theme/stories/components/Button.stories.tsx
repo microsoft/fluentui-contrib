@@ -34,7 +34,7 @@ const focusSelectors = buttonAppearances.map(
   (appearance) => `#${stateId(appearance, 'focus')}`
 );
 
-export const CAPButtonStory = ({
+export const CAPButtonWithCtrlsStory = ({
   disabledFocusable = false,
   iconPosition = 'before',
   shape = 'rounded',
@@ -159,7 +159,7 @@ export const CAPButtonStory = ({
   );
 };
 
-CAPButtonStory.parameters = {
+CAPButtonWithCtrlsStory.parameters = {
   pseudo: {
     // Keep pressed buttons hovered too since older Button styles rely on :hover:active
     hover: [...hoverSelectors, ...activeSelectors],
@@ -168,7 +168,7 @@ CAPButtonStory.parameters = {
   },
 };
 
-CAPButtonStory.argTypes = {
+CAPButtonWithCtrlsStory.argTypes = {
   disabledFocusable: {
     control: false,
     table: { disable: true },
@@ -187,7 +187,7 @@ CAPButtonStory.argTypes = {
   },
 };
 
-CAPButtonStory.args = {
+CAPButtonWithCtrlsStory.args = {
   disabledFocusable: false,
   iconPosition: 'before',
   shape: 'rounded',
