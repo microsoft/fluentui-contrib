@@ -8,7 +8,8 @@ export { CAPDrawerStory as Drawer } from './components/Drawer.stories';
 export { CAPInputStory as Input } from './components/Input.stories';
 export { CAPMenuStory as Menu } from './components/Menu.stories';
 export { CAPTooltipStory as Tooltip } from './components/Tooltip.stories';
-export { CAPDialogStory as Dialog } from './components/Dialog.stories';
+export { CAPDialogStory as Dialog } from './components/Dialog/WithTable';
+export { CAPDialogWithCtrlsStory as DialogWithControls } from './components/Dialog/WithControls.stories';
 
 const VisualRefreshStory = () => <div />;
 

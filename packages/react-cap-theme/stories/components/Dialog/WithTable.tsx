@@ -9,7 +9,7 @@ import {
   DialogContent,
   Button,
 } from '@fluentui/react-components';
-import { CAPThemeExamplesTable } from '../StorybookUtils';
+import { CAPThemeExamplesTable } from '../../StorybookUtils';
 
 export const CAPDialogStory = () => {
   return (
