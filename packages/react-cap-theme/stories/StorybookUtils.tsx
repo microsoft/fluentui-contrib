@@ -12,7 +12,7 @@ import {
 } from '@fluentui-contrib/react-cap-theme';
 
 export interface CAPThemeExample {
-  title: string;
+  title?: string;
   render(variant: 'v9' | 'cap'): React.ReactElement | 'NOT_IMPLEMENTED';
 }
 
@@ -94,7 +94,9 @@ export const CAPThemeExamples = ({
       <div className={styles.themeLabel}>Showing: {selectedTheme.label}</div>
       {examples.map((example) => (
         <div className={styles.row} key={example.title}>
-          <div className={styles.example}>{example.title}</div>
+          {example.title && (
+            <div className={styles.example}>{example.title}</div>
+          )}
           <div className={styles.rendered}>
             {renderExample(example, selectedTheme.variant)}
           </div>
