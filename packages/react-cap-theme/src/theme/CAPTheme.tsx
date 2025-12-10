@@ -123,8 +123,8 @@ const CardTokens = {
 const DialogTokens = {
   'cap/Dialog/Corner': { type: 'dimension' },
   'cap/Dialog/Header/Gap': { type: 'dimension' },
-  'cap/Dialog/strokeColor': { type: 'color' },
   'cap/Dialog/strokeWidth': { type: 'dimension' },
+  'cap/Dialog/strokeColor': { type: 'color' },
 } as const satisfies Record<AllowedTokenName, TokenSchema>;
 
 const InputTokens = {} as const satisfies Record<AllowedTokenName, TokenSchema>;
