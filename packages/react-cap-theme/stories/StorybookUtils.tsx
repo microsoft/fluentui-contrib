@@ -14,6 +14,7 @@ import {
 export interface CAPThemeExample {
   title?: string;
   render(variant: 'v9' | 'cap'): React.ReactElement | 'NOT_IMPLEMENTED';
+  note?: string;
 }
 
 const CAP_THEMES = {
@@ -100,6 +101,7 @@ export const CAPThemeExamples = ({
           <div className={styles.rendered}>
             {renderExample(example, selectedTheme.variant)}
           </div>
+          {example.note && <div className={styles.note}>{example.note}</div>}
         </div>
       ))}
     </div>
@@ -148,6 +150,7 @@ export const CAPThemeExamplesTable = ({
               {idx === 0 ? 'Current' : config.label}
             </div>
           ))}
+          <div style={{ fontWeight: 800 }}>Note</div>
         </div>
         {examples.map((example, index) => {
           return (
@@ -164,6 +167,13 @@ export const CAPThemeExamplesTable = ({
                   )}
                 </div>
               ))}
+              <div className={styles.noteColumn}>
+                {example.note && (
+                  <span style={{ fontStyle: 'italic', color: '#666' }}>
+                    {example.note}
+                  </span>
+                )}
+              </div>
             </div>
           );
         })}
@@ -203,6 +213,10 @@ const useCAPThemeExamplesStyles = makeStyles({
     minWidth: '200px',
     fontWeight: 600,
   },
+  note: {
+    minWidth: '200px',
+    fontWeight: 600,
+  },
   rendered: {
     flex: 1,
     '& > div': {
@@ -219,9 +233,20 @@ const useCAPThemeExamplesTableStyles = makeStyles({
   row: {
     display: 'flex',
     '& > div': {
-      flex: 1,
+      flex: 2,
       padding: '16px',
       border: '1px solid #ddd',
     },
+    '& > div:first-child': {
+      flex: 1,
+    },
+    '& > div:last-child': {
+      flex: 1,
+    },
+  },
+  noteColumn: {
+    flex: 1,
+    padding: '16px',
+    border: '1px solid #ddd',
   },
 });

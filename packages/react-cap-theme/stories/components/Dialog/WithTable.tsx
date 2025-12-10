@@ -17,6 +17,7 @@ export const CAPDialogStory = () => {
       examples={[
         {
           title: 'Dialog body only with no overlay',
+          note: 'This example shows the DialogBody component used standalone, without the Dialog wrapper or overlay. So border changes will not be visible here',
           render() {
             return (
               <DialogBody>
