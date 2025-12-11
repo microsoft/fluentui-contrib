@@ -18,6 +18,12 @@ type AllowedTokenName =
   // This token doesn't follow any known structure and needs to be fixed.
   | `fixme/${string}`;
 
+/**
+ * @param varName - The token name (e.g., 'cap/badge-xl/padding')
+ * @returns The formatted CSS variable name (e.g., 'cap-badge-xl-padding')
+ * @remarks Temporarily using dashes instead of escaped slashes to avoid CSS escaping issues in Griffel.
+ * This is a workaround until the underlying Griffel issue is resolved.
+ */
 export function formatCAPTokenCssVar(varName: string): string {
   return varName.replace(/\//g, '-');
 }
