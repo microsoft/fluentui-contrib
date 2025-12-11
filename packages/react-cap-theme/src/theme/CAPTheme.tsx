@@ -19,7 +19,7 @@ type AllowedTokenName =
   | `fixme/${string}`;
 
 export function formatCAPTokenCssVar(varName: string): string {
-  return varName.replace(/\//g, '\\/');
+  return varName.replace(/\//g, '-');
 }
 
 /**
