@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Badge } from '@fluentui/react-components';
-import { CAPThemeExamplesTable } from '../StorybookUtils';
+import { CAPThemeExamplesTable } from '../../StorybookUtils';
 import { CircleRegular } from '@fluentui/react-icons';
 
 export const CAPBadgeStory = () => {

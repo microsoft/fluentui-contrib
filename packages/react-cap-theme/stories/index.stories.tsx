@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Meta } from '@storybook/react';
 
-export { CAPBadgeStory as Badge } from './components/Badge.stories';
+export { CAPBadgeStory as Badge } from './components/Badge/WithTable.stories';
+export { CAPBadgeWithCtrlsStory as BadgeWithControls } from './components/Badge/WithControls.stories';
 export { CAPButtonWithCtrlsStory as ButtonWithControls } from './components/Button.stories';
 export { CAPCardStory as Card } from './components/Card.stories';
 export { CAPDialogStory as Dialog } from './components/Dialog/WithTable';
