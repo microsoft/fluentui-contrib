@@ -75,7 +75,7 @@ const PositionExample = ({
   );
 };
 
-export const CAPDrawerStory = ({
+export const CAPDrawerWithCtrlsStory = ({
   size,
   position,
 }: {
@@ -93,7 +93,7 @@ export const CAPDrawerStory = ({
   );
 };
 
-CAPDrawerStory.argTypes = {
+CAPDrawerWithCtrlsStory.argTypes = {
   size: {
     options: ['small', 'medium', 'large', 'full'],
     control: { type: 'radio' },
@@ -104,7 +104,7 @@ CAPDrawerStory.argTypes = {
   },
 };
 
-CAPDrawerStory.args = {
+CAPDrawerWithCtrlsStory.args = {
   size: 'small',
   position: 'end',
 };
