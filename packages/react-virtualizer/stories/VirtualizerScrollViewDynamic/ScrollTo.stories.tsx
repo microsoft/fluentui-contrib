@@ -76,6 +76,7 @@ export const ScrollTo = (): JSXElement => {
         getItemSize={getItemSizeCallback}
         imperativeRef={scrollRef}
         imperativeVirtualizerRef={sizeRef}
+        enableScrollToCorrections
         container={{
           role: 'list',
           'aria-label': `Virtualized list with ${childLength} children`,
