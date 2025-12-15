@@ -9,7 +9,7 @@
       "executor": "@fluentui-contrib/nx-plugin:build"
     },
     "publish": {
-      "command": "node tools/scripts/publish.mjs chat {args.ver} {args.tag}",
+      "command": "node tools/scripts/publish.mjs react-cap-theme {args.ver} {args.tag}",
       "dependsOn": ["build"]
     },
     "lint": {
