@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "update formatCAPTokenCssVar to replace slashes with dashes",
-  "packageName": "@fluentui-contrib/react-cap-theme",
-  "email": "dimasteite@microsoft.com",
-  "dependentChangeType": "patch"
-}

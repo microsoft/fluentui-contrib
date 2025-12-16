@@ -2,6 +2,41 @@
   "name": "@fluentui-contrib/react-cap-theme",
   "entries": [
     {
+      "date": "Tue, 16 Dec 2025 19:51:38 GMT",
+      "tag": "@fluentui-contrib/react-cap-theme_v0.2.1",
+      "version": "0.2.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "dimasteite@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "d94ff5865d69376864d75e694f2d77728859a709",
+            "comment": "update formatCAPTokenCssVar to replace slashes with dashes"
+          }
+        ],
+        "none": [
+          {
+            "author": "olkatruk@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "41841223454f5c674ee4a01f7e5ba92737ae55f2",
+            "comment": "Add Drawer component styles and integrate into CAP theme"
+          },
+          {
+            "author": "dzukowski@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "cfc6d58ad2d23005abca0fe2ae92c2372cc3dd26",
+            "comment": "reduce theme variants in react-cap-theme storybook comparison tables"
+          },
+          {
+            "author": "yizhang9@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "a300cd86fa1e8acab4587cf847dcf95702dabec6",
+            "comment": "Add dialog component with 2 types of stories"
+          }
+        ]
+      }
+    },
+    {
       "date": "Sat, 06 Dec 2025 20:35:40 GMT",
       "tag": "@fluentui-contrib/react-cap-theme_v0.2.0",
       "version": "0.2.0",

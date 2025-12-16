@@ -1,7 +1,0 @@
-{
-  "type": "none",
-  "comment": "Add Drawer component styles and integrate into CAP theme",
-  "packageName": "@fluentui-contrib/react-cap-theme",
-  "email": "olkatruk@microsoft.com",
-  "dependentChangeType": "none"
-}
