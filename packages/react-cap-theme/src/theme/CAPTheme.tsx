@@ -58,6 +58,10 @@ const ControlTokens = {
   'smtc/v1/ctrl/corner/rest': { type: 'dimension' },
 } as const satisfies Record<AllowedTokenName, TokenSchema>;
 
+const AvatarTokens = {
+  'cap/avatar/stroke-width': { type: 'dimension' },
+} as const satisfies Record<AllowedTokenName, TokenSchema>;
+
 const BadgeTokens = {
   'cap/badge-xl/corner-rounded': { type: 'dimension' },
   'cap/badge-l/corner-rounded': { type: 'dimension' },
@@ -161,6 +165,7 @@ const DrawerTokens = {
 export const CAPTokensSchema = {
   ...FluentExtendedTokens,
   ...ControlTokens,
+  ...AvatarTokens,
   ...BadgeTokens,
   ...ButtonTokens,
   ...CardTokens,
@@ -189,6 +194,9 @@ export const CAP_THEME_DEFAULTS = {
 
   // smtc/v1
   'smtc/v1/ctrl/corner/rest': CAP_TOKENS['fluent-ext/borderRadius2XLarge'],
+
+  // avatar
+  'cap/avatar/stroke-width': tokens.strokeWidthThick,
 
   // badge
   'cap/badge-xl/corner-rounded': tokens.borderRadiusXLarge,

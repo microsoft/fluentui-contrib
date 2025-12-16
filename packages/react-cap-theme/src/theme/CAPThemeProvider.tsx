@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {
+  AvatarState,
   BadgeState,
   ButtonState,
   CardFooterState,
@@ -21,6 +22,7 @@ import {
   type Theme,
 } from '@fluentui/react-components';
 
+import { useAvatarStylesHook } from '../components/Avatar/Avatar.styles';
 import { useButtonStylesHook } from '../components/Button/Button.styles';
 import { CAPTheme, formatCAPTokenCssVar } from './CAPTheme';
 import { useBadgeStylesHook } from '../components/Badge/Badge.styles';
@@ -42,6 +44,8 @@ import { useDialogSurfaceStylesHook } from '../components/Dialog/DialogSurface.s
 const customStyleHooks: NonNullable<
   FluentProviderProps['customStyleHooks_unstable']
 > = {
+  useAvatarStyles_unstable: (state) =>
+    useAvatarStylesHook(state as AvatarState),
   useBadgeStyles_unstable: (state) => useBadgeStylesHook(state as BadgeState),
   useButtonStyles_unstable: (state) =>
     useButtonStylesHook(state as ButtonState),
