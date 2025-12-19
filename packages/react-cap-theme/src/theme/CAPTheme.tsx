@@ -48,6 +48,7 @@ const FluentExtendedTokens = {
   // reason we need this token is the fluent version has value of "0" instead of "0px", which causes issues in CSS var usage
   'fluent-ext/spacingHorizontalNone': { type: 'dimension' },
   'fluent-ext/brandForegroundCompound': { type: 'color' },
+  'fluent-ext/height': { type: 'dimension' },
 } as const satisfies Record<AllowedTokenName, TokenSchema>;
 
 /**
@@ -132,6 +133,34 @@ const DialogTokens = {
   'cap/Dialog/strokeWidth': { type: 'dimension' },
   'cap/Dialog/strokeColor': { type: 'color' },
 } as const satisfies Record<AllowedTokenName, TokenSchema>;
+const TagTokens = {
+  'fixme/tag/height/medium': { type: 'dimension' },
+  'fixme/tag/corner-radius/xsmall': { type: 'dimension' },
+  'fixme/tag/corner-radius/small': { type: 'dimension' },
+  'fixme/tag/corner-radius/medium': { type: 'dimension' },
+  'fixme/tag/background/filled/rest': { type: 'color' },
+  'fixme/tag/foreground/filled/rest': { type: 'color' },
+  'fixme/tag/foreground/outline/rest': { type: 'color' },
+  'fixme/tag/background/brand/rest': { type: 'color' },
+  'fixme/tag/foreground/brand/rest': { type: 'color' },
+  'fixme/tag/filled/stroke/rest': { type: 'color' },
+  'fixme/tag/dismiss-icon/filled/foreground/hover': { type: 'color' },
+  'fixme/tag/dismiss-icon/outline/foreground/hover': { type: 'color' },
+  'fixme/tag/dismiss-icon/brand/foreground/hover': { type: 'color' },
+  'fixme/tag/dismiss-icon/filled/foreground/pressed': { type: 'color' },
+  'fixme/tag/dismiss-icon/outline/foreground/pressed': { type: 'color' },
+  'fixme/tag/dismiss-icon/brand/foreground/pressed': { type: 'color' },
+  'fixme/tag/strokeWidth': { type: 'dimension' },
+  'fixme/tag/padding/horizontal/xs': { type: 'dimension' },
+  'fixme/tag/padding/horizontal/s': { type: 'dimension' },
+  'fixme/tag/padding/horizontal/medium': { type: 'dimension' },
+  'fixme/tag/icon/padding/horizontal/xs': { type: 'dimension' },
+  'fixme/tag/icon/padding/horizontal/s': { type: 'dimension' },
+  'fixme/tag/icon/padding/horizontal/medium': { type: 'dimension' },
+  'fixme/tag/avatar/padding/horizontal/xs': { type: 'dimension' },
+  'fixme/tag/avatar/padding/horizontal/s': { type: 'dimension' },
+  'fixme/tag/avatar/padding/horizontal/medium': { type: 'dimension' },
+} as const satisfies Record<AllowedTokenName, TokenSchema>;
 
 const InputTokens = {} as const satisfies Record<AllowedTokenName, TokenSchema>;
 
@@ -167,6 +196,7 @@ export const CAPTokensSchema = {
   ...DialogTokens,
   ...InputTokens,
   ...MenuTokens,
+  ...TagTokens,
   ...TooltipTokens,
   ...DrawerTokens,
 } as const satisfies { [key: AllowedTokenName]: TokenSchema };
@@ -186,6 +216,7 @@ export const CAP_THEME_DEFAULTS = {
   'fluent-ext/borderRadius2XLarge': '12px',
   'fluent-ext/borderRadius3XLarge': '16px',
   'fluent-ext/borderRadius2XXLarge': '24px',
+  'fluent-ext/height': '36px',
 
   // smtc/v1
   'smtc/v1/ctrl/corner/rest': CAP_TOKENS['fluent-ext/borderRadius2XLarge'],
@@ -287,6 +318,41 @@ export const CAP_THEME_DEFAULTS = {
   'cap/ctrl/flyout/footer-Padding-Left': tokens.spacingHorizontalXL,
   'cap/ctrl/flyout/footer-Padding-Right': tokens.spacingHorizontalXL,
   'fixme/ctrl/drawer/footer/content-alignment': 'flex-end',
+
+  //tag
+  'fixme/tag/height/medium': CAP_TOKENS['fluent-ext/height'],
+  'fixme/tag/corner-radius/xsmall': tokens.borderRadiusLarge,
+  'fixme/tag/corner-radius/small': tokens.borderRadiusXLarge,
+  'fixme/tag/corner-radius/medium':
+    CAP_TOKENS['fluent-ext/borderRadius2XLarge'],
+  'fixme/tag/background/filled/rest': tokens.colorNeutralBackground5,
+  'fixme/tag/foreground/filled/rest': tokens.colorNeutralForeground3,
+  'fixme/tag/foreground/outline/rest': tokens.colorNeutralForeground3,
+  'fixme/tag/background/brand/rest': tokens.colorBrandBackground2,
+  'fixme/tag/foreground/brand/rest': tokens.colorBrandForeground2,
+  'fixme/tag/filled/stroke/rest': tokens.colorTransparentStroke,
+  'fixme/tag/dismiss-icon/filled/foreground/hover':
+    tokens.colorNeutralForeground3Hover,
+  'fixme/tag/dismiss-icon/outline/foreground/hover':
+    tokens.colorNeutralForeground3Hover,
+  'fixme/tag/dismiss-icon/brand/foreground/hover':
+    tokens.colorBrandForeground2Hover,
+  'fixme/tag/dismiss-icon/filled/foreground/pressed':
+    tokens.colorNeutralForeground3Pressed,
+  'fixme/tag/dismiss-icon/outline/foreground/pressed':
+    tokens.colorNeutralForeground3Pressed,
+  'fixme/tag/dismiss-icon/brand/foreground/pressed':
+    tokens.colorBrandForeground2Pressed,
+  'fixme/tag/strokeWidth': tokens.strokeWidthThin,
+  'fixme/tag/padding/horizontal/xs': tokens.spacingHorizontalSNudge,
+  'fixme/tag/padding/horizontal/s': tokens.spacingHorizontalSNudge,
+  'fixme/tag/padding/horizontal/medium': tokens.spacingHorizontalS,
+  'fixme/tag/icon/padding/horizontal/xs': tokens.spacingHorizontalXXS,
+  'fixme/tag/icon/padding/horizontal/s': tokens.spacingHorizontalXXS,
+  'fixme/tag/icon/padding/horizontal/medium': tokens.spacingHorizontalXS,
+  'fixme/tag/avatar/padding/horizontal/xs': tokens.spacingHorizontalXXS,
+  'fixme/tag/avatar/padding/horizontal/s': tokens.spacingHorizontalXXS,
+  'fixme/tag/avatar/padding/horizontal/medium': tokens.spacingHorizontalS,
 } as const satisfies CAPTheme;
 
 export const CAP_THEME_TEAMS = {

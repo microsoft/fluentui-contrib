@@ -1,0 +1,7 @@
+{
+  "type": "none",
+  "comment": "add react cap theme Tag component with styles and stories",
+  "packageName": "@fluentui-contrib/react-cap-theme",
+  "email": "egianoglio@microsoft.com",
+  "dependentChangeType": "none"
+}
