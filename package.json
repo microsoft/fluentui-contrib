@@ -71,7 +71,7 @@
     "@types/react-virtualized-auto-sizer": "^1.0.8",
     "@types/react-window": "^1.8.5",
     "beachball": "^2.33.2",
-    "eslint": "9.26.0",
+    "eslint": "9.39.2",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-playwright": "2.2.2",
     "globals": "15.15.0",
