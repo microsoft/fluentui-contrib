@@ -1,0 +1,7 @@
+{
+  "type": "none",
+  "comment": "chore: migrate repo to yarn modern",
+  "packageName": "@fluentui-contrib/react-headless-provider",
+  "email": "dmytrokirpa@microsoft.com",
+  "dependentChangeType": "none"
+}
