@@ -12,7 +12,7 @@
     "type-check": "nx affected --target=type-check",
     "preinstall": "node ./tools/scripts/preinstall.mjs",
     "postinstall": "patch-package",
-    "dedupe": "npx yarn-deduplicate --strategy highest --exclude @types/react-dom @types/react"
+    "dedupe": "yarn dedupe --strategy highest"
   },
   "repository": {
     "url": "https://github.com/microsoft/fluentui-contrib",
