@@ -10,6 +10,12 @@ node_modules
 # we use yarn
 package-lock.json
 
+# Yarn (ignore everything except patches, plugins, and releases)
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+
 # IDEs and editors
 /.idea
 .project

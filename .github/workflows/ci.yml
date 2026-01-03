@@ -13,8 +13,8 @@ jobs:
   main:
     runs-on: ubuntu-latest
     permissions:
-      contents: 'read'
-      actions: 'read'
+      contents: "read"
+      actions: "read"
 
     steps:
       - uses: actions/checkout@v6
@@ -26,12 +26,12 @@ jobs:
 
       - uses: actions/setup-node@v6
         with:
-          cache: 'yarn'
-          node-version: '20'
+          cache: "yarn"
+          node-version: "20"
 
-      - run: yarn install --frozen-lockfile
+      - run: yarn install --immutable
 
-      - name: 'Check duplicates in yarn.lock'
+      - name: "Check duplicates in yarn.lock"
         run: yarn run dedupe --list --fail
 
       - run: yarn check-dependencies
@@ -59,7 +59,7 @@ jobs:
           include-hidden-files: true
           retention-days: 1
 
-      - name: 'Check for unstaged changes'
+      - name: "Check for unstaged changes"
         run: |
           git status --porcelain
           git diff-index --quiet HEAD -- || exit 1
@@ -72,8 +72,8 @@ jobs:
         react: [17, 18, 19]
       fail-fast: false
     permissions:
-      contents: 'read'
-      actions: 'read'
+      contents: "read"
+      actions: "read"
     name: React ${{ matrix.react }} Integration
     steps:
       - uses: actions/checkout@v6
@@ -83,16 +83,16 @@ jobs:
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@3e9ad7370203c1e93d109be57f3b72eb0eb511b1 # v4.4.0
         with:
-          main-branch-name: 'master'
+          main-branch-name: "master"
 
       - uses: actions/setup-node@v6
         with:
-          cache: 'yarn'
-          node-version: '20'
+          cache: "yarn"
+          node-version: "20"
 
       - run: echo number of CPUs "$(getconf _NPROCESSORS_ONLN)"
 
-      - run: yarn install --frozen-lockfile
+      - run: yarn install --immutable
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
