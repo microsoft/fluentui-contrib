@@ -101,7 +101,6 @@
     "typescript-eslint": "8.32.1",
     "verdaccio": "6.1.2"
   },
-  "dependencies": {},
   "nx": {
     "includedScripts": []
   },
@@ -110,9 +109,6 @@
     "packages/*"
   ],
   "resolutions": {
-    "@storybook/addon-docs/@jest/transform": "^30",
-    "**/tar-fs": "^2.1.4",
-    "**/axios": "^1.12.0",
-    "**/node-forge": "1.3.2"
+    "@storybook/addon-docs/@jest/transform": "^30"
   }
 }

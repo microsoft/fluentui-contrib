@@ -5,6 +5,7 @@
   "dependencies": {
     "@fluentui/react-components": "^9.70.0",
     "@fluentui/react-icons": "^2.0.249",
+    "@playwright/experimental-ct-react17": "1.56.1",
     "@testing-library/dom": "8.20.1",
     "@testing-library/react": "12.1.5",
     "@testing-library/react-hooks": "7.0.2",
@@ -13,7 +14,6 @@
     "@types/react-test-renderer": "17.0.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-test-renderer": "17.0.2",
-    "@playwright/experimental-ct-react17": "1.56.1"
+    "react-test-renderer": "17.0.2"
   }
 }
