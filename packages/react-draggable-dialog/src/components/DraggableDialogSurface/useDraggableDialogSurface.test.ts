@@ -511,7 +511,7 @@ describe('DraggableDialogSurface', () => {
       left: 200,
     });
 
-    // Wait for effects to complete (needed for React 17 with @testing-library/react-hooks)
+    // Wait for the effect to run and call setDropPosition (required for React 17 compatibility)
     await waitFor(() => {
       expect(mockSetDropPosition).toHaveBeenCalledWith({ x: 200, y: 160 });
     });
