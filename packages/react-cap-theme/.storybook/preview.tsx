@@ -49,9 +49,9 @@ const preview: Preview = {
         dynamicTitle: true,
         items: [
           { value: 'default', title: 'Default' },
-          { value: 'teams', title: 'Visual Refresh (Teams)' },
-          { value: 'onedrive', title: 'Visual Refresh (OneDrive)' },
-          { value: 'sharepoint', title: 'Visual Refresh (SharePoint)' },
+          { value: 'teams', title: 'CAP (Teams)' },
+          { value: 'onedrive', title: 'CAP (OneDrive)' },
+          { value: 'sharepoint', title: 'CAP (SharePoint)' },
         ],
       },
     },
