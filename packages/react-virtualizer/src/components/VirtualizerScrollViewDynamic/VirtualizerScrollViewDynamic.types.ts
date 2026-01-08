@@ -71,6 +71,17 @@ export type VirtualizerScrollViewDynamicProps = ComponentProps<
      * Enables custom scroll anchor behavior
      */
     enableScrollAnchor?: boolean;
+    /**
+     * Enables improved scrollTo behavior with iterative corrections for dynamic content.
+     * When disabled (default), uses the legacy `scrollToItemDynamic` implementation.
+     * When enabled, uses `useScrollToItemDynamic` hook which provides:
+     * - Smooth scrolling with automatic position correction after animation completes
+     * - Iterative corrections to handle dynamically sized items that resize during render
+     * - Temporarily disables useMeasureList scroll compensation during scrollTo operations
+     *   to prevent conflicting scroll adjustments
+     * @default false
+     */
+    enableScrollToCorrections?: boolean;
   };
 
 export type VirtualizerScrollViewDynamicState =

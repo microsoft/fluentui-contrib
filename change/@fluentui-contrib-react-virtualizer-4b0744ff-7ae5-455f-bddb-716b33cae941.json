@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "feat(react-virtualizer): Add improved scrollTo with iterative corrections for dynamic lists",
+  "packageName": "@fluentui-contrib/react-virtualizer",
+  "email": "dmytrokirpa@microsoft.com",
+  "dependentChangeType": "patch"
+}
