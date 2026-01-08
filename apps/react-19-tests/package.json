@@ -13,5 +13,19 @@
     "react": "19.1.2",
     "react-dom": "19.1.2",
     "react-test-renderer": "19.1.2"
+  },
+  "dependenciesMeta": {
+    "@types/react": {
+      "built": false
+    },
+    "@types/react-dom": {
+      "built": false
+    },
+    "react": {
+      "built": false
+    },
+    "react-dom": {
+      "built": false
+    }
   }
 }
