@@ -26,6 +26,9 @@
     },
     "react-dom": {
       "built": false
+    },
+    "react-test-renderer": {
+      "built": false
     }
   }
 }
