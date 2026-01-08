@@ -2,10 +2,10 @@
   "name": "@fluentui-contrib/variant-theme",
   "version": "0.1.1",
   "dependencies": {
-    "@swc/helpers": "~0.5.11",
-    "@fluentui/scheme-utilities": "^8.3.57",
+    "@fluentui/react": "^8.119.3",
     "@fluentui/react-migration-v8-v9": "^9.6.22",
-    "@fluentui/react": "^8.119.3"
+    "@fluentui/scheme-utilities": "^8.3.57",
+    "@swc/helpers": "~0.5.11"
   },
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",

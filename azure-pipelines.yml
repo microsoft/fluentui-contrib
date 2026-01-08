@@ -60,7 +60,7 @@ extends:
                   checkLatest: true
                 displayName: 'Install Node.js'
 
-              - script: yarn install --frozen-lockfile
+              - script: yarn install --immutable
                 displayName: Install dependencies
 
               - script: |

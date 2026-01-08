@@ -1,5 +1,5 @@
 import type { RefCallback } from 'react';
-import { renderHook, act } from '@testing-library/react';
+import { renderHook, act, waitFor } from '@testing-library/react';
 import { useDraggable } from '@dnd-kit/core';
 import { useFluent, useMergedRefs } from '@fluentui/react-components';
 
@@ -472,7 +472,7 @@ describe('DraggableDialogSurface', () => {
     expect(mockSetDropPosition).not.toHaveBeenCalled();
   });
 
-  it('should respect controlled position and sync drop position', () => {
+  it('should respect controlled position and sync drop position', async () => {
     useDraggableDialogContextSpy.mockReturnValue({
       id: 'test-dialog-id',
       boundary: 'viewport',
@@ -510,7 +510,11 @@ describe('DraggableDialogSurface', () => {
       top: 160,
       left: 200,
     });
-    expect(mockSetDropPosition).toHaveBeenCalledWith({ x: 200, y: 160 });
+
+    // Wait for the effect to run and call setDropPosition (required for React 17 compatibility)
+    await waitFor(() => {
+      expect(mockSetDropPosition).toHaveBeenCalledWith({ x: 200, y: 160 });
+    });
   });
 
   it('should not sync drop position when already dragged', () => {

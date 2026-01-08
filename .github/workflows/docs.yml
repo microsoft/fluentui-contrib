@@ -39,7 +39,7 @@ jobs:
           cache: 'yarn'
           node-version: '20'
 
-      - run: yarn install --frozen-lockfile
+      - run: yarn install --immutable
       - run: npx playwright install --with-deps
       - run: yarn nx run-many --target=build-storybook,extract-storybook-llms
 
