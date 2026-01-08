@@ -19,8 +19,10 @@
     "type": "git"
   },
   "engines": {
-    "node": "^20.19.0 || ^22.12.0"
+    "node": "^20.19.0 || ^22.12.0",
+    "yarn": ">=4.12.0"
   },
+  "packageManager": "yarn@4.12.0",
   "devDependencies": {
     "@babel/preset-env": "7.27.1",
     "@babel/preset-react": "7.27.1",
