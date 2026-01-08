@@ -25,7 +25,7 @@ const CAP_THEMES = {
     wrap: (children: React.ReactNode) => <>{children}</>,
   },
   teams: {
-    label: 'Visual Refresh (Teams)',
+    label: 'CAP (Teams)',
     variant: 'cap' as const,
     theme: { ...teamsLightV21Theme, ...CAP_THEME_TEAMS },
     wrap: (children: React.ReactNode) => (
@@ -35,7 +35,7 @@ const CAP_THEMES = {
     ),
   },
   onedrive: {
-    label: 'Visual Refresh (OneDrive)',
+    label: 'CAP (OneDrive)',
     variant: 'cap' as const,
     theme: CAP_THEME_ONE_DRIVE,
     wrap: (children: React.ReactNode) => (
@@ -45,7 +45,7 @@ const CAP_THEMES = {
     ),
   },
   sharepoint: {
-    label: 'Visual Refresh (SharePoint)',
+    label: 'CAP (SharePoint)',
     variant: 'cap' as const,
     theme: CAP_THEME_SHAREPOINT,
     wrap: (children: React.ReactNode) => (
@@ -119,11 +119,9 @@ export const CAPThemeExamplesTable = ({
 
   // Map the selected theme label to our theme config
   const getSelectedThemeConfig = () => {
-    if (selectedTheme.label === 'Visual Refresh (Teams)')
-      return CAP_THEMES.teams;
-    if (selectedTheme.label === 'Visual Refresh (OneDrive)')
-      return CAP_THEMES.onedrive;
-    if (selectedTheme.label === 'Visual Refresh (SharePoint)')
+    if (selectedTheme.label === 'CAP (Teams)') return CAP_THEMES.teams;
+    if (selectedTheme.label === 'CAP (OneDrive)') return CAP_THEMES.onedrive;
+    if (selectedTheme.label === 'CAP (SharePoint)')
       return CAP_THEMES.sharepoint;
     return CAP_THEMES.current;
   };

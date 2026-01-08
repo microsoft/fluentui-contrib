@@ -12,10 +12,10 @@ export { CAPInputStory as Input } from './components/Input.stories';
 export { CAPMenuStory as Menu } from './components/Menu.stories';
 export { CAPTooltipStory as Tooltip } from './components/Tooltip.stories';
 
-const VisualRefreshStory = () => <div />;
+const DefaultStory = () => <div />;
 
 export default {
-  title: 'Components/Visual Refresh',
-  component: VisualRefreshStory,
+  title: 'Components/CAP',
+  component: DefaultStory,
   parameters: {},
 } as Meta;
