@@ -19,6 +19,7 @@ import {
   InlineDrawerState,
   OverlayDrawerState,
   type Theme,
+  TagState,
 } from '@fluentui/react-components';
 
 import { useButtonStylesHook } from '../components/Button/Button.styles';
@@ -38,6 +39,7 @@ import { useDrawerFooterStylesHook } from '../components/Drawer/DrawerFooter.sty
 import { useInlineDrawerStylesHook } from '../components/Drawer/InlineDrawer.styles';
 import { useOverlayDrawerStylesHook } from '../components/Drawer/OverlayDrawer.styles';
 import { useDialogSurfaceStylesHook } from '../components/Dialog/DialogSurface.styles';
+import { useTagStylesHook } from '../components/Tag/Tag.styles';
 
 const customStyleHooks: NonNullable<
   FluentProviderProps['customStyleHooks_unstable']
@@ -75,6 +77,7 @@ const customStyleHooks: NonNullable<
   useDrawerFooterStyles_unstable: (state) =>
     useDrawerFooterStylesHook(state as DrawerFooterState),
   useInputStyles_unstable: (state) => useInputStylesHook(state as InputState),
+  useTagStyles_unstable: (state) => useTagStylesHook(state as TagState),
 };
 
 type CAPThemeProviderProps = Omit<

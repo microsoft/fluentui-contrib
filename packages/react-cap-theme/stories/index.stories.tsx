@@ -10,6 +10,7 @@ export { CAPDialogWithCtrlsStory as DialogWithControls } from './components/Dial
 export { CAPDrawerWithCtrlsStory as DrawerWithControls } from './components/Drawer.stories';
 export { CAPInputStory as Input } from './components/Input.stories';
 export { CAPMenuStory as Menu } from './components/Menu.stories';
+export { CAPTagWithCtrlsStory as Tag } from './components/Tag.stories';
 export { CAPTooltipStory as Tooltip } from './components/Tooltip.stories';
 
 const DefaultStory = () => <div />;
