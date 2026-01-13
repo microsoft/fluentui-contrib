@@ -3,13 +3,17 @@
   "$schema": "node_modules/nx/schemas/project-schema.json",
   "includedScripts": [],
   "targets": {
+    "prepare-local-registry": {
+      "command": "node ./tools/scripts/install-verdacio.js"
+    },
     "local-registry": {
       "executor": "@nx/js:verdaccio",
       "options": {
         "port": 4873,
         "config": ".verdaccio/config.yml",
         "storage": "tmp/local-registry/storage"
-      }
+      },
+      "dependsOn": ["prepare-local-registry"]
     },
     "verify-integrity": {
       "command": "node ./tools/scripts/verify-repo-integrity.mjs"
