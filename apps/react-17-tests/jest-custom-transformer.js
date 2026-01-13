@@ -33,6 +33,13 @@ function transformRenderHookUsage(code) {
     '_reactHooks.renderHook'
   );
 
+  // Replace all occurrences of _react.act with _reactHooks.act
+  // This ensures that act is used from react-hooks packages, thus we are using the same react-dom version under the hood
+  transformedCode = transformedCode.replace(
+    /_react[0-9]?\.act/g,
+    '_reactHooks.act'
+  );
+
   return transformedCode;
 }
 
