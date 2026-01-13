@@ -18581,25 +18581,6 @@ __metadata:
     react: "npm:17.0.2"
     react-dom: "npm:17.0.2"
     react-test-renderer: "npm:17.0.2"
-  dependenciesMeta:
-    "@testing-library/dom":
-      built: false
-    "@testing-library/react":
-      built: false
-    "@testing-library/react-hooks":
-      built: false
-    "@types/react":
-      built: false
-    "@types/react-dom":
-      built: false
-    "@types/react-test-renderer":
-      built: false
-    react:
-      built: false
-    react-dom:
-      built: false
-    react-test-renderer:
-      built: false
   languageName: unknown
   linkType: soft
 
@@ -18633,17 +18614,6 @@ __metadata:
     react: "npm:19.1.2"
     react-dom: "npm:19.1.2"
     react-test-renderer: "npm:19.1.2"
-  dependenciesMeta:
-    "@types/react":
-      built: false
-    "@types/react-dom":
-      built: false
-    react:
-      built: false
-    react-dom:
-      built: false
-    react-test-renderer:
-      built: false
   languageName: unknown
   linkType: soft
 
