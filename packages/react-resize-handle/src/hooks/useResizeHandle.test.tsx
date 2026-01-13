@@ -29,7 +29,7 @@ jest.useFakeTimers();
 
 describe('useResizeHandle', () => {
   describe('events', () => {
-    it('should call events in proper order', async () => {
+    it('should call events in proper order', () => {
       const onChange = jest.fn();
       const onDragStart = jest.fn();
       const onDragEnd = jest.fn();
@@ -62,11 +62,9 @@ describe('useResizeHandle', () => {
       expect(onDragEnd).toHaveBeenCalledTimes(0);
       expect(onChange).toHaveBeenCalledTimes(0);
 
-      jest.advanceTimersToNextTimer();
+      jest.runAllTimers();
 
-      await waitFor(() => {
-        expect(onChange).toHaveBeenCalledTimes(1);
-      });
+      expect(onChange).toHaveBeenCalledTimes(1);
 
       expect(onDragStart.mock.invocationCallOrder[0]).toBeLessThan(
         onChange.mock.invocationCallOrder[0]
