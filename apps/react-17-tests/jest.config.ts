@@ -35,6 +35,7 @@ export default {
     '^.+\\.tsx?$': ['<rootDir>/jest-custom-transformer.js', swcJestConfig],
   },
   coverageDirectory: '../../coverage/apps/react-17-tests',
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'html'],
   moduleNameMapper: {
     '^react$': join(usedNodeModulesPath, 'react'),
     '^react-dom$': join(usedNodeModulesPath, 'react-dom'),

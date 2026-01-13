@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useId } from '@fluentui/react-components';
 import { useEventService } from './useEventService';
 import { EVENTS } from '../constants';
 import type { KeytipProps } from '../Keytip';
@@ -13,7 +14,7 @@ export function useKeytipsManager(): {
   getKeytipsModeStatus: () => boolean;
 } {
   const { dispatch, subscribe, reset } = useEventService();
-  const id = React.useId();
+  const id = useId();
   const keytips = React.useRef<Record<string, KeytipProps>>({});
   const isKeytipModeEnabled = React.useRef(false);
 

@@ -1,4 +1,4 @@
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import * as React from 'react';
 
 import { useResizeHandle, UseResizeHandleParams } from './useResizeHandle';
@@ -29,7 +29,7 @@ jest.useFakeTimers();
 
 describe('useResizeHandle', () => {
   describe('events', () => {
-    it('should call events in proper order', () => {
+    it('should call events in proper order', async () => {
       const onChange = jest.fn();
       const onDragStart = jest.fn();
       const onDragEnd = jest.fn();
@@ -63,7 +63,14 @@ describe('useResizeHandle', () => {
       expect(onChange).toHaveBeenCalledTimes(0);
 
       jest.advanceTimersToNextTimer();
-      expect(onChange).toHaveBeenCalledTimes(1);
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(1);
+      });
+
+      expect(onDragStart.mock.invocationCallOrder[0]).toBeLessThan(
+        onChange.mock.invocationCallOrder[0]
+      );
 
       // Drag end
       // ----------------

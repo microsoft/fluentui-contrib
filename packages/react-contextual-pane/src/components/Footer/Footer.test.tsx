@@ -4,6 +4,13 @@ import { Footer } from './Footer';
 
 describe('Footer', () => {
   it('should render', () => {
-    render(<Footer />);
+    render(
+      <Footer
+        toolbarLables={{
+          leftActionsAriaLabel: 'Left',
+          rightActionsAriaLabel: 'Right',
+        }}
+      />
+    );
   });
 });
