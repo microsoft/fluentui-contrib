@@ -2,38 +2,67 @@
 const { createTransformer: swcCreateTransformer } = require('@swc/jest');
 
 /**
- * Handles the transformation of renderHook imports and usage
- * @param {string} code The code to transform
- * @returns {string} The transformed code
+ * Transforms `@testing-library/react` imports to React 17 compatible `@testing-library/react-hooks`.
+ * @param {string} source
+ * @returns {string}
  */
-function transformRenderHookUsage(code) {
-  if (!code.includes('.renderHook')) {
-    return code;
-  }
+function transformReactHooksImports(source) {
+  /**
+   * @see https://react-hooks-testing-library.com/reference/api
+   */
+  const REACT_HOOKS_API = [
+    'renderHook',
+    'act',
+    'cleanup',
+    // NOTE: Following APIs are not exposed via `@testing-library/react`, thus skipping
+    // 'addCleanup',
+    // 'removeCleanup',
+    // 'suppressErrorOutput',
+  ];
 
-  let transformedCode = code;
+  return source.replace(
+    /import\s*{([^}]+)}\s*from\s*['"]@testing-library\/react['"];?/g,
+    (match, importContent) => {
+      const symbols = importContent
+        .split(',')
+        .map((/** @type {any} */ s) => s.trim())
+        .filter(Boolean);
 
-  // Add import for react-hooks if it doesn't already exist
-  if (!transformedCode.includes('@testing-library/react-hooks')) {
-    // Add import at the top of the file - need to detect the appropriate import style
-    const importStatement = transformedCode.toString().includes('require(')
-      ? "const _reactHooks = require('@testing-library/react-hooks');"
-      : "import * as _reactHooks from '@testing-library/react-hooks';";
+      /** @type {string[]} */
+      const hooksSymbols = [];
+      /** @type {string[]} */
+      const reactSymbols = [];
 
-    // Insert after the first line (preserving any shebang or strict mode directive)
-    const lines = transformedCode.split('\n');
-    lines.splice(1, 0, importStatement);
-    transformedCode = lines.join('\n');
-  }
+      for (const symbol of symbols) {
+        // Handle "originalName as alias"
+        const originalName = symbol.split(/\s+as\s+/)[0].trim();
 
-  // Replace all occurrences of _react.renderHook with _reactHooks.renderHook
-  transformedCode = transformedCode.replace(
-    // if there are more react imports we need to take additional index into consideration
-    /_react[0-9]?\.renderHook/g,
-    '_reactHooks.renderHook'
+        if (REACT_HOOKS_API.includes(originalName)) {
+          hooksSymbols.push(symbol);
+        } else {
+          reactSymbols.push(symbol);
+        }
+      }
+
+      if (hooksSymbols.length === 0) {
+        return match;
+      }
+
+      const hooksImport = `import { ${hooksSymbols.join(
+        ', '
+      )} } from '@testing-library/react-hooks';`;
+
+      if (reactSymbols.length > 0) {
+        return (
+          `import { ${reactSymbols.join(
+            ', '
+          )} } from '@testing-library/react';\n` + hooksImport
+        );
+      }
+
+      return hooksImport;
+    }
   );
-
-  return transformedCode;
 }
 
 /**
@@ -45,13 +74,16 @@ function createTransformer(swcTransformOpts) {
 
   return {
     process(src, filename, options) {
-      const transformedCode = swcTransformer.process?.(src, filename, options);
-      const code = transformRenderHookUsage(transformedCode?.code || '');
+      const transformedSource = transformReactHooksImports(src);
+      const transformedCode = swcTransformer.process?.(
+        transformedSource,
+        filename,
+        options
+      );
 
-      return {
-        ...transformedCode,
-        code,
-      };
+      return /** @type {NonNullable<typeof transformedCode>}*/ (
+        transformedCode
+      );
     },
   };
 }
