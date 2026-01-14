@@ -9,10 +9,10 @@
     "react": ">=16.8.0 <20.0.0"
   },
   "dependencies": {
-    "@fluentui/react-jsx-runtime": "^9.0.29",
-    "@fluentui/react-utilities": "^9.16.0",
-    "@fluentui/react-positioning": "^9.15.0",
     "@fluentui/keyboard-keys": "~9.0.6",
+    "@fluentui/react-jsx-runtime": "^9.0.29",
+    "@fluentui/react-positioning": "^9.15.0",
+    "@fluentui/react-utilities": "^9.16.0",
     "@swc/helpers": "~0.5.11"
   }
 }
