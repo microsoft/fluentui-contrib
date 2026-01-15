@@ -62,9 +62,8 @@ describe('useResizeHandle', () => {
       expect(onDragEnd).toHaveBeenCalledTimes(0);
       expect(onChange).toHaveBeenCalledTimes(0);
 
-      jest.advanceTimersToNextTimer();
+      jest.runAllTimers();
       expect(onChange).toHaveBeenCalledTimes(1);
-
       // Drag end
       // ----------------
 
