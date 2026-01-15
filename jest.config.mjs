@@ -1,3 +1,4 @@
+// @ts-check
 import { getJestProjectsAsync } from '@nx/jest';
 
 export default async () => ({

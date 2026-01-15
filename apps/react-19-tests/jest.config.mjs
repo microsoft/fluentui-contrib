@@ -1,9 +1,7 @@
 // @ts-check
 /* eslint-disable */
-const { readFileSync } = require('node:fs');
-const { join } = require('node:path');
-import { existsSync, readdirSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
+import { join, resolve } from 'node:path';
 // Reading the SWC compilation config and remove the "exclude"
 // for the test files to be compiled by SWC
 const { exclude: _, ...swcJestConfig } = JSON.parse(
