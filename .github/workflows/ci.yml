@@ -27,7 +27,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           cache: 'yarn'
-          node-version: '20'
+          node-version: '22'
 
       - run: yarn install --immutable
 
@@ -88,7 +88,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           cache: 'yarn'
-          node-version: '20'
+          node-version: '22'
 
       - run: echo number of CPUs "$(getconf _NPROCESSORS_ONLN)"
 

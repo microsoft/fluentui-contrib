@@ -37,7 +37,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           cache: 'yarn'
-          node-version: '20'
+          node-version: '22'
 
       - run: yarn install --immutable
       - run: npx playwright install --with-deps

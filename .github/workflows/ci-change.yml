@@ -13,6 +13,6 @@ jobs:
 
       - uses: actions/setup-node@v6
         with:
-          node-version: '20'
+          node-version: '22'
 
       - run: npx beachball check --changehint "Run 'yarn change' to generate a change file"
