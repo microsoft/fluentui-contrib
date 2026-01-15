@@ -16,6 +16,7 @@ module.exports = {
     '**/jest.config.{ts,mts,cts,js,mjs,cjs}',
     '**/playwright.config.ts',
     '**/project.json',
+    '**/tsconfig.spec.json',
     '**/*.md',
     '**/*.babelrc',
     '**/playwright/**',
