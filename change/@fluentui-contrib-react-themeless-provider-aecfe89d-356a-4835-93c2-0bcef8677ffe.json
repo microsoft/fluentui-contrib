@@ -1,0 +1,7 @@
+{
+  "type": "none",
+  "comment": "chore: remove jest config from excludes",
+  "packageName": "@fluentui-contrib/react-themeless-provider",
+  "email": "hochelmartin@gmail.com",
+  "dependentChangeType": "none"
+}
