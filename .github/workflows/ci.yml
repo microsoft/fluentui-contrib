@@ -158,7 +158,7 @@ jobs:
         if: steps.affected_projects_test_count.outputs.value > 0
         # need to run this outside nx runner context to avoid https://github.com/nrwl/nx/issues/30562
         run: |
-          yarn jest -c apps/react-${{ matrix.react }}-tests/jest.config.ts
+          yarn jest -c apps/react-${{ matrix.react }}-tests/jest.config.mjs
         continue-on-error: true
 
       - name: Integration tests summary
