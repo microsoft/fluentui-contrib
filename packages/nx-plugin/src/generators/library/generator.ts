@@ -10,6 +10,7 @@ import {
   ProjectConfiguration,
   readNxJson,
   updateNxJson,
+  offsetFromRoot,
 } from '@nx/devkit';
 import * as path from 'path';
 import { libraryGenerator } from '@nx/js';
@@ -18,7 +19,7 @@ import { PackageJson, getPackagePaths, npmScope } from '../../utils';
 import { addCodeowner } from '../add-codeowners';
 
 export default async function (tree: Tree, options: LibraryGeneratorSchema) {
-  const { name, owner } = options;
+  const { name, owner, testEnvironment = 'jsdom' } = options;
 
   const { projectConfig: newProject } = await invokeNxGenerators(tree, options);
 
@@ -42,6 +43,7 @@ export default async function (tree: Tree, options: LibraryGeneratorSchema) {
   };
 
   newProject.targets.test.options.passWithNoTests = true;
+  newProject.targets.test.options.jestConfig = `${newProject.root}/jest.config.mjs`;
 
   addCodeowner(tree, {
     path: projectRoot,
@@ -57,7 +59,12 @@ export default async function (tree: Tree, options: LibraryGeneratorSchema) {
     return packageJson;
   });
 
-  generateFiles(tree, path.join(__dirname, 'files'), paths.root, options);
+  generateFiles(tree, path.join(__dirname, 'files'), paths.root, {
+    ...options,
+    testEnvironment,
+    project: name,
+    coverageDirectory: offsetFromRoot(projectRoot) + `coverage/${projectRoot}`,
+  });
 
   await formatFiles(tree);
 }
@@ -79,6 +86,7 @@ async function invokeNxGenerators(tree: Tree, options: LibraryGeneratorSchema) {
   const projectConfig = readProjectConfiguration(tree, name);
 
   // remove nx/js generator defaults that we generate ourselves
+  tree.delete(joinPathFragments(projectConfig.root, 'jest.config.cts'));
   tree.delete(joinPathFragments(projectConfig.root, 'eslint.config.mjs'));
   tree.delete(joinPathFragments(projectConfig.root, 'eslint.config.cjs'));
 
