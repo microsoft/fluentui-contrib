@@ -27,7 +27,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "packages/pierce-dom/jest.config.ts",
+        "jestConfig": "packages/pierce-dom/jest.config.mjs",
         "passWithNoTests": true
       },
       "configurations": {

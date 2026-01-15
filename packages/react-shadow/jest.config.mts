@@ -1,11 +1,10 @@
 /* eslint-disable */
 import { readFileSync } from 'fs';
-import { Config } from 'jest';
 
 // Reading the SWC compilation config and remove the "exclude"
 // for the test files to be compiled by SWC
 const { exclude: _, ...swcJestConfig } = JSON.parse(
-  readFileSync(`${__dirname}/.swcrc`, 'utf-8')
+  readFileSync(`${import.meta.dirname}/.swcrc`, 'utf-8')
 );
 
 // disable .swcrc look-up by SWC core because we're passing in swcJestConfig ourselves.
@@ -19,7 +18,7 @@ if (swcJestConfig.swcrc === undefined) {
 // jest needs EsModule Interop to find the default exported setup/teardown functions
 // swcJestConfig.module.noInterop = false;
 
-const config: Config = {
+export default {
   displayName: 'button',
   preset: '../../jest.preset.js',
   transform: {
@@ -27,7 +26,4 @@ const config: Config = {
   },
   moduleFileExtensions: ['js', 'ts', 'tsx', 'html'],
   coverageDirectory: '../../coverage/packages/button',
-  modulePathIgnorePatterns: ['.spec.tsx'],
 };
-
-export default config;

@@ -27,7 +27,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "packages/react-data-grid-react-window/jest.config.ts",
+        "jestConfig": "packages/react-data-grid-react-window/jest.config.mjs",
         "passWithNoTests": true
       },
       "configurations": {

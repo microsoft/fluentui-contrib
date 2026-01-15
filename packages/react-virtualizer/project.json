@@ -21,7 +21,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "packages/react-virtualizer/jest.config.ts",
+        "jestConfig": "packages/react-virtualizer/jest.config.mjs",
         "passWithNoTests": true
       }
     },

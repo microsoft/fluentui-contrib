@@ -1,5 +1,6 @@
 /* eslint-disable */
-import { readFileSync } from 'fs';
+// @ts-check
+const { readFileSync } = require('fs');
 
 // Reading the SWC compilation config and remove the "exclude"
 // for the test files to be compiled by SWC
@@ -18,13 +19,12 @@ if (swcJestConfig.swcrc === undefined) {
 // jest needs EsModule Interop to find the default exported setup/teardown functions
 // swcJestConfig.module.noInterop = false;
 
-export default {
-  displayName: 'variant-theme',
+module.exports = {
+  displayName: 'button',
   preset: '../../jest.preset.js',
   transform: {
-    '^.+\\.[tj]s$': ['@swc/jest', swcJestConfig],
+    '^.+\\.[tj]sx?$': ['@swc/jest', swcJestConfig],
   },
-  moduleFileExtensions: ['ts', 'js', 'html'],
-  testEnvironment: 'jsdom',
-  coverageDirectory: '../../coverage/packages/variant-theme',
+  moduleFileExtensions: ['js', 'ts', 'tsx', 'html'],
+  coverageDirectory: '../../coverage/packages/button',
 };

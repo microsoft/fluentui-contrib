@@ -10,7 +10,7 @@ Tue, 18 Nov 2025 08:19:33 GMT
 
 ### Patches
 
-- fix: improve child array rendering logic  enhance tests (dmytrokirpa@microsoft.com)
+- fix: improve child array rendering logic enhance tests (dmytrokirpa@microsoft.com)
 
 ## 0.5.3
 

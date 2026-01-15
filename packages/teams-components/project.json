@@ -22,7 +22,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "packages/teams-components/jest.config.ts",
+        "jestConfig": "packages/teams-components/jest.config.mjs",
         "passWithNoTests": true
       }
     },
