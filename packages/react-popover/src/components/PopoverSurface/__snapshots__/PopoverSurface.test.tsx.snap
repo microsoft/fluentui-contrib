@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`PopoverSurface renders a default state 1`] = `
+<div
+  aria-label="test"
+  class="fui-PopoverSurface ___chqfy80_aa940d0 f19n0e5 fxugw4r ft85np5 f9ggezi fk6fouc fkhj508 figsok6 f1i3iumi f4zyqsv fymb6k8 f1jwvsn4 f1v9b95e f759xjz f3qtfms f1s184ao f1uaztr fqxdpjc fmdrzgq f5zp4f f1j2ouzw"
+  data-testid="component"
+  id=""
+  popover="auto"
+  role="group"
+>
+  Default PopoverSurface
+</div>
+`;

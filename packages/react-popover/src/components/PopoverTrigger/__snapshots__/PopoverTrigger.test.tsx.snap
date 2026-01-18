@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`PopoverTrigger renders a default state 1`] = `
+<button
+  aria-expanded="false"
+  popovertarget=""
+>
+  Popover trigger
+</button>
+`;

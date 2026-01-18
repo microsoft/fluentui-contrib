@@ -75,7 +75,10 @@
       "@fluentui-contrib/token-analyzer": [
         "packages/token-analyzer/src/index.ts"
       ],
-      "@fluentui-contrib/variant-theme": ["packages/variant-theme/src/index.ts"]
+      "@fluentui-contrib/variant-theme": [
+        "packages/variant-theme/src/index.ts"
+      ],
+      "@fluentui-contrib/react-popover": ["packages/react-popover/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
