@@ -1,0 +1,7 @@
+{
+  "type": "major",
+  "comment": "BREAKING: Reimplemented scrollTo behavior for VirtualizerScrollViewDynamic to handle dynamic item sizes.",
+  "packageName": "@fluentui-contrib/react-virtualizer",
+  "email": "dmytrokirpa@microsoft.com",
+  "dependentChangeType": "patch"
+}

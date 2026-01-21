@@ -1,9 +1,6 @@
 import * as React from 'react';
 import { useTimeout, useAnimationFrame } from '@fluentui/react-utilities';
 
-import { scrollToItemDynamic } from '../Utilities';
-import type { ScrollToItemDynamicParams } from '../Utilities';
-
 /**
  * Reference object for measured elements, keyed by index string.
  */
@@ -349,38 +346,65 @@ export function useScrollToItemDynamic({
 
   /**
    * Performs the actual scroll operation to the target index.
-   * Uses optimized offset calculation when available, otherwise falls back to scrollToItemDynamic.
+   * Uses optimized offset calculation when available, otherwise calculates offset manually.
    */
   const performScroll = React.useCallback(
     (operation: ScrollOperation, behavior: ScrollBehavior) => {
+      const scrollView = scrollViewRef.current;
+      if (!scrollView) {
+        return;
+      }
+
+      operation.isProgrammaticScroll = true;
+
+      // Try optimized offset calculation first
       if (!reversed && axis === 'vertical' && getOffsetForIndex) {
         const offset = getOffsetForIndex(operation.targetIndex);
         if (offset !== undefined && offset !== null && isFinite(offset)) {
-          const scrollView = scrollViewRef.current;
-          if (scrollView) {
-            operation.isProgrammaticScroll = true;
-            scrollView.scrollTo({
-              top: offset,
-              behavior,
-            });
-            scheduleProgrammaticScrollReset(operation);
-            return;
-          }
+          scrollView.scrollTo({
+            top: offset,
+            behavior,
+          });
+          scheduleProgrammaticScrollReset(operation);
+          return;
         }
       }
 
-      const params: ScrollToItemDynamicParams = {
-        index: operation.targetIndex,
-        getItemSize,
-        totalSize: getTotalSize(),
-        scrollViewRef,
-        axis,
-        reversed,
-        behavior,
-        gap,
-      };
+      // Fallback: calculate offset manually
+      let itemDepth = 0;
+      for (let i = 0; i < operation.targetIndex; i++) {
+        itemDepth += getItemSize(i) + gap;
+      }
 
-      scrollToItemDynamic(params);
+      const totalSize = getTotalSize();
+
+      if (axis === 'horizontal') {
+        if (reversed) {
+          scrollView.scrollTo({
+            left: totalSize - itemDepth,
+            behavior,
+          });
+        } else {
+          scrollView.scrollTo({
+            left: itemDepth,
+            behavior,
+          });
+        }
+      } else {
+        if (reversed) {
+          scrollView.scrollTo({
+            top: totalSize - itemDepth,
+            behavior,
+          });
+        } else {
+          scrollView.scrollTo({
+            top: itemDepth,
+            behavior,
+          });
+        }
+      }
+
+      scheduleProgrammaticScrollReset(operation);
     },
     [
       axis,
