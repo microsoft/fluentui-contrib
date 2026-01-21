@@ -30,7 +30,6 @@ export type {
 } from './Hooks';
 
 export type {
-  ScrollToItemDynamicParams,
   ScrollToItemStaticParams,
   ScrollToInterface,
 } from './Utilities';
@@ -39,7 +38,6 @@ export {
   VirtualizerContextProvider,
   useVirtualizerContext_unstable,
   scrollToItemStatic,
-  scrollToItemDynamic,
 } from './Utilities';
 
 export type {

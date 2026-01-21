@@ -6,10 +6,7 @@ import type {
   VirtualizerScrollViewDynamicState,
 } from './VirtualizerScrollViewDynamic.types';
 import { useDynamicVirtualizerMeasure } from '../../Hooks';
-import {
-  useVirtualizerContextState_unstable,
-  scrollToItemDynamic,
-} from '../../Utilities';
+import { useVirtualizerContextState_unstable } from '../../Utilities';
 import type { VirtualizerDataRef } from '../Virtualizer/Virtualizer.types';
 import { useMeasureList } from '../../hooks/useMeasureList';
 import type { IndexedResizeCallbackElement } from '../../hooks/useMeasureList';
@@ -33,7 +30,6 @@ export function useVirtualizerScrollViewDynamic_unstable(
     bufferItems: _bufferItems,
     bufferSize: _bufferSize,
     enableScrollAnchor,
-    enableScrollToCorrections = false,
     gap = 0,
   } = props;
 
@@ -153,14 +149,13 @@ export function useVirtualizerScrollViewDynamic_unstable(
   });
 
   // Track whether a scrollTo operation is active to disable scroll compensation
-  // Only used when enableScrollToCorrections is true
   const isScrollToActiveRef = React.useRef(false);
 
   const requestScrollBy = React.useCallback(
     (sizeChange: number) => {
-      // Skip scroll compensation when using enableScrollToCorrections and scrollTo is active
-      // The new scroll controller handles its own compensation
-      if (enableScrollToCorrections && isScrollToActiveRef.current) {
+      // Skip scroll compensation when scrollTo is active
+      // The scroll controller handles its own compensation
+      if (isScrollToActiveRef.current) {
         return;
       }
 
@@ -173,7 +168,7 @@ export function useVirtualizerScrollViewDynamic_unstable(
         });
       }
     },
-    [enableScrollAnchor, enableScrollToCorrections, axis, localScrollRef]
+    [enableScrollAnchor, axis, localScrollRef]
   );
 
   const measureObject = useMeasureList({
@@ -264,7 +259,7 @@ export function useVirtualizerScrollViewDynamic_unstable(
     [props.getItemSize, props.itemSize, getChildSizeAuto]
   );
 
-  // ----- New scroll-to corrections implementation (opt-in via enableScrollToCorrections) -----
+  // ----- Scroll-to implementation with iterative corrections -----
   const handleOperationComplete = React.useCallback(
     (index: number) => {
       // Re-enable useMeasureList scroll compensation now that the operation is complete
@@ -303,61 +298,21 @@ export function useVirtualizerScrollViewDynamic_unstable(
     onOperationCancel: handleOperationCancel,
   });
 
-  // Only wire up the controller callbacks when using the new implementation
+  // Wire up the controller callbacks
   React.useEffect(() => {
-    if (enableScrollToCorrections) {
-      handleMeasuredCallbackRef.current = controllerHandleItemMeasured;
-      handleRenderedCallbackRef.current = controllerHandleRendered;
-      return () => {
-        if (
-          handleMeasuredCallbackRef.current === controllerHandleItemMeasured
-        ) {
-          handleMeasuredCallbackRef.current = null;
-        }
-        if (handleRenderedCallbackRef.current === controllerHandleRendered) {
-          handleRenderedCallbackRef.current = null;
-        }
-      };
-    }
-    return undefined;
-  }, [
-    enableScrollToCorrections,
-    controllerHandleItemMeasured,
-    controllerHandleRendered,
-  ]);
-
-  // ----- Legacy scroll-to implementation (default) -----
-  const legacyScrollTo = React.useCallback(
-    (
-      index: number,
-      behavior: ScrollBehavior = 'auto',
-      callback?: (index: number) => void
-    ) => {
-      if (callback) {
-        scrollCallbackRef.current = callback;
+    handleMeasuredCallbackRef.current = controllerHandleItemMeasured;
+    handleRenderedCallbackRef.current = controllerHandleRendered;
+    return () => {
+      if (
+        handleMeasuredCallbackRef.current === controllerHandleItemMeasured
+      ) {
+        handleMeasuredCallbackRef.current = null;
       }
-      setFlaggedIndex(index);
-      scrollToItemDynamic({
-        index,
-        scrollViewRef: localScrollRef,
-        axis,
-        reversed,
-        behavior,
-        getItemSize: getScrollItemSize,
-        totalSize: getTotalSize(),
-        gap,
-      });
-    },
-    [
-      axis,
-      reversed,
-      gap,
-      getScrollItemSize,
-      getTotalSize,
-      setFlaggedIndex,
-      localScrollRef,
-    ]
-  );
+      if (handleRenderedCallbackRef.current === controllerHandleRendered) {
+        handleRenderedCallbackRef.current = null;
+      }
+    };
+  }, [controllerHandleItemMeasured, controllerHandleRendered]);
 
   React.useImperativeHandle(
     imperativeRef,
@@ -372,9 +327,7 @@ export function useVirtualizerScrollViewDynamic_unstable(
           scrollCallbackRef.current = callback ?? null;
         }
 
-        if (enableScrollToCorrections) {
-          cancelScrollToOperation();
-        }
+        cancelScrollToOperation();
 
         if (_imperativeVirtualizerRef.current) {
           if (index !== undefined) {
@@ -393,15 +346,10 @@ export function useVirtualizerScrollViewDynamic_unstable(
         behavior: ScrollBehavior = 'auto',
         callback?: (index: number) => void
       ) {
-        if (enableScrollToCorrections) {
-          // Use new implementation with iterative corrections
-          scrollCallbackRef.current = callback ?? null;
-          isScrollToActiveRef.current = true;
-          startScrollToWithCorrections(index, behavior, callback);
-        } else {
-          // Use legacy implementation
-          legacyScrollTo(index, behavior, callback);
-        }
+        // Use implementation with iterative corrections
+        scrollCallbackRef.current = callback ?? null;
+        isScrollToActiveRef.current = true;
+        startScrollToWithCorrections(index, behavior, callback);
       },
       currentIndex: _imperativeVirtualizerRef.current?.currentIndex,
       virtualizerLength: virtualizerLengthRef,
@@ -415,8 +363,6 @@ export function useVirtualizerScrollViewDynamic_unstable(
       cancelScrollToOperation,
       setFlaggedIndex,
       reversed,
-      enableScrollToCorrections,
-      legacyScrollTo,
     ]
   );
 
