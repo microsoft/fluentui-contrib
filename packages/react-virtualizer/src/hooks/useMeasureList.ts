@@ -25,6 +25,13 @@ export function useMeasureList<
   sizeTrackingArray: React.MutableRefObject<number[]>;
   axis: 'horizontal' | 'vertical';
   requestScrollBy?: (sizeChange: number) => void;
+  /**
+   * Callback invoked when an item's size is measured or changes.
+   * @param index - The index of the measured item
+   * @param size - The new measured size
+   * @param delta - The size difference from previous measurement
+   */
+  onItemMeasured?: (index: number, size: number, delta: number) => void;
 }): {
   createIndexedRef: (index: number) => (el: TElement) => void;
   refObject: React.MutableRefObject<{
@@ -39,6 +46,7 @@ export function useMeasureList<
     axis,
     requestScrollBy,
     virtualizerLength,
+    onItemMeasured,
   } = measureParams;
 
   const { targetDocument } = useFluent();
@@ -62,6 +70,8 @@ export function useMeasureList<
           : boundClientRect?.width) ?? defaultItemSize;
 
       const sizeDifference = containerSize - sizeTrackingArray.current[index];
+      onItemMeasured?.(index, containerSize, sizeDifference);
+
       // Todo: Handle reverse setup
       // This requests a scrollBy to offset the new change
       if (sizeDifference !== 0) {
@@ -76,7 +86,7 @@ export function useMeasureList<
       // Update size tracking array which gets exposed if teams need it
       sizeTrackingArray.current[index] = containerSize;
     },
-    [defaultItemSize, requestScrollBy, axis, sizeTrackingArray]
+    [defaultItemSize, requestScrollBy, axis, sizeTrackingArray, onItemMeasured]
   );
 
   const handleElementResizeCallback = (entries: ResizeObserverEntry[]) => {

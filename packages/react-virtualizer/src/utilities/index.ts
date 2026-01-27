@@ -9,7 +9,6 @@ export {
 } from './VirtualizerContext';
 export type {
   ScrollToInterface,
-  ScrollToItemDynamicParams,
   ScrollToItemStaticParams,
 } from './ImperativeScrolling';
-export { scrollToItemDynamic, scrollToItemStatic } from './ImperativeScrolling';
+export { scrollToItemStatic } from './ImperativeScrolling';
