@@ -303,9 +303,7 @@ export function useVirtualizerScrollViewDynamic_unstable(
     handleMeasuredCallbackRef.current = controllerHandleItemMeasured;
     handleRenderedCallbackRef.current = controllerHandleRendered;
     return () => {
-      if (
-        handleMeasuredCallbackRef.current === controllerHandleItemMeasured
-      ) {
+      if (handleMeasuredCallbackRef.current === controllerHandleItemMeasured) {
         handleMeasuredCallbackRef.current = null;
       }
       if (handleRenderedCallbackRef.current === controllerHandleRendered) {

@@ -29,10 +29,7 @@ export type {
   IndexedResizeCallbackElement,
 } from './Hooks';
 
-export type {
-  ScrollToItemStaticParams,
-  ScrollToInterface,
-} from './Utilities';
+export type { ScrollToItemStaticParams, ScrollToInterface } from './Utilities';
 
 export {
   VirtualizerContextProvider,
