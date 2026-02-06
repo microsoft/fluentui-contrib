@@ -12,6 +12,7 @@ import type {
   FallbackAnimationState,
   PaintWorklet,
 } from '../../types';
+import { generateFallbackId } from './util/generateFallbackId';
 
 const cannotDraw = {
   id: '',
@@ -24,8 +25,6 @@ const cannotDraw = {
   stop: () => {},
 };
 
-let flairFallbackId = 0;
-
 export const fallbackPaintAnimation = (
   targetEl: HTMLElement,
   paintWorklet: PaintWorklet,
@@ -36,13 +35,14 @@ export const fallbackPaintAnimation = (
     // eslint-disable-next-line no-restricted-globals
     targetDocument.defaultView ?? (window as Window & typeof globalThis);
 
+  const id = generateFallbackId();
   const state: FallbackAnimationState = {
     targetEl,
     targetWindow,
 
     ctx: null,
     mode: 'to-data-url',
-    id: `houdini-fallback-${++flairFallbackId}`,
+    id: `${id}-houdini-fallback`,
     wrapper: null,
     running: false,
     resizeObserver: null,
@@ -52,7 +52,8 @@ export const fallbackPaintAnimation = (
   // Create a wrapper for us to store these elements in so we avoid
   // thrashing the DOM with appends.
   if (!state.wrapper) {
-    const wrapperId = `houdini-fallback-wrapper-${flairFallbackId}`;
+    const wrapperId = `${id}-houdini-fallback-wrapper`;
+
     state.wrapper = appendWrapper(wrapperId, targetDocument.body);
   }
 
