@@ -81,7 +81,18 @@ export function useMouseHandler(params: UseMouseHandlerParams): {
     }
   });
 
+  // Heads up!
+  //
+  // Suppressing "selectstart" on the document during a drag prevents the browser from
+  // selecting text as the user moves the pointer. The listener is added on drag start
+  // and removed on drag end so normal text selection is unaffected outside of a resize.
+  const onSelectStart = useEventCallback((event: Event) => {
+    event.preventDefault();
+  });
+
   const onDragEnd = useEventCallback((event: NativeTouchOrMouseEvent) => {
+    targetDocument?.removeEventListener('selectstart', onSelectStart);
+
     if (isMouseEvent(event)) {
       targetDocument?.removeEventListener('mouseup', onDragEnd);
       targetDocument?.removeEventListener('mousemove', onDrag);
@@ -148,11 +159,13 @@ export function useMouseHandler(params: UseMouseHandlerParams): {
       if (event.target !== event.currentTarget || event.button !== 0) {
         return;
       }
+      targetDocument?.addEventListener('selectstart', onSelectStart);
       targetDocument?.addEventListener('mouseup', onDragEnd);
       targetDocument?.addEventListener('mousemove', onDrag);
     }
 
     if (isTouchEvent(event)) {
+      targetDocument?.addEventListener('selectstart', onSelectStart);
       targetDocument?.addEventListener('touchend', onDragEnd);
       targetDocument?.addEventListener('touchmove', onDrag);
     }
