@@ -81,8 +81,6 @@ export function useMouseHandler(params: UseMouseHandlerParams): {
     }
   });
 
-  // Heads up!
-  //
   // Suppressing "selectstart" on the document during a drag prevents the browser from
   // selecting text as the user moves the pointer. The listener is added on drag start
   // and removed on drag end so normal text selection is unaffected outside of a resize.
