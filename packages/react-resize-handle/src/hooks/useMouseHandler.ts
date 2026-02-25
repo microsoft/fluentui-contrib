@@ -111,8 +111,6 @@ export function useMouseHandler(params: UseMouseHandlerParams): {
     );
   });
 
-  // Heads up!
-  //
   // Pointer capture ensures that all subsequent pointer events (and their compatibility
   // mouse events) are routed to the capturing element, even when the cursor moves outside
   // the element bounds. This prevents a "stuck drag" state that occurs when the user drags
@@ -121,10 +119,18 @@ export function useMouseHandler(params: UseMouseHandlerParams): {
   const onPointerCaptureStart = useEventCallback((event: PointerEvent) => {
     if (
       event.pointerType !== 'touch' &&
-      event.currentTarget instanceof HTMLElement
+      event.currentTarget instanceof Element
     ) {
       event.currentTarget.setPointerCapture(event.pointerId);
     }
+  });
+
+  // Suppressing the native "dragstart" event prevents the browser's HTML5 drag-and-drop
+  // system from activating on the handle element. Without this, the browser can enter a
+  // native drag state (showing a 🚫 cursor) that swallows mousemove/mouseup events,
+  // leaving the custom drag in a permanently stuck state.
+  const onNativeDragStart = useEventCallback((event: Event) => {
+    event.preventDefault();
   });
 
   const onPointerDown = useEventCallback((event: NativeTouchOrMouseEvent) => {
@@ -164,8 +170,9 @@ export function useMouseHandler(params: UseMouseHandlerParams): {
       node.addEventListener('pointerdown', onPointerCaptureStart);
       node.addEventListener('mousedown', onPointerDown);
       node.addEventListener('touchstart', onPointerDown);
+      node.addEventListener('dragstart', onNativeDragStart);
     },
-    [onPointerCaptureStart, onPointerDown]
+    [onPointerCaptureStart, onPointerDown, onNativeDragStart]
   );
 
   const detachHandlers = React.useCallback(
@@ -173,8 +180,9 @@ export function useMouseHandler(params: UseMouseHandlerParams): {
       node.removeEventListener('pointerdown', onPointerCaptureStart);
       node.removeEventListener('mousedown', onPointerDown);
       node.removeEventListener('touchstart', onPointerDown);
+      node.removeEventListener('dragstart', onNativeDragStart);
     },
-    [onPointerCaptureStart, onPointerDown]
+    [onPointerCaptureStart, onPointerDown, onNativeDragStart]
   );
 
   React.useEffect(() => {
