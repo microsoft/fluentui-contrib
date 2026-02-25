@@ -111,6 +111,22 @@ export function useMouseHandler(params: UseMouseHandlerParams): {
     );
   });
 
+  // Heads up!
+  //
+  // Pointer capture ensures that all subsequent pointer events (and their compatibility
+  // mouse events) are routed to the capturing element, even when the cursor moves outside
+  // the element bounds. This prevents a "stuck drag" state that occurs when the user drags
+  // rapidly to a limit and the cursor leaves the handle before mouseup fires.
+  // Touch events already have implicit capture, so this is only needed for mouse/pen.
+  const onPointerCaptureStart = useEventCallback((event: PointerEvent) => {
+    if (
+      event.pointerType !== 'touch' &&
+      event.currentTarget instanceof HTMLElement
+    ) {
+      event.currentTarget.setPointerCapture(event.pointerId);
+    }
+  });
+
   const onPointerDown = useEventCallback((event: NativeTouchOrMouseEvent) => {
     dragStartOriginCoords.current = getEventClientCoords(event);
     // As we start dragging, save the current value otherwise the value increases,
@@ -145,18 +161,20 @@ export function useMouseHandler(params: UseMouseHandlerParams): {
 
   const attachHandlers = React.useCallback(
     (node: HTMLElement) => {
+      node.addEventListener('pointerdown', onPointerCaptureStart);
       node.addEventListener('mousedown', onPointerDown);
       node.addEventListener('touchstart', onPointerDown);
     },
-    [onPointerDown]
+    [onPointerCaptureStart, onPointerDown]
   );
 
   const detachHandlers = React.useCallback(
     (node: HTMLElement) => {
+      node.removeEventListener('pointerdown', onPointerCaptureStart);
       node.removeEventListener('mousedown', onPointerDown);
       node.removeEventListener('touchstart', onPointerDown);
     },
-    [onPointerDown]
+    [onPointerCaptureStart, onPointerDown]
   );
 
   React.useEffect(() => {
