@@ -40,5 +40,10 @@ export const createDarkTheme: (
 		...fontWeights,
 		...lineHeights,
 		...generateBrandColorTokens(brand),
+		borderRadius2XLarge: fluentTheme.borderRadiusXLarge,
+		borderRadius4XLarge: fluentTheme.borderRadiusXLarge,
+		colorNeutralStroke4: fluentTheme.colorNeutralStroke1,
+		colorNeutralStroke4Hover: fluentTheme.colorNeutralStroke1Hover,
+		colorNeutralStroke4Pressed: fluentTheme.colorNeutralStroke1Pressed,
 	};
 };

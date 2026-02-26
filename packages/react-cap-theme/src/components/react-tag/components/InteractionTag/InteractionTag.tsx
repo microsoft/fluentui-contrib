@@ -1,6 +1,6 @@
 import { useCustomStyleHook_unstable } from "@fluentui/react-shared-contexts";
 import type { ForwardRefComponent } from "@fluentui/react-utilities";
-import React from "react";
+import * as React from "react";
 
 import type { InteractionTagProps } from "./InteractionTag.types";
 import { renderInteractionTag } from "./renderInteractionTag";

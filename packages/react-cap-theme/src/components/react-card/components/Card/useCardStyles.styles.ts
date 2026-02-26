@@ -8,7 +8,7 @@ import {
 	mergeClasses,
 	shorthands,
 } from "@griffel/react";
-import React from "react";
+import * as React from "react";
 
 import {
 	cardPreviewClassNames,

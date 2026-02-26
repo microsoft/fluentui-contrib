@@ -8,7 +8,7 @@ import {
 	SearchFilled,
 	SearchRegular,
 } from "@fluentui-contrib/react-cap-theme/react-icons";
-import React from "react";
+import * as React from "react";
 
 import type { SearchBoxProps, SearchBoxState } from "./SearchBox.types";
 

@@ -10,7 +10,7 @@ import {
 	RadioButtonFilled,
 	RadioButtonRegular,
 } from "@fluentui-contrib/react-cap-theme/react-icons";
-import React from "react";
+import * as React from "react";
 
 const RadioButtonIcon = bundleIcon(RadioButtonFilled, RadioButtonRegular);
 

@@ -205,6 +205,19 @@ export type CustomizableTypographyStyle = {
 export type FontVariants = Record<Font, CustomizableTypographyStyle>;
 
 /**
+ * FIXME: Tokens referenced by component overrides that don't exist in Fluent's
+ * base token set. These are mapped to existing Fluent tokens as placeholders
+ * until proper token values are defined.
+ */
+export type FixmeTokens = {
+	borderRadius2XLarge: string;
+	borderRadius4XLarge: string;
+	colorNeutralStroke4: string;
+	colorNeutralStroke4Hover: string;
+	colorNeutralStroke4Pressed: string;
+};
+
+/**
  * @public
  * Extending design tokens for font family tokens
  */
@@ -224,6 +237,7 @@ export type FontWeightTokens = BaseFontWeightTokens &
  */
 export type Theme = BaseTheme &
 	ColorTokens &
+	FixmeTokens &
 	FontFamilyTokens &
 	FontSizeTokens &
 	FontStyleTokens &

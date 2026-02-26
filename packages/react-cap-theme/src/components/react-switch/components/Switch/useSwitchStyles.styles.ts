@@ -122,7 +122,7 @@ export const useSwitchStyles = (state: SwitchState): SwitchState => {
 	const inputStyles = useInputStyles();
 	const labelStyles = useLabelStyles();
 
-	const { size, labelPosition } = state;
+	const { size, labelPosition } = state as SwitchState & { size?: string };
 	const isMedium = size === "medium";
 
 	// Root — gap between indicator and label

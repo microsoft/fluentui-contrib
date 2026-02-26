@@ -1,11 +1,11 @@
 import {
-	type CarouselNavButtonProps,
-	useCarouselNavButton_unstable,
-	renderCarouselNavButton_unstable,
-} from "@fluentui/react-carousel";
-import type { ForwardRefComponent } from "@fluentui/react-utilities";
-import React from "react";
-import { useCarouselNavButtonStyles } from "./useCarouselNavButtonStyles.styles";
+  type CarouselNavButtonProps,
+  useCarouselNavButton_unstable,
+  renderCarouselNavButton_unstable,
+} from '@fluentui/react-carousel';
+import type { ForwardRefComponent } from '@fluentui/react-utilities';
+import * as React from 'react';
+import { useCarouselNavButtonStyles } from './useCarouselNavButtonStyles.styles';
 
 /**
  * Enhanced CarouselNavButton component that provides CAP-specific styling.
@@ -21,10 +21,10 @@ import { useCarouselNavButtonStyles } from "./useCarouselNavButtonStyles.styles"
  * @alpha
  */
 export const CarouselNavButton: ForwardRefComponent<CarouselNavButtonProps> =
-	React.forwardRef((props, ref) => {
-		const state = useCarouselNavButton_unstable(props, ref);
-		useCarouselNavButtonStyles(state);
-		return renderCarouselNavButton_unstable(state);
-	});
+  React.forwardRef((props, ref) => {
+    const state = useCarouselNavButton_unstable(props, ref);
+    useCarouselNavButtonStyles(state);
+    return renderCarouselNavButton_unstable(state);
+  });
 
-CarouselNavButton.displayName = "CarouselNavButton";
+CarouselNavButton.displayName = 'CarouselNavButton';

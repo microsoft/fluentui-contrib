@@ -8,6 +8,13 @@ import type { TokenName } from "./types";
 export const tokens: Record<TokenName, string> = {
 	...fluentTokens,
 
+	// FIXME: Tokens that don't exist in Fluent's base set, mapped to existing tokens as placeholders.
+	borderRadius2XLarge: "var(--borderRadiusXLarge)",
+	borderRadius4XLarge: "var(--borderRadiusXLarge)",
+	colorNeutralStroke4: "var(--colorNeutralStroke4)",
+	colorNeutralStroke4Hover: "var(--colorNeutralStroke4Hover)",
+	colorNeutralStroke4Pressed: "var(--colorNeutralStroke4Pressed)",
+
 	// CAP global font families
 	fontFamilyCustomFont100: "var(--fontFamilyCustomFont100)",
 	fontFamilyCustomFont200: "var(--fontFamilyCustomFont200)",

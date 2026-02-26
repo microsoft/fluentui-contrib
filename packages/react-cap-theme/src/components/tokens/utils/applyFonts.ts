@@ -29,5 +29,10 @@ export const applyFonts = (theme: FluentTheme, font?: FontVariants): Theme => {
 		...fontStyles,
 		...fontWeights,
 		...lineHeights,
+		borderRadius2XLarge: theme.borderRadiusXLarge,
+		borderRadius4XLarge: theme.borderRadiusXLarge,
+		colorNeutralStroke4: theme.colorNeutralStroke1,
+		colorNeutralStroke4Hover: theme.colorNeutralStroke1Hover,
+		colorNeutralStroke4Pressed: theme.colorNeutralStroke1Pressed,
 	};
 };
