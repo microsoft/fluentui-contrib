@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { Decorator, Preview } from '@storybook/react';
 
-// eslint-disable-next-line @nx/enforce-module-boundaries
+ 
 import rootPreview from '../../../.storybook/preview';
 import { CAPThemeSelectionProvider } from '../stories/StorybookUtils';
 
