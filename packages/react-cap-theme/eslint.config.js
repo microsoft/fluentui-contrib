@@ -5,11 +5,20 @@ module.exports = [
   {
     files: ['**/*.ts', '**/*.tsx'],
     // Override or add rules here
-    rules: {},
+    rules: {
+      '@rnx-kit/no-export-all': 'off',
+    },
   },
   {
     files: ['**/*.js', '**/*.jsx'],
     // Override or add rules here
     rules: {},
+  },
+  {
+    files: ['**/*.json'],
+    // Override or add rules here
+    rules: {
+      '@nx/dependency-checks': 'off',
+    },
   },
 ];

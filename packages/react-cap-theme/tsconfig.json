@@ -2,7 +2,15 @@
   "extends": "../../tsconfig.base.json",
   "files": [],
   "compilerOptions": {
-    "jsx": "react"
+    "baseUrl": ".",
+    "jsx": "react",
+    "paths": {
+      "@fluentui-contrib/react-cap-theme/react-icons": [
+        "src/components/react-icons/index.ts"
+      ],
+      "@fluentui-contrib/react-cap-theme/*": ["src/components/*"],
+      "@fluentui-contrib/react-cap-theme": ["src/index.ts"]
+    }
   },
   "include": [],
   "references": [
