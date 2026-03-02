@@ -19,12 +19,12 @@ if (swcJestConfig.swcrc === undefined) {
 // swcJestConfig.module.noInterop = false;
 
 module.exports = {
-  displayName: 'fluentx',
+  displayName: 'cap-foundations',
   preset: '../../jest.preset.js',
   transform: {
     '^.+\\.[tj]s$': ['@swc/jest', swcJestConfig],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   testEnvironment: 'jsdom',
-  coverageDirectory: '../../coverage/packages/fluentx',
+  coverageDirectory: '../../coverage/packages/cap-foundations',
 };

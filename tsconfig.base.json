@@ -78,7 +78,9 @@
       "@fluentui-contrib/variant-theme": [
         "packages/variant-theme/src/index.ts"
       ],
-      "@fluentui-contrib/fluentx": ["packages/fluentx/src/index.ts"]
+      "@fluentui-contrib/cap-foundations": [
+        "packages/cap-foundations/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

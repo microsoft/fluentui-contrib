@@ -2026,9 +2026,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@fluentui-contrib/fluentx@workspace:packages/fluentx":
+"@fluentui-contrib/cap-foundations@workspace:packages/cap-foundations":
   version: 0.0.0-use.local
-  resolution: "@fluentui-contrib/fluentx@workspace:packages/fluentx"
+  resolution: "@fluentui-contrib/cap-foundations@workspace:packages/cap-foundations"
   dependencies:
     "@swc/helpers": "npm:~0.5.11"
   languageName: unknown

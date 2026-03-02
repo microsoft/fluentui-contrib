@@ -1,5 +1,5 @@
 {
-  "name": "@fluentui-contrib/fluentx",
+  "name": "@fluentui-contrib/cap-foundations",
   "version": "0.0.1",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
