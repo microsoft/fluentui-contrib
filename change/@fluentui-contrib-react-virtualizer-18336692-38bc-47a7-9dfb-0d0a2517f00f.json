@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: prevent RangeError: Invalid array length when numItems decreases while scrolled near the bottom",
+  "packageName": "@fluentui-contrib/react-virtualizer",
+  "email": "dmytrokirpa@microsoft.com",
+  "dependentChangeType": "patch"
+}

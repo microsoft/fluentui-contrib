@@ -170,6 +170,43 @@ describe('useVirtualizer', () => {
     expect(rowFunc).toHaveBeenCalled();
   });
 
+  it('should not crash with RangeError when numItems decreases while scrolled near the bottom', () => {
+    // Regression test for https://github.com/microsoft/fluentui-contrib/issues/607
+    // When filtering reduces numItems while actualIndex > new numItems,
+    // renderChildRows computed a negative arrayLength causing "RangeError: Invalid array length"
+    const virtualizerLength = 50;
+    const containerSizeRef = { current: 300 };
+
+    const rowFunc = (index: number) => index;
+
+    // Simulate the user being scrolled near the bottom of a 100-item list (index 90)
+    const scrolledIndex = 90;
+    const mockContext = {
+      contextIndex: scrolledIndex,
+      setContextIndex: jest.fn(),
+    };
+
+    const { rerender, result } = renderHook(
+      ({ numItems }: { numItems: number }) =>
+        useVirtualizer_unstable({
+          numItems,
+          virtualizerLength,
+          itemSize: 100,
+          children: rowFunc,
+          containerSizeRef,
+          virtualizerContext: mockContext,
+        }),
+      { initialProps: { numItems: 100 } }
+    );
+
+    // Filter reduces the list from 100 → 10 items while actualIndex is still 90.
+    // Without the fix this throws: "RangeError: Invalid array length"
+    expect(() => rerender({ numItems: 10 })).not.toThrow();
+
+    // virtualizedChildren must be a valid (non-negative length) array
+    expect(result.current.virtualizedChildren.length).toBeGreaterThanOrEqual(0);
+  });
+
   it('should handle rapid re-renders without key conflicts', () => {
     const virtualizerLength = 8;
     const actualLength = 100;
