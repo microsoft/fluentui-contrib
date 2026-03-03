@@ -163,7 +163,10 @@ export function useVirtualizer_unstable(
         return [];
       }
       const newIndex = Math.max(_newIndex, 0);
-      const arrayLength = Math.min(virtualizerLength, Math.max(0, numItems - newIndex));
+      const arrayLength = Math.min(
+        virtualizerLength,
+        Math.max(0, numItems - newIndex)
+      );
 
       // Always create fresh React elements to prevent key reconciliation issues
       // when items order changes or when re-rendering is needed.
