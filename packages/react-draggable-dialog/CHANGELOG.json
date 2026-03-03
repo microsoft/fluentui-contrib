@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-draggable-dialog",
   "entries": [
     {
+      "date": "Tue, 03 Mar 2026 14:35:51 GMT",
+      "tag": "@fluentui-contrib/react-draggable-dialog_v0.2.4",
+      "version": "0.2.4",
+      "comments": {
+        "none": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-draggable-dialog",
+            "commit": "45e07a396c42688fb96423bd6a95a442fb8f0f84",
+            "comment": "chore: migrate repo to yarn modern"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 02 Dec 2025 13:14:00 GMT",
       "tag": "@fluentui-contrib/react-draggable-dialog_v0.2.4",
       "version": "0.2.4",

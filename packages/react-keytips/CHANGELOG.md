@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-keytips
 
-This log was last generated on Tue, 18 Nov 2025 14:32:44 GMT and should not be manually modified.
+This log was last generated on Tue, 03 Mar 2026 14:35:51 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.4.3
+
+Tue, 03 Mar 2026 14:35:51 GMT
+
+### Patches
+
+- fix: use useId from Fluent code instead of React to support React 18-19 (dmytrokirpa@microsoft.com)
 
 ## 0.4.2
 

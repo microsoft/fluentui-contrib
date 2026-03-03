@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-tree-grid",
   "entries": [
     {
+      "date": "Tue, 03 Mar 2026 14:35:51 GMT",
+      "tag": "@fluentui-contrib/react-tree-grid_v0.3.2",
+      "version": "0.3.2",
+      "comments": {
+        "none": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-tree-grid",
+            "commit": "45e07a396c42688fb96423bd6a95a442fb8f0f84",
+            "comment": "chore: migrate repo to yarn modern"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 18 Nov 2025 14:32:44 GMT",
       "tag": "@fluentui-contrib/react-tree-grid_v0.3.2",
       "version": "0.3.2",
