@@ -48,7 +48,7 @@ Fri, 21 Jun 2024 06:08:36 GMT
 
 ### Minor changes
 
-- feat(react-data-grid-react-window*): add scrolling indicators (sghorashi@microsoft.com)
+- feat(react-data-grid-react-window\*): add scrolling indicators (sghorashi@microsoft.com)
 
 ## 2.2.1
 

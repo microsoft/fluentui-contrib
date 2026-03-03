@@ -27,7 +27,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "packages/react-chat/jest.config.ts",
+        "jestConfig": "packages/react-chat/jest.config.mjs",
         "passWithNoTests": true
       },
       "configurations": {

@@ -22,7 +22,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "packages/react-interactive-tab/jest.config.ts",
+        "jestConfig": "packages/react-interactive-tab/jest.config.mjs",
         "passWithNoTests": true
       }
     },

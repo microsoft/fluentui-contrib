@@ -21,7 +21,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "packages/react-contextual-pane/jest.config.ts",
+        "jestConfig": "packages/react-contextual-pane/jest.config.mjs",
         "passWithNoTests": true
       }
     },

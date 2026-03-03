@@ -54,7 +54,7 @@ Thu, 15 May 2025 10:13:29 GMT
 
 ### Minor changes
 
-- feat:  support viewport units (olfedias@microsoft.com)
+- feat: support viewport units (olfedias@microsoft.com)
 
 ### Patches
 

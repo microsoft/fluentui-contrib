@@ -27,7 +27,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "packages/react-headless-provider/jest.config.ts",
+        "jestConfig": "packages/react-headless-provider/jest.config.mjs",
         "passWithNoTests": true
       },
       "configurations": {

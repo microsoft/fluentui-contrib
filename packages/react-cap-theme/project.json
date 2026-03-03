@@ -51,7 +51,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "packages/react-cap-theme/jest.config.ts",
+        "jestConfig": "packages/react-cap-theme/jest.config.mjs",
         "passWithNoTests": true
       },
       "configurations": {
