@@ -81,7 +81,16 @@ export function useMouseHandler(params: UseMouseHandlerParams): {
     }
   });
 
+  // Suppressing "selectstart" on the document during a drag prevents the browser from
+  // selecting text as the user moves the pointer. The listener is added on drag start
+  // and removed on drag end so normal text selection is unaffected outside of a resize.
+  const onSelectStart = useEventCallback((event: Event) => {
+    event.preventDefault();
+  });
+
   const onDragEnd = useEventCallback((event: NativeTouchOrMouseEvent) => {
+    targetDocument?.removeEventListener('selectstart', onSelectStart);
+
     if (isMouseEvent(event)) {
       targetDocument?.removeEventListener('mouseup', onDragEnd);
       targetDocument?.removeEventListener('mousemove', onDrag);
@@ -111,6 +120,28 @@ export function useMouseHandler(params: UseMouseHandlerParams): {
     );
   });
 
+  // Pointer capture ensures that all subsequent pointer events (and their compatibility
+  // mouse events) are routed to the capturing element, even when the cursor moves outside
+  // the element bounds. This prevents a "stuck drag" state that occurs when the user drags
+  // rapidly to a limit and the cursor leaves the handle before mouseup fires.
+  // Touch events already have implicit capture, so this is only needed for mouse/pen.
+  const onPointerCaptureStart = useEventCallback((event: PointerEvent) => {
+    if (
+      event.pointerType !== 'touch' &&
+      event.currentTarget instanceof Element
+    ) {
+      event.currentTarget.setPointerCapture(event.pointerId);
+    }
+  });
+
+  // Suppressing the native "dragstart" event prevents the browser's HTML5 drag-and-drop
+  // system from activating on the handle element. Without this, the browser can enter a
+  // native drag state (showing a 🚫 cursor) that swallows mousemove/mouseup events,
+  // leaving the custom drag in a permanently stuck state.
+  const onNativeDragStart = useEventCallback((event: Event) => {
+    event.preventDefault();
+  });
+
   const onPointerDown = useEventCallback((event: NativeTouchOrMouseEvent) => {
     dragStartOriginCoords.current = getEventClientCoords(event);
     // As we start dragging, save the current value otherwise the value increases,
@@ -126,11 +157,13 @@ export function useMouseHandler(params: UseMouseHandlerParams): {
       if (event.target !== event.currentTarget || event.button !== 0) {
         return;
       }
+      targetDocument?.addEventListener('selectstart', onSelectStart);
       targetDocument?.addEventListener('mouseup', onDragEnd);
       targetDocument?.addEventListener('mousemove', onDrag);
     }
 
     if (isTouchEvent(event)) {
+      targetDocument?.addEventListener('selectstart', onSelectStart);
       targetDocument?.addEventListener('touchend', onDragEnd);
       targetDocument?.addEventListener('touchmove', onDrag);
     }
@@ -145,18 +178,22 @@ export function useMouseHandler(params: UseMouseHandlerParams): {
 
   const attachHandlers = React.useCallback(
     (node: HTMLElement) => {
+      node.addEventListener('pointerdown', onPointerCaptureStart);
       node.addEventListener('mousedown', onPointerDown);
       node.addEventListener('touchstart', onPointerDown);
+      node.addEventListener('dragstart', onNativeDragStart);
     },
-    [onPointerDown]
+    [onPointerCaptureStart, onPointerDown, onNativeDragStart]
   );
 
   const detachHandlers = React.useCallback(
     (node: HTMLElement) => {
+      node.removeEventListener('pointerdown', onPointerCaptureStart);
       node.removeEventListener('mousedown', onPointerDown);
       node.removeEventListener('touchstart', onPointerDown);
+      node.removeEventListener('dragstart', onNativeDragStart);
     },
-    [onPointerDown]
+    [onPointerCaptureStart, onPointerDown, onNativeDragStart]
   );
 
   React.useEffect(() => {
