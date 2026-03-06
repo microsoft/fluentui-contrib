@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "Fix UX for edge cases",
-  "packageName": "@fluentui-contrib/react-resize-handle",
-  "email": "jirivyhnalek@microsoft.com",
-  "dependentChangeType": "patch"
-}
