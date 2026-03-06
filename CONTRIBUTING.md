@@ -16,19 +16,20 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additio
 
 ### Prerequisites
 
-Make sure you have at least Node.js v18:
+Make sure you have Node.js `^20.19.0 || ^22.12.0`:
 
 ```sh
 node -v
 
-v18.0.0
+v20.19.0
 ```
 
-This repo runs with Yarn v1, please install make sure to install it, since all other steps will assume
-that you have this dependency installed.
+This repo uses Yarn v4 via Corepack. Enable Corepack and activate the pinned Yarn version:
 
 ```sh
-npm install -g yarn@1
+corepack enable
+corepack prepare yarn@4.12.0 --activate
+yarn -v
 ```
 
 ### Setup the repo
@@ -39,7 +40,7 @@ install dependencies.
 ```sh
 git clone git@github.com:<your-user>/fluentui-contrib.git
 cd fluentui-contrib
-yarn
+yarn install
 ```
 
 Add the main repo as a git remote so you can pull/rebase your fork with our latest updates:
