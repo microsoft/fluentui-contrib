@@ -1,9 +1,9 @@
-import * as React from "react";
+import * as React from 'react';
 
 export const Button = ({
-	children,
+  children,
 }: {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }): React.ReactElement => {
-	return <button>{children}</button>;
+  return <button>{children}</button>;
 };
