@@ -2,6 +2,36 @@
   "name": "@fluentui-contrib/react-cap-theme",
   "entries": [
     {
+      "date": "Tue, 10 Mar 2026 16:54:17 GMT",
+      "tag": "@fluentui-contrib/react-cap-theme_v0.2.2",
+      "version": "0.2.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "dzukowski@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "d44c2f93a2cf6e68b6051d309d4f1e836d3cd6a9",
+            "comment": "publish component updates"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Tue, 03 Mar 2026 14:35:51 GMT",
+      "tag": "@fluentui-contrib/react-cap-theme_v0.2.1",
+      "version": "0.2.1",
+      "comments": {
+        "none": [
+          {
+            "author": "dzukowski@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "962693d1b390a115c33f0f4ddb837de840bc0478",
+            "comment": "update strings"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 16 Dec 2025 19:51:38 GMT",
       "tag": "@fluentui-contrib/react-cap-theme_v0.2.1",
       "version": "0.2.1",

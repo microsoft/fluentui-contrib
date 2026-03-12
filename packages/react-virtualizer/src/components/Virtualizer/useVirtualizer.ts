@@ -163,7 +163,10 @@ export function useVirtualizer_unstable(
         return [];
       }
       const newIndex = Math.max(_newIndex, 0);
-      const arrayLength = Math.min(virtualizerLength, numItems - newIndex);
+      const arrayLength = Math.min(
+        virtualizerLength,
+        Math.max(0, numItems - newIndex)
+      );
 
       // Always create fresh React elements to prevent key reconciliation issues
       // when items order changes or when re-rendering is needed.
@@ -319,7 +322,7 @@ export function useVirtualizer_unstable(
   }, [itemSize, numItems, gap]);
 
   const calculateBefore = React.useCallback(() => {
-    const currentIndex = Math.min(actualIndex, numItems - 1);
+    const currentIndex = Math.max(0, Math.min(actualIndex, numItems - 1));
     if (!getItemSize) {
       // The missing items from before virtualization starts height
       return currentIndex * (itemSize + gap);

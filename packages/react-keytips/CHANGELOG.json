@@ -2,6 +2,29 @@
   "name": "@fluentui-contrib/react-keytips",
   "entries": [
     {
+      "date": "Tue, 03 Mar 2026 14:35:51 GMT",
+      "tag": "@fluentui-contrib/react-keytips_v0.4.3",
+      "version": "0.4.3",
+      "comments": {
+        "patch": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "c157b4431b8868cf151946387982111628cc35e3",
+            "comment": "fix: use useId from Fluent code instead of React to support React 18-19"
+          }
+        ],
+        "none": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "45e07a396c42688fb96423bd6a95a442fb8f0f84",
+            "comment": "chore: migrate repo to yarn modern"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 18 Nov 2025 14:32:44 GMT",
       "tag": "@fluentui-contrib/react-keytips_v0.4.2",
       "version": "0.4.2",

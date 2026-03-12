@@ -1,8 +1,20 @@
 # Change Log - @fluentui-contrib/react-virtualizer
 
-This log was last generated on Tue, 18 Nov 2025 08:19:33 GMT and should not be manually modified.
+This log was last generated on Tue, 03 Mar 2026 14:35:51 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 1.0.0
+
+Tue, 03 Mar 2026 14:35:51 GMT
+
+### Major changes
+
+- BREAKING: Reimplemented scrollTo behavior for VirtualizerScrollViewDynamic to handle dynamic item sizes. (dmytrokirpa@microsoft.com)
+
+### Patches
+
+- fix: prevent RangeError: Invalid array length when numItems decreases while scrolled near the bottom (dmytrokirpa@microsoft.com)
 
 ## 0.5.4
 
