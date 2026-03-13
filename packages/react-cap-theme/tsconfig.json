@@ -9,7 +9,9 @@
       "@fluentui-contrib/react-cap-theme/react-icons": [
         "src/components/react-icons/index.ts"
       ],
-      "@fluentui-contrib/react-cap-theme/*": ["src/components/*"]
+      "@fluentui-contrib/react-cap-theme/*": [
+        "src/components/*"
+      ]
     }
   },
   "include": [],
