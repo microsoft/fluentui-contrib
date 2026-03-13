@@ -1,1 +1,1 @@
-export { themeToTokensObject } from "@fluentui/tokens";
+export { themeToTokensObject } from '@fluentui/tokens';
