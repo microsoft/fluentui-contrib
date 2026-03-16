@@ -107,8 +107,7 @@
   },
   "workspaces": [
     "apps/*",
-    "packages/*",
-    "packages/cap-foundations/*"
+    "packages/*"
   ],
   "resolutions": {
     "@storybook/addon-docs/@jest/transform": "^30",
