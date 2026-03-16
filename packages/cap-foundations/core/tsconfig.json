@@ -2,7 +2,9 @@
   "extends": "../../../tsconfig.base.json",
   "files": [],
   "compilerOptions": {
-    "jsx": "react"
+    "jsx": "react",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": [],
   "references": [

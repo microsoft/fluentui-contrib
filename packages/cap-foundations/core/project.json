@@ -27,6 +27,13 @@
     },
     "type-check": {
       "executor": "@fluentui-contrib/nx-plugin:type-check"
+    },
+    "build-themes": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx ts-node --project tsconfig.scripts.json scripts/build-themes.ts",
+        "cwd": "{projectRoot}"
+      }
     }
   }
 }
