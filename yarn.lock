@@ -2000,9 +2000,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@fluentui-contrib/cap-foundations@workspace:packages/cap-foundations":
+"@fluentui-contrib/cap-foundations-core@workspace:packages/cap-foundations/core":
   version: 0.0.0-use.local
-  resolution: "@fluentui-contrib/cap-foundations@workspace:packages/cap-foundations"
+  resolution: "@fluentui-contrib/cap-foundations-core@workspace:packages/cap-foundations/core"
   dependencies:
     "@swc/helpers": "npm:~0.5.11"
   languageName: unknown
