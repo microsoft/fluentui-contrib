@@ -1,15 +1,15 @@
 # cap-foundations
 
-Umbrella for the Cap design system packages inside `fluentui-contrib`.
+Umbrella for the Cap design system packages.
 
 ## Packages
 
-| Package | Description |
-|---------|-------------|
+| Package                                                     | Description                                                                  |
+| ----------------------------------------------------------- | ---------------------------------------------------------------------------- |
 | [`core`](./core) · `@fluentui-contrib/cap-foundations-core` | Static tokens, color utilities, theme generation pipeline, runtime bootstrap |
-| `react` *(Phase 6+)* | React components and `ThemeProvider` — depends on `core` |
-| `icons` *(Phase 7+)* | SVG icon components — depends on `react` |
-| `mock-pages` *(Phase 8+)* | Storybook mock pages — depends on `core` + `react` |
+| `react` _(Phase 6+)_                                        | React components and `ThemeProvider` — depends on `core`                     |
+| `icons` _(Phase 7+)_                                        | SVG icon components — depends on `react`                                     |
+| `mock-pages` _(Phase 8+)_                                   | Storybook mock pages — depends on `core` + `react`                           |
 
 ## Dependency graph
 
