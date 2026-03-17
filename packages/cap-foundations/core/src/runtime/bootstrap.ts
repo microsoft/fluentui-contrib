@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /**
  * Cap-Foundations Bootstrap
  *
@@ -261,7 +262,7 @@ function init(): void {
   const stored = getStoredSettings();
 
   let theme = stored?.theme ?? config.defaultTheme;
-  let mode: 'light' | 'dark' | 'auto' = stored?.mode ?? config.defaultMode;
+  const mode: 'light' | 'dark' | 'auto' = stored?.mode ?? config.defaultMode;
 
   // Respect high-contrast OS preference when no stored setting
   if (!stored && window.matchMedia('(prefers-contrast: more)').matches) {

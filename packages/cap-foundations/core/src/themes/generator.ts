@@ -862,11 +862,13 @@ function deriveAccessibleBg(
     case 'darker':
       targetBg = invertedBg;
       break;
-    default:
+    default: {
       // Neutral: pick whichever provides better contrast
       const pageBgContrast = contrastRatio(pageBg, surfaceBaseBg);
       const invertedBgContrast = contrastRatio(invertedBg, surfaceBaseBg);
       targetBg = pageBgContrast > invertedBgContrast ? pageBg : invertedBg;
+      break;
+    }
   }
 
   // Start with original color and mix toward target until we have sufficient contrast

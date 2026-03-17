@@ -256,7 +256,8 @@ export function injectSurfaceStyles(options: {
   darkModeSelector?: string;
   styleId?: string;
 } = {}): void {
-  if (typeof document === 'undefined') return;
+  const doc = (globalThis as { document?: Document }).document;
+  if (!doc) return;
 
   const {
     classPrefix = 'dynamicSurface',
@@ -264,14 +265,14 @@ export function injectSurfaceStyles(options: {
     styleId = 'dynamic-surface-styles',
   } = options;
 
-  const existingStyle = document.getElementById(styleId);
+  const existingStyle = doc.getElementById(styleId);
   if (existingStyle) existingStyle.remove();
 
   const css = generateAllSurfaceCSS(classPrefix, darkModeSelector);
-  const style = document.createElement('style');
+  const style = doc.createElement('style');
   style.id = styleId;
   style.textContent = css;
-  document.head.appendChild(style);
+  doc.head.appendChild(style);
 }
 
 /**
