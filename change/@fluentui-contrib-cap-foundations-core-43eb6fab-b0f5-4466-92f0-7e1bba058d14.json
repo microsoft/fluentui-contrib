@@ -1,0 +1,7 @@
+{
+  "type": "major",
+  "comment": "Migrate and adapt AI DS experiment",
+  "packageName": "@fluentui-contrib/cap-foundations-core",
+  "email": "nataliabar@microsoft.com",
+  "dependentChangeType": "patch"
+}
