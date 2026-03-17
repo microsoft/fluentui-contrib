@@ -4,3 +4,4 @@ export * from './surfaces';
 export * from './themes/types';
 export * from './themes/definitions';
 export * from './themes/generator';
+export * from './runtime';

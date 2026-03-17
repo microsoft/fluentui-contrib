@@ -34,6 +34,13 @@
         "command": "npx ts-node --project tsconfig.scripts.json scripts/build-themes.ts",
         "cwd": "{projectRoot}"
       }
+    },
+    "build-bootstrap": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx ts-node --project tsconfig.scripts.json scripts/build-bootstrap.ts",
+        "cwd": "{projectRoot}"
+      }
     }
   }
 }
