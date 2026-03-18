@@ -261,15 +261,92 @@
 
 ---
 
-## Future Phases (after core complete)
+## Future Phases
 
 | Phase    | Description                                | Status |
 | -------- | ------------------------------------------ | ------ |
-| Phase 6  | React package (`cap-foundations-react`)    | ⬜     |
+| Phase 6  | React package (`cap-foundations-react`)    | ✅     |
 | Phase 7  | First components: Button + Input           | ⬜     |
 | Phase 8  | Icons package                              | ⬜     |
 | Phase 9  | Mock pages + Storybook                     | ⬜     |
 | Phase 10 | Expansion (more themes, hooks, components) | ⬜     |
+
+---
+
+## Phase 6: React Package + Storybook Setup ✅
+
+**Status**: Complete
+**Date**: 2026-03-18
+**Depends on**: Phase 4 ✅
+
+### Steps
+
+- [x] Create `packages/cap-foundations/react/package.json` (`@fluentui-contrib/cap-foundations-react`)
+- [x] Create `project.json` with build / lint / test / type-check / storybook / build-storybook targets
+- [x] Create `tsconfig.json` / `tsconfig.lib.json` / `tsconfig.spec.json`
+- [x] Create `.swcrc` (identical to core, `runtime: "classic"`)
+- [x] Create `jest.config.cts` (`testEnvironment: jsdom`, `[tj]sx?$` transform)
+- [x] Create `eslint.config.js`
+- [x] Create `.babelrc` (extends `../../../babel.config.json` — required by Storybook webpack)
+- [x] Port `ThemeProvider.tsx` — imports `CapFoundationsThemeState` from core; `import * as React` for classic JSX runtime
+- [x] Create `src/css.d.ts` (CSS Module type declaration)
+- [x] Create `src/styles/z-index.css` (z-index custom properties scale)
+- [x] Create `src/index.ts` — exports `ThemeProvider`, `useTheme`, `ThemeProviderProps`
+- [x] Add `@fluentui-contrib/cap-foundations-react` path alias to `tsconfig.base.json`
+- [x] Create `.storybook/main.ts` — extends root config via `../../../../.storybook/main`; `staticDirs` serves `core/dist/themes` at `/themes`
+- [x] Create `.storybook/preview.tsx` — standalone decorator sets `data-theme="default"` + `data-mode="light"`; calls `CapFoundations.configure`
+- [x] Create `.storybook/tsconfig.json`
+- [x] Create `stories/overview/index.stories.tsx` (Token Verification story with live mode toggle)
+- [x] Create `COMPONENT_GUIDE.md` (adapted from source with fluentui-contrib conventions)
+- [x] Create `README.md`
+- [x] Run `yarn install` to register new workspace package
+- [x] Verify type-check + build + lint + test + storybook pass
+
+### Verification
+
+| Command                                   | Result                                                       |
+| ----------------------------------------- | ------------------------------------------------------------ |
+| `nx run cap-foundations-react:type-check` | ✅ Pass                                                      |
+| `nx run cap-foundations-react:build`      | ✅ Pass — SWC compiles 3 files                               |
+| `nx run cap-foundations-react:lint`       | ✅ Pass — 0 errors                                           |
+| `nx run cap-foundations-react:test`       | ✅ Pass — no tests yet (passWithNoTests: true)               |
+| `nx run cap-foundations-react:storybook`  | ✅ Starts at http://localhost:4401/ — Overview story visible |
+
+### Notes
+
+- Classic JSX runtime (`react` not `automatic`) — `import * as React from 'react'` required in all `.tsx` files
+- `resolveJsonModule: true` + `allowSyntheticDefaultImports: true` added to `tsconfig.json` — required so type-checking react doesn't fail when following import chains into core's JSON-importing theme modules
+- `react-dom` omitted from peerDependencies — not directly used
+- `.babelrc` required in package root — Storybook webpack (Babel loader) looks for it relative to the package; three `../` levels up to root `babel.config.json`
+- `.storybook/main.ts` uses `../../../../.storybook/main` (four levels) — package is nested one level deeper than flat `packages/react-*` packages
+- Overview story is `.tsx` not `.mdx` — the MDX webpack loader from addon-docs was not applied to the nested path; TSX works without special loader config
+- Storybook preview is standalone — does not spread root preview, avoids inheriting `FluentProvider` decorator; cap-foundations has no dependency on `@fluentui/react-components`
+- `nx run cap-foundations-core:build-themes` must run before Storybook (theme CSS served as staticDir at `/themes`)
+
+### Key files created
+
+| File                                                                | Description                                                           |
+| ------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `packages/cap-foundations/react/package.json`                       | Package manifest — peer: react; dep: core + @swc/helpers              |
+| `packages/cap-foundations/react/project.json`                       | Nx targets: build, lint, test, type-check, storybook, build-storybook |
+| `packages/cap-foundations/react/tsconfig.json`                      | jsx:react, resolveJsonModule, allowSyntheticDefaultImports            |
+| `packages/cap-foundations/react/tsconfig.lib.json`                  | Includes `*.ts` + `*.tsx`                                             |
+| `packages/cap-foundations/react/tsconfig.spec.json`                 | module:commonjs, jest+node types                                      |
+| `packages/cap-foundations/react/.swcrc`                             | tsx:true, runtime:classic                                             |
+| `packages/cap-foundations/react/jest.config.cts`                    | jsdom env, `[tj]sx?$` transform                                       |
+| `packages/cap-foundations/react/eslint.config.js`                   | Extends root ESLint config                                            |
+| `packages/cap-foundations/react/.babelrc`                           | Extends `../../../babel.config.json`                                  |
+| `packages/cap-foundations/react/src/context/ThemeProvider.tsx`      | ThemeProvider + useTheme hook                                         |
+| `packages/cap-foundations/react/src/css.d.ts`                       | CSS Module type declaration                                           |
+| `packages/cap-foundations/react/src/styles/z-index.css`             | Z-index custom property scale                                         |
+| `packages/cap-foundations/react/src/index.ts`                       | Public API barrel                                                     |
+| `packages/cap-foundations/react/.storybook/main.ts`                 | staticDirs → core/dist/themes at /themes                              |
+| `packages/cap-foundations/react/.storybook/preview.tsx`             | data-theme decorator + CapFoundations.configure                       |
+| `packages/cap-foundations/react/.storybook/tsconfig.json`           | Storybook TS config                                                   |
+| `packages/cap-foundations/react/stories/overview/index.stories.tsx` | Token verification story with live mode toggle                        |
+| `packages/cap-foundations/react/COMPONENT_GUIDE.md`                 | Component authoring standards + fluentui-contrib conventions          |
+| `packages/cap-foundations/react/README.md`                          | Package docs                                                          |
+| `fluentui-contrib/tsconfig.base.json`                               | Added `@fluentui-contrib/cap-foundations-react` path alias            |
 
 ---
 

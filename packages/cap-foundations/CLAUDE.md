@@ -8,12 +8,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Packages
 
-| Package                                  | Location                               | Description                                                        |
-| ---------------------------------------- | -------------------------------------- | ------------------------------------------------------------------ |
-| `@fluentui-contrib/cap-foundations-core` | `packages/cap-foundations/core/`       | Static tokens, colors, surfaces, theme pipeline, runtime bootstrap |
-| `react` _(Phase 6+)_                     | `packages/cap-foundations/react/`      | React components and ThemeProvider                                 |
-| `icons` _(Phase 7+)_                     | `packages/cap-foundations/icons/`      | SVG icon components                                                |
-| `mock-pages` _(Phase 8+)_                | `packages/cap-foundations/mock-pages/` | Storybook mock pages                                               |
+| Package                                   | Location                               | Description                                                        |
+| ----------------------------------------- | -------------------------------------- | ------------------------------------------------------------------ |
+| `@fluentui-contrib/cap-foundations-core`  | `packages/cap-foundations/core/`       | Static tokens, colors, surfaces, theme pipeline, runtime bootstrap |
+| `@fluentui-contrib/cap-foundations-react` | `packages/cap-foundations/react/`      | React `ThemeProvider`, `useTheme` hook, and components             |
+| `icons` _(Phase 8+)_                      | `packages/cap-foundations/icons/`      | SVG icon components                                                |
+| `mock-pages` _(Phase 9+)_                 | `packages/cap-foundations/mock-pages/` | Storybook mock pages                                               |
 
 ## Common Commands
 
@@ -25,27 +25,27 @@ All commands are run from the `fluentui-contrib` root unless noted otherwise.
 # Install all dependencies
 yarn install
 
-# Build cap-foundations-core
+# core
 yarn nx build cap-foundations-core
-
-# Type-check cap-foundations-core
 yarn nx type-check cap-foundations-core
-
-# Lint cap-foundations-core
 yarn nx lint cap-foundations-core
+
+# react
+yarn nx build cap-foundations-react
+yarn nx type-check cap-foundations-react
+yarn nx lint cap-foundations-react
 ```
 
 ### Testing
 
 ```bash
-# Run all tests for cap-foundations-core
+# core (Jest, testEnvironment: node)
 yarn nx test cap-foundations-core
-
-# Run tests in watch mode
 yarn nx test cap-foundations-core --watch
-
-# Run a specific test file
 yarn nx test cap-foundations-core --testFile=src/colors/dynamicSurface.test.ts
+
+# react (Jest, testEnvironment: jsdom)
+yarn nx test cap-foundations-react
 ```
 
 ### Build scripts
@@ -58,6 +58,19 @@ yarn nx run cap-foundations-core:build-themes
 
 # Generate bootstrap bundle (outputs dist/bootstrap.js + dist/bootstrap.min.js)
 yarn nx run cap-foundations-core:build-bootstrap
+```
+
+### Storybook
+
+```bash
+# Build theme CSS first (staticDir served at /themes in Storybook)
+yarn nx run cap-foundations-core:build-themes
+
+# Start Storybook (port 4401)
+yarn nx run cap-foundations-react:storybook
+
+# Build static Storybook
+yarn nx run cap-foundations-react:build-storybook
 ```
 
 ### Nx project graph
@@ -183,14 +196,16 @@ yarn workspace @fluentui-contrib/cap-foundations-core add some-package
 yarn workspace @fluentui-contrib/cap-foundations-core add -D some-package
 ```
 
-### Nx project name
+### Nx project names
 
-The Nx project is `cap-foundations-core`. All `nx` commands target this name:
+| Package                                   | Nx project name         |
+| ----------------------------------------- | ----------------------- |
+| `@fluentui-contrib/cap-foundations-core`  | `cap-foundations-core`  |
+| `@fluentui-contrib/cap-foundations-react` | `cap-foundations-react` |
 
 ```bash
 yarn nx build cap-foundations-core
-yarn nx test cap-foundations-core
-yarn nx lint cap-foundations-core
+yarn nx build cap-foundations-react
 ```
 
 ## File Structure
@@ -201,21 +216,36 @@ packages/cap-foundations/
 ├── README.md
 ├── docs/
 │   └── TOKEN_CHEATSHEET.md    ← Quick token reference
-└── core/                      ← @fluentui-contrib/cap-foundations-core
-    ├── TOKEN_GUIDE.md          ← Complete token documentation
+├── core/                      ← @fluentui-contrib/cap-foundations-core
+│   ├── TOKEN_GUIDE.md          ← Complete token documentation
+│   ├── package.json
+│   ├── project.json            ← Nx project config
+│   ├── tsconfig.json
+│   ├── tsconfig.scripts.json
+│   └── src/
+│       ├── index.ts
+│       ├── tokens/             ← spacing, typography, radii, shadows, animation, gradients
+│       ├── colors/             ← color utils, dynamic surfaces
+│       ├── surfaces/           ← surface type definitions
+│       ├── themes/             ← generator, definitions, schema
+│       ├── runtime/            ← SSR-safe bootstrap API
+│       ├── build/              ← inline-bootstrap (Node-safe)
+│       └── scripts/            ← build-themes, build-bootstrap (ts-node)
+└── react/                     ← @fluentui-contrib/cap-foundations-react
+    ├── COMPONENT_GUIDE.md      ← Component authoring standards
     ├── package.json
-    ├── project.json            ← Nx project config
+    ├── project.json
     ├── tsconfig.json
-    ├── tsconfig.scripts.json
+    ├── .babelrc                ← Required by Storybook webpack
+    ├── .storybook/             ← Storybook config (port 4401)
+    ├── stories/                ← Story files (index.stories.tsx per component)
     └── src/
         ├── index.ts
-        ├── tokens/             ← spacing, typography, radii, shadows, animation, gradients
-        ├── colors/             ← color utils, dynamic surfaces
-        ├── surfaces/           ← surface type definitions
-        ├── themes/             ← generator, definitions, schema
-        ├── runtime/            ← SSR-safe bootstrap API
-        ├── build/              ← inline-bootstrap (Node-safe)
-        └── scripts/            ← build-themes, build-bootstrap (ts-node)
+        ├── css.d.ts            ← CSS Module type declaration
+        ├── context/
+        │   └── ThemeProvider.tsx
+        └── styles/
+            └── z-index.css
 ```
 
 ## Design Token Reference
@@ -224,3 +254,60 @@ packages/cap-foundations/
 - Full guide: `core/TOKEN_GUIDE.md`
 - Theme schema: `core/src/themes/schema/schema-definition.md`
 - Theme authoring: `core/src/themes/theme-definition.md`
+
+## React Package Notes
+
+### Classic JSX runtime
+
+`react` uses `"runtime": "classic"` in `.swcrc` / `tsconfig.json`. Every `.tsx` file must begin with:
+
+```tsx
+import * as React from 'react';
+```
+
+Never omit this import — the automatic runtime is not configured.
+
+### ThemeProvider + useTheme
+
+```tsx
+import { ThemeProvider, useTheme } from '@fluentui-contrib/cap-foundations-react';
+
+function App() {
+  return (
+    <ThemeProvider>
+      <YourApp />
+    </ThemeProvider>
+  );
+}
+
+function ThemeSwitcher() {
+  const { mode, resolvedMode, toggleMode } = useTheme();
+  return <button onClick={toggleMode}>{resolvedMode}</button>;
+}
+```
+
+`ThemeProvider` reads from `@fluentui-contrib/cap-foundations-core` bootstrap — no FluentUI dependency.
+
+### CSS Modules
+
+Component styles use CSS Modules (`*.module.css`). The type declaration is at `src/css.d.ts`. Never hardcode colors — use design tokens:
+
+```css
+/* ✅ */
+background: var(--controlPrimary-bg);
+padding: var(--space-2) var(--space-4);
+
+/* ❌ */
+background: #1a73e8;
+```
+
+### Component authoring
+
+See `react/COMPONENT_GUIDE.md` for full standards including `displayName` requirement, sizing, token usage, accessibility, and story structure.
+
+### Storybook
+
+- Config: `react/.storybook/`
+- Stories: `react/stories/<ComponentName>/index.stories.tsx`
+- Port: 4401
+- Theme CSS must be built first: `nx run cap-foundations-core:build-themes`
