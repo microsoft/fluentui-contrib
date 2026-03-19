@@ -12,8 +12,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | ----------------------------------------- | -------------------------------------- | ------------------------------------------------------------------ |
 | `@fluentui-contrib/cap-foundations-core`  | `packages/cap-foundations/core/`       | Static tokens, colors, surfaces, theme pipeline, runtime bootstrap |
 | `@fluentui-contrib/cap-foundations-react` | `packages/cap-foundations/react/`      | React `ThemeProvider`, `useTheme` hook, and components             |
-| `icons` _(Phase 8+)_                      | `packages/cap-foundations/icons/`      | SVG icon components                                                |
-| `mock-pages` _(Phase 9+)_                 | `packages/cap-foundations/mock-pages/` | Storybook mock pages                                               |
+| `mock-pages` _(Phase 8+)_                 | `packages/cap-foundations/mock-pages/` | Storybook mock pages                                               |
 
 ## Common Commands
 

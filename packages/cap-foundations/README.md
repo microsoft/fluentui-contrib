@@ -8,14 +8,13 @@ Umbrella for the Cap design system packages.
 | -------------------------------------------------------------- | ---------------------------------------------------------------------------- |
 | [`core`](./core) · `@fluentui-contrib/cap-foundations-core`    | Static tokens, color utilities, theme generation pipeline, runtime bootstrap |
 | [`react`](./react) · `@fluentui-contrib/cap-foundations-react` | React `ThemeProvider`, `useTheme`, and components — depends on `core`        |
-| `icons` _(Phase 8+)_                                           | SVG icon components — depends on `react`                                     |
-| `mock-pages` _(Phase 9+)_                                      | Storybook mock pages — depends on `core` + `react`                           |
+| `mock-pages` _(Phase 8+)_                                      | Storybook mock pages — depends on `core` + `react`                           |
 
 ## Dependency graph
 
 ```
 mock-pages → react → core
-                  → icons
+                  → @fluentui/react-icons (peer)
 ```
 
 ## Quick-start
