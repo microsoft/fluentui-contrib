@@ -15,6 +15,10 @@ module.exports = {
   transform: {
     '^.+\\.[tj]sx?$': ['@swc/jest', swcJestConfig],
   },
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  moduleNameMapper: {
+    '\.module\.css$': '<rootDir>/__mocks__/style-mock.js',
+  },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'html'],
   testEnvironment: 'jsdom',
   coverageDirectory: '../../../coverage/packages/cap-foundations/react',
