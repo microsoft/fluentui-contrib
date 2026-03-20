@@ -261,17 +261,6 @@
 
 ---
 
-## Future Phases
-
-| Phase   | Description                                | Status |
-| ------- | ------------------------------------------ | ------ |
-| Phase 6 | React package (`cap-foundations-react`)    | ✅     |
-| Phase 7 | First components: Button + Input           | ⬜     |
-| Phase 8 | Mock pages + Storybook                     | ⬜     |
-| Phase 9 | Expansion (more themes, hooks, components) | ⬜     |
-
----
-
 ## Phase 6: React Package + Storybook Setup ✅
 
 **Status**: Complete
@@ -349,9 +338,63 @@
 
 ---
 
+## Phase 7: First Component (Button) ✅
+
+**Status**: Complete
+**Date**: 2026-03-19
+**Depends on**: Phase 6 ✅
+
+### Steps
+
+- [x] Add `@fluentui/react-icons` as peerDependency in `packages/cap-foundations/react/package.json`
+- [x] Run the Button generation prompt using GitHub Copilot
+- [x] Verify all expected output files were created
+- [x] Fix lint issues: `no-restricted-globals` in `.storybook/preview.tsx`; `@nx/dependency-checks` override for test-only deps
+- [x] Verify type-check + build + lint + test pass
+
+### Verification
+
+| Command                                   | Result                          |
+| ----------------------------------------- | ------------------------------- |
+| `nx run cap-foundations-react:type-check` | ✅ Pass                         |
+| `nx run cap-foundations-react:build`      | ✅ Pass                         |
+| `nx run cap-foundations-react:lint`       | ✅ Pass — 0 errors              |
+| `nx run cap-foundations-react:test`       | ✅ Pass — 32 passed, 0 failed   |
+| `nx run cap-foundations-react:storybook`  | ✅ Starts — Button stories visible |
+
+### Key files created
+
+| File                                                                          | Description                                         |
+| ----------------------------------------------------------------------------- | --------------------------------------------------- |
+| `packages/cap-foundations/react/src/components/Button/Button.tsx`             | Button component — variants, sizes, as prop, icons  |
+| `packages/cap-foundations/react/src/components/Button/Button.module.css`      | CSS Module — control tokens, 28/36/44px heights     |
+| `packages/cap-foundations/react/src/components/Button/index.ts`               | Barrel export                                       |
+| `packages/cap-foundations/react/src/components/Button/Button.test.tsx`        | 32 Jest tests — render, variants, keyboard, anchor  |
+| `packages/cap-foundations/react/stories/Button/index.stories.tsx`             | Storybook stories — all variants, sizes, icons      |
+
+### Notes
+
+- Component generated via AI prompt — not ported from `ai-experiments`
+- `@fluentui/react-icons` removed from peerDependencies — package itself doesn't import it (stories only); not needed as peer
+- `preview.tsx` is browser-only (Storybook context) — `/* eslint-disable no-restricted-globals */` is correct here
+- `eslint.config.js` overrides `@nx/dependency-checks` to ignore `@testing-library/jest-dom` (test-only dep, correctly in devDependencies)
+
+---
+
+## Future Phases
+
+| Phase   | Description                                | Status |
+| ------- | ------------------------------------------ | ------ |
+| Phase 8 | Mock pages + Storybook                     | ⬜     |
+| Phase 9 | Expansion (more themes, hooks, components) | ⬜     |
+
+---
+
 ## Notes & Decisions Log
 
 | Date       | Note                                                                                                                                                              |
 | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 2026-03-16 | Decided to move existing `packages/cap-foundations/` config files into `core/` rather than running Nx generator + moving (same result, more predictable)          |
 | 2026-03-16 | Changed `testEnvironment` from `jsdom` to `node` in `jest.config.cts` — core package has no browser DOM dependencies; SSR-safe wrappers used for any browser APIs |
+| 2026-03-19 | Phase 7 Button generated via AI prompt (GitHub Copilot), not ported — validates the designer/AI authoring workflow |
+| 2026-03-19 | `@fluentui/react-icons` kept out of peerDependencies — used only in stories, not in `src/`; `@nx/dependency-checks` rule override added for `@testing-library/jest-dom` |

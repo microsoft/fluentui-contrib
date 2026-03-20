@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import * as React from 'react';
 import { useEffect } from 'react';
 import type { Decorator, Preview } from '@storybook/react';

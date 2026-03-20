@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "React components and theme provider for Cap design system",
   "peerDependencies": {
-    "@fluentui/react-icons": ">=2.0.0",
     "@types/react": ">=16.8.0 <20.0.0",
     "react": ">=16.8.0 <20.0.0"
   },
