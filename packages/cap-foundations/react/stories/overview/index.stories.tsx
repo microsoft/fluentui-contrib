@@ -33,7 +33,7 @@ function ThemeSwitcherDemo(): React.ReactElement {
             key={name}
             style={{
               background: `var(--${name}-bg, #eee)`,
-              color: `var(--${name}-text, #000)`,
+              color: `var(--${name}-fg, #000)`,
               border: `1px solid var(--${name}-border, #ccc)`,
               padding: 'var(--space-3, 12px) var(--space-4, 16px)',
               borderRadius: 'var(--radius-md, 6px)',
