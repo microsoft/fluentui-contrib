@@ -184,6 +184,15 @@ export const useDraggableDialog = (
     };
   }, [announcements?.start, announcements?.end]);
 
+  React.useEffect(() => {
+    if (position) {
+      setDropPosition((prev) =>
+        prev.x === position.x && prev.y === position.y ? prev : position
+      );
+      lastReportedPositionRef.current = position;
+    }
+  }, [position]);
+
   React.useEffect(
     () => () => cancelOnDragAnimationFrame(),
     [cancelOnDragAnimationFrame]
