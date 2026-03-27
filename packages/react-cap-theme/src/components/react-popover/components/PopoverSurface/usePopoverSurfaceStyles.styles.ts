@@ -1,25 +1,25 @@
-import type { PopoverSurfaceState } from "@fluentui/react-popover";
-import { usePopoverSurfaceStyles_unstable as useFluentPopoverSurfaceStyles_unstable } from "@fluentui/react-popover";
-import { tokens } from "../../../tokens";
-import { makeStyles, mergeClasses } from "@griffel/react";
+import type { PopoverSurfaceState } from '@fluentui/react-popover';
+import { usePopoverSurfaceStyles_unstable as useFluentPopoverSurfaceStyles_unstable } from '@fluentui/react-popover';
+import { tokens } from '../../../tokens';
+import { makeStyles, mergeClasses } from '@griffel/react';
 
 const useStyles = makeStyles({
-	root: { borderRadius: tokens.borderRadius4XLarge },
-	inverted: { backgroundColor: tokens.colorNeutralBackgroundInverted },
+  root: { borderRadius: tokens.borderRadius4XLarge },
+  inverted: { backgroundColor: tokens.colorNeutralBackgroundInverted },
 });
 
 export const usePopoverSurfaceStyles_unstable = (
-	state: PopoverSurfaceState,
+  state: PopoverSurfaceState
 ): PopoverSurfaceState => {
-	const styles = useStyles();
+  const styles = useStyles();
 
-	state.root.className = mergeClasses(
-		styles.root,
-		state.appearance === "inverted" && styles.inverted,
-		state.root.className,
-	);
+  state.root.className = mergeClasses(
+    styles.root,
+    state.appearance === 'inverted' && styles.inverted,
+    state.root.className
+  );
 
-	useFluentPopoverSurfaceStyles_unstable(state);
+  useFluentPopoverSurfaceStyles_unstable(state);
 
-	return state;
+  return state;
 };

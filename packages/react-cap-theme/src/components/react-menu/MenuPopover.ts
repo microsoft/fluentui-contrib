@@ -1,15 +1,15 @@
 export {
-	renderMenuPopover_unstable,
-	useMenuPopover_unstable,
-	useMenuPopoverStyles_unstable,
-} from "@fluentui/react-menu";
+  renderMenuPopover_unstable,
+  useMenuPopover_unstable,
+  useMenuPopoverStyles_unstable,
+} from '@fluentui/react-menu';
 export type {
-	MenuPopoverProps,
-	MenuPopoverSlots,
-	MenuPopoverState,
-} from "@fluentui/react-menu";
-export { MenuPopover } from "./components/MenuPopover/MenuPopover";
+  MenuPopoverProps,
+  MenuPopoverSlots,
+  MenuPopoverState,
+} from '@fluentui/react-menu';
+export { MenuPopover } from './components/MenuPopover/MenuPopover';
 export {
-	menuPopoverClassNames,
-	useMenuPopoverStyles,
-} from "./components/MenuPopover/useMenuPopoverStyles.styles";
+  menuPopoverClassNames,
+  useMenuPopoverStyles,
+} from './components/MenuPopover/useMenuPopoverStyles.styles';

@@ -1,32 +1,32 @@
-import type { DialogBodyState } from "@fluentui/react-dialog";
+import type { DialogBodyState } from '@fluentui/react-dialog';
 import {
-	dialogActionsClassNames,
-	useDialogBodyStyles_unstable,
-} from "@fluentui/react-dialog";
-import { tokens } from "../../../tokens";
-import { makeStyles, mergeClasses } from "@griffel/react";
-import { DIALOG_CONTAINER_QUERY_BREAKPOINT_SELECTOR } from "../../constants/queries";
+  dialogActionsClassNames,
+  useDialogBodyStyles_unstable,
+} from '@fluentui/react-dialog';
+import { tokens } from '../../../tokens';
+import { makeStyles, mergeClasses } from '@griffel/react';
+import { DIALOG_CONTAINER_QUERY_BREAKPOINT_SELECTOR } from '../../constants/queries';
 
 const useStyles = makeStyles({
-	root: {
-		gap: `${tokens.spacingVerticalXXL} ${tokens.spacingHorizontalS}`,
-		padding: `${tokens.spacingVerticalXXL} ${tokens.spacingHorizontalXXL}`,
-		[DIALOG_CONTAINER_QUERY_BREAKPOINT_SELECTOR]: {
-			[`& > .${dialogActionsClassNames.root}`]: {
-				gridRowStart: 3,
-			},
-			[`& > .${dialogActionsClassNames.root} + .${dialogActionsClassNames.root}`]:
-				{
-					gridRowStart: 4,
-				},
-		},
-	},
+  root: {
+    gap: `${tokens.spacingVerticalXXL} ${tokens.spacingHorizontalS}`,
+    padding: `${tokens.spacingVerticalXXL} ${tokens.spacingHorizontalXXL}`,
+    [DIALOG_CONTAINER_QUERY_BREAKPOINT_SELECTOR]: {
+      [`& > .${dialogActionsClassNames.root}`]: {
+        gridRowStart: 3,
+      },
+      [`& > .${dialogActionsClassNames.root} + .${dialogActionsClassNames.root}`]:
+        {
+          gridRowStart: 4,
+        },
+    },
+  },
 });
 
 export const useDialogBodyStyles = (
-	state: DialogBodyState,
+  state: DialogBodyState
 ): DialogBodyState => {
-	const styles = useStyles();
-	state.root.className = mergeClasses(styles.root, state.root.className);
-	return useDialogBodyStyles_unstable(state);
+  const styles = useStyles();
+  state.root.className = mergeClasses(styles.root, state.root.className);
+  return useDialogBodyStyles_unstable(state);
 };

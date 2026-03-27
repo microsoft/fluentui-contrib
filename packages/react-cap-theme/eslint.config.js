@@ -13,12 +13,9 @@ module.exports = [
     rules: {},
   },
   {
-  "files": [
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "rules": {
-    "@nx/enforce-module-boundaries": "off"
-  }
-},
+    files: ['**/*.ts', '**/*.tsx'],
+    rules: {
+      '@nx/enforce-module-boundaries': 'off',
+    },
+  },
 ];

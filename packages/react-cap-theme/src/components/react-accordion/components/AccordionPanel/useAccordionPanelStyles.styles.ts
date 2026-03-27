@@ -1,24 +1,24 @@
 import {
-	type AccordionPanelState,
-	useAccordionPanelStyles_unstable,
-} from "@fluentui/react-accordion";
-import { tokens } from "../../../tokens";
-import { makeStyles, mergeClasses } from "@griffel/react";
+  type AccordionPanelState,
+  useAccordionPanelStyles_unstable,
+} from '@fluentui/react-accordion';
+import { tokens } from '../../../tokens';
+import { makeStyles, mergeClasses } from '@griffel/react';
 
 const useStyles = makeStyles({
-	root: {
-		marginBottom: tokens.spacingVerticalM,
-	},
+  root: {
+    marginBottom: tokens.spacingVerticalM,
+  },
 });
 
 export const useAccordionPanelStyles = (
-	state: AccordionPanelState,
+  state: AccordionPanelState
 ): AccordionPanelState => {
-	const styles = useStyles();
+  const styles = useStyles();
 
-	state.root.className = mergeClasses(styles.root, state.root.className);
+  state.root.className = mergeClasses(styles.root, state.root.className);
 
-	useAccordionPanelStyles_unstable(state);
+  useAccordionPanelStyles_unstable(state);
 
-	return state;
+  return state;
 };

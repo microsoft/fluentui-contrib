@@ -1,1 +1,1 @@
-export * from "@fluentui/react-icons";
+export * from '@fluentui/react-icons';

@@ -1,170 +1,170 @@
-import { splitButtonClassNames } from "@fluentui/react-button";
-import { createCustomFocusIndicatorStyle } from "@fluentui/react-tabster";
-import { tokens } from "../../../tokens";
-import { makeStyles, mergeClasses } from "@griffel/react";
+import { splitButtonClassNames } from '@fluentui/react-button';
+import { createCustomFocusIndicatorStyle } from '@fluentui/react-tabster';
+import { tokens } from '../../../tokens';
+import { makeStyles, mergeClasses } from '@griffel/react';
 import {
-	buttonSpacingVerticalLarge,
-	buttonSpacingVerticalMedium,
-	buttonSpacingVerticalSmall,
-} from "../Button/useButtonStyles.styles";
-import type { SplitButtonState } from "./SplitButton.types";
+  buttonSpacingVerticalLarge,
+  buttonSpacingVerticalMedium,
+  buttonSpacingVerticalSmall,
+} from '../Button/useButtonStyles.styles';
+import type { SplitButtonState } from './SplitButton.types';
 
 const useStyles = makeStyles({
-	root: {
-		display: "inline-flex",
-		verticalAlign: "middle",
-	},
+  root: {
+    display: 'inline-flex',
+    verticalAlign: 'middle',
+  },
 });
 
 const useFocusStyles = makeStyles({
-	primaryActionButton: createCustomFocusIndicatorStyle({
-		borderBottomRightRadius: tokens.borderRadiusNone,
-		borderTopRightRadius: tokens.borderRadiusNone,
-		":after": { content: "none" },
-	}),
-	menuButton: createCustomFocusIndicatorStyle({
-		position: "relative", // prevent outline clipping
-		borderTopLeftRadius: tokens.borderRadiusNone,
-		borderBottomLeftRadius: tokens.borderRadiusNone,
-	}),
+  primaryActionButton: createCustomFocusIndicatorStyle({
+    borderBottomRightRadius: tokens.borderRadiusNone,
+    borderTopRightRadius: tokens.borderRadiusNone,
+    ':after': { content: 'none' },
+  }),
+  menuButton: createCustomFocusIndicatorStyle({
+    position: 'relative', // prevent outline clipping
+    borderTopLeftRadius: tokens.borderRadiusNone,
+    borderBottomLeftRadius: tokens.borderRadiusNone,
+  }),
 });
 
 const usePrimaryActionButtonStyles = makeStyles({
-	base: {
-		borderBottomRightRadius: tokens.borderRadiusNone,
-		borderRightWidth: "0",
-		borderTopRightRadius: tokens.borderRadiusNone,
-		position: "relative",
-		":after": {
-			content: '""',
-			borderRight: `${tokens.strokeWidthThin} solid`,
-			borderRightColor: "inherit",
-			position: "absolute",
-			right: 0,
-		},
+  base: {
+    borderBottomRightRadius: tokens.borderRadiusNone,
+    borderRightWidth: '0',
+    borderTopRightRadius: tokens.borderRadiusNone,
+    position: 'relative',
+    ':after': {
+      content: '""',
+      borderRight: `${tokens.strokeWidthThin} solid`,
+      borderRightColor: 'inherit',
+      position: 'absolute',
+      right: 0,
+    },
 
-		"@media (forced-colors: active)": {
-			":after": { borderRightColor: "inherit" },
-			":hover:after": { borderRightColor: "inherit" },
-			":active:after": { borderRightColor: "inherit" },
-		},
-	},
-	outline: {
-		// same as base
-	},
-	primary: {
-		":after": { borderRightColor: tokens.colorNeutralStrokeOnBrand2 },
-		":hover:after": {
-			borderRightColor: tokens.colorNeutralStrokeOnBrand2Hover,
-		},
-		":active:after": {
-			borderRightColor: tokens.colorNeutralStrokeOnBrand2Pressed,
-		},
-		"@media (forced-colors: active)": {
-			":after": { borderRightColor: "HighlightText" },
-		},
-	},
-	secondary: {
-		// same as base
-	},
-	subtle: {
-		":after": { borderRightColor: tokens.colorNeutralStroke1 },
-		":hover:after": { borderRightColor: tokens.colorNeutralStroke1Hover },
-		":active:after": {
-			borderRightColor: tokens.colorNeutralStroke1Pressed,
-		},
-	},
-	transparent: {
-		":after": { borderRightColor: tokens.colorNeutralStroke1 },
-		":hover:after": { borderRightColor: tokens.colorNeutralStroke1Hover },
-		":active:after": {
-			borderRightColor: tokens.colorNeutralStroke1Pressed,
-		},
-	},
-	tint: {
-		"@media (forced-colors: active)": {
-			":after": { borderRightColor: "HighlightText" },
-		},
-	},
-	disabled: {
-		":after": { borderRightColor: tokens.colorNeutralStrokeDisabled },
-		":hover:after": { borderRightColor: tokens.colorNeutralStrokeDisabled },
-		":active:after": {
-			borderRightColor: tokens.colorNeutralStrokeDisabled,
-		},
-		"@media (forced-colors: active)": {
-			":after": { borderRightColor: "GrayText" },
-			":hover:after": { borderRightColor: "GrayText" },
-			":active:after": { borderRightColor: "GrayText" },
-		},
-	},
-	small: {
-		":after": {
-			top: buttonSpacingVerticalSmall,
-			bottom: buttonSpacingVerticalSmall,
-		},
-	},
-	medium: {
-		":after": {
-			top: buttonSpacingVerticalMedium,
-			bottom: buttonSpacingVerticalMedium,
-		},
-	},
-	large: {
-		":after": {
-			top: buttonSpacingVerticalLarge,
-			bottom: buttonSpacingVerticalLarge,
-		},
-	},
+    '@media (forced-colors: active)': {
+      ':after': { borderRightColor: 'inherit' },
+      ':hover:after': { borderRightColor: 'inherit' },
+      ':active:after': { borderRightColor: 'inherit' },
+    },
+  },
+  outline: {
+    // same as base
+  },
+  primary: {
+    ':after': { borderRightColor: tokens.colorNeutralStrokeOnBrand2 },
+    ':hover:after': {
+      borderRightColor: tokens.colorNeutralStrokeOnBrand2Hover,
+    },
+    ':active:after': {
+      borderRightColor: tokens.colorNeutralStrokeOnBrand2Pressed,
+    },
+    '@media (forced-colors: active)': {
+      ':after': { borderRightColor: 'HighlightText' },
+    },
+  },
+  secondary: {
+    // same as base
+  },
+  subtle: {
+    ':after': { borderRightColor: tokens.colorNeutralStroke1 },
+    ':hover:after': { borderRightColor: tokens.colorNeutralStroke1Hover },
+    ':active:after': {
+      borderRightColor: tokens.colorNeutralStroke1Pressed,
+    },
+  },
+  transparent: {
+    ':after': { borderRightColor: tokens.colorNeutralStroke1 },
+    ':hover:after': { borderRightColor: tokens.colorNeutralStroke1Hover },
+    ':active:after': {
+      borderRightColor: tokens.colorNeutralStroke1Pressed,
+    },
+  },
+  tint: {
+    '@media (forced-colors: active)': {
+      ':after': { borderRightColor: 'HighlightText' },
+    },
+  },
+  disabled: {
+    ':after': { borderRightColor: tokens.colorNeutralStrokeDisabled },
+    ':hover:after': { borderRightColor: tokens.colorNeutralStrokeDisabled },
+    ':active:after': {
+      borderRightColor: tokens.colorNeutralStrokeDisabled,
+    },
+    '@media (forced-colors: active)': {
+      ':after': { borderRightColor: 'GrayText' },
+      ':hover:after': { borderRightColor: 'GrayText' },
+      ':active:after': { borderRightColor: 'GrayText' },
+    },
+  },
+  small: {
+    ':after': {
+      top: buttonSpacingVerticalSmall,
+      bottom: buttonSpacingVerticalSmall,
+    },
+  },
+  medium: {
+    ':after': {
+      top: buttonSpacingVerticalMedium,
+      bottom: buttonSpacingVerticalMedium,
+    },
+  },
+  large: {
+    ':after': {
+      top: buttonSpacingVerticalLarge,
+      bottom: buttonSpacingVerticalLarge,
+    },
+  },
 });
 
 const useMenuButtonStyles = makeStyles({
-	base: {
-		borderBottomLeftRadius: tokens.borderRadiusNone,
-		borderLeft: "none",
-		borderTopLeftRadius: tokens.borderRadiusNone,
-	},
-	small: { padding: "7px" }, // padding S - 1px border
-	medium: { padding: "9px" }, // padding MNudge - 1px border
-	large: { padding: "11px" }, // padding M - 1px border
+  base: {
+    borderBottomLeftRadius: tokens.borderRadiusNone,
+    borderLeft: 'none',
+    borderTopLeftRadius: tokens.borderRadiusNone,
+  },
+  small: { padding: '7px' }, // padding S - 1px border
+  medium: { padding: '9px' }, // padding MNudge - 1px border
+  large: { padding: '11px' }, // padding M - 1px border
 });
 
 export const useSplitButtonStyles = (
-	state: SplitButtonState,
+  state: SplitButtonState
 ): SplitButtonState => {
-	const styles = useStyles();
-	const focusStyles = useFocusStyles();
-	const primaryActionButtonStyles = usePrimaryActionButtonStyles();
-	const menuButtonStyles = useMenuButtonStyles();
+  const styles = useStyles();
+  const focusStyles = useFocusStyles();
+  const primaryActionButtonStyles = usePrimaryActionButtonStyles();
+  const menuButtonStyles = useMenuButtonStyles();
 
-	state.root.className = mergeClasses(
-		splitButtonClassNames.root,
-		styles.root,
-		state.root.className,
-	);
+  state.root.className = mergeClasses(
+    splitButtonClassNames.root,
+    styles.root,
+    state.root.className
+  );
 
-	if (state.primaryActionButton) {
-		state.primaryActionButton.className = mergeClasses(
-			splitButtonClassNames.primaryActionButton,
-			primaryActionButtonStyles.base,
-			primaryActionButtonStyles[state.appearance],
-			primaryActionButtonStyles[state.size],
-			focusStyles.primaryActionButton,
-			(state.disabled || state.disabledFocusable) &&
-				primaryActionButtonStyles.disabled,
-			state.primaryActionButton.className,
-		);
-	}
+  if (state.primaryActionButton) {
+    state.primaryActionButton.className = mergeClasses(
+      splitButtonClassNames.primaryActionButton,
+      primaryActionButtonStyles.base,
+      primaryActionButtonStyles[state.appearance],
+      primaryActionButtonStyles[state.size],
+      focusStyles.primaryActionButton,
+      (state.disabled || state.disabledFocusable) &&
+        primaryActionButtonStyles.disabled,
+      state.primaryActionButton.className
+    );
+  }
 
-	if (state.menuButton) {
-		state.menuButton.className = mergeClasses(
-			splitButtonClassNames.menuButton,
-			menuButtonStyles.base,
-			menuButtonStyles[state.size],
-			focusStyles.menuButton,
-			state.menuButton.className,
-		);
-	}
+  if (state.menuButton) {
+    state.menuButton.className = mergeClasses(
+      splitButtonClassNames.menuButton,
+      menuButtonStyles.base,
+      menuButtonStyles[state.size],
+      focusStyles.menuButton,
+      state.menuButton.className
+    );
+  }
 
-	return state;
+  return state;
 };
