@@ -12,4 +12,13 @@ module.exports = [
     // Override or add rules here
     rules: {},
   },
+  {
+  "files": [
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "rules": {
+    "@nx/enforce-module-boundaries": "off"
+  }
+},
 ];
