@@ -151,18 +151,22 @@ export type FontWeightTokens = BaseFontWeightTokens &
 
 export type FIXME_MISSING_TOKENS = {
   borderRadius2XLarge: string;
+  borderRadius3XLarge: string;
   borderRadius4XLarge: string;
   colorNeutralStroke4: string;
   colorNeutralStroke4Hover: string;
   colorNeutralStroke4Pressed: string;
+  colorNeutralStroke4Selected: string;
 };
 
 export const FIXME_MISSING_TOKENS_DEFAULTS: FIXME_MISSING_TOKENS = {
   borderRadius2XLarge: '',
+  borderRadius3XLarge: '',
   borderRadius4XLarge: '',
   colorNeutralStroke4: '',
   colorNeutralStroke4Hover: '',
   colorNeutralStroke4Pressed: '',
+  colorNeutralStroke4Selected: '',
 };
 
 export type Theme = BaseTheme &

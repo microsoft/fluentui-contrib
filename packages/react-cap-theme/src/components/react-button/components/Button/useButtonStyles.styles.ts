@@ -1,122 +1,179 @@
+import { buttonClassNames } from '@fluentui/react-button';
+import {
+  iconFilledClassName,
+  iconRegularClassName,
+} from '@fluentui/react-icons';
 import { createCustomFocusIndicatorStyle } from '@fluentui/react-tabster';
-import type { SlotClassNames } from '@fluentui/react-utilities';
 import { tokens, typographyStyles } from '../../../tokens';
-import { makeStyles, mergeClasses, shorthands } from '@griffel/react';
-import type { ButtonSlots, ButtonState } from './Button.types';
+import {
+  type GriffelStyle,
+  makeResetStyles,
+  makeStyles,
+  mergeClasses,
+  shorthands,
+} from '@griffel/react';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
+import type { ButtonState } from './Button.types';
 
-export const buttonClassNames: SlotClassNames<ButtonSlots> = {
-  root: 'fui-Button',
-  icon: 'fui-Button__icon',
+const iconSpacingVar = '--fui-Button__icon--spacing';
+const rootSpacingAsymmetryVar = '--fui-Button--spacing-asymmetry';
+
+export const buttonSpacingVerticalSmall = '5px';
+export const buttonSpacingVerticalMedium = '7px';
+export const buttonSpacingVerticalLarge = '9px';
+
+const boxShadowStrokeWidthThinMoz = `calc(${tokens.strokeWidthThin} + 0.25px)`;
+
+const innerFocusRing = (
+  strokeColor: string = tokens.colorStrokeFocus1
+): GriffelStyle => ({
+  boxShadow: `0 0 0 ${tokens.strokeWidthThin} ${strokeColor} inset`,
+  '@supports (-moz-appearance:button)': {
+    boxShadow: `0 0 0 ${boxShadowStrokeWidthThinMoz} ${strokeColor} inset`,
+  },
+});
+
+const highContrastPrimaryStyles: GriffelStyle = {
+  '@media (forced-colors: active)': {
+    backgroundColor: 'Highlight',
+    ...shorthands.borderColor('Highlight'),
+    color: 'HighlightText',
+    forcedColorAdjust: 'none',
+    ':focus': { ...shorthands.borderColor('Highlight') },
+  },
 };
 
-const BORDER_WIDTH = tokens.strokeWidthThin;
-const buttonSpacingSmall = `calc(${tokens.spacingVerticalSNudge} - ${BORDER_WIDTH})`;
-const buttonSpacingMedium = `calc(${tokens.spacingVerticalS} - ${BORDER_WIDTH})`;
-const buttonSpacingLarge = `calc(${tokens.spacingVerticalMNudge} - ${BORDER_WIDTH})`;
+const useRootBaseClassName = makeResetStyles({
+  alignItems: 'center',
+  boxSizing: 'border-box',
+  display: 'inline-flex',
+  justifyContent: 'center',
+  textDecorationLine: 'none',
+  verticalAlign: 'middle',
 
-const iconFilledClassName = 'fui-Icon-filled';
-const iconRegularClassName = 'fui-Icon-regular';
+  margin: 0,
+  overflow: 'hidden',
 
-const displayInline = { display: 'inline' };
-const displayNone = { display: 'none' };
+  color: tokens.colorNeutralForeground3,
+  border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke4}`,
+  borderRadius: tokens.borderRadius2XLarge,
+  cursor: 'pointer',
 
-const useRootStyles = makeStyles({
-  base: {
-    borderRadius: '12px',
-    minWidth: 'unset',
-    [`:hover .${iconFilledClassName}`]: displayInline,
-    [`:hover .${iconRegularClassName}`]: displayNone,
-    [`:hover:active .${iconFilledClassName}`]: displayInline,
-    [`:hover:active .${iconRegularClassName}`]: displayNone,
+  ':hover': { color: tokens.colorNeutralForeground1Hover },
+  ':hover:active': { color: tokens.colorNeutralForeground1Pressed },
+  ':focus-visible': { outline: 'none', outlineOffset: 0 }, // Remove browser defaults
 
-    ...createCustomFocusIndicatorStyle({
-      borderRadius: '12px',
-      boxShadow: `
-      0 0 0 ${tokens.strokeWidthThin} ${tokens.colorStrokeFocus2} inset,
-      0 0 0 ${tokens.strokeWidthThick} ${tokens.colorStrokeFocus1} inset
-      `,
-    }),
+  ...typographyStyles.body1Strong,
+
+  transitionDuration: tokens.durationFaster,
+  transitionProperty: 'background, border, color',
+  transitionTimingFunction: tokens.curveEasyEase,
+  '@media screen and (prefers-reduced-motion: reduce)': {
+    transitionDuration: '0.01ms',
   },
-  small: {
-    ...typographyStyles.caption1Strong,
-    borderRadius: '8px',
-    height: '28px',
-    padding: `${buttonSpacingSmall} calc(${tokens.spacingHorizontalS} - ${BORDER_WIDTH})`,
-  },
-  medium: {
-    height: '36px',
-    padding: `${buttonSpacingMedium} calc(${tokens.spacingHorizontalM} - ${BORDER_WIDTH})`,
-  },
-  large: {
-    ...typographyStyles.body1Strong,
-    height: '44px',
-    padding: `${buttonSpacingLarge} calc(${tokens.spacingHorizontalM} - ${BORDER_WIDTH})`,
-  },
-  outline: {
-    ...shorthands.borderColor(tokens.colorNeutralBackground5),
-    color: tokens.colorNeutralForeground3,
+
+  ...createCustomFocusIndicatorStyle({
+    borderColor: tokens.colorStrokeFocus2,
+    borderRadius: tokens.borderRadius2XLarge,
+    outline: `${tokens.strokeWidthThick} solid ${tokens.colorStrokeFocus2}`,
+    zIndex: 1,
+    ...innerFocusRing(),
+
+    ':hover': { borderColor: tokens.colorStrokeFocus2 },
+    '@media (forced-colors: active)': {
+      outlineColor: 'Highlight',
+      ...innerFocusRing('ButtonFace'),
+      ':focus': { borderColor: 'Highlight' },
+    },
+  }),
+
+  '@media (forced-colors: active)': {
+    ':focus': { borderColor: 'ButtonBorder' },
     ':hover': {
-      ...shorthands.borderColor(tokens.colorNeutralStroke2),
-      backgroundColor: tokens.colorNeutralBackground3Hover,
-      color: tokens.colorNeutralForeground1Hover,
+      backgroundColor: 'HighlightText',
+      borderColor: 'Highlight',
+      color: 'Highlight',
+      forcedColorAdjust: 'none',
+      [`& .${buttonClassNames.icon}`]: { color: 'inherit' },
     },
     ':hover:active': {
-      ...shorthands.borderColor(tokens.colorNeutralBackground3Pressed),
+      backgroundColor: 'HighlightText',
+      borderColor: 'Highlight',
+      color: 'Highlight',
+      forcedColorAdjust: 'none',
+      [`& .${buttonClassNames.icon}`]: { color: 'inherit' },
+    },
+  },
+});
+
+const useIconBaseClassName = makeResetStyles({
+  alignItems: 'center',
+  display: 'inline-flex',
+  justifyContent: 'center',
+  fontSize: tokens.fontSizeBase500,
+
+  [iconSpacingVar]: tokens.spacingHorizontalSNudge,
+});
+
+const useRootStyles = makeStyles({
+  root: {
+    [`:hover .${iconFilledClassName}`]: { display: 'inline' },
+    [`:hover .${iconRegularClassName}`]: { display: 'none' },
+    [`:hover:active .${iconFilledClassName}`]: { display: 'inline' },
+    [`:hover:active .${iconRegularClassName}`]: { display: 'none' },
+  },
+  outline: {
+    backgroundColor: tokens.colorTransparentBackground, // Remove browser styling
+    ':hover': {
+      ...shorthands.borderColor(tokens.colorNeutralStroke4Hover),
+      backgroundColor: tokens.colorNeutralBackground3Hover,
+    },
+    ':hover:active': {
+      ...shorthands.borderColor(tokens.colorNeutralStroke4Pressed),
       backgroundColor: tokens.colorNeutralBackground3Pressed,
-      color: tokens.colorNeutralForeground1Pressed,
     },
   },
   primary: {
-    ...shorthands.borderColor(tokens.colorBrandBackground),
+    ...shorthands.borderColor(tokens.colorTransparentStroke),
+    backgroundColor: tokens.colorBrandBackground,
+    color: tokens.colorNeutralForegroundOnBrand,
     ':hover': {
-      ...shorthands.borderColor(tokens.colorBrandBackgroundHover),
+      backgroundColor: tokens.colorBrandBackgroundHover,
+      color: tokens.colorNeutralForegroundOnBrand,
     },
     ':hover:active': {
-      ...shorthands.borderColor(tokens.colorBrandBackgroundPressed),
+      backgroundColor: tokens.colorBrandBackgroundPressed,
+      color: tokens.colorNeutralForegroundOnBrand,
     },
+    ...highContrastPrimaryStyles,
   },
   secondary: {
-    ...shorthands.borderColor(tokens.colorNeutralBackground5),
     backgroundColor: tokens.colorNeutralBackground3,
-    color: tokens.colorNeutralForeground3,
     ':hover': {
-      ...shorthands.borderColor(tokens.colorNeutralStroke2),
+      ...shorthands.borderColor(tokens.colorNeutralStroke4Hover),
       backgroundColor: tokens.colorNeutralBackground3Hover,
-      color: tokens.colorNeutralForeground1Hover,
     },
     ':hover:active': {
-      ...shorthands.borderColor(tokens.colorNeutralBackground3Pressed),
+      ...shorthands.borderColor(tokens.colorNeutralStroke4Pressed),
       backgroundColor: tokens.colorNeutralBackground3Pressed,
-      color: tokens.colorNeutralForeground1Pressed,
     },
   },
   subtle: {
     ...shorthands.borderColor(tokens.colorTransparentStroke),
-    backgroundColor: tokens.colorTransparentBackground,
-    color: tokens.colorNeutralForeground3,
-    ':hover': {
-      ...shorthands.borderColor(tokens.colorNeutralBackground3Hover),
-      backgroundColor: tokens.colorNeutralBackground3Hover,
-      color: tokens.colorNeutralForeground1,
-      [`& .${buttonClassNames.icon}`]: {
-        color: tokens.colorNeutralForeground1,
-      },
-    },
+    backgroundColor: tokens.colorTransparentBackground, // Remove browser styling
+    ':hover': { backgroundColor: tokens.colorNeutralBackground3Hover },
     ':hover:active': {
-      backgroundColor: tokens.colorNeutralBackground1Pressed,
-      color: tokens.colorNeutralForeground3Pressed,
-      [`& .${buttonClassNames.icon}`]: {
-        color: tokens.colorCompoundBrandForeground1Pressed,
-      },
+      backgroundColor: tokens.colorNeutralBackground3Pressed,
     },
   },
   transparent: {
     ...shorthands.borderColor(tokens.colorTransparentStroke),
-    backgroundColor: tokens.colorTransparentBackground,
-    color: tokens.colorNeutralForeground3,
-    ':hover': { color: tokens.colorCompoundBrandForeground1Hover },
-    [':hover:active']: {
-      color: tokens.colorCompoundBrandForeground1Pressed,
+    backgroundColor: tokens.colorTransparentBackground, // Remove browser styling
+    '@media (forced-colors: active)': {
+      ':hover': { backgroundColor: tokens.colorTransparentBackground },
+      ':hover:active': {
+        backgroundColor: tokens.colorTransparentBackground,
+      },
     },
   },
   tint: {
@@ -133,144 +190,217 @@ const useRootStyles = makeStyles({
       backgroundColor: tokens.colorBrandBackground2Pressed,
       color: tokens.colorCompoundBrandForeground1Pressed,
     },
+    ...highContrastPrimaryStyles,
   },
-  outlineColor: {
-    ...shorthands.borderColor(tokens.colorBrandStroke2),
-    backgroundColor: 'transparent',
-    color: tokens.colorCompoundBrandForeground1,
-    ':hover': {
-      ...shorthands.borderColor(tokens.colorBrandStroke2Hover),
-      backgroundColor: tokens.colorBrandBackground2Hover,
-      color: tokens.colorCompoundBrandForeground1Hover,
-    },
-    ':hover:active': {
-      ...shorthands.borderColor(tokens.colorBrandStroke2Pressed),
-      backgroundColor: tokens.colorBrandBackground2Pressed,
-      color: tokens.colorCompoundBrandForeground1Pressed,
-    },
+  small: {
+    ...typographyStyles.caption1Strong,
+    borderRadius: tokens.borderRadiusXLarge,
+    padding: `${buttonSpacingVerticalSmall} ${tokens.spacingHorizontalMNudge}`,
+    ...createCustomFocusIndicatorStyle({
+      borderRadius: tokens.borderRadiusXLarge,
+    }),
+  },
+  medium: {
+    padding: `${buttonSpacingVerticalMedium} ${tokens.spacingHorizontalM}`,
+  },
+  large: {
+    ...typographyStyles.subtitle2,
+    padding: `${buttonSpacingVerticalLarge} ${tokens.spacingHorizontalL}`,
   },
 });
 
 const useRootDisabledStyles = makeStyles({
-  outline: {
-    ...shorthands.borderColor(tokens.colorNeutralBackground5),
-    backgroundColor: 'transparent',
+  base: {
     color: tokens.colorNeutralForegroundDisabled,
+    cursor: 'not-allowed',
+
     ':hover': {
-      ...shorthands.borderColor(tokens.colorNeutralBackground5),
-      backgroundColor: 'transparent',
       color: tokens.colorNeutralForegroundDisabled,
+      [`& .${iconFilledClassName}`]: { display: 'none' },
+      [`& .${iconRegularClassName}`]: { display: 'inline' },
     },
     ':hover:active': {
-      ...shorthands.borderColor(tokens.colorNeutralBackground5),
-      backgroundColor: 'transparent',
       color: tokens.colorNeutralForegroundDisabled,
+      [`& .${iconFilledClassName}`]: { display: 'none' },
+      [`& .${iconRegularClassName}`]: { display: 'inline' },
+    },
+
+    '@media (forced-colors: active)': {
+      backgroundColor: 'ButtonFace',
+      ...shorthands.borderColor('GrayText'),
+      color: 'GrayText',
+
+      ':focus': { ...shorthands.borderColor('GrayText') },
+      ':hover': {
+        backgroundColor: 'ButtonFace',
+        ...shorthands.borderColor('GrayText'),
+        color: 'GrayText',
+      },
+      ':hover:active': {
+        backgroundColor: 'ButtonFace',
+        ...shorthands.borderColor('GrayText'),
+        color: 'GrayText',
+      },
+    },
+  },
+  outline: {
+    ...shorthands.borderColor(tokens.colorNeutralStrokeDisabled),
+    ':hover': {
+      ...shorthands.borderColor(tokens.colorNeutralStrokeDisabled),
+      backgroundColor: tokens.colorTransparentBackground,
+    },
+    ':hover:active': {
+      ...shorthands.borderColor(tokens.colorNeutralStrokeDisabled),
+      backgroundColor: tokens.colorTransparentBackground,
+    },
+  },
+  primary: {
+    backgroundColor: tokens.colorNeutralBackgroundDisabled,
+    ':hover': { backgroundColor: tokens.colorNeutralBackgroundDisabled },
+    ':hover:active': {
+      backgroundColor: tokens.colorNeutralBackgroundDisabled,
     },
   },
   secondary: {
-    ...shorthands.borderColor(tokens.colorNeutralBackground5),
-    backgroundColor: tokens.colorNeutralBackground3,
-    color: tokens.colorNeutralForegroundDisabled,
+    ...shorthands.borderColor(tokens.colorNeutralStrokeDisabled),
+    backgroundColor: tokens.colorNeutralBackgroundDisabled,
     ':hover': {
-      ...shorthands.borderColor(tokens.colorNeutralBackground5),
-      backgroundColor: tokens.colorNeutralBackground3,
-      color: tokens.colorNeutralForegroundDisabled,
+      ...shorthands.borderColor(tokens.colorNeutralStrokeDisabled),
+      backgroundColor: tokens.colorNeutralBackgroundDisabled,
     },
     ':hover:active': {
-      ...shorthands.borderColor(tokens.colorNeutralBackground5),
-      backgroundColor: tokens.colorNeutralBackground3,
-      color: tokens.colorNeutralForegroundDisabled,
+      ...shorthands.borderColor(tokens.colorNeutralStrokeDisabled),
+      backgroundColor: tokens.colorNeutralBackgroundDisabled,
     },
   },
-  subtle: {},
-  transparent: {},
-  primary: {
-    ...shorthands.borderColor(tokens.colorNeutralBackgroundDisabled),
-    ':hover': {
-      ...shorthands.borderColor(tokens.colorNeutralBackgroundDisabled),
-    },
-    ':hover:active': {
-      ...shorthands.borderColor(tokens.colorNeutralBackgroundDisabled),
-    },
+  subtle: {
+    ':hover': { backgroundColor: tokens.colorTransparentBackground },
+    ':hover:active': { backgroundColor: tokens.colorTransparentBackground },
+  },
+  transparent: {
+    // same as base
   },
   tint: {
     ...shorthands.borderColor(tokens.colorNeutralStrokeDisabled),
+    backgroundColor: tokens.colorNeutralBackgroundDisabled,
     ':hover': {
       ...shorthands.borderColor(tokens.colorNeutralStrokeDisabled),
+      backgroundColor: tokens.colorNeutralBackgroundDisabled,
     },
     ':hover:active': {
       ...shorthands.borderColor(tokens.colorNeutralStrokeDisabled),
+      backgroundColor: tokens.colorNeutralBackgroundDisabled,
     },
   },
-  outlineColor: {
-    backgroundColor: 'transparent',
-    ...shorthands.borderColor(tokens.colorNeutralStrokeDisabled),
-    ':hover': {
-      backgroundColor: 'transparent',
-      ...shorthands.borderColor(tokens.colorNeutralStrokeDisabled),
+});
+
+const useRootFocusStyles = makeStyles({
+  primary: createCustomFocusIndicatorStyle({
+    ...innerFocusRing(tokens.colorNeutralStrokeOnBrand),
+    '@media (forced-colors: active)': {
+      outlineColor: 'ButtonBorder',
+      ...innerFocusRing('ButtonFace'),
+      ':focus': { ...shorthands.borderColor('ButtonFace') },
     },
-    ':hover:active': {
-      backgroundColor: 'transparent',
-      ...shorthands.borderColor(tokens.colorNeutralStrokeDisabled),
-    },
-  },
+  }),
 });
 
 const useRootIconOnlyStyles = makeStyles({
   small: {
     minWidth: '28px',
     maxWidth: '28px',
-    padding: buttonSpacingSmall,
+    padding: buttonSpacingVerticalSmall,
   },
   medium: {
     minWidth: '36px',
     maxWidth: '36px',
-    padding: buttonSpacingMedium,
+    padding: buttonSpacingVerticalMedium,
   },
   large: {
-    minWidth: '40px',
-    maxWidth: '40px',
-    padding: buttonSpacingLarge,
+    minWidth: '44px',
+    maxWidth: '44px',
+    padding: buttonSpacingVerticalLarge,
   },
+});
+
+const useRootTextAndIconStyles = makeStyles({
+  small: {
+    [rootSpacingAsymmetryVar]: tokens.spacingHorizontalS,
+  },
+  medium: {
+    [rootSpacingAsymmetryVar]: tokens.spacingHorizontalMNudge,
+  },
+  large: {
+    [rootSpacingAsymmetryVar]: '14px', // FIXME update to token when available
+  },
+  before: { paddingLeft: `var(${rootSpacingAsymmetryVar})` },
+  after: { paddingRight: `var(${rootSpacingAsymmetryVar})` },
 });
 
 const useIconStyles = makeStyles({
   small: {
-    fontSize: '16px',
-    height: '16px',
-    width: '16px',
+    fontSize: tokens.fontSizeBase400,
+    [iconSpacingVar]: tokens.spacingHorizontalXS,
   },
-  medium: {},
+  medium: {
+    // same as useIconBaseClassName
+  },
   large: {
-    fontSize: '20px',
-    height: '20px',
-    width: '20px',
+    fontSize: tokens.fontSizeBase600,
+    [iconSpacingVar]: tokens.spacingHorizontalS,
   },
+  before: { marginRight: `var(${iconSpacingVar})` },
+  after: { marginLeft: `var(${iconSpacingVar})` },
 });
 
 export const useButtonStyles = (state: ButtonState): ButtonState => {
+  const rootBaseClassName = useRootBaseClassName();
+  const iconBaseClassName = useIconBaseClassName();
+
   const rootStyles = useRootStyles();
   const rootDisabledStyles = useRootDisabledStyles();
+  const rootFocusStyles = useRootFocusStyles();
   const rootIconOnlyStyles = useRootIconOnlyStyles();
+  const rootTextAndIconStyles = useRootTextAndIconStyles();
   const iconStyles = useIconStyles();
 
-  const { appearance, disabled, disabledFocusable, iconOnly, size } = state;
+  const {
+    appearance,
+    disabled,
+    disabledFocusable,
+    iconOnly,
+    iconPosition,
+    size,
+  } = state;
+  const isPrimary = ['primary', 'tint'].includes(appearance);
+  const isTextAndIcon = !!state.root.children && state.icon;
 
   state.root.className = mergeClasses(
     state.root.className,
     buttonClassNames.root,
-    rootStyles.base,
+    rootBaseClassName,
+    rootStyles.root,
     rootStyles[appearance],
-    (disabled || disabledFocusable) && rootDisabledStyles[appearance],
     rootStyles[size],
-    iconOnly && rootIconOnlyStyles[size]
+
+    (disabled || disabledFocusable) && rootDisabledStyles.base,
+    (disabled || disabledFocusable) && rootDisabledStyles[appearance],
+
+    !disabledFocusable && isPrimary && rootFocusStyles.primary,
+    isTextAndIcon && rootTextAndIconStyles[iconPosition],
+    isTextAndIcon && rootTextAndIconStyles[size],
+    iconOnly && rootIconOnlyStyles[size],
+    getSlotClassNameProp_unstable(state.root)
   );
 
   if (state.icon) {
     state.icon.className = mergeClasses(
       state.icon.className,
       buttonClassNames.icon,
-      iconStyles[size]
+      iconBaseClassName,
+      !!state.root.children && iconStyles[iconPosition],
+      iconStyles[size],
+      getSlotClassNameProp_unstable(state.icon)
     );
   }
 

@@ -1,0 +1,63 @@
+export {
+  Accordion,
+  AccordionHeaderProvider,
+  AccordionItem,
+  AccordionItemProvider,
+  AccordionProvider,
+  accordionClassNames,
+  accordionHeaderClassNames,
+  accordionItemClassNames,
+  accordionPanelClassNames,
+  renderAccordion_unstable as renderAccordion,
+  renderAccordionHeader_unstable as renderAccordionHeader,
+  renderAccordionItem_unstable as renderAccordionItem,
+  renderAccordionPanel_unstable as renderAccordionPanel,
+  useAccordion_unstable as useAccordion,
+  useAccordionContext_unstable as useAccordionContext,
+  useAccordionContextValues_unstable as useAccordionContextValues,
+  useAccordionStyles_unstable as useAccordionStyles,
+  useAccordionHeader_unstable,
+  useAccordionHeaderContext_unstable as useAccordionHeaderContext,
+  useAccordionHeaderContextValues_unstable as useAccordionHeaderContextValues,
+  useAccordionHeaderStyles_unstable,
+  useAccordionItem_unstable as useAccordionItem,
+  useAccordionItemContext_unstable as useAccordionItemContext,
+  useAccordionItemContextValues_unstable as useAccordionItemContextValues,
+  useAccordionItemStyles_unstable as useAccordionItemStyles,
+  useAccordionPanel_unstable as useAccordionPanel,
+  useAccordionPanelStyles_unstable,
+} from '@fluentui/react-accordion';
+export type {
+  AccordionProps,
+  AccordionSlots,
+  AccordionState,
+  AccordionContextValue,
+  AccordionContextValues,
+  AccordionHeaderProps,
+  AccordionHeaderState,
+  AccordionHeaderSlots,
+  AccordionHeaderContextValue,
+  AccordionHeaderContextValues,
+  AccordionHeaderExpandIconPosition,
+  AccordionHeaderSize,
+  AccordionIndex,
+  AccordionItemContextValue,
+  AccordionItemContextValues,
+  AccordionItemProps,
+  AccordionItemSlots,
+  AccordionItemState,
+  AccordionItemValue,
+  AccordionPanelProps,
+  AccordionPanelSlots,
+  AccordionPanelState,
+  AccordionToggleData,
+  AccordionToggleEvent,
+  AccordionToggleEventHandler,
+} from '@fluentui/react-accordion';
+
+export { AccordionHeader } from './components/AccordionHeader/AccordionHeader';
+export { useAccordionHeader } from './components/AccordionHeader/useAccordionHeader';
+export { useAccordionHeaderStyles } from './components/AccordionHeader/useAccordionHeaderStyles.styles';
+
+export { AccordionPanel } from './components/AccordionPanel/AccordionPanel';
+export { useAccordionPanelStyles } from './components/AccordionPanel/useAccordionPanelStyles.styles';

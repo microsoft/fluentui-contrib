@@ -1,139 +1,217 @@
-import type { SlotClassNames } from '@fluentui/react-utilities';
+import { toggleButtonClassNames } from '@fluentui/react-button';
+import {
+  iconFilledClassName,
+  iconRegularClassName,
+} from '@fluentui/react-icons';
+import { createCustomFocusIndicatorStyle } from '@fluentui/react-tabster';
 import { tokens } from '../../../tokens';
-import { makeStyles, shorthands, mergeClasses } from '@griffel/react';
-import { useButtonStyles, type ButtonSlots } from '../../Button';
+import {
+  type GriffelStyle,
+  makeStyles,
+  mergeClasses,
+  shorthands,
+} from '@griffel/react';
+import { buttonClassNames, useButtonStyles } from '../../Button';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import type { ToggleButtonState } from './ToggleButton.types';
 
-export const toggleButtonClassNames: SlotClassNames<ButtonSlots> = {
-  root: 'fui-ToggleButton',
-  icon: 'fui-ToggleButton__icon',
+const highContrastPrimaryStyles: GriffelStyle = {
+  ...createCustomFocusIndicatorStyle({
+    '@media (forced-colors: active)': {
+      outlineColor: 'Highlight',
+      ':focus': shorthands.borderColor('Highlight'),
+    },
+  }),
+  '@media (forced-colors: active)': {
+    backgroundColor: 'ButtonFace',
+    ...shorthands.borderColor('ButtonBorder'),
+    color: 'ButtonText',
+    ':focus': shorthands.borderColor('ButtonBorder'),
+  },
 };
 
-const iconFilledClassName = 'fui-Icon-filled';
-const iconRegularClassName = 'fui-Icon-regular';
-
-const displayInline = { display: 'inline' };
-const displayNone = { display: 'none' };
+const useStyles = makeStyles({
+  outline: {
+    // same as Button
+  },
+  primary: highContrastPrimaryStyles,
+  secondary: {
+    // same as Button
+  },
+  subtle: {
+    // same as Button
+  },
+  transparent: {
+    // same as Button
+  },
+  tint: highContrastPrimaryStyles,
+});
 
 const useRootCheckedStyles = makeStyles({
   base: {
-    [`:hover .${iconFilledClassName}`]: {
-      color: tokens.colorCompoundBrandForeground1Hover,
+    [`& .${iconFilledClassName}`]: { display: 'inline' },
+    [`& .${iconRegularClassName}`]: { display: 'none' },
+
+    ...createCustomFocusIndicatorStyle({
+      '@media (forced-colors: active)': {
+        ':focus': shorthands.borderColor('ButtonFace'),
+      },
+    }),
+
+    '@media (forced-colors: active)': {
+      backgroundColor: 'Highlight',
+      ...shorthands.borderColor('Highlight'),
+      color: 'HighlightText',
+      forcedColorAdjust: 'none',
+      ':focus': shorthands.borderColor('Highlight'),
     },
   },
   outline: {
-    ...shorthands.borderColor(tokens.colorNeutralStroke1Selected),
-    color: tokens.colorNeutralForeground3Selected,
-  },
-
-  primary: {
-    [`:hover .${iconFilledClassName}`]: {
-      color: tokens.colorNeutralForegroundOnBrand,
-    },
-  },
-  tint: {
-    backgroundColor: tokens.colorBrandBackground2Pressed,
-    color: tokens.colorCompoundBrandForeground1Pressed,
-    ...shorthands.borderColor(tokens.colorBrandStroke2Pressed),
-    ...shorthands.borderWidth(tokens.strokeWidthThicker),
-  },
-  outlineColor: {
-    backgroundColor: tokens.colorBrandBackground2Pressed,
-    color: tokens.colorCompoundBrandForeground1Pressed,
-    ...shorthands.borderColor(tokens.colorBrandStroke2Pressed),
-    ...shorthands.borderWidth(tokens.strokeWidthThicker),
-  },
-  secondary: {
-    backgroundColor: tokens.colorNeutralBackground3,
-    ...shorthands.borderColor(tokens.colorNeutralBackground3Hover),
+    ...shorthands.borderColor(tokens.colorNeutralStroke4Selected),
     color: tokens.colorNeutralForeground1,
-    [`& .${toggleButtonClassNames.icon}`]: {
+    [`& .${buttonClassNames.icon}`]: {
       color: tokens.colorCompoundBrandForeground1Pressed,
     },
     ':hover': {
-      color: tokens.colorCompoundBrandForeground1Hover,
+      [`& .${buttonClassNames.icon}`]: {
+        color: tokens.colorCompoundBrandForeground1Hover,
+      },
     },
     ':hover:active': {
+      [`& .${buttonClassNames.icon}`]: {
+        color: tokens.colorCompoundBrandForeground1Pressed,
+      },
+    },
+  },
+  primary: { backgroundColor: tokens.colorBrandBackgroundSelected },
+  tint: {
+    backgroundColor: tokens.colorBrandBackground2Pressed,
+    ...shorthands.borderColor(tokens.colorCompoundBrandStroke),
+    color: tokens.colorCompoundBrandForeground1Pressed,
+    ':hover': shorthands.borderColor(tokens.colorCompoundBrandStrokeHover),
+    ':hover:active': shorthands.borderColor(
+      tokens.colorCompoundBrandStrokePressed
+    ),
+  },
+  secondary: {
+    ...shorthands.borderColor(tokens.colorNeutralStroke4Selected),
+    color: tokens.colorNeutralForeground1,
+    [`& .${buttonClassNames.icon}`]: {
       color: tokens.colorCompoundBrandForeground1Pressed,
+    },
+    ':hover': {
+      [`& .${buttonClassNames.icon}`]: {
+        color: tokens.colorCompoundBrandForeground1Hover,
+      },
+    },
+    ':hover:active': {
+      [`& .${buttonClassNames.icon}`]: {
+        color: tokens.colorCompoundBrandForeground1Pressed,
+      },
     },
   },
   subtle: {
-    backgroundColor: tokens.colorNeutralBackground1Selected,
-    color: tokens.colorNeutralForeground3Selected,
+    color: tokens.colorNeutralForeground1,
+    [`& .${buttonClassNames.icon}`]: {
+      color: tokens.colorCompoundBrandForeground1Pressed,
+    },
     ':hover': {
-      backgroundColor: tokens.colorNeutralBackground1Hover,
+      [`& .${buttonClassNames.icon}`]: {
+        color: tokens.colorCompoundBrandForeground1Hover,
+      },
+    },
+    ':hover:active': {
+      [`& .${buttonClassNames.icon}`]: {
+        color: tokens.colorCompoundBrandForeground1Pressed,
+      },
     },
   },
   transparent: {
-    color: tokens.colorCompoundBrandForeground1Pressed,
+    color: tokens.colorNeutralForeground1,
+    [`& .${buttonClassNames.icon}`]: {
+      color: tokens.colorCompoundBrandForeground1Pressed,
+    },
+    ':hover': {
+      [`& .${buttonClassNames.icon}`]: {
+        color: tokens.colorCompoundBrandForeground1Hover,
+      },
+    },
+    ':hover:active': {
+      [`& .${buttonClassNames.icon}`]: {
+        color: tokens.colorCompoundBrandForeground1Pressed,
+      },
+    },
   },
 });
 
 const useRootCheckedDisabledStyles = makeStyles({
   base: {
+    [`& .${iconFilledClassName}`]: { display: 'inline' },
+    [`& .${iconRegularClassName}`]: { display: 'none' },
     ':hover': {
-      [`& .${iconFilledClassName}`]: displayInline,
-      [`& .${iconRegularClassName}`]: displayNone,
+      [`& .${iconFilledClassName}`]: { display: 'inline' },
+      [`& .${iconRegularClassName}`]: { display: 'none' },
     },
     ':hover:active': {
-      [`& .${iconFilledClassName}`]: displayInline,
-      [`& .${iconRegularClassName}`]: displayNone,
+      [`& .${iconFilledClassName}`]: { display: 'inline' },
+      [`& .${iconRegularClassName}`]: { display: 'none' },
     },
-    [`:hover .${iconFilledClassName}`]: {
-      color: tokens.colorNeutralForegroundDisabled,
-    },
-    [`:hover:active .${iconFilledClassName}`]: {
-      color: tokens.colorNeutralForegroundDisabled,
-    },
-  },
-  secondary: {},
-  primary: {},
-  outline: {},
-  transparent: {},
-  subtle: {},
-  tint: {
-    ...shorthands.borderWidth(tokens.strokeWidthThicker),
-  },
-  outlineColor: {
-    ...shorthands.borderWidth(tokens.strokeWidthThicker),
   },
 });
 
 const useIconCheckedStyles = makeStyles({
-  outline: {
-    color: tokens.colorCompoundBrandForeground1Pressed,
+  base: {
+    '@media (forced-colors: active)': {
+      color: 'inherit',
+      forcedColorAdjust: 'auto',
+    },
+  },
+  outline: { color: tokens.colorCompoundBrandForeground1Pressed },
+  primary: {
+    // same as base
+  },
+  tint: {
+    // same as base
+  },
+  secondary: { color: tokens.colorCompoundBrandForeground1Pressed },
+  subtle: { color: tokens.colorCompoundBrandForeground1Pressed },
+  transparent: {
+    // same as base
   },
 });
 
 export const useToggleButtonStyles = (
   state: ToggleButtonState
 ): ToggleButtonState => {
-  'use no memo';
-
+  const styles = useStyles();
   const rootCheckedStyles = useRootCheckedStyles();
   const iconCheckedStyles = useIconCheckedStyles();
   const checkedDisabledStyles = useRootCheckedDisabledStyles();
   const { appearance, checked, disabled, disabledFocusable } = state;
   const showAsDisabled = disabled || disabledFocusable;
 
-  useButtonStyles(state);
-
   state.root.className = mergeClasses(
     state.root.className,
     toggleButtonClassNames.root,
+    !showAsDisabled && styles[appearance],
+
     checked && !showAsDisabled && rootCheckedStyles.base,
     checked && !showAsDisabled && rootCheckedStyles[appearance],
     checked && showAsDisabled && checkedDisabledStyles.base,
-    checked && showAsDisabled && checkedDisabledStyles[appearance]
+    getSlotClassNameProp_unstable(state.root)
   );
 
   if (state.icon) {
     state.icon.className = mergeClasses(
       state.icon.className,
       toggleButtonClassNames.icon,
-      checked && appearance === 'outline' && iconCheckedStyles.outline
+      checked && iconCheckedStyles.base,
+      checked && !showAsDisabled && iconCheckedStyles[appearance],
+      getSlotClassNameProp_unstable(state.icon)
     );
   }
+
+  useButtonStyles(state);
 
   return state;
 };

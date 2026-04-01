@@ -11,7 +11,6 @@ export type ButtonAppearance =
   | 'primary'
   | 'tint'
   | 'outline'
-  | 'outlineColor'
   | 'secondary'
   | 'subtle'
   | 'transparent';
