@@ -1,8 +1,24 @@
 # Change Log - @fluentui-contrib/react-resize-handle
 
-This log was last generated on Tue, 18 Nov 2025 14:32:44 GMT and should not be manually modified.
+This log was last generated on Fri, 06 Mar 2026 08:46:45 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.8.4
+
+Fri, 06 Mar 2026 08:46:45 GMT
+
+### Patches
+
+- Fix UX for edge cases (jirivyhnalek@microsoft.com)
+
+## 0.8.3
+
+Tue, 25 Nov 2025 18:02:17 GMT
+
+### Patches
+
+- fix: onChangeRejected not called because inaccurate window width results in inaccurate vw unit (fealkhou@microsoft.com)
 
 ## 0.8.2
 

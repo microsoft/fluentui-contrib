@@ -1,6 +1,6 @@
 {
   "name": "@fluentui-contrib/react-cap-theme",
-  "version": "0.1.0",
+  "version": "0.2.2",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "peerDependencies": {
@@ -10,5 +10,8 @@
   },
   "dependencies": {
     "@swc/helpers": "~0.5.11"
+  },
+  "devDependencies": {
+    "storybook-addon-pseudo-states": "9.1.15"
   }
 }

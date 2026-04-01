@@ -11,18 +11,6 @@ export type ScrollToItemStaticParams = {
   gap?: number;
 };
 
-export type ScrollToItemDynamicParams = {
-  // The goto index
-  index: number;
-  getItemSize: (index: number) => number;
-  totalSize: number;
-  scrollViewRef: React.RefObject<HTMLDivElement | null>;
-  axis?: 'horizontal' | 'vertical';
-  reversed?: boolean;
-  behavior?: ScrollBehavior;
-  gap?: number;
-};
-
 export type ScrollToInterface = {
   scrollTo: (
     index: number,

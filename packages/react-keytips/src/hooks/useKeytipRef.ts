@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useFluent } from '@fluentui/react-components';
+import { useFluent, useId } from '@fluentui/react-components';
 import { useKeytipsManager } from './useKeytipsManager';
 import { KTP_ROOT_ID } from '../constants';
 import { usePrevious } from '@fluentui/react-utilities';
@@ -20,7 +20,7 @@ export const useKeytipRef = <
   const { targetDocument } = useFluent();
   const [node, setNode] = React.useState<T | null>(null);
   const { register, unregister, update } = useKeytipsManager();
-  const uniqueId = React.useId();
+  const uniqueId = useId();
   const isPrimitiveContent = typeof content === 'string';
 
   const keySequences = keytip.keySequences.map((k) =>

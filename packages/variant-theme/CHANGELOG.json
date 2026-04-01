@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/variant-theme",
   "entries": [
     {
+      "date": "Tue, 03 Mar 2026 14:35:51 GMT",
+      "tag": "@fluentui-contrib/variant-theme_v0.1.1",
+      "version": "0.1.1",
+      "comments": {
+        "none": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/variant-theme",
+            "commit": "45e07a396c42688fb96423bd6a95a442fb8f0f84",
+            "comment": "chore: migrate repo to yarn modern"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 01 Oct 2025 08:00:02 GMT",
       "tag": "@fluentui-contrib/variant-theme_v0.1.1",
       "version": "0.1.1",

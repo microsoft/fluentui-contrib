@@ -96,30 +96,6 @@ import {
 import { useImageStyles, type ImageState } from './components/react-image';
 import { useLinkStyles, type LinkState } from './components/react-link';
 import {
-  useMenuDividerStyles,
-  useMenuGroupStyles,
-  useMenuGroupHeaderStyles,
-  useMenuItemStyles,
-  useMenuItemCheckboxStyles,
-  useMenuItemLinkStyles,
-  useMenuItemRadioStyles,
-  useMenuItemSwitchStyles,
-  useMenuListStyles,
-  useMenuPopoverStyles,
-  useMenuSplitGroupStyles,
-  type MenuDividerState,
-  type MenuGroupState,
-  type MenuGroupHeaderState,
-  type MenuItemState,
-  type MenuItemCheckboxState,
-  type MenuItemLinkState,
-  type MenuItemRadioState,
-  type MenuItemSwitchState,
-  type MenuListState,
-  type MenuPopoverState,
-  type MenuSplitGroupState,
-} from './components/react-menu';
-import {
   usePopoverSurfaceStyles,
   type PopoverSurfaceState,
 } from './components/react-popover';
@@ -23097,38 +23073,5 @@ export const CAP_STYLE_HOOKS: NonNullable<
   },
   useTooltipStyles_unstable: (state) => {
     return useTooltipStyles(state as TooltipState);
-  },
-  useMenuDividerStyles_unstable: (state) => {
-    return useMenuDividerStyles(state as MenuDividerState);
-  },
-  useMenuGroupStyles_unstable: (state) => {
-    return useMenuGroupStyles(state as MenuGroupState);
-  },
-  useMenuGroupHeaderStyles_unstable: (state) => {
-    return useMenuGroupHeaderStyles(state as MenuGroupHeaderState);
-  },
-  useMenuItemStyles_unstable: (state) => {
-    return useMenuItemStyles(state as MenuItemState);
-  },
-  useMenuItemCheckboxStyles_unstable: (state) => {
-    return useMenuItemCheckboxStyles(state as MenuItemCheckboxState);
-  },
-  useMenuItemLinkStyles_unstable: (state) => {
-    return useMenuItemLinkStyles(state as MenuItemLinkState);
-  },
-  useMenuItemRadioStyles_unstable: (state) => {
-    return useMenuItemRadioStyles(state as MenuItemRadioState);
-  },
-  useMenuItemSwitchStyles_unstable: (state) => {
-    return useMenuItemSwitchStyles(state as MenuItemSwitchState);
-  },
-  useMenuListStyles_unstable: (state) => {
-    return useMenuListStyles(state as MenuListState);
-  },
-  useMenuPopoverStyles_unstable: (state) => {
-    return useMenuPopoverStyles(state as MenuPopoverState);
-  },
-  useMenuSplitGroupStyles_unstable: (state) => {
-    return useMenuSplitGroupStyles(state as MenuSplitGroupState);
   },
 };

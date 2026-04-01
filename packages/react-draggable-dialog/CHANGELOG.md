@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-draggable-dialog
 
-This log was last generated on Tue, 18 Nov 2025 14:32:44 GMT and should not be manually modified.
+This log was last generated on Tue, 02 Dec 2025 13:14:00 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.2.4
+
+Tue, 02 Dec 2025 13:14:00 GMT
+
+### Patches
+
+- fix: improve initial position calculation performance (marcosvmmoura@gmail.com)
 
 ## 0.2.3
 

@@ -2,6 +2,29 @@
   "name": "@fluentui-contrib/react-virtualizer",
   "entries": [
     {
+      "date": "Tue, 03 Mar 2026 14:35:51 GMT",
+      "tag": "@fluentui-contrib/react-virtualizer_v1.0.0",
+      "version": "1.0.0",
+      "comments": {
+        "patch": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "ba987ed5eeda9d16726f3c33f129f0f76d594961",
+            "comment": "fix: prevent RangeError: Invalid array length when numItems decreases while scrolled near the bottom"
+          }
+        ],
+        "major": [
+          {
+            "author": "dmytrokirpa@microsoft.com",
+            "package": "@fluentui-contrib/react-virtualizer",
+            "commit": "7d692b92cf68220593bc379866bb44dba4c37da7",
+            "comment": "BREAKING: Reimplemented scrollTo behavior for VirtualizerScrollViewDynamic to handle dynamic item sizes."
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 18 Nov 2025 08:19:33 GMT",
       "tag": "@fluentui-contrib/react-virtualizer_v0.5.4",
       "version": "0.5.4",

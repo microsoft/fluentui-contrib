@@ -6,16 +6,16 @@
   "generators": "./generators.json",
   "executors": "./executors.json",
   "dependencies": {
-    "@nx/devkit": "^21",
-    "@nx/js": "^21",
-    "@nx/playwright": "^21",
+    "@nx/devkit": "^22",
+    "@nx/js": "^22",
+    "@nx/playwright": "^22",
     "semver": "^7.5.2",
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
     "@playwright/experimental-ct-react": "^1.56.1",
     "@playwright/experimental-ct-react17": "^1.56.1",
-    "nx": "^21"
+    "nx": "^22"
   },
   "peerDependenciesMeta": {
     "@playwright/experimental-ct-react": {

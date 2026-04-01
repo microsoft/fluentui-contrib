@@ -190,6 +190,8 @@ describe('restrictToBoundaryModifier', () => {
         ...mockModifierArgs,
         windowRect: mockWindowRect, // Should be unchanged with zero margins
       });
+      const zeroMarginCall = mockedRestrictToWindowEdges.mock.calls[0][0];
+      expect(zeroMarginCall.windowRect).toBe(mockWindowRect);
 
       // Test asymmetric margins
       const asymmetricMargin: Required<DraggableDialogMarginViewport> = {

@@ -2,6 +2,135 @@
   "name": "@fluentui-contrib/react-cap-theme",
   "entries": [
     {
+      "date": "Tue, 10 Mar 2026 16:54:17 GMT",
+      "tag": "@fluentui-contrib/react-cap-theme_v0.2.2",
+      "version": "0.2.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "dzukowski@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "d44c2f93a2cf6e68b6051d309d4f1e836d3cd6a9",
+            "comment": "publish component updates"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Tue, 03 Mar 2026 14:35:51 GMT",
+      "tag": "@fluentui-contrib/react-cap-theme_v0.2.1",
+      "version": "0.2.1",
+      "comments": {
+        "none": [
+          {
+            "author": "dzukowski@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "962693d1b390a115c33f0f4ddb837de840bc0478",
+            "comment": "update strings"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Tue, 16 Dec 2025 19:51:38 GMT",
+      "tag": "@fluentui-contrib/react-cap-theme_v0.2.1",
+      "version": "0.2.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "dimasteite@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "d94ff5865d69376864d75e694f2d77728859a709",
+            "comment": "update formatCAPTokenCssVar to replace slashes with dashes"
+          }
+        ],
+        "none": [
+          {
+            "author": "olkatruk@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "41841223454f5c674ee4a01f7e5ba92737ae55f2",
+            "comment": "Add Drawer component styles and integrate into CAP theme"
+          },
+          {
+            "author": "dzukowski@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "cfc6d58ad2d23005abca0fe2ae92c2372cc3dd26",
+            "comment": "reduce theme variants in react-cap-theme storybook comparison tables"
+          },
+          {
+            "author": "yizhang9@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "a300cd86fa1e8acab4587cf847dcf95702dabec6",
+            "comment": "Add dialog component with 2 types of stories"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Sat, 06 Dec 2025 20:35:40 GMT",
+      "tag": "@fluentui-contrib/react-cap-theme_v0.2.0",
+      "version": "0.2.0",
+      "comments": {
+        "none": [
+          {
+            "author": "yizhang9@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "5fa83f76bb4519ca0802b6ba68c53949e86afbf9",
+            "comment": "[CAP-theme] apply new placeholder names to badge component"
+          },
+          {
+            "author": "yizhang9@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "642ad96385a861f138df703750102214d56c5adb",
+            "comment": "[CAP-theme] fix icon only small badge margin"
+          },
+          {
+            "author": "dzukowski@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "e19132c6317610a2244ec96b75f07361816e1b51",
+            "comment": "Organize fluent-ext and control tokens"
+          },
+          {
+            "author": "a.katrukhin@gmail.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "75d450e5fd85a34296396603ec5108fd4dd35dce",
+            "comment": "feat: Enhance Storybook configuration for react-cap-theme by adding CAP theme selection and integrating root decorators."
+          }
+        ],
+        "patch": [
+          {
+            "author": "olkatruk@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "1405b3993e58a3b6ffb4fda5ea42deffbd73062c",
+            "comment": "Add CAP Button tint appearance and export the button/types from react-cap-theme."
+          }
+        ],
+        "minor": [
+          {
+            "author": "dimasteite@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "3b741bdb62aa111e662dc0b88a935ff1e114b182",
+            "comment": "update CAPThemeProvider props structure"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Tue, 02 Dec 2025 13:14:00 GMT",
+      "tag": "@fluentui-contrib/react-cap-theme_v0.1.0",
+      "version": "0.1.0",
+      "comments": {
+        "none": [
+          {
+            "author": "dzukowski@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "1b42b46ed209eceb6b536369a46da51019778ea2",
+            "comment": "Update react-cap-theme structure to follow new guidelines"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 21 Nov 2025 10:58:05 GMT",
       "tag": "@fluentui-contrib/react-cap-theme_v0.1.0",
       "version": "0.1.0",
