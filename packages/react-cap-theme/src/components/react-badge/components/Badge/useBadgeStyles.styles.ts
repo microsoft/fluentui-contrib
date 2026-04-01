@@ -1,5 +1,6 @@
 import type { BadgeState } from '@fluentui/react-badge';
 import { useBadgeStyles_unstable } from '@fluentui/react-badge';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens, typographyStyles } from '../../../tokens';
 import { makeStyles, mergeClasses, shorthands } from '@griffel/react';
 
@@ -212,12 +213,13 @@ export const useBadgeStyles = (state: BadgeState): BadgeState => {
   const shapeClassKey = shape === 'rounded' ? `${shape}-${size}` : shape;
 
   state.root.className = mergeClasses(
+    state.root.className,
     rootShapeStyles[shapeClassKey as keyof typeof rootShapeStyles],
     rootSizeStyles[size],
     iconOnly && iconOnlyClassName[size],
     isTextAndIcon && rootTextAndIconStyles[iconPosition],
     rootAppearanceStyles[`${appearance}-${state.color}`],
-    state.root.className
+    getSlotClassNameProp_unstable(state.root)
   );
 
   if (state.icon) {
