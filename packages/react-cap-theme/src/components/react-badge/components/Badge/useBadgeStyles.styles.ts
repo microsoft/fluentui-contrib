@@ -224,9 +224,10 @@ export const useBadgeStyles = (state: BadgeState): BadgeState => {
 
   if (state.icon) {
     state.icon.className = mergeClasses(
+      state.icon.className,
       iconStyles.base,
       !!state.root.children && iconStyles[iconPosition],
-      state.icon.className
+      getSlotClassNameProp_unstable(state.icon)
     );
   }
 
