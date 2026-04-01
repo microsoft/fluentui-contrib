@@ -8,6 +8,7 @@ import {
 import { tokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 import type { CarouselState } from './Carousel.types';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 
 const NAV_HEIGHT = 28;
 
@@ -36,9 +37,10 @@ export const useCarouselStyles = (state: CarouselState): CarouselState => {
   const styles = useStyles();
 
   state.root.className = mergeClasses(
+    state.root.className,
     styles.root,
     state.layout === 'inline-expanded' && styles['inline-expanded'],
-    state.root.className
+    getSlotClassNameProp_unstable(state.root)
   );
 
   return useCarouselStyles_unstable(state) as CarouselState;

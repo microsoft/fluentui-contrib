@@ -1,5 +1,5 @@
 import type { MenuItemRadioState, MenuItemSlots } from '@fluentui/react-menu';
-import type { SlotClassNames } from '@fluentui/react-utilities';
+import { type SlotClassNames, getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { makeStyles, mergeClasses } from '@griffel/react';
 import { useMenuItemStyles } from '../MenuItem/useMenuItemStyles.styles';
 
@@ -30,14 +30,16 @@ export const useMenuItemRadioStyles = (
   const styles = useStyles();
 
   state.root.className = mergeClasses(
+    state.root.className,
     menuItemRadioClassNames.root,
-    state.root.className
+    getSlotClassNameProp_unstable(state.root)
   );
   if (state.checkmark) {
     state.checkmark.className = mergeClasses(
+      state.checkmark.className,
       menuItemRadioClassNames.content,
       styles.checkmark,
-      state.checkmark.className
+      getSlotClassNameProp_unstable(state.checkmark)
     );
   }
 

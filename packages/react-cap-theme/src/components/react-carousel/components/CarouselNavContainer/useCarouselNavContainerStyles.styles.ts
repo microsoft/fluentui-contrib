@@ -5,6 +5,7 @@ import type {
   CarouselNavContainerState,
   FluentCarouselNavContainerState,
 } from './CarouselNavContainer.types';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 
 const useStyles = makeStyles({
   inline: {},
@@ -54,35 +55,39 @@ export const useCarouselNavContainerStyles = (
   const buttonClasses = useButtonStyles();
 
   state.root.className = mergeClasses(
+    state.root.className,
     classes[layout],
     isExpanded && classes.expanded,
-    state.root.className
+    getSlotClassNameProp_unstable(state.root)
   );
 
   if (state.autoplay) {
     state.autoplay.className = mergeClasses(
+      state.autoplay.className,
       buttonClasses.base,
       buttonClasses.autoplay,
       buttonClasses[layout],
       isExpanded && buttonClasses.autoPlayExpanded,
       layout === 'overlay-wide' && buttonClasses.autoplayOverlayWide,
-      state.autoplay.className
+      getSlotClassNameProp_unstable(state.autoplay)
     );
   }
   if (state.prev) {
     state.prev.className = mergeClasses(
+      state.prev.className,
       buttonClasses.base,
       buttonClasses[layout],
       layout === 'overlay-wide' && buttonClasses.prevOverlayWide,
-      state.prev.className
+      getSlotClassNameProp_unstable(state.prev)
     );
   }
   if (state.next) {
     state.next.className = mergeClasses(
+      state.next.className,
       buttonClasses.base,
       buttonClasses[layout],
       layout === 'overlay-wide' && buttonClasses.nextOverlayWide,
-      state.next.className
+      getSlotClassNameProp_unstable(state.next)
     );
   }
 

@@ -9,6 +9,7 @@ import {
 import { createFocusOutlineStyle } from '@fluentui/react-tabster';
 import { tokens, typographyStyles } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 
 const useStyles = makeStyles({
   root: {
@@ -76,34 +77,41 @@ export const useAccordionHeaderStyles = (
 ): AccordionHeaderState => {
   const styles = useStyles();
 
-  state.root.className = mergeClasses(styles.root, state.root.className);
+  state.root.className = mergeClasses(
+    state.root.className,
+    styles.root,
+    getSlotClassNameProp_unstable(state.root)
+  );
 
   state.button.className = mergeClasses(
+    state.button.className,
     styles.button,
     state.size === 'small' ? styles.focusIndicatorSmall : styles.focusIndicator,
     state.size === 'small' && styles.buttonSmall,
     state.size === 'medium' && styles.buttonMedium,
     state.size === 'large' && styles.buttonLarge,
     state.size === 'extra-large' && styles.buttonExtraLarge,
-    state.button.className
+    getSlotClassNameProp_unstable(state.button)
   );
 
   if (state.expandIcon) {
     state.expandIcon.className = mergeClasses(
+      state.expandIcon.className,
       state.expandIconPosition === 'start' && styles.expandIconStart,
       state.expandIconPosition === 'end' && styles.expandIconEnd,
       state.size === 'small' && styles.expandIconSmall,
       state.size === 'medium' && styles.expandIconMedium,
-      state.expandIcon.className
+      getSlotClassNameProp_unstable(state.expandIcon)
     );
   }
 
   if (state.icon) {
     state.icon.className = mergeClasses(
+      state.icon.className,
       styles.icon,
       state.size === 'small' && styles.iconSmall,
       state.size === 'medium' && styles.iconMedium,
-      state.icon.className
+      getSlotClassNameProp_unstable(state.icon)
     );
   }
 

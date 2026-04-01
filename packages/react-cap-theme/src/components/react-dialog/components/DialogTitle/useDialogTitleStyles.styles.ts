@@ -3,6 +3,7 @@ import {
   useDialogTitleStyles_unstable,
 } from '@fluentui/react-dialog';
 import { makeStyles, mergeClasses } from '@griffel/react';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 
 const useStyles = makeStyles({
   action: {
@@ -16,8 +17,9 @@ export const useDialogTitleStyles = (
   const styles = useStyles();
   if (state.action)
     state.action.className = mergeClasses(
+      state.action.className,
       styles.action,
-      state.action.className
+      getSlotClassNameProp_unstable(state.action)
     );
   return useDialogTitleStyles_unstable(state);
 };

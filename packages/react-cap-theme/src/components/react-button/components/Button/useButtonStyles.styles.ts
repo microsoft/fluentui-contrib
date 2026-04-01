@@ -12,6 +12,7 @@ import {
   mergeClasses,
   shorthands,
 } from '@griffel/react';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import type { ButtonState } from './Button.types';
 
 const iconSpacingVar = '--fui-Button__icon--spacing';
@@ -375,6 +376,7 @@ export const useButtonStyles = (state: ButtonState): ButtonState => {
   const isTextAndIcon = !!state.root.children && state.icon;
 
   state.root.className = mergeClasses(
+    state.root.className,
     buttonClassNames.root,
     rootBaseClassName,
     rootStyles.root,
@@ -388,16 +390,17 @@ export const useButtonStyles = (state: ButtonState): ButtonState => {
     isTextAndIcon && rootTextAndIconStyles[iconPosition],
     isTextAndIcon && rootTextAndIconStyles[size],
     iconOnly && rootIconOnlyStyles[size],
-    state.root.className
+    getSlotClassNameProp_unstable(state.root)
   );
 
   if (state.icon) {
     state.icon.className = mergeClasses(
+      state.icon.className,
       buttonClassNames.icon,
       iconBaseClassName,
       !!state.root.children && iconStyles[iconPosition],
       iconStyles[size],
-      state.icon.className
+      getSlotClassNameProp_unstable(state.icon)
     );
   }
 

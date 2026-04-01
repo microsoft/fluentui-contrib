@@ -4,7 +4,7 @@ import {
   type MenuSplitGroupSlots,
   type MenuSplitGroupState,
 } from '@fluentui/react-menu';
-import type { SlotClassNames } from '@fluentui/react-utilities';
+import { type SlotClassNames, getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 
@@ -40,9 +40,10 @@ export const useMenuSplitGroupStyles = (
 ): MenuSplitGroupState => {
   const styles = useStyles();
   state.root.className = mergeClasses(
+    state.root.className,
     menuSplitGroupClassNames.root,
     styles.root,
-    state.root.className
+    getSlotClassNameProp_unstable(state.root)
   );
   useMenuSplitGroupStyles_unstable(state);
   return state;

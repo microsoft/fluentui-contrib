@@ -4,7 +4,7 @@ import {
   type MenuItemState,
   useMenuItemStyles_unstable,
 } from '@fluentui/react-menu';
-import type { SlotClassNames } from '@fluentui/react-utilities';
+import { type SlotClassNames, getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens, typographyStyles } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 
@@ -93,45 +93,51 @@ export const useMenuItemStyles = (state: MenuItemState): MenuItemState => {
   const { disabled } = state;
 
   state.root.className = mergeClasses(
+    state.root.className,
     menuItemClassNames.root,
     styles.root,
     disabled && styles.disabled,
-    state.root.className
+    getSlotClassNameProp_unstable(state.root)
   );
 
   if (state.content) {
     state.content.className = mergeClasses(
+      state.content.className,
       menuItemClassNames.content,
       styles.content,
-      state.content.className
+      getSlotClassNameProp_unstable(state.content)
     );
   }
   if (state.icon) {
     state.icon.className = mergeClasses(
+      state.icon.className,
       menuItemClassNames.icon,
       styles.icon,
-      state.icon.className
+      getSlotClassNameProp_unstable(state.icon)
     );
   }
   if (state.secondaryContent) {
     state.secondaryContent.className = mergeClasses(
+      state.secondaryContent.className,
       menuItemClassNames.secondaryContent,
       styles.secondaryContent,
-      state.secondaryContent.className
+      getSlotClassNameProp_unstable(state.secondaryContent)
     );
   }
   if (state.submenuIndicator) {
     state.submenuIndicator.className = mergeClasses(
+      state.submenuIndicator.className,
       menuItemClassNames.submenuIndicator,
       styles.submenuIndicator,
-      state.submenuIndicator.className
+      getSlotClassNameProp_unstable(state.submenuIndicator)
     );
   }
   if (state.subText) {
     state.subText.className = mergeClasses(
+      state.subText.className,
       menuItemClassNames.subText,
       styles.subText,
-      state.subText.className
+      getSlotClassNameProp_unstable(state.subText)
     );
   }
 
@@ -140,7 +146,8 @@ export const useMenuItemStyles = (state: MenuItemState): MenuItemState => {
   if (state.content) {
     state.content.className = mergeClasses(
       state.content.className,
-      multiline && multilineStyles.content
+      multiline && multilineStyles.content,
+      getSlotClassNameProp_unstable(state.content)
     );
   }
 

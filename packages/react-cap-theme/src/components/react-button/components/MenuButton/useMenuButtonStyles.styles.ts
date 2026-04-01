@@ -2,6 +2,7 @@ import { menuButtonClassNames } from '@fluentui/react-button';
 import { tokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 import { useButtonStyles } from '../Button/useButtonStyles.styles';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import type { MenuButtonState } from './MenuButton.types';
 
 const useMenuIconStyles = makeStyles({
@@ -38,24 +39,27 @@ export const useMenuButtonStyles = (
   const { iconOnly, size } = state;
 
   state.root.className = mergeClasses(
+    state.root.className,
     menuButtonClassNames.root,
-    state.root.className
+    getSlotClassNameProp_unstable(state.root)
   );
 
   if (state.icon) {
     state.icon.className = mergeClasses(
+      state.icon.className,
       menuButtonClassNames.icon,
-      state.icon.className
+      getSlotClassNameProp_unstable(state.icon)
     );
   }
 
   if (state.menuIcon) {
     state.menuIcon.className = mergeClasses(
+      state.menuIcon.className,
       menuButtonClassNames.menuIcon,
       menuIconStyles.base,
       menuIconStyles[size],
       !iconOnly && menuIconRootTextWithIconStyles[size],
-      state.menuIcon.className
+      getSlotClassNameProp_unstable(state.menuIcon)
     );
   }
 

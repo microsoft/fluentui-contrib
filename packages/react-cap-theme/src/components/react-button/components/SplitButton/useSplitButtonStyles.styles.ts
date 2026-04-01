@@ -2,6 +2,7 @@ import { splitButtonClassNames } from '@fluentui/react-button';
 import { createCustomFocusIndicatorStyle } from '@fluentui/react-tabster';
 import { tokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import {
   buttonSpacingVerticalLarge,
   buttonSpacingVerticalMedium,
@@ -138,13 +139,15 @@ export const useSplitButtonStyles = (
   const menuButtonStyles = useMenuButtonStyles();
 
   state.root.className = mergeClasses(
+    state.root.className,
     splitButtonClassNames.root,
     styles.root,
-    state.root.className
+    getSlotClassNameProp_unstable(state.root)
   );
 
   if (state.primaryActionButton) {
     state.primaryActionButton.className = mergeClasses(
+      state.primaryActionButton.className,
       splitButtonClassNames.primaryActionButton,
       primaryActionButtonStyles.base,
       primaryActionButtonStyles[state.appearance],
@@ -152,17 +155,18 @@ export const useSplitButtonStyles = (
       focusStyles.primaryActionButton,
       (state.disabled || state.disabledFocusable) &&
         primaryActionButtonStyles.disabled,
-      state.primaryActionButton.className
+      getSlotClassNameProp_unstable(state.primaryActionButton)
     );
   }
 
   if (state.menuButton) {
     state.menuButton.className = mergeClasses(
+      state.menuButton.className,
       splitButtonClassNames.menuButton,
       menuButtonStyles.base,
       menuButtonStyles[state.size],
       focusStyles.menuButton,
-      state.menuButton.className
+      getSlotClassNameProp_unstable(state.menuButton)
     );
   }
 

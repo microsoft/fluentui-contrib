@@ -9,6 +9,7 @@ import {
 import { createFocusOutlineStyle } from '@fluentui/react-tabster';
 import { tokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import type { CheckboxState } from './Checkbox.types';
 
 const mediumHitTargetWidth = '28px';
@@ -118,27 +119,30 @@ export const useCheckboxStyles = (state: CheckboxState): CheckboxState => {
   const { color, checked, disabled, size } = state;
 
   state.root.className = mergeClasses(
+    state.root.className,
     focusStyles.root,
     !disabled && !checked && rootInteractionStyles.unchecked,
     !disabled && checked && rootInteractionStyles[`${color}Checked`],
-    state.root.className
+    getSlotClassNameProp_unstable(state.root)
   );
 
   if (state.indicator) {
     state.indicator.className = mergeClasses(
+      state.indicator.className,
       baseOverrides.indicator,
       sizeStyles[size],
       !disabled && !checked && indicatorStyles.unchecked,
       !disabled && checked && indicatorStyles[`${color}Checked`],
       disabled && indicatorStyles.disabled,
-      state.indicator.className
+      getSlotClassNameProp_unstable(state.indicator)
     );
   }
 
   if (state.input) {
     state.input.className = mergeClasses(
+      state.input.className,
       size === 'large' ? baseOverrides.inputLarge : baseOverrides.inputMedium,
-      state.input.className
+      getSlotClassNameProp_unstable(state.input)
     );
   }
 

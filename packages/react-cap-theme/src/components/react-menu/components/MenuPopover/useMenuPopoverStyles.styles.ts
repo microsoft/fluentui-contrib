@@ -3,7 +3,7 @@ import {
   type MenuPopoverSlots,
   type MenuPopoverState,
 } from '@fluentui/react-menu';
-import type { SlotClassNames } from '@fluentui/react-utilities';
+import { type SlotClassNames, getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 
@@ -28,9 +28,10 @@ export const useMenuPopoverStyles = (
   const styles = useStyles();
 
   state.root.className = mergeClasses(
+    state.root.className,
     menuPopoverClassNames.root,
     styles.root,
-    state.root.className
+    getSlotClassNameProp_unstable(state.root)
   );
   useMenuPopoverStyles_unstable(state);
 

@@ -4,6 +4,7 @@ import {
 } from '@fluentui/react-dialog';
 import { tokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 
 const useStyles = makeStyles({
   root: {
@@ -18,6 +19,10 @@ export const useDialogSurfaceStyles = (
   state: DialogSurfaceState
 ): DialogSurfaceState => {
   const styles = useStyles();
-  state.root.className = mergeClasses(styles.root, state.root.className);
+  state.root.className = mergeClasses(
+    state.root.className,
+    styles.root,
+    getSlotClassNameProp_unstable(state.root)
+  );
   return useDialogSurfaceStyles_unstable(state);
 };

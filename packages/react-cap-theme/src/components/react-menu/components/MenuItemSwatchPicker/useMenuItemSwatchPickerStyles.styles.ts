@@ -3,7 +3,7 @@ import {
   type SwatchPickerSlots,
   type SwatchPickerState,
 } from '@fluentui/react-swatch-picker';
-import type { SlotClassNames } from '@fluentui/react-utilities';
+import { type SlotClassNames, getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens } from '../../../tokens';
 import { makeStyles, mergeClasses, shorthands } from '@griffel/react';
 
@@ -26,9 +26,10 @@ export const useMenuItemSwatchPickerStyles = (
 ): SwatchPickerState => {
   const styles = useStyles();
   state.root.className = mergeClasses(
+    state.root.className,
     menuItemSwatchPickerClassNames.root,
     styles.root,
-    state.root.className
+    getSlotClassNameProp_unstable(state.root)
   );
   useSwatchPickerStyles_unstable(state);
   return state;

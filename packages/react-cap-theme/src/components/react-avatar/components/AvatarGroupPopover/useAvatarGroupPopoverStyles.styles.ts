@@ -2,6 +2,7 @@ import {
   useAvatarGroupPopoverStyles_unstable,
   type AvatarGroupPopoverState as FluentAvatarGroupPopoverState,
 } from '@fluentui/react-avatar';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 import type { AvatarGroupPopoverState } from './AvatarGroupPopover.types';
@@ -56,8 +57,9 @@ export const useAvatarGroupPopoverStyles = (
         break;
     }
     state.triggerButton.className = mergeClasses(
+      state.triggerButton.className,
       borderClass,
-      state.triggerButton.className
+      getSlotClassNameProp_unstable(state.triggerButton)
     );
   }
 

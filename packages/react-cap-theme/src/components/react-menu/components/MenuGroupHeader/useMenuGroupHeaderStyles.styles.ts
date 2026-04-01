@@ -3,7 +3,7 @@ import {
   type MenuGroupHeaderSlots,
   type MenuGroupHeaderState,
 } from '@fluentui/react-menu';
-import type { SlotClassNames } from '@fluentui/react-utilities';
+import { type SlotClassNames, getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens, typographyStyles } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 
@@ -24,9 +24,10 @@ export const useMenuGroupHeaderStyles = (
 ): MenuGroupHeaderState => {
   const styles = useStyles();
   state.root.className = mergeClasses(
+    state.root.className,
     menuGroupHeaderClassNames.root,
     styles.root,
-    state.root.className
+    getSlotClassNameProp_unstable(state.root)
   );
   useMenuGroupHeaderStyles_unstable(state);
   return state;

@@ -2,7 +2,7 @@ import type {
   MenuItemCheckboxState,
   MenuItemSlots,
 } from '@fluentui/react-menu';
-import type { SlotClassNames } from '@fluentui/react-utilities';
+import { type SlotClassNames, getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { makeStyles, mergeClasses } from '@griffel/react';
 import { useMenuItemStyles } from '../MenuItem/useMenuItemStyles.styles';
 
@@ -31,9 +31,10 @@ export const useMenuItemCheckboxStyles = (
 
   if (state.checkmark) {
     state.checkmark.className = mergeClasses(
+      state.checkmark.className,
       menuItemCheckboxClassNames.checkmark,
       styles.checkmark,
-      state.checkmark.className
+      getSlotClassNameProp_unstable(state.checkmark)
     );
   }
 

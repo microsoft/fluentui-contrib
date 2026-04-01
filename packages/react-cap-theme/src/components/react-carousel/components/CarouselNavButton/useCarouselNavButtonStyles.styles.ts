@@ -4,6 +4,7 @@ import {
 } from '@fluentui/react-carousel';
 import { tokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 
 const useStyles = makeStyles({
   brand: { '::after': { backgroundColor: tokens.colorBrandForeground2 } },
@@ -19,9 +20,10 @@ export const useCarouselNavButtonStyles = (
   const unSelectedClasses = useUnSelectedStyles();
 
   state.root.className = mergeClasses(
+    state.root.className,
     state.appearance === 'brand' && classes.brand,
     !state.selected && state.appearance === 'brand' && unSelectedClasses.brand,
-    state.root.className
+    getSlotClassNameProp_unstable(state.root)
   );
   return useCarouselNavButtonStyles_unstable(state);
 };

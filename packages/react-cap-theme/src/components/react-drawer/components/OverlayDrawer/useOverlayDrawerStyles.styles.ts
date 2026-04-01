@@ -3,6 +3,7 @@ import { useOverlayDrawerStyles_unstable } from '@fluentui/react-drawer';
 import { tokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 import { useDrawerBaseClassNames } from '../../shared/useDrawerBaseStyles.styles';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 
 const useStyles = makeStyles({
   root: { boxShadow: tokens.shadow64 },
@@ -15,9 +16,10 @@ export const useOverlayDrawerStyles = (
   const styles = useStyles();
 
   state.root.className = mergeClasses(
+    state.root.className,
     baseClassNames,
     styles.root,
-    state.root.className
+    getSlotClassNameProp_unstable(state.root)
   );
   return useOverlayDrawerStyles_unstable(state);
 };

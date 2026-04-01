@@ -2,6 +2,7 @@ import {
   useAvatarStyles_unstable,
   type AvatarState,
 } from '@fluentui/react-avatar';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 
@@ -40,6 +41,10 @@ export const useAvatarStyles = (state: AvatarState): AvatarState => {
     }
   }
 
-  state.root.className = mergeClasses(rootSquareStyles, state.root.className);
+  state.root.className = mergeClasses(
+    state.root.className,
+    rootSquareStyles,
+    getSlotClassNameProp_unstable(state.root)
+  );
   return useAvatarStyles_unstable(state);
 };
