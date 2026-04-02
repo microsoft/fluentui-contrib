@@ -42,7 +42,7 @@ export type ChatMessageSlots = {
  */
 export type ChatMessageProps = Omit<
   ComponentProps<Partial<ChatMessageSlots>, 'body'>,
-  'style' | 'ref' | 'id' | 'tabIndex'
+  'className' | 'style' | 'ref' | 'id' | 'tabIndex'
 > & {
   /**
    * Whether the bubble is on the top/center/bottom of a group of messages.

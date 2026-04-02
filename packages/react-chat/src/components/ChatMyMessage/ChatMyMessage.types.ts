@@ -58,7 +58,7 @@ export type ChatMyMessageSlots = {
 
 export type ChatMyMessageProps = Omit<
   ComponentProps<Partial<ChatMyMessageSlots>, 'body'>,
-  'style' | 'ref' | 'id'
+  'className' | 'style' | 'ref' | 'id'
 > & {
   decoration?: 'important' | 'urgent';
   status?: 'sending' | 'received' | 'read' | 'failed' | 'blocked' | 'scheduled';

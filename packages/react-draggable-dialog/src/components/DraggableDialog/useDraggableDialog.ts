@@ -184,13 +184,8 @@ export const useDraggableDialog = (
     };
   }, [announcements?.start, announcements?.end]);
 
-  React.useEffect(() => {
-    if (position) {
-      setDropPosition((prev) =>
-        prev.x === position.x && prev.y === position.y ? prev : position
-      );
-      lastReportedPositionRef.current = position;
-    }
+  const onDragStart = React.useCallback(() => {
+    setInitialDropPosition(position ?? { x: 0, y: 0 });
   }, [position]);
 
   React.useEffect(
@@ -224,6 +219,7 @@ export const useDraggableDialog = (
 
   return React.useMemo(
     () => ({
+      onDragStart,
       onDragMove,
       onDragEnd,
       sensors,
@@ -233,6 +229,7 @@ export const useDraggableDialog = (
       contextValue,
     }),
     [
+      onDragStart,
       onDragMove,
       onDragEnd,
       sensors,
