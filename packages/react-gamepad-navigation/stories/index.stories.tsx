@@ -1,5 +1,4 @@
 import { Meta } from '@storybook/react';
-import description from '../README.md';
 
 export { Default } from './Default.stories';
 export { SingleElements } from './SingleElements.stories';
@@ -11,7 +10,8 @@ const meta: Meta = {
   parameters: {
     docs: {
       description: {
-        component: description,
+        component:
+          'Experimental gamepad navigation support for Fluent UI components via the Gamepad API and focus-management hooks.',
       },
     },
     layout: 'fullscreen',

@@ -1,35 +1,58 @@
-import * as React from 'react';
 import type { Preview } from '@storybook/react';
-import { FluentProvider, webLightTheme } from '@fluentui/react-components';
+import type { FluentParameters } from '@fluentui/react-storybook-addon';
+import type { Parameters } from '@fluentui/react-storybook-addon-export-to-sandbox';
+
+import '@fluentui/react-storybook-addon-export-to-sandbox/styles.css';
 
 // TODO: import components and styles from the Fluent Storybook Addon when it is published
-import { FluentDocsContainer } from './copied-from-fluentui-core/components/FluentDocsContainer';
-import { FluentDocsPage } from './copied-from-fluentui-core/components/FluentDocsPage';
 import './copied-from-fluentui-core/docs-root.css';
 import './copied-from-fluentui-core/docs-root-v9.css';
 
 const preview = {
-  decorators: [
-    (Story) => (
-      <FluentProvider theme={webLightTheme}>
-        <Story />
-      </FluentProvider>
-    ),
-  ],
-
   parameters: {
     viewMode: 'docs',
     controls: {
       disable: true,
       expanded: true,
     },
-    docs: {
-      container: FluentDocsContainer,
-      page: FluentDocsPage,
-      codePanel: true,
+    options: {
+      storySort: {
+        method: 'alphabetical',
+        order: ['Welcome', 'Packages'],
+      },
     },
-  },
 
+    // =============
+    // @fluentui/react-storybook-addon parameters
+    // =============
+
+    reactStorybookAddon: {
+      docs: true,
+    },
+
+    // =============
+    // @fluentui/react-storybook-addon-export-to-sandbox parameters
+    // =============
+    docs: {
+      source: {
+        excludeDecorators: true,
+        type: 'code',
+      },
+    },
+    exportToSandbox: {
+      provider: 'stackblitz-cloud',
+      bundler: 'vite',
+      requiredDependencies: {
+        // for React
+        react: '^18',
+        'react-dom': '^18',
+        // necessary for FluentProvider:
+        '@fluentui/react-components': '^9.0.0',
+        '@fluentui/react-icons': 'latest',
+      },
+      optionalDependencies: {},
+    },
+  } satisfies FluentParameters & Parameters,
   tags: ['autodocs'],
 } satisfies Preview;
 

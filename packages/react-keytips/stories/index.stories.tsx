@@ -1,5 +1,4 @@
 import * as React from 'react';
-import description from '../README.md';
 
 import { Meta } from '@storybook/react';
 import { Keytips } from '@fluentui-contrib/react-keytips';
@@ -24,7 +23,8 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: description,
+        component:
+          'Keytips are popup hints that guide keyboard navigation through UI hierarchies using key sequences. Add a single `<Keytips />` root component and attach tips to targets with `useKeytipRef`.',
       },
     },
   },
