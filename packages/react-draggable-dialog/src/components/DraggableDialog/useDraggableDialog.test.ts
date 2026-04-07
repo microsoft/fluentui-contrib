@@ -37,6 +37,7 @@ describe('DraggableDialog', () => {
     });
 
     expect(Object.keys(result.current)).toStrictEqual([
+      'onDragStart',
       'onDragMove',
       'onDragEnd',
       'sensors',
