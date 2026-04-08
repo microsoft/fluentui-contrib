@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix(react-draggable-dialog): sync internal dropPosition with external position prop (fixes #606)",
+  "packageName": "@fluentui-contrib/react-draggable-dialog",
+  "email": "n/a",
+  "dependentChangeType": "patch"
+}
