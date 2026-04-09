@@ -1,25 +1,25 @@
 import type {
-	AvatarGroupItemSlots as FluentAvatarGroupItemSlots,
-	AvatarGroupItemState as FluentAvatarGroupItemState,
-	Avatar,
-} from "@fluentui/react-avatar";
+  AvatarGroupItemSlots as FluentAvatarGroupItemSlots,
+  AvatarGroupItemState as FluentAvatarGroupItemState,
+  Avatar,
+} from '@fluentui/react-avatar';
 import type {
-	ComponentProps,
-	ComponentState,
-	Slot,
-} from "@fluentui/react-utilities";
+  ComponentProps,
+  ComponentState,
+  Slot,
+} from '@fluentui/react-utilities';
 
 export type AvatarGroupItemSlots = Omit<
-	FluentAvatarGroupItemSlots,
-	"avatar"
+  FluentAvatarGroupItemSlots,
+  'avatar'
 > & {
-	avatar: NonNullable<Slot<typeof Avatar>>;
+  avatar: NonNullable<Slot<typeof Avatar>>;
 };
 
 export type AvatarGroupItemProps = Omit<
-	ComponentProps<Partial<AvatarGroupItemSlots>, "avatar">,
-	"size" | "shape"
+  ComponentProps<Partial<AvatarGroupItemSlots>, 'avatar'>,
+  'size' | 'shape'
 >;
 
 export type AvatarGroupItemState = ComponentState<AvatarGroupItemSlots> &
-	Pick<FluentAvatarGroupItemState, "isOverflowItem" | "layout" | "size">;
+  Pick<FluentAvatarGroupItemState, 'isOverflowItem' | 'layout' | 'size'>;

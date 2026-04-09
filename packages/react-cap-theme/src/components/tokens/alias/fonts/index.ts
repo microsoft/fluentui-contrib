@@ -1,2 +1,2 @@
-export { generateTokens as generateFontFamilyTokens } from "./fontFamily";
-export { generateTokens as generateFontWeightTokens } from "./fontWeight";
+export { generateTokens as generateFontFamilyTokens } from './fontFamily';
+export { generateTokens as generateFontWeightTokens } from './fontWeight';

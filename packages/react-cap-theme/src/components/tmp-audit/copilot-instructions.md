@@ -1,4 +1,3 @@
-
 # Invocation Contract (Strict)
 
 Imagine you are going to help designers understand deltas between Fluent UI v9 and SharePoint Design System (SPDS) React components by generating component audit files. Please generate the audit in a designer-friendly language with the things designers can understand and follow the instructions below precisely.
@@ -110,4 +109,3 @@ All output must be safe to copy directly from VS Code and paste into a Microsoft
 ## Component Audit Template
 
 (All headings and wording below must be preserved exactly)
-
