@@ -1,25 +1,24 @@
 import { FluentProviderProps } from '@fluentui/react-components';
+import type {
+  AccordionHeaderState,
+  AccordionPanelState,
+} from '@fluentui/react-accordion';
 import {
-  useAccordionStyles,
-  useAccordionItemStyles,
   useAccordionHeaderStyles,
   useAccordionPanelStyles,
-  type AccordionState,
-  type AccordionItemState,
-  type AccordionHeaderState,
-  type AccordionPanelState,
 } from './components/react-accordion';
+import type {
+  AvatarState,
+  AvatarGroupItemState,
+  AvatarGroupPopoverState,
+} from '@fluentui/react-avatar';
 import {
-  useAvatarGroupStyles,
   useAvatarStyles,
   useAvatarGroupItemStyles,
   useAvatarGroupPopoverStyles,
-  type AvatarGroupState,
-  type AvatarState,
-  type AvatarGroupItemState,
-  type AvatarGroupPopoverState,
 } from './components/react-avatar';
-import { useBadgeStyles, type BadgeState } from './components/react-badge';
+import type { BadgeState } from '@fluentui/react-badge';
+import { useBadgeStyles } from './components/react-badge';
 import {
   useButtonStyles,
   useMenuButtonStyles,
@@ -136,7 +135,7 @@ export type {
   AccordionToggleData,
   AccordionToggleEvent,
   AccordionToggleEventHandler,
-} from './components/react-accordion';
+} from '@fluentui/react-accordion';
 export {
   Accordion,
   AccordionHeaderProvider,
@@ -147,27 +146,28 @@ export {
   accordionHeaderClassNames,
   accordionItemClassNames,
   accordionPanelClassNames,
-  renderAccordion,
-  renderAccordionHeader,
-  renderAccordionItem,
-  renderAccordionPanel,
-  useAccordion,
-  useAccordionContext,
-  useAccordionContextValues,
-  useAccordionHeader,
-  useAccordionHeaderContext,
-  useAccordionHeaderContextValues,
-  useAccordionHeaderStyles,
-  useAccordionHeaderStyles_unstable,
+  renderAccordion_unstable as renderAccordion,
+  renderAccordionHeader_unstable as renderAccordionHeader,
+  renderAccordionItem_unstable as renderAccordionItem,
+  renderAccordionPanel_unstable as renderAccordionPanel,
+  useAccordion_unstable as useAccordion,
+  useAccordionContext_unstable as useAccordionContext,
+  useAccordionContextValues_unstable as useAccordionContextValues,
   useAccordionHeader_unstable,
-  useAccordionItem,
-  useAccordionItemContext,
-  useAccordionItemContextValues,
-  useAccordionItemStyles,
-  useAccordionPanel,
-  useAccordionPanelStyles,
+  useAccordionHeaderContext_unstable as useAccordionHeaderContext,
+  useAccordionHeaderContextValues_unstable as useAccordionHeaderContextValues,
+  useAccordionHeaderStyles_unstable,
+  useAccordionItem_unstable as useAccordionItem,
+  useAccordionItemContext_unstable as useAccordionItemContext,
+  useAccordionItemContextValues_unstable as useAccordionItemContextValues,
+  useAccordionItemStyles_unstable as useAccordionItemStyles,
+  useAccordionPanel_unstable as useAccordionPanel,
   useAccordionPanelStyles_unstable,
-  useAccordionStyles,
+  useAccordionStyles_unstable as useAccordionStyles,
+} from '@fluentui/react-accordion';
+export {
+  useAccordionHeaderStyles,
+  useAccordionPanelStyles,
 } from './components/react-accordion';
 export type {
   AvatarContextValue,
@@ -191,7 +191,7 @@ export type {
   AvatarState,
   PartitionAvatarGroupItems,
   PartitionAvatarGroupItemsOptions,
-} from './components/react-avatar';
+} from '@fluentui/react-avatar';
 export {
   AvatarContextProvider,
   AvatarGroup,
@@ -202,22 +202,23 @@ export {
   avatarGroupPopoverClassNames,
   getInitials,
   partitionAvatarGroupItems,
-  renderAvatar,
-  renderAvatarGroup,
-  renderAvatarGroupItem,
-  renderAvatarGroupPopover,
-  useAvatar,
+  renderAvatar_unstable as renderAvatar,
+  renderAvatarGroup_unstable as renderAvatarGroup,
+  renderAvatarGroupItem_unstable as renderAvatarGroupItem,
+  renderAvatarGroupPopover_unstable as renderAvatarGroupPopover,
+  useAvatar_unstable as useAvatar,
   useAvatarContext,
-  useAvatarGroup,
-  useAvatarGroupContext,
+  useAvatarGroup_unstable as useAvatarGroup,
+  useAvatarGroupContext_unstable as useAvatarGroupContext,
   useAvatarGroupContextValues,
-  useAvatarGroupItem,
-  useAvatarGroupItemStyles,
-  useAvatarGroupPopover,
-  useAvatarGroupPopoverContextValues,
-  useAvatarGroupPopoverStyles,
-  useAvatarGroupStyles,
+  useAvatarGroupItem_unstable as useAvatarGroupItem,
+  useAvatarGroupPopoverContextValues_unstable as useAvatarGroupPopoverContextValues,
+  useAvatarGroupStyles_unstable as useAvatarGroupStyles,
+} from '@fluentui/react-avatar';
+export {
   useAvatarStyles,
+  useAvatarGroupItemStyles,
+  useAvatarGroupPopoverStyles,
 } from './components/react-avatar';
 export type {
   BadgeProps,
@@ -228,7 +229,7 @@ export type {
   PresenceBadgeProps,
   PresenceBadgeState,
   PresenceBadgeStatus,
-} from './components/react-badge';
+} from '@fluentui/react-badge';
 export {
   CounterBadge,
   PresenceBadge,
@@ -246,14 +247,14 @@ export {
   presenceOfflineRegular,
   presenceOofRegular,
   presenceUnknownRegular,
-  renderBadge,
-  useBadge,
-  useBadgeStyles,
-  useCounterBadge,
-  useCounterBadgeStyles,
-  usePresenceBadge,
-  usePresenceBadgeStyles,
-} from './components/react-badge';
+  renderBadge_unstable as renderBadge,
+  useBadge_unstable as useBadge,
+  useCounterBadge_unstable as useCounterBadge,
+  useCounterBadgeStyles_unstable as useCounterBadgeStyles,
+  usePresenceBadge_unstable as usePresenceBadge,
+  usePresenceBadgeStyles_unstable as usePresenceBadgeStyles,
+} from '@fluentui/react-badge';
+export { useBadgeStyles } from './components/react-badge';
 export type {
   ButtonAppearance,
   ButtonProps,
@@ -22908,12 +22909,6 @@ export {
 export const CAP_STYLE_HOOKS: NonNullable<
   FluentProviderProps['customStyleHooks_unstable']
 > = {
-  useAccordionStyles_unstable: (state) => {
-    return useAccordionStyles(state as AccordionState);
-  },
-  useAccordionItemStyles_unstable: (state) => {
-    return useAccordionItemStyles(state as AccordionItemState);
-  },
   useAccordionHeaderStyles_unstable: (state) => {
     return useAccordionHeaderStyles(state as AccordionHeaderState);
   },
@@ -22925,9 +22920,6 @@ export const CAP_STYLE_HOOKS: NonNullable<
   },
   useAvatarGroupPopoverStyles_unstable: (state) => {
     return useAvatarGroupPopoverStyles(state as AvatarGroupPopoverState);
-  },
-  useAvatarGroupStyles_unstable: (state) => {
-    return useAvatarGroupStyles(state as AvatarGroupState);
   },
   useAvatarStyles_unstable: (state) => {
     return useAvatarStyles(state as AvatarState);

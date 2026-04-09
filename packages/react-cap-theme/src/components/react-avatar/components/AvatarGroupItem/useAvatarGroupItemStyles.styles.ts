@@ -1,7 +1,7 @@
 import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
-import type { AvatarGroupItemState } from './AvatarGroupItem.types';
+import type { AvatarGroupItemState } from '@fluentui/react-avatar';
 
 const useStackStyles = makeStyles({
   thin: {

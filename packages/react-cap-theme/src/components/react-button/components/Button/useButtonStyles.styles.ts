@@ -110,6 +110,11 @@ const useRootStyles = makeStyles({
     [`:hover:active .${iconFilledClassName}`]: { display: 'inline' },
     [`:hover:active .${iconRegularClassName}`]: { display: 'none' },
   },
+  rounded: {
+    /* borderRadius for rounded shape is handled in the size variations */
+  },
+  square: { borderRadius: tokens.borderRadiusNone },
+  circular: { borderRadius: tokens.borderRadiusCircular },
   outline: {
     backgroundColor: tokens.colorTransparentBackground, // Remove browser styling
     ':hover': {
@@ -376,6 +381,7 @@ export const useButtonStyles = (state: ButtonState): ButtonState => {
     disabledFocusable,
     iconOnly,
     iconPosition,
+    shape,
     size,
   } = state;
   const isPrimary = ['primary', 'tint'].includes(appearance);
@@ -388,6 +394,7 @@ export const useButtonStyles = (state: ButtonState): ButtonState => {
     rootBaseFocusIndicatorStyles.base,
     rootStyles.root,
     rootStyles[appearance],
+    rootStyles[shape],
     rootStyles[size],
     size === 'small' && rootBaseFocusIndicatorStyles.small,
 
