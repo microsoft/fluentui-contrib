@@ -1,14 +1,14 @@
-import * as React from 'react';
+import * as React from "react";
 import type {
-  CarouselNavContextValues,
-  CarouselNavState,
-} from './CarouselNav.types';
+	CarouselNavContextValues,
+	CarouselNavState,
+} from "./CarouselNav.types";
 
 export const useCarouselNavContextValues = (
-  state: CarouselNavState
+	state: CarouselNavState,
 ): CarouselNavContextValues => {
-  const { appearance } = state;
-  const carouselNav = React.useMemo(() => ({ appearance }), [appearance]);
+	const { appearance } = state;
+	const carouselNav = React.useMemo(() => ({ appearance }), [appearance]);
 
-  return { carouselNav };
+	return { carouselNav };
 };

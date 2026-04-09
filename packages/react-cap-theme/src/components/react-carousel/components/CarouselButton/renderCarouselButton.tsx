@@ -1,14 +1,14 @@
-import type { JSXElement } from '@fluentui/react-utilities';
-import { assertSlots } from '@fluentui/react-utilities';
-import { renderButton } from '../../../react-button';
+import type { JSXElement } from "@fluentui/react-utilities";
+import { assertSlots } from "@fluentui/react-utilities";
+import { renderButton } from "../../../react-button";
 import type {
-  CarouselButtonSlots,
-  CarouselButtonState,
-} from './CarouselButton.types';
+	CarouselButtonSlots,
+	CarouselButtonState,
+} from "./CarouselButton.types";
 
 export const renderCarouselButton = (
-  state: CarouselButtonState
+	state: CarouselButtonState,
 ): JSXElement => {
-  assertSlots<CarouselButtonSlots>(state);
-  return renderButton(state);
+	assertSlots<CarouselButtonSlots>(state);
+	return renderButton(state);
 };

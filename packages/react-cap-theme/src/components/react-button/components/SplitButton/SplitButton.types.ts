@@ -1,25 +1,22 @@
+import type { Button, MenuButton } from "@fluentui/react-button";
 import type {
-  ComponentProps,
-  ComponentState,
-  Slot,
-} from '@fluentui/react-utilities';
-import type { Button, ButtonProps, ButtonState } from '../../Button';
-import type {
-  MenuButton,
-  MenuButtonProps,
-  MenuButtonState,
-} from '../../MenuButton';
+	ComponentProps,
+	ComponentState,
+	Slot,
+} from "@fluentui/react-utilities";
+import type { ButtonProps, ButtonState } from "../../Button";
+import type { MenuButtonProps, MenuButtonState } from "../../MenuButton";
 
 export type SplitButtonSlots = {
-  root: NonNullable<Slot<'div'>>;
-  menuButton?: Slot<typeof MenuButton>;
-  primaryActionButton?: Slot<typeof Button>;
+	root: NonNullable<Slot<"div">>;
+	menuButton?: Slot<typeof MenuButton>;
+	primaryActionButton?: Slot<typeof Button>;
 };
 
 export type SplitButtonProps = ComponentProps<SplitButtonSlots> &
-  Omit<ButtonProps, 'root' | 'as'> &
-  Omit<MenuButtonProps, 'root' | 'as'>;
+	Omit<ButtonProps, "root" | "as"> &
+	Omit<MenuButtonProps, "root" | "as">;
 
 export type SplitButtonState = ComponentState<SplitButtonSlots> &
-  Omit<ButtonState, 'components' | 'iconOnly' | 'root'> &
-  Omit<MenuButtonState, 'components' | 'iconOnly' | 'root'>;
+	Omit<ButtonState, "components" | "iconOnly" | "root"> &
+	Omit<MenuButtonState, "components" | "iconOnly" | "root">;

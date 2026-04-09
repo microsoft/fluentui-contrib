@@ -1,30 +1,29 @@
-import type { DrawerHeaderTitleState } from '@fluentui/react-drawer';
-import { useDrawerHeaderTitleStyles_unstable } from '@fluentui/react-drawer';
-import { tokens } from '../../../tokens';
-import { makeStyles, mergeClasses } from '@griffel/react';
-import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
+import type { DrawerHeaderTitleState } from "@fluentui/react-drawer";
+import { getSlotClassNameProp_unstable } from "@fluentui/react-utilities";
+import { tokens } from "../../../tokens";
+import { makeStyles, mergeClasses } from "@griffel/react";
 
 const useStyles = makeStyles({
-  action: {
-    alignItems: 'center',
-    display: 'flex',
-    marginRight: '-12px',
-    paddingLeft: tokens.spacingHorizontalS,
-  },
+	action: {
+		alignItems: "center",
+		display: "flex",
+		marginRight: "-12px",
+		paddingLeft: tokens.spacingHorizontalS,
+	},
 });
 
 export const useDrawerHeaderTitleStyles = (
-  state: DrawerHeaderTitleState
+	state: DrawerHeaderTitleState,
 ): DrawerHeaderTitleState => {
-  const styles = useStyles();
+	const styles = useStyles();
 
-  if (state.action) {
-    state.action.className = mergeClasses(
-      state.action.className,
-      styles.action,
-      getSlotClassNameProp_unstable(state.action)
-    );
-  }
+	if (state.action) {
+		state.action.className = mergeClasses(
+			state.action.className,
+			styles.action,
+			getSlotClassNameProp_unstable(state.action),
+		);
+	}
 
-  return useDrawerHeaderTitleStyles_unstable(state);
+	return state;
 };
