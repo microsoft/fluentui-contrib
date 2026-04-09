@@ -8,7 +8,7 @@ import type {
   ComponentState,
   Slot,
 } from '@fluentui/react-utilities';
-import type { TooltipProps } from '../../../react-tooltip';
+import type { TooltipProps } from '../../../react-tooltip/components/Tooltip/Tooltip.types';
 import type { CarouselState } from '../Carousel/Carousel.types';
 
 export type CarouselNavContainerSlots = Omit<

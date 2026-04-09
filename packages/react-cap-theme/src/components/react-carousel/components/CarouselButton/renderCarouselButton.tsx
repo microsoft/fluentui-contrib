@@ -1,6 +1,6 @@
 import type { JSXElement } from '@fluentui/react-utilities';
 import { assertSlots } from '@fluentui/react-utilities';
-import { renderButton } from '../../../react-button';
+import { renderButton } from '../../../react-button/components/Button/renderButton';
 import type {
   CarouselButtonSlots,
   CarouselButtonState,

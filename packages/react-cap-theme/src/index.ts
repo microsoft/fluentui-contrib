@@ -24,11 +24,11 @@ import {
   useMenuButtonStyles,
   useSplitButtonStyles,
   useToggleButtonStyles,
-  type ButtonState,
-  type MenuButtonState,
-  type SplitButtonState,
-  type ToggleButtonState,
 } from './components/react-button';
+import type { ButtonState } from './components/react-button/components/Button/Button.types';
+import type { MenuButtonState } from './components/react-button/components/MenuButton/MenuButton.types';
+import type { SplitButtonState } from './components/react-button/components/SplitButton/SplitButton.types';
+import type { ToggleButtonState } from './components/react-button/components/ToggleButton/ToggleButton.types';
 import {
   useCarouselStyles,
   useCarouselAutoplayButtonStyles,
@@ -37,28 +37,30 @@ import {
   useCarouselNavButtonStyles,
   useCarouselNavContainerStyles,
   useCarouselNavImageButtonStyles,
-  type CarouselState,
-  type CarouselAutoplayButtonState,
-  type CarouselButtonState,
-  type CarouselNavState,
-  type CarouselNavButtonState,
-  type CarouselNavContainerState,
-  type CarouselNavImageButtonState,
 } from './components/react-carousel';
+import type { CarouselState } from './components/react-carousel/components/Carousel/Carousel.types';
+import type { CarouselAutoplayButtonState } from './components/react-carousel/components/CarouselAutoplayButton/CarouselAutoplayButton.types';
+import type { CarouselButtonState } from './components/react-carousel/components/CarouselButton/CarouselButton.types';
+import type { CarouselNavState } from './components/react-carousel/components/CarouselNav/CarouselNav.types';
+import type { CarouselNavContainerState } from './components/react-carousel/components/CarouselNavContainer/CarouselNavContainer.types';
+import type {
+  CarouselNavButtonState,
+  CarouselNavImageButtonState,
+} from '@fluentui/react-carousel';
+import { useCheckboxStyles } from './components/react-checkbox';
+import type { CheckboxState } from './components/react-checkbox/components/Checkbox/Checkbox.types';
 import {
-  useCheckboxStyles,
-  type CheckboxState,
-} from './components/react-checkbox';
-import {
-  useDialogTitleStyles,
   useDialogActionsStyles,
   useDialogBodyStyles,
   useDialogSurfaceStyles,
-  type DialogTitleState,
-  type DialogActionsState,
-  type DialogBodyState,
-  type DialogSurfaceState,
+  useDialogTitleStyles,
 } from './components/react-dialog';
+import type {
+  DialogActionsState,
+  DialogBodyState,
+  DialogSurfaceState,
+  DialogTitleState,
+} from '@fluentui/react-dialog';
 import {
   useDrawerBodyStyles,
   useDrawerFooterStyles,
@@ -67,16 +69,20 @@ import {
   useDrawerHeaderTitleStyles,
   useInlineDrawerStyles,
   useOverlayDrawerStyles,
-  type DrawerBodyState,
-  type DrawerFooterState,
-  type DrawerHeaderState,
-  type DrawerHeaderNavigationState,
-  type DrawerHeaderTitleState,
-  type InlineDrawerState,
-  type OverlayDrawerState,
 } from './components/react-drawer';
-import { useImageStyles, type ImageState } from './components/react-image';
-import { useLinkStyles, type LinkState } from './components/react-link';
+import type {
+  DrawerBodyState,
+  DrawerFooterState,
+  DrawerHeaderState,
+  DrawerHeaderNavigationState,
+  DrawerHeaderTitleState,
+  OverlayDrawerState,
+} from '@fluentui/react-drawer';
+import type { InlineDrawerState } from './components/react-drawer/components/InlineDrawer/InlineDrawer.types';
+import { useImageStyles } from './components/react-image';
+import type { ImageState } from '@fluentui/react-image';
+import { useLinkStyles } from './components/react-link';
+import type { LinkState } from './components/react-link/components/Link/Link.types';
 import {
   useMenuDividerStyles,
   useMenuGroupHeaderStyles,
@@ -85,22 +91,20 @@ import {
   useMenuItemRadioStyles,
   useMenuPopoverStyles,
   useMenuSplitGroupStyles,
-  type MenuDividerState,
-  type MenuGroupHeaderState,
-  type MenuItemState,
-  type MenuItemCheckboxState,
-  type MenuItemRadioState,
-  type MenuPopoverState,
-  type MenuSplitGroupState,
 } from './components/react-menu';
-import {
-  usePopoverSurfaceStyles,
-  type PopoverSurfaceState,
-} from './components/react-popover';
-import {
-  useTooltipStyles,
-  type TooltipState,
-} from './components/react-tooltip';
+import type {
+  MenuDividerState,
+  MenuGroupHeaderState,
+  MenuItemState,
+  MenuItemCheckboxState,
+  MenuItemRadioState,
+  MenuPopoverState,
+  MenuSplitGroupState,
+} from '@fluentui/react-menu';
+import { usePopoverSurfaceStyles } from './components/react-popover';
+import type { PopoverSurfaceState } from '@fluentui/react-popover';
+import { useTooltipStyles } from './components/react-tooltip';
+import type { TooltipState } from './components/react-tooltip/components/Tooltip/Tooltip.types';
 
 export { getIntrinsicElementProps, slot } from '@fluentui/react-utilities';
 export {
@@ -260,139 +264,161 @@ export type {
   ButtonProps,
   ButtonSlots,
   ButtonState,
+} from './components/react-button/components/Button/Button.types';
+export type {
   MenuButtonProps,
   MenuButtonSlots,
   MenuButtonState,
+} from './components/react-button/components/MenuButton/MenuButton.types';
+export type {
   SplitButtonProps,
   SplitButtonSlots,
   SplitButtonState,
+} from './components/react-button/components/SplitButton/SplitButton.types';
+export type {
   ToggleButtonProps,
   ToggleButtonState,
-} from './components/react-button';
+} from './components/react-button/components/ToggleButton/ToggleButton.types';
 export {
-  Button,
-  MenuButton,
-  SplitButton,
-  ToggleButton,
   buttonClassNames,
   menuButtonClassNames,
-  renderButton,
-  renderMenuButton,
-  renderSplitButton,
-  renderToggleButton,
   splitButtonClassNames,
   toggleButtonClassNames,
-  useButton,
+} from '@fluentui/react-button';
+export { Button } from './components/react-button/components/Button/Button';
+export { renderButton } from './components/react-button/components/Button/renderButton';
+export { useButton } from './components/react-button/components/Button/useButton';
+export { MenuButton } from './components/react-button/components/MenuButton/MenuButton';
+export { renderMenuButton } from './components/react-button/components/MenuButton/renderMenuButton';
+export { useMenuButton } from './components/react-button/components/MenuButton/useMenuButton';
+export { SplitButton } from './components/react-button/components/SplitButton/SplitButton';
+export { renderSplitButton } from './components/react-button/components/SplitButton/renderSplitButton';
+export { useSplitButton } from './components/react-button/components/SplitButton/useSplitButton';
+export { ToggleButton } from './components/react-button/components/ToggleButton/ToggleButton';
+export { renderToggleButton } from './components/react-button/components/ToggleButton/renderToggleButton';
+export { useToggleButton } from './components/react-button/components/ToggleButton/useToggleButton';
+export {
   useButtonStyles,
-  useMenuButton,
   useMenuButtonStyles,
-  useSplitButton,
   useSplitButtonStyles,
-  useToggleButton,
   useToggleButtonStyles,
 } from './components/react-button';
 export type {
   CarouselAnnouncerFunction,
-  CarouselAutoplayButtonProps,
-  CarouselAutoplayButtonSlots,
-  CarouselAutoplayButtonState,
-  CarouselButtonProps,
-  CarouselButtonSlots,
-  CarouselButtonState,
   CarouselCardProps,
   CarouselCardSlots,
   CarouselCardState,
   CarouselContextValue,
-  CarouselContextValues,
   CarouselIndexChangeData,
-  CarouselLayout,
   CarouselNavButtonProps,
   CarouselNavButtonSlots,
   CarouselNavButtonState,
-  CarouselNavContainerProps,
-  CarouselNavContainerSlots,
-  CarouselNavContainerState,
-  CarouselNavContextValue,
-  CarouselNavContextValues,
-  CarouselNavDensity,
   CarouselNavImageButtonProps,
   CarouselNavImageButtonSlots,
   CarouselNavImageButtonState,
-  CarouselNavProps,
   CarouselNavSlots,
-  CarouselNavState,
-  CarouselProps,
   CarouselSliderProps,
   CarouselSliderSlots,
   CarouselSliderState,
   CarouselSlots,
-  CarouselState,
   CarouselViewportProps,
   CarouselViewportSlots,
   CarouselViewportState,
-} from './components/react-carousel';
+} from '@fluentui/react-carousel';
+export type {
+  CarouselLayout,
+  CarouselProps,
+  CarouselState,
+  CarouselContextValues,
+} from './components/react-carousel/components/Carousel/Carousel.types';
+export type {
+  CarouselAutoplayButtonSlots,
+  CarouselAutoplayButtonProps,
+  CarouselAutoplayButtonState,
+} from './components/react-carousel/components/CarouselAutoplayButton/CarouselAutoplayButton.types';
+export type {
+  CarouselButtonSlots,
+  CarouselButtonProps,
+  CarouselButtonState,
+} from './components/react-carousel/components/CarouselButton/CarouselButton.types';
+export type {
+  CarouselNavDensity,
+  CarouselNavProps,
+  CarouselNavState,
+  CarouselNavContextValue,
+  CarouselNavContextValues,
+} from './components/react-carousel/components/CarouselNav/CarouselNav.types';
+export type {
+  CarouselNavContainerSlots,
+  CarouselNavContainerProps,
+  CarouselNavContainerState,
+} from './components/react-carousel/components/CarouselNavContainer/CarouselNavContainer.types';
 export {
   CarouselCard,
-  CarouselProvider,
   CarouselSlider,
   CarouselViewport,
   carouselAutoplayButtonClassNames,
   carouselButtonClassNames,
   carouselCardClassNames,
   carouselClassNames,
-  carouselContextDefaultValue,
   carouselNavButtonClassNames,
   carouselNavClassNames,
   carouselNavContainerClassNames,
   carouselNavImageButtonClassNames,
   carouselSliderClassNames,
   carouselViewportClassNames,
-  renderCarousel,
-  renderCarouselAutoplayButton,
-  renderCarouselButton,
-  renderCarouselCard,
-  renderCarouselNav,
-  renderCarouselNavButton,
-  renderCarouselNavContainer,
-  renderCarouselNavImageButton,
-  renderCarouselSlider,
-  renderCarouselViewport,
-  useCarousel,
-  useCarouselAutoplayButton,
-  useCarouselAutoplayButtonStyles,
-  useCarouselButton,
-  useCarouselButtonStyles,
-  useCarouselCard,
-  useCarouselCardStyles,
+  renderCarouselCard_unstable as renderCarouselCard,
+  renderCarouselNav_unstable as renderCarouselNav,
+  renderCarouselNavButton_unstable as renderCarouselNavButton,
+  renderCarouselNavImageButton_unstable as renderCarouselNavImageButton,
+  renderCarouselSlider_unstable as renderCarouselSlider,
+  renderCarouselViewport_unstable as renderCarouselViewport,
+  useCarouselCard_unstable as useCarouselCard,
+  useCarouselCardStyles_unstable as useCarouselCardStyles,
+  useCarouselNavButton_unstable as useCarouselNavButton,
+  useCarouselNavImageButton_unstable as useCarouselNavImageButton,
+  useCarouselSlider_unstable as useCarouselSlider,
+  useCarouselSliderStyles_unstable as useCarouselSliderStyles,
+  useCarouselViewport_unstable as useCarouselViewport,
+  useCarouselViewportStyles_unstable as useCarouselViewportStyles,
+} from '@fluentui/react-carousel';
+export {
+  carouselContextDefaultValue,
+  CarouselProvider,
   useCarouselContext,
-  useCarouselContextValues,
-  useCarouselNav,
-  useCarouselNavButton,
-  useCarouselNavButtonStyles,
-  useCarouselNavContainer,
-  useCarouselNavContainerStyles,
-  useCarouselNavContextValues,
-  useCarouselNavImageButton,
-  useCarouselNavImageButtonStyles,
-  useCarouselNavStyles,
-  useCarouselSlider,
-  useCarouselSliderStyles,
+} from './components/react-carousel/components/Carousel/CarouselContext';
+export { renderCarousel } from './components/react-carousel/components/Carousel/renderCarousel';
+export { useCarousel } from './components/react-carousel/components/Carousel/useCarousel';
+export { useCarouselContextValues } from './components/react-carousel/components/Carousel/useCarouselContextValues';
+export { renderCarouselAutoplayButton } from './components/react-carousel/components/CarouselAutoplayButton/renderCarouselAutoplayButton';
+export { useCarouselAutoplayButton } from './components/react-carousel/components/CarouselAutoplayButton/useCarouselAutoplayButton';
+export { renderCarouselButton } from './components/react-carousel/components/CarouselButton/renderCarouselButton';
+export { useCarouselButton } from './components/react-carousel/components/CarouselButton/useCarouselButton';
+export { useCarouselNav } from './components/react-carousel/components/CarouselNav/useCarouselNav';
+export { useCarouselNavContextValues } from './components/react-carousel/components/CarouselNav/useCarouselNavContextValues';
+export { renderCarouselNavContainer } from './components/react-carousel/components/CarouselNavContainer/renderCarouselNavContainer';
+export { useCarouselNavContainer } from './components/react-carousel/components/CarouselNavContainer/useCarouselNavContainer';
+export {
   useCarouselStyles,
-  useCarouselViewport,
-  useCarouselViewportStyles,
+  useCarouselAutoplayButtonStyles,
+  useCarouselButtonStyles,
+  useCarouselNavStyles,
+  useCarouselNavButtonStyles,
+  useCarouselNavContainerStyles,
+  useCarouselNavImageButtonStyles,
 } from './components/react-carousel';
+export type { CheckboxOnChangeData, CheckboxSlots } from '@fluentui/react-checkbox';
 export type {
-  CheckboxOnChangeData,
   CheckboxProps,
-  CheckboxSlots,
   CheckboxState,
-} from './components/react-checkbox';
+} from './components/react-checkbox/components/Checkbox/Checkbox.types';
 export {
   checkboxClassNames,
-  renderCheckbox,
-  useCheckbox,
-  useCheckboxStyles,
-} from './components/react-checkbox';
+  renderCheckbox_unstable as renderCheckbox,
+} from '@fluentui/react-checkbox';
+export { useCheckbox } from './components/react-checkbox/components/Checkbox/useCheckbox';
+export { useCheckboxStyles } from './components/react-checkbox';
+export type { DialogTitleProps } from './components/react-dialog/components/DialogTitle/DialogTitle.types';
 export type {
   DialogActionsPosition,
   DialogActionsProps,
@@ -416,14 +442,13 @@ export type {
   DialogSurfaceProps,
   DialogSurfaceSlots,
   DialogSurfaceState,
-  DialogTitleProps,
   DialogTitleSlots,
   DialogTitleState,
   DialogTriggerAction,
   DialogTriggerChildProps,
   DialogTriggerProps,
   DialogTriggerState,
-} from './components/react-dialog';
+} from '@fluentui/react-dialog';
 export {
   Dialog,
   DialogContent,
@@ -434,31 +459,37 @@ export {
   dialogContentClassNames,
   dialogSurfaceClassNames,
   dialogTitleClassNames,
-  renderDialog,
-  renderDialogActions,
-  renderDialogBody,
-  renderDialogContent,
-  renderDialogSurface,
-  renderDialogTitle,
-  renderDialogTrigger,
-  useDialog,
-  useDialogActions,
+  renderDialog_unstable as renderDialog,
+  renderDialogActions_unstable as renderDialogActions,
+  renderDialogBody_unstable as renderDialogBody,
+  renderDialogContent_unstable as renderDialogContent,
+  renderDialogSurface_unstable as renderDialogSurface,
+  renderDialogTitle_unstable as renderDialogTitle,
+  renderDialogTrigger_unstable as renderDialogTrigger,
+  useDialog_unstable as useDialog,
+  useDialogActions_unstable as useDialogActions,
+  useDialogBody_unstable as useDialogBody,
+  useDialogContent_unstable as useDialogContent,
+  useDialogContentStyles_unstable as useDialogContentStyles,
+  useDialogContext_unstable as useDialogContext,
+  useDialogSurface_unstable as useDialogSurface,
+  useDialogSurfaceContext_unstable as useDialogSurfaceContext,
+  useDialogSurfaceContextValues_unstable as useDialogSurfaceContextValues,
+  useDialogTrigger_unstable as useDialogTrigger,
+} from '@fluentui/react-dialog';
+export { useDialogTitle } from './components/react-dialog/components/DialogTitle/useDialogTitle';
+export {
   useDialogActionsStyles,
-  useDialogBody,
   useDialogBodyStyles,
-  useDialogContent,
-  useDialogContentStyles,
-  useDialogContext,
-  useDialogSurface,
-  useDialogSurfaceContext,
-  useDialogSurfaceContextValues,
   useDialogSurfaceStyles,
-  useDialogTitle,
   useDialogTitleStyles,
-  useDialogTrigger,
 } from './components/react-dialog';
+export type { DrawerBaseState } from './components/react-drawer/components/Drawer/Drawer.types';
 export type {
-  DrawerBaseState,
+  InlineDrawerProps,
+  InlineDrawerState,
+} from './components/react-drawer/components/InlineDrawer/InlineDrawer.types';
+export type {
   DrawerBodyProps,
   DrawerBodySlots,
   DrawerBodyState,
@@ -478,13 +509,11 @@ export type {
   DrawerProps,
   DrawerSlots,
   DrawerState,
-  InlineDrawerProps,
   InlineDrawerSlots,
-  InlineDrawerState,
   OverlayDrawerProps,
   OverlayDrawerSlots,
   OverlayDrawerState,
-} from './components/react-drawer';
+} from '@fluentui/react-drawer';
 export {
   DrawerProvider,
   drawerBodyClassNames,
@@ -494,31 +523,33 @@ export {
   drawerHeaderTitleClassNames,
   inlineDrawerClassNames,
   overlayDrawerClassNames,
-  renderDrawer,
-  renderDrawerBody,
-  renderDrawerFooter,
-  renderDrawerHeader,
-  renderDrawerHeaderNavigation,
-  renderDrawerHeaderTitle,
-  renderInlineDrawer,
-  renderOverlayDrawer,
-  useDrawer,
-  useDrawerBody,
+  renderDrawer_unstable as renderDrawer,
+  renderDrawerBody_unstable as renderDrawerBody,
+  renderDrawerFooter_unstable as renderDrawerFooter,
+  renderDrawerHeader_unstable as renderDrawerHeader,
+  renderDrawerHeaderNavigation_unstable as renderDrawerHeaderNavigation,
+  renderDrawerHeaderTitle_unstable as renderDrawerHeaderTitle,
+  renderInlineDrawer_unstable as renderInlineDrawer,
+  renderOverlayDrawer_unstable as renderOverlayDrawer,
+  useDrawerBody_unstable as useDrawerBody,
+  useDrawerContext_unstable as useDrawerContext,
+  useDrawerContextValue_unstable as useDrawerContextValue,
+  useDrawerFooter_unstable as useDrawerFooter,
+  useDrawerHeader_unstable as useDrawerHeader,
+  useDrawerHeaderNavigation_unstable as useDrawerHeaderNavigation,
+  useDrawerHeaderTitle_unstable as useDrawerHeaderTitle,
+  useDrawerStyles_unstable as useDrawerStyles,
+  useOverlayDrawer_unstable as useOverlayDrawer,
+} from '@fluentui/react-drawer';
+export { useDrawer } from './components/react-drawer/components/Drawer/useDrawer';
+export { useInlineDrawer } from './components/react-drawer/components/InlineDrawer/useInlineDrawer';
+export {
   useDrawerBodyStyles,
-  useDrawerContext,
-  useDrawerContextValue,
-  useDrawerFooter,
   useDrawerFooterStyles,
-  useDrawerHeader,
-  useDrawerHeaderNavigation,
-  useDrawerHeaderNavigationStyles,
   useDrawerHeaderStyles,
-  useDrawerHeaderTitle,
+  useDrawerHeaderNavigationStyles,
   useDrawerHeaderTitleStyles,
-  useDrawerStyles,
-  useInlineDrawer,
   useInlineDrawerStyles,
-  useOverlayDrawer,
   useOverlayDrawerStyles,
 } from './components/react-drawer';
 export type {
@@ -22763,24 +22794,21 @@ export {
   useIconState,
   wrapIcon,
 } from './components/react-icons';
-export type {
-  ImageProps,
-  ImageSlots,
-  ImageState,
-} from './components/react-image';
+export type { ImageProps, ImageSlots, ImageState } from '@fluentui/react-image';
 export {
   imageClassNames,
-  renderImage,
-  useImage,
-  useImageStyles,
-} from './components/react-image';
-export type { LinkProps, LinkSlots, LinkState } from './components/react-link';
+  renderImage_unstable as renderImage,
+  useImage_unstable as useImage,
+} from '@fluentui/react-image';
+export { useImageStyles } from './components/react-image';
+export type { LinkSlots } from '@fluentui/react-link';
+export type { LinkProps, LinkState } from './components/react-link/components/Link/Link.types';
 export {
   linkClassNames,
-  renderLink,
-  useLink,
-  useLinkStyles,
-} from './components/react-link';
+  renderLink_unstable as renderLink,
+} from '@fluentui/react-link';
+export { useLink } from './components/react-link/components/Link/useLink';
+export { useLinkStyles } from './components/react-link';
 export type {
   OnOpenChangeData,
   OpenPopoverEvents,
@@ -22794,35 +22822,30 @@ export type {
   PopoverTriggerChildProps,
   PopoverTriggerProps,
   PopoverTriggerState,
-} from './components/react-popover';
+} from '@fluentui/react-popover';
 export {
   Popover,
   PopoverProvider,
   PopoverTrigger,
   arrowHeights,
   popoverSurfaceClassNames,
-  renderPopover,
-  renderPopoverSurface,
-  renderPopoverTrigger,
-  usePopover,
-  usePopoverContext,
-  usePopoverSurface,
-  usePopoverSurfaceStyles,
-  usePopoverTrigger,
-} from './components/react-popover';
-export type {
-  OnVisibleChangeData,
-  TooltipProps,
-  TooltipSlots,
-  TooltipState,
-  TooltipTriggerProps,
-} from './components/react-tooltip';
+  renderPopover_unstable as renderPopover,
+  renderPopoverSurface_unstable as renderPopoverSurface,
+  renderPopoverTrigger_unstable as renderPopoverTrigger,
+  usePopover_unstable as usePopover,
+  usePopoverContext_unstable as usePopoverContext,
+  usePopoverSurface_unstable as usePopoverSurface,
+  usePopoverTrigger_unstable as usePopoverTrigger,
+} from '@fluentui/react-popover';
+export { usePopoverSurfaceStyles } from './components/react-popover';
+export type { OnVisibleChangeData, TooltipSlots, TooltipTriggerProps } from '@fluentui/react-tooltip';
+export type { TooltipProps, TooltipState } from './components/react-tooltip/components/Tooltip/Tooltip.types';
 export {
-  renderTooltip,
   tooltipClassNames,
-  useTooltip,
-  useTooltipStyles,
-} from './components/react-tooltip';
+  renderTooltip_unstable as renderTooltip,
+} from '@fluentui/react-tooltip';
+export { useTooltip_unstable as useTooltip } from './components/react-tooltip/components/Tooltip/useTooltip';
+export { useTooltipStyles } from './components/react-tooltip';
 export type {
   BorderRadiusTokens,
   BrandVariants,
