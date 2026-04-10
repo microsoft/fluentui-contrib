@@ -1,6 +1,6 @@
 {
   "name": "@fluentui-contrib/react-cap-theme",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "peerDependencies": {

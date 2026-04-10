@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-draggable-dialog",
   "entries": [
     {
+      "date": "Fri, 10 Apr 2026 16:04:54 GMT",
+      "tag": "@fluentui-contrib/react-draggable-dialog_v0.2.5",
+      "version": "0.2.5",
+      "comments": {
+        "patch": [
+          {
+            "author": "n/a",
+            "package": "@fluentui-contrib/react-draggable-dialog",
+            "commit": "7bc9d82d1184a2c8c2cebf50ccbec1eeffa07122",
+            "comment": "fix(react-draggable-dialog): sync internal dropPosition with external position prop (fixes #606)"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 03 Mar 2026 14:35:51 GMT",
       "tag": "@fluentui-contrib/react-draggable-dialog_v0.2.4",
       "version": "0.2.4",

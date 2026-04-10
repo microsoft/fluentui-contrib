@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-draggable-dialog
 
-This log was last generated on Tue, 02 Dec 2025 13:14:00 GMT and should not be manually modified.
+This log was last generated on Fri, 10 Apr 2026 16:04:54 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.2.5
+
+Fri, 10 Apr 2026 16:04:54 GMT
+
+### Patches
+
+- fix(react-draggable-dialog): sync internal dropPosition with external position prop (fixes #606) (n/a)
 
 ## 0.2.4
 
