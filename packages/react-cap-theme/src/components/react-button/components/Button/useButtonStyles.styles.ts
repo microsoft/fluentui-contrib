@@ -394,8 +394,8 @@ export const useButtonStyles = (state: ButtonState): ButtonState => {
     rootBaseFocusIndicatorStyles.base,
     rootStyles.root,
     rootStyles[appearance],
-    rootStyles[shape],
     rootStyles[size],
+    rootStyles[shape],
     size === 'small' && rootBaseFocusIndicatorStyles.small,
 
     (disabled || disabledFocusable) && rootDisabledStyles.base,
