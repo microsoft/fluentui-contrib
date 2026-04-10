@@ -17,7 +17,10 @@ const preview: Preview = {
   decorators: [
     (Story: StoryFn): JSXElement => (
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- CAP tokens extend Fluent's Theme type
-      <FluentProvider theme={capTheme as any} customStyleHooks_unstable={CAP_STYLE_HOOKS}>
+      <FluentProvider
+        theme={capTheme as any}
+        customStyleHooks_unstable={CAP_STYLE_HOOKS}
+      >
         <Story />
       </FluentProvider>
     ),

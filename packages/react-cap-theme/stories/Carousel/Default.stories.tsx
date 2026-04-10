@@ -51,7 +51,9 @@ export const Default = () => {
       >
         <CarouselAutoplayButton />
         <CarouselNav>
-          {(index) => <CarouselNavButton aria-label={`Go to slide ${index + 1}`} />}
+          {(index) => (
+            <CarouselNavButton aria-label={`Go to slide ${index + 1}`} />
+          )}
         </CarouselNav>
       </CarouselNavContainer>
     </Carousel>

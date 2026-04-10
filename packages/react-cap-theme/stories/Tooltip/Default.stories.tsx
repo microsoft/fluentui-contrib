@@ -1,5 +1,10 @@
 import * as React from 'react';
-import { Button, Tooltip, makeStyles, tokens } from '@fluentui/react-components';
+import {
+  Button,
+  Tooltip,
+  makeStyles,
+  tokens,
+} from '@fluentui/react-components';
 
 const useStyles = makeStyles({
   container: {
@@ -20,7 +25,11 @@ export const Default = () => {
       <Tooltip content="Description tooltip" relationship="description">
         <Button>Hover me (description)</Button>
       </Tooltip>
-      <Tooltip content="Inverted tooltip" relationship="label" appearance="inverted">
+      <Tooltip
+        content="Inverted tooltip"
+        relationship="label"
+        appearance="inverted"
+      >
         <Button>Hover me (inverted)</Button>
       </Tooltip>
     </div>
