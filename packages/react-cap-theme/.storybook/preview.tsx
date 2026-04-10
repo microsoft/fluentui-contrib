@@ -1,3 +1,4 @@
+import * as React from 'react';
 import rootPreview from '../../../.storybook/preview';
 import { FluentProvider, webLightTheme } from '@fluentui/react-components';
 import { CAP_STYLE_HOOKS } from '../src/index';
