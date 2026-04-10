@@ -160,13 +160,13 @@ export type FIXME_MISSING_TOKENS = {
 };
 
 export const FIXME_MISSING_TOKENS_DEFAULTS: FIXME_MISSING_TOKENS = {
-  borderRadius2XLarge: '',
-  borderRadius3XLarge: '',
-  borderRadius4XLarge: '',
-  colorNeutralStroke4: '',
-  colorNeutralStroke4Hover: '',
-  colorNeutralStroke4Pressed: '',
-  colorNeutralStroke4Selected: '',
+  borderRadius2XLarge: '12px',
+  borderRadius3XLarge: '16px',
+  borderRadius4XLarge: '24px',
+  colorNeutralStroke4: '#ebebeb',
+  colorNeutralStroke4Hover: '#e0e0e0',
+  colorNeutralStroke4Pressed: '#d6d6d6',
+  colorNeutralStroke4Selected: '#ebebeb',
 };
 
 export type Theme = BaseTheme &
