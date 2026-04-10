@@ -3,12 +3,11 @@ import {
   carouselCardClassNames,
   carouselSliderClassNames,
   carouselViewportClassNames,
-  useCarouselStyles_unstable,
 } from '@fluentui/react-carousel';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 import type { CarouselState } from './Carousel.types';
-import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 
 const NAV_HEIGHT = 28;
 
@@ -43,5 +42,5 @@ export const useCarouselStyles = (state: CarouselState): CarouselState => {
     getSlotClassNameProp_unstable(state.root)
   );
 
-  return useCarouselStyles_unstable(state) as CarouselState;
+  return state;
 };

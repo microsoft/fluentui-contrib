@@ -4,10 +4,9 @@ import type {
   InlineDrawerProps,
   OverlayDrawerProps,
 } from '@fluentui/react-drawer';
+import { InlineDrawer, OverlayDrawer } from '@fluentui/react-drawer';
 import { slot } from '@fluentui/react-utilities';
 import type * as React from 'react';
-import { InlineDrawer } from '../InlineDrawer/InlineDrawer';
-import { OverlayDrawer } from '../OverlayDrawer/OverlayDrawer';
 
 export const useDrawer = (
   props: DrawerProps,

@@ -1,10 +1,7 @@
-import {
-  type DialogActionsState,
-  useDialogActionsStyles_unstable,
-} from '@fluentui/react-dialog';
+import { type DialogActionsState } from '@fluentui/react-dialog';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
-import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { DIALOG_CONTAINER_QUERY_BREAKPOINT_SELECTOR } from '../../constants/queries';
 
 const useStyles = makeStyles({
@@ -38,5 +35,5 @@ export const useDialogActionsStyles = (
     state.position === 'end' && styles.end,
     getSlotClassNameProp_unstable(state.root)
   );
-  return useDialogActionsStyles_unstable(state);
+  return state;
 };

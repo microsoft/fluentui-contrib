@@ -1,3 +1,4 @@
+import { Button } from '@fluentui/react-button';
 import type { DialogTitleState } from '@fluentui/react-dialog';
 import {
   DialogTrigger,
@@ -5,7 +6,6 @@ import {
   useDialogTitle_unstable,
 } from '@fluentui/react-dialog';
 import { Dismiss16Regular } from '@fluentui/react-icons';
-import { Button } from '../../../react-button';
 import * as React from 'react';
 import type { DialogTitleProps } from './DialogTitle.types';
 
@@ -25,7 +25,7 @@ export const useDialogTitle = (
           aria-label="close"
           icon={<Dismiss16Regular />}
           size="small"
-          {...closeButtonProps}
+          {...(closeButtonProps as any)}
         />
       </DialogTrigger>
     ) : undefined);

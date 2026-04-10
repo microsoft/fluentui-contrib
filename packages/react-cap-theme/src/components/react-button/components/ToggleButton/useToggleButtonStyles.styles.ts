@@ -4,6 +4,7 @@ import {
   iconRegularClassName,
 } from '@fluentui/react-icons';
 import { createCustomFocusIndicatorStyle } from '@fluentui/react-tabster';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens } from '../../../tokens';
 import {
   type GriffelStyle,
@@ -12,7 +13,6 @@ import {
   shorthands,
 } from '@griffel/react';
 import { buttonClassNames, useButtonStyles } from '../../Button';
-import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import type { ToggleButtonState } from './ToggleButton.types';
 
 const highContrastPrimaryStyles: GriffelStyle = {

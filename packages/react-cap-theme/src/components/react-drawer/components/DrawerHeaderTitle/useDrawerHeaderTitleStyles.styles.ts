@@ -1,8 +1,7 @@
 import type { DrawerHeaderTitleState } from '@fluentui/react-drawer';
-import { useDrawerHeaderTitleStyles_unstable } from '@fluentui/react-drawer';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
-import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 
 const useStyles = makeStyles({
   action: {
@@ -26,5 +25,5 @@ export const useDrawerHeaderTitleStyles = (
     );
   }
 
-  return useDrawerHeaderTitleStyles_unstable(state);
+  return state;
 };

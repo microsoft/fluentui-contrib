@@ -15,4 +15,5 @@ export const ToggleButton: ForwardRefComponent<ToggleButtonProps> =
 
     return renderToggleButton(state);
   }) as ForwardRefComponent<ToggleButtonProps>;
+
 ToggleButton.displayName = 'ToggleButton';

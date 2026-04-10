@@ -1,10 +1,7 @@
-import {
-  type ImageState,
-  useImageStyles_unstable,
-} from '@fluentui/react-image';
+import { type ImageState } from '@fluentui/react-image';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
-import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 
 const useRootStyles = makeStyles({
   circular: {
@@ -27,5 +24,5 @@ export function useImageStyles(state: ImageState): ImageState {
     getSlotClassNameProp_unstable(state.root)
   );
 
-  return useImageStyles_unstable(state);
+  return state;
 }

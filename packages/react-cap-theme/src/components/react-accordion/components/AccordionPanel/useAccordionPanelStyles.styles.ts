@@ -1,10 +1,7 @@
-import {
-  type AccordionPanelState,
-  useAccordionPanelStyles_unstable,
-} from '@fluentui/react-accordion';
+import { type AccordionPanelState } from '@fluentui/react-accordion';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
-import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 
 const useStyles = makeStyles({
   root: {
@@ -22,8 +19,6 @@ export const useAccordionPanelStyles = (
     styles.root,
     getSlotClassNameProp_unstable(state.root)
   );
-
-  useAccordionPanelStyles_unstable(state);
 
   return state;
 };

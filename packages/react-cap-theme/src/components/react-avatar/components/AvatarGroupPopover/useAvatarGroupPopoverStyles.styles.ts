@@ -1,11 +1,10 @@
 import {
   useAvatarGroupPopoverStyles_unstable,
-  type AvatarGroupPopoverState as FluentAvatarGroupPopoverState,
+  type AvatarGroupPopoverState,
 } from '@fluentui/react-avatar';
 import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
-import type { AvatarGroupPopoverState } from './AvatarGroupPopover.types';
 
 const useTriggerButtonStyles = makeStyles({
   thin: {
@@ -63,6 +62,6 @@ export const useAvatarGroupPopoverStyles = (
     );
   }
 
-  useAvatarGroupPopoverStyles_unstable(state as FluentAvatarGroupPopoverState);
+  useAvatarGroupPopoverStyles_unstable(state);
   return state;
 };

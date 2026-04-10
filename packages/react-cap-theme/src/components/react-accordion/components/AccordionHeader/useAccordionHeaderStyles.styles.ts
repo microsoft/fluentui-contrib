@@ -1,15 +1,12 @@
-import {
-  useAccordionHeaderStyles_unstable,
-  type AccordionHeaderState,
-} from '@fluentui/react-accordion';
+import { type AccordionHeaderState } from '@fluentui/react-accordion';
 import {
   iconFilledClassName,
   iconRegularClassName,
 } from '@fluentui/react-icons';
 import { createFocusOutlineStyle } from '@fluentui/react-tabster';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens, typographyStyles } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
-import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 
 const useStyles = makeStyles({
   root: {
@@ -115,5 +112,5 @@ export const useAccordionHeaderStyles = (
     );
   }
 
-  return useAccordionHeaderStyles_unstable(state);
+  return state;
 };

@@ -1,10 +1,7 @@
-import {
-  type DialogSurfaceState,
-  useDialogSurfaceStyles_unstable,
-} from '@fluentui/react-dialog';
+import { type DialogSurfaceState } from '@fluentui/react-dialog';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
-import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 
 const useStyles = makeStyles({
   root: {
@@ -24,5 +21,5 @@ export const useDialogSurfaceStyles = (
     styles.root,
     getSlotClassNameProp_unstable(state.root)
   );
-  return useDialogSurfaceStyles_unstable(state);
+  return state;
 };

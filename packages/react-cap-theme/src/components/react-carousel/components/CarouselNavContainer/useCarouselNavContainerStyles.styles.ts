@@ -1,11 +1,11 @@
 import { useCarouselNavContainerStyles_unstable } from '@fluentui/react-carousel';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 import type {
   CarouselNavContainerState,
   FluentCarouselNavContainerState,
 } from './CarouselNavContainer.types';
-import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 
 const useStyles = makeStyles({
   inline: {},

@@ -1,8 +1,8 @@
 import { menuButtonClassNames } from '@fluentui/react-button';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 import { useButtonStyles } from '../Button/useButtonStyles.styles';
-import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import type { MenuButtonState } from './MenuButton.types';
 
 const useMenuIconStyles = makeStyles({

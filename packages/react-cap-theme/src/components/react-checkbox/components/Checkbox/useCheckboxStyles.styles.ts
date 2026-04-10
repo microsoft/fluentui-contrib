@@ -7,9 +7,9 @@ import {
   iconRegularClassName,
 } from '@fluentui/react-icons';
 import { createFocusOutlineStyle } from '@fluentui/react-tabster';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
-import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import type { CheckboxState } from './Checkbox.types';
 
 const mediumHitTargetWidth = '28px';

@@ -1,8 +1,7 @@
-import { useTooltipStyles_unstable as useFluentTooltipStyles_unstable } from '@fluentui/react-tooltip';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens, typographyStyles } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 import type { TooltipState } from './Tooltip.types';
-import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 
 const useStyles = makeStyles({
   root: {
@@ -29,8 +28,6 @@ export const useTooltipStyles_unstable = (
     extendedAppearance === 'brand' && styles.brand,
     getSlotClassNameProp_unstable(state.content)
   );
-
-  useFluentTooltipStyles_unstable(state);
 
   return state;
 };

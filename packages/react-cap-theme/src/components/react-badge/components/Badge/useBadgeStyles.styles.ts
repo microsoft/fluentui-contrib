@@ -1,5 +1,4 @@
 import type { BadgeState } from '@fluentui/react-badge';
-import { useBadgeStyles_unstable } from '@fluentui/react-badge';
 import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens, typographyStyles } from '../../../tokens';
 import { makeStyles, mergeClasses, shorthands } from '@griffel/react';
@@ -230,8 +229,6 @@ export const useBadgeStyles = (state: BadgeState): BadgeState => {
       getSlotClassNameProp_unstable(state.icon)
     );
   }
-
-  useBadgeStyles_unstable(state);
 
   return state;
 };

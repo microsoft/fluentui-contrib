@@ -1,5 +1,4 @@
 import type { PopoverSurfaceState } from '@fluentui/react-popover';
-import { usePopoverSurfaceStyles_unstable as useFluentPopoverSurfaceStyles_unstable } from '@fluentui/react-popover';
 import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
@@ -20,8 +19,6 @@ export const usePopoverSurfaceStyles_unstable = (
     state.appearance === 'inverted' && styles.inverted,
     getSlotClassNameProp_unstable(state.root)
   );
-
-  useFluentPopoverSurfaceStyles_unstable(state);
 
   return state;
 };

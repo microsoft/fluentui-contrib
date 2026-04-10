@@ -1,14 +1,11 @@
+import type { Button, MenuButton } from '@fluentui/react-button';
 import type {
   ComponentProps,
   ComponentState,
   Slot,
 } from '@fluentui/react-utilities';
-import type { Button, ButtonProps, ButtonState } from '../../Button';
-import type {
-  MenuButton,
-  MenuButtonProps,
-  MenuButtonState,
-} from '../../MenuButton';
+import type { ButtonProps, ButtonState } from '../../Button';
+import type { MenuButtonProps, MenuButtonState } from '../../MenuButton';
 
 export type SplitButtonSlots = {
   root: NonNullable<Slot<'div'>>;

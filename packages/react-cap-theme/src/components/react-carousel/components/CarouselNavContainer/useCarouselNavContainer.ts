@@ -1,7 +1,7 @@
 import type { CarouselNavContainerProps as FluentCarouselNavContainerProps } from '@fluentui/react-carousel';
 import { useCarouselNavContainer_unstable } from '@fluentui/react-carousel';
+import { Tooltip } from '@fluentui/react-tooltip';
 import { slot } from '@fluentui/react-utilities';
-import { Tooltip } from '../../../react-tooltip';
 import { useCarouselContext } from '../Carousel/CarouselContext';
 import type {
   CarouselNavContainerProps,
@@ -24,17 +24,17 @@ export const useCarouselNavContainer = (
   baseState.components.autoplayTooltip = Tooltip;
   const nextTooltip = slot.optional(props.nextTooltip, {
     defaultProps: {},
-    elementType: Tooltip,
+    elementType: Tooltip as any,
     renderByDefault: false,
   });
   const prevTooltip = slot.optional(props.prevTooltip, {
     defaultProps: {},
-    elementType: Tooltip,
+    elementType: Tooltip as any,
     renderByDefault: false,
   });
   const autoplayTooltip = slot.optional(props.autoplayTooltip, {
     defaultProps: {},
-    elementType: Tooltip,
+    elementType: Tooltip as any,
     renderByDefault: false,
   });
 

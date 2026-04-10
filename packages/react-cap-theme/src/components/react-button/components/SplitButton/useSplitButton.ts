@@ -1,11 +1,10 @@
+import { Button, MenuButton } from '@fluentui/react-button';
 import {
   getIntrinsicElementProps,
   useId,
   slot,
 } from '@fluentui/react-utilities';
 import type * as React from 'react';
-import { Button } from '../Button/Button';
-import { MenuButton } from '../MenuButton/MenuButton';
 import type { SplitButtonProps, SplitButtonState } from './SplitButton.types';
 
 export const useSplitButton = (
@@ -29,7 +28,7 @@ export const useSplitButton = (
 
   const menuButtonShorthand = slot.optional(menuButton, {
     defaultProps: {
-      appearance,
+      appearance: appearance as any,
       disabled,
       disabledFocusable,
       menuIcon,
@@ -41,7 +40,7 @@ export const useSplitButton = (
 
   const primaryActionButtonShorthand = slot.optional(primaryActionButton, {
     defaultProps: {
-      appearance,
+      appearance: appearance as any,
       children,
       disabled,
       disabledFocusable,
