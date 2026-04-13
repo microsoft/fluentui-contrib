@@ -7,7 +7,7 @@ import {
   type SlotClassNames,
 } from '@fluentui/react-utilities';
 import { tokens } from '@fluentui/tokens';
-import { typographyStyles } from '../../../tokens';
+import { typographyStyles } from '@fluentui/tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 
 export const menuGroupHeaderClassNames: SlotClassNames<MenuGroupHeaderSlots> = {
