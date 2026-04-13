@@ -1,12 +1,17 @@
 import * as React from 'react';
 import rootPreview from '../../../.storybook/preview';
-import { FluentProvider, webLightTheme } from '@fluentui/react-components';
+import {
+  FluentProvider,
+  Theme,
+  webLightTheme,
+} from '@fluentui/react-components';
 import { CAP_STYLE_HOOKS } from '../src/index';
 import type { JSXElement } from '@fluentui/react-utilities';
 
 import type { Preview, StoryFn } from '@storybook/react';
+import { CAPTokens } from '../src/components/tokens/types';
 
-const capTheme = {
+const capTheme: Record<keyof Theme & keyof CAPTokens, string> = {
   ...webLightTheme,
   borderRadius2XLarge: '12px',
   borderRadius3XLarge: '16px',
