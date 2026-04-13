@@ -9,59 +9,6 @@ import type {
   TypographyStyles as BaseTypographyStyles,
 } from '@fluentui/tokens';
 
-export type Greys =
-  | 0
-  | 2
-  | 4
-  | 6
-  | 8
-  | 10
-  | 12
-  | 14
-  | 16
-  | 18
-  | 20
-  | 22
-  | 24
-  | 26
-  | 28
-  | 30
-  | 32
-  | 34
-  | 36
-  | 38
-  | 40
-  | 42
-  | 44
-  | 46
-  | 48
-  | 50
-  | 52
-  | 54
-  | 56
-  | 58
-  | 60
-  | 62
-  | 64
-  | 66
-  | 68
-  | 70
-  | 72
-  | 74
-  | 76
-  | 78
-  | 80
-  | 82
-  | 84
-  | 86
-  | 88
-  | 90
-  | 92
-  | 94
-  | 96
-  | 98
-  | 100;
-
 export type Font =
   | 100
   | 200
@@ -136,13 +83,6 @@ export type CustomizableTypographyStyles = Record<
   heading4: TypographyStyle;
 };
 
-export type CustomizableTypographyStyle = {
-  fontFamily: string;
-  fontWeight?: number;
-};
-
-export type FontVariants = Record<Font, CustomizableTypographyStyle>;
-
 export type FontFamilyTokens = BaseFontFamilyTokens &
   Partial<FontFamilyCustomFontTokens>;
 
@@ -178,57 +118,5 @@ export type Theme = BaseTheme &
   LineHeightTokens &
   FIXME_MISSING_TOKENS;
 
-export type PartialTheme = Partial<Theme>;
-
 export type TokenName = keyof Theme;
 
-export type {
-  BorderRadiusTokens,
-  Brands,
-  BrandVariants,
-  ColorPaletteAnchor,
-  ColorPaletteBeige,
-  ColorPaletteBerry,
-  ColorPaletteBlue,
-  ColorPaletteBrass,
-  ColorPaletteBrown,
-  ColorPaletteCornflower,
-  ColorPaletteCranberry,
-  ColorPaletteDarkGreen,
-  ColorPaletteDarkOrange,
-  ColorPaletteDarkRed,
-  ColorPaletteForest,
-  ColorPaletteGrape,
-  ColorPaletteGold,
-  ColorPaletteGreen,
-  ColorPaletteLavender,
-  ColorPaletteLilac,
-  ColorPaletteLightGreen,
-  ColorPaletteLightTeal,
-  ColorPaletteMagenta,
-  ColorPaletteMarigold,
-  ColorPaletteMink,
-  ColorPaletteNavy,
-  ColorPalettePeach,
-  ColorPalettePink,
-  ColorPalettePlatinum,
-  ColorPalettePlum,
-  ColorPalettePumpkin,
-  ColorPalettePurple,
-  ColorPaletteRed,
-  ColorPaletteRoyalBlue,
-  ColorPaletteSeafoam,
-  ColorPaletteSteel,
-  ColorPaletteTeal,
-  ColorPaletteTokens,
-  ColorPaletteYellow,
-  CurveTokens,
-  DurationTokens,
-  HorizontalSpacingTokens,
-  ShadowBrandTokens,
-  ShadowTokens,
-  SpacingTokens,
-  StrokeWidthTokens,
-  VerticalSpacingTokens,
-  ZIndexTokens,
-} from '@fluentui/tokens';
