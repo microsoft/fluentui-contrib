@@ -1,8 +1,6 @@
-import { tokens as fluentTokens } from '@fluentui/tokens';
-import type { TokenName } from './types';
+import { CAPTokens } from './types';
 
-export const tokens: Record<TokenName, string> = {
-  ...fluentTokens,
+export const capTokens: Record<keyof CAPTokens, string> = {
   borderRadius2XLarge: 'var(--borderRadius2XLarge)',
   borderRadius3XLarge: 'var(--borderRadius3XLarge)',
   borderRadius4XLarge: 'var(--borderRadius4XLarge)',

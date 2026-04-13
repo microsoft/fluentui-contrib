@@ -1,5 +1,6 @@
 import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
-import { tokens, typographyStyles } from '../../../tokens';
+import { tokens } from '@fluentui/tokens';
+import { typographyStyles } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 import type { TooltipState } from './Tooltip.types';
 

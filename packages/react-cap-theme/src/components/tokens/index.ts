@@ -1,2 +1,2 @@
 export { typographyStyles } from './global/typographyStyles';
-export { tokens } from './tokens';
+export { capTokens } from './tokens';

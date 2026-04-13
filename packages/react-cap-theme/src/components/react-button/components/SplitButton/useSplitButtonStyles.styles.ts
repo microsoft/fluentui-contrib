@@ -1,7 +1,7 @@
 import { splitButtonClassNames } from '@fluentui/react-button';
 import { createCustomFocusIndicatorStyle } from '@fluentui/react-tabster';
 import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
-import { tokens } from '../../../tokens';
+import { tokens } from '@fluentui/tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 import {
   buttonSpacingVerticalLarge,

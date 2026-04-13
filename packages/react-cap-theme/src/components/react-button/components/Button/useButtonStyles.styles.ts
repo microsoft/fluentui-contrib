@@ -5,7 +5,8 @@ import {
 } from '@fluentui/react-icons';
 import { createCustomFocusIndicatorStyle } from '@fluentui/react-tabster';
 import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
-import { tokens, typographyStyles } from '../../../tokens';
+import { tokens } from '@fluentui/tokens';
+import { capTokens, typographyStyles } from '../../../tokens';
 import {
   type GriffelStyle,
   makeStyles,
@@ -55,8 +56,8 @@ const useRootBaseStyles = makeStyles({
     overflow: 'hidden',
 
     color: tokens.colorNeutralForeground3,
-    border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke4}`,
-    borderRadius: tokens.borderRadius2XLarge,
+    border: `${tokens.strokeWidthThin} solid ${capTokens.colorNeutralStroke4}`,
+    borderRadius: capTokens.borderRadius2XLarge,
     cursor: 'pointer',
 
     ':hover': { color: tokens.colorNeutralForeground1Hover },
@@ -118,11 +119,11 @@ const useRootStyles = makeStyles({
   outline: {
     backgroundColor: tokens.colorTransparentBackground, // Remove browser styling
     ':hover': {
-      ...shorthands.borderColor(tokens.colorNeutralStroke4Hover),
+      ...shorthands.borderColor(capTokens.colorNeutralStroke4Hover),
       backgroundColor: tokens.colorNeutralBackground3Hover,
     },
     ':hover:active': {
-      ...shorthands.borderColor(tokens.colorNeutralStroke4Pressed),
+      ...shorthands.borderColor(capTokens.colorNeutralStroke4Pressed),
       backgroundColor: tokens.colorNeutralBackground3Pressed,
     },
   },
@@ -143,11 +144,11 @@ const useRootStyles = makeStyles({
   secondary: {
     backgroundColor: tokens.colorNeutralBackground3,
     ':hover': {
-      ...shorthands.borderColor(tokens.colorNeutralStroke4Hover),
+      ...shorthands.borderColor(capTokens.colorNeutralStroke4Hover),
       backgroundColor: tokens.colorNeutralBackground3Hover,
     },
     ':hover:active': {
-      ...shorthands.borderColor(tokens.colorNeutralStroke4Pressed),
+      ...shorthands.borderColor(capTokens.colorNeutralStroke4Pressed),
       backgroundColor: tokens.colorNeutralBackground3Pressed,
     },
   },
@@ -287,7 +288,7 @@ const useRootDisabledStyles = makeStyles({
 const useRootBaseFocusIndicatorStyles = makeStyles({
   base: createCustomFocusIndicatorStyle({
     borderColor: tokens.colorStrokeFocus2,
-    borderRadius: tokens.borderRadius2XLarge,
+    borderRadius: capTokens.borderRadius2XLarge,
     outline: `${tokens.strokeWidthThick} solid ${tokens.colorStrokeFocus2}`,
     zIndex: 1,
     ...innerFocusRing(),

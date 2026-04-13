@@ -1,10 +1,11 @@
 import type { PopoverSurfaceState } from '@fluentui/react-popover';
 import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
-import { tokens } from '../../../tokens';
+import { tokens } from '@fluentui/tokens';
+import { capTokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 
 const useStyles = makeStyles({
-  root: { borderRadius: tokens.borderRadius4XLarge },
+  root: { borderRadius: capTokens.borderRadius4XLarge },
   inverted: { backgroundColor: tokens.colorNeutralBackgroundInverted },
 });
 

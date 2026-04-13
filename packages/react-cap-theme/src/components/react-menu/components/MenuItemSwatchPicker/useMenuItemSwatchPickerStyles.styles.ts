@@ -6,7 +6,7 @@ import {
   getSlotClassNameProp_unstable,
   type SlotClassNames,
 } from '@fluentui/react-utilities';
-import { tokens } from '../../../tokens';
+import { tokens } from '@fluentui/tokens';
 import { makeStyles, mergeClasses, shorthands } from '@griffel/react';
 
 export const menuItemSwatchPickerClassNames: SlotClassNames<SwatchPickerSlots> =

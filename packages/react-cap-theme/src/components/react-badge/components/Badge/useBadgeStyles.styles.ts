@@ -1,6 +1,7 @@
 import type { BadgeState } from '@fluentui/react-badge';
 import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
-import { tokens, typographyStyles } from '../../../tokens';
+import { tokens } from '@fluentui/tokens';
+import { typographyStyles } from '../../../tokens';
 import { makeStyles, mergeClasses, shorthands } from '@griffel/react';
 
 const badgeSpacingAsymmetryVar = '--fui-Badge--spacing-asymmetry';

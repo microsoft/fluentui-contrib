@@ -1,6 +1,7 @@
 import { type ImageState } from '@fluentui/react-image';
 import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
-import { tokens } from '../../../tokens';
+import { tokens } from '@fluentui/tokens';
+import { capTokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 
 const useRootStyles = makeStyles({
@@ -8,7 +9,7 @@ const useRootStyles = makeStyles({
     /** same as base */
   },
   rounded: {
-    borderRadius: tokens.borderRadius2XLarge,
+    borderRadius: capTokens.borderRadius2XLarge,
   },
   square: {
     /** same as base */
