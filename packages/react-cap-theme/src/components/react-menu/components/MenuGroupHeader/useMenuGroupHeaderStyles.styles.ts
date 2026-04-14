@@ -6,8 +6,7 @@ import {
   getSlotClassNameProp_unstable,
   type SlotClassNames,
 } from '@fluentui/react-utilities';
-import { tokens } from '@fluentui/tokens';
-import { typographyStyles } from '@fluentui/tokens';
+import { tokens, typographyStyles } from '@fluentui/tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 
 export const menuGroupHeaderClassNames: SlotClassNames<MenuGroupHeaderSlots> = {
@@ -19,6 +18,7 @@ const useStyles = makeStyles({
     ...typographyStyles.caption1Strong,
     height: 'auto',
     padding: `${tokens.spacingVerticalSNudge} ${tokens.spacingHorizontalS} ${tokens.spacingVerticalS}`,
+    color: tokens.colorNeutralForeground2,
   },
 });
 

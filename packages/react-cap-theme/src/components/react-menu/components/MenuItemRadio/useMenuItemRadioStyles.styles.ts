@@ -1,51 +1,93 @@
-import type { MenuItemRadioState, MenuItemSlots } from '@fluentui/react-menu';
 import {
-  getSlotClassNameProp_unstable,
-  type SlotClassNames,
-} from '@fluentui/react-utilities';
+  type MenuItemRadioState,
+  menuItemClassNames,
+  menuItemRadioClassNames,
+} from '@fluentui/react-menu';
 import { makeStyles, mergeClasses } from '@griffel/react';
+import { tokens } from '@fluentui/tokens';
+
 import { useMenuItemStyles } from '../MenuItem/useMenuItemStyles.styles';
+import { useCheckmarkStyles_unstable } from '../../selectable/useCheckmarkStyles.style';
 
-export const menuItemRadioClassNames: SlotClassNames<
-  Omit<MenuItemSlots, 'submenuIndicator'>
-> = {
-  root: 'fui-MenuItemRadio',
-  content: 'fui-MenuItemRadio__content',
-  icon: 'fui-MenuItemRadio__icon',
-  checkmark: 'fui-MenuItemRadio__checkmark',
-  secondaryContent: 'fui-MenuItemRadio__secondaryContent',
-  subText: 'fui-MenuItemRadio__subText',
-};
+const useInteractiveStyles = makeStyles({
+  checked: {
+    ':hover': {
+      [`& .${menuItemClassNames.checkmark}`]: {
+        color: tokens.colorBrandForeground2Hover,
+      },
+    },
+    ':hover:active': {
+      [`& .${menuItemClassNames.checkmark}`]: {
+        color: tokens.colorBrandForeground2Pressed,
+      },
+    },
 
-const useStyles = makeStyles({
-  checkmark: {
-    fontSize: '20px',
-    height: '20px',
-    marginTop: 0,
-    visibility: 'visible',
-    width: '20px',
+    '@media (forced-colors: active)': {
+      ':hover': {
+        [`& .${menuItemClassNames.checkmark}`]: { color: 'inherit' },
+      },
+      ':hover:active': {
+        [`& .${menuItemClassNames.checkmark}`]: { color: 'inherit' },
+      },
+    },
   },
+});
+
+const useCheckmarkStyles = makeStyles({
+  checked: { color: tokens.colorBrandForeground2 },
 });
 
 export const useMenuItemRadioStyles = (
   state: MenuItemRadioState
 ): MenuItemRadioState => {
-  const styles = useStyles();
+  const { checked, disabled } = state;
+  const interactiveStyles = useInteractiveStyles();
+  const checkmarkStyles = useCheckmarkStyles();
 
   state.root.className = mergeClasses(
     state.root.className,
     menuItemRadioClassNames.root,
-    getSlotClassNameProp_unstable(state.root)
+    !disabled && checked && interactiveStyles.checked,
   );
-  if (state.checkmark) {
-    state.checkmark.className = mergeClasses(
-      state.checkmark.className,
+
+  if (state.content) {
+    state.content.className = mergeClasses(
+      state.content.className,
       menuItemRadioClassNames.content,
-      styles.checkmark,
-      getSlotClassNameProp_unstable(state.checkmark)
     );
   }
 
+  if (state.secondaryContent) {
+    state.secondaryContent.className = mergeClasses(
+      state.secondaryContent.className,
+      menuItemRadioClassNames.secondaryContent,
+    );
+  }
+
+  if (state.icon) {
+    state.icon.className = mergeClasses(
+      state.icon.className,
+      menuItemRadioClassNames.icon,
+    );
+  }
+
+  if (state.checkmark) {
+    state.checkmark.className = mergeClasses(
+      state.checkmark.className,
+      menuItemRadioClassNames.checkmark,
+      !disabled && checked && checkmarkStyles.checked,
+    );
+  }
+
+  if (state.subText) {
+    state.subText.className = mergeClasses(
+      state.subText.className,
+      menuItemRadioClassNames.subText,
+    );
+  }
+
+  useCheckmarkStyles_unstable(state);
   useMenuItemStyles(state);
+
   return state;
 };

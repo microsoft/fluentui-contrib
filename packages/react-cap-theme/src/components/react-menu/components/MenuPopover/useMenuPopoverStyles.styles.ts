@@ -7,6 +7,7 @@ import {
   type SlotClassNames,
 } from '@fluentui/react-utilities';
 import { tokens } from '@fluentui/tokens';
+import { capTokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 
 export const menuPopoverClassNames: Partial<SlotClassNames<MenuPopoverSlots>> =
@@ -17,10 +18,11 @@ export const menuPopoverClassNames: Partial<SlotClassNames<MenuPopoverSlots>> =
 const useStyles = makeStyles({
   root: {
     border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStrokeAlpha}`,
-    borderRadius: tokens.borderRadiusXLarge,
-    boxShadow: tokens.shadow4,
-    padding: `calc(${tokens.spacingVerticalSNudge} - 1px) calc(${tokens.spacingHorizontalSNudge} - 1px)`,
-    width: '248px',
+    borderRadius: capTokens.borderRadius2XLarge,
+    boxShadow: '0 3px 12px 0 rgba(0, 0, 0, 0.18)', // FIXME: update to use shadow token once it's available
+    padding: `${tokens.spacingVerticalSNudge} ${tokens.spacingHorizontalSNudge}`,
+    width: 'auto',
+    minWidth: '160px',
   },
 });
 
