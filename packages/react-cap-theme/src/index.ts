@@ -83,6 +83,8 @@ import { useImageStyles } from './components/react-image';
 import type { ImageState } from '@fluentui/react-image';
 import { useLabelStyles } from './components/react-label';
 import type { LabelState } from './components/react-label/components/Label/Label.types';
+import { useInputStyles } from './components/react-input';
+import type { InputState } from './components/react-input/components/Input/Input.types';
 import { useLinkStyles } from './components/react-link';
 import type { LinkState } from './components/react-link/components/Link/Link.types';
 import {
@@ -194,6 +196,9 @@ export const CAP_STYLE_HOOKS: NonNullable<
   },
   useLabelStyles_unstable: (state) => {
     return useLabelStyles(state as LabelState);
+  },
+  useInputStyles_unstable: (state) => {
+    return useInputStyles(state as InputState);
   },
   useInlineDrawerStyles_unstable: (state) => {
     return useInlineDrawerStyles(state as InlineDrawerState);
