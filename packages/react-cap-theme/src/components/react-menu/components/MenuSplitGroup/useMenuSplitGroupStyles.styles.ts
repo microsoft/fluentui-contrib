@@ -7,7 +7,7 @@ import {
   getSlotClassNameProp_unstable,
   type SlotClassNames,
 } from '@fluentui/react-utilities';
-import { tokens } from '../../../tokens';
+import { tokens } from '@fluentui/tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 
 export const menuSplitGroupClassNames: SlotClassNames<MenuSplitGroupSlots> = {

@@ -1,5 +1,5 @@
 import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
-import { tokens } from '../../../tokens';
+import { tokens } from '@fluentui/tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 import { useDrawerBaseClassNames } from '../../shared/useDrawerBaseStyles.styles';
 import type { InlineDrawerState } from './InlineDrawer.types';

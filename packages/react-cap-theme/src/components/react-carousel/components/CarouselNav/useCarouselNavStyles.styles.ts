@@ -1,5 +1,5 @@
 import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
-import { tokens } from '../../../tokens';
+import { tokens } from '@fluentui/tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 import type { CarouselNavState } from './CarouselNav.types';
 
