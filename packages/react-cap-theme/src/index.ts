@@ -81,6 +81,8 @@ import type {
 import type { InlineDrawerState } from './components/react-drawer/components/InlineDrawer/InlineDrawer.types';
 import { useImageStyles } from './components/react-image';
 import type { ImageState } from '@fluentui/react-image';
+import { useInputStyles } from './components/react-input';
+import type { InputState } from './components/react-input/components/Input/Input.types';
 import { useLinkStyles } from './components/react-link';
 import type { LinkState } from './components/react-link/components/Link/Link.types';
 import {
@@ -103,6 +105,8 @@ import type {
 } from '@fluentui/react-menu';
 import { usePopoverSurfaceStyles } from './components/react-popover';
 import type { PopoverSurfaceState } from '@fluentui/react-popover';
+import { useSearchBoxStyles } from './components/react-search';
+import type { SearchBoxState } from './components/react-search/components/SearchBox/SearchBox.types';
 import { useTooltipStyles } from './components/react-tooltip';
 import type { TooltipState } from './components/react-tooltip/components/Tooltip/Tooltip.types';
 
@@ -190,6 +194,9 @@ export const CAP_STYLE_HOOKS: NonNullable<
   useImageStyles_unstable: (state) => {
     return useImageStyles(state as ImageState);
   },
+  useInputStyles_unstable: (state) => {
+    return useInputStyles(state as InputState);
+  },
   useInlineDrawerStyles_unstable: (state) => {
     return useInlineDrawerStyles(state as InlineDrawerState);
   },
@@ -204,6 +211,9 @@ export const CAP_STYLE_HOOKS: NonNullable<
   },
   usePopoverSurfaceStyles_unstable: (state) => {
     return usePopoverSurfaceStyles(state as PopoverSurfaceState);
+  },
+  useSearchBoxStyles_unstable: (state) => {
+    return useSearchBoxStyles(state as SearchBoxState);
   },
   useSplitButtonStyles_unstable: (state) => {
     return useSplitButtonStyles(state as SplitButtonState);
