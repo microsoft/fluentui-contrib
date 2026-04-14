@@ -1,5 +1,6 @@
 import { inputClassNames } from '@fluentui/react-input';
 import { makeStyles, mergeClasses, shorthands } from '@griffel/react';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens, typographyStyles } from '@fluentui/tokens';
 import { capTokens } from '../../../tokens';
 import type { InputState } from './Input.types';
@@ -224,6 +225,7 @@ export const useInputStyles = (state: InputState): InputState => {
   const invalid = `${state.input['aria-invalid']}` === 'true';
 
   state.root.className = mergeClasses(
+    state.root.className,
     inputClassNames.root,
     styles.root,
     styles[size],
@@ -237,35 +239,38 @@ export const useInputStyles = (state: InputState): InputState => {
     invalid && styles.invalid,
     disabled && styles.disabled,
     disabled && appearance === 'underline' && styles.disabledUnderline,
-    state.root.className,
+    getSlotClassNameProp_unstable(state.root),
   );
 
   state.input.className = mergeClasses(
+    state.input.className,
     inputClassNames.input,
     inputStyles.base,
     disabled && inputStyles.disabled,
-    state.input.className,
+    getSlotClassNameProp_unstable(state.input),
   );
 
   if (state.contentBefore) {
     state.contentBefore.className = mergeClasses(
+      state.contentBefore.className,
       inputClassNames.contentBefore,
       contentStyles.base,
       contentStyles[size],
       contentStyles[`${size}ContentBefore`],
       disabled && contentStyles.disabled,
-      state.contentBefore.className,
+      getSlotClassNameProp_unstable(state.contentBefore),
     );
   }
 
   if (state.contentAfter) {
     state.contentAfter.className = mergeClasses(
+      state.contentAfter.className,
       inputClassNames.contentAfter,
       contentStyles.base,
       contentStyles[size],
       contentStyles[`${size}ContentAfter`],
       disabled && contentStyles.disabled,
-      state.contentAfter.className,
+      getSlotClassNameProp_unstable(state.contentAfter),
     );
   }
 
