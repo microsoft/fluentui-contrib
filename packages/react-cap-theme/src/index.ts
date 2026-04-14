@@ -81,6 +81,8 @@ import type {
 import type { InlineDrawerState } from './components/react-drawer/components/InlineDrawer/InlineDrawer.types';
 import { useImageStyles } from './components/react-image';
 import type { ImageState } from '@fluentui/react-image';
+import { useInputStyles } from './components/react-input';
+import type { InputState } from './components/react-input/components/Input/Input.types';
 import { useLinkStyles } from './components/react-link';
 import type { LinkState } from './components/react-link/components/Link/Link.types';
 import {
@@ -189,6 +191,9 @@ export const CAP_STYLE_HOOKS: NonNullable<
   },
   useImageStyles_unstable: (state) => {
     return useImageStyles(state as ImageState);
+  },
+  useInputStyles_unstable: (state) => {
+    return useInputStyles(state as InputState);
   },
   useInlineDrawerStyles_unstable: (state) => {
     return useInlineDrawerStyles(state as InlineDrawerState);
