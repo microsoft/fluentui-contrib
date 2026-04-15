@@ -1,7 +1,4 @@
-import {
-  mergeClasses,
-  makeStyles,
-} from '@griffel/react';
+import { mergeClasses, makeStyles } from '@griffel/react';
 import {
   menuItemClassNames,
   type MenuItemSelectableState,
@@ -66,20 +63,20 @@ export const useCheckmarkStyles_unstable = (
   state.root.className = mergeClasses(
     state.checked && styles.checked,
     !disabled && checked && interactiveStyles.checked,
-    state.root.className,
+    state.root.className
   );
 
   if (state.icon) {
     state.icon.className = mergeClasses(
       !disabled && checked && interactiveStyles.iconChecked,
-      state.icon.className,
+      state.icon.className
     );
   }
 
   if (state.checkmark) {
     state.checkmark.className = mergeClasses(
       styles.checkmark,
-      state.checkmark.className,
+      state.checkmark.className
     );
   }
 };

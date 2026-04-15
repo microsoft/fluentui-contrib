@@ -153,14 +153,14 @@ export const useMenuItemStyles = (state: MenuItemState): MenuItemState => {
     menuItemClassNames.root,
     styles.root,
     disabled ? styles.disabled : interactiveStyles.root,
-    getSlotClassNameProp_unstable(state.root),
+    getSlotClassNameProp_unstable(state.root)
   );
 
   if (state.content) {
     state.content.className = mergeClasses(
       state.content.className,
       menuItemClassNames.content,
-      styles.content,
+      styles.content
     );
   }
   if (state.icon) {
@@ -168,7 +168,7 @@ export const useMenuItemStyles = (state: MenuItemState): MenuItemState => {
       state.icon.className,
       menuItemClassNames.icon,
       styles.icon,
-      getSlotClassNameProp_unstable(state.icon),
+      getSlotClassNameProp_unstable(state.icon)
     );
   }
   if (state.secondaryContent) {
@@ -176,7 +176,7 @@ export const useMenuItemStyles = (state: MenuItemState): MenuItemState => {
       state.secondaryContent.className,
       menuItemClassNames.secondaryContent,
       styles.secondaryContent,
-      getSlotClassNameProp_unstable(state.secondaryContent),
+      getSlotClassNameProp_unstable(state.secondaryContent)
     );
   }
   if (state.submenuIndicator) {
@@ -184,7 +184,7 @@ export const useMenuItemStyles = (state: MenuItemState): MenuItemState => {
       state.submenuIndicator.className,
       menuItemClassNames.submenuIndicator,
       styles.submenuIndicator,
-      getSlotClassNameProp_unstable(state.submenuIndicator),
+      getSlotClassNameProp_unstable(state.submenuIndicator)
     );
   }
   if (state.subText) {
@@ -192,7 +192,7 @@ export const useMenuItemStyles = (state: MenuItemState): MenuItemState => {
       state.subText.className,
       menuItemClassNames.subText,
       styles.subText,
-      getSlotClassNameProp_unstable(state.subText),
+      getSlotClassNameProp_unstable(state.subText)
     );
   }
 
@@ -202,7 +202,7 @@ export const useMenuItemStyles = (state: MenuItemState): MenuItemState => {
     state.content.className = mergeClasses(
       state.content.className,
       multiline && multilineStyles.content,
-      getSlotClassNameProp_unstable(state.content),
+      getSlotClassNameProp_unstable(state.content)
     );
   }
 

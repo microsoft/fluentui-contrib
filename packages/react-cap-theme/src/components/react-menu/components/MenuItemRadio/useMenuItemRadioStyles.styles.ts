@@ -48,27 +48,27 @@ export const useMenuItemRadioStyles = (
   state.root.className = mergeClasses(
     state.root.className,
     menuItemRadioClassNames.root,
-    !disabled && checked && interactiveStyles.checked,
+    !disabled && checked && interactiveStyles.checked
   );
 
   if (state.content) {
     state.content.className = mergeClasses(
       state.content.className,
-      menuItemRadioClassNames.content,
+      menuItemRadioClassNames.content
     );
   }
 
   if (state.secondaryContent) {
     state.secondaryContent.className = mergeClasses(
       state.secondaryContent.className,
-      menuItemRadioClassNames.secondaryContent,
+      menuItemRadioClassNames.secondaryContent
     );
   }
 
   if (state.icon) {
     state.icon.className = mergeClasses(
       state.icon.className,
-      menuItemRadioClassNames.icon,
+      menuItemRadioClassNames.icon
     );
   }
 
@@ -76,14 +76,14 @@ export const useMenuItemRadioStyles = (
     state.checkmark.className = mergeClasses(
       state.checkmark.className,
       menuItemRadioClassNames.checkmark,
-      !disabled && checked && checkmarkStyles.checked,
+      !disabled && checked && checkmarkStyles.checked
     );
   }
 
   if (state.subText) {
     state.subText.className = mergeClasses(
       state.subText.className,
-      menuItemRadioClassNames.subText,
+      menuItemRadioClassNames.subText
     );
   }
 

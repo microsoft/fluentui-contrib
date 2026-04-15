@@ -113,7 +113,9 @@ const useIsEditableStyles = makeStyles({
   noValue: {
     color: capTokens.colorNeutralForeground5,
     ':hover': { color: capTokens.colorNeutralForeground5Hover },
-    ':active,:focus-within': { color: capTokens.colorNeutralForeground5Pressed },
+    ':active,:focus-within': {
+      color: capTokens.colorNeutralForeground5Pressed,
+    },
   },
   brand: {
     ':active,:focus-within': {
@@ -239,7 +241,7 @@ export const useInputStyles = (state: InputState): InputState => {
     invalid && styles.invalid,
     disabled && styles.disabled,
     disabled && appearance === 'underline' && styles.disabledUnderline,
-    getSlotClassNameProp_unstable(state.root),
+    getSlotClassNameProp_unstable(state.root)
   );
 
   state.input.className = mergeClasses(
@@ -247,7 +249,7 @@ export const useInputStyles = (state: InputState): InputState => {
     inputClassNames.input,
     inputStyles.base,
     disabled && inputStyles.disabled,
-    getSlotClassNameProp_unstable(state.input),
+    getSlotClassNameProp_unstable(state.input)
   );
 
   if (state.contentBefore) {
@@ -258,7 +260,7 @@ export const useInputStyles = (state: InputState): InputState => {
       contentStyles[size],
       contentStyles[`${size}ContentBefore`],
       disabled && contentStyles.disabled,
-      getSlotClassNameProp_unstable(state.contentBefore),
+      getSlotClassNameProp_unstable(state.contentBefore)
     );
   }
 
@@ -270,7 +272,7 @@ export const useInputStyles = (state: InputState): InputState => {
       contentStyles[size],
       contentStyles[`${size}ContentAfter`],
       disabled && contentStyles.disabled,
-      getSlotClassNameProp_unstable(state.contentAfter),
+      getSlotClassNameProp_unstable(state.contentAfter)
     );
   }
 

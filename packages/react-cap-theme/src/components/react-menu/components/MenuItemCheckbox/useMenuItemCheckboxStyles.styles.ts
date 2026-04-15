@@ -34,27 +34,27 @@ export const useMenuItemCheckboxStyles = (
   state.root.className = mergeClasses(
     state.root.className,
     menuItemCheckboxClassNames.root,
-    !disabled && interactiveStyles.root,
+    !disabled && interactiveStyles.root
   );
 
   if (state.content) {
     state.content.className = mergeClasses(
       state.content.className,
-      menuItemCheckboxClassNames.content,
+      menuItemCheckboxClassNames.content
     );
   }
 
   if (state.secondaryContent) {
     state.secondaryContent.className = mergeClasses(
       state.secondaryContent.className,
-      menuItemCheckboxClassNames.secondaryContent,
+      menuItemCheckboxClassNames.secondaryContent
     );
   }
 
   if (state.icon) {
     state.icon.className = mergeClasses(
       state.icon.className,
-      menuItemCheckboxClassNames.icon,
+      menuItemCheckboxClassNames.icon
     );
   }
 
@@ -63,14 +63,14 @@ export const useMenuItemCheckboxStyles = (
       state.checkmark.className,
       menuItemCheckboxClassNames.checkmark,
       checkmarkStyles.base,
-      !checked && checkmarkStyles.unchecked,
+      !checked && checkmarkStyles.unchecked
     );
   }
 
   if (state.subText) {
     state.subText.className = mergeClasses(
       state.subText.className,
-      menuItemCheckboxClassNames.subText,
+      menuItemCheckboxClassNames.subText
     );
   }
 

@@ -77,17 +77,13 @@ const useInteractiveStyles = makeStyles({
   unchecked: {
     ':hover': {
       [`& .${menuItemSwitchClassNames.switchIndicator}`]: {
-        ...shorthands.borderColor(
-          tokens.colorNeutralStrokeAccessibleHover,
-        ),
+        ...shorthands.borderColor(tokens.colorNeutralStrokeAccessibleHover),
         color: tokens.colorNeutralForeground3Hover,
       },
     },
     ':hover:active': {
       [`& .${menuItemSwitchClassNames.switchIndicator}`]: {
-        ...shorthands.borderColor(
-          tokens.colorNeutralStrokeAccessiblePressed,
-        ),
+        ...shorthands.borderColor(tokens.colorNeutralStrokeAccessiblePressed),
         color: tokens.colorNeutralForeground3Pressed,
       },
     },
@@ -139,7 +135,9 @@ const useSwitchIndicatorStyles = makeStyles({
     color: tokens.colorNeutralForegroundInverted,
     ...shorthands.borderColor(tokens.colorTransparentStroke),
     [`& .${circleFilledClassName}`]: {
-      transform: `translateX(${trackWidth - thumbSize - spaceBetweenThumbAndTrack}px)`,
+      transform: `translateX(${
+        trackWidth - thumbSize - spaceBetweenThumbAndTrack
+      }px)`,
     },
 
     '@media (forced-colors: active)': {
@@ -179,14 +177,14 @@ export const useMenuItemSwitchStyles = (
     menuItemSwitchClassNames.root,
     styles.root,
     !disabled &&
-      (checked ? interactiveStyles.checked : interactiveStyles.unchecked),
+      (checked ? interactiveStyles.checked : interactiveStyles.unchecked)
   );
 
   if (state.content) {
     state.content.className = mergeClasses(
       state.content.className,
       menuItemSwitchClassNames.content,
-      styles.content,
+      styles.content
     );
   }
 
@@ -194,7 +192,7 @@ export const useMenuItemSwitchStyles = (
     state.secondaryContent.className = mergeClasses(
       state.secondaryContent.className,
       menuItemSwitchClassNames.secondaryContent,
-      styles.secondaryContent,
+      styles.secondaryContent
     );
   }
 
@@ -202,14 +200,14 @@ export const useMenuItemSwitchStyles = (
     state.icon.className = mergeClasses(
       state.icon.className,
       menuItemSwitchClassNames.icon,
-      styles.icon,
+      styles.icon
     );
   }
 
   if (state.subText) {
     state.subText.className = mergeClasses(
       state.subText.className,
-      menuItemSwitchClassNames.subText,
+      menuItemSwitchClassNames.subText
     );
   }
 
@@ -219,14 +217,12 @@ export const useMenuItemSwitchStyles = (
       menuItemSwitchClassNames.switchIndicator,
       switchIndicatorBaseStyles,
       styles.switchIndicator,
-      checked
-        ? switchIndicatorStyles.checked
-        : switchIndicatorStyles.unchecked,
+      checked ? switchIndicatorStyles.checked : switchIndicatorStyles.unchecked,
       disabled && switchIndicatorStyles.disabled,
       disabled &&
         (checked
           ? switchIndicatorStyles.disabledChecked
-          : switchIndicatorStyles.disabledUnchecked),
+          : switchIndicatorStyles.disabledUnchecked)
     );
   }
 

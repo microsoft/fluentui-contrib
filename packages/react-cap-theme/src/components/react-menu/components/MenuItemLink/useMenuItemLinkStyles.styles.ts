@@ -23,34 +23,34 @@ export const useMenuItemLinkStyles = (
   state.root.className = mergeClasses(
     state.root.className,
     menuItemLinkClassNames.root,
-    styles.resetLink,
+    styles.resetLink
   );
 
   if (state.icon) {
     state.icon.className = mergeClasses(
       state.icon.className,
-      menuItemLinkClassNames.icon,
+      menuItemLinkClassNames.icon
     );
   }
 
   if (state.content) {
     state.content.className = mergeClasses(
       state.content.className,
-      menuItemLinkClassNames.content,
+      menuItemLinkClassNames.content
     );
   }
 
   if (state.secondaryContent) {
     state.secondaryContent.className = mergeClasses(
       state.secondaryContent.className,
-      menuItemLinkClassNames.secondaryContent,
+      menuItemLinkClassNames.secondaryContent
     );
   }
 
   if (state.checkmark) {
     state.checkmark.className = mergeClasses(
       state.checkmark.className,
-      menuItemLinkClassNames.checkmark,
+      menuItemLinkClassNames.checkmark
     );
   }
 
