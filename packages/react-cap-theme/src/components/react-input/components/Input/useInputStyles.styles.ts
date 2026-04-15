@@ -111,9 +111,9 @@ const useIsEditableStyles = makeStyles({
     ':active,:focus-within': { color: tokens.colorNeutralForeground1Pressed },
   },
   noValue: {
-    color: tokens.colorNeutralForeground5,
-    ':hover': { color: tokens.colorNeutralForeground5Hover },
-    ':active,:focus-within': { color: tokens.colorNeutralForeground5Pressed },
+    color: capTokens.colorNeutralForeground5,
+    ':hover': { color: capTokens.colorNeutralForeground5Hover },
+    ':active,:focus-within': { color: capTokens.colorNeutralForeground5Pressed },
   },
   brand: {
     ':active,:focus-within': {
