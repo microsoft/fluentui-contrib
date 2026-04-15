@@ -7,6 +7,7 @@ import {
   type SlotClassNames,
 } from '@fluentui/react-utilities';
 import { tokens } from '@fluentui/tokens';
+import { capTokens } from '../../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 
 export const menuDividerClassNames: SlotClassNames<MenuDividerSlots> = {
@@ -15,8 +16,8 @@ export const menuDividerClassNames: SlotClassNames<MenuDividerSlots> = {
 
 const useStyles = makeStyles({
   root: {
-    borderBottomColor: tokens.colorNeutralStroke3,
-    margin: `${tokens.spacingVerticalSNudge} ${tokens.spacingHorizontalXS}`,
+    borderBottomColor: capTokens.colorNeutralStroke4,
+    margin: `${tokens.spacingVerticalSNudge} ${tokens.spacingHorizontalSNudge}`,
   },
 });
 

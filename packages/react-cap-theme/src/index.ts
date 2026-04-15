@@ -81,6 +81,8 @@ import type {
 import type { InlineDrawerState } from './components/react-drawer/components/InlineDrawer/InlineDrawer.types';
 import { useImageStyles } from './components/react-image';
 import type { ImageState } from '@fluentui/react-image';
+import { useInputStyles } from './components/react-input';
+import type { InputState } from './components/react-input/components/Input/Input.types';
 import { useLinkStyles } from './components/react-link';
 import type { LinkState } from './components/react-link/components/Link/Link.types';
 import {
@@ -88,7 +90,9 @@ import {
   useMenuGroupHeaderStyles,
   useMenuItemStyles,
   useMenuItemCheckboxStyles,
+  useMenuItemLinkStyles,
   useMenuItemRadioStyles,
+  useMenuItemSwitchStyles,
   useMenuPopoverStyles,
   useMenuSplitGroupStyles,
 } from './components/react-menu';
@@ -97,7 +101,9 @@ import type {
   MenuGroupHeaderState,
   MenuItemState,
   MenuItemCheckboxState,
+  MenuItemLinkState,
   MenuItemRadioState,
+  MenuItemSwitchState,
   MenuPopoverState,
   MenuSplitGroupState,
 } from '@fluentui/react-menu';
@@ -190,6 +196,9 @@ export const CAP_STYLE_HOOKS: NonNullable<
   useImageStyles_unstable: (state) => {
     return useImageStyles(state as ImageState);
   },
+  useInputStyles_unstable: (state) => {
+    return useInputStyles(state as InputState);
+  },
   useInlineDrawerStyles_unstable: (state) => {
     return useInlineDrawerStyles(state as InlineDrawerState);
   },
@@ -226,8 +235,14 @@ export const CAP_STYLE_HOOKS: NonNullable<
   useMenuItemCheckboxStyles_unstable: (state) => {
     return useMenuItemCheckboxStyles(state as MenuItemCheckboxState);
   },
+  useMenuItemLinkStyles_unstable: (state) => {
+    return useMenuItemLinkStyles(state as MenuItemLinkState);
+  },
   useMenuItemRadioStyles_unstable: (state) => {
     return useMenuItemRadioStyles(state as MenuItemRadioState);
+  },
+  useMenuItemSwitchStyles_unstable: (state) => {
+    return useMenuItemSwitchStyles(state as MenuItemSwitchState);
   },
   useMenuPopoverStyles_unstable: (state) => {
     return useMenuPopoverStyles(state as MenuPopoverState);
