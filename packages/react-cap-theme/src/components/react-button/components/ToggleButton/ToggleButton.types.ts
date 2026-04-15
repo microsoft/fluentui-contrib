@@ -1,8 +1,11 @@
-import type { ToggleButtonProps as BaseToggleButtonProps } from '@fluentui/react-button';
-import type { ButtonProps, ButtonState } from '../../Button';
+import type {
+  ToggleButtonProps as BaseToggleButtonProps,
+  ToggleButtonState as BaseToggleButtonState,
+} from '@fluentui/react-button';
+import type { ButtonProps } from '../../Button';
 
 export type ToggleButtonProps = ButtonProps &
   Pick<BaseToggleButtonProps, 'defaultChecked' | 'checked'>;
 
-export type ToggleButtonState = ButtonState &
+export type ToggleButtonState = BaseToggleButtonState &
   Required<Pick<ToggleButtonProps, 'checked'>>;
