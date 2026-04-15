@@ -3,6 +3,7 @@ import {
   menuItemCheckboxClassNames,
   menuItemClassNames,
 } from '@fluentui/react-menu';
+export { menuItemCheckboxClassNames } from '@fluentui/react-menu';
 import { makeStyles, mergeClasses } from '@griffel/react';
 import { tokens } from '@fluentui/tokens';
 

@@ -11,6 +11,7 @@ import {
 import { createFocusOutlineStyle } from '@fluentui/react-tabster';
 import { tokens, typographyStyles } from '@fluentui/tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
+import { capTokens } from '../../../tokens';
 
 export const menuItemClassNames: SlotClassNames<MenuItemSlots> = {
   root: 'fui-MenuItem',
@@ -25,7 +26,7 @@ export const menuItemClassNames: SlotClassNames<MenuItemSlots> = {
 const useStyles = makeStyles({
   root: {
     borderRadius: tokens.borderRadiusLarge,
-    color: tokens.colorNeutralForeground5,
+    color: capTokens.colorNeutralForeground5,
     gap: 0,
     minWidth: 0,
     padding: `${tokens.spacingVerticalSNudge} ${tokens.spacingHorizontalSNudge}`,
@@ -89,7 +90,7 @@ const useStyles = makeStyles({
 const useInteractiveStyles = makeStyles({
   root: {
     ':hover': {
-      color: tokens.colorNeutralForeground5Hover,
+      color: capTokens.colorNeutralForeground5Hover,
       [`& .${fluentMenuItemClassNames.icon}`]: { color: 'inherit' },
       [`& .${fluentMenuItemClassNames.subText}`]: { color: 'inherit' },
       [`& .${fluentMenuItemClassNames.secondaryContent}`]: {
@@ -100,7 +101,7 @@ const useInteractiveStyles = makeStyles({
       },
     },
     ':hover:active': {
-      color: tokens.colorNeutralForeground5Pressed,
+      color: capTokens.colorNeutralForeground5Pressed,
       [`& .${fluentMenuItemClassNames.subText}`]: { color: 'inherit' },
       [`& .${fluentMenuItemClassNames.secondaryContent}`]: {
         color: tokens.colorNeutralForeground3Pressed,

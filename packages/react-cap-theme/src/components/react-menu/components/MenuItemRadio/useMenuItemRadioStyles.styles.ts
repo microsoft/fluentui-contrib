@@ -3,6 +3,7 @@ import {
   menuItemClassNames,
   menuItemRadioClassNames,
 } from '@fluentui/react-menu';
+export { menuItemRadioClassNames } from '@fluentui/react-menu';
 import { makeStyles, mergeClasses } from '@griffel/react';
 import { tokens } from '@fluentui/tokens';
 
