@@ -1,6 +1,6 @@
 import type { ARIAButtonElement } from '@fluentui/react-aria';
 import { useCarouselButton_unstable } from '@fluentui/react-carousel';
-import { useButton } from '../../../react-button/components/Button/useButton';
+import { useButton } from '../../../../components/react-button';
 import type { Ref } from 'react';
 import type {
   CarouselButtonProps,

@@ -1,6 +1,6 @@
 import type { ARIAButtonElement } from '@fluentui/react-aria';
 import { useCarouselAutoplayButton_unstable } from '@fluentui/react-carousel';
-import { useToggleButton } from '../../../react-button/components/ToggleButton/useToggleButton';
+import { useToggleButton } from '../../../../components/react-button';
 import type {
   CarouselAutoplayButtonProps,
   CarouselAutoplayButtonState,
