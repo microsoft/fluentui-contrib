@@ -194,6 +194,8 @@ export const useToggleButtonStyles = (
   const { appearance, checked, disabled, disabledFocusable } = state;
   const showAsDisabled = disabled || disabledFocusable;
 
+  useButtonStyles(state);
+
   state.root.className = mergeClasses(
     state.root.className,
     toggleButtonClassNames.root,
@@ -214,8 +216,6 @@ export const useToggleButtonStyles = (
       getSlotClassNameProp_unstable(state.icon)
     );
   }
-
-  useButtonStyles(state);
 
   return state;
 };
