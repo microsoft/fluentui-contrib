@@ -83,7 +83,7 @@ import type {
   DrawerHeaderTitleState,
   OverlayDrawerState,
 } from '@fluentui/react-drawer';
-import type { InlineDrawerState } from './components/react-drawer/components/InlineDrawer/InlineDrawer.types';
+import type { InlineDrawerState } from './components/react-drawer';
 import { useImageStyles } from './components/react-image';
 import type { ImageState } from '@fluentui/react-image';
 import { useLabelStyles } from './components/react-label';
