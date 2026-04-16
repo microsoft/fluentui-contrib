@@ -109,7 +109,7 @@ import type {
 import { usePopoverSurfaceStyles } from './components/react-popover';
 import type { PopoverSurfaceState } from '@fluentui/react-popover';
 import { useTooltipStyles } from './components/react-tooltip';
-import type { TooltipState } from './components/react-tooltip/components/Tooltip/Tooltip.types';
+import type { TooltipState } from './components/react-tooltip';
 
 export const CAP_STYLE_HOOKS: NonNullable<
   FluentProviderProps['customStyleHooks_unstable']
