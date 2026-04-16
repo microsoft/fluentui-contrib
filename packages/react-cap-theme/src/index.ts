@@ -25,10 +25,13 @@ import {
   useSplitButtonStyles,
   useToggleButtonStyles,
 } from './components/react-button';
-import type { ButtonState } from './components/react-button/components/Button/Button.types';
-import type { MenuButtonState } from './components/react-button/components/MenuButton/MenuButton.types';
-import type { SplitButtonState } from './components/react-button/components/SplitButton/SplitButton.types';
-import type { ToggleButtonState } from './components/react-button/components/ToggleButton/ToggleButton.types';
+import type {
+  ButtonState,
+  MenuButtonState,
+  SplitButtonState,
+  ToggleButtonState,
+} from './components/react-button';
+
 import {
   useCarouselStyles,
   useCarouselAutoplayButtonStyles,
