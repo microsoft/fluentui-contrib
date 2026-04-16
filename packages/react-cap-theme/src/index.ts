@@ -41,11 +41,13 @@ import {
   useCarouselNavContainerStyles,
   useCarouselNavImageButtonStyles,
 } from './components/react-carousel';
-import type { CarouselState } from './components/react-carousel/components/Carousel/Carousel.types';
-import type { CarouselAutoplayButtonState } from './components/react-carousel/components/CarouselAutoplayButton/CarouselAutoplayButton.types';
-import type { CarouselButtonState } from './components/react-carousel/components/CarouselButton/CarouselButton.types';
-import type { CarouselNavState } from './components/react-carousel/components/CarouselNav/CarouselNav.types';
-import type { CarouselNavContainerState } from './components/react-carousel/components/CarouselNavContainer/CarouselNavContainer.types';
+import type {
+  CarouselState,
+  CarouselAutoplayButtonState,
+  CarouselButtonState,
+  CarouselNavState,
+  CarouselNavContainerState,
+} from './components/react-carousel';
 import type {
   CarouselNavButtonState,
   CarouselNavImageButtonState,
@@ -85,7 +87,7 @@ import type { InlineDrawerState } from './components/react-drawer/components/Inl
 import { useImageStyles } from './components/react-image';
 import type { ImageState } from '@fluentui/react-image';
 import { useLabelStyles } from './components/react-label';
-import type { LabelState } from './components/react-label/components/Label/Label.types';
+import type { LabelState } from './components/react-label';
 import { useLinkStyles } from './components/react-link';
 import type { LinkState } from './components/react-link';
 import {
