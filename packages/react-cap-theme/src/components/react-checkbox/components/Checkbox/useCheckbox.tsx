@@ -12,7 +12,10 @@ import {
 } from '@fluentui/react-icons';
 import { slot } from '@fluentui/react-utilities';
 import * as React from 'react';
-import type { CheckboxProps, CheckboxState } from './Checkbox.types';
+import type {
+  CheckboxProps,
+  CheckboxState,
+} from '../../../../customStyleHooks/react-checkbox/components/Checkbox/Checkbox.types';
 
 const CircleCheckmark = bundleIcon(CheckmarkCircleRegular, RadioButtonRegular);
 const SquareCheckmark = bundleIcon(

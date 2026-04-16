@@ -1,4 +1,7 @@
-import { toggleButtonClassNames } from '@fluentui/react-button';
+import {
+  buttonClassNames,
+  toggleButtonClassNames,
+} from '@fluentui/react-button';
 import {
   iconFilledClassName,
   iconRegularClassName,
@@ -13,7 +16,7 @@ import {
   mergeClasses,
   shorthands,
 } from '@griffel/react';
-import { buttonClassNames, useButtonStyles } from '../../Button';
+import { useButtonStyles } from '../../Button';
 import type { ToggleButtonState } from './ToggleButton.types';
 
 const highContrastPrimaryStyles: GriffelStyle = {
@@ -191,6 +194,8 @@ export const useToggleButtonStyles = (
   const { appearance, checked, disabled, disabledFocusable } = state;
   const showAsDisabled = disabled || disabledFocusable;
 
+  useButtonStyles(state);
+
   state.root.className = mergeClasses(
     state.root.className,
     toggleButtonClassNames.root,
@@ -211,8 +216,6 @@ export const useToggleButtonStyles = (
       getSlotClassNameProp_unstable(state.icon)
     );
   }
-
-  useButtonStyles(state);
 
   return state;
 };

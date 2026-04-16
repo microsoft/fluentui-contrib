@@ -1,5 +1,8 @@
 import { useButton_unstable as useBaseState } from '@fluentui/react-button';
-import type { ButtonProps, ButtonState } from './Button.types';
+import type {
+  ButtonProps,
+  ButtonState,
+} from '../../../../customStyleHooks/react-button';
 import { toBaseProps } from './Button.utils';
 
 export const useButton = (

@@ -5,7 +5,10 @@ import {
   slot,
 } from '@fluentui/react-utilities';
 import type * as React from 'react';
-import type { SplitButtonProps, SplitButtonState } from './SplitButton.types';
+import type {
+  SplitButtonProps,
+  SplitButtonState,
+} from '../../../../customStyleHooks/react-button';
 
 export const useSplitButton = (
   props: SplitButtonProps,

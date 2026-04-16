@@ -1,1 +1,1 @@
-export { useCheckboxStyles } from './components/Checkbox/useCheckboxStyles.styles';
+export { Checkbox as CAPCheckbox } from './components/Checkbox/Checkbox';

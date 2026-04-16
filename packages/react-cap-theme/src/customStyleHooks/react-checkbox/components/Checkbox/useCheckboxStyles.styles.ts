@@ -1,7 +1,4 @@
-import {
-  checkboxClassNames,
-  useCheckboxStyles_unstable,
-} from '@fluentui/react-checkbox';
+import { checkboxClassNames } from '@fluentui/react-checkbox';
 import {
   iconFilledClassName,
   iconRegularClassName,
@@ -130,7 +127,7 @@ export const useCheckboxStyles = (state: CheckboxState): CheckboxState => {
   if (state.indicator) {
     state.indicator.className = mergeClasses(
       state.indicator.className,
-      baseOverrides.indicator,
+      !!color && baseOverrides.indicator,
       sizeStyles[size],
       !disabled && !checked && indicatorStyles.unchecked,
       !disabled && checked && indicatorStyles[`${color}Checked`],
@@ -146,10 +143,6 @@ export const useCheckboxStyles = (state: CheckboxState): CheckboxState => {
       getSlotClassNameProp_unstable(state.input)
     );
   }
-
-  const { color: _, ...baseState } = state;
-  void _;
-  useCheckboxStyles_unstable(baseState);
 
   return state;
 };

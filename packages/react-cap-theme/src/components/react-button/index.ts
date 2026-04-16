@@ -1,4 +1,4 @@
-export { useButtonStyles } from './components/Button/useButtonStyles.styles';
-export { useMenuButtonStyles } from './components/MenuButton/useMenuButtonStyles.styles';
-export { useSplitButtonStyles } from './components/SplitButton/useSplitButtonStyles.styles';
-export { useToggleButtonStyles } from './components/ToggleButton/useToggleButtonStyles.styles';
+export { Button as CAPButton } from './components/Button/Button';
+export { MenuButton as CAPMenuButton } from './components/MenuButton/MenuButton';
+export { SplitButton as CAPSplitButton } from './components/SplitButton/SplitButton';
+export { ToggleButton as CAPToggleButton } from './components/ToggleButton/ToggleButton';

@@ -1,10 +1,10 @@
 import { useToggleState } from '@fluentui/react-button';
-import { useButton } from '../../Button';
+import { useButton } from '../Button/useButton';
 
 import type {
   ToggleButtonProps,
   ToggleButtonState,
-} from './ToggleButton.types';
+} from '../../../../customStyleHooks/react-button';
 
 export const useToggleButton = (
   props: ToggleButtonProps,

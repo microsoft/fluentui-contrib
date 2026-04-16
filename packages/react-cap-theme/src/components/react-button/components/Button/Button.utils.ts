@@ -1,12 +1,8 @@
-import type {
-  ButtonState as BaseButtonState,
-  ButtonProps as BaseButtonProps,
-} from '@fluentui/react-button';
+import type { ButtonProps as BaseButtonProps } from '@fluentui/react-button';
 import type {
   ButtonAppearance,
   ButtonProps,
-  ButtonState,
-} from './Button.types';
+} from '../../../../customStyleHooks/react-button';
 
 export const baseAppearanceMap: Record<
   ButtonAppearance,
@@ -23,9 +19,4 @@ export const baseAppearanceMap: Record<
 export const toBaseProps = (props: ButtonProps): BaseButtonProps => ({
   ...props,
   appearance: props.appearance && baseAppearanceMap[props.appearance],
-});
-
-export const toBaseState = (state: ButtonState): BaseButtonState => ({
-  ...state,
-  appearance: baseAppearanceMap[state.appearance] ?? 'secondary',
 });

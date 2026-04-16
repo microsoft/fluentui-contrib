@@ -2,7 +2,10 @@
 /** @jsxRuntime classic */
 
 import { assertSlots, type JSXElement } from '@fluentui/react-utilities';
-import type { SplitButtonSlots, SplitButtonState } from './SplitButton.types';
+import type {
+  SplitButtonSlots,
+  SplitButtonState,
+} from '../../../../customStyleHooks/react-button';
 
 export const renderSplitButton = (state: SplitButtonState): JSXElement => {
   assertSlots<SplitButtonSlots>(state);

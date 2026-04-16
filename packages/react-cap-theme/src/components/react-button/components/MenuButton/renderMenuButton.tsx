@@ -1,7 +1,7 @@
 import { renderMenuButton_unstable } from '@fluentui/react-button';
 import type { JSXElement } from '@fluentui/react-utilities';
 import { baseAppearanceMap } from '../Button/Button.utils';
-import type { MenuButtonState } from './MenuButton.types';
+import type { MenuButtonState } from '../../../../customStyleHooks/react-button';
 
 export const renderMenuButton = (state: MenuButtonState): JSXElement => {
   return renderMenuButton_unstable({

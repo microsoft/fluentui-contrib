@@ -9,6 +9,7 @@
     "jest.config.ts",
     "src/**/*.test.ts",
     "src/**/*.test.tsx",
+    "src/components/**",
     "files/**"
   ]
 }

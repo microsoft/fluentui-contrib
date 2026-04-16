@@ -7,7 +7,10 @@ import {
 import { slot } from '@fluentui/react-utilities';
 import * as React from 'react';
 import { baseAppearanceMap } from '../Button/Button.utils';
-import type { MenuButtonProps, MenuButtonState } from './MenuButton.types';
+import type {
+  MenuButtonProps,
+  MenuButtonState,
+} from '../../../../customStyleHooks/react-button';
 
 const ChevronDownIcon = bundleIcon(ChevronDownFilled, ChevronDownRegular);
 
