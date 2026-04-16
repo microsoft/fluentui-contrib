@@ -51,7 +51,7 @@ import type {
   CarouselNavImageButtonState,
 } from '@fluentui/react-carousel';
 import { useCheckboxStyles } from './components/react-checkbox';
-import type { CheckboxState } from './components/react-checkbox/components/Checkbox/Checkbox.types';
+import type { CheckboxState } from './components/react-checkbox';
 import {
   useDialogActionsStyles,
   useDialogBodyStyles,
