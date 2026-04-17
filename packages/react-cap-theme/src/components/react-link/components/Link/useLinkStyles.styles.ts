@@ -1,10 +1,8 @@
-import { useLinkStyles_unstable } from '@fluentui/react-link';
 import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens } from '@fluentui/tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 
 import type { LinkState } from './Link.types';
-import { toBaseState } from './Link.utils';
 
 const useStyles = makeStyles({
   bold: {
@@ -34,6 +32,5 @@ export const useLinkStyles = (state: LinkState): LinkState => {
     getSlotClassNameProp_unstable(state.root)
   );
 
-  useLinkStyles_unstable(toBaseState(state));
   return state;
 };

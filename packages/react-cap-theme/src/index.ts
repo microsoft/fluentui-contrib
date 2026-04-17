@@ -25,10 +25,13 @@ import {
   useSplitButtonStyles,
   useToggleButtonStyles,
 } from './components/react-button';
-import type { ButtonState } from './components/react-button/components/Button/Button.types';
-import type { MenuButtonState } from './components/react-button/components/MenuButton/MenuButton.types';
-import type { SplitButtonState } from './components/react-button/components/SplitButton/SplitButton.types';
-import type { ToggleButtonState } from './components/react-button/components/ToggleButton/ToggleButton.types';
+import type {
+  ButtonState,
+  MenuButtonState,
+  SplitButtonState,
+  ToggleButtonState,
+} from './components/react-button';
+
 import {
   useCarouselStyles,
   useCarouselAutoplayButtonStyles,
@@ -38,17 +41,19 @@ import {
   useCarouselNavContainerStyles,
   useCarouselNavImageButtonStyles,
 } from './components/react-carousel';
-import type { CarouselState } from './components/react-carousel/components/Carousel/Carousel.types';
-import type { CarouselAutoplayButtonState } from './components/react-carousel/components/CarouselAutoplayButton/CarouselAutoplayButton.types';
-import type { CarouselButtonState } from './components/react-carousel/components/CarouselButton/CarouselButton.types';
-import type { CarouselNavState } from './components/react-carousel/components/CarouselNav/CarouselNav.types';
-import type { CarouselNavContainerState } from './components/react-carousel/components/CarouselNavContainer/CarouselNavContainer.types';
+import type {
+  CarouselState,
+  CarouselAutoplayButtonState,
+  CarouselButtonState,
+  CarouselNavState,
+  CarouselNavContainerState,
+} from './components/react-carousel';
 import type {
   CarouselNavButtonState,
   CarouselNavImageButtonState,
 } from '@fluentui/react-carousel';
 import { useCheckboxStyles } from './components/react-checkbox';
-import type { CheckboxState } from './components/react-checkbox/components/Checkbox/Checkbox.types';
+import type { CheckboxState } from './components/react-checkbox';
 import {
   useDialogActionsStyles,
   useDialogBodyStyles,
@@ -78,15 +83,15 @@ import type {
   DrawerHeaderTitleState,
   OverlayDrawerState,
 } from '@fluentui/react-drawer';
-import type { InlineDrawerState } from './components/react-drawer/components/InlineDrawer/InlineDrawer.types';
+import type { InlineDrawerState } from './components/react-drawer';
 import { useImageStyles } from './components/react-image';
 import type { ImageState } from '@fluentui/react-image';
 import { useLabelStyles } from './components/react-label';
-import type { LabelState } from './components/react-label/components/Label/Label.types';
+import type { LabelState } from './components/react-label';
 import { useInputStyles } from './components/react-input';
-import type { InputState } from './components/react-input/components/Input/Input.types';
+import type { InputState } from './components/react-input';
 import { useLinkStyles } from './components/react-link';
-import type { LinkState } from './components/react-link/components/Link/Link.types';
+import type { LinkState } from './components/react-link';
 import {
   useMenuDividerStyles,
   useMenuGroupHeaderStyles,
@@ -108,7 +113,7 @@ import type {
 import { usePopoverSurfaceStyles } from './components/react-popover';
 import type { PopoverSurfaceState } from '@fluentui/react-popover';
 import { useTooltipStyles } from './components/react-tooltip';
-import type { TooltipState } from './components/react-tooltip/components/Tooltip/Tooltip.types';
+import type { TooltipState } from './components/react-tooltip';
 
 export const CAP_STYLE_HOOKS: NonNullable<
   FluentProviderProps['customStyleHooks_unstable']
