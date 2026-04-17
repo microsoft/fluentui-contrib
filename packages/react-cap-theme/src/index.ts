@@ -87,9 +87,9 @@ import type { InlineDrawerState } from './components/react-drawer';
 import { useImageStyles } from './components/react-image';
 import type { ImageState } from '@fluentui/react-image';
 import { useLabelStyles } from './components/react-label';
-import type { LabelState } from './components/react-label/components/Label/Label.types';
+import type { LabelState } from './components/react-label';
 import { useInputStyles } from './components/react-input';
-import type { InputState } from './components/react-input/components/Input/Input.types';
+import type { InputState } from './components/react-input';
 import { useLinkStyles } from './components/react-link';
 import type { LinkState } from './components/react-link';
 import {
