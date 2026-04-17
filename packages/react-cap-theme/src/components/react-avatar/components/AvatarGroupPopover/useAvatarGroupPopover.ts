@@ -1,7 +1,7 @@
 import { useAvatarGroupPopover_unstable } from '@fluentui/react-avatar';
 import { slot } from '@fluentui/react-utilities';
 import { PopoverSurface } from '../../../react-popover';
-import { Tooltip } from '../../../react-tooltip';
+import { CAPTooltip } from '../../../react-tooltip';
 import type {
   AvatarGroupPopoverProps,
   AvatarGroupPopoverState,
@@ -25,7 +25,7 @@ export const useAvatarGroupPopover = (
       content: 'View more people.',
       relationship: 'label',
     },
-    elementType: Tooltip,
+    elementType: CAPTooltip,
   });
 
   return {
@@ -33,7 +33,7 @@ export const useAvatarGroupPopover = (
     components: {
       ...state.components,
       popoverSurface: PopoverSurface,
-      tooltip: Tooltip,
+      tooltip: CAPTooltip,
     },
     popoverSurface,
     tooltip,
