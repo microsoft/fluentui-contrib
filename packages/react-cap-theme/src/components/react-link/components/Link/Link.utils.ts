@@ -2,7 +2,10 @@ import type {
   LinkProps as FluentLinkProps,
   LinkState as FluentLinkState,
 } from '@fluentui/react-link';
-import type { LinkProps, LinkState } from './Link.types';
+import type {
+  LinkProps,
+  LinkState,
+} from '../../../../customStyleHooks/react-link';
 
 export const baseAppearanceMap: Record<
   NonNullable<LinkProps['appearance']>,

@@ -1,6 +1,9 @@
 import { useLink_unstable as useBaseLink } from '@fluentui/react-link';
 import type * as React from 'react';
-import type { LinkProps, LinkState } from './Link.types';
+import type {
+  LinkProps,
+  LinkState,
+} from '../../../../customStyleHooks/react-link';
 import { toBaseProps } from './Link.utils';
 
 export const useLink = (
