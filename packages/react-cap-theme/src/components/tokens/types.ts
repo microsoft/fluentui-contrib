@@ -7,4 +7,7 @@ export type CAPTokens = {
   colorNeutralStroke4Hover: string;
   colorNeutralStroke4Pressed: string;
   colorNeutralStroke4Selected: string;
+  colorNeutralForeground5: string;
+  colorNeutralForeground5Hover: string;
+  colorNeutralForeground5Pressed: string;
 };

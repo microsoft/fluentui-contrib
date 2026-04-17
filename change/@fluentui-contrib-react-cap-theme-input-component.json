@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "add react-input component",
+  "packageName": "@fluentui-contrib/react-cap-theme",
+  "email": "dzukowski@microsoft.com",
+  "dependentChangeType": "patch"
+}
