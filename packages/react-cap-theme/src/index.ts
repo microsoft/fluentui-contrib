@@ -25,10 +25,13 @@ import {
   useSplitButtonStyles,
   useToggleButtonStyles,
 } from './customStyleHooks/react-button';
-import type { ButtonState } from './customStyleHooks/react-button/components/Button/Button.types';
-import type { MenuButtonState } from './customStyleHooks/react-button/components/MenuButton/MenuButton.types';
-import type { SplitButtonState } from './customStyleHooks/react-button/components/SplitButton/SplitButton.types';
-import type { ToggleButtonState } from './customStyleHooks/react-button/components/ToggleButton/ToggleButton.types';
+import type {
+  ButtonState,
+  MenuButtonState,
+  SplitButtonState,
+  ToggleButtonState,
+} from './customStyleHooks/react-button';
+
 import {
   useCarouselStyles,
   useCarouselAutoplayButtonStyles,
@@ -38,17 +41,19 @@ import {
   useCarouselNavContainerStyles,
   useCarouselNavImageButtonStyles,
 } from './customStyleHooks/react-carousel';
-import type { CarouselState } from './customStyleHooks/react-carousel/components/Carousel/Carousel.types';
-import type { CarouselAutoplayButtonState } from './customStyleHooks/react-carousel/components/CarouselAutoplayButton/CarouselAutoplayButton.types';
-import type { CarouselButtonState } from './customStyleHooks/react-carousel/components/CarouselButton/CarouselButton.types';
-import type { CarouselNavState } from './customStyleHooks/react-carousel/components/CarouselNav/CarouselNav.types';
-import type { CarouselNavContainerState } from './customStyleHooks/react-carousel/components/CarouselNavContainer/CarouselNavContainer.types';
+import type {
+  CarouselState,
+  CarouselAutoplayButtonState,
+  CarouselButtonState,
+  CarouselNavState,
+  CarouselNavContainerState,
+} from './customStyleHooks/react-carousel';
 import type {
   CarouselNavButtonState,
   CarouselNavImageButtonState,
 } from '@fluentui/react-carousel';
 import { useCheckboxStyles } from './customStyleHooks/react-checkbox';
-import type { CheckboxState } from './customStyleHooks/react-checkbox/components/Checkbox/Checkbox.types';
+import type { CheckboxState } from './customStyleHooks/react-checkbox';
 import {
   useDialogActionsStyles,
   useDialogBodyStyles,
@@ -78,7 +83,7 @@ import type {
   DrawerHeaderTitleState,
   OverlayDrawerState,
 } from '@fluentui/react-drawer';
-import type { InlineDrawerState } from './customStyleHooks/react-drawer/components/InlineDrawer/InlineDrawer.types';
+import type { InlineDrawerState } from './customStyleHooks/react-drawer';
 import { useImageStyles } from './customStyleHooks/react-image';
 import type { ImageState } from '@fluentui/react-image';
 import { useLabelStyles } from './customStyleHooks/react-label';
@@ -108,7 +113,7 @@ import type {
 import { usePopoverSurfaceStyles } from './customStyleHooks/react-popover';
 import type { PopoverSurfaceState } from '@fluentui/react-popover';
 import { useTooltipStyles } from './customStyleHooks/react-tooltip';
-import type { TooltipState } from './customStyleHooks/react-tooltip/components/Tooltip/Tooltip.types';
+import type { TooltipState } from './customStyleHooks/react-tooltip';
 
 export const CAP_STYLE_HOOKS: NonNullable<
   FluentProviderProps['customStyleHooks_unstable']

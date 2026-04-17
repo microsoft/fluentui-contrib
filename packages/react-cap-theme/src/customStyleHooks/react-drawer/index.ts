@@ -4,4 +4,5 @@ export { useDrawerHeaderStyles } from './components/DrawerHeader/useDrawerHeader
 export { useDrawerHeaderNavigationStyles } from './components/DrawerHeaderNavigation/useDrawerHeaderNavigationStyles.styles';
 export { useDrawerHeaderTitleStyles } from './components/DrawerHeaderTitle/useDrawerHeaderTitleStyles.styles';
 export { useInlineDrawerStyles } from './components/InlineDrawer/useInlineDrawerStyles.styles';
+export type { InlineDrawerState } from './components/InlineDrawer/InlineDrawer.types';
 export { useOverlayDrawerStyles } from './components/OverlayDrawer/useOverlayDrawerStyles.styles';
