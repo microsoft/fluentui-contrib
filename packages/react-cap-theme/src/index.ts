@@ -82,9 +82,11 @@ import type { InlineDrawerState } from './customStyleHooks/react-drawer/componen
 import { useImageStyles } from './customStyleHooks/react-image';
 import type { ImageState } from '@fluentui/react-image';
 import { useLabelStyles } from './customStyleHooks/react-label';
-import type { LabelState } from './customStyleHooks/react-label/components/Label/Label.types';
+import type { LabelState } from './customStyleHooks/react-label';
+import { useInputStyles } from './customStyleHooks/react-input';
+import type { InputState } from './customStyleHooks/react-input';
 import { useLinkStyles } from './customStyleHooks/react-link';
-import type { LinkState } from './customStyleHooks/react-link/components/Link/Link.types';
+import type { LinkState } from './customStyleHooks/react-link';
 import {
   useMenuDividerStyles,
   useMenuGroupHeaderStyles,
@@ -194,6 +196,9 @@ export const CAP_STYLE_HOOKS: NonNullable<
   },
   useLabelStyles_unstable: (state) => {
     return useLabelStyles(state as LabelState);
+  },
+  useInputStyles_unstable: (state) => {
+    return useInputStyles(state as InputState);
   },
   useInlineDrawerStyles_unstable: (state) => {
     return useInlineDrawerStyles(state as InlineDrawerState);
