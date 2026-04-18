@@ -1,5 +1,4 @@
 import { Button } from '@fluentui/react-button';
-import type { DialogTitleState } from '@fluentui/react-dialog';
 import {
   DialogTrigger,
   useDialogContext_unstable,
@@ -7,7 +6,8 @@ import {
 } from '@fluentui/react-dialog';
 import { Dismiss16Regular } from '@fluentui/react-icons';
 import * as React from 'react';
-import type { DialogTitleProps } from './DialogTitle.types';
+import type { DialogTitleState } from '@fluentui/react-dialog';
+import type { DialogTitleProps } from '../../../../customStyleHooks/react-dialog';
 
 export const useDialogTitle = (
   props: DialogTitleProps,
