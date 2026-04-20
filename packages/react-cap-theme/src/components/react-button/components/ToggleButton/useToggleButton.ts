@@ -1,5 +1,8 @@
-import { useToggleState } from '@fluentui/react-button';
-import { useButton } from '../../Button';
+import {
+  useToggleState,
+  useButton_unstable,
+  ButtonProps as BaseButtonProps,
+} from '@fluentui/react-button';
 
 import type {
   ToggleButtonProps,
@@ -10,6 +13,6 @@ export const useToggleButton = (
   props: ToggleButtonProps,
   ref: React.Ref<HTMLButtonElement | HTMLAnchorElement>
 ): ToggleButtonState => {
-  const buttonState = useButton(props, ref);
+  const buttonState = useButton_unstable(props as BaseButtonProps, ref);
   return useToggleState(props, buttonState);
 };
