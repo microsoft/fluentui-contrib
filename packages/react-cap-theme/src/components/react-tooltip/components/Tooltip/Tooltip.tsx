@@ -8,6 +8,7 @@ import { useTooltipStyles as useCAPTooltipStyles } from '../../../../customStyle
 
 export const Tooltip: React.FC<TooltipProps> = (props) => {
   const state = useTooltip_unstable(props);
+
   useTooltipStyles_unstable(state);
   useCAPTooltipStyles(state);
 
