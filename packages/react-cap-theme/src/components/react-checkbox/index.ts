@@ -1,2 +1,1 @@
-export { useCheckboxStyles } from './components/Checkbox/useCheckboxStyles.styles';
-export type { CheckboxState } from './components/Checkbox/Checkbox.types';
+export { Checkbox as CAPCheckbox } from './components/Checkbox/Checkbox';

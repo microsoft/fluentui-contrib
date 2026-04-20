@@ -6,7 +6,7 @@ import type {
 import {
   useAccordionHeaderStyles,
   useAccordionPanelStyles,
-} from './components/react-accordion';
+} from './customStyleHooks/react-accordion';
 import type {
   AvatarState,
   AvatarGroupItemState,
@@ -16,22 +16,21 @@ import {
   useAvatarStyles,
   useAvatarGroupItemStyles,
   useAvatarGroupPopoverStyles,
-} from './components/react-avatar';
+} from './customStyleHooks/react-avatar';
 import type { BadgeState } from '@fluentui/react-badge';
-import { useBadgeStyles } from './components/react-badge';
+import { useBadgeStyles } from './customStyleHooks/react-badge';
 import {
   useButtonStyles,
   useMenuButtonStyles,
   useSplitButtonStyles,
   useToggleButtonStyles,
-} from './components/react-button';
+} from './customStyleHooks/react-button';
 import type {
   ButtonState,
   MenuButtonState,
   SplitButtonState,
   ToggleButtonState,
-} from './components/react-button';
-
+} from './customStyleHooks/react-button';
 import {
   useCarouselStyles,
   useCarouselAutoplayButtonStyles,
@@ -40,26 +39,26 @@ import {
   useCarouselNavButtonStyles,
   useCarouselNavContainerStyles,
   useCarouselNavImageButtonStyles,
-} from './components/react-carousel';
+} from './customStyleHooks/react-carousel';
 import type {
   CarouselState,
   CarouselAutoplayButtonState,
   CarouselButtonState,
   CarouselNavState,
   CarouselNavContainerState,
-} from './components/react-carousel';
+} from './customStyleHooks/react-carousel';
 import type {
   CarouselNavButtonState,
   CarouselNavImageButtonState,
 } from '@fluentui/react-carousel';
-import { useCheckboxStyles } from './components/react-checkbox';
-import type { CheckboxState } from './components/react-checkbox';
+import { useCheckboxStyles } from './customStyleHooks/react-checkbox';
+import type { CheckboxState } from './customStyleHooks/react-checkbox';
 import {
   useDialogActionsStyles,
   useDialogBodyStyles,
   useDialogSurfaceStyles,
   useDialogTitleStyles,
-} from './components/react-dialog';
+} from './customStyleHooks/react-dialog';
 import type {
   DialogActionsState,
   DialogBodyState,
@@ -74,7 +73,7 @@ import {
   useDrawerHeaderTitleStyles,
   useInlineDrawerStyles,
   useOverlayDrawerStyles,
-} from './components/react-drawer';
+} from './customStyleHooks/react-drawer';
 import type {
   DrawerBodyState,
   DrawerFooterState,
@@ -83,15 +82,15 @@ import type {
   DrawerHeaderTitleState,
   OverlayDrawerState,
 } from '@fluentui/react-drawer';
-import type { InlineDrawerState } from './components/react-drawer';
-import { useImageStyles } from './components/react-image';
+import type { InlineDrawerState } from './customStyleHooks/react-drawer';
+import { useImageStyles } from './customStyleHooks/react-image';
 import type { ImageState } from '@fluentui/react-image';
-import { useLabelStyles } from './components/react-label';
-import type { LabelState } from './components/react-label';
-import { useInputStyles } from './components/react-input';
-import type { InputState } from './components/react-input';
-import { useLinkStyles } from './components/react-link';
-import type { LinkState } from './components/react-link';
+import { useLabelStyles } from './customStyleHooks/react-label';
+import type { LabelState } from './customStyleHooks/react-label';
+import { useInputStyles } from './customStyleHooks/react-input';
+import type { InputState } from './customStyleHooks/react-input';
+import { useLinkStyles } from './customStyleHooks/react-link';
+import type { LinkState } from './customStyleHooks/react-link';
 import {
   useMenuDividerStyles,
   useMenuGroupHeaderStyles,
@@ -100,7 +99,7 @@ import {
   useMenuItemRadioStyles,
   useMenuPopoverStyles,
   useMenuSplitGroupStyles,
-} from './components/react-menu';
+} from './customStyleHooks/react-menu';
 import type {
   MenuDividerState,
   MenuGroupHeaderState,
@@ -110,10 +109,10 @@ import type {
   MenuPopoverState,
   MenuSplitGroupState,
 } from '@fluentui/react-menu';
-import { usePopoverSurfaceStyles } from './components/react-popover';
+import { usePopoverSurfaceStyles } from './customStyleHooks/react-popover';
 import type { PopoverSurfaceState } from '@fluentui/react-popover';
-import { useTooltipStyles } from './components/react-tooltip';
-import type { TooltipState } from './components/react-tooltip';
+import { useTooltipStyles } from './customStyleHooks/react-tooltip';
+import type { TooltipState } from './customStyleHooks/react-tooltip';
 
 export const CAP_STYLE_HOOKS: NonNullable<
   FluentProviderProps['customStyleHooks_unstable']

@@ -24,7 +24,8 @@
     ".*\\.test.tsx?$",
     "./src/jest-setup.ts$",
     "./**/jest-setup.ts$",
-    ".*.js$"
+    ".*.js$",
+    "src/components"
   ],
   "$schema": "https://json.schemastore.org/swcrc"
 }

@@ -1,2 +1,1 @@
-export { useLabelStyles } from './components/Label/useLabelStyles.styles';
-export type { LabelState } from './components/Label/Label.types';
+export { Label as CAPLabel } from './components/Label/Label';

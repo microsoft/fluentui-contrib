@@ -1,5 +1,1 @@
-export { useTooltipStyles_unstable as useTooltipStyles } from './components/Tooltip/useTooltipStyles.styles';
-export type {
-  TooltipProps,
-  TooltipState,
-} from './components/Tooltip/Tooltip.types';
+export { Tooltip as CAPTooltip } from './components/Tooltip/Tooltip';

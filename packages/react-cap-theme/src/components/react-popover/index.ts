@@ -1,1 +1,1 @@
-export { usePopoverSurfaceStyles_unstable as usePopoverSurfaceStyles } from './components/PopoverSurface/usePopoverSurfaceStyles.styles';
+export { PopoverSurface } from './components/PopoverSurface/PopoverSurface';

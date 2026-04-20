@@ -9,7 +9,7 @@ import { CAP_STYLE_HOOKS } from '../src/index';
 import type { JSXElement } from '@fluentui/react-utilities';
 
 import type { Preview, StoryFn } from '@storybook/react';
-import { CAPTokens } from '../src/components/tokens/types';
+import { CAPTokens } from '../src/customStyleHooks/tokens/types';
 
 const capTheme: Record<keyof Theme & keyof CAPTokens, string> = {
   ...webLightTheme,

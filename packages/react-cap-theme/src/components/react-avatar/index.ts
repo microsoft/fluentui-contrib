@@ -1,3 +1,1 @@
-export { useAvatarStyles } from './components/Avatar/useAvatarStyles.styles';
-export { useAvatarGroupItemStyles } from './components/AvatarGroupItem/useAvatarGroupItemStyles.styles';
-export { useAvatarGroupPopoverStyles } from './components/AvatarGroupPopover/useAvatarGroupPopoverStyles.styles';
+export { AvatarGroupPopover as CAPAvatarGroupPopover } from './components/AvatarGroupPopover/AvatarGroupPopover';

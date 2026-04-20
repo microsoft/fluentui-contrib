@@ -5,7 +5,10 @@ import type {
 } from '@fluentui/react-carousel';
 import type { ComponentProps, ComponentState } from '@fluentui/react-utilities';
 import type { ButtonSlots } from '@fluentui/react-button';
-import type { ButtonProps, ButtonState } from '../../../react-button';
+import type {
+  ButtonProps,
+  ButtonState,
+} from '../../../react-button/components/Button/Button.types';
 
 export type CarouselButtonSlots = ButtonSlots &
   Pick<FluentCarouselButtonSlots, 'root'>;
