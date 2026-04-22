@@ -2,6 +2,42 @@
   "name": "@fluentui-contrib/react-cap-theme",
   "entries": [
     {
+      "date": "Tue, 22 Apr 2026 17:58:11 GMT",
+      "tag": "@fluentui-contrib/react-cap-theme_v0.3.0",
+      "version": "0.3.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "yizhang9@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "comment": "feat(react-cap-theme): add TEAMS_STYLE_HOOKS with button size overrides"
+          }
+        ],
+        "patch": [
+          {
+            "author": "egianoglio@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "comment": "Fix ToggleButton checked state styling and Checkbox indicator visibility; refactor internal component structure"
+          },
+          {
+            "author": "dzukowski@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "comment": "Remove unused tokens"
+          },
+          {
+            "author": "dzukowski@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "comment": "feat(react-cap-theme): add react-label component"
+          },
+          {
+            "author": "dzukowski@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "comment": "add react-input component"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 10 Apr 2026 16:04:54 GMT",
       "tag": "@fluentui-contrib/react-cap-theme_v0.2.4",
       "version": "0.2.4",
