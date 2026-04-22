@@ -1,8 +1,24 @@
 # Change Log - @fluentui-contrib/react-cap-theme
 
-This log was last generated on Fri, 10 Apr 2026 16:04:54 GMT and should not be manually modified.
+This log was last generated on Tue, 22 Apr 2026 00:00:00 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.3.0
+
+Tue, 22 Apr 2026 00:00:00 GMT
+
+### Minor changes
+
+- feat(react-cap-theme): add TEAMS_STYLE_HOOKS with button size overrides (yizhang9@microsoft.com)
+
+### Patches
+
+- Fix ToggleButton checked state styling and Checkbox indicator visibility; refactor internal component structure (egianoglio@microsoft.com)
+- Remove unused tokens (dzukowski@microsoft.com)
+- feat(react-cap-theme): add react-label component (dzukowski@microsoft.com)
+- add react-input component (dzukowski@microsoft.com)
+- fix(react-cap-theme): use relative import path for button types in teams/index (yizhang9@microsoft.com)
 
 ## 0.2.4
 

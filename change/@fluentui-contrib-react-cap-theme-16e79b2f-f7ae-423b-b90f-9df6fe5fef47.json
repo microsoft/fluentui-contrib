@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "feat(react-cap-theme): add TEAMS_STYLE_HOOKS with button size overrides",
-  "packageName": "@fluentui-contrib/react-cap-theme",
-  "email": "yizhang9@microsoft.com",
-  "dependentChangeType": "patch"
-}
