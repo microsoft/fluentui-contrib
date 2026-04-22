@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "force change",
+  "packageName": "@fluentui-contrib/react-cap-theme",
+  "email": "dzukowski@microsoft.com",
+  "dependentChangeType": "patch"
+}
