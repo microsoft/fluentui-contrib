@@ -1,7 +1,7 @@
 import {
-  useToggleButtonStyles as capUseToggleButtonStyles,
+  useToggleButtonStyles as useCapToggleButtonStyles,
   type ToggleButtonState,
-} from '@fluentui-contrib/react-cap-theme/react-button';
+} from '../../../../../components/react-button';
 import { mergeClasses } from '@griffel/react';
 import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import {
@@ -15,7 +15,7 @@ export const useToggleButtonStyles = (
   const rootSizeStyles = useRootSizeStyles();
   const rootIconOnlySizeStyles = useRootIconOnlySizeStyles();
 
-  capUseToggleButtonStyles(state);
+  useCapToggleButtonStyles(state);
 
   state.root.className = mergeClasses(
     state.root.className,

@@ -1,7 +1,7 @@
 import {
-  useSplitButtonStyles as capUseSplitButtonStyles,
+  useSplitButtonStyles as useCapSplitButtonStyles,
   type SplitButtonState,
-} from '@fluentui-contrib/react-cap-theme/react-button';
+} from '../../../../../components/react-button';
 import { makeStyles, mergeClasses } from '@griffel/react';
 import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import {
@@ -37,7 +37,7 @@ export const useSplitButtonStyles = (
 ): SplitButtonState => {
   const dividerPositionStyles = useDividerPositionStyles();
 
-  capUseSplitButtonStyles(state);
+  useCapSplitButtonStyles(state);
 
   if (state.primaryActionButton) {
     state.primaryActionButton.className = mergeClasses(

@@ -1,7 +1,7 @@
 import {
-  useButtonStyles as capUseButtonStyles,
+  useButtonStyles as useCapButtonStyles,
   type ButtonState,
-} from '@fluentui-contrib/react-cap-theme/react-button';
+} from '../../../../../components/react-button';
 import { makeStyles, mergeClasses } from '@griffel/react';
 import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 
@@ -49,7 +49,7 @@ export const useButtonStyles = (state: ButtonState): ButtonState => {
   const rootSizeStyles = useRootSizeStyles();
   const rootIconOnlySizeStyles = useRootIconOnlySizeStyles();
 
-  capUseButtonStyles(state);
+  useCapButtonStyles(state);
 
   state.root.className = mergeClasses(
     state.root.className,
