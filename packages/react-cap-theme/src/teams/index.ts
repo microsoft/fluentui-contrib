@@ -1,5 +1,5 @@
 import { FluentProviderProps } from '@fluentui/react-components';
-import { CAP_STYLE_HOOKS } from '../index';
+import { CAP_STYLE_HOOKS } from '../capStyleHooks';
 import type {
   ButtonState,
   MenuButtonState,
