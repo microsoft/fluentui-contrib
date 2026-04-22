@@ -5,7 +5,7 @@ import type {
   MenuButtonState,
   SplitButtonState,
   ToggleButtonState,
-} from '@fluentui-contrib/react-cap-theme/react-button';
+} from '../components/react-button';
 import { useTeamsButtonStyles } from './components/react-button/components/Button/useButtonStyles.styles';
 import { useTeamsMenuButtonStyles } from './components/react-button/components/MenuButton/useMenuButtonStyles.styles';
 import { useTeamsSplitButtonStyles } from './components/react-button/components/SplitButton/useSplitButtonStyles.styles';
