@@ -3,6 +3,7 @@ import {
   type ToggleButtonState,
 } from '@fluentui-contrib/react-cap-theme/react-button';
 import { mergeClasses } from '@griffel/react';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import {
   useRootIconOnlySizeStyles,
   useRootSizeStyles,
@@ -20,7 +21,8 @@ export const useToggleButtonStyles = (
     state.root.className,
     state.iconOnly
       ? rootIconOnlySizeStyles[state.size]
-      : rootSizeStyles[state.size as keyof typeof rootSizeStyles]
+      : rootSizeStyles[state.size as keyof typeof rootSizeStyles],
+    getSlotClassNameProp_unstable(state.root)
   );
 
   return state;

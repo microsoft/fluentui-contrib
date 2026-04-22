@@ -3,6 +3,7 @@ import {
   type SplitButtonState,
 } from '@fluentui-contrib/react-cap-theme/react-button';
 import { makeStyles, mergeClasses } from '@griffel/react';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import {
   teamsButtonSpacingVerticalMedium,
   teamsButtonSpacingVerticalSmall,
@@ -35,7 +36,8 @@ export const useSplitButtonStyles = (
   if (state.primaryActionButton) {
     state.primaryActionButton.className = mergeClasses(
       state.primaryActionButton.className,
-      dividerPositionStyles[state.size as keyof typeof dividerPositionStyles]
+      dividerPositionStyles[state.size as keyof typeof dividerPositionStyles],
+      getSlotClassNameProp_unstable(state.primaryActionButton)
     );
   }
 
