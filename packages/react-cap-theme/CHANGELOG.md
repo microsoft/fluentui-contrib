@@ -1,12 +1,12 @@
 # Change Log - @fluentui-contrib/react-cap-theme
 
-This log was last generated on Tue, 22 Apr 2026 00:00:00 GMT and should not be manually modified.
+This log was last generated on Tue, 22 Apr 2026 17:58:11 GMT and should not be manually modified.
 
 <!-- Start content -->
 
 ## 0.3.0
 
-Tue, 22 Apr 2026 00:00:00 GMT
+Tue, 22 Apr 2026 17:58:11 GMT
 
 ### Minor changes
 
