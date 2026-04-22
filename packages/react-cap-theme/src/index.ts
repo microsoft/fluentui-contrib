@@ -251,3 +251,5 @@ export const CAP_STYLE_HOOKS: NonNullable<
     return useMenuSplitGroupStyles(state as MenuSplitGroupState);
   },
 };
+
+export { TEAMS_STYLE_HOOKS } from './teams/index';
