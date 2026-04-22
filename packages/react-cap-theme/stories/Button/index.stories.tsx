@@ -10,4 +10,3 @@ const meta = {
 export default meta;
 
 export { Default } from './Default.stories';
-export { CAPvsTeams } from './CAPvsTeams.stories';
