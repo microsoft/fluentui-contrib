@@ -1,29 +1,14 @@
 import {
   useToggleButtonStyles as useCapToggleButtonStyles,
   type ToggleButtonState,
+  type ButtonState,
 } from '../../../../../components/react-button';
-import { mergeClasses } from '@griffel/react';
-import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
-import {
-  useRootIconOnlySizeStyles,
-  useRootSizeStyles,
-} from '../Button/useButtonStyles.styles';
+import { useButtonStyles } from '../Button/useButtonStyles.styles';
 
 export const useToggleButtonStyles = (
   state: ToggleButtonState
 ): ToggleButtonState => {
-  const rootSizeStyles = useRootSizeStyles();
-  const rootIconOnlySizeStyles = useRootIconOnlySizeStyles();
-
   useCapToggleButtonStyles(state);
-
-  state.root.className = mergeClasses(
-    state.root.className,
-    state.iconOnly
-      ? rootIconOnlySizeStyles[state.size]
-      : rootSizeStyles[state.size],
-    getSlotClassNameProp_unstable(state.root)
-  );
-
+  useButtonStyles(state as unknown as ButtonState);
   return state;
 };
