@@ -3,12 +3,12 @@ import {
   type MenuButtonState,
   type ButtonState,
 } from '../../../../../components/react-button';
-import { useButtonStyles } from '../Button/useButtonStyles.styles';
+import { useTeamsButtonStyles } from '../Button/useButtonStyles.styles';
 
-export const useMenuButtonStyles = (
+export const useTeamsMenuButtonStyles = (
   state: MenuButtonState
 ): MenuButtonState => {
   useCapMenuButtonStyles(state);
-  useButtonStyles(state as unknown as ButtonState);
+  useTeamsButtonStyles(state as unknown as ButtonState);
   return state;
 };

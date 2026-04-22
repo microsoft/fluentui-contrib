@@ -32,7 +32,7 @@ const useDividerPositionStyles = makeStyles({
   },
 });
 
-export const useSplitButtonStyles = (
+export const useTeamsSplitButtonStyles = (
   state: SplitButtonState
 ): SplitButtonState => {
   const dividerPositionStyles = useDividerPositionStyles();
