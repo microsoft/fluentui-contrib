@@ -6,10 +6,10 @@ import type {
   SplitButtonState,
   ToggleButtonState,
 } from '@fluentui-contrib/react-cap-theme/react-button';
-import { useButtonStyles } from './components/react-button/components/Button/useButtonStyles.styles';
-import { useMenuButtonStyles } from './components/react-button/components/MenuButton/useMenuButtonStyles.styles';
-import { useSplitButtonStyles } from './components/react-button/components/SplitButton/useSplitButtonStyles.styles';
-import { useToggleButtonStyles } from './components/react-button/components/ToggleButton/useToggleButtonStyles.styles';
+import { useTeamsButtonStyles } from './components/react-button/components/Button/useButtonStyles.styles';
+import { useTeamsMenuButtonStyles } from './components/react-button/components/MenuButton/useMenuButtonStyles.styles';
+import { useTeamsSplitButtonStyles } from './components/react-button/components/SplitButton/useSplitButtonStyles.styles';
+import { useTeamsToggleButtonStyles } from './components/react-button/components/ToggleButton/useToggleButtonStyles.styles';
 
 /**
  * Style hooks for Teams, built on top of CAP_STYLE_HOOKS.
@@ -26,15 +26,15 @@ export const TEAMS_STYLE_HOOKS: NonNullable<
 > = {
   ...CAP_STYLE_HOOKS,
   useButtonStyles_unstable: (state) => {
-    return useButtonStyles(state as ButtonState);
+    return useTeamsButtonStyles(state as ButtonState);
   },
   useMenuButtonStyles_unstable: (state) => {
-    return useMenuButtonStyles(state as MenuButtonState);
+    return useTeamsMenuButtonStyles(state as MenuButtonState);
   },
   useSplitButtonStyles_unstable: (state) => {
-    return useSplitButtonStyles(state as SplitButtonState);
+    return useTeamsSplitButtonStyles(state as SplitButtonState);
   },
   useToggleButtonStyles_unstable: (state) => {
-    return useToggleButtonStyles(state as ToggleButtonState);
+    return useTeamsToggleButtonStyles(state as ToggleButtonState);
   },
 };

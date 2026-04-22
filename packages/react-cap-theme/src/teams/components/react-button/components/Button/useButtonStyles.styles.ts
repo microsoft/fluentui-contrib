@@ -45,7 +45,7 @@ export const useRootIconOnlySizeStyles = makeStyles({
   },
 });
 
-export const useButtonStyles = (state: ButtonState): ButtonState => {
+export const useTeamsButtonStyles = (state: ButtonState): ButtonState => {
   const rootSizeStyles = useRootSizeStyles();
   const rootIconOnlySizeStyles = useRootIconOnlySizeStyles();
 
