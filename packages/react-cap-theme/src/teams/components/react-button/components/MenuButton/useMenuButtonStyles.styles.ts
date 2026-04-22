@@ -21,7 +21,7 @@ export const useMenuButtonStyles = (
     state.root.className,
     state.iconOnly
       ? rootIconOnlySizeStyles[state.size]
-      : rootSizeStyles[state.size as keyof typeof rootSizeStyles],
+      : rootSizeStyles[state.size],
     getSlotClassNameProp_unstable(state.root)
   );
 
