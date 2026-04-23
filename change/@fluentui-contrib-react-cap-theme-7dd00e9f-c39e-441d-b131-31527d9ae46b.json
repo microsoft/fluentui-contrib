@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "try to fix the version bump problem by adding some changes",
-  "packageName": "@fluentui-contrib/react-cap-theme",
-  "email": "yizhang9@microsoft.com",
-  "dependentChangeType": "patch"
-}
