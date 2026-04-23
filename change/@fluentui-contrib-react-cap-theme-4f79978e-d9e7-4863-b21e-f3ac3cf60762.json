@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "repo recovery for mismatched version",
-  "packageName": "@fluentui-contrib/react-cap-theme",
-  "email": "yizhang9@microsoft.com",
-  "dependentChangeType": "patch"
-}
