@@ -1,7 +1,7 @@
 {
   "type": "patch",
-  "comment": "Remove unused tokens",
+  "comment": "repo recovery for mismatched version",
   "packageName": "@fluentui-contrib/react-cap-theme",
-  "email": "dzukowski@microsoft.com",
+  "email": "yizhang9@microsoft.com",
   "dependentChangeType": "patch"
 }

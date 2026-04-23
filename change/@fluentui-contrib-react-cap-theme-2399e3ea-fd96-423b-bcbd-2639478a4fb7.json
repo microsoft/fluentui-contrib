@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "Fix ToggleButton checked state styling and Checkbox indicator visibility; refactor internal component structure",
-  "packageName": "@fluentui-contrib/react-cap-theme",
-  "email": "egianoglio@microsoft.com",
-  "dependentChangeType": "patch"
-}

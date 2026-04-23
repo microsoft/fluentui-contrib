@@ -2,6 +2,59 @@
   "name": "@fluentui-contrib/react-cap-theme",
   "entries": [
     {
+      "date": "Thu, 23 Apr 2026 16:23:03 GMT",
+      "tag": "@fluentui-contrib/react-cap-theme_v0.3.0",
+      "version": "0.3.0",
+      "comments": {
+        "patch": [
+          {
+            "author": "yizhang9@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "b195d29ec20b0cf1ff88ce84d7cd31fad1ced32c",
+            "comment": "try to fix the version bump problem by adding some changes"
+          },
+          {
+            "author": "egianoglio@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "51aef7f68d06e0f53fd7fe46489086107dff9670",
+            "comment": "Fix ToggleButton checked state styling and Checkbox indicator visibility; refactor internal component structure"
+          },
+          {
+            "author": "dzukowski@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "de6f1be1a42d4534400eb735e35292387ddbd69a",
+            "comment": "Remove unused tokens"
+          },
+          {
+            "author": "dzukowski@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "30d3a2dcad14f5d170582e7302ff5f4b70c9acc7",
+            "comment": "feat(react-cap-theme): add react-label component"
+          },
+          {
+            "author": "dzukowski@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "b87187e38274af1e283c7d55a686421415be02fe",
+            "comment": "add react-input component"
+          },
+          {
+            "author": "yizhang9@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "515712ffa3e865e17bfa5fb52c3ff7aae4dbc579",
+            "comment": "fix(react-cap-theme): use relative import path for button types in teams/index"
+          }
+        ],
+        "minor": [
+          {
+            "author": "yizhang9@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "d8b52d09918d320167ae7005d36a6f18713b40bd",
+            "comment": "feat(react-cap-theme): add TEAMS_STYLE_HOOKS with button size overrides"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 10 Apr 2026 16:04:54 GMT",
       "tag": "@fluentui-contrib/react-cap-theme_v0.2.4",
       "version": "0.2.4",

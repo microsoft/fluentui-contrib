@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix(react-cap-theme): use relative import path for button types in teams/index",
-  "packageName": "@fluentui-contrib/react-cap-theme",
-  "email": "yizhang9@microsoft.com",
-  "dependentChangeType": "patch"
-}
