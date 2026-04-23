@@ -1,6 +1,5 @@
 import { Meta } from '@storybook/react';
 import { DraggableDialog } from '@fluentui-contrib/react-draggable-dialog';
-import description from '../../README.md';
 
 export { Default } from './Default.stories';
 export { WithMargin } from './WithMargin.stories';
@@ -14,7 +13,7 @@ const meta: Meta<typeof DraggableDialog> = {
   parameters: {
     docs: {
       description: {
-        component: description,
+        component: 'A draggable dialog component powered by Fluent UI.',
       },
     },
   },

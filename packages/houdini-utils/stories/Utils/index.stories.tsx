@@ -1,5 +1,4 @@
 import { Meta } from '@storybook/react';
-import description from '../../README.md';
 
 export { Default } from './Default.stories';
 export { Fallback } from './Fallback.stories';
@@ -10,7 +9,8 @@ const meta: Meta = {
   parameters: {
     docs: {
       description: {
-        component: description,
+        component:
+          'Low-level utilities for CSS Houdini APIs plus a canvas fallback for paint worklet scenarios.',
       },
       hideArgsTable: true,
     },

@@ -1,4 +1,4 @@
-import description from '../../README.md';
+import description from './VirtualizerDescription.md';
 import { Meta } from '@storybook/react';
 import { Virtualizer } from '../../src/Virtualizer';
 

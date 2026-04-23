@@ -1,6 +1,5 @@
 import { Meta } from '@storybook/react';
 import { HeadlessFluentProvider } from '@fluentui-contrib/react-headless-provider';
-import description from '../../README.md';
 
 export { Default } from './Default.stories';
 
@@ -10,7 +9,8 @@ const meta: Meta<typeof HeadlessFluentProvider> = {
   parameters: {
     docs: {
       description: {
-        component: description,
+        component:
+          'HeadlessFluentProvider applies Fluent UI React contexts without rendering an extra DOM wrapper element.',
       },
     },
   },
