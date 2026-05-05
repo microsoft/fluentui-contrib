@@ -21,6 +21,7 @@ import type { BadgeState } from '@fluentui/react-badge';
 import { useBadgeStyles } from './components/react-badge';
 import {
   useButtonStyles,
+  useCompoundButtonStyles,
   useMenuButtonStyles,
   useSplitButtonStyles,
   useToggleButtonStyles,
@@ -31,6 +32,7 @@ import type {
   SplitButtonState,
   ToggleButtonState,
 } from './components/react-button';
+import type { CompoundButtonState } from '@fluentui/react-button';
 import {
   useCarouselStyles,
   useCarouselAutoplayButtonStyles,
@@ -165,6 +167,9 @@ export const CAP_STYLE_HOOKS: NonNullable<
   },
   useCheckboxStyles_unstable: (state) => {
     return useCheckboxStyles(state as CheckboxState);
+  },
+  useCompoundButtonStyles_unstable: (state) => {
+    return useCompoundButtonStyles(state as CompoundButtonState);
   },
   useDialogActionsStyles_unstable: (state) => {
     return useDialogActionsStyles(state as DialogActionsState);
