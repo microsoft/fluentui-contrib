@@ -14,10 +14,6 @@ import { tokens } from '@fluentui/tokens';
 import type { InteractionTagSecondaryState } from '@fluentui/react-tags';
 import { capTokens } from '../../../tokens/tokens';
 
-/**
- * Base reset styles for the InteractionTagSecondary root slot.
- * Self-contained — replaces Fluent's useInteractionTagSecondaryStyles_unstable entirely.
- */
 const useRootBaseClassName = makeResetStyles({
   color: 'inherit',
   fontFamily: 'inherit',
@@ -236,14 +232,6 @@ const useRootSelectedStyles = makeStyles({
 
 /**
  * Apply styling to the SharePoint InteractionTagSecondary component.
- *
- * Self-contained — writes all styles from scratch without delegating to Fluent's
- * `useInteractionTagSecondaryStyles_unstable`. This avoids Griffel atomic-CSS
- * specificity conflicts and insulates against `_unstable` API breakage.
- *
- * Note that this only covers styling — rendering changes (e.g. dismiss icon
- * override) require the SPDS `useInteractionTagSecondary` hook.
- *
  * @param state - The InteractionTagSecondary state object
  * @returns The styled InteractionTagSecondary state
  * @alpha

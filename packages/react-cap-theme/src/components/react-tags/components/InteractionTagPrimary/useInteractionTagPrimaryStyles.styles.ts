@@ -275,15 +275,6 @@ const usePrimaryTextStyles = makeStyles({
 
 /**
  * Apply styling to the SharePoint InteractionTagPrimary component.
- *
- * Self-contained — writes all styles from scratch without delegating to Fluent's
- * `useInteractionTagPrimaryStyles_unstable`. This avoids Griffel atomic-CSS
- * specificity conflicts and insulates against `_unstable` API breakage.
- *
- * Note that this only covers styling — rendering changes (e.g. avatar size
- * mapping, secondaryText gating) require the SPDS `useInteractionTagPrimary`
- * hook.
- *
  * @param state - The InteractionTagPrimary state object
  * @returns The styled InteractionTagPrimary state
  * @alpha
