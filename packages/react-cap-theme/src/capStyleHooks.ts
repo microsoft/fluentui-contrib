@@ -148,6 +148,8 @@ import type {
 } from '@fluentui/react-tags';
 import { useTabStyles, useTabListStyles } from './components/react-tabs';
 import type { TabState, TabListState } from '@fluentui/react-tabs';
+import { useToolbarStyles } from './components/react-toolbar';
+import type { ToolbarState } from './components/react-toolbar';
 import { useTooltipStyles } from './components/react-tooltip';
 import type { TooltipState } from './components/react-tooltip';
 
@@ -302,6 +304,9 @@ export const CAP_STYLE_HOOKS: NonNullable<
   },
   useToggleButtonStyles_unstable: (state) => {
     return useToggleButtonStyles(state as ToggleButtonState);
+  },
+  useToolbarStyles_unstable: (state) => {
+    return useToolbarStyles(state as ToolbarState);
   },
   useTooltipStyles_unstable: (state) => {
     return useTooltipStyles(state as TooltipState);
