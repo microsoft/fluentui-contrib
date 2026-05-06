@@ -125,6 +125,8 @@ import type {
   InteractionTagPrimaryState,
   InteractionTagSecondaryState,
 } from '@fluentui/react-tags';
+import { useTabStyles, useTabListStyles } from './components/react-tabs';
+import type { TabState, TabListState } from './components/react-tabs';
 import { useTooltipStyles } from './components/react-tooltip';
 import type { TooltipState } from './components/react-tooltip';
 
@@ -252,6 +254,12 @@ export const CAP_STYLE_HOOKS: NonNullable<
   },
   useTagStyles_unstable: (state) => {
     return useTagStyles(state as TagState);
+  },
+  useTabStyles_unstable: (state) => {
+    return useTabStyles(state as TabState);
+  },
+  useTabListStyles_unstable: (state) => {
+    return useTabListStyles(state as TabListState);
   },
   useToggleButtonStyles_unstable: (state) => {
     return useToggleButtonStyles(state as ToggleButtonState);
