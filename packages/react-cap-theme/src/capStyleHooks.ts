@@ -68,6 +68,19 @@ import type {
 import { useCheckboxStyles } from './components/react-checkbox';
 import type { CheckboxState } from './components/react-checkbox';
 import {
+  useComboboxStyles,
+  useDropdownStyles,
+  useListboxStyles,
+  useOptionGroupStyles,
+  useOptionStyles,
+} from './components/react-combobox';
+import type { ComboboxState, DropdownState } from './components/react-combobox';
+import type {
+  ListboxState,
+  OptionGroupState,
+  OptionState,
+} from '@fluentui/react-combobox';
+import {
   useDialogActionsStyles,
   useDialogBodyStyles,
   useDialogSurfaceStyles,
@@ -213,6 +226,9 @@ export const CAP_STYLE_HOOKS: NonNullable<
   useCompoundButtonStyles_unstable: (state) => {
     return useCompoundButtonStyles(state as CompoundButtonState);
   },
+  useComboboxStyles_unstable: (state) => {
+    return useComboboxStyles(state as ComboboxState);
+  },
   useDialogActionsStyles_unstable: (state) => {
     return useDialogActionsStyles(state as DialogActionsState);
   },
@@ -242,6 +258,9 @@ export const CAP_STYLE_HOOKS: NonNullable<
   useDrawerHeaderTitleStyles_unstable: (state) => {
     return useDrawerHeaderTitleStyles(state as DrawerHeaderTitleState);
   },
+  useDropdownStyles_unstable: (state) => {
+    return useDropdownStyles(state as DropdownState);
+  },
   useImageStyles_unstable: (state) => {
     return useImageStyles(state as ImageState);
   },
@@ -268,8 +287,17 @@ export const CAP_STYLE_HOOKS: NonNullable<
   useLinkStyles_unstable: (state) => {
     return useLinkStyles(state as LinkState);
   },
+  useListboxStyles_unstable: (state) => {
+    return useListboxStyles(state as ListboxState);
+  },
   useMenuButtonStyles_unstable: (state) => {
     return useMenuButtonStyles(state as MenuButtonState);
+  },
+  useOptionGroupStyles_unstable: (state) => {
+    return useOptionGroupStyles(state as OptionGroupState);
+  },
+  useOptionStyles_unstable: (state) => {
+    return useOptionStyles(state as OptionState);
   },
   useOverlayDrawerStyles_unstable: (state) => {
     return useOverlayDrawerStyles(state as OverlayDrawerState);
