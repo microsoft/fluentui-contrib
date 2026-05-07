@@ -16,10 +16,7 @@ export type ButtonAppearance =
   | 'transparent';
 
 export type ButtonProps = ComponentProps<ButtonSlots> &
-  Pick<
-    BaseButtonProps,
-    'disabledFocusable' | 'disabled' | 'iconPosition' | 'size'
-  > & {
+  Omit<BaseButtonProps, 'appearance'> & {
     appearance?: ButtonAppearance;
   };
 

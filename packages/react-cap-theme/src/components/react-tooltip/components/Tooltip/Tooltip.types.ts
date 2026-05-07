@@ -10,7 +10,7 @@ import type { ComponentProps, TriggerProps } from '@fluentui/react-utilities';
 export type TooltipProps = ComponentProps<TooltipSlots> &
   TriggerProps<TooltipTriggerProps> &
   Pick<PortalProps, 'mountNode'> &
-  Omit<BaseTooltipProps, 'appearance' | 'withArrow'> & {
+  Omit<BaseTooltipProps, 'appearance'> & {
     appearance?: 'normal' | 'inverted' | 'brand';
   };
 
