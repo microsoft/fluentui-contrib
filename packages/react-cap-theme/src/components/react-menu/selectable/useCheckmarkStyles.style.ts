@@ -15,7 +15,6 @@ const useStyles = makeStyles({
     [`& .${iconFilledClassName}`]: { display: 'inline' },
     [`& .${iconRegularClassName}`]: { display: 'none' },
 
-    // Override Fluent
     [`:hover .${iconFilledClassName}`]: { display: 'inline' },
     [`:hover .${iconRegularClassName}`]: { display: 'none' },
   },
@@ -26,7 +25,7 @@ const useStyles = makeStyles({
     marginRight: tokens.spacingHorizontalSNudge,
     marginTop: tokens.spacingVerticalNone,
     flexShrink: 0,
-    visibility: 'visible', // override Fluent
+    visibility: 'visible',
   },
 });
 
