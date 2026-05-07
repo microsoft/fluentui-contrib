@@ -4,7 +4,6 @@ export { useMenuItemStyles } from './components/MenuItem/useMenuItemStyles.style
 export { useMenuItemCheckboxStyles } from './components/MenuItemCheckbox/useMenuItemCheckboxStyles.styles';
 export { useMenuItemLinkStyles } from './components/MenuItemLink/useMenuItemLinkStyles.styles';
 export { useMenuItemRadioStyles } from './components/MenuItemRadio/useMenuItemRadioStyles.styles';
-export { useMenuItemSwatchPickerStyles } from './components/MenuItemSwatchPicker/useMenuItemSwatchPickerStyles.styles';
 export { useMenuItemSwitchStyles } from './components/MenuItemSwitch/useMenuItemSwitchStyles.styles';
 export { useMenuPopoverStyles } from './components/MenuPopover/useMenuPopoverStyles.styles';
 export { useMenuSplitGroupStyles } from './components/MenuSplitGroup/useMenuSplitGroupStyles.styles';
