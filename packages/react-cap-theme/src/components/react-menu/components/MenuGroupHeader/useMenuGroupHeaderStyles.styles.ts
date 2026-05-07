@@ -1,18 +1,8 @@
-import {
-  type MenuGroupHeaderSlots,
-  type MenuGroupHeaderState,
-} from '@fluentui/react-menu';
-import {
-  getSlotClassNameProp_unstable,
-  type SlotClassNames,
-} from '@fluentui/react-utilities';
+import { type MenuGroupHeaderState } from '@fluentui/react-menu';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens } from '@fluentui/tokens';
 import { typographyStyles } from '@fluentui/tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
-
-export const menuGroupHeaderClassNames: SlotClassNames<MenuGroupHeaderSlots> = {
-  root: 'fui-MenuGroupHeader',
-};
 
 const useStyles = makeStyles({
   root: {
@@ -28,7 +18,6 @@ export const useMenuGroupHeaderStyles = (
   const styles = useStyles();
   state.root.className = mergeClasses(
     state.root.className,
-    menuGroupHeaderClassNames.root,
     styles.root,
     getSlotClassNameProp_unstable(state.root)
   );

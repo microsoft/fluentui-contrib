@@ -98,7 +98,9 @@ import {
   useMenuGroupHeaderStyles,
   useMenuItemStyles,
   useMenuItemCheckboxStyles,
+  useMenuItemLinkStyles,
   useMenuItemRadioStyles,
+  useMenuItemSwitchStyles,
   useMenuPopoverStyles,
   useMenuSplitGroupStyles,
 } from './components/react-menu';
@@ -107,7 +109,9 @@ import type {
   MenuGroupHeaderState,
   MenuItemState,
   MenuItemCheckboxState,
+  MenuItemLinkState,
   MenuItemRadioState,
+  MenuItemSwitchState,
   MenuPopoverState,
   MenuSplitGroupState,
 } from '@fluentui/react-menu';
@@ -278,6 +282,12 @@ export const CAP_STYLE_HOOKS: NonNullable<
   },
   useMenuItemCheckboxStyles_unstable: (state) => {
     return useMenuItemCheckboxStyles(state as MenuItemCheckboxState);
+  },
+  useMenuItemLinkStyles_unstable: (state) => {
+    return useMenuItemLinkStyles(state as MenuItemLinkState);
+  },
+  useMenuItemSwitchStyles_unstable: (state) => {
+    return useMenuItemSwitchStyles(state as MenuItemSwitchState);
   },
   useMenuItemRadioStyles_unstable: (state) => {
     return useMenuItemRadioStyles(state as MenuItemRadioState);
