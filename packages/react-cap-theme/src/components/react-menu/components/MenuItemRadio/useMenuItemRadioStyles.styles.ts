@@ -8,7 +8,6 @@ const useStyles = makeStyles({
     fontSize: '20px',
     height: '20px',
     marginTop: 0,
-    visibility: 'visible',
     width: '20px',
   },
 });
