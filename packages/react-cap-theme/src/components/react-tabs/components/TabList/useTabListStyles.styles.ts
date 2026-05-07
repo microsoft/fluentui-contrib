@@ -1,7 +1,7 @@
 import { makeStyles, mergeClasses } from '@griffel/react';
 import { tokens } from '@fluentui/tokens';
 import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
-import type { TabListState } from './TabList.types';
+import type { TabListState } from '@fluentui/react-tabs';
 
 const useStyles = makeStyles({
   horizontal: { gap: tokens.spacingHorizontalS },

@@ -126,7 +126,7 @@ import type {
   InteractionTagSecondaryState,
 } from '@fluentui/react-tags';
 import { useTabStyles, useTabListStyles } from './components/react-tabs';
-import type { TabState, TabListState } from './components/react-tabs';
+import type { TabState, TabListState } from '@fluentui/react-tabs';
 import { useTooltipStyles } from './components/react-tooltip';
 import type { TooltipState } from './components/react-tooltip';
 

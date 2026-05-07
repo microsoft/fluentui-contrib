@@ -8,7 +8,7 @@ import {
 } from '@fluentui/react-icons';
 import { tokens, typographyStyles } from '@fluentui/tokens';
 import { capTokens } from '../../../tokens/tokens';
-import type { TabState } from './Tab.types';
+import type { TabState } from '@fluentui/react-tabs';
 
 const smallSpacingVertical = tokens.spacingVerticalSNudge;
 const mediumSpacingVertical = tokens.spacingVerticalS;
