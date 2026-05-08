@@ -6,6 +6,8 @@ export type {
   ButtonAppearance,
 } from './Button';
 
+export { useCompoundButtonStyles } from './CompoundButton';
+
 export { useMenuButtonStyles } from './MenuButton';
 export type {
   MenuButtonProps,
