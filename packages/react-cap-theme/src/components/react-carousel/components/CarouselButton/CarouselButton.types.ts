@@ -4,10 +4,9 @@ import type {
   CarouselButtonState as FluentCarouselButtonState,
 } from '@fluentui/react-carousel';
 import type { ComponentProps, ComponentState } from '@fluentui/react-utilities';
-import type { ButtonSlots } from '@fluentui/react-button';
 import type { ButtonProps, ButtonState } from '../../../react-button';
 
-export type CarouselButtonSlots = ButtonSlots & FluentCarouselButtonSlots;
+export type CarouselButtonSlots = FluentCarouselButtonSlots;
 
 export type CarouselButtonProps = Partial<ButtonProps> &
   ComponentProps<CarouselButtonSlots> &
