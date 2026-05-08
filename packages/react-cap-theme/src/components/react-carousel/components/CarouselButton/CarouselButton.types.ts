@@ -4,19 +4,17 @@ import type {
   CarouselButtonState as FluentCarouselButtonState,
 } from '@fluentui/react-carousel';
 import type { ComponentProps, ComponentState } from '@fluentui/react-utilities';
-import type { ButtonSlots } from '@fluentui/react-button';
 import type { ButtonProps, ButtonState } from '../../../react-button';
 
-export type CarouselButtonSlots = ButtonSlots &
-  Pick<FluentCarouselButtonSlots, 'root'>;
+export type CarouselButtonSlots = FluentCarouselButtonSlots;
 
 export type CarouselButtonProps = Partial<ButtonProps> &
   ComponentProps<CarouselButtonSlots> &
-  Pick<FluentCarouselButtonProps, 'navType'>;
+  Omit<FluentCarouselButtonProps, 'appearance'>;
 
 export type CarouselButtonState = ButtonState &
   ComponentState<CarouselButtonSlots> &
-  Pick<FluentCarouselButtonState, 'navType'>;
+  Omit<FluentCarouselButtonState, 'appearance'>;
 
 export type {
   CarouselButtonProps as FluentCarouselButtonProps,

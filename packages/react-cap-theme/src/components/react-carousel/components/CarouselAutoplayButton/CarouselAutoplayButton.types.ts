@@ -10,11 +10,11 @@ import type {
 } from '../../../react-button/components/ToggleButton/ToggleButton.types';
 
 export type CarouselAutoplayButtonSlots = ButtonSlots &
-  Pick<FluentCarouselAutoplayButtonSlots, 'root'>;
+  FluentCarouselAutoplayButtonSlots;
 
 export type CarouselAutoplayButtonProps = ToggleButtonProps &
   ComponentProps<CarouselAutoplayButtonSlots> &
-  Pick<FluentCarouselAutoplayButtonProps, 'onCheckedChange'>;
+  Omit<FluentCarouselAutoplayButtonProps, 'appearance'>;
 
 export type CarouselAutoplayButtonState = ToggleButtonState &
   ComponentState<CarouselAutoplayButtonSlots>;

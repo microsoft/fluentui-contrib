@@ -22,7 +22,10 @@ export type CarouselNavContainerSlots = Omit<
 
 export type CarouselNavContainerProps =
   ComponentProps<CarouselNavContainerSlots> &
-    Pick<FluentCarouselNavContainerProps, 'layout'>;
+    Omit<
+      FluentCarouselNavContainerProps,
+      keyof ComponentProps<FluentCarouselNavContainerSlots>
+    >;
 
 export type CarouselNavContainerState =
   ComponentState<CarouselNavContainerSlots> &
