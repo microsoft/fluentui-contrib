@@ -1,7 +1,6 @@
 import {
   type MenuItemLinkState,
   type MenuItemState,
-  menuItemLinkClassNames,
 } from '@fluentui/react-menu';
 import { makeStyles, mergeClasses } from '@griffel/react';
 import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
@@ -28,7 +27,6 @@ export const useMenuItemLinkStyles = (
   const styles = useStyles();
 
   state.root.className = mergeClasses(
-    menuItemLinkClassNames.root,
     state.root.className,
     styles.resetLink,
     getSlotClassNameProp_unstable(state.root)
@@ -37,7 +35,6 @@ export const useMenuItemLinkStyles = (
   if (state.icon) {
     state.icon.className = mergeClasses(
       state.icon.className,
-      menuItemLinkClassNames.icon,
       getSlotClassNameProp_unstable(state.icon)
     );
   }
@@ -45,7 +42,6 @@ export const useMenuItemLinkStyles = (
   if (state.content) {
     state.content.className = mergeClasses(
       state.content.className,
-      menuItemLinkClassNames.content,
       getSlotClassNameProp_unstable(state.content)
     );
   }
@@ -53,7 +49,6 @@ export const useMenuItemLinkStyles = (
   if (state.secondaryContent) {
     state.secondaryContent.className = mergeClasses(
       state.secondaryContent.className,
-      menuItemLinkClassNames.secondaryContent,
       getSlotClassNameProp_unstable(state.secondaryContent)
     );
   }
@@ -61,7 +56,6 @@ export const useMenuItemLinkStyles = (
   if (state.checkmark) {
     state.checkmark.className = mergeClasses(
       state.checkmark.className,
-      menuItemLinkClassNames.checkmark,
       getSlotClassNameProp_unstable(state.checkmark)
     );
   }
