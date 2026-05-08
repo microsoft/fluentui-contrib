@@ -113,6 +113,18 @@ import type {
 } from '@fluentui/react-menu';
 import { usePopoverSurfaceStyles } from './components/react-popover';
 import type { PopoverSurfaceState } from '@fluentui/react-popover';
+import {
+  useTagStyles,
+  useInteractionTagStyles,
+  useInteractionTagPrimaryStyles,
+  useInteractionTagSecondaryStyles,
+} from './components/react-tags';
+import type {
+  TagState,
+  InteractionTagState,
+  InteractionTagPrimaryState,
+  InteractionTagSecondaryState,
+} from '@fluentui/react-tags';
 import { useTooltipStyles } from './components/react-tooltip';
 import type { TooltipState } from './components/react-tooltip';
 
@@ -212,6 +224,17 @@ export const CAP_STYLE_HOOKS: NonNullable<
   useInlineDrawerStyles_unstable: (state) => {
     return useInlineDrawerStyles(state as InlineDrawerState);
   },
+  useInteractionTagStyles_unstable: (state) => {
+    return useInteractionTagStyles(state as InteractionTagState);
+  },
+  useInteractionTagPrimaryStyles_unstable: (state) => {
+    return useInteractionTagPrimaryStyles(state as InteractionTagPrimaryState);
+  },
+  useInteractionTagSecondaryStyles_unstable: (state) => {
+    return useInteractionTagSecondaryStyles(
+      state as InteractionTagSecondaryState
+    );
+  },
   useLinkStyles_unstable: (state) => {
     return useLinkStyles(state as LinkState);
   },
@@ -226,6 +249,9 @@ export const CAP_STYLE_HOOKS: NonNullable<
   },
   useSplitButtonStyles_unstable: (state) => {
     return useSplitButtonStyles(state as SplitButtonState);
+  },
+  useTagStyles_unstable: (state) => {
+    return useTagStyles(state as TagState);
   },
   useToggleButtonStyles_unstable: (state) => {
     return useToggleButtonStyles(state as ToggleButtonState);
