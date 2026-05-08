@@ -24,7 +24,6 @@ const useRootStyles = makeStyles({
   base: {
     height: 'auto',
   },
-
   small: {
     gap: tokens.spacingHorizontalS,
     padding: `${compoundSpacingSmall} ${tokens.spacingHorizontalS}`,
