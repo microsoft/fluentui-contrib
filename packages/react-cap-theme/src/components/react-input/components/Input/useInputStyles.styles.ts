@@ -22,6 +22,7 @@ const useStyles = makeStyles({
     border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStrokeAccessible}`,
     borderRadius: capTokens.borderRadius2XLarge,
     ...typographyStyles.body1,
+    '::after': { content: 'unset' },
   },
   small: {
     minHeight: '28px',

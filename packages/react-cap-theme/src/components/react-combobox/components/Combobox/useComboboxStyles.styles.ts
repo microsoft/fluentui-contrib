@@ -27,6 +27,7 @@ const useStyles = makeStyles({
     border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStrokeAccessible}`,
     borderRadius: capTokens.borderRadius2XLarge,
     ...typographyStyles.body1,
+    '::after': { content: 'unset' },
   },
 
   small: {
@@ -103,6 +104,7 @@ const useIsEditableStyles = makeStyles({
       // [`& .${comboboxClassNames.contentBefore} > .${iconFilledClassName}`]: {
       //   display: 'inline',
       // },
+      ...shorthands.borderColor(tokens.colorBrandStroke1),
     },
 
     ':focus-within': {
