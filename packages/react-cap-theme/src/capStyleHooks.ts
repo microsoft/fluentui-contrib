@@ -70,16 +70,8 @@ import type { CheckboxState } from './components/react-checkbox';
 import {
   useComboboxStyles,
   useDropdownStyles,
-  useListboxStyles,
-  useOptionGroupStyles,
-  useOptionStyles,
 } from './components/react-combobox';
 import type { ComboboxState, DropdownState } from './components/react-combobox';
-import type {
-  ListboxState,
-  OptionGroupState,
-  OptionState,
-} from '@fluentui/react-combobox';
 import {
   useDialogActionsStyles,
   useDialogBodyStyles,
@@ -287,17 +279,8 @@ export const CAP_STYLE_HOOKS: NonNullable<
   useLinkStyles_unstable: (state) => {
     return useLinkStyles(state as LinkState);
   },
-  useListboxStyles_unstable: (state) => {
-    return useListboxStyles(state as ListboxState);
-  },
   useMenuButtonStyles_unstable: (state) => {
     return useMenuButtonStyles(state as MenuButtonState);
-  },
-  useOptionGroupStyles_unstable: (state) => {
-    return useOptionGroupStyles(state as OptionGroupState);
-  },
-  useOptionStyles_unstable: (state) => {
-    return useOptionStyles(state as OptionState);
   },
   useOverlayDrawerStyles_unstable: (state) => {
     return useOverlayDrawerStyles(state as OverlayDrawerState);
