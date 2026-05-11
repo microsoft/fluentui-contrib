@@ -2,6 +2,59 @@
   "name": "@fluentui-contrib/react-cap-theme",
   "entries": [
     {
+      "date": "Mon, 11 May 2026 15:48:33 GMT",
+      "tag": "@fluentui-contrib/react-cap-theme_v0.4.0",
+      "version": "0.4.0",
+      "comments": {
+        "patch": [
+          {
+            "author": "egianoglio@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "0c8b6a7aa90191910c77772400ef0e6a37c210db",
+            "comment": "add react-tags components"
+          },
+          {
+            "author": "egianoglio@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "ad57c12c09557c2a1811382606e4ccf0113da674",
+            "comment": "add react-tabs components"
+          },
+          {
+            "author": "egianoglio@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "b25c69ca510198543871b60cdb311e2904cb14f0",
+            "comment": "react-menu components refactoring"
+          },
+          {
+            "author": "egianoglio@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "f64215f406bc58424c509bc8229789ab587ce887",
+            "comment": "add react-card components"
+          },
+          {
+            "author": "egianoglio@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "c4d747e4dbb9dcb92e40d4cb604274ef22aa174d",
+            "comment": "add react-combobox components"
+          },
+          {
+            "author": "egianoglio@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "dd8cf5d47b18f2141e4b1468f62a294a20a7a6cf",
+            "comment": "add CompoundButton CAP restyling"
+          }
+        ],
+        "minor": [
+          {
+            "author": "miceclavea@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "8c1c85cb99aa5df6e9b9a876868b74c6529dbb92",
+            "comment": "removed omit & picks for components removing types"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 23 Apr 2026 17:07:54 GMT",
       "tag": "@fluentui-contrib/react-cap-theme_v0.3.1",
       "version": "0.3.1",

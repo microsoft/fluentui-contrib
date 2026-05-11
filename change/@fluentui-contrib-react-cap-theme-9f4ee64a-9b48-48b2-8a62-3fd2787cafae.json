@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "add react-tabs components",
-  "packageName": "@fluentui-contrib/react-cap-theme",
-  "email": "egianoglio@microsoft.com",
-  "dependentChangeType": "patch"
-}

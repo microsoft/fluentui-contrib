@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "removed omit & picks for components removing types",
-  "packageName": "@fluentui-contrib/react-cap-theme",
-  "email": "miceclavea@microsoft.com",
-  "dependentChangeType": "patch"
-}
