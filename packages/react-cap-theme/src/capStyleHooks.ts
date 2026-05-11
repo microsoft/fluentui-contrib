@@ -34,6 +34,18 @@ import type {
 } from './components/react-button';
 import type { CompoundButtonState } from '@fluentui/react-button';
 import {
+  useCardStyles,
+  useCardFooterStyles,
+  useCardHeaderStyles,
+  useCardPreviewStyles,
+} from './components/react-card';
+import type {
+  CardState,
+  CardHeaderState,
+  CardPreviewState,
+} from './components/react-card';
+import type { CardFooterState } from '@fluentui/react-components';
+import {
   useCarouselStyles,
   useCarouselAutoplayButtonStyles,
   useCarouselButtonStyles,
@@ -157,6 +169,18 @@ export const CAP_STYLE_HOOKS: NonNullable<
   },
   useButtonStyles_unstable: (state) => {
     return useButtonStyles(state as ButtonState);
+  },
+  useCardStyles_unstable: (state) => {
+    return useCardStyles(state as CardState);
+  },
+  useCardFooterStyles_unstable: (state) => {
+    return useCardFooterStyles(state as CardFooterState);
+  },
+  useCardHeaderStyles_unstable: (state) => {
+    return useCardHeaderStyles(state as CardHeaderState);
+  },
+  useCardPreviewStyles_unstable: (state) => {
+    return useCardPreviewStyles(state as CardPreviewState);
   },
   useCarouselAutoplayButtonStyles_unstable: (state) => {
     return useCarouselAutoplayButtonStyles(
