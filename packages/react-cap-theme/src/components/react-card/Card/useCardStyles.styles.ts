@@ -13,7 +13,7 @@ import {
 } from '@griffel/react';
 import { textClassNames } from '@fluentui/react-text';
 import { tokens } from '@fluentui/tokens';
-
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { cardCSSVars } from './cssVariables';
 import type { CardProps, CardState } from './Card.types';
 import { capTokens } from '../../tokens/tokens';
@@ -272,6 +272,7 @@ export const useCardStyles = (state: CardState): CardState => {
   }, [selectFocused, selectable, styles.focused, styles.selectableFocused]);
 
   state.root.className = mergeClasses(
+    state.root.className,
     cardClassNames.root,
     styles.root,
     styles[size],
@@ -283,22 +284,24 @@ export const useCardStyles = (state: CardState): CardState => {
     selected && styles[`${appearance}-selected`],
     disabled && styles.disabled,
     focusedStyles,
-    state.root.className
+    getSlotClassNameProp_unstable(state.root)
   );
 
   if (state.floatingAction) {
     state.floatingAction.className = mergeClasses(
+      state.floatingAction.className,
       cardClassNames.floatingAction,
       styles.floatingAction,
-      state.floatingAction.className
+      getSlotClassNameProp_unstable(state.floatingAction)
     );
   }
 
   if (state.checkbox) {
     state.checkbox.className = mergeClasses(
+      state.checkbox.className,
       cardClassNames.checkbox,
       styles.hiddenCheckbox,
-      state.checkbox.className
+      getSlotClassNameProp_unstable(state.checkbox)
     );
   }
 

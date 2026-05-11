@@ -28,7 +28,11 @@ export const useCardFooterStyles = (
 ): CardFooterState => {
   const styles = useStyles();
 
-  state.root.className = mergeClasses(styles.root, state.root.className);
+  state.root.className = mergeClasses(
+    state.root.className,
+    styles.root,
+    getSlotClassNameProp_unstable(state.root)
+  );
 
   if (state.action) {
     state.action.className = mergeClasses(
