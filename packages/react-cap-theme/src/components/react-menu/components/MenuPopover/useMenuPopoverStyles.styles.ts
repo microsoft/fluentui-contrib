@@ -1,18 +1,7 @@
-import {
-  type MenuPopoverSlots,
-  type MenuPopoverState,
-} from '@fluentui/react-menu';
-import {
-  getSlotClassNameProp_unstable,
-  type SlotClassNames,
-} from '@fluentui/react-utilities';
+import { type MenuPopoverState } from '@fluentui/react-menu';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens } from '@fluentui/tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
-
-export const menuPopoverClassNames: Partial<SlotClassNames<MenuPopoverSlots>> =
-  {
-    root: 'fui-MenuPopover',
-  };
 
 const useStyles = makeStyles({
   root: {
@@ -31,7 +20,6 @@ export const useMenuPopoverStyles = (
 
   state.root.className = mergeClasses(
     state.root.className,
-    menuPopoverClassNames.root,
     styles.root,
     getSlotClassNameProp_unstable(state.root)
   );

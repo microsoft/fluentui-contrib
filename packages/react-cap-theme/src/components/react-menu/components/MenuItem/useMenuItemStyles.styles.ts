@@ -1,25 +1,11 @@
 import {
   menuItemClassNames as fluentMenuItemClassNames,
-  type MenuItemSlots,
   type MenuItemState,
 } from '@fluentui/react-menu';
-import {
-  getSlotClassNameProp_unstable,
-  type SlotClassNames,
-} from '@fluentui/react-utilities';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens } from '@fluentui/tokens';
 import { typographyStyles } from '@fluentui/tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
-
-export const menuItemClassNames: SlotClassNames<MenuItemSlots> = {
-  root: 'fui-MenuItem',
-  content: 'fui-MenuItem__content',
-  icon: 'fui-MenuItem__icon',
-  checkmark: 'fui-MenuItem__checkmark',
-  submenuIndicator: 'fui-MenuItem__submenuIndicator',
-  secondaryContent: 'fui-MenuItem__secondaryContent',
-  subText: 'fui-MenuItem__subText',
-};
 
 const useStyles = makeStyles({
   root: {
@@ -97,7 +83,6 @@ export const useMenuItemStyles = (state: MenuItemState): MenuItemState => {
 
   state.root.className = mergeClasses(
     state.root.className,
-    menuItemClassNames.root,
     styles.root,
     disabled && styles.disabled,
     getSlotClassNameProp_unstable(state.root)
@@ -106,14 +91,12 @@ export const useMenuItemStyles = (state: MenuItemState): MenuItemState => {
   if (state.content) {
     state.content.className = mergeClasses(
       state.content.className,
-      menuItemClassNames.content,
       styles.content
     );
   }
   if (state.icon) {
     state.icon.className = mergeClasses(
       state.icon.className,
-      menuItemClassNames.icon,
       styles.icon,
       getSlotClassNameProp_unstable(state.icon)
     );
@@ -121,7 +104,6 @@ export const useMenuItemStyles = (state: MenuItemState): MenuItemState => {
   if (state.secondaryContent) {
     state.secondaryContent.className = mergeClasses(
       state.secondaryContent.className,
-      menuItemClassNames.secondaryContent,
       styles.secondaryContent,
       getSlotClassNameProp_unstable(state.secondaryContent)
     );
@@ -129,7 +111,6 @@ export const useMenuItemStyles = (state: MenuItemState): MenuItemState => {
   if (state.submenuIndicator) {
     state.submenuIndicator.className = mergeClasses(
       state.submenuIndicator.className,
-      menuItemClassNames.submenuIndicator,
       styles.submenuIndicator,
       getSlotClassNameProp_unstable(state.submenuIndicator)
     );
@@ -137,7 +118,6 @@ export const useMenuItemStyles = (state: MenuItemState): MenuItemState => {
   if (state.subText) {
     state.subText.className = mergeClasses(
       state.subText.className,
-      menuItemClassNames.subText,
       styles.subText,
       getSlotClassNameProp_unstable(state.subText)
     );
