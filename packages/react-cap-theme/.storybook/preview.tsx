@@ -20,6 +20,9 @@ const capTheme: Record<keyof Theme & keyof CAPTokens, string> = {
   colorNeutralStroke4Hover: '#e0e0e0',
   colorNeutralStroke4Pressed: '#d6d6d6',
   colorNeutralStroke4Selected: '#ebebeb',
+  colorNeutralForeground5: '#616161',
+  colorNeutralForeground5Hover: '#242424',
+  colorNeutralForeground5Pressed: '#242424',
 };
 
 const preview: Preview = {

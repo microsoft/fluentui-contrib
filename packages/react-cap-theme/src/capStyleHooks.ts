@@ -68,6 +68,11 @@ import type {
 import { useCheckboxStyles } from './components/react-checkbox';
 import type { CheckboxState } from './components/react-checkbox';
 import {
+  useComboboxStyles,
+  useDropdownStyles,
+} from './components/react-combobox';
+import type { ComboboxState, DropdownState } from './components/react-combobox';
+import {
   useDialogActionsStyles,
   useDialogBodyStyles,
   useDialogSurfaceStyles,
@@ -213,6 +218,9 @@ export const CAP_STYLE_HOOKS: NonNullable<
   useCompoundButtonStyles_unstable: (state) => {
     return useCompoundButtonStyles(state as CompoundButtonState);
   },
+  useComboboxStyles_unstable: (state) => {
+    return useComboboxStyles(state as ComboboxState);
+  },
   useDialogActionsStyles_unstable: (state) => {
     return useDialogActionsStyles(state as DialogActionsState);
   },
@@ -241,6 +249,9 @@ export const CAP_STYLE_HOOKS: NonNullable<
   },
   useDrawerHeaderTitleStyles_unstable: (state) => {
     return useDrawerHeaderTitleStyles(state as DrawerHeaderTitleState);
+  },
+  useDropdownStyles_unstable: (state) => {
+    return useDropdownStyles(state as DropdownState);
   },
   useImageStyles_unstable: (state) => {
     return useImageStyles(state as ImageState);
