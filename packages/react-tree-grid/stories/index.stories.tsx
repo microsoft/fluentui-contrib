@@ -2,11 +2,13 @@ import { Meta } from '@storybook/react';
 import { TreeGrid } from '@fluentui-contrib/react-tree-grid';
 import description from '../README.md';
 import a11y from './a11y.md';
+import threadedVirtualizationInvestigation from './ThreadedVirtualization.investigation.md';
 
 export { Default } from './Default.stories';
 export { Meet } from './Meet.stories';
 export { LiveMeetingsList } from './LiveMeetingsList.stories';
 export { Virtualization } from './Virtualization.stories';
+export { ThreadedVirtualization } from './ThreadedVirtualization.stories';
 export { EmailInbox } from './EmailInbox.stories';
 export { Calls } from './Calls.stories';
 
@@ -16,7 +18,11 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: [description, a11y].join('\n'),
+        component: [
+          description,
+          a11y,
+          threadedVirtualizationInvestigation,
+        ].join('\n'),
       },
     },
   },
