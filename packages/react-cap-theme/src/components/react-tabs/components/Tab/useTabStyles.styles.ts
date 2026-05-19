@@ -306,7 +306,8 @@ export const useTabContentStyles_unstable = (state: TabState): TabState => {
   state.content.className = mergeClasses(
     state.content.className,
     contentStyles.base,
-    contentStyles[size]
+    contentStyles[size],
+    getSlotClassNameProp_unstable(state.content)
   );
 
   if (state.icon) {

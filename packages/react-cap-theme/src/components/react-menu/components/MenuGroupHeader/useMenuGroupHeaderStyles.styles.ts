@@ -9,6 +9,7 @@ const useStyles = makeStyles({
     ...typographyStyles.caption1Strong,
     height: 'auto',
     padding: `${tokens.spacingVerticalSNudge} ${tokens.spacingHorizontalS} ${tokens.spacingVerticalS}`,
+    color: tokens.colorNeutralForeground2,
   },
 });
 

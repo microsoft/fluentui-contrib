@@ -1,18 +1,26 @@
 import { type MenuPopoverState } from '@fluentui/react-menu';
+import { makeStyles, mergeClasses } from '@griffel/react';
 import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens } from '@fluentui/tokens';
-import { makeStyles, mergeClasses } from '@griffel/react';
+import { capTokens } from '../../../tokens/tokens';
 
 const useStyles = makeStyles({
   root: {
     border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStrokeAlpha}`,
-    borderRadius: tokens.borderRadiusXLarge,
-    boxShadow: tokens.shadow4,
-    padding: `calc(${tokens.spacingVerticalSNudge} - 1px) calc(${tokens.spacingHorizontalSNudge} - 1px)`,
-    width: '248px',
+    borderRadius: capTokens.borderRadius2XLarge,
+    boxShadow: '0 3px 12px 0 rgba(0, 0, 0, 0.18)', // FIXME: update to use shadow token once it's available
+    padding: `${tokens.spacingVerticalSNudge} ${tokens.spacingHorizontalSNudge}`,
+    width: 'auto',
+    minWidth: '160px',
   },
 });
 
+/**
+ * Applies SharePoint-specific styling to MenuPopover component.
+ * @param state - The MenuPopover state object
+ * @returns The updated state with applied styles
+ * @alpha
+ */
 export const useMenuPopoverStyles = (
   state: MenuPopoverState
 ): MenuPopoverState => {
