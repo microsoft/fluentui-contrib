@@ -37,7 +37,6 @@ const useRootStyles = makeStyles({
 });
 
 /**
- * Apply styling to the SharePoint InteractionTag component.
  * @param state - The InteractionTag state object
  * @returns The styled InteractionTag state
  * @alpha

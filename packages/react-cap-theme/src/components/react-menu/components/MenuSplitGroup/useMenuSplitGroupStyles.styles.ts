@@ -36,7 +36,6 @@ const useStyles = makeStyles({
 });
 
 /**
- * Applies SharePoint-specific styling to MenuSplitGroup component.
  * @param state - The MenuSplitGroup state object
  * @returns The updated state with applied styles
  * @alpha

@@ -38,7 +38,6 @@ const useCheckmarkStyles = makeStyles({
 });
 
 /**
- * Applies SharePoint-specific styling to MenuItemRadio component.
  * @param state - The MenuItemRadio state object
  * @returns The updated state with applied styles
  * @alpha

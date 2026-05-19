@@ -10,7 +10,7 @@ const useStyles = makeStyles({
     borderRadius: tokens.borderRadiusLarge,
     color: capTokens.colorNeutralForeground5,
     gap: 0,
-    minWidth: 0, // allow truncation
+    minWidth: 0,
     padding: `${tokens.spacingVerticalSNudge} ${tokens.spacingHorizontalSNudge}`,
     ...createFocusOutlineStyle({
       style: { outlineRadius: tokens.borderRadiusXLarge },
@@ -27,18 +27,18 @@ const useStyles = makeStyles({
     [`& .${menuItemClassNames.secondaryContent}`]: { color: 'inherit' },
     [`& .${menuItemClassNames.submenuIndicator}`]: { color: 'inherit' },
     ':hover': {
-      backgroundColor: 'unset', // override Fluent
+      backgroundColor: 'unset',
       color: tokens.colorNeutralForegroundDisabled,
     },
     ':hover:active': {
-      backgroundColor: 'unset', // override Fluent
+      backgroundColor: 'unset',
       color: tokens.colorNeutralForegroundDisabled,
     },
     ':focus': { color: tokens.colorNeutralForegroundDisabled },
   },
   content: {
-    paddingLeft: tokens.spacingHorizontalNone, // remove the extra 2px padding
-    paddingRight: tokens.spacingHorizontalNone, // remove the extra 2px padding
+    paddingLeft: tokens.spacingHorizontalNone,
+    paddingRight: tokens.spacingHorizontalNone,
     flex: 1,
     minWidth: '50px',
     overflow: 'hidden',
@@ -51,7 +51,7 @@ const useStyles = makeStyles({
     alignSelf: 'center',
     wordBreak: 'break-word',
     paddingLeft: tokens.spacingHorizontalSNudge,
-    paddingRight: tokens.spacingHorizontalNone, // remove the extra 2px padding
+    paddingRight: tokens.spacingHorizontalNone,
     ':focus': { color: 'currentColor' },
   },
   submenuIndicator: {
@@ -64,7 +64,7 @@ const useStyles = makeStyles({
   },
   subText: {
     color: 'inherit',
-    display: 'block', // move below
+    display: 'block',
     ...typographyStyles.caption1,
   },
 });
@@ -115,7 +115,6 @@ const useMultilineStyles = makeStyles({
 });
 
 /**
- * Applies SharePoint-specific styling to MenuItem component.
  * @param state - The MenuItem state object
  * @returns The updated state with applied styles
  * @alpha

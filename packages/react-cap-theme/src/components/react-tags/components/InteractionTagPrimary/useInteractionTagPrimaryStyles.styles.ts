@@ -274,7 +274,6 @@ const usePrimaryTextStyles = makeStyles({
 });
 
 /**
- * Apply styling to the SharePoint InteractionTagPrimary component.
  * @param state - The InteractionTagPrimary state object
  * @returns The styled InteractionTagPrimary state
  * @alpha

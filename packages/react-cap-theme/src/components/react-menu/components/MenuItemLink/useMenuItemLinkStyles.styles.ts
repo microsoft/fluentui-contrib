@@ -16,7 +16,6 @@ const useStyles = makeStyles({
 });
 
 /**
- * Applies SharePoint-specific styling to MenuItemLink component.
  * @param state - The MenuItemLink state object
  * @returns The updated state with applied styles
  * @alpha

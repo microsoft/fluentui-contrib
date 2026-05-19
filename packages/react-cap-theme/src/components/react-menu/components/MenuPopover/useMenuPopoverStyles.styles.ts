@@ -16,7 +16,6 @@ const useStyles = makeStyles({
 });
 
 /**
- * Applies SharePoint-specific styling to MenuPopover component.
  * @param state - The MenuPopover state object
  * @returns The updated state with applied styles
  * @alpha

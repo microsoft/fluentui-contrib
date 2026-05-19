@@ -24,7 +24,6 @@ const useCheckmarkStyles = makeStyles({
 });
 
 /**
- * Applies SharePoint-specific styling to MenuItemCheckbox component.
  * @param state - The MenuItemCheckbox state object
  * @returns The updated state with applied styles
  * @alpha
