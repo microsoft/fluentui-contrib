@@ -230,11 +230,6 @@ const useRootSelectedStyles = makeStyles({
   },
 });
 
-/**
- * @param state - The InteractionTagSecondary state object
- * @returns The styled InteractionTagSecondary state
- * @alpha
- */
 export const useInteractionTagSecondaryStyles = (
   state: InteractionTagSecondaryState
 ): InteractionTagSecondaryState => {

@@ -36,11 +36,6 @@ const useRootStyles = makeStyles({
   },
 });
 
-/**
- * @param state - The InteractionTag state object
- * @returns The styled InteractionTag state
- * @alpha
- */
 export const useInteractionTagStyles = (
   state: InteractionTagState
 ): InteractionTagState => {

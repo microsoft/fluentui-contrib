@@ -15,11 +15,6 @@ const useStyles = makeStyles({
   },
 });
 
-/**
- * @param state - The MenuPopover state object
- * @returns The updated state with applied styles
- * @alpha
- */
 export const useMenuPopoverStyles = (
   state: MenuPopoverState
 ): MenuPopoverState => {

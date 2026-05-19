@@ -162,11 +162,6 @@ const useSwitchIndicatorStyles = makeStyles({
   },
 });
 
-/**
- * @param state - The MenuItemSwitch state object
- * @returns The updated state with applied styles
- * @alpha
- */
 export const useMenuItemSwitchStyles = (
   state: MenuItemSwitchState
 ): MenuItemSwitchState => {

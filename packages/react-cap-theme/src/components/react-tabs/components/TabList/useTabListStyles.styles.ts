@@ -9,12 +9,6 @@ const useStyles = makeStyles({
   verticalLarge: { gap: tokens.spacingVerticalS },
 });
 
-/**
- * Applies styles to the TabList component.
- * @param state - The TabList component state object.
- * @returns The updated state object with applied styles.
- * @alpha
- */
 export const useTabListStyles = (state: TabListState): TabListState => {
   const styles = useStyles();
   const { size, vertical } = state;

@@ -15,11 +15,6 @@ const useStyles = makeStyles({
   },
 });
 
-/**
- * @param state - The MenuItemLink state object
- * @returns The updated state with applied styles
- * @alpha
- */
 export const useMenuItemLinkStyles = (
   state: MenuItemLinkState
 ): MenuItemLinkState => {

@@ -30,12 +30,6 @@ const useDescriptionStyles = makeStyles({
   disabled: { color: 'inherit' },
 });
 
-/**
- * Applies styling to the CardHeader component based on its state.
- * @param state - The state object for the CardHeader component
- * @returns The updated state object with applied styling
- * @alpha
- */
 export const useCardHeaderStyles = (
   state: CardHeaderState
 ): CardHeaderState => {

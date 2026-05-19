@@ -241,15 +241,6 @@ const useStyles = makeStyles({
   },
 });
 
-/**
- * Applies styling to the Card component based on its state.
- *
- * This includes styling that impacts the `CardPreview`.
- *
- * @param state - The state object for the Card component
- * @returns The updated state object with the applied styles
- * @alpha
- */
 export const useCardStyles = (state: CardState): CardState => {
   const styles = useStyles();
   const {

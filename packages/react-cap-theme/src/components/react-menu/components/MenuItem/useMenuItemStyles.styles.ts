@@ -114,11 +114,6 @@ const useMultilineStyles = makeStyles({
   },
 });
 
-/**
- * @param state - The MenuItem state object
- * @returns The updated state with applied styles
- * @alpha
- */
 export const useMenuItemStyles = (state: MenuItemState): MenuItemState => {
   const styles = useStyles();
   const interactiveStyles = useInteractiveStyles();

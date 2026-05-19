@@ -23,11 +23,6 @@ const useCheckmarkStyles = makeStyles({
   unchecked: { visibility: 'hidden' },
 });
 
-/**
- * @param state - The MenuItemCheckbox state object
- * @returns The updated state with applied styles
- * @alpha
- */
 export const useMenuItemCheckboxStyles = (
   state: MenuItemCheckboxState
 ): MenuItemCheckboxState => {

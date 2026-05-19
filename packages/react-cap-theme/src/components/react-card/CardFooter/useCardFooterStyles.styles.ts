@@ -17,12 +17,6 @@ const useStyles = makeStyles({
   },
 });
 
-/**
- * Applies styling to the CardFooter component based on its state.
- * @param state - The state object for the CardFooter component
- * @returns The updated state object with applied styling
- * @alpha
- */
 export const useCardFooterStyles = (
   state: CardFooterState
 ): CardFooterState => {

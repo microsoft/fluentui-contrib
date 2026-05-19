@@ -292,12 +292,6 @@ export const useTabButtonStyles_unstable = (
   return state;
 };
 
-/**
- * Applies styles to the Tab content and icon slots based on its current state.
- * @param state - The Tab component state object.
- * @returns The updated state object with applied styles.
- * @alpha
- */
 export const useTabContentStyles_unstable = (state: TabState): TabState => {
   const iconStyles = useIconStyles();
   const contentStyles = useContentStyles();

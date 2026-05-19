@@ -391,11 +391,6 @@ const useDismissIconStyles = makeStyles({
   },
 });
 
-/**
- * @param state - The Tag state object
- * @returns The styled Tag state
- * @alpha
- */
 export const useTagStyles = (state: TagState): TagState => {
   'use no memo';
 
