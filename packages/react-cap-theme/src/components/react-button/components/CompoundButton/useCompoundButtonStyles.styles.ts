@@ -83,12 +83,6 @@ const useIconStyles = makeStyles({
   },
 });
 
-/**
- * Apply styling to the SharePoint CompoundButton component.
- * @param state - The CompoundButton state object
- * @returns The styled CompoundButton state
- * @alpha
- */
 export const useCompoundButtonStyles = (
   state: CompoundButtonState
 ): CompoundButtonState => {

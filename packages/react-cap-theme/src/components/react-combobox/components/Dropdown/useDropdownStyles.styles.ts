@@ -310,12 +310,6 @@ const useClearButtonStyles = makeStyles({
   large: { marginRight: paddingHorizontalLarge },
 });
 
-/**
- * Apply styling to the Dropdown slots based on the state
- * @param state - The current Dropdown state
- * @returns The updated Dropdown state with applied styles
- * @alpha
- */
 export const useDropdownStyles = (state: DropdownState): DropdownState => {
   const clearButtonClassName = useClearButtonClassName();
 

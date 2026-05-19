@@ -289,12 +289,6 @@ const useClearIconStyles = makeStyles({
   },
 });
 
-/**
- * Apply styling to the Combobox slots based on the state.
- * @param state - The current Combobox state
- * @returns The updated Combobox state with applied styles
- * @alpha
- */
 export const useComboboxStyles = (state: ComboboxState): ComboboxState => {
   const styles = useStyles();
   const isEditableStyles = useIsEditableStyles();

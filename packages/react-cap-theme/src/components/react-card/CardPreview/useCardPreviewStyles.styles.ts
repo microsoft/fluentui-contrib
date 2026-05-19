@@ -56,12 +56,6 @@ const useLogoContainedStyles = makeStyles({
   large: { top: tokens.spacingVerticalXL, left: tokens.spacingHorizontalXL },
 });
 
-/**
- * Applies styling to the CardPreview component based on its state.
- * @param state - The state object for the CardPreview component
- * @returns The updated state object with applied styling.
- * @alpha
- */
 export const useCardPreviewStyles = (
   state: CardPreviewState
 ): CardPreviewState => {

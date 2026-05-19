@@ -51,12 +51,6 @@ const useInteractiveStyles = makeStyles({
   iconChecked: { color: tokens.colorBrandForeground2 },
 });
 
-/**
- * Applies styles to selectable menu items
- * @param state - Menu item object. Should contain a `checked` prop
- * @returns void
- * @alpha
- */
 export const useCheckmarkStyles_unstable = (
   state: MenuItemSelectableState & MenuItemState
 ): void => {

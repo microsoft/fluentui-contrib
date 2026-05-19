@@ -230,12 +230,6 @@ const useRootSelectedStyles = makeStyles({
   },
 });
 
-/**
- * Apply styling to the SharePoint InteractionTagSecondary component.
- * @param state - The InteractionTagSecondary state object
- * @returns The styled InteractionTagSecondary state
- * @alpha
- */
 export const useInteractionTagSecondaryStyles = (
   state: InteractionTagSecondaryState
 ): InteractionTagSecondaryState => {

@@ -162,12 +162,6 @@ const useSwitchIndicatorStyles = makeStyles({
   },
 });
 
-/**
- * Applies SharePoint-specific styling to MenuItemSwitch component.
- * @param state - The MenuItemSwitch state object
- * @returns The updated state with applied styles
- * @alpha
- */
 export const useMenuItemSwitchStyles = (
   state: MenuItemSwitchState
 ): MenuItemSwitchState => {

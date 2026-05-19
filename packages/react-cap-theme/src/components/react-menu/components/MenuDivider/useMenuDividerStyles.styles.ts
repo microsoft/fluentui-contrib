@@ -2,11 +2,12 @@ import { type MenuDividerState } from '@fluentui/react-menu';
 import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import { tokens } from '@fluentui/tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
+import { capTokens } from '../../../tokens/tokens';
 
 const useStyles = makeStyles({
   root: {
-    borderBottomColor: tokens.colorNeutralStroke3,
-    margin: `${tokens.spacingVerticalSNudge} ${tokens.spacingHorizontalXS}`,
+    borderBottomColor: capTokens.colorNeutralStroke4,
+    margin: `${tokens.spacingVerticalSNudge} ${tokens.spacingHorizontalSNudge}`,
   },
 });
 

@@ -1,70 +1,110 @@
-import {
-  menuItemClassNames as fluentMenuItemClassNames,
-  type MenuItemState,
-} from '@fluentui/react-menu';
-import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
-import { tokens } from '@fluentui/tokens';
-import { typographyStyles } from '@fluentui/tokens';
+import { menuItemClassNames, type MenuItemState } from '@fluentui/react-menu';
 import { makeStyles, mergeClasses } from '@griffel/react';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
+import { tokens, typographyStyles } from '@fluentui/tokens';
+import { createFocusOutlineStyle } from '@fluentui/react-tabster';
+import { capTokens } from '../../../tokens/tokens';
 
 const useStyles = makeStyles({
   root: {
-    borderRadius: tokens.borderRadiusXLarge,
-    color: tokens.colorNeutralForeground3,
+    borderRadius: tokens.borderRadiusLarge,
+    color: capTokens.colorNeutralForeground5,
     gap: 0,
-    minWidth: 0, // allow truncation
+    minWidth: 0,
     padding: `${tokens.spacingVerticalSNudge} ${tokens.spacingHorizontalSNudge}`,
-
-    ':hover': {
-      color: tokens.colorNeutralForeground1Hover,
-      [`& .${fluentMenuItemClassNames.icon}`]: { color: 'currentColor' },
-      [`& .${fluentMenuItemClassNames.subText}`]: {
-        color: 'currentColor',
-      },
-    },
-    ':hover:active': {
-      [`& .${fluentMenuItemClassNames.subText}`]: {
-        color: 'currentColor',
-      },
+    ...createFocusOutlineStyle({
+      style: { outlineRadius: tokens.borderRadiusXLarge },
+    }),
+    '@media (forced-colors: active)': {
+      ...createFocusOutlineStyle({
+        style: { outlineRadius: tokens.borderRadiusXLarge },
+      }),
     },
   },
   disabled: {
     color: tokens.colorNeutralForegroundDisabled,
-    ':hover': { color: tokens.colorNeutralForegroundDisabled },
-    ':hover:active': { color: tokens.colorNeutralForegroundDisabled },
+    [`& .${menuItemClassNames.subText}`]: { color: 'inherit' },
+    [`& .${menuItemClassNames.secondaryContent}`]: { color: 'inherit' },
+    [`& .${menuItemClassNames.submenuIndicator}`]: { color: 'inherit' },
+    ':hover': {
+      backgroundColor: 'unset',
+      color: tokens.colorNeutralForegroundDisabled,
+    },
+    ':hover:active': {
+      backgroundColor: 'unset',
+      color: tokens.colorNeutralForegroundDisabled,
+    },
     ':focus': { color: tokens.colorNeutralForegroundDisabled },
   },
   content: {
-    color: 'currentColor',
+    paddingLeft: tokens.spacingHorizontalNone,
+    paddingRight: tokens.spacingHorizontalNone,
     flex: 1,
     minWidth: '50px',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
   },
-  icon: {
-    color: 'currentColor',
-    marginRight: tokens.spacingHorizontalSNudge,
-  },
+  icon: { marginRight: tokens.spacingHorizontalSNudge },
   secondaryContent: {
-    ...typographyStyles.caption1,
-    color: 'currentColor',
+    ...typographyStyles.body1,
+    color: tokens.colorNeutralForeground3,
     alignSelf: 'center',
     wordBreak: 'break-word',
-    ':hover': { color: 'currentColor' },
+    paddingLeft: tokens.spacingHorizontalSNudge,
+    paddingRight: tokens.spacingHorizontalNone,
     ':focus': { color: 'currentColor' },
   },
   submenuIndicator: {
     alignSelf: 'center',
-    color: 'currentColor',
+    color: tokens.colorNeutralForeground3,
     fontSize: '16px',
     height: '16px',
     paddingLeft: tokens.spacingHorizontalXS,
     width: '16px',
   },
   subText: {
-    color: 'currentColor',
-    display: 'block', // move below
+    color: 'inherit',
+    display: 'block',
     ...typographyStyles.caption1,
+  },
+});
+
+const useInteractiveStyles = makeStyles({
+  root: {
+    ':hover': {
+      color: capTokens.colorNeutralForeground5Hover,
+      [`& .${menuItemClassNames.icon}`]: { color: 'inherit' },
+      [`& .${menuItemClassNames.subText}`]: { color: 'inherit' },
+      [`& .${menuItemClassNames.secondaryContent}`]: {
+        color: tokens.colorNeutralForeground3Hover,
+      },
+      [`& .${menuItemClassNames.submenuIndicator}`]: {
+        color: tokens.colorNeutralForeground3Hover,
+      },
+    },
+    ':hover:active': {
+      color: capTokens.colorNeutralForeground5Pressed,
+      [`& .${menuItemClassNames.subText}`]: { color: 'inherit' },
+      [`& .${menuItemClassNames.secondaryContent}`]: {
+        color: tokens.colorNeutralForeground3Pressed,
+      },
+      [`& .${menuItemClassNames.submenuIndicator}`]: {
+        color: tokens.colorNeutralForeground3Pressed,
+      },
+    },
+
+    '@media (forced-colors: active)': {
+      ':hover': {
+        [`& .${menuItemClassNames.secondaryContent}`]: { color: 'inherit' },
+        [`& .${menuItemClassNames.submenuIndicator}`]: { color: 'inherit' },
+      },
+      ':hover:active': {
+        backgroundColor: 'Canvas',
+        color: 'Highlight',
+        [`& .${menuItemClassNames.secondaryContent}`]: { color: 'inherit' },
+        [`& .${menuItemClassNames.submenuIndicator}`]: { color: 'inherit' },
+      },
+    },
   },
 });
 
@@ -76,6 +116,7 @@ const useMultilineStyles = makeStyles({
 
 export const useMenuItemStyles = (state: MenuItemState): MenuItemState => {
   const styles = useStyles();
+  const interactiveStyles = useInteractiveStyles();
   const multilineStyles = useMultilineStyles();
 
   const multiline = !!state.subText;
@@ -84,14 +125,15 @@ export const useMenuItemStyles = (state: MenuItemState): MenuItemState => {
   state.root.className = mergeClasses(
     state.root.className,
     styles.root,
-    disabled && styles.disabled,
+    disabled ? styles.disabled : interactiveStyles.root,
     getSlotClassNameProp_unstable(state.root)
   );
 
   if (state.content) {
     state.content.className = mergeClasses(
       state.content.className,
-      styles.content
+      styles.content,
+      getSlotClassNameProp_unstable(state.content)
     );
   }
   if (state.icon) {
