@@ -5,7 +5,11 @@ import type { ToolbarState } from './Toolbar.types';
 
 const useStyles = makeStyles({
   root: {
-    ...shorthands.border('1px', 'solid', tokens.colorTransparentStroke),
+    ...shorthands.border(
+      tokens.strokeWidthThin,
+      'solid',
+      tokens.colorTransparentStroke
+    ),
     backgroundColor: tokens.colorNeutralBackground1,
     borderRadius: tokens.borderRadiusMedium,
     display: 'inline-flex',
