@@ -158,6 +158,22 @@ import type {
   ToolbarButtonState,
 } from './components/react-toolbar';
 import type { ToolbarDividerState } from '@fluentui/react-toolbar';
+import {
+  useTeachingPopoverBodyStyles,
+  useTeachingPopoverCarouselFooterButtonStyles,
+  useTeachingPopoverFooterStyles,
+  useTeachingPopoverHeaderStyles,
+  useTeachingPopoverSurfaceStyles,
+} from './components/react-teaching-popover';
+import type {
+  TeachingPopoverBodyState,
+  TeachingPopoverHeaderState,
+  TeachingPopoverSurfaceState,
+} from '@fluentui/react-teaching-popover';
+import type {
+  TeachingPopoverFooterState,
+  TeachingPopoverCarouselFooterButtonState,
+} from './components/react-teaching-popover';
 import { useTooltipStyles } from './components/react-tooltip';
 import type { TooltipState } from './components/react-tooltip';
 
@@ -309,6 +325,25 @@ export const CAP_STYLE_HOOKS: NonNullable<
   },
   useTabListStyles_unstable: (state) => {
     return useTabListStyles(state as TabListState);
+  },
+  useTeachingPopoverBodyStyles_unstable: (state) => {
+    return useTeachingPopoverBodyStyles(state as TeachingPopoverBodyState);
+  },
+  useTeachingPopoverCarouselFooterButtonStyles_unstable: (state) => {
+    return useTeachingPopoverCarouselFooterButtonStyles(
+      state as TeachingPopoverCarouselFooterButtonState
+    );
+  },
+  useTeachingPopoverFooterStyles_unstable: (state) => {
+    return useTeachingPopoverFooterStyles(state as TeachingPopoverFooterState);
+  },
+  useTeachingPopoverHeaderStyles_unstable: (state) => {
+    return useTeachingPopoverHeaderStyles(state as TeachingPopoverHeaderState);
+  },
+  useTeachingPopoverSurfaceStyles_unstable: (state) => {
+    return useTeachingPopoverSurfaceStyles(
+      state as TeachingPopoverSurfaceState
+    );
   },
   useToggleButtonStyles_unstable: (state) => {
     return useToggleButtonStyles(state as ToggleButtonState);
