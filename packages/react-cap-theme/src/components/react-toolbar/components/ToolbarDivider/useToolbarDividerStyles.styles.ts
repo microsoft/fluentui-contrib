@@ -10,17 +10,11 @@ const useStyles = makeStyles({
   },
 });
 
-/**
- * Apply styles to the ToolbarDivider component.
- * Adds horizontal padding around the divider and delegates to Fluent's styles.
- * @param state - The ToolbarDivider state to apply styles to
- * @returns The updated ToolbarDividerState object
- * @alpha
- */
 export const useToolbarDividerStyles = (
   state: ToolbarDividerState
 ): ToolbarDividerState => {
   const styles = useStyles();
+
   state.root.className = mergeClasses(
     state.root.className,
     styles.root,

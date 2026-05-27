@@ -1,19 +1,12 @@
 import type {
   ToolbarProps as FluentToolbarProps,
   ToolbarState as FluentToolbarState,
-  ToolbarSlots,
+  ToolbarContextValues as FluentToolbarContextValues,
 } from '@fluentui/react-toolbar';
 
 /**
- * Slots for the Toolbar component.
- * @public
- */
-export type { ToolbarSlots };
-
-/**
  * Props for the Toolbar component.
- * Extends Fluent UI ToolbarProps with SharePoint-specific appearance and size options.
- * @public
+ * @alpha
  */
 export type ToolbarProps = Omit<FluentToolbarProps, 'size'> & {
   /**
@@ -22,15 +15,35 @@ export type ToolbarProps = Omit<FluentToolbarProps, 'size'> & {
    */
   appearance?: 'contextual' | 'static';
   /**
+   * Defines the alignment of the toolbar content.
+   * @default start
+   */
+  layout?: 'start' | 'space-between' | 'end';
+  /**
    * Toolbar can have small, medium, or large size.
    * @default small
    */
   size?: 'small' | 'medium' | 'large';
+  /**
+   * Controls the width behavior of the toolbar.
+   * - 'contained': Toolbar takes only the space needed for its content (inline-flex)
+   * - 'full': Toolbar takes the full width of its container (flex)
+   * @default contained
+   */
+  width?: 'contained' | 'full';
 };
 
 /**
  * State for the Toolbar component.
- * @public
+ * @alpha
  */
 export type ToolbarState = FluentToolbarState &
-  Required<Pick<ToolbarProps, 'appearance'>>;
+  Required<Pick<ToolbarProps, 'appearance' | 'layout' | 'width'>>;
+
+/**
+ * Context values for the Toolbar component.
+ * Extends Fluent UI's ToolbarContextValues with SharePoint-specific appearance context.
+ * @alpha
+ */
+export type ToolbarContextValues = FluentToolbarContextValues &
+  Pick<ToolbarState, 'appearance'>;
