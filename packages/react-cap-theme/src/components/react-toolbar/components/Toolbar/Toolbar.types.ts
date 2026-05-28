@@ -8,7 +8,7 @@ import type {
  * Props for the Toolbar component.
  * @alpha
  */
-export type ToolbarProps = Omit<FluentToolbarProps, 'size'> & {
+export type ToolbarProps = FluentToolbarProps & {
   /**
    * The contextual appearance adds shadow to the toolbar. The static appearance is Fluent default appearance.
    * @default contextual
@@ -19,11 +19,6 @@ export type ToolbarProps = Omit<FluentToolbarProps, 'size'> & {
    * @default start
    */
   layout?: 'start' | 'space-between' | 'end';
-  /**
-   * Toolbar can have small, medium, or large size.
-   * @default small
-   */
-  size?: 'small' | 'medium' | 'large';
   /**
    * Controls the width behavior of the toolbar.
    * - 'contained': Toolbar takes only the space needed for its content (inline-flex)

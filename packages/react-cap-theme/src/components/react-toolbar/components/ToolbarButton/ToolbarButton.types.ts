@@ -1,4 +1,3 @@
-import type { ToolbarButtonState as FluentToolbarButtonState } from '@fluentui/react-toolbar';
 import type { ComponentProps, ComponentState } from '@fluentui/react-utilities';
 import type {
   ButtonProps,
@@ -11,7 +10,11 @@ import type {
  * @alpha
  */
 export type ToolbarButtonProps = ComponentProps<ButtonSlots> &
-  Partial<Pick<ButtonProps, 'appearance' | 'disabled' | 'disabledFocusable'>>;
+  Partial<
+    Pick<ButtonProps, 'appearance' | 'disabled' | 'disabledFocusable'>
+  > & {
+    vertical?: boolean;
+  };
 
 /**
  * State for the ToolbarButton component.
@@ -19,4 +22,4 @@ export type ToolbarButtonProps = ComponentProps<ButtonSlots> &
  */
 export type ToolbarButtonState = ComponentState<Partial<ButtonSlots>> &
   ButtonState &
-  Required<Pick<FluentToolbarButtonState, 'vertical'>>;
+  Required<Pick<ToolbarButtonProps, 'vertical'>>;
