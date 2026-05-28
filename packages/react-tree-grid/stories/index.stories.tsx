@@ -16,7 +16,10 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: [description, a11y].join('\n'),
+        component: [
+          'This package provides a set of styleless components to implement the `treegrid` navigation pattern.',
+          a11y,
+        ].join('\n'),
       },
     },
   },
