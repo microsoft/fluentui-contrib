@@ -2171,7 +2171,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@fluentui-contrib/react-keytips@workspace:packages/react-keytips"
   dependencies:
-    "@fluentui/keyboard-keys": "npm:~9.0.6"
+    "@fluentui/keyboard-keys": "npm:^9.0.6"
     "@fluentui/react-jsx-runtime": "npm:^9.0.29"
     "@fluentui/react-positioning": "npm:^9.15.0"
     "@fluentui/react-utilities": "npm:^9.16.0"
@@ -2230,7 +2230,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@fluentui-contrib/react-tree-grid@workspace:packages/react-tree-grid"
   dependencies:
-    "@fluentui/keyboard-keys": "npm:~9.0.6"
+    "@fluentui/keyboard-keys": "npm:^9.0.6"
     "@fluentui/react-aria": "npm:^9.13.5"
     "@fluentui/react-jsx-runtime": "npm:^9.0.29"
     "@fluentui/react-tabster": "npm:^9.17.2"
@@ -2373,7 +2373,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fluentui/keyboard-keys@npm:^9.0.8, @fluentui/keyboard-keys@npm:~9.0.6":
+"@fluentui/keyboard-keys@npm:^9.0.6, @fluentui/keyboard-keys@npm:^9.0.8":
   version: 9.0.8
   resolution: "@fluentui/keyboard-keys@npm:9.0.8"
   dependencies:
