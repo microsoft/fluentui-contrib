@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-keytips",
   "entries": [
     {
+      "date": "Wed, 03 Jun 2026 12:03:49 GMT",
+      "tag": "@fluentui-contrib/react-keytips_v0.4.4",
+      "version": "0.4.4",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "@fluentui-contrib/react-keytips",
+            "commit": "b16064b4d937b1d2c89150d6e9e8d28271110ac3",
+            "comment": "chore: use \"^\" for @fluentui/keyboard-keys dependency"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 03 Mar 2026 14:35:51 GMT",
       "tag": "@fluentui-contrib/react-keytips_v0.4.3",
       "version": "0.4.3",

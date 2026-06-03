@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "chore: use \"^\" for @fluentui/keyboard-keys dependency",
-  "packageName": "@fluentui-contrib/react-keytips",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}

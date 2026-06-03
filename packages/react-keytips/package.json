@@ -1,6 +1,6 @@
 {
   "name": "@fluentui-contrib/react-keytips",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",
   "peerDependencies": {

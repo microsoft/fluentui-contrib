@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-keytips
 
-This log was last generated on Tue, 03 Mar 2026 14:35:51 GMT and should not be manually modified.
+This log was last generated on Wed, 03 Jun 2026 12:03:49 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.4.4
+
+Wed, 03 Jun 2026 12:03:49 GMT
+
+### Patches
+
+- chore: use "^" for @fluentui/keyboard-keys dependency (olfedias@microsoft.com)
 
 ## 0.4.3
 

@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-tree-grid
 
-This log was last generated on Tue, 18 Nov 2025 14:32:44 GMT and should not be manually modified.
+This log was last generated on Wed, 03 Jun 2026 12:03:49 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.3.3
+
+Wed, 03 Jun 2026 12:03:49 GMT
+
+### Patches
+
+- chore: use "^" for @fluentui/keyboard-keys dependency (olfedias@microsoft.com)
 
 ## 0.3.2
 

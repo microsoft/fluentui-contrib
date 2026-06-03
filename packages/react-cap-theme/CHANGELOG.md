@@ -1,8 +1,17 @@
 # Change Log - @fluentui-contrib/react-cap-theme
 
-This log was last generated on Tue, 19 May 2026 17:02:10 GMT and should not be manually modified.
+This log was last generated on Wed, 03 Jun 2026 12:03:49 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.4.2
+
+Wed, 03 Jun 2026 12:03:49 GMT
+
+### Patches
+
+- add react-toolbar component (egianoglio@microsoft.com)
+- add react-teaching-popover components (egianoglio@microsoft.com)
 
 ## 0.4.1
 
