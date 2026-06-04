@@ -32,9 +32,13 @@ export const useTreeGridRowContext = (): TreeGridRowContextValue =>
   React.useContext(TreeGridRowContext) ?? defaultTreeGridRowContextValue;
 
 export const useTreeGridRowContextValue = (
-  props: Pick<TreeGridRowProps, 'open' | 'defaultOpen' | 'onOpenChange'>
+  props: Pick<
+    TreeGridRowProps,
+    'level' | 'open' | 'defaultOpen' | 'onOpenChange'
+  >
 ): TreeGridRowContextValue => {
   const { level: parentLevel } = useTreeGridRowContext();
+  const currentLevel = props.level ?? parentLevel;
   const [open, setOpen] = useControllableState({
     state: props.open,
     initialState: false,
@@ -48,11 +52,11 @@ export const useTreeGridRowContextValue = (
   );
   const context: TreeGridRowContextValue = React.useMemo(
     () => ({
-      level: parentLevel + 1,
+      level: currentLevel + 1,
       open,
       requestOpenChange,
     }),
-    [parentLevel, open, requestOpenChange]
+    [currentLevel, open, requestOpenChange]
   );
   return context;
 };

@@ -4,7 +4,6 @@ import {
   TreeGridCell,
   TreeGridRow,
   TreeGridRowOnOpenChangeData,
-  TreeGridRowProvider,
 } from '@fluentui-contrib/react-tree-grid';
 import {
   Avatar,
@@ -493,99 +492,96 @@ const VirtualizedMeetingsRow = React.memo(
       thumbnailSources[props.index % thumbnailSources.length];
 
     return (
-      <TreeGridRowProvider
-        value={{
-          open: !!openItems.get(item.parentValue),
-          level: 1,
-          requestOpenChange,
-        }}
+      <TreeGridRow
+        aria-description={`Created by: ${item.owner}. ${
+          item.status ? `Meeting status: ${item.status}. ` : ''
+        }${
+          item.hasThumbnail ? `${item.thumbnailLabel} preview available.` : ''
+        }`}
+        className={styles.sectionItem}
+        data-item-parent-id={item.parentValue}
+        level={2}
+        onOpenChange={(_, data) =>
+          requestOpenChange({ ...data, index: props.index })
+        }
+        open={!!openItems.get(item.parentValue)}
+        style={rowStyle}
       >
-        <TreeGridRow
-          aria-description={`Created by: ${item.owner}. ${
-            item.status ? `Meeting status: ${item.status}. ` : ''
-          }${
-            item.hasThumbnail ? `${item.thumbnailLabel} preview available.` : ''
-          }`}
-          className={styles.sectionItem}
-          data-item-parent-id={item.parentValue}
-          style={rowStyle}
+        <TreeGridCell
+          aria-label={`${item.header}. ${item.location}`}
+          className={mergeClasses(styles.header, styles.container)}
+          header
         >
-          <TreeGridCell
-            aria-label={`${item.header}. ${item.location}`}
-            className={mergeClasses(styles.header, styles.container)}
-            header
+          <Avatar
+            aria-hidden
+            className={styles.icon}
+            icon={<CalendarRegular />}
+          />
+          <Button
+            appearance="transparent"
+            aria-label={`Go to ${item.header}`}
+            className={mergeClasses(
+              styles.noPadding,
+              styles.title,
+              styles.titleButton
+            )}
           >
-            <Avatar
-              aria-hidden
-              className={styles.icon}
-              icon={<CalendarRegular />}
-            />
-            <Button
-              appearance="transparent"
-              aria-label={`Go to ${item.header}`}
-              className={mergeClasses(
-                styles.noPadding,
-                styles.title,
-                styles.titleButton
-              )}
+            <Body1Stronger className={styles.titleText}>
+              {item.header}
+            </Body1Stronger>
+          </Button>
+          {item.status === 'missed' ? (
+            <Tag
+              className={mergeClasses(styles.missedTag, styles.tag)}
+              shape="circular"
+              size="small"
             >
-              <Body1Stronger className={styles.titleText}>
-                {item.header}
-              </Body1Stronger>
-            </Button>
-            {item.status === 'missed' ? (
-              <Tag
-                className={mergeClasses(styles.missedTag, styles.tag)}
-                shape="circular"
-                size="small"
-              >
-                <Caption1Stronger>Missed</Caption1Stronger>
-              </Tag>
-            ) : null}
-            <Caption1 className={styles.location}>
-              {item.location}, {item.owner}
+              <Caption1Stronger>Missed</Caption1Stronger>
+            </Tag>
+          ) : null}
+          <Caption1 className={styles.location}>
+            {item.location}, {item.owner}
+          </Caption1>
+          {item.description ? (
+            <Caption1 className={styles.description}>
+              {item.description}
             </Caption1>
-            {item.description ? (
-              <Caption1 className={styles.description}>
-                {item.description}
-              </Caption1>
-            ) : null}
-          </TreeGridCell>
-          <TreeGridCell className={styles.actionPanel}>
-            <div className={styles.quickActions}>
-              {item.tasks
-                ? renderCountTag(
-                    item.tasks,
-                    'tasks for people to follow up on',
-                    <CheckmarkCircleRegular />,
-                    'brand'
-                  )
-                : null}
-              {item.attachments
-                ? renderCountTag(item.attachments, 'files', <AttachRegular />)
-                : null}
-              <Button className={styles.actionButton} size="small">
-                Chat
-              </Button>
-              <Button className={styles.actionButton} size="small">
-                View recaps
-              </Button>
-            </div>
-            {item.hasThumbnail ? (
-              <Button
-                appearance="subtle"
-                className={mergeClasses(styles.noPadding, styles.previewButton)}
-              >
-                <Image
-                  className={styles.previewImage}
-                  src={thumbnailSource}
-                  alt={`${item.thumbnailLabel} preview`}
-                />
-              </Button>
-            ) : null}
-          </TreeGridCell>
-        </TreeGridRow>
-      </TreeGridRowProvider>
+          ) : null}
+        </TreeGridCell>
+        <TreeGridCell className={styles.actionPanel}>
+          <div className={styles.quickActions}>
+            {item.tasks
+              ? renderCountTag(
+                  item.tasks,
+                  'tasks for people to follow up on',
+                  <CheckmarkCircleRegular />,
+                  'brand'
+                )
+              : null}
+            {item.attachments
+              ? renderCountTag(item.attachments, 'files', <AttachRegular />)
+              : null}
+            <Button className={styles.actionButton} size="small">
+              Chat
+            </Button>
+            <Button className={styles.actionButton} size="small">
+              View recaps
+            </Button>
+          </div>
+          {item.hasThumbnail ? (
+            <Button
+              appearance="subtle"
+              className={mergeClasses(styles.noPadding, styles.previewButton)}
+            >
+              <Image
+                className={styles.previewImage}
+                src={thumbnailSource}
+                alt={`${item.thumbnailLabel} preview`}
+              />
+            </Button>
+          ) : null}
+        </TreeGridCell>
+      </TreeGridRow>
     );
   }
 );

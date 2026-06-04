@@ -29,7 +29,8 @@ import {
 export const TreeGridRow = React.forwardRef(
   (props: TreeGridRowProps, ref: React.ForwardedRef<HTMLDivElement>) => {
     const context = useTreeGridRowContextValue(props);
-    const { level } = useTreeGridRowContext();
+    const { level: parentLevel } = useTreeGridRowContext();
+    const currentLevel = props.level ?? parentLevel;
     const { open, requestOpenChange } = context;
     const styles = useTreeGridRowStyles();
     const tabsterAttributes = useMergedTabsterAttributes_unstable(
@@ -85,7 +86,7 @@ export const TreeGridRow = React.forwardRef(
         ref,
         role: 'row',
         tabIndex: 0,
-        'aria-level': level,
+        'aria-level': currentLevel,
         ...props,
         ...tabsterAttributes,
         className: mergeClasses(styles, props.className),
@@ -93,7 +94,7 @@ export const TreeGridRow = React.forwardRef(
           onKeyDown: handleKeyDown,
           onClick: handleClick,
           'aria-expanded': props['aria-expanded'] ?? open,
-          'aria-level': props['aria-level'] ?? level,
+          'aria-level': props['aria-level'] ?? currentLevel,
         }),
       }),
       { elementType: 'div' }

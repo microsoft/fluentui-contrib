@@ -5,7 +5,6 @@ import {
   TreeGridInteraction,
   TreeGridRow,
   TreeGridRowOnOpenChangeData,
-  TreeGridRowProvider,
 } from '@fluentui-contrib/react-tree-grid';
 import {
   Avatar,
@@ -750,41 +749,36 @@ const ThreadedVirtualizationRow = React.memo(
         : undefined;
 
       return (
-        <TreeGridRowProvider
-          value={{
-            level: 2,
-            open: !!context.openItems.get(threadId),
-            requestOpenChange: () => {
-              /* noop */
-            },
+        <TreeGridRow
+          level={2}
+          open={!!context.openItems.get(threadId)}
+          onOpenChange={() => {
+            /* noop */
           }}
+          className={mergeClasses(
+            styles.rowFrame,
+            styles.inputRow,
+            inputOutlineClassName
+          )}
+          data-item-parent-id={threadId}
+          data-rowtype="input"
+          style={rowStyle}
         >
-          <TreeGridRow
-            className={mergeClasses(
-              styles.rowFrame,
-              styles.inputRow,
-              inputOutlineClassName
-            )}
-            data-item-parent-id={threadId}
-            data-rowtype="input"
-            style={rowStyle}
-          >
-            <TreeGridCell className={styles.inputCell} header>
-              <TreeGridInteraction
-                aria-description="Interact with Enter, then leave with Escape"
-                aria-label="Thread reply input"
-                aria-roledescription="interactive content"
-                className={styles.inputInteraction}
-              >
-                <Textarea
-                  className={styles.inputTextarea}
-                  placeholder="Reply to thread..."
-                  ref={textareaRefCallback}
-                />
-              </TreeGridInteraction>
-            </TreeGridCell>
-          </TreeGridRow>
-        </TreeGridRowProvider>
+          <TreeGridCell className={styles.inputCell} header>
+            <TreeGridInteraction
+              aria-description="Interact with Enter, then leave with Escape"
+              aria-label="Thread reply input"
+              aria-roledescription="interactive content"
+              className={styles.inputInteraction}
+            >
+              <Textarea
+                className={styles.inputTextarea}
+                placeholder="Reply to thread..."
+                ref={textareaRefCallback}
+              />
+            </TreeGridInteraction>
+          </TreeGridCell>
+        </TreeGridRow>
       );
     }
 
@@ -820,78 +814,73 @@ const ThreadedVirtualizationRow = React.memo(
     );
 
     return (
-      <TreeGridRowProvider
-        value={{
-          level: 2,
-          open: !!context.openItems.get(threadId),
-          requestOpenChange: () => {
-            /* noop */
-          },
+      <TreeGridRow
+        level={2}
+        open={!!context.openItems.get(threadId)}
+        onOpenChange={() => {
+          /** noop */
         }}
+        className={mergeClasses(
+          styles.rowFrame,
+          styles.messageRow,
+          threadOutlined
+            ? isLastInThread
+              ? styles.threadOutlinedLast
+              : styles.threadOutlined
+            : undefined
+        )}
+        data-item-id={item.value}
+        data-item-parent-id={threadId}
+        data-rowtype="message"
+        onKeyDown={onMessageRowKeyDown}
+        ref={messageRowRefCallback}
+        style={rowStyle}
       >
-        <TreeGridRow
-          className={mergeClasses(
-            styles.rowFrame,
-            styles.messageRow,
-            threadOutlined
-              ? isLastInThread
-                ? styles.threadOutlinedLast
-                : styles.threadOutlined
-              : undefined
-          )}
-          data-item-id={item.value}
-          data-item-parent-id={threadId}
-          data-rowtype="message"
-          onKeyDown={onMessageRowKeyDown}
-          ref={messageRowRefCallback}
-          style={rowStyle}
-        >
-          <TreeGridCell aria-hidden className={styles.unread}>
-            {item.isUnread ? <div className={styles.unreadDot} /> : null}
-          </TreeGridCell>
-          <TreeGridCell aria-hidden className={styles.avatar}>
-            <Avatar name={item.author} size={32} />
-          </TreeGridCell>
-          <TreeGridCell className={styles.title} header>
-            <Body1Stronger className={styles.messageTitle}>
-              {item.author} {item.isUnread ? '· unread' : ''}
-            </Body1Stronger>
-          </TreeGridCell>
-          <TreeGridCell className={styles.location}>
-            <Caption1>{item.location}</Caption1>
-          </TreeGridCell>
-          <TreeGridCell className={styles.preview}>
-            <Caption1>
-              {item.preview}
-              <Link
-                className={styles.previewLink}
-                href="https://example.com"
-                target="_blank"
-              >
-                Docs
-              </Link>
-            </Caption1>
-          </TreeGridCell>
-          <TreeGridCell className={styles.meta}>
-            <Caption1 className={styles.timestamp}>{item.timestamp}</Caption1>
-            <Button
-              appearance="subtle"
-              className={styles.actionButton}
-              ref={firstActionRef}
-              size="small"
+        <TreeGridCell aria-hidden className={styles.unread}>
+          {item.isUnread ? <div className={styles.unreadDot} /> : null}
+        </TreeGridCell>
+        <TreeGridCell aria-hidden className={styles.avatar}>
+          <Avatar name={item.author} size={32} />
+        </TreeGridCell>
+        <TreeGridCell className={styles.title} header>
+          <Body1Stronger className={styles.messageTitle}>
+            {item.author} {item.isUnread ? '· unread' : ''}
+          </Body1Stronger>
+        </TreeGridCell>
+        <TreeGridCell className={styles.location}>
+          <Caption1>{item.location}</Caption1>
+        </TreeGridCell>
+        <TreeGridCell className={styles.preview}>
+          <Caption1>
+            {item.preview}
+            <Link
+              className={styles.previewLink}
+              href="https://example.com"
+              target="_blank"
             >
-              Reply
-            </Button>
-            <Button
-              appearance="subtle"
-              className={styles.actionButton}
-              size="small"
-            >
-              Open
-            </Button>
-          </TreeGridCell>
-        </TreeGridRow>
-      </TreeGridRowProvider>
+              Docs
+            </Link>
+          </Caption1>
+        </TreeGridCell>
+        <TreeGridCell className={styles.meta}>
+          <Caption1 className={styles.timestamp}>{item.timestamp}</Caption1>
+          <Button
+            appearance="subtle"
+            className={styles.actionButton}
+            ref={firstActionRef}
+            size="small"
+          >
+            Reply
+          </Button>
+          <Button
+            appearance="subtle"
+            className={styles.actionButton}
+            size="small"
+          >
+            Open
+          </Button>
+        </TreeGridCell>
+      </TreeGridRow>
     );
   }
 );
@@ -1043,7 +1032,7 @@ export const ThreadedVirtualization = (): React.ReactElement => {
         }
       },
       focusLastItem: () => {
-        const lastItem = visibleItems.at(-1);
+        const lastItem = visibleItems[visibleItems.length - 1];
         if (lastItem) {
           scrollAndFocus(getFocusableItemId(lastItem));
         }
