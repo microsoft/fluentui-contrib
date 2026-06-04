@@ -1,7 +1,7 @@
 import { inputClassNames } from '@fluentui/react-input';
 import { makeStyles, mergeClasses, shorthands } from '@griffel/react';
 import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
-import { tokens, typographyStyles } from '@fluentui/tokens';
+import { tokens } from '@fluentui/tokens';
 import { capTokens } from '../../../tokens';
 import type { InputState } from './Input.types';
 
@@ -9,25 +9,19 @@ const iconFilledClassName = 'fui-Icon-filled';
 const iconRegularClassName = 'fui-Icon-regular';
 
 const useStyles = makeStyles({
+  // Fluent already sets display/align/flex/box/vertical-align/typography/bg/border on the root.
+  // CAP only overrides height, padding, border (all-sides accessible color),
+  // radius, foreground color, and removes Fluent's focus underline (::after).
   root: {
-    boxSizing: 'border-box',
-    display: 'inline-flex',
-    flexWrap: 'nowrap',
-    alignItems: 'center',
-    verticalAlign: 'middle',
     minHeight: '36px',
     padding: `${tokens.spacingVerticalNone} ${tokens.spacingHorizontalMNudge}`,
     color: tokens.colorNeutralForeground1,
-    backgroundColor: tokens.colorNeutralBackground1,
-    border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStrokeAccessible}`,
     borderRadius: capTokens.borderRadius2XLarge,
-    ...typographyStyles.body1,
     '::after': { content: 'unset' },
   },
   small: {
     minHeight: '28px',
     padding: `${tokens.spacingVerticalNone} ${tokens.spacingHorizontalS}`,
-    ...typographyStyles.caption1,
     borderRadius: tokens.borderRadiusXLarge,
   },
   medium: {
@@ -35,18 +29,12 @@ const useStyles = makeStyles({
   },
   large: {
     minHeight: '44px',
-    ...typographyStyles.body2,
     padding: `${tokens.spacingVerticalNone} ${tokens.spacingHorizontalM}`,
   },
+  // Fluent already handles disabled root visuals; CAP only needs to keep the
+  // foreground color override so the input inherits it (see inputStyles.base).
   disabled: {
-    ...shorthands.borderColor(tokens.colorNeutralStrokeDisabled),
-    backgroundColor: tokens.colorTransparentBackground,
     color: tokens.colorNeutralForegroundDisabled,
-    cursor: 'not-allowed',
-
-    '@media (forced-colors: active)': {
-      ...shorthands.borderColor('GrayText'),
-    },
   },
   disabledUnderline: {
     borderRadius: '0',
@@ -138,6 +126,7 @@ const useIsEditableStyles = makeStyles({
 
 const useAppearanceStyles = makeStyles({
   outline: {
+    border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStrokeAccessible}`,
     ':hover': {
       ...shorthands.borderColor(tokens.colorNeutralStrokeAccessibleHover),
     },
@@ -158,16 +147,12 @@ const useAppearanceStyles = makeStyles({
 });
 
 const useContentStyles = makeStyles({
+  // Fluent already sets display:flex, color, > svg font size, box-sizing on content slots.
+  // CAP only needs to override the color to inherit from the root (so hasValue/noValue
+  // color transitions propagate to icons) and add per-size content paddings.
   base: {
-    display: 'flex',
     color: 'inherit',
-    '> svg': { fontSize: tokens.fontSizeBase500 },
   },
-  small: { '> svg': { fontSize: tokens.fontSizeBase400 } },
-  medium: {
-    /* same as base */
-  },
-  large: { '> svg': { fontSize: tokens.fontSizeBase600 } },
 
   smallContentBefore: { paddingRight: tokens.spacingHorizontalXS },
   smallContentAfter: { paddingLeft: tokens.spacingHorizontalS },
@@ -182,20 +167,11 @@ const useContentStyles = makeStyles({
 });
 
 const useInputElementStyles = makeStyles({
+  // Fluent already sets layout/reset (alignSelf, flexGrow, minWidth, box-sizing,
+  // border:none, outline:none, font-family/size/weight/line-height, bg:transparent).
+  // CAP only needs the foreground inheritance so root color drives the input + placeholder.
   base: {
-    alignSelf: 'stretch',
-    boxSizing: 'border-box',
-    flexGrow: 1,
-    minWidth: 0,
-    backgroundColor: tokens.colorTransparentBackground,
-    border: 'none',
-    outline: 'none',
     color: 'inherit',
-    fontFamily: 'inherit',
-    fontSize: 'inherit',
-    fontWeight: 'inherit',
-    lineHeight: 'inherit',
-
     '::placeholder': {
       opacity: 1,
       color: 'inherit',
@@ -235,8 +211,8 @@ export const useInputStyles = (state: InputState): InputState => {
     isEditable && isEditableStyles.base,
     isEditable &&
       (hasValue ? isEditableStyles.hasValue : isEditableStyles.noValue),
-    isEditable &&
-      (appearance === 'outline' || appearance === 'underline') &&
+    (appearance === 'outline' || appearance === 'underline') &&
+      isEditable &&
       appearanceStyles[appearance],
     isEditable && isEditableStyles[color],
     invalid && styles.invalid,
@@ -258,7 +234,6 @@ export const useInputStyles = (state: InputState): InputState => {
       state.contentBefore.className,
       inputClassNames.contentBefore,
       contentStyles.base,
-      contentStyles[size],
       contentStyles[`${size}ContentBefore`],
       disabled && contentStyles.disabled,
       getSlotClassNameProp_unstable(state.contentBefore)
@@ -270,7 +245,6 @@ export const useInputStyles = (state: InputState): InputState => {
       state.contentAfter.className,
       inputClassNames.contentAfter,
       contentStyles.base,
-      contentStyles[size],
       contentStyles[`${size}ContentAfter`],
       disabled && contentStyles.disabled,
       getSlotClassNameProp_unstable(state.contentAfter)
