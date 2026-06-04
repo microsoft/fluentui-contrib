@@ -13,7 +13,7 @@ import { useInputStyles } from '../../../react-input';
 import type { SearchBoxInternalSlots, SearchBoxState } from './SearchBox.types';
 
 const searchBoxInternalClassNames: SlotClassNames<SearchBoxInternalSlots> = {
-  separator: 'spui-SearchBox__separator',
+  separator: 'fui-SearchBox__separator',
 };
 
 const useStyles = makeStyles({
@@ -119,7 +119,6 @@ export const useSearchBoxStyles = (state: SearchBoxState): SearchBoxState => {
 
   state.root.className = mergeClasses(
     state.root.className,
-    searchBoxClassNames.root,
     isEditable &&
       (appearance === 'outline' ||
         appearance === 'underline' ||
@@ -152,7 +151,6 @@ export const useSearchBoxStyles = (state: SearchBoxState): SearchBoxState => {
   if (state.dismiss) {
     state.dismiss.className = mergeClasses(
       state.dismiss.className,
-      searchBoxClassNames.dismiss,
       dismissStyles.root,
       isEditable && dismissStyles.isEditable,
       getSlotClassNameProp_unstable(state.dismiss)
@@ -162,7 +160,6 @@ export const useSearchBoxStyles = (state: SearchBoxState): SearchBoxState => {
   if (state.contentBefore) {
     state.contentBefore.className = mergeClasses(
       state.contentBefore.className,
-      searchBoxClassNames.contentBefore,
       getSlotClassNameProp_unstable(state.contentBefore)
     );
   }
@@ -170,7 +167,6 @@ export const useSearchBoxStyles = (state: SearchBoxState): SearchBoxState => {
   if (state.contentAfter) {
     state.contentAfter.className = mergeClasses(
       state.contentAfter.className,
-      searchBoxClassNames.contentAfter,
       contentAfterStyles[size],
       getSlotClassNameProp_unstable(state.contentAfter)
     );
@@ -179,7 +175,6 @@ export const useSearchBoxStyles = (state: SearchBoxState): SearchBoxState => {
   if (state.input) {
     state.input.className = mergeClasses(
       state.input.className,
-      searchBoxClassNames.input,
       getSlotClassNameProp_unstable(state.input)
     );
   }
