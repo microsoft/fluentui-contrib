@@ -58,7 +58,7 @@ const useTreeGridKeyDownHandler = (props: Pick<TreeGridProps, 'onKeyDown'>) => {
   const handleTreeGridRowKeyDown = useTreeGridRowKeyDownHandler();
   return useEventCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
     props.onKeyDown?.(event);
-    if (!isHTMLElement(event.target)) {
+    if (event.isDefaultPrevented() || !isHTMLElement(event.target)) {
       return;
     }
     // TreeGridRow

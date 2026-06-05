@@ -6,6 +6,7 @@ import a11y from './a11y.md';
 export { Default } from './Default.stories';
 export { Meet } from './Meet.stories';
 export { LiveMeetingsList } from './LiveMeetingsList.stories';
+export { Threaded } from './Threaded.stories';
 export { Virtualization } from './Virtualization.stories';
 export { ThreadedVirtualization } from './ThreadedVirtualization.stories';
 export { EmailInbox } from './EmailInbox.stories';
