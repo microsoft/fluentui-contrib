@@ -10,8 +10,13 @@ import {
   mergeClasses,
   slot,
   useEventCallback,
+  useMergedRefs,
 } from '@fluentui/react-components';
-import { TreeGridProps } from './TreeGrid.types';
+import {
+  TreeGridOnTabsterMoveFocus,
+  TreeGridProps,
+  TreeGridTabsterMoveFocusEventDetail,
+} from './TreeGrid.types';
 import {
   GroupperMoveFocusActions,
   GroupperMoveFocusEvent,
@@ -23,30 +28,35 @@ import {
 } from '@fluentui/react-tabster';
 import { isHTMLElement } from '@fluentui/react-utilities';
 import {
-  ArrowDown,
   ArrowLeft,
   ArrowRight,
   ArrowUp,
+  ArrowDown,
   Enter,
 } from '@fluentui/keyboard-keys';
 import { useFindParentRow } from '../../hooks/useFindParentRow';
 
 export const TreeGrid = React.forwardRef(
   (props: TreeGridProps, ref: React.ForwardedRef<HTMLDivElement>) => {
+    const { className, onKeyDown, onTabsterMoveFocus, ...rest } = props;
+    const tabsterMoveFocusRef = useTreeGridTabsterMoveFocusHandler({
+      onTabsterMoveFocus,
+    });
+
     const Root = slot.always(
       getIntrinsicElementProps('div', {
-        ref,
+        ref: useMergedRefs(ref, tabsterMoveFocusRef),
         role: 'treegrid',
-        ...props,
+        ...rest,
         ...useMergedTabsterAttributes_unstable(
           useArrowNavigationGroup({
             axis: 'vertical',
             memorizeCurrent: true,
           }),
-          props as TabsterDOMAttribute
+          rest as TabsterDOMAttribute
         ),
-        onKeyDown: useTreeGridKeyDownHandler(props),
-        className: mergeClasses('fui-TreeGrid', props.className),
+        onKeyDown: useTreeGridKeyDownHandler({ onKeyDown }),
+        className: mergeClasses('fui-TreeGrid', className),
       }),
       { elementType: 'div' }
     );
@@ -157,6 +167,41 @@ const handleTreeGridInteractionCellKeyDown = (
       return;
     }
   }
+};
+
+const useTreeGridTabsterMoveFocusHandler = (
+  props: Pick<TreeGridProps, 'onTabsterMoveFocus'>
+): React.RefObject<HTMLDivElement | null> => {
+  const ref = React.useRef<HTMLDivElement | null>(null);
+
+  const moveFocusHandler = useEventCallback((event: Event) => {
+    props.onTabsterMoveFocus?.(
+      event as CustomEvent<TreeGridTabsterMoveFocusEventDetail>
+    );
+  });
+
+  React.useEffect(() => {
+    const element = ref.current;
+    if (!element) {
+      return;
+    }
+
+    element.addEventListener(
+      'tabster:movefocus',
+      moveFocusHandler as EventListener,
+      true
+    );
+
+    return () => {
+      element.removeEventListener(
+        'tabster:movefocus',
+        moveFocusHandler as EventListener,
+        true
+      );
+    };
+  }, [moveFocusHandler]);
+
+  return ref;
 };
 
 const handleTreeGridCellKeyDown = (

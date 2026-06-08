@@ -4,6 +4,7 @@ import {
   TreeGridCell,
   TreeGridRow,
   TreeGridRowOnOpenChangeData,
+  useTreeGridNavigationOverrides,
 } from '@fluentui-contrib/react-tree-grid';
 import {
   Avatar,
@@ -30,7 +31,6 @@ import {
   CaretRightFilled,
   CheckmarkCircleRegular,
 } from '@fluentui/react-icons';
-import { ArrowLeft } from '@fluentui/keyboard-keys';
 import { isHTMLElement } from '@fluentui/react-utilities';
 import { ListChildComponentProps, VariableSizeList } from 'react-window';
 
@@ -499,6 +499,7 @@ const VirtualizedMeetingsRow = React.memo(
           item.hasThumbnail ? `${item.thumbnailLabel} preview available.` : ''
         }`}
         className={styles.sectionItem}
+        data-item-id={item.value}
         data-item-parent-id={item.parentValue}
         level={2}
         onOpenChange={(_, data) =>
@@ -630,6 +631,12 @@ export const Virtualization = (): React.ReactElement => {
     [openItems]
   );
 
+  const visibleIndexById = React.useMemo(
+    () =>
+      new Map(visibleItems.map((item, index) => [item.value, index] as const)),
+    [visibleItems]
+  );
+
   const getItemSize = React.useCallback(
     (index: number): number => {
       const item = visibleItems[index];
@@ -655,30 +662,72 @@ export const Virtualization = (): React.ReactElement => {
     []
   );
 
-  const handleKeyDown = React.useCallback(
-    (event: React.KeyboardEvent<HTMLElement>): void => {
-      if (event.key !== ArrowLeft || !isHTMLElement(event.target)) {
-        return;
-      }
+  const focusItemById = React.useCallback(
+    (itemId: string): void => {
+      doc?.querySelector<HTMLElement>(`[data-item-id="${itemId}"]`)?.focus();
+    },
+    [doc]
+  );
 
-      const row = event.target.closest<HTMLElement>('[role="row"]');
-      const parentId = row?.dataset.itemParentId;
-      if (!parentId) {
-        return;
-      }
-
-      const index = openItems.get(parentId);
-      if (index === undefined || !win || !doc) {
-        return;
+  const scrollToItemAndFocus = React.useCallback(
+    (index: number, itemId: string): boolean => {
+      if (!doc || !win) {
+        return false;
       }
 
       listRef.current?.scrollToItem(index, 'smart');
       win.requestAnimationFrame(() => {
-        doc.querySelector<HTMLElement>(`[data-item-id="${parentId}"]`)?.focus();
+        focusItemById(itemId);
       });
+
+      return true;
     },
-    [doc, openItems, win]
+    [doc, focusItemById, win]
   );
+
+  const handleFocusParent = React.useCallback(
+    (row: HTMLElement): boolean => {
+      const parentId = row.dataset.itemParentId;
+      if (!parentId) {
+        return false;
+      }
+
+      const index = visibleIndexById.get(parentId);
+      if (index === undefined) {
+        return false;
+      }
+
+      return scrollToItemAndFocus(index, parentId);
+    },
+    [scrollToItemAndFocus, visibleIndexById]
+  );
+
+  const handleFocusBoundaryItem = React.useCallback(
+    (targetIndex: number) => {
+      const targetItem = visibleItems[targetIndex];
+      if (!targetItem) {
+        return false;
+      }
+
+      const targetRow = doc?.querySelector<HTMLElement>(
+        `[data-item-id="${targetItem.value}"]`
+      );
+      if (targetRow) {
+        return false;
+      }
+
+      return () => {
+        scrollToItemAndFocus(targetIndex, targetItem.value);
+      };
+    },
+    [doc, scrollToItemAndFocus, visibleItems]
+  );
+
+  const treeGridNavigation = useTreeGridNavigationOverrides({
+    onFocusFirst: () => handleFocusBoundaryItem(0),
+    onFocusLast: () => handleFocusBoundaryItem(visibleItems.length - 1),
+    onFocusParent: handleFocusParent,
+  });
 
   const contextValue = React.useMemo(
     () => ({ openItems, requestOpenChange }),
@@ -691,7 +740,7 @@ export const Virtualization = (): React.ReactElement => {
         <TreeGrid
           aria-label="Recent meetings with virtualization"
           className={styles.treeGrid}
-          onKeyDown={handleKeyDown}
+          {...treeGridNavigation}
         >
           <VariableSizeList
             height={600}

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {
+  useTreeGridNavigationOverrides,
   TreeGrid,
   TreeGridCell,
   TreeGridInteraction,
@@ -18,14 +19,7 @@ import {
   tokens,
 } from '@fluentui/react-components';
 import { CaretDownFilled, CaretRightFilled } from '@fluentui/react-icons';
-import {
-  ArrowDown,
-  ArrowLeft,
-  ArrowRight,
-  ArrowUp,
-  Enter,
-} from '@fluentui/keyboard-keys';
-import { useTabsterAttributes } from '@fluentui/react-tabster';
+import { Enter } from '@fluentui/keyboard-keys';
 import { isHTMLElement } from '@fluentui/react-utilities';
 
 type ThreadSeed = {
@@ -83,7 +77,6 @@ const threadMessageHeight = 112;
 const threadInputHeight = 92;
 const threadHeaderGap = 16;
 const containerHeight = 720;
-const threadedRowNavigationKeys = [ArrowUp, ArrowDown];
 
 const threadSeeds: ThreadSeed[] = [
   {
@@ -432,124 +425,6 @@ const useStyles = makeStyles({
   },
 });
 
-type TabsterMoveFocusEventDetail = {
-  owner: HTMLElement;
-  relatedEvent: Event;
-};
-
-const findAdjacentRowAtLevel = (
-  row: HTMLElement,
-  direction: 1 | -1
-): HTMLElement | null => {
-  const level = Number(row.getAttribute('aria-level'));
-  if (Number.isNaN(level)) {
-    return null;
-  }
-
-  let sibling: Element | null =
-    direction === 1 ? row.nextElementSibling : row.previousElementSibling;
-
-  while (sibling) {
-    if (isHTMLElement(sibling) && sibling.getAttribute('role') === 'row') {
-      const siblingLevel = Number(sibling.getAttribute('aria-level'));
-
-      if (Number.isNaN(siblingLevel)) {
-        return null;
-      }
-
-      if (siblingLevel < level) {
-        return null;
-      }
-
-      if (siblingLevel === level) {
-        return sibling;
-      }
-    }
-
-    sibling =
-      direction === 1
-        ? sibling.nextElementSibling
-        : sibling.previousElementSibling;
-  }
-
-  return null;
-};
-
-/**
- * Overrides Tabster's default depth-first row navigation with a breadth-first model.
- *
- * ArrowUp and ArrowDown first try to move to the previous or next row at the same
- * aria-level, skipping deeper descendants but stopping at shallower boundaries.
- *
- * When no same-level row exists, ArrowUp falls back to Tabster so focus can move
- * shallower, while ArrowDown is intentionally blocked so moving deeper requires
- * explicit navigation into the row's inner content.
- */
-const useBreadthFirstTreeGrid = (): React.Ref<HTMLDivElement> => {
-  const ref = React.useRef<HTMLDivElement>(null);
-  React.useEffect(() => {
-    const element = ref.current;
-    if (!element) {
-      return;
-    }
-    const moveFocusListener = (
-      event: CustomEvent<TabsterMoveFocusEventDetail>
-    ) => {
-      const { owner, relatedEvent } = event.detail;
-
-      if (owner !== element || !relatedEvent) {
-        return;
-      }
-
-      const target = (relatedEvent as KeyboardEvent).target;
-      if (!isHTMLElement(target)) {
-        return;
-      }
-
-      const row = target.closest<HTMLElement>('[role="row"]');
-      if (!row) {
-        return;
-      }
-
-      const key = (relatedEvent as KeyboardEvent).key;
-      if (!threadedRowNavigationKeys.includes(key)) {
-        return;
-      }
-
-      const direction = key === ArrowDown ? 1 : -1;
-      const nextRow = findAdjacentRowAtLevel(row, direction);
-      if (!nextRow) {
-        if (key === ArrowDown) {
-          event.preventDefault();
-          relatedEvent.preventDefault();
-        }
-
-        return;
-      }
-
-      event.preventDefault();
-      // prevents natural scroll up and down
-      relatedEvent.preventDefault();
-
-      nextRow.scrollIntoView({ block: 'nearest' });
-      nextRow.focus();
-    };
-
-    element.addEventListener(
-      'tabster:movefocus',
-      moveFocusListener as EventListener
-    );
-
-    return () => {
-      element.removeEventListener(
-        'tabster:movefocus',
-        moveFocusListener as EventListener
-      );
-    };
-  }, []);
-  return ref;
-};
-
 const ThreadInputRow = React.memo(
   ({
     threadId,
@@ -710,12 +585,6 @@ const Thread = React.memo(
     const styles = useStyles();
     const [open, setOpen] = React.useState(true);
     const outlined = navigation.focusedHeaderId === thread.id;
-    const headerRowRef = React.useRef<HTMLDivElement | null>(null);
-    const headerCellRef = React.useRef<HTMLDivElement | null>(null);
-    const headerTabsterAttributes = useTabsterAttributes({
-      mover: { cyclic: false, direction: 2, memorizeCurrent: true },
-      groupper: { tabbability: 2 },
-    });
     const rowStyle: React.CSSProperties = {
       width: `calc(100% - ${rowFocusGap * 2}px)`,
       marginInline: `${rowFocusGap}px`,
@@ -724,7 +593,6 @@ const Thread = React.memo(
 
     const headerRowRefCallback = React.useCallback(
       (element: HTMLDivElement | null) => {
-        headerRowRef.current = element;
         navigation.registerElementRef(thread.id, element);
       },
       [navigation, thread.id]
@@ -777,33 +645,9 @@ const Thread = React.memo(
             navigation.focusUnread(thread.id);
             return;
           }
-          case ArrowDown: {
-            return;
-          }
-          case ArrowRight: {
-            if (open) {
-              event.preventDefault();
-              event.stopPropagation();
-              headerCellRef.current?.focus();
-            }
-            return;
-          }
         }
       },
       [navigation, open, thread.id]
-    );
-
-    const onHeaderButtonKeyDown = React.useCallback(
-      (event: React.KeyboardEvent<HTMLElement>) => {
-        if (event.key !== ArrowLeft) {
-          return;
-        }
-
-        event.preventDefault();
-        event.stopPropagation();
-        headerRowRef.current?.focus();
-      },
-      []
     );
 
     return (
@@ -817,6 +661,7 @@ const Thread = React.memo(
               : styles.headerRowOutlinedLast
             : undefined
         )}
+        data-item-id={thread.id}
         onBlurCapture={onBlurCapture}
         onFocusCapture={onFocusCapture}
         onKeyDown={onHeaderKeyDown}
@@ -845,21 +690,13 @@ const Thread = React.memo(
             />
           </>
         }
-        tabIndex={0}
-        {...headerTabsterAttributes}
       >
         {open ? (
           <CaretDownFilled className={styles.headerChevron} aria-hidden />
         ) : (
           <CaretRightFilled className={styles.headerChevron} aria-hidden />
         )}
-        <TreeGridCell
-          data-header-cell="true"
-          header
-          onKeyDown={onHeaderButtonKeyDown}
-          ref={headerCellRef}
-          tabIndex={-1}
-        >
+        <TreeGridCell tabIndex={0} data-header-cell="true" header>
           <div className={styles.headerContent}>
             <Body1Stronger className={styles.headerTitle}>
               {thread.header}
@@ -881,8 +718,6 @@ export const Threaded = (): React.ReactElement => {
   const styles = useStyles();
   const elementRefsMap = React.useRef<Map<string, HTMLElement>>(new Map());
 
-  const navigationRef = useBreadthFirstTreeGrid();
-
   const [focusedHeaderId, setFocusedHeaderId] = React.useState<
     string | undefined
   >(undefined);
@@ -898,14 +733,15 @@ export const Threaded = (): React.ReactElement => {
     []
   );
 
-  const scrollAndFocus = React.useCallback((id: string): void => {
+  const scrollAndFocus = React.useCallback((id: string): boolean => {
     const element = elementRefsMap.current.get(id);
     if (!element) {
-      return;
+      return false;
     }
 
     element.scrollIntoView({ block: 'nearest' });
     element.focus();
+    return true;
   }, []);
 
   const focusUnread = React.useCallback(
@@ -932,6 +768,57 @@ export const Threaded = (): React.ReactElement => {
     [scrollAndFocus]
   );
 
+  const handleFocusPrevious = React.useCallback(
+    (row: HTMLElement): boolean => {
+      const currentId = row.dataset.itemId;
+      if (!currentId) {
+        return false;
+      }
+
+      const currentIndex = threadSeeds.findIndex(
+        (thread) => thread.id === currentId
+      );
+      if (currentIndex === -1) {
+        return false;
+      }
+
+      if (currentIndex === 0) {
+        return true;
+      }
+
+      return scrollAndFocus(threadSeeds[currentIndex - 1].id);
+    },
+    [scrollAndFocus]
+  );
+
+  const handleFocusNext = React.useCallback(
+    (row: HTMLElement): boolean => {
+      const currentId = row.dataset.itemId;
+      if (!currentId) {
+        return false;
+      }
+
+      const currentIndex = threadSeeds.findIndex(
+        (thread) => thread.id === currentId
+      );
+      if (currentIndex === -1) {
+        return false;
+      }
+
+      if (currentIndex === threadSeeds.length - 1) {
+        return true;
+      }
+
+      return scrollAndFocus(threadSeeds[currentIndex + 1].id);
+    },
+    [scrollAndFocus]
+  );
+
+  const treeGridNavigation = useTreeGridNavigationOverrides({
+    onFocusNext: handleFocusNext,
+    onFocusPrevious: handleFocusPrevious,
+  });
+
   const navigation = React.useMemo(
     () => ({
       focusedHeaderId,
@@ -944,7 +831,7 @@ export const Threaded = (): React.ReactElement => {
   );
 
   return (
-    <div className={styles.story}>
+    <div>
       <div className={styles.infoBox}>
         <Caption1 className={styles.infoLabel}>Keyboard:</Caption1>
         <Caption1 className={styles.keyHint}>↑ ↓ headers</Caption1>
@@ -958,22 +845,19 @@ export const Threaded = (): React.ReactElement => {
           </span>
         </Caption1>
       </div>
-      <div className={styles.treeGridViewport}>
-        <TreeGrid
-          aria-label="Threaded TreeGrid without virtualization"
-          className={styles.treeGrid}
-          ref={navigationRef}
-        >
-          {threadSeeds.map((thread, index) => (
-            <Thread
-              index={index}
-              key={thread.id}
-              navigation={navigation}
-              thread={thread}
-            />
-          ))}
-        </TreeGrid>
-      </div>
+      <TreeGrid
+        aria-label="Threaded TreeGrid without virtualization"
+        {...treeGridNavigation}
+      >
+        {threadSeeds.map((thread, index) => (
+          <Thread
+            index={index}
+            key={thread.id}
+            navigation={navigation}
+            thread={thread}
+          />
+        ))}
+      </TreeGrid>
     </div>
   );
 };

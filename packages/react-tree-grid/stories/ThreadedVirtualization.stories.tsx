@@ -1,5 +1,7 @@
 import * as React from 'react';
 import {
+  TreeGridNavigationOverrideResult,
+  useTreeGridNavigationOverrides,
   TreeGrid,
   TreeGridCell,
   TreeGridInteraction,
@@ -17,67 +19,58 @@ import {
   mergeClasses,
   shorthands,
   tokens,
-  useEventCallback,
   useFluent,
 } from '@fluentui/react-components';
 import { CaretDownFilled, CaretRightFilled } from '@fluentui/react-icons';
-import {
-  ArrowDown,
-  ArrowLeft,
-  ArrowRight,
-  ArrowUp,
-  End,
-  Enter,
-  Home,
-} from '@fluentui/keyboard-keys';
-import { useTabsterAttributes } from '@fluentui/react-tabster';
 import { isHTMLElement } from '@fluentui/react-utilities';
 import { ListChildComponentProps, VariableSizeList } from 'react-window';
 
-type ThreadHeaderItem = {
-  type: 'thread-header';
-  rowType: 'threadHeader';
-  value: string;
+type ThreadSeed = {
+  id: string;
   header: string;
-  messageCount: number;
   lastUpdated: string;
+  messages: ThreadMessageSeed[];
 };
 
-type ThreadMessageItem = {
-  type: 'thread-message';
-  rowType: 'threadMessage';
-  value: string;
-  parentValue: string;
+type ThreadMessageSeed = {
   author: string;
   location: string;
   preview: string;
   timestamp: string;
-  isUnread?: boolean;
+};
+
+type ThreadHeaderItem = {
+  type: 'header';
+  rowType: 'header';
+  value: string;
+  thread: ThreadSeed;
+  threadIndex: number;
+};
+
+type ThreadMessageItem = {
+  type: 'message';
+  rowType: 'message';
+  value: string;
+  parentValue: string;
+  message: ThreadMessageSeed;
+  isUnread: boolean;
 };
 
 type ThreadInputItem = {
-  type: 'thread-input';
-  rowType: 'threadInput';
+  type: 'input';
+  rowType: 'input';
   value: string;
   parentValue: string;
 };
 
-type ThreadedItem = ThreadHeaderItem | ThreadMessageItem | ThreadInputItem;
+type ThreadedVirtualizedItem =
+  | ThreadHeaderItem
+  | ThreadMessageItem
+  | ThreadInputItem;
 
-type ThreadedVirtualizationContextValue = {
-  focusedHeaderId: string | undefined;
-  openItems: Map<string, number>;
-  requestOpenChange: (
-    data: TreeGridRowOnOpenChangeData & { index: number }
-  ) => void;
-  setFocusedHeaderId: React.Dispatch<React.SetStateAction<string | undefined>>;
-  focusNextHeader: (threadId: string) => void;
-  focusPrevHeader: (threadId: string) => void;
-  focusFirstItem: () => void;
-  focusLastItem: () => void;
-  focusUnread: (threadId: string) => void;
-  focusInput: (threadId: string) => void;
-  registerElementRef: (id: string, element: HTMLElement | null) => void;
+type VirtualizationContextValue = {
+  openItems: Set<PropertyKey>;
+  requestOpenChange: (data: TreeGridRowOnOpenChangeData) => void;
 };
 
 const rowFocusGap = 8;
@@ -86,9 +79,8 @@ const threadMessageHeight = 112;
 const threadInputHeight = 92;
 const threadHeaderGap = 16;
 const containerHeight = 720;
-const headerPreventedKeys = [Home, End, ArrowUp, ArrowDown, Enter];
 
-const threadSeeds = [
+const threadSeeds: ThreadSeed[] = [
   {
     id: 'thread-401',
     header: 'Design critique follow-up',
@@ -210,94 +202,32 @@ const threadSeeds = [
   },
 ];
 
-const allItems: ThreadedItem[] = threadSeeds.flatMap((thread) => {
-  const threadMessages = thread.messages.map((message, index) => ({
-    type: 'thread-message' as const,
-    rowType: 'threadMessage' as const,
-    value: `${thread.id}--message-${index + 1}`,
-    parentValue: thread.id,
-    author: message.author,
-    location: message.location,
-    preview: message.preview,
-    timestamp: message.timestamp,
-    isUnread: index === thread.messages.length - 2,
-  }));
+const getThreadMessageId = (threadId: string, messageIndex: number): string =>
+  `${threadId}--message-${messageIndex + 1}`;
 
-  return [
-    {
-      type: 'thread-header' as const,
-      rowType: 'threadHeader' as const,
-      value: thread.id,
-      header: thread.header,
-      messageCount: thread.messages.length,
-      lastUpdated: thread.lastUpdated,
-    },
-    ...threadMessages,
-    {
-      type: 'thread-input' as const,
-      rowType: 'threadInput' as const,
-      value: `${thread.id}--input`,
-      parentValue: thread.id,
-    },
-  ];
-});
+const getThreadInputId = (threadId: string): string => `${threadId}-input`;
 
-const defaultOpenItems = new Map<string, number>(
-  allItems.flatMap((item, index) =>
-    item.type === 'thread-header' ? [[item.value, index] as const] : []
-  )
-);
+const isThreadMessageUnread = (
+  thread: ThreadSeed,
+  messageIndex: number
+): boolean => messageIndex === thread.messages.length - 2;
 
-const getItemKey = (index: number, items: ThreadedItem[]): React.Key =>
-  items[index].value;
-
-const getFocusableItemId = (item: ThreadedItem): string =>
-  item.type === 'thread-input' ? `${item.parentValue}-input` : item.value;
-
-const getThreadedItemSize = (
-  item: ThreadedItem,
+const getItemKey = (
   index: number,
-  items: ThreadedItem[]
-): number => {
-  const previousItem = items[index - 1];
-  const leadingGap =
-    item.rowType === 'threadHeader' && previousItem ? threadHeaderGap : 0;
+  items: ThreadedVirtualizedItem[]
+): React.Key => items[index].value;
 
-  switch (item.rowType) {
-    case 'threadHeader':
-      return threadHeaderHeight + leadingGap;
-    case 'threadInput':
-      return threadInputHeight;
-    case 'threadMessage':
-      return threadMessageHeight;
-  }
-};
+const getChildRowStyle = (style: React.CSSProperties): React.CSSProperties => ({
+  ...style,
+  width: `calc(100% - ${rowFocusGap * 2}px)`,
+  marginInline: `${rowFocusGap}px`,
+});
 
 const useStyles = makeStyles({
   story: {
     maxWidth: '1180px',
     width: '100%',
     overflowX: 'hidden',
-  },
-  infoBox: {
-    display: 'inline-flex',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    gap: tokens.spacingHorizontalL,
-    marginBottom: tokens.spacingVerticalM,
-    ...shorthands.padding(tokens.spacingVerticalS, tokens.spacingHorizontalM),
-    ...shorthands.borderRadius(tokens.borderRadiusMedium),
-    ...shorthands.border('1px', 'solid', tokens.colorNeutralStroke1),
-    backgroundColor: tokens.colorNeutralBackground2,
-  },
-  infoLabel: {
-    color: tokens.colorNeutralForeground3,
-  },
-  focusedThreadId: {
-    color: tokens.colorStatusDangerForeground1,
-  },
-  keyHint: {
-    color: tokens.colorNeutralForeground2,
   },
   treeGrid: {
     width: '100%',
@@ -320,12 +250,6 @@ const useStyles = makeStyles({
     ':hover': {
       backgroundColor: tokens.colorNeutralBackground4Selected,
     },
-  },
-  headerRowOutlined: {
-    boxShadow: `inset 2px 0 0 0 ${tokens.colorStrokeFocus2}, inset -2px 0 0 0 ${tokens.colorStrokeFocus2}, inset 0 2px 0 0 ${tokens.colorStrokeFocus2}`,
-  },
-  headerRowOutlinedLast: {
-    boxShadow: `inset 2px 0 0 0 ${tokens.colorStrokeFocus2}, inset -2px 0 0 0 ${tokens.colorStrokeFocus2}, inset 0 2px 0 0 ${tokens.colorStrokeFocus2}, inset 0 -2px 0 0 ${tokens.colorStrokeFocus2}`,
   },
   headerChevron: {
     color: tokens.colorNeutralForeground3,
@@ -357,6 +281,7 @@ const useStyles = makeStyles({
     gridTemplateColumns: '16px 44px minmax(0, 1fr) 176px',
     gridTemplateRows: '20px 20px 24px',
     alignItems: 'start',
+    minHeight: `${threadMessageHeight}px`,
     columnGap: tokens.spacingHorizontalM,
     rowGap: tokens.spacingVerticalXS,
     backgroundColor: tokens.colorNeutralBackground2,
@@ -378,12 +303,6 @@ const useStyles = makeStyles({
       '--threadedTimestampRevealOpacity': '0',
       '--threadedTimestampRevealVisibility': 'hidden',
     },
-  },
-  threadOutlined: {
-    boxShadow: `inset 2px 0 0 0 ${tokens.colorStrokeFocus2}, inset -2px 0 0 0 ${tokens.colorStrokeFocus2}`,
-  },
-  threadOutlinedLast: {
-    boxShadow: `inset 2px 0 0 0 ${tokens.colorStrokeFocus2}, inset -2px 0 0 0 ${tokens.colorStrokeFocus2}, inset 0 -2px 0 0 ${tokens.colorStrokeFocus2}`,
   },
   unread: {
     gridArea: 'unread',
@@ -460,6 +379,7 @@ const useStyles = makeStyles({
     display: 'grid',
     gridTemplateColumns: '1fr',
     gridTemplateRows: 'auto',
+    minHeight: `${threadInputHeight}px`,
     backgroundColor: tokens.colorNeutralBackground2,
     ...shorthands.padding(tokens.spacingVerticalM, tokens.spacingHorizontalL),
     boxSizing: 'border-box',
@@ -476,409 +396,178 @@ const useStyles = makeStyles({
   },
 });
 
-const ThreadedVirtualizationContext = React.createContext<
-  ThreadedVirtualizationContextValue | undefined
+const allItems: ThreadedVirtualizedItem[] = threadSeeds.flatMap(
+  (thread, threadIndex) => [
+    {
+      type: 'header' as const,
+      rowType: 'header' as const,
+      value: thread.id,
+      thread,
+      threadIndex,
+    },
+    ...thread.messages.map((message, messageIndex) => ({
+      type: 'message' as const,
+      rowType: 'message' as const,
+      value: getThreadMessageId(thread.id, messageIndex),
+      parentValue: thread.id,
+      message,
+      isUnread: isThreadMessageUnread(thread, messageIndex),
+    })),
+    {
+      type: 'input' as const,
+      rowType: 'input' as const,
+      value: getThreadInputId(thread.id),
+      parentValue: thread.id,
+    },
+  ]
+);
+
+const defaultOpenItems = new Set<PropertyKey>(
+  threadSeeds.map((thread) => thread.id)
+);
+
+const VirtualizationContext = React.createContext<
+  VirtualizationContextValue | undefined
 >(undefined);
 
-const useThreadedVirtualizationContext =
-  (): ThreadedVirtualizationContextValue => {
-    const context = React.useContext(ThreadedVirtualizationContext);
-    if (!context) {
-      throw new Error(
-        'useThreadedVirtualizationContext must be used within a provider'
-      );
-    }
-    return context;
-  };
-
-type TabsterMoveFocusEventDetail = {
-  owner: HTMLElement;
-  relatedEvent: Event;
+const useVirtualizationContext = (): VirtualizationContextValue => {
+  const context = React.useContext(VirtualizationContext);
+  if (!context) {
+    throw new Error(
+      'useVirtualizationContext must be used within a VirtualizationProvider'
+    );
+  }
+  return context;
 };
 
-const usePreventTabsterKeys = (
-  ref: React.RefObject<HTMLElement>,
-  keys: string[],
-  rowTypeFilter?: string
-): void => {
-  React.useEffect(() => {
-    const element = ref.current;
-    if (!element) {
-      return;
-    }
-
-    const listener = (event: CustomEvent<TabsterMoveFocusEventDetail>) => {
-      const { owner, relatedEvent } = event.detail;
-
-      if (owner !== element || !relatedEvent) {
-        return;
-      }
-
-      const target = (relatedEvent as KeyboardEvent).target;
-      if (!isHTMLElement(target)) {
-        return;
-      }
-
-      if (rowTypeFilter) {
-        const row = target.closest<HTMLElement>('[data-rowtype]');
-        if (row?.dataset.rowtype !== rowTypeFilter) {
-          return;
-        }
-      }
-
-      if (keys.includes((relatedEvent as KeyboardEvent).key)) {
-        event.preventDefault();
-      }
-    };
-
-    element.addEventListener('tabster:movefocus', listener as EventListener);
-
-    return () => {
-      element.removeEventListener(
-        'tabster:movefocus',
-        listener as EventListener
-      );
-    };
-  }, [ref, keys, rowTypeFilter]);
-};
-
-const ThreadedVirtualizationRow = React.memo(
-  (props: ListChildComponentProps<ThreadedItem[]>): React.ReactElement => {
+const ThreadedVirtualizedRow = React.memo(
+  (
+    props: ListChildComponentProps<ThreadedVirtualizedItem[]>
+  ): React.ReactElement => {
     const styles = useStyles();
     const item = props.data[props.index];
-    const nextItem = props.data[props.index + 1];
-    const context = useThreadedVirtualizationContext();
-    const rowStyle: React.CSSProperties = {
-      ...props.style,
-      width: `calc(100% - ${rowFocusGap * 2}px)`,
-      marginInline: `${rowFocusGap}px`,
-      ...(item.type === 'thread-header' && props.index > 0
-        ? { paddingTop: `${threadHeaderGap}px` }
-        : null),
-    };
+    const { openItems, requestOpenChange } = useVirtualizationContext();
 
-    if (item.type === 'thread-header') {
-      const open = context.openItems.get(item.value) !== undefined;
-      const outlined = context.focusedHeaderId === item.value;
-      const outlinedBottom =
-        outlined && (!nextItem || nextItem.type === 'thread-header');
-      const headerRowRef = React.useRef<HTMLDivElement | null>(null);
-      const headerCellRef = React.useRef<HTMLDivElement | null>(null);
-      const headerTabsterAttributes = useTabsterAttributes({
-        mover: { cyclic: false, direction: 2, memorizeCurrent: true },
-        groupper: { tabbability: 2 },
-      });
-      const headerRowRefCallback = React.useCallback(
-        (element: HTMLDivElement | null) => {
-          headerRowRef.current = element;
-          context.registerElementRef(item.value, element);
-        },
-        [context, item.value]
-      );
-
-      const onFocusCapture = React.useCallback(
-        (event: React.FocusEvent<HTMLElement>) => {
-          context.setFocusedHeaderId(
-            event.target === event.currentTarget ? item.value : undefined
-          );
-        },
-        [context, item.value]
-      );
-
-      const onBlurCapture = React.useCallback(
-        (event: React.FocusEvent<HTMLElement>) => {
-          const nextFocused = event.relatedTarget;
-          if (
-            isHTMLElement(nextFocused) &&
-            event.currentTarget.contains(nextFocused)
-          ) {
-            return;
-          }
-
-          context.setFocusedHeaderId((prev) =>
-            prev === item.value ? undefined : prev
-          );
-        },
-        [context, item.value]
-      );
-
-      const onHeaderKeyDown = React.useCallback(
-        (event: React.KeyboardEvent<HTMLDivElement>) => {
-          const isOnHeaderRow =
-            isHTMLElement(event.target) && event.target === event.currentTarget;
-
-          if (event.key === 'r' && (event.metaKey || event.ctrlKey)) {
-            event.preventDefault();
-            context.focusInput(item.value);
-            return;
-          }
-
-          if (!isOnHeaderRow) {
-            return;
-          }
-
-          switch (event.key) {
-            case ' ': {
-              event.preventDefault();
-              context.focusUnread(item.value);
-              return;
-            }
-            case ArrowDown: {
-              event.preventDefault();
-              event.stopPropagation();
-              context.focusNextHeader(item.value);
-              return;
-            }
-            case ArrowUp: {
-              event.preventDefault();
-              event.stopPropagation();
-              context.focusPrevHeader(item.value);
-              return;
-            }
-            case Home: {
-              event.preventDefault();
-              event.stopPropagation();
-              context.focusFirstItem();
-              return;
-            }
-            case End: {
-              event.preventDefault();
-              event.stopPropagation();
-              context.focusLastItem();
-              return;
-            }
-            case ArrowRight: {
-              if (open) {
-                event.preventDefault();
-                event.stopPropagation();
-                headerCellRef.current?.focus();
-              }
-              return;
-            }
-          }
-        },
-        [context, item.value, open]
-      );
-
-      const onHeaderButtonKeyDown = React.useCallback(
-        (event: React.KeyboardEvent<HTMLElement>) => {
-          if (event.key !== ArrowLeft) {
-            return;
-          }
-
-          event.preventDefault();
-          event.stopPropagation();
-          headerRowRef.current?.focus();
-        },
-        []
-      );
+    if (item.type === 'header') {
+      const isOpen = openItems.has(item.value);
+      const rowStyle: React.CSSProperties = {
+        ...getChildRowStyle(props.style),
+        ...(item.threadIndex > 0 ? { paddingTop: `${threadHeaderGap}px` } : {}),
+      };
 
       return (
         <TreeGridRow
-          className={mergeClasses(
-            styles.rowFrame,
-            styles.headerRow,
-            outlined
-              ? outlinedBottom
-                ? styles.headerRowOutlinedLast
-                : styles.headerRowOutlined
-              : undefined
-          )}
+          className={mergeClasses(styles.rowFrame, styles.headerRow)}
           data-item-id={item.value}
           data-rowtype="header"
-          onBlurCapture={onBlurCapture}
-          onFocusCapture={onFocusCapture}
-          onKeyDown={onHeaderKeyDown}
-          onOpenChange={(_, data) =>
-            context.requestOpenChange({ ...data, index: props.index })
-          }
-          open={open}
-          ref={headerRowRefCallback}
+          onOpenChange={(_, data) => requestOpenChange(data)}
+          open={isOpen}
           style={rowStyle}
           subtree
-          tabIndex={0}
-          {...headerTabsterAttributes}
         >
-          {open ? (
+          {isOpen ? (
             <CaretDownFilled className={styles.headerChevron} aria-hidden />
           ) : (
             <CaretRightFilled className={styles.headerChevron} aria-hidden />
           )}
-          <TreeGridCell
-            data-header-cell="true"
-            header
-            onKeyDown={onHeaderButtonKeyDown}
-            ref={headerCellRef}
-            tabIndex={-1}
-          >
+          <TreeGridCell tabIndex={0} data-header-cell="true" header>
             <div className={styles.headerContent}>
               <Body1Stronger className={styles.headerTitle}>
-                {item.header}
+                {item.thread.header}
               </Body1Stronger>
               <Caption1 className={styles.headerMeta}>
-                {item.messageCount} messages · updated {item.lastUpdated}
+                {item.thread.messages.length} messages · updated{' '}
+                {item.thread.lastUpdated}
               </Caption1>
             </div>
           </TreeGridCell>
           <TreeGridCell className={styles.headerCount}>
-            <Caption1>{item.messageCount}</Caption1>
+            <Caption1>{item.thread.messages.length}</Caption1>
           </TreeGridCell>
         </TreeGridRow>
       );
     }
 
-    const threadId = item.parentValue;
-    const threadOutlined = context.focusedHeaderId === threadId;
-    const isLastInThread =
-      !nextItem ||
-      nextItem.type === 'thread-header' ||
-      nextItem.parentValue !== threadId;
-
-    if (item.type === 'thread-input') {
-      const textareaRefCallback = React.useCallback(
-        (element: HTMLTextAreaElement | null) => {
-          context.registerElementRef(`${threadId}-input`, element);
-        },
-        [context, threadId]
-      );
-
-      const inputOutlineClassName = threadOutlined
-        ? isLastInThread
-          ? styles.threadOutlinedLast
-          : styles.threadOutlined
-        : undefined;
-
+    if (item.type === 'message') {
       return (
         <TreeGridRow
+          className={mergeClasses(styles.rowFrame, styles.messageRow)}
+          data-item-id={item.value}
+          data-item-parent-id={item.parentValue}
+          data-rowtype="message"
           level={2}
-          open={!!context.openItems.get(threadId)}
-          onOpenChange={() => {
-            /* noop */
-          }}
-          className={mergeClasses(
-            styles.rowFrame,
-            styles.inputRow,
-            inputOutlineClassName
-          )}
-          data-item-parent-id={threadId}
-          data-rowtype="input"
-          style={rowStyle}
+          style={getChildRowStyle(props.style)}
         >
-          <TreeGridCell className={styles.inputCell} header>
-            <TreeGridInteraction
-              aria-description="Interact with Enter, then leave with Escape"
-              aria-label="Thread reply input"
-              aria-roledescription="interactive content"
-              className={styles.inputInteraction}
+          <TreeGridCell aria-hidden className={styles.unread}>
+            {item.isUnread ? <div className={styles.unreadDot} /> : null}
+          </TreeGridCell>
+          <TreeGridCell aria-hidden className={styles.avatar}>
+            <Avatar name={item.message.author} size={32} />
+          </TreeGridCell>
+          <TreeGridCell className={styles.title} header>
+            <Body1Stronger className={styles.messageTitle}>
+              {item.message.author} {item.isUnread ? '· unread' : ''}
+            </Body1Stronger>
+          </TreeGridCell>
+          <TreeGridCell className={styles.location}>
+            <Caption1>{item.message.location}</Caption1>
+          </TreeGridCell>
+          <TreeGridCell className={styles.preview}>
+            <Caption1>
+              {item.message.preview}
+              <Link
+                className={styles.previewLink}
+                href="https://example.com"
+                target="_blank"
+              >
+                Docs
+              </Link>
+            </Caption1>
+          </TreeGridCell>
+          <TreeGridCell className={styles.meta}>
+            <Caption1 className={styles.timestamp}>
+              {item.message.timestamp}
+            </Caption1>
+            <Button
+              appearance="subtle"
+              className={styles.actionButton}
+              size="small"
             >
-              <Textarea
-                className={styles.inputTextarea}
-                placeholder="Reply to thread..."
-                ref={textareaRefCallback}
-              />
-            </TreeGridInteraction>
+              Reply
+            </Button>
+            <Button
+              appearance="subtle"
+              className={styles.actionButton}
+              size="small"
+            >
+              Open
+            </Button>
           </TreeGridCell>
         </TreeGridRow>
       );
     }
-
-    const firstActionRef = React.useRef<HTMLButtonElement | null>(null);
-
-    const messageRowRefCallback = React.useCallback(
-      (element: HTMLDivElement | null) => {
-        context.registerElementRef(item.value, element);
-      },
-      [context, item.value]
-    );
-
-    const onMessageRowKeyDown = React.useCallback(
-      (event: React.KeyboardEvent<HTMLElement>) => {
-        if (event.key === 'r' && (event.metaKey || event.ctrlKey)) {
-          event.preventDefault();
-          context.focusInput(threadId);
-          return;
-        }
-
-        if (event.key === ' ' && event.target === event.currentTarget) {
-          event.preventDefault();
-          context.focusUnread(threadId);
-          return;
-        }
-
-        if (event.key === Enter && event.target === event.currentTarget) {
-          event.preventDefault();
-          firstActionRef.current?.focus();
-        }
-      },
-      [context, threadId]
-    );
 
     return (
       <TreeGridRow
-        level={2}
-        open={!!context.openItems.get(threadId)}
-        onOpenChange={() => {
-          /** noop */
-        }}
-        className={mergeClasses(
-          styles.rowFrame,
-          styles.messageRow,
-          threadOutlined
-            ? isLastInThread
-              ? styles.threadOutlinedLast
-              : styles.threadOutlined
-            : undefined
-        )}
+        className={mergeClasses(styles.rowFrame, styles.inputRow)}
         data-item-id={item.value}
-        data-item-parent-id={threadId}
-        data-rowtype="message"
-        onKeyDown={onMessageRowKeyDown}
-        ref={messageRowRefCallback}
-        style={rowStyle}
+        data-item-parent-id={item.parentValue}
+        data-rowtype="input"
+        level={2}
+        style={getChildRowStyle(props.style)}
       >
-        <TreeGridCell aria-hidden className={styles.unread}>
-          {item.isUnread ? <div className={styles.unreadDot} /> : null}
-        </TreeGridCell>
-        <TreeGridCell aria-hidden className={styles.avatar}>
-          <Avatar name={item.author} size={32} />
-        </TreeGridCell>
-        <TreeGridCell className={styles.title} header>
-          <Body1Stronger className={styles.messageTitle}>
-            {item.author} {item.isUnread ? '· unread' : ''}
-          </Body1Stronger>
-        </TreeGridCell>
-        <TreeGridCell className={styles.location}>
-          <Caption1>{item.location}</Caption1>
-        </TreeGridCell>
-        <TreeGridCell className={styles.preview}>
-          <Caption1>
-            {item.preview}
-            <Link
-              className={styles.previewLink}
-              href="https://example.com"
-              target="_blank"
-            >
-              Docs
-            </Link>
-          </Caption1>
-        </TreeGridCell>
-        <TreeGridCell className={styles.meta}>
-          <Caption1 className={styles.timestamp}>{item.timestamp}</Caption1>
-          <Button
-            appearance="subtle"
-            className={styles.actionButton}
-            ref={firstActionRef}
-            size="small"
+        <TreeGridCell className={styles.inputCell} header>
+          <TreeGridInteraction
+            aria-description="Interact with Enter, then leave with Escape"
+            aria-label="Thread reply input"
+            aria-roledescription="interactive content"
+            className={styles.inputInteraction}
           >
-            Reply
-          </Button>
-          <Button
-            appearance="subtle"
-            className={styles.actionButton}
-            size="small"
-          >
-            Open
-          </Button>
+            <Textarea
+              className={styles.inputTextarea}
+              placeholder="Reply to thread..."
+            />
+          </TreeGridInteraction>
         </TreeGridCell>
       </TreeGridRow>
     );
@@ -889,21 +578,13 @@ export const ThreadedVirtualization = (): React.ReactElement => {
   const styles = useStyles();
   const { targetDocument: doc } = useFluent();
   const win = doc?.defaultView;
-  const treeGridRef = React.useRef<HTMLDivElement>(null);
   const listRef = React.useRef<VariableSizeList>(null);
-  const elementRefsMap = React.useRef<Map<string, HTMLElement>>(new Map());
-
-  usePreventTabsterKeys(treeGridRef, headerPreventedKeys, 'header');
-
   const [openItems, setOpenItems] = React.useState(
-    () => new Map(defaultOpenItems)
+    () => new Set(defaultOpenItems)
   );
-  const [focusedHeaderId, setFocusedHeaderId] = React.useState<
-    string | undefined
-  >(undefined);
 
-  const requestOpenChange = useEventCallback(
-    (data: TreeGridRowOnOpenChangeData & { index: number }) => {
+  const requestOpenChange = React.useCallback(
+    (data: TreeGridRowOnOpenChangeData): void => {
       const row = data.event.currentTarget;
       if (!isHTMLElement(row)) {
         return;
@@ -915,24 +596,14 @@ export const ThreadedVirtualization = (): React.ReactElement => {
       }
 
       setOpenItems((prev) => {
-        const next = new Map(prev);
+        const next = new Set(prev);
         if (data.open) {
-          next.set(id, data.index);
+          next.add(id);
         } else {
           next.delete(id);
         }
         return next;
       });
-    }
-  );
-
-  const registerElementRef = React.useCallback(
-    (id: string, element: HTMLElement | null) => {
-      if (element) {
-        elementRefsMap.current.set(id, element);
-      } else {
-        elementRefsMap.current.delete(id);
-      }
     },
     []
   );
@@ -940,129 +611,193 @@ export const ThreadedVirtualization = (): React.ReactElement => {
   const visibleItems = React.useMemo(
     () =>
       allItems.filter(
-        (item) =>
-          item.type === 'thread-header' ||
-          openItems.get(item.parentValue) !== undefined
+        (item) => item.type === 'header' || openItems.has(item.parentValue)
       ),
     [openItems]
   );
 
-  const scrollAndFocus = React.useCallback(
-    (id: string): void => {
-      const index = visibleItems.findIndex((item) => {
-        return getFocusableItemId(item) === id;
-      });
-
-      if (index === -1) {
-        return;
-      }
-
-      listRef.current?.scrollToItem(index, 'smart');
-      win?.requestAnimationFrame(() => {
-        elementRefsMap.current.get(id)?.focus();
-      });
-    },
-    [visibleItems, win]
-  );
-
-  const findHeaderIndex = React.useCallback(
-    (threadId: string): number =>
-      visibleItems.findIndex(
-        (item) => item.type === 'thread-header' && item.value === threadId
-      ),
+  const visibleIndexById = React.useMemo(
+    () =>
+      new Map(visibleItems.map((item, index) => [item.value, index] as const)),
     [visibleItems]
   );
 
-  const focusHeaderByDirection = React.useCallback(
-    (threadId: string, direction: 1 | -1): void => {
-      const currentIndex = findHeaderIndex(threadId);
-      if (currentIndex === -1) {
-        return;
-      }
-
-      let nextIndex = currentIndex + direction;
-      while (nextIndex >= 0 && nextIndex < visibleItems.length) {
-        const nextItem = visibleItems[nextIndex];
-        if (nextItem.type === 'thread-header') {
-          scrollAndFocus(nextItem.value);
-          return;
-        }
-        nextIndex += direction;
-      }
-    },
-    [findHeaderIndex, scrollAndFocus, visibleItems]
-  );
-
-  const focusUnread = React.useCallback(
-    (threadId: string): void => {
-      const unreadItem = visibleItems.find(
-        (item) =>
-          item.type === 'thread-message' &&
-          item.parentValue === threadId &&
-          item.isUnread
-      );
-      if (unreadItem) {
-        scrollAndFocus(unreadItem.value);
-      }
-    },
-    [scrollAndFocus, visibleItems]
-  );
-
-  const focusInput = React.useCallback(
-    (threadId: string): void => {
-      scrollAndFocus(`${threadId}-input`);
-    },
-    [scrollAndFocus]
-  );
-
-  const contextValue = React.useMemo(
-    () => ({
-      focusedHeaderId,
-      openItems,
-      requestOpenChange,
-      setFocusedHeaderId,
-      focusNextHeader: (threadId: string) =>
-        focusHeaderByDirection(threadId, 1),
-      focusPrevHeader: (threadId: string) =>
-        focusHeaderByDirection(threadId, -1),
-      focusFirstItem: () => {
-        const firstItem = visibleItems[0];
-        if (firstItem) {
-          scrollAndFocus(getFocusableItemId(firstItem));
-        }
-      },
-      focusLastItem: () => {
-        const lastItem = visibleItems[visibleItems.length - 1];
-        if (lastItem) {
-          scrollAndFocus(getFocusableItemId(lastItem));
-        }
-      },
-      focusUnread,
-      focusInput,
-      registerElementRef,
-    }),
-    [
-      focusHeaderByDirection,
-      focusInput,
-      focusUnread,
-      focusedHeaderId,
-      openItems,
-      requestOpenChange,
-      registerElementRef,
-      scrollAndFocus,
-      visibleItems,
-    ]
-  );
-
   const getItemSize = React.useCallback(
-    (index: number): number =>
-      getThreadedItemSize(visibleItems[index], index, visibleItems),
+    (index: number): number => {
+      const item = visibleItems[index];
+
+      switch (item.rowType) {
+        case 'header':
+          return (
+            threadHeaderHeight + (item.threadIndex > 0 ? threadHeaderGap : 0)
+          );
+        case 'message':
+          return threadMessageHeight;
+        case 'input':
+          return threadInputHeight;
+      }
+    },
     [visibleItems]
   );
 
   React.useEffect(() => {
     listRef.current?.resetAfterIndex(0);
   }, [visibleItems]);
+
+  const focusItemById = React.useCallback(
+    (itemId: string): void => {
+      doc?.querySelector<HTMLElement>(`[data-item-id="${itemId}"]`)?.focus();
+    },
+    [doc]
+  );
+
+  const scrollToItemAndFocus = React.useCallback(
+    (index: number, itemId: string): boolean => {
+      if (!doc || !win) {
+        return false;
+      }
+
+      listRef.current?.scrollToItem(index, 'smart');
+      win.requestAnimationFrame(() => {
+        focusItemById(itemId);
+      });
+
+      return true;
+    },
+    [doc, focusItemById, win]
+  );
+
+  const focusHeaderAtIndex = React.useCallback(
+    (index: number): TreeGridNavigationOverrideResult => {
+      const targetItem = visibleItems[index];
+      if (!targetItem || targetItem.type !== 'header' || !doc || !win) {
+        return false;
+      }
+
+      const mountedHeader = doc.querySelector<HTMLElement>(
+        `[data-item-id="${targetItem.value}"]`
+      );
+      if (mountedHeader) {
+        return () => {
+          mountedHeader.focus();
+        };
+      }
+
+      return () => {
+        listRef.current?.scrollToItem(index, 'smart');
+        win.requestAnimationFrame(() => {
+          doc
+            .querySelector<HTMLElement>(`[data-item-id="${targetItem.value}"]`)
+            ?.focus();
+        });
+      };
+    },
+    [doc, visibleItems, win]
+  );
+
+  const handleFocusParent = React.useCallback(
+    (row: HTMLElement): boolean => {
+      const parentId = row.dataset.itemParentId;
+      if (!parentId) {
+        return false;
+      }
+
+      const parentIndex = visibleIndexById.get(parentId);
+      if (parentIndex === undefined) {
+        return false;
+      }
+
+      return scrollToItemAndFocus(parentIndex, parentId);
+    },
+    [scrollToItemAndFocus, visibleIndexById]
+  );
+
+  const handleFocusBoundaryItem = React.useCallback(
+    (targetIndex: number) => {
+      const targetItem = visibleItems[targetIndex];
+      if (!targetItem) {
+        return false;
+      }
+
+      const targetRow = doc?.querySelector<HTMLElement>(
+        `[data-item-id="${targetItem.value}"]`
+      );
+      if (targetRow) {
+        return false;
+      }
+
+      return () => {
+        scrollToItemAndFocus(targetIndex, targetItem.value);
+      };
+    },
+    [doc, scrollToItemAndFocus, visibleItems]
+  );
+
+  const handleFocusNext = React.useCallback(
+    (row: HTMLElement): TreeGridNavigationOverrideResult => {
+      if (row.dataset.rowtype !== 'header') {
+        return false;
+      }
+
+      const currentId = row.dataset.itemId;
+      if (!currentId) {
+        return false;
+      }
+
+      const currentVisibleIndex = visibleIndexById.get(currentId);
+      if (currentVisibleIndex === undefined) {
+        return false;
+      }
+
+      for (
+        let index = currentVisibleIndex + 1;
+        index < visibleItems.length;
+        index++
+      ) {
+        if (visibleItems[index].type === 'header') {
+          return focusHeaderAtIndex(index);
+        }
+      }
+
+      return true;
+    },
+    [focusHeaderAtIndex, visibleIndexById, visibleItems]
+  );
+
+  const handleFocusPrevious = React.useCallback(
+    (row: HTMLElement): TreeGridNavigationOverrideResult => {
+      if (row.dataset.rowtype !== 'header') {
+        return false;
+      }
+
+      const currentId = row.dataset.itemId;
+      if (!currentId) {
+        return false;
+      }
+
+      const currentVisibleIndex = visibleIndexById.get(currentId);
+      if (currentVisibleIndex === undefined) {
+        return false;
+      }
+
+      for (let index = currentVisibleIndex - 1; index >= 0; index--) {
+        if (visibleItems[index].type === 'header') {
+          return focusHeaderAtIndex(index);
+        }
+      }
+
+      return true;
+    },
+    [focusHeaderAtIndex, visibleIndexById, visibleItems]
+  );
+
+  const treeGridNavigation = useTreeGridNavigationOverrides({
+    onFocusFirst: () => handleFocusBoundaryItem(0),
+    onFocusLast: () => handleFocusBoundaryItem(visibleItems.length - 1),
+    onFocusNext: handleFocusNext,
+    onFocusParent: handleFocusParent,
+    onFocusPrevious: handleFocusPrevious,
+  });
 
   const handleListBoundaryRef = React.useCallback(
     (instance: HTMLElement | null): void => {
@@ -1073,26 +808,18 @@ export const ThreadedVirtualization = (): React.ReactElement => {
     []
   );
 
+  const contextValue = React.useMemo(
+    () => ({ openItems, requestOpenChange }),
+    [openItems, requestOpenChange]
+  );
+
   return (
     <div className={styles.story}>
-      <div className={styles.infoBox}>
-        <Caption1 className={styles.infoLabel}>Keyboard:</Caption1>
-        <Caption1 className={styles.keyHint}>↑ ↓ headers</Caption1>
-        <Caption1 className={styles.keyHint}>← → collapse or expand</Caption1>
-        <Caption1 className={styles.keyHint}>Space unread</Caption1>
-        <Caption1 className={styles.keyHint}>⌘R / Ctrl+R reply</Caption1>
-        <Caption1 className={styles.keyHint}>
-          Focused header:{' '}
-          <span className={styles.focusedThreadId}>
-            {focusedHeaderId ?? '(none)'}
-          </span>
-        </Caption1>
-      </div>
-      <ThreadedVirtualizationContext.Provider value={contextValue}>
+      <VirtualizationContext.Provider value={contextValue}>
         <TreeGrid
           aria-label="Threaded TreeGrid with virtualization"
           className={styles.treeGrid}
-          ref={treeGridRef}
+          {...treeGridNavigation}
         >
           <VariableSizeList
             height={containerHeight}
@@ -1105,10 +832,10 @@ export const ThreadedVirtualization = (): React.ReactElement => {
             ref={listRef}
             width="100%"
           >
-            {ThreadedVirtualizationRow}
+            {ThreadedVirtualizedRow}
           </VariableSizeList>
         </TreeGrid>
-      </ThreadedVirtualizationContext.Provider>
+      </VirtualizationContext.Provider>
     </div>
   );
 };

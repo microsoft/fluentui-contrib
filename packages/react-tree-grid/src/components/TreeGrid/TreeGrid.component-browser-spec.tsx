@@ -55,6 +55,55 @@ test.describe('Click interaction', () => {
 });
 
 test.describe('Keyboard interaction', () => {
+  test.describe('Breadth-first vertical navigation', () => {
+    test('should keep ArrowDown on a row at the same visible level', async ({
+      mount,
+    }) => {
+      const component = await mount(
+        <TreeGridExample defaultOpen verticalNavigationMode="breadth-first" />
+      );
+
+      await component.getByTestId('level-1-row-1').press('ArrowDown');
+
+      await expect(component.getByTestId('level-1-row-2')).toBeFocused();
+    });
+
+    test('should allow ArrowDown from a focusable header cell to descend', async ({
+      mount,
+    }) => {
+      const component = await mount(
+        <TreeGridExample
+          defaultOpen
+          focusableHeaderCell
+          verticalNavigationMode="breadth-first"
+        />
+      );
+
+      await component
+        .getByTestId('level-1-row-1')
+        .getByRole('rowheader')
+        .press('ArrowDown');
+
+      await expect(component.getByTestId('level-2-row-1')).toBeFocused();
+    });
+
+    test('should allow ArrowDown inside row content to descend', async ({
+      mount,
+    }) => {
+      const component = await mount(
+        <TreeGridExample defaultOpen verticalNavigationMode="breadth-first" />
+      );
+
+      await component
+        .getByTestId('level-1-row-1')
+        .getByRole('button')
+        .first()
+        .press('ArrowDown');
+
+      await expect(component.getByTestId('level-2-row-1')).toBeFocused();
+    });
+  });
+
   test.describe('row', () => {
     test.describe('Enter', () => {
       test('should toggle subtree', async ({ mount }) => {
