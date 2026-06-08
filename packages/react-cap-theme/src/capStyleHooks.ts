@@ -134,6 +134,8 @@ import type {
 } from '@fluentui/react-menu';
 import { usePopoverSurfaceStyles } from './components/react-popover';
 import type { PopoverSurfaceState } from '@fluentui/react-popover';
+import { useSearchBoxStyles } from './components/react-search';
+import type { SearchBoxState } from './components/react-search';
 import {
   useTagStyles,
   useInteractionTagStyles,
@@ -313,6 +315,9 @@ export const CAP_STYLE_HOOKS: NonNullable<
   },
   usePopoverSurfaceStyles_unstable: (state) => {
     return usePopoverSurfaceStyles(state as PopoverSurfaceState);
+  },
+  useSearchBoxStyles_unstable: (state) => {
+    return useSearchBoxStyles(state as SearchBoxState);
   },
   useSplitButtonStyles_unstable: (state) => {
     return useSplitButtonStyles(state as SplitButtonState);
