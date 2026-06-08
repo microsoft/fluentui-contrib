@@ -1,7 +1,6 @@
 import { Meta } from '@storybook/react';
 import { ThemelessFluentProvider } from '@fluentui-contrib/react-themeless-provider';
 export { Default } from './Default.stories';
-import description from '../../README.md';
 
 const meta: Meta<typeof ThemelessFluentProvider> = {
   title: 'Packages/react-themeless-provider',
@@ -9,7 +8,8 @@ const meta: Meta<typeof ThemelessFluentProvider> = {
   parameters: {
     docs: {
       description: {
-        component: description,
+        component:
+          'Provides ThemelessFluentProvider, a FluentProvider replacement for shadow DOM scenarios where theme CSS variables are managed externally.',
       },
     },
   },

@@ -1,5 +1,4 @@
 import { Meta } from '@storybook/react';
-import description from '../../README.md';
 
 export { Default } from './Default.stories';
 export { Portals } from './Portals.stories';
@@ -10,7 +9,8 @@ const meta: Meta = {
   parameters: {
     docs: {
       description: {
-        component: description,
+        component:
+          'This package provides a React component that renders its children inside a shadow DOM.',
       },
     },
   },
