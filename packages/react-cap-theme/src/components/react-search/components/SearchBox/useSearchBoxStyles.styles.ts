@@ -36,6 +36,13 @@ const useStyles = makeStyles({
       [`& .${searchBoxInternalClassNames.separator}`]: { display: 'flex' },
     },
   },
+  // CAP delta: with `display: flex` on root, give the input `flex-basis: 0`
+  // so it distributes remaining space proportionally instead of starting from
+  // its intrinsic content width (which `flex-basis: auto` would do).
+  // Fluent base already handles the `::-webkit-search-*` resets.
+  input: {
+    flex: '1 1 0%',
+  },
 });
 
 const useSeparatorStyles = makeStyles({
@@ -63,6 +70,8 @@ const useDismissStyles = makeStyles({
     display: 'none',
     alignSelf: 'center',
     color: capTokens.colorNeutralForeground5Pressed,
+
+    '> svg': { fontSize: tokens.fontSizeBase500 },
   },
   isEditable: {
     ':hover': {
@@ -70,6 +79,9 @@ const useDismissStyles = makeStyles({
       [`& .${iconFilledClassName}`]: { display: 'inline' },
     },
   },
+  small: { '> svg': { fontSize: tokens.fontSizeBase400 } },
+  medium: {},
+  large: {},
 });
 
 const useContentAfterStyles = makeStyles({
@@ -153,14 +165,8 @@ export const useSearchBoxStyles = (state: SearchBoxState): SearchBoxState => {
       state.dismiss.className,
       dismissStyles.root,
       isEditable && dismissStyles.isEditable,
+      dismissStyles[size],
       getSlotClassNameProp_unstable(state.dismiss)
-    );
-  }
-
-  if (state.contentBefore) {
-    state.contentBefore.className = mergeClasses(
-      state.contentBefore.className,
-      getSlotClassNameProp_unstable(state.contentBefore)
     );
   }
 
@@ -175,6 +181,7 @@ export const useSearchBoxStyles = (state: SearchBoxState): SearchBoxState => {
   if (state.input) {
     state.input.className = mergeClasses(
       state.input.className,
+      styles.input,
       getSlotClassNameProp_unstable(state.input)
     );
   }
