@@ -6,220 +6,178 @@ import {
   End,
   Home,
 } from '@fluentui/keyboard-keys';
-import { isHTMLElement } from '@fluentui/react-utilities';
 import type {
   TreeGridProps,
   TreeGridTabsterMoveFocusEventDetail,
 } from '../components/TreeGrid';
+import { isHTMLElement, useEventCallback } from '@fluentui/react-utilities';
 
-export type TreeGridNavigationOverrideRequest = () => void;
+export type TreeGridNavigationOverrideProps = Required<
+  Pick<TreeGridProps, 'onKeyDown' | 'onTabsterMoveFocus'>
+>;
 
-export type TreeGridNavigationStageResult =
-  | { type: 'pass'; preventDefault?: boolean }
-  | { type: 'handled'; request?: TreeGridNavigationOverrideRequest };
-
-type TreeGridNavigationResult =
-  | { type: 'prevent-default' }
-  | { type: 'handled'; request?: TreeGridNavigationOverrideRequest }
-  | undefined;
-
-export const treeGridNavigationPass: TreeGridNavigationStageResult = {
-  type: 'pass',
+export type TreeGridNavigationOverride = {
+  shouldOverride?(
+    event: CustomEvent<TreeGridTabsterMoveFocusEventDetail>
+  ): boolean;
+  onKeyDown?(event: React.KeyboardEvent<HTMLElement>): void;
 };
 
-export const treeGridNavigationPassAndPreventDefault: TreeGridNavigationStageResult =
-  {
-    type: 'pass',
-    preventDefault: true,
-  };
-
-const treeGridNavigationPreventDefault: TreeGridNavigationResult = {
-  type: 'prevent-default',
+export type TreeGridNavigationOverrideConfig = {
+  focusFirst?: TreeGridNavigationOverride;
+  focusLast?: TreeGridNavigationOverride;
+  focusParent?: TreeGridNavigationOverride;
+  focusPrevious?: TreeGridNavigationOverride;
+  focusNext?: TreeGridNavigationOverride;
 };
 
-export const treeGridNavigationHandled: TreeGridNavigationStageResult = {
-  type: 'handled',
+const getCurrentRow = (target: EventTarget | null): HTMLElement | null => {
+  if (!isHTMLElement(target) || target.role !== 'row') {
+    return null;
+  }
+
+  return target;
 };
 
-export type TreeGridNavigationOverrideOptions = {
-  onFocusFirst?: () => TreeGridNavigationStageResult;
-  onFocusLast?: () => TreeGridNavigationStageResult;
-  onFocusParent?: (row: HTMLElement) => TreeGridNavigationStageResult;
-  onFocusPrevious?: (row: HTMLElement) => TreeGridNavigationStageResult;
-  onFocusNext?: (row: HTMLElement) => TreeGridNavigationStageResult;
+const getClosestRow = (target: EventTarget | null): HTMLElement | null => {
+  if (!isHTMLElement(target)) {
+    return null;
+  }
+
+  return target.closest<HTMLElement>('[role="row"]');
 };
 
-const mergeOverrideHandlers = <Args extends unknown[]>(
-  ...handlers: Array<
-    ((...args: Args) => TreeGridNavigationStageResult) | undefined
-  >
-) => {
-  return (...args: Args): TreeGridNavigationResult => {
-    let shouldPreventDefault = false;
+const canFocusParent = (row: HTMLElement | null): row is HTMLElement =>
+  !!row && row.getAttribute('aria-expanded') !== 'true';
 
-    for (const handler of handlers) {
-      const result = handler?.(...args) ?? treeGridNavigationPass;
-      if (result.type === 'pass') {
-        if (result.preventDefault) {
-          shouldPreventDefault = true;
-        }
-        continue;
-      }
-
-      return result;
-    }
-
-    return shouldPreventDefault ? treeGridNavigationPreventDefault : undefined;
-  };
-};
-
-export const useTreeGridNavigationOverrides = ({
-  onFocusFirst,
-  onFocusLast,
-  onFocusParent,
-  onFocusPrevious,
-  onFocusNext,
-}: TreeGridNavigationOverrideOptions): TreeGridNavigationOverrideOptions =>
-  React.useMemo(
-    () => ({
-      onFocusFirst,
-      onFocusLast,
-      onFocusParent,
-      onFocusPrevious,
-      onFocusNext,
-    }),
-    [onFocusFirst, onFocusLast, onFocusNext, onFocusParent, onFocusPrevious]
-  );
-
-export const useMergeTreeGridNavigationOverrides = (
-  ...navigationOverrides: TreeGridNavigationOverrideOptions[]
-): Pick<TreeGridProps, 'onKeyDown' | 'onTabsterMoveFocus'> => {
-  const onFocusFirst = React.useMemo(
-    () =>
-      mergeOverrideHandlers(
-        ...navigationOverrides.map((overrides) => overrides.onFocusFirst)
-      ),
-    navigationOverrides
-  );
-  const onFocusLast = React.useMemo(
-    () =>
-      mergeOverrideHandlers(
-        ...navigationOverrides.map((overrides) => overrides.onFocusLast)
-      ),
-    navigationOverrides
-  );
-  const onFocusParent = React.useMemo(
-    () =>
-      mergeOverrideHandlers(
-        ...navigationOverrides.map((overrides) => overrides.onFocusParent)
-      ),
-    navigationOverrides
-  );
-  const onFocusPrevious = React.useMemo(
-    () =>
-      mergeOverrideHandlers(
-        ...navigationOverrides.map((overrides) => overrides.onFocusPrevious)
-      ),
-    navigationOverrides
-  );
-  const onFocusNext = React.useMemo(
-    () =>
-      mergeOverrideHandlers(
-        ...navigationOverrides.map((overrides) => overrides.onFocusNext)
-      ),
-    navigationOverrides
-  );
-
-  const handleKeyDown = React.useCallback(
-    (event: React.KeyboardEvent<HTMLElement>): void => {
-      if (event.key !== ArrowLeft || !isHTMLElement(event.target)) {
-        return;
-      }
-
-      if (!onFocusParent) {
-        return;
-      }
-
-      const row = event.target.closest<HTMLElement>('[role="row"]');
-      const result = row ? onFocusParent(row) : undefined;
-      if (!result) {
-        return;
-      }
-
-      event.preventDefault();
-
-      if (result.type !== 'handled' || !result.request) {
-        return;
-      }
-
-      result.request();
-    },
-    [onFocusParent]
-  );
-
-  const handleTabsterMoveFocus = React.useCallback(
+export const useTreeGridNavigationOverride = ({
+  focusFirst,
+  focusLast,
+  focusParent,
+  focusPrevious,
+  focusNext,
+}: TreeGridNavigationOverrideConfig): TreeGridNavigationOverrideProps => {
+  const onTabsterMoveFocus = useEventCallback(
     (event: CustomEvent<TreeGridTabsterMoveFocusEventDetail>): void => {
       const { relatedEvent } = event.detail;
-      if (!('key' in relatedEvent)) {
+      if (event.defaultPrevented) {
         return;
       }
+      switch (relatedEvent.key) {
+        case Home: {
+          if (focusFirst?.shouldOverride?.(event)) {
+            event.preventDefault();
+          }
+          return;
+        }
+        case End: {
+          if (focusLast?.shouldOverride?.(event)) {
+            event.preventDefault();
+          }
+          return;
+        }
+        case ArrowLeft: {
+          const currentRow = getCurrentRow(relatedEvent.target);
 
-      const key = (relatedEvent as KeyboardEvent).key;
-      const target = relatedEvent.target;
-      const row =
-        isHTMLElement(target) && target.closest<HTMLElement>('[role="row"]');
+          if (
+            canFocusParent(currentRow) &&
+            focusParent?.shouldOverride?.(event)
+          ) {
+            event.preventDefault();
+          }
+          return;
+        }
+        case ArrowUp: {
+          if (
+            getClosestRow(relatedEvent.target) &&
+            focusPrevious?.shouldOverride?.(event)
+          ) {
+            event.preventDefault();
+          }
+          return;
+        }
+        case ArrowDown: {
+          if (
+            getClosestRow(relatedEvent.target) &&
+            focusNext?.shouldOverride?.(event)
+          ) {
+            event.preventDefault();
+          }
+          return;
+        }
+      }
+    }
+  );
 
-      const result =
-        key === Home
-          ? onFocusFirst?.()
-          : key === End
-          ? onFocusLast?.()
-          : key === ArrowUp
-          ? row
-            ? onFocusPrevious?.(row)
-            : undefined
-          : key === ArrowDown
-          ? row
-            ? onFocusNext?.(row)
-            : undefined
-          : undefined;
-
-      if (!result) {
+  const onKeyDown = useEventCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>): void => {
+      if (event.isDefaultPrevented()) {
         return;
       }
-
-      event.preventDefault();
-      relatedEvent.preventDefault();
-
-      if (result.type !== 'handled' || !result.request) {
-        return;
+      switch (event.key) {
+        case Home: {
+          focusFirst?.onKeyDown?.(event);
+          return;
+        }
+        case End: {
+          focusLast?.onKeyDown?.(event);
+          return;
+        }
+        case ArrowLeft: {
+          if (canFocusParent(getCurrentRow(event.target))) {
+            focusParent?.onKeyDown?.(event);
+          }
+          return;
+        }
+        case ArrowUp: {
+          if (getCurrentRow(event.target)) {
+            focusPrevious?.onKeyDown?.(event);
+          }
+          return;
+        }
+        case ArrowDown: {
+          if (getCurrentRow(event.target)) {
+            focusNext?.onKeyDown?.(event);
+          }
+          return;
+        }
       }
-
-      if (!isHTMLElement(target)) {
-        return;
-      }
-
-      const request = result.request;
-      if (!request) {
-        return;
-      }
-
-      if (!target.ownerDocument.defaultView) {
-        return;
-      }
-
-      target.ownerDocument.defaultView.setTimeout(() => {
-        request();
-      }, 0);
-    },
-    [onFocusFirst, onFocusLast, onFocusNext, onFocusPrevious]
+    }
   );
 
   return React.useMemo(
-    () => ({
-      onKeyDown: handleKeyDown,
-      onTabsterMoveFocus: handleTabsterMoveFocus,
-    }),
-    [handleKeyDown, handleTabsterMoveFocus]
+    () => ({ onKeyDown, onTabsterMoveFocus }),
+    [onKeyDown, onTabsterMoveFocus]
+  );
+};
+
+export const useMergedTreeGridNavigation = (
+  ...navigationOverrides: TreeGridNavigationOverrideProps[]
+): TreeGridNavigationOverrideProps => {
+  const onKeyDown = useEventCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>): void => {
+      for (const navigationOverride of navigationOverrides) {
+        navigationOverride.onKeyDown(event);
+        if (event.isDefaultPrevented()) {
+          return;
+        }
+      }
+    }
+  );
+
+  const onTabsterMoveFocus = useEventCallback(
+    (event: CustomEvent<TreeGridTabsterMoveFocusEventDetail>): void => {
+      for (const navigationOverride of navigationOverrides) {
+        navigationOverride.onTabsterMoveFocus(event);
+        if (event.defaultPrevented) {
+          return;
+        }
+      }
+    }
+  );
+
+  return React.useMemo(
+    () => ({ onKeyDown, onTabsterMoveFocus }),
+    [onKeyDown, onTabsterMoveFocus]
   );
 };

@@ -1,20 +1,27 @@
 import { isHTMLElement } from '@fluentui/react-utilities';
 import {
-  treeGridNavigationHandled,
-  treeGridNavigationPass,
-  useTreeGridNavigationOverrides,
-  type TreeGridNavigationOverrideOptions,
-  type TreeGridNavigationStageResult,
+  type TreeGridNavigationOverrideProps,
+  useTreeGridNavigationOverride,
 } from './useTreeGridNavigationOverrides';
+import * as React from 'react';
+import { ArrowDown, ArrowUp } from '@fluentui/keyboard-keys';
+import { TreeGridTabsterMoveFocusEventDetail } from '../components/TreeGrid/TreeGrid.types';
 
 type AdjacentRowAtLevelResult =
   | { type: 'same-level'; row: HTMLElement }
   | { type: 'shallower-boundary' }
   | { type: 'none' };
 
-export const findAdjacentRowAtLevel = (
+export const useBreadthFirstTreeGridNavigation =
+  (): TreeGridNavigationOverrideProps =>
+    useTreeGridNavigationOverride({
+      focusPrevious: { shouldOverride, onKeyDown },
+      focusNext: { shouldOverride, onKeyDown },
+    });
+
+const findAdjacentRowAtLevel = (
   row: HTMLElement,
-  direction: 1 | -1
+  direction: Direction
 ): AdjacentRowAtLevelResult => {
   const level = Number(row.getAttribute('aria-level'));
   if (Number.isNaN(level)) {
@@ -22,7 +29,9 @@ export const findAdjacentRowAtLevel = (
   }
 
   let sibling: Element | null =
-    direction === 1 ? row.nextElementSibling : row.previousElementSibling;
+    direction === ArrowDown
+      ? row.nextElementSibling
+      : row.previousElementSibling;
 
   while (sibling) {
     if (isHTMLElement(sibling) && sibling.getAttribute('role') === 'row') {
@@ -42,7 +51,7 @@ export const findAdjacentRowAtLevel = (
     }
 
     sibling =
-      direction === 1
+      direction === ArrowDown
         ? sibling.nextElementSibling
         : sibling.previousElementSibling;
   }
@@ -50,29 +59,42 @@ export const findAdjacentRowAtLevel = (
   return { type: 'none' };
 };
 
-const resolveBreadthFirstNavigation = (
-  row: HTMLElement,
-  direction: 1 | -1
-): TreeGridNavigationStageResult => {
-  const adjacentRow = findAdjacentRowAtLevel(row, direction);
-  if (adjacentRow.type === 'same-level') {
-    return {
-      type: 'handled',
-      request: () => {
-        adjacentRow.row.scrollIntoView({ block: 'nearest' });
-        adjacentRow.row.focus();
-      },
-    };
+type Direction = typeof ArrowUp | typeof ArrowDown;
+
+const getAdjacentRowAtLevel = (
+  event: KeyboardEvent
+): AdjacentRowAtLevelResult => {
+  if (!isHTMLElement(event.target)) {
+    return { type: 'none' };
   }
 
-  return adjacentRow.type === 'shallower-boundary'
-    ? treeGridNavigationPass
-    : treeGridNavigationHandled;
+  const row = event.target.closest<HTMLElement>('[role="row"]');
+  if (!row) {
+    return { type: 'none' };
+  }
+
+  return findAdjacentRowAtLevel(row, event.key as Direction);
 };
 
-export const useBreadthFirstTreeGridNavigation =
-  (): TreeGridNavigationOverrideOptions =>
-    useTreeGridNavigationOverrides({
-      onFocusPrevious: (row) => resolveBreadthFirstNavigation(row, -1),
-      onFocusNext: (row) => resolveBreadthFirstNavigation(row, 1),
-    });
+const shouldOverride = (
+  event: CustomEvent<TreeGridTabsterMoveFocusEventDetail>
+): boolean => {
+  return (
+    getAdjacentRowAtLevel(event.detail.relatedEvent).type !==
+    'shallower-boundary'
+  );
+};
+
+const onKeyDown = (event: React.KeyboardEvent<HTMLElement>): void => {
+  const adjacentRow = getAdjacentRowAtLevel(event.nativeEvent);
+  if (adjacentRow.type === 'shallower-boundary') {
+    return;
+  }
+
+  event.preventDefault();
+
+  if (adjacentRow.type === 'same-level') {
+    adjacentRow.row.scrollIntoView({ block: 'nearest' });
+    adjacentRow.row.focus();
+  }
+};

@@ -2,13 +2,9 @@ import * as React from 'react';
 import {
   TreeGrid,
   TreeGridCell,
-  type TreeGridNavigationStageResult,
   TreeGridRow,
   TreeGridRowOnOpenChangeData,
-  treeGridNavigationHandled,
-  treeGridNavigationPass,
-  useMergeTreeGridNavigationOverrides,
-  useTreeGridNavigationOverrides,
+  useTreeGridNavigationOverride,
 } from '@fluentui-contrib/react-tree-grid';
 import {
   Avatar,
@@ -394,6 +390,19 @@ const getItemKey = (
   items: VirtualizedMeetingsItem[]
 ): React.Key => items[index].value;
 
+const virtualizedMeetingRowIdPrefix = 'virtualized-meetings-row-';
+
+const getRowId = (itemId: string): string =>
+  `${virtualizedMeetingRowIdPrefix}${itemId}`;
+
+const getItemIdFromRowId = (rowId: string): string | null => {
+  if (!rowId.startsWith(virtualizedMeetingRowIdPrefix)) {
+    return null;
+  }
+
+  return rowId.slice(virtualizedMeetingRowIdPrefix.length);
+};
+
 const VirtualizationContext = React.createContext<
   VirtualizationContextValue | undefined
 >(undefined);
@@ -459,7 +468,7 @@ const VirtualizedMeetingsRow = React.memo(
       return (
         <TreeGridRow
           className={styles.section}
-          data-item-id={item.value}
+          id={getRowId(item.value)}
           onOpenChange={(_, data) =>
             requestOpenChange({ ...data, index: props.index })
           }
@@ -503,8 +512,7 @@ const VirtualizedMeetingsRow = React.memo(
           item.hasThumbnail ? `${item.thumbnailLabel} preview available.` : ''
         }`}
         className={styles.sectionItem}
-        data-item-id={item.value}
-        data-item-parent-id={item.parentValue}
+        id={getRowId(item.value)}
         level={2}
         onOpenChange={(_, data) =>
           requestOpenChange({ ...data, index: props.index })
@@ -608,17 +616,17 @@ export const Virtualization = (): React.ReactElement => {
         return;
       }
 
-      const id = row.dataset.itemId;
-      if (!id) {
+      const itemId = getItemIdFromRowId(row.id);
+      if (!itemId) {
         return;
       }
 
       setOpenItems((prev) => {
         const next = new Map(prev);
         if (data.open) {
-          next.set(id, data.index);
+          next.set(itemId, data.index);
         } else {
-          next.delete(id);
+          next.delete(itemId);
         }
         return next;
       });
@@ -668,75 +676,151 @@ export const Virtualization = (): React.ReactElement => {
 
   const focusItemById = React.useCallback(
     (itemId: string): void => {
-      doc?.querySelector<HTMLElement>(`[data-item-id="${itemId}"]`)?.focus();
+      doc?.getElementById(getRowId(itemId))?.focus();
     },
     [doc]
+  );
+
+  const getCurrentRowItem = React.useCallback(
+    (target: EventTarget | null) => {
+      if (!isHTMLElement(target)) {
+        return null;
+      }
+
+      const row =
+        target.role === 'row'
+          ? target
+          : target.closest<HTMLElement>('[role="row"]');
+      if (!row) {
+        return null;
+      }
+
+      const itemId = getItemIdFromRowId(row.id);
+      if (!itemId) {
+        return null;
+      }
+
+      const index = visibleIndexById.get(itemId);
+      if (index === undefined) {
+        return null;
+      }
+
+      const item = visibleItems[index];
+      if (!item) {
+        return null;
+      }
+
+      return { row, item, itemId };
+    },
+    [visibleIndexById, visibleItems]
   );
 
   const scrollToItemAndFocus = React.useCallback(
     (index: number, itemId: string): void => {
       listRef.current?.scrollToItem(index, 'smart');
-      win.requestAnimationFrame(() => {
+      win?.requestAnimationFrame(() => {
         focusItemById(itemId);
       });
     },
     [focusItemById, win]
   );
 
-  const handleFocusParent = React.useCallback(
-    (row: HTMLElement): TreeGridNavigationStageResult => {
-      if (!doc || !win) {
-        return treeGridNavigationPass;
-      }
+  const virtualizationNavigation = useTreeGridNavigationOverride({
+    focusFirst: {
+      shouldOverride: () => {
+        const targetItem = visibleItems[0];
+        if (!targetItem || !doc || !win) {
+          return false;
+        }
 
-      const parentId = row.dataset.itemParentId;
-      if (!parentId) {
-        return treeGridNavigationPass;
-      }
+        const targetRow = doc.getElementById(getRowId(targetItem.value));
 
-      const index = visibleIndexById.get(parentId);
-      if (index === undefined) {
-        return treeGridNavigationPass;
-      }
+        return !targetRow;
+      },
+      onKeyDown: (event) => {
+        const targetItem = visibleItems[0];
+        if (!targetItem || !win) {
+          return;
+        }
 
-      scrollToItemAndFocus(index, parentId);
-      return treeGridNavigationHandled;
+        event.preventDefault();
+        scrollToItemAndFocus(0, targetItem.value);
+      },
     },
-    [doc, scrollToItemAndFocus, visibleIndexById, win]
-  );
+    focusLast: {
+      shouldOverride: () => {
+        const targetItem = visibleItems[visibleItems.length - 1];
+        if (!targetItem || !doc || !win) {
+          return false;
+        }
 
-  const handleFocusBoundaryItem = React.useCallback(
-    (targetIndex: number): TreeGridNavigationStageResult => {
-      const targetItem = visibleItems[targetIndex];
-      if (!targetItem || !doc || !win) {
-        return treeGridNavigationPass;
-      }
+        const targetRow = doc.getElementById(getRowId(targetItem.value));
 
-      const targetRow = doc.querySelector<HTMLElement>(
-        `[data-item-id="${targetItem.value}"]`
-      );
-      if (targetRow) {
-        return treeGridNavigationPass;
-      }
+        return !targetRow;
+      },
+      onKeyDown: (event) => {
+        const targetItem = visibleItems[visibleItems.length - 1];
+        if (!targetItem || !win) {
+          return;
+        }
 
-      return {
-        ...treeGridNavigationHandled,
-        request: () => {
-          scrollToItemAndFocus(targetIndex, targetItem.value);
-        },
-      };
+        event.preventDefault();
+        scrollToItemAndFocus(visibleItems.length - 1, targetItem.value);
+      },
     },
-    [doc, scrollToItemAndFocus, visibleItems]
-  );
+    focusParent: {
+      shouldOverride: (event) => {
+        if (!doc) {
+          return false;
+        }
 
-  const virtualizationNavigation = useTreeGridNavigationOverrides({
-    onFocusFirst: () => handleFocusBoundaryItem(0),
-    onFocusLast: () => handleFocusBoundaryItem(visibleItems.length - 1),
-    onFocusParent: handleFocusParent,
+        const currentRowItem = getCurrentRowItem(
+          event.detail.relatedEvent.target
+        );
+        if (!currentRowItem || currentRowItem.row.role !== 'row') {
+          return false;
+        }
+
+        if (currentRowItem.item.type !== 'meeting') {
+          return false;
+        }
+
+        const parentId = currentRowItem.item.parentValue;
+        if (!visibleIndexById.has(parentId)) {
+          return false;
+        }
+
+        const parentRow = doc.getElementById(getRowId(parentId));
+
+        return !parentRow;
+      },
+      onKeyDown: (event) => {
+        const currentRowItem = getCurrentRowItem(event.target);
+        if (!currentRowItem || currentRowItem.row.role !== 'row') {
+          return;
+        }
+
+        if (currentRowItem.item.type !== 'meeting') {
+          return;
+        }
+
+        const parentId = currentRowItem.item.parentValue;
+
+        const parentIndex = visibleIndexById.get(parentId);
+        if (parentIndex === undefined) {
+          return;
+        }
+
+        const parentRow = doc?.getElementById(getRowId(parentId));
+        if (parentRow) {
+          return;
+        }
+
+        event.preventDefault();
+        scrollToItemAndFocus(parentIndex, parentId);
+      },
+    },
   });
-  const treeGridNavigation = useMergeTreeGridNavigationOverrides(
-    virtualizationNavigation
-  );
 
   const contextValue = React.useMemo(
     () => ({ openItems, requestOpenChange }),
@@ -749,7 +833,7 @@ export const Virtualization = (): React.ReactElement => {
         <TreeGrid
           aria-label="Recent meetings with virtualization"
           className={styles.treeGrid}
-          {...treeGridNavigation}
+          {...virtualizationNavigation}
         >
           <VariableSizeList
             height={600}

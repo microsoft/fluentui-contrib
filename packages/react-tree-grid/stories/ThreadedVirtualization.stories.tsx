@@ -1,10 +1,8 @@
 import * as React from 'react';
 import {
-  treeGridNavigationHandled,
-  treeGridNavigationPass,
   useBreadthFirstTreeGridNavigation,
-  useMergeTreeGridNavigationOverrides,
-  useTreeGridNavigationOverrides,
+  useMergedTreeGridNavigation,
+  useTreeGridNavigationOverride,
   TreeGrid,
   TreeGridCell,
   TreeGridInteraction,
@@ -673,158 +671,142 @@ export const ThreadedVirtualization = (): React.ReactElement => {
     [doc, focusItemById, win]
   );
 
-  const focusHeaderAtIndex = React.useCallback(
-    (index: number) => {
-      const targetItem = visibleItems[index];
-      if (!targetItem || targetItem.type !== 'header' || !doc || !win) {
-        return treeGridNavigationPass;
+  const getCurrentRow = React.useCallback(
+    (target: EventTarget | null): HTMLElement | null => {
+      if (!isHTMLElement(target)) {
+        return null;
       }
 
-      const mountedHeader = doc.querySelector<HTMLElement>(
-        `[data-item-id="${targetItem.value}"]`
-      );
-      if (mountedHeader) {
-        return {
-          ...treeGridNavigationHandled,
-          request: () => {
-            mountedHeader.focus();
-          },
-        };
-      }
-
-      return {
-        ...treeGridNavigationHandled,
-        request: () => {
-          listRef.current?.scrollToItem(index, 'smart');
-          win.requestAnimationFrame(() => {
-            doc
-              .querySelector<HTMLElement>(
-                `[data-item-id="${targetItem.value}"]`
-              )
-              ?.focus();
-          });
-        },
-      };
+      return target.closest<HTMLElement>('[role="row"]');
     },
-    [doc, visibleItems, win]
+    []
   );
 
   const handleFocusParent = React.useCallback(
-    (row: HTMLElement) => {
-      const parentId = row.dataset.itemParentId;
+    (event: React.KeyboardEvent<HTMLElement>) => {
+      const currentRow = getCurrentRow(event.target);
+      if (!currentRow) {
+        return;
+      }
+
+      const parentId = currentRow.dataset.itemParentId;
       if (!parentId) {
-        return treeGridNavigationPass;
+        return;
       }
 
       const parentIndex = visibleIndexById.get(parentId);
       if (parentIndex === undefined) {
-        return treeGridNavigationPass;
+        return;
+      }
+
+      const parentRow = doc?.querySelector<HTMLElement>(
+        `[data-item-id="${parentId}"]`
+      );
+      if (parentRow) {
+        return;
       }
 
       if (!scrollToItemAndFocus(parentIndex, parentId)) {
-        return treeGridNavigationPass;
+        return;
       }
 
-      return treeGridNavigationHandled;
+      event.preventDefault();
     },
-    [scrollToItemAndFocus, visibleIndexById]
+    [doc, getCurrentRow, scrollToItemAndFocus, visibleIndexById]
   );
 
   const handleFocusBoundaryItem = React.useCallback(
-    (targetIndex: number) => {
+    (targetIndex: number, event: React.KeyboardEvent<HTMLElement>) => {
       const targetItem = visibleItems[targetIndex];
       if (!targetItem) {
-        return treeGridNavigationPass;
+        return;
       }
 
       const targetRow = doc?.querySelector<HTMLElement>(
         `[data-item-id="${targetItem.value}"]`
       );
       if (targetRow) {
-        return treeGridNavigationPass;
+        return;
       }
 
-      return {
-        ...treeGridNavigationHandled,
-        request: () => {
-          scrollToItemAndFocus(targetIndex, targetItem.value);
-        },
-      };
+      event.preventDefault();
+      win?.queueMicrotask(() => {
+        scrollToItemAndFocus(targetIndex, targetItem.value);
+      });
     },
     [doc, scrollToItemAndFocus, visibleItems]
   );
 
-  const handleFocusPrevious = (row: HTMLElement) => {
-    const currentId = row.dataset.itemId;
-    if (!currentId) {
-      return treeGridNavigationPass;
-    }
-
-    const currentVisibleIndex = visibleIndexById.get(currentId);
-    if (currentVisibleIndex === undefined) {
-      return treeGridNavigationPass;
-    }
-
-    const currentLevel = getItemLevel(visibleItems[currentVisibleIndex]);
-
-    for (let index = currentVisibleIndex - 1; index >= 0; index -= 1) {
-      const candidateLevel = getItemLevel(visibleItems[index]);
-      if (candidateLevel < currentLevel) {
-        return treeGridNavigationPass;
+  const getAdjacentHeaderAtLevel = React.useCallback(
+    (target: EventTarget | null, direction: -1 | 1) => {
+      const currentRow = getCurrentRow(target);
+      if (!currentRow) {
+        return { type: 'boundary' as const };
       }
 
-      if (candidateLevel === currentLevel) {
-        const targetItem = visibleItems[index];
-        const mountedHeader = doc?.querySelector<HTMLElement>(
-          `[data-item-id="${targetItem.value}"]`
-        );
-
-        return mountedHeader
-          ? treeGridNavigationPass
-          : focusHeaderAtIndex(index);
-      }
-    }
-
-    return treeGridNavigationHandled;
-  };
-
-  const handleFocusNext = (row: HTMLElement) => {
-    const currentId = row.dataset.itemId;
-    if (!currentId) {
-      return treeGridNavigationPass;
-    }
-
-    const currentVisibleIndex = visibleIndexById.get(currentId);
-    if (currentVisibleIndex === undefined) {
-      return treeGridNavigationPass;
-    }
-
-    const currentLevel = getItemLevel(visibleItems[currentVisibleIndex]);
-
-    for (
-      let index = currentVisibleIndex + 1;
-      index < visibleItems.length;
-      index += 1
-    ) {
-      const candidateLevel = getItemLevel(visibleItems[index]);
-      if (candidateLevel < currentLevel) {
-        return treeGridNavigationPass;
+      const currentId = currentRow.dataset.itemId;
+      if (!currentId) {
+        return { type: 'boundary' as const };
       }
 
-      if (candidateLevel === currentLevel) {
-        const targetItem = visibleItems[index];
-        const mountedHeader = doc?.querySelector<HTMLElement>(
-          `[data-item-id="${targetItem.value}"]`
-        );
-
-        return mountedHeader
-          ? treeGridNavigationPass
-          : focusHeaderAtIndex(index);
+      const currentVisibleIndex = visibleIndexById.get(currentId);
+      if (currentVisibleIndex === undefined) {
+        return { type: 'boundary' as const };
       }
-    }
 
-    return treeGridNavigationHandled;
-  };
+      const currentLevel = getItemLevel(visibleItems[currentVisibleIndex]);
+
+      for (
+        let index = currentVisibleIndex + direction;
+        index >= 0 && index < visibleItems.length;
+        index += direction
+      ) {
+        const candidateLevel = getItemLevel(visibleItems[index]);
+        if (candidateLevel < currentLevel) {
+          return { type: 'boundary' as const };
+        }
+
+        if (candidateLevel === currentLevel) {
+          const targetItem = visibleItems[index];
+          const mountedHeader = doc?.querySelector<HTMLElement>(
+            `[data-item-id="${targetItem.value}"]`
+          );
+
+          if (mountedHeader) {
+            return { type: 'mounted' as const };
+          }
+
+          return {
+            type: 'virtualized' as const,
+            index,
+            itemId: targetItem.value,
+          };
+        }
+      }
+
+      return { type: 'none' as const };
+    },
+    [doc, getCurrentRow, visibleIndexById, visibleItems]
+  );
+
+  const handleFocusAdjacentHeader = React.useCallback(
+    (event: React.KeyboardEvent<HTMLElement>, direction: -1 | 1) => {
+      const adjacentHeader = getAdjacentHeaderAtLevel(event.target, direction);
+      if (
+        adjacentHeader.type === 'boundary' ||
+        adjacentHeader.type === 'mounted'
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+
+      if (adjacentHeader.type === 'virtualized') {
+        scrollToItemAndFocus(adjacentHeader.index, adjacentHeader.itemId);
+      }
+    },
+    [getAdjacentHeaderAtLevel, scrollToItemAndFocus]
+  );
 
   const handleListBoundaryRef = React.useCallback(
     (instance: HTMLElement | null): void => {
@@ -841,15 +823,95 @@ export const ThreadedVirtualization = (): React.ReactElement => {
   );
 
   const breadthNavigation = useBreadthFirstTreeGridNavigation();
-  const virtualizationNavigation = useTreeGridNavigationOverrides({
-    onFocusFirst: () => handleFocusBoundaryItem(0),
-    onFocusLast: () => handleFocusBoundaryItem(visibleItems.length - 1),
-    onFocusParent: handleFocusParent,
-    onFocusPrevious: handleFocusPrevious,
-    onFocusNext: handleFocusNext,
-  });
+  const virtualizationNavigation = useTreeGridNavigationOverride({
+    focusFirst: {
+      shouldOverride: () => {
+        const targetItem = visibleItems[0];
+        if (!targetItem || !doc || !win) {
+          return false;
+        }
 
-  const treeGridNavigation = useMergeTreeGridNavigationOverrides(
+        const targetRow = doc.querySelector<HTMLElement>(
+          `[data-item-id="${targetItem.value}"]`
+        );
+
+        return !targetRow;
+      },
+      onKeyDown: (event) => {
+        handleFocusBoundaryItem(0, event);
+      },
+    },
+    focusLast: {
+      shouldOverride: () => {
+        const targetItem = visibleItems[visibleItems.length - 1];
+        if (!targetItem || !doc || !win) {
+          return false;
+        }
+
+        const targetRow = doc.querySelector<HTMLElement>(
+          `[data-item-id="${targetItem.value}"]`
+        );
+
+        return !targetRow;
+      },
+      onKeyDown: (event) => {
+        handleFocusBoundaryItem(visibleItems.length - 1, event);
+      },
+    },
+    focusParent: {
+      shouldOverride: (event) => {
+        const currentRow = getCurrentRow(event.detail.relatedEvent.target);
+        if (!currentRow) {
+          return false;
+        }
+
+        const parentId = currentRow.dataset.itemParentId;
+        if (!parentId || !visibleIndexById.has(parentId)) {
+          return false;
+        }
+
+        const parentRow = doc?.querySelector<HTMLElement>(
+          `[data-item-id="${parentId}"]`
+        );
+
+        return !parentRow;
+      },
+      onKeyDown: handleFocusParent,
+    },
+    focusPrevious: {
+      shouldOverride: (event) => {
+        const adjacentHeader = getAdjacentHeaderAtLevel(
+          event.detail.relatedEvent.target,
+          -1
+        );
+
+        return (
+          adjacentHeader.type === 'virtualized' ||
+          adjacentHeader.type === 'none'
+        );
+      },
+      onKeyDown: (event) => {
+        handleFocusAdjacentHeader(event, -1);
+      },
+    },
+    focusNext: {
+      shouldOverride: (event) => {
+        const adjacentHeader = getAdjacentHeaderAtLevel(
+          event.detail.relatedEvent.target,
+          1
+        );
+
+        return (
+          adjacentHeader.type === 'virtualized' ||
+          adjacentHeader.type === 'none'
+        );
+      },
+      onKeyDown: (event) => {
+        handleFocusAdjacentHeader(event, 1);
+      },
+    },
+  });
+  const treeGridNavigation = useMergedTreeGridNavigation(
     virtualizationNavigation,
     breadthNavigation
   );

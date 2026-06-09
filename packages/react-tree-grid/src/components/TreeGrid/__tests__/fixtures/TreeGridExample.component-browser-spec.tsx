@@ -1,61 +1,11 @@
 import * as React from 'react';
-import { TreeGrid } from './TreeGrid';
-import {
-  treeGridNavigationHandled,
-  treeGridNavigationPass,
-  treeGridNavigationPassAndPreventDefault,
-  useMergeTreeGridNavigationOverrides,
-  useTreeGridNavigationOverrides,
-} from '../../hooks/useTreeGridNavigationOverrides';
-import { TreeGridRow } from '../TreeGridRow/TreeGridRow';
-import { TreeGridCell } from '../TreeGridCell';
+import { TreeGrid } from '../../TreeGrid';
+import { useBreadthFirstTreeGridNavigation } from '../../../../hooks/useBreadthFirstTreeGridNavigation';
+import { TreeGridRow } from '../../../TreeGridRow/TreeGridRow';
+import { TreeGridCell } from '../../../TreeGridCell';
 import { Button } from '@fluentui/react-components';
-import { isHTMLElement } from '@fluentui/react-utilities';
 
 type TreeGridVerticalNavigationMode = 'depth-first' | 'breadth-first';
-
-type AdjacentRowAtLevelResult =
-  | { type: 'same-level'; row: HTMLElement }
-  | { type: 'shallower-boundary' }
-  | { type: 'none' };
-
-const findAdjacentRowAtLevel = (
-  row: HTMLElement,
-  direction: 1 | -1
-): AdjacentRowAtLevelResult => {
-  const level = Number(row.getAttribute('aria-level'));
-  if (Number.isNaN(level)) {
-    return { type: 'none' };
-  }
-
-  let sibling: Element | null =
-    direction === 1 ? row.nextElementSibling : row.previousElementSibling;
-
-  while (sibling) {
-    if (isHTMLElement(sibling) && sibling.getAttribute('role') === 'row') {
-      const siblingLevel = Number(sibling.getAttribute('aria-level'));
-
-      if (Number.isNaN(siblingLevel)) {
-        return { type: 'none' };
-      }
-
-      if (siblingLevel < level) {
-        return { type: 'shallower-boundary' };
-      }
-
-      if (siblingLevel === level) {
-        return { type: 'same-level', row: sibling };
-      }
-    }
-
-    sibling =
-      direction === 1
-        ? sibling.nextElementSibling
-        : sibling.previousElementSibling;
-  }
-
-  return { type: 'none' };
-};
 
 export type TreeGridExampleProps = {
   defaultOpen?: boolean;
@@ -68,39 +18,12 @@ export const TreeGridExample = ({
   focusableHeaderCell,
   verticalNavigationMode,
 }: TreeGridExampleProps) => {
-  const breadthFirstNavigationOverrides = useTreeGridNavigationOverrides({
-    onFocusPrevious: (row) => {
-      const previousRow = findAdjacentRowAtLevel(row, -1);
-      if (previousRow.type === 'same-level') {
-        previousRow.row.focus();
-        return treeGridNavigationHandled;
-      }
-
-      return previousRow.type === 'shallower-boundary'
-        ? treeGridNavigationPass
-        : treeGridNavigationPassAndPreventDefault;
-    },
-    onFocusNext: (row) => {
-      const nextRow = findAdjacentRowAtLevel(row, 1);
-      if (nextRow.type === 'same-level') {
-        nextRow.row.focus();
-        return treeGridNavigationHandled;
-      }
-
-      return nextRow.type === 'shallower-boundary'
-        ? treeGridNavigationPass
-        : treeGridNavigationPassAndPreventDefault;
-    },
-  });
-  const breadthFirstNavigation = useMergeTreeGridNavigationOverrides(
-    breadthFirstNavigationOverrides
-  );
-
+  const breadthFirstNavigation = useBreadthFirstTreeGridNavigation();
   return (
     <TreeGrid
       {...(verticalNavigationMode === 'breadth-first'
         ? breadthFirstNavigation
-        : undefined)}
+        : {})}
     >
       <TreeGridRow
         defaultOpen={defaultOpen}

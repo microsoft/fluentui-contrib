@@ -6,13 +6,11 @@ export type TreeGridSlots = {
 
 export type TreeGridTabsterMoveFocusEventDetail = {
   owner: HTMLElement;
-  relatedEvent: Event;
+  relatedEvent: KeyboardEvent;
 };
 
-export type TreeGridOnTabsterMoveFocus = (
-  event: CustomEvent<TreeGridTabsterMoveFocusEventDetail>
-) => void;
-
 export type TreeGridProps = ComponentProps<TreeGridSlots> & {
-  onTabsterMoveFocus?: TreeGridOnTabsterMoveFocus;
+  onTabsterMoveFocus?(
+    event: CustomEvent<TreeGridTabsterMoveFocusEventDetail>
+  ): void;
 };

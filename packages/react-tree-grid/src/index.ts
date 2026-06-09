@@ -3,7 +3,6 @@ export type { TreeGridRowTriggerProps } from './components/TreeGridRowTrigger';
 
 export { TreeGrid } from './components/TreeGrid';
 export type {
-  TreeGridOnTabsterMoveFocus,
   TreeGridProps,
   TreeGridSlots,
   TreeGridTabsterMoveFocusEventDetail,
@@ -34,19 +33,13 @@ export type {
   TreeGridInteractionSlots,
 } from './components/TreeGridInteraction';
 
-export { useTreeGridNavigationOverrides } from './hooks/useTreeGridNavigationOverrides';
 export {
-  treeGridNavigationHandled,
-  treeGridNavigationPass,
-  treeGridNavigationPassAndPreventDefault,
-  useMergeTreeGridNavigationOverrides,
+  useMergedTreeGridNavigation,
+  useTreeGridNavigationOverride,
 } from './hooks/useTreeGridNavigationOverrides';
 export type {
-  TreeGridNavigationOverrideOptions,
-  TreeGridNavigationOverrideRequest,
-  TreeGridNavigationStageResult,
+  TreeGridNavigationOverride,
+  TreeGridNavigationOverrideConfig,
+  TreeGridNavigationOverrideProps,
 } from './hooks/useTreeGridNavigationOverrides';
-export {
-  useBreadthFirstTreeGridNavigation,
-  findAdjacentRowAtLevel,
-} from './hooks/useBreadthFirstTreeGridNavigation';
+export { useBreadthFirstTreeGridNavigation } from './hooks/useBreadthFirstTreeGridNavigation';
