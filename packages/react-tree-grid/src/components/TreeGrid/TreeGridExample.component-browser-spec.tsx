@@ -1,6 +1,12 @@
 import * as React from 'react';
 import { TreeGrid } from './TreeGrid';
-import { useTreeGridNavigationOverrides } from '../../hooks/useTreeGridNavigationOverrides';
+import {
+  treeGridNavigationHandled,
+  treeGridNavigationPass,
+  treeGridNavigationPassAndPreventDefault,
+  useMergeTreeGridNavigationOverrides,
+  useTreeGridNavigationOverrides,
+} from '../../hooks/useTreeGridNavigationOverrides';
 import { TreeGridRow } from '../TreeGridRow/TreeGridRow';
 import { TreeGridCell } from '../TreeGridCell';
 import { Button } from '@fluentui/react-components';
@@ -62,24 +68,33 @@ export const TreeGridExample = ({
   focusableHeaderCell,
   verticalNavigationMode,
 }: TreeGridExampleProps) => {
-  const breadthFirstNavigation = useTreeGridNavigationOverrides({
+  const breadthFirstNavigationOverrides = useTreeGridNavigationOverrides({
     onFocusPrevious: (row) => {
       const previousRow = findAdjacentRowAtLevel(row, -1);
       if (previousRow.type === 'same-level') {
         previousRow.row.focus();
+        return treeGridNavigationHandled;
       }
 
-      return previousRow.type !== 'shallower-boundary';
+      return previousRow.type === 'shallower-boundary'
+        ? treeGridNavigationPass
+        : treeGridNavigationPassAndPreventDefault;
     },
     onFocusNext: (row) => {
       const nextRow = findAdjacentRowAtLevel(row, 1);
       if (nextRow.type === 'same-level') {
         nextRow.row.focus();
+        return treeGridNavigationHandled;
       }
 
-      return nextRow.type !== 'shallower-boundary';
+      return nextRow.type === 'shallower-boundary'
+        ? treeGridNavigationPass
+        : treeGridNavigationPassAndPreventDefault;
     },
   });
+  const breadthFirstNavigation = useMergeTreeGridNavigationOverrides(
+    breadthFirstNavigationOverrides
+  );
 
   return (
     <TreeGrid

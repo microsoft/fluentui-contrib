@@ -2,8 +2,12 @@ import * as React from 'react';
 import {
   TreeGrid,
   TreeGridCell,
+  type TreeGridNavigationStageResult,
   TreeGridRow,
   TreeGridRowOnOpenChangeData,
+  treeGridNavigationHandled,
+  treeGridNavigationPass,
+  useMergeTreeGridNavigationOverrides,
   useTreeGridNavigationOverrides,
 } from '@fluentui-contrib/react-tree-grid';
 import {
@@ -670,64 +674,69 @@ export const Virtualization = (): React.ReactElement => {
   );
 
   const scrollToItemAndFocus = React.useCallback(
-    (index: number, itemId: string): boolean => {
-      if (!doc || !win) {
-        return false;
-      }
-
+    (index: number, itemId: string): void => {
       listRef.current?.scrollToItem(index, 'smart');
       win.requestAnimationFrame(() => {
         focusItemById(itemId);
       });
-
-      return true;
     },
-    [doc, focusItemById, win]
+    [focusItemById, win]
   );
 
   const handleFocusParent = React.useCallback(
-    (row: HTMLElement): boolean => {
+    (row: HTMLElement): TreeGridNavigationStageResult => {
+      if (!doc || !win) {
+        return treeGridNavigationPass;
+      }
+
       const parentId = row.dataset.itemParentId;
       if (!parentId) {
-        return false;
+        return treeGridNavigationPass;
       }
 
       const index = visibleIndexById.get(parentId);
       if (index === undefined) {
-        return false;
+        return treeGridNavigationPass;
       }
 
-      return scrollToItemAndFocus(index, parentId);
+      scrollToItemAndFocus(index, parentId);
+      return treeGridNavigationHandled;
     },
-    [scrollToItemAndFocus, visibleIndexById]
+    [doc, scrollToItemAndFocus, visibleIndexById, win]
   );
 
   const handleFocusBoundaryItem = React.useCallback(
-    (targetIndex: number) => {
+    (targetIndex: number): TreeGridNavigationStageResult => {
       const targetItem = visibleItems[targetIndex];
-      if (!targetItem) {
-        return false;
+      if (!targetItem || !doc || !win) {
+        return treeGridNavigationPass;
       }
 
-      const targetRow = doc?.querySelector<HTMLElement>(
+      const targetRow = doc.querySelector<HTMLElement>(
         `[data-item-id="${targetItem.value}"]`
       );
       if (targetRow) {
-        return false;
+        return treeGridNavigationPass;
       }
 
-      return () => {
-        scrollToItemAndFocus(targetIndex, targetItem.value);
+      return {
+        ...treeGridNavigationHandled,
+        request: () => {
+          scrollToItemAndFocus(targetIndex, targetItem.value);
+        },
       };
     },
     [doc, scrollToItemAndFocus, visibleItems]
   );
 
-  const treeGridNavigation = useTreeGridNavigationOverrides({
+  const virtualizationNavigation = useTreeGridNavigationOverrides({
     onFocusFirst: () => handleFocusBoundaryItem(0),
     onFocusLast: () => handleFocusBoundaryItem(visibleItems.length - 1),
     onFocusParent: handleFocusParent,
   });
+  const treeGridNavigation = useMergeTreeGridNavigationOverrides(
+    virtualizationNavigation
+  );
 
   const contextValue = React.useMemo(
     () => ({ openItems, requestOpenChange }),

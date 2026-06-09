@@ -35,8 +35,18 @@ export type {
 } from './components/TreeGridInteraction';
 
 export { useTreeGridNavigationOverrides } from './hooks/useTreeGridNavigationOverrides';
+export {
+  treeGridNavigationHandled,
+  treeGridNavigationPass,
+  treeGridNavigationPassAndPreventDefault,
+  useMergeTreeGridNavigationOverrides,
+} from './hooks/useTreeGridNavigationOverrides';
 export type {
   TreeGridNavigationOverrideOptions,
   TreeGridNavigationOverrideRequest,
-  TreeGridNavigationOverrideResult,
+  TreeGridNavigationStageResult,
 } from './hooks/useTreeGridNavigationOverrides';
+export {
+  useBreadthFirstTreeGridNavigation,
+  findAdjacentRowAtLevel,
+} from './hooks/useBreadthFirstTreeGridNavigation';

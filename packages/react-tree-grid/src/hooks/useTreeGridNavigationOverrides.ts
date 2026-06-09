@@ -14,21 +14,64 @@ import type {
 
 export type TreeGridNavigationOverrideRequest = () => void;
 
-export type TreeGridNavigationOverrideResult =
-  | boolean
-  | TreeGridNavigationOverrideRequest;
+export type TreeGridNavigationStageResult =
+  | { type: 'pass'; preventDefault?: boolean }
+  | { type: 'handled'; request?: TreeGridNavigationOverrideRequest };
 
-export type TreeGridNavigationOverrideOptions = {
-  onFocusFirst?: () => TreeGridNavigationOverrideResult;
-  onFocusLast?: () => TreeGridNavigationOverrideResult;
-  onFocusParent?: (row: HTMLElement) => boolean;
-  onFocusPrevious?: (row: HTMLElement) => TreeGridNavigationOverrideResult;
-  onFocusNext?: (row: HTMLElement) => TreeGridNavigationOverrideResult;
+type TreeGridNavigationResult =
+  | { type: 'prevent-default' }
+  | { type: 'handled'; request?: TreeGridNavigationOverrideRequest }
+  | undefined;
+
+export const treeGridNavigationPass: TreeGridNavigationStageResult = {
+  type: 'pass',
 };
 
-const isDeferredFocusRequest = (
-  value: TreeGridNavigationOverrideResult
-): value is TreeGridNavigationOverrideRequest => typeof value === 'function';
+export const treeGridNavigationPassAndPreventDefault: TreeGridNavigationStageResult =
+  {
+    type: 'pass',
+    preventDefault: true,
+  };
+
+const treeGridNavigationPreventDefault: TreeGridNavigationResult = {
+  type: 'prevent-default',
+};
+
+export const treeGridNavigationHandled: TreeGridNavigationStageResult = {
+  type: 'handled',
+};
+
+export type TreeGridNavigationOverrideOptions = {
+  onFocusFirst?: () => TreeGridNavigationStageResult;
+  onFocusLast?: () => TreeGridNavigationStageResult;
+  onFocusParent?: (row: HTMLElement) => TreeGridNavigationStageResult;
+  onFocusPrevious?: (row: HTMLElement) => TreeGridNavigationStageResult;
+  onFocusNext?: (row: HTMLElement) => TreeGridNavigationStageResult;
+};
+
+const mergeOverrideHandlers = <Args extends unknown[]>(
+  ...handlers: Array<
+    ((...args: Args) => TreeGridNavigationStageResult) | undefined
+  >
+) => {
+  return (...args: Args): TreeGridNavigationResult => {
+    let shouldPreventDefault = false;
+
+    for (const handler of handlers) {
+      const result = handler?.(...args) ?? treeGridNavigationPass;
+      if (result.type === 'pass') {
+        if (result.preventDefault) {
+          shouldPreventDefault = true;
+        }
+        continue;
+      }
+
+      return result;
+    }
+
+    return shouldPreventDefault ? treeGridNavigationPreventDefault : undefined;
+  };
+};
 
 export const useTreeGridNavigationOverrides = ({
   onFocusFirst,
@@ -36,10 +79,57 @@ export const useTreeGridNavigationOverrides = ({
   onFocusParent,
   onFocusPrevious,
   onFocusNext,
-}: TreeGridNavigationOverrideOptions): Pick<
-  TreeGridProps,
-  'onKeyDown' | 'onTabsterMoveFocus'
-> => {
+}: TreeGridNavigationOverrideOptions): TreeGridNavigationOverrideOptions =>
+  React.useMemo(
+    () => ({
+      onFocusFirst,
+      onFocusLast,
+      onFocusParent,
+      onFocusPrevious,
+      onFocusNext,
+    }),
+    [onFocusFirst, onFocusLast, onFocusNext, onFocusParent, onFocusPrevious]
+  );
+
+export const useMergeTreeGridNavigationOverrides = (
+  ...navigationOverrides: TreeGridNavigationOverrideOptions[]
+): Pick<TreeGridProps, 'onKeyDown' | 'onTabsterMoveFocus'> => {
+  const onFocusFirst = React.useMemo(
+    () =>
+      mergeOverrideHandlers(
+        ...navigationOverrides.map((overrides) => overrides.onFocusFirst)
+      ),
+    navigationOverrides
+  );
+  const onFocusLast = React.useMemo(
+    () =>
+      mergeOverrideHandlers(
+        ...navigationOverrides.map((overrides) => overrides.onFocusLast)
+      ),
+    navigationOverrides
+  );
+  const onFocusParent = React.useMemo(
+    () =>
+      mergeOverrideHandlers(
+        ...navigationOverrides.map((overrides) => overrides.onFocusParent)
+      ),
+    navigationOverrides
+  );
+  const onFocusPrevious = React.useMemo(
+    () =>
+      mergeOverrideHandlers(
+        ...navigationOverrides.map((overrides) => overrides.onFocusPrevious)
+      ),
+    navigationOverrides
+  );
+  const onFocusNext = React.useMemo(
+    () =>
+      mergeOverrideHandlers(
+        ...navigationOverrides.map((overrides) => overrides.onFocusNext)
+      ),
+    navigationOverrides
+  );
+
   const handleKeyDown = React.useCallback(
     (event: React.KeyboardEvent<HTMLElement>): void => {
       if (event.key !== ArrowLeft || !isHTMLElement(event.target)) {
@@ -51,11 +141,18 @@ export const useTreeGridNavigationOverrides = ({
       }
 
       const row = event.target.closest<HTMLElement>('[role="row"]');
-      if (!row || !onFocusParent(row)) {
+      const result = row ? onFocusParent(row) : undefined;
+      if (!result) {
         return;
       }
 
       event.preventDefault();
+
+      if (result.type !== 'handled' || !result.request) {
+        return;
+      }
+
+      result.request();
     },
     [onFocusParent]
   );
@@ -74,18 +171,18 @@ export const useTreeGridNavigationOverrides = ({
 
       const result =
         key === Home
-          ? onFocusFirst?.() ?? false
+          ? onFocusFirst?.()
           : key === End
-          ? onFocusLast?.() ?? false
+          ? onFocusLast?.()
           : key === ArrowUp
           ? row
-            ? onFocusPrevious?.(row) ?? false
-            : false
+            ? onFocusPrevious?.(row)
+            : undefined
           : key === ArrowDown
           ? row
-            ? onFocusNext?.(row) ?? false
-            : false
-          : false;
+            ? onFocusNext?.(row)
+            : undefined
+          : undefined;
 
       if (!result) {
         return;
@@ -94,11 +191,16 @@ export const useTreeGridNavigationOverrides = ({
       event.preventDefault();
       relatedEvent.preventDefault();
 
-      if (result === true) {
+      if (result.type !== 'handled' || !result.request) {
         return;
       }
 
-      if (!isDeferredFocusRequest(result) || !isHTMLElement(target)) {
+      if (!isHTMLElement(target)) {
+        return;
+      }
+
+      const request = result.request;
+      if (!request) {
         return;
       }
 
@@ -107,7 +209,7 @@ export const useTreeGridNavigationOverrides = ({
       }
 
       target.ownerDocument.defaultView.setTimeout(() => {
-        result();
+        request();
       }, 0);
     },
     [onFocusFirst, onFocusLast, onFocusNext, onFocusPrevious]

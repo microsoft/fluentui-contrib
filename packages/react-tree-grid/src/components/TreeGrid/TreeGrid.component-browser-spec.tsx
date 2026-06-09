@@ -102,6 +102,40 @@ test.describe('Keyboard interaction', () => {
 
       await expect(component.getByTestId('level-2-row-1')).toBeFocused();
     });
+
+    test('should prevent ArrowDown default movement when no later stage handles', async ({
+      mount,
+    }) => {
+      const component = await mount(
+        <TreeGridExample defaultOpen verticalNavigationMode="breadth-first" />
+      );
+      const lastRow = component.getByTestId('level-2-row-4');
+
+      await lastRow.focus();
+      await expect(lastRow).toBeFocused();
+
+      await lastRow.press('ArrowDown');
+
+      await expect(lastRow).toBeFocused();
+    });
+
+    test('should prevent ArrowDown on the last top-level row from descending into its subtree', async ({
+      mount,
+    }) => {
+      const component = await mount(
+        <TreeGridExample defaultOpen verticalNavigationMode="breadth-first" />
+      );
+      const lastTopLevelRow = component.getByTestId('level-1-row-2');
+      const firstChildRow = component.getByTestId('level-2-row-3');
+
+      await lastTopLevelRow.focus();
+      await expect(lastTopLevelRow).toBeFocused();
+
+      await lastTopLevelRow.press('ArrowDown');
+
+      await expect(lastTopLevelRow).toBeFocused();
+      await expect(firstChildRow).not.toBeFocused();
+    });
   });
 
   test.describe('row', () => {

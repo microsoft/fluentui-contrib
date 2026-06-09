@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
-  useTreeGridNavigationOverrides,
+  useBreadthFirstTreeGridNavigation,
+  useMergeTreeGridNavigationOverrides,
   TreeGrid,
   TreeGridCell,
   TreeGridInteraction,
@@ -768,56 +769,9 @@ export const Threaded = (): React.ReactElement => {
     [scrollAndFocus]
   );
 
-  const handleFocusPrevious = React.useCallback(
-    (row: HTMLElement): boolean => {
-      const currentId = row.dataset.itemId;
-      if (!currentId) {
-        return false;
-      }
-
-      const currentIndex = threadSeeds.findIndex(
-        (thread) => thread.id === currentId
-      );
-      if (currentIndex === -1) {
-        return false;
-      }
-
-      if (currentIndex === 0) {
-        return true;
-      }
-
-      return scrollAndFocus(threadSeeds[currentIndex - 1].id);
-    },
-    [scrollAndFocus]
-  );
-
-  const handleFocusNext = React.useCallback(
-    (row: HTMLElement): boolean => {
-      const currentId = row.dataset.itemId;
-      if (!currentId) {
-        return false;
-      }
-
-      const currentIndex = threadSeeds.findIndex(
-        (thread) => thread.id === currentId
-      );
-      if (currentIndex === -1) {
-        return false;
-      }
-
-      if (currentIndex === threadSeeds.length - 1) {
-        return true;
-      }
-
-      return scrollAndFocus(threadSeeds[currentIndex + 1].id);
-    },
-    [scrollAndFocus]
-  );
-
-  const treeGridNavigation = useTreeGridNavigationOverrides({
-    onFocusNext: handleFocusNext,
-    onFocusPrevious: handleFocusPrevious,
-  });
+  const breadthNavigation = useBreadthFirstTreeGridNavigation();
+  const treeGridNavigation =
+    useMergeTreeGridNavigationOverrides(breadthNavigation);
 
   const navigation = React.useMemo(
     () => ({
