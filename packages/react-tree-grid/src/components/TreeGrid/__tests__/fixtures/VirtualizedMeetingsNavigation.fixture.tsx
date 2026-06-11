@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { VariableSizeList, type ListChildComponentProps } from 'react-window';
-import { Button } from '@fluentui/react-components';
+import { Button, useFluent } from '@fluentui/react-components';
 import { TreeGrid } from '../../TreeGrid';
 import { TreeGridCell } from '../../../TreeGridCell';
 import { TreeGridRow } from '../../../TreeGridRow/TreeGridRow';
@@ -86,6 +86,8 @@ const VirtualizedMeetingsRow = ({
 };
 
 export const VirtualizedMeetingsNavigationFixture = (): React.ReactElement => {
+  const { targetDocument: doc } = useFluent();
+  const win = doc?.defaultView;
   const listRef = React.useRef<VariableSizeList>(null);
   const [openItems] = React.useState(() => new Map(defaultOpenMeetingSections));
 
@@ -105,21 +107,24 @@ export const VirtualizedMeetingsNavigationFixture = (): React.ReactElement => {
     [visibleItems]
   );
 
-  const focusItemById = React.useCallback((itemId: string): void => {
-    document.querySelector<HTMLElement>(`[data-item-id="${itemId}"]`)?.focus();
-  }, []);
+  const focusItemById = React.useCallback(
+    (itemId: string): void => {
+      doc?.querySelector<HTMLElement>(`[data-item-id="${itemId}"]`)?.focus();
+    },
+    [doc]
+  );
 
   const scrollToItemAndFocus = React.useCallback(
     (index: number, itemId: string): boolean => {
       listRef.current?.scrollToItem(index, 'start');
-      window.requestAnimationFrame(() => {
-        window.requestAnimationFrame(() => {
+      win?.requestAnimationFrame(() => {
+        win.requestAnimationFrame(() => {
           focusItemById(itemId);
         });
       });
       return true;
     },
-    [focusItemById]
+    [focusItemById, win]
   );
 
   const getCurrentRow = React.useCallback(
@@ -133,9 +138,12 @@ export const VirtualizedMeetingsNavigationFixture = (): React.ReactElement => {
     []
   );
 
-  const isRowFocused = React.useCallback((row: HTMLElement): boolean => {
-    return row === document.activeElement;
-  }, []);
+  const isRowFocused = React.useCallback(
+    (row: HTMLElement): boolean => {
+      return row === doc?.activeElement;
+    },
+    [doc]
+  );
 
   const handleFocusParent = React.useCallback(
     (event: React.KeyboardEvent<HTMLElement>) => {
@@ -154,7 +162,7 @@ export const VirtualizedMeetingsNavigationFixture = (): React.ReactElement => {
         return;
       }
 
-      const parentRow = document.querySelector<HTMLElement>(
+      const parentRow = doc?.querySelector<HTMLElement>(
         `[data-item-id="${parentId}"]`
       );
       if (parentRow) {
@@ -169,7 +177,7 @@ export const VirtualizedMeetingsNavigationFixture = (): React.ReactElement => {
 
       event.preventDefault();
     },
-    [getCurrentRow, scrollToItemAndFocus, visibleIndexById]
+    [doc, getCurrentRow, scrollToItemAndFocus, visibleIndexById]
   );
 
   const handleFocusBoundaryItem = React.useCallback(
@@ -179,7 +187,7 @@ export const VirtualizedMeetingsNavigationFixture = (): React.ReactElement => {
         return;
       }
 
-      const targetRow = document.querySelector<HTMLElement>(
+      const targetRow = doc?.querySelector<HTMLElement>(
         `[data-item-id="${targetItem.value}"]`
       );
       if (targetRow) {
@@ -187,11 +195,11 @@ export const VirtualizedMeetingsNavigationFixture = (): React.ReactElement => {
       }
 
       event.preventDefault();
-      window.setTimeout(() => {
+      win?.setTimeout(() => {
         scrollToItemAndFocus(targetIndex, targetItem.value);
       }, 0);
     },
-    [scrollToItemAndFocus, visibleItems]
+    [doc, scrollToItemAndFocus, visibleItems, win]
   );
 
   const virtualizationNavigation = useTreeGridNavigationOverride({
@@ -202,7 +210,7 @@ export const VirtualizedMeetingsNavigationFixture = (): React.ReactElement => {
           return false;
         }
 
-        const targetRow = document.querySelector<HTMLElement>(
+        const targetRow = doc?.querySelector<HTMLElement>(
           `[data-item-id="${targetItem.value}"]`
         );
 
@@ -219,7 +227,7 @@ export const VirtualizedMeetingsNavigationFixture = (): React.ReactElement => {
           return false;
         }
 
-        const targetRow = document.querySelector<HTMLElement>(
+        const targetRow = doc?.querySelector<HTMLElement>(
           `[data-item-id="${targetItem.value}"]`
         );
 

@@ -17,7 +17,7 @@ export const TreeGridExample = ({
   defaultOpen,
   focusableHeaderCell,
   verticalNavigationMode,
-}: TreeGridExampleProps) => {
+}: TreeGridExampleProps): React.ReactElement => {
   const levelNavigation = useTreeGridLevelNavigation();
   return (
     <TreeGrid

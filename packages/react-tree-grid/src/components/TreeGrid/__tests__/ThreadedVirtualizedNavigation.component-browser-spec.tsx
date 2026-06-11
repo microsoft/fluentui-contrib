@@ -34,6 +34,7 @@ test.describe('Threaded virtualized navigation', () => {
     browserName,
     page,
   }) => {
+    // eslint-disable-next-line playwright/no-skipped-test
     test.skip(
       browserName === 'webkit',
       'WebKit component tests do not reliably drive this virtualized Arrow navigation path.'

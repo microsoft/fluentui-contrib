@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { VariableSizeList, type ListChildComponentProps } from 'react-window';
+import { useFluent } from '@fluentui/react-components';
 import { TreeGrid } from '../../TreeGrid';
 import { TreeGridCell } from '../../../TreeGridCell';
 import { TreeGridRow } from '../../../TreeGridRow/TreeGridRow';
@@ -84,6 +85,8 @@ const ThreadedVirtualizedRow = ({
 };
 
 export const ThreadedVirtualizedNavigationFixture = (): React.ReactElement => {
+  const { targetDocument: doc } = useFluent();
+  const win = doc?.defaultView;
   const listRef = React.useRef<VariableSizeList>(null);
   const visibleItems = React.useMemo(() => threadedVirtualizedItems, []);
   const visibleIndexById = React.useMemo(
@@ -92,21 +95,24 @@ export const ThreadedVirtualizedNavigationFixture = (): React.ReactElement => {
     [visibleItems]
   );
 
-  const focusItemById = React.useCallback((itemId: string): void => {
-    document.querySelector<HTMLElement>(`[data-item-id="${itemId}"]`)?.focus();
-  }, []);
+  const focusItemById = React.useCallback(
+    (itemId: string): void => {
+      doc?.querySelector<HTMLElement>(`[data-item-id="${itemId}"]`)?.focus();
+    },
+    [doc]
+  );
 
   const scrollToItemAndFocus = React.useCallback(
     (index: number, itemId: string): boolean => {
       listRef.current?.scrollToItem(index, 'start');
-      window.requestAnimationFrame(() => {
-        window.requestAnimationFrame(() => {
+      win?.requestAnimationFrame(() => {
+        win.requestAnimationFrame(() => {
           focusItemById(itemId);
         });
       });
       return true;
     },
-    [focusItemById]
+    [focusItemById, win]
   );
 
   const getCurrentRow = React.useCallback(
@@ -137,7 +143,7 @@ export const ThreadedVirtualizedNavigationFixture = (): React.ReactElement => {
         return;
       }
 
-      const parentRow = document.querySelector<HTMLElement>(
+      const parentRow = doc?.querySelector<HTMLElement>(
         `[data-item-id="${parentId}"]`
       );
       if (parentRow) {
@@ -152,7 +158,7 @@ export const ThreadedVirtualizedNavigationFixture = (): React.ReactElement => {
 
       event.preventDefault();
     },
-    [getCurrentRow, scrollToItemAndFocus, visibleIndexById]
+    [doc, getCurrentRow, scrollToItemAndFocus, visibleIndexById]
   );
 
   const handleFocusBoundaryItem = React.useCallback(
@@ -162,7 +168,7 @@ export const ThreadedVirtualizedNavigationFixture = (): React.ReactElement => {
         return;
       }
 
-      const targetRow = document.querySelector<HTMLElement>(
+      const targetRow = doc?.querySelector<HTMLElement>(
         `[data-item-id="${targetItem.value}"]`
       );
       if (targetRow) {
@@ -170,11 +176,11 @@ export const ThreadedVirtualizedNavigationFixture = (): React.ReactElement => {
       }
 
       event.preventDefault();
-      window.setTimeout(() => {
+      win?.setTimeout(() => {
         scrollToItemAndFocus(targetIndex, targetItem.value);
       }, 0);
     },
-    [scrollToItemAndFocus, visibleItems]
+    [doc, scrollToItemAndFocus, visibleItems, win]
   );
 
   const getAdjacentHeaderAtLevel = React.useCallback(
@@ -210,7 +216,7 @@ export const ThreadedVirtualizedNavigationFixture = (): React.ReactElement => {
 
         if (candidateLevel === currentLevel) {
           const targetItem = visibleItems[index];
-          const mountedHeader = document.querySelector<HTMLElement>(
+          const mountedHeader = doc?.querySelector<HTMLElement>(
             `[data-item-id="${targetItem.value}"]`
           );
 
@@ -228,7 +234,7 @@ export const ThreadedVirtualizedNavigationFixture = (): React.ReactElement => {
 
       return { type: 'none' as const };
     },
-    [getCurrentRow, visibleIndexById, visibleItems]
+    [doc, getCurrentRow, visibleIndexById, visibleItems]
   );
 
   const handleFocusAdjacentHeader = React.useCallback(
@@ -246,8 +252,8 @@ export const ThreadedVirtualizedNavigationFixture = (): React.ReactElement => {
           return;
         }
 
-        document
-          .querySelector<HTMLElement>(`[data-item-id="${targetItem.value}"]`)
+        doc
+          ?.querySelector<HTMLElement>(`[data-item-id="${targetItem.value}"]`)
           ?.focus();
         return;
       }
@@ -256,7 +262,7 @@ export const ThreadedVirtualizedNavigationFixture = (): React.ReactElement => {
         scrollToItemAndFocus(adjacentHeader.index, adjacentHeader.itemId);
       }
     },
-    [getAdjacentHeaderAtLevel, scrollToItemAndFocus, visibleItems]
+    [doc, getAdjacentHeaderAtLevel, scrollToItemAndFocus, visibleItems]
   );
 
   const virtualizationNavigation = useTreeGridNavigationOverride({
@@ -267,7 +273,7 @@ export const ThreadedVirtualizedNavigationFixture = (): React.ReactElement => {
           return false;
         }
 
-        const targetRow = document.querySelector<HTMLElement>(
+        const targetRow = doc?.querySelector<HTMLElement>(
           `[data-item-id="${targetItem.value}"]`
         );
 
@@ -284,7 +290,7 @@ export const ThreadedVirtualizedNavigationFixture = (): React.ReactElement => {
           return false;
         }
 
-        const targetRow = document.querySelector<HTMLElement>(
+        const targetRow = doc?.querySelector<HTMLElement>(
           `[data-item-id="${targetItem.value}"]`
         );
 
