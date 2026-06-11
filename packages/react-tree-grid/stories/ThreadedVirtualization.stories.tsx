@@ -22,6 +22,7 @@ import {
   tokens,
   useFluent,
 } from '@fluentui/react-components';
+import { Enter } from '@fluentui/keyboard-keys';
 import { CaretDownFilled, CaretRightFilled } from '@fluentui/react-icons';
 import { isHTMLElement } from '@fluentui/react-utilities';
 import { ListChildComponentProps, VariableSizeList } from 'react-window';
@@ -71,7 +72,11 @@ type ThreadedVirtualizedItem =
 
 type VirtualizationContextValue = {
   openItems: Set<PropertyKey>;
+  focusedHeaderId: string | undefined;
+  focusInput: (threadId: string) => void;
+  focusUnread: (threadId: string) => void;
   requestOpenChange: (data: TreeGridRowOnOpenChangeData) => void;
+  setFocusedHeaderId: React.Dispatch<React.SetStateAction<string | undefined>>;
 };
 
 const rowFocusGap = 8;
@@ -233,6 +238,26 @@ const useStyles = makeStyles({
     width: '100%',
     overflowX: 'hidden',
   },
+  infoBox: {
+    display: 'inline-flex',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    gap: tokens.spacingHorizontalL,
+    marginBottom: tokens.spacingVerticalM,
+    ...shorthands.padding(tokens.spacingVerticalS, tokens.spacingHorizontalM),
+    ...shorthands.borderRadius(tokens.borderRadiusMedium),
+    ...shorthands.border('1px', 'solid', tokens.colorNeutralStroke1),
+    backgroundColor: tokens.colorNeutralBackground2,
+  },
+  infoLabel: {
+    color: tokens.colorNeutralForeground3,
+  },
+  focusedThreadId: {
+    color: tokens.colorStatusDangerForeground1,
+  },
+  keyHint: {
+    color: tokens.colorNeutralForeground2,
+  },
   treeGrid: {
     width: '100%',
     overflowX: 'hidden',
@@ -254,6 +279,12 @@ const useStyles = makeStyles({
     ':hover': {
       backgroundColor: tokens.colorNeutralBackground4Selected,
     },
+  },
+  headerRowOutlined: {
+    boxShadow: `inset 2px 0 0 0 ${tokens.colorStrokeFocus2}, inset -2px 0 0 0 ${tokens.colorStrokeFocus2}, inset 0 2px 0 0 ${tokens.colorStrokeFocus2}`,
+  },
+  headerRowOutlinedLast: {
+    boxShadow: `inset 2px 0 0 0 ${tokens.colorStrokeFocus2}, inset -2px 0 0 0 ${tokens.colorStrokeFocus2}, inset 0 2px 0 0 ${tokens.colorStrokeFocus2}, inset 0 -2px 0 0 ${tokens.colorStrokeFocus2}`,
   },
   headerChevron: {
     color: tokens.colorNeutralForeground3,
@@ -307,6 +338,12 @@ const useStyles = makeStyles({
       '--threadedTimestampRevealOpacity': '0',
       '--threadedTimestampRevealVisibility': 'hidden',
     },
+  },
+  threadOutlined: {
+    boxShadow: `inset 2px 0 0 0 ${tokens.colorStrokeFocus2}, inset -2px 0 0 0 ${tokens.colorStrokeFocus2}`,
+  },
+  threadOutlinedLast: {
+    boxShadow: `inset 2px 0 0 0 ${tokens.colorStrokeFocus2}, inset -2px 0 0 0 ${tokens.colorStrokeFocus2}, inset 0 -2px 0 0 ${tokens.colorStrokeFocus2}`,
   },
   unread: {
     gridArea: 'unread',
@@ -450,20 +487,79 @@ const ThreadedVirtualizedRow = React.memo(
   ): React.ReactElement => {
     const styles = useStyles();
     const item = props.data[props.index];
-    const { openItems, requestOpenChange } = useVirtualizationContext();
+    const {
+      focusedHeaderId,
+      focusInput,
+      focusUnread,
+      openItems,
+      requestOpenChange,
+      setFocusedHeaderId,
+    } = useVirtualizationContext();
 
     if (item.type === 'header') {
       const isOpen = openItems.has(item.value);
+      const outlined = focusedHeaderId === item.value;
       const rowStyle: React.CSSProperties = {
         ...getChildRowStyle(props.style),
         ...(item.threadIndex > 0 ? { paddingTop: `${threadHeaderGap}px` } : {}),
       };
 
+      const onFocusCapture = (event: React.FocusEvent<HTMLElement>): void => {
+        setFocusedHeaderId(
+          event.target === event.currentTarget ? item.value : undefined
+        );
+      };
+
+      const onBlurCapture = (event: React.FocusEvent<HTMLElement>): void => {
+        const nextFocused = event.relatedTarget;
+        if (
+          isHTMLElement(nextFocused) &&
+          event.currentTarget.contains(nextFocused)
+        ) {
+          return;
+        }
+
+        setFocusedHeaderId((prev) => (prev === item.value ? undefined : prev));
+      };
+
+      const onHeaderKeyDown = (
+        event: React.KeyboardEvent<HTMLDivElement>
+      ): void => {
+        const isOnHeaderRow =
+          isHTMLElement(event.target) && event.target === event.currentTarget;
+
+        if (event.key === 'r' && (event.metaKey || event.ctrlKey)) {
+          event.preventDefault();
+          focusInput(item.value);
+          return;
+        }
+
+        if (!isOnHeaderRow) {
+          return;
+        }
+
+        if (event.key === ' ') {
+          event.preventDefault();
+          focusUnread(item.value);
+        }
+      };
+
       return (
         <TreeGridRow
-          className={mergeClasses(styles.rowFrame, styles.headerRow)}
+          className={mergeClasses(
+            styles.rowFrame,
+            styles.headerRow,
+            outlined
+              ? isOpen
+                ? styles.headerRowOutlined
+                : styles.headerRowOutlinedLast
+              : undefined
+          )}
           data-item-id={item.value}
           data-rowtype="header"
+          onBlurCapture={onBlurCapture}
+          onFocusCapture={onFocusCapture}
+          onKeyDown={onHeaderKeyDown}
           onOpenChange={(_, data) => requestOpenChange(data)}
           open={isOpen}
           style={rowStyle}
@@ -493,13 +589,41 @@ const ThreadedVirtualizedRow = React.memo(
     }
 
     if (item.type === 'message') {
+      const firstActionRef = React.useRef<HTMLButtonElement | null>(null);
+      const threadOutlined = focusedHeaderId === item.parentValue;
+      const onMessageRowKeyDown = (
+        event: React.KeyboardEvent<HTMLElement>
+      ): void => {
+        if (event.key === 'r' && (event.metaKey || event.ctrlKey)) {
+          event.preventDefault();
+          focusInput(item.parentValue);
+          return;
+        }
+
+        if (event.key === ' ' && event.target === event.currentTarget) {
+          event.preventDefault();
+          focusUnread(item.parentValue);
+          return;
+        }
+
+        if (event.key === Enter && event.target === event.currentTarget) {
+          event.preventDefault();
+          firstActionRef.current?.focus();
+        }
+      };
+
       return (
         <TreeGridRow
-          className={mergeClasses(styles.rowFrame, styles.messageRow)}
+          className={mergeClasses(
+            styles.rowFrame,
+            styles.messageRow,
+            threadOutlined ? styles.threadOutlined : undefined
+          )}
           data-item-id={item.value}
           data-item-parent-id={item.parentValue}
           data-rowtype="message"
           level={2}
+          onKeyDown={onMessageRowKeyDown}
           style={getChildRowStyle(props.style)}
         >
           <TreeGridCell aria-hidden className={styles.unread}>
@@ -535,6 +659,7 @@ const ThreadedVirtualizedRow = React.memo(
             <Button
               appearance="subtle"
               className={styles.actionButton}
+              ref={firstActionRef}
               size="small"
             >
               Reply
@@ -551,9 +676,15 @@ const ThreadedVirtualizedRow = React.memo(
       );
     }
 
+    const threadOutlined = focusedHeaderId === item.parentValue;
+
     return (
       <TreeGridRow
-        className={mergeClasses(styles.rowFrame, styles.inputRow)}
+        className={mergeClasses(
+          styles.rowFrame,
+          styles.inputRow,
+          threadOutlined ? styles.threadOutlinedLast : undefined
+        )}
         data-item-id={item.value}
         data-item-parent-id={item.parentValue}
         data-rowtype="input"
@@ -583,6 +714,9 @@ export const ThreadedVirtualization = (): React.ReactElement => {
   const { targetDocument: doc } = useFluent();
   const win = doc?.defaultView;
   const listRef = React.useRef<VariableSizeList>(null);
+  const [focusedHeaderId, setFocusedHeaderId] = React.useState<
+    string | undefined
+  >(undefined);
   const [openItems, setOpenItems] = React.useState(
     () => new Set(defaultOpenItems)
   );
@@ -649,26 +783,84 @@ export const ThreadedVirtualization = (): React.ReactElement => {
   }, [visibleItems]);
 
   const focusItemById = React.useCallback(
-    (itemId: string): void => {
-      doc?.querySelector<HTMLElement>(`[data-item-id="${itemId}"]`)?.focus();
+    (itemId: string, focusInteractiveContent = false): boolean => {
+      const row = doc?.querySelector<HTMLElement>(`[data-item-id="${itemId}"]`);
+      if (!row) {
+        return false;
+      }
+
+      if (focusInteractiveContent) {
+        const textarea = row.querySelector<HTMLTextAreaElement>('textarea');
+        if (textarea) {
+          textarea.focus();
+          return true;
+        }
+      }
+
+      row.focus();
+      return true;
     },
     [doc]
   );
 
   const scrollToItemAndFocus = React.useCallback(
-    (index: number, itemId: string): boolean => {
+    (
+      index: number,
+      itemId: string,
+      focusInteractiveContent = false
+    ): boolean => {
       if (!doc || !win) {
         return false;
       }
 
       listRef.current?.scrollToItem(index, 'smart');
       win.requestAnimationFrame(() => {
-        focusItemById(itemId);
+        focusItemById(itemId, focusInteractiveContent);
       });
 
       return true;
     },
     [doc, focusItemById, win]
+  );
+
+  const focusVisibleItem = React.useCallback(
+    (itemId: string, focusInteractiveContent = false): boolean => {
+      if (focusItemById(itemId, focusInteractiveContent)) {
+        return true;
+      }
+
+      const itemIndex = visibleIndexById.get(itemId);
+      if (itemIndex === undefined) {
+        return false;
+      }
+
+      return scrollToItemAndFocus(itemIndex, itemId, focusInteractiveContent);
+    },
+    [focusItemById, scrollToItemAndFocus, visibleIndexById]
+  );
+
+  const focusUnread = React.useCallback(
+    (threadId: string): void => {
+      const thread = threadSeeds.find((candidate) => candidate.id === threadId);
+      if (!thread) {
+        return;
+      }
+
+      const unreadIndex = thread.messages.findIndex((_, messageIndex) =>
+        isThreadMessageUnread(thread, messageIndex)
+      );
+      if (unreadIndex !== -1) {
+        focusVisibleItem(getThreadMessageId(threadId, unreadIndex));
+      }
+    },
+    [focusVisibleItem]
+  );
+
+  const focusInput = React.useCallback(
+    (threadId: string): void => {
+      focusVisibleItem(getThreadInputId(threadId), true);
+    },
+    [focusVisibleItem]
   );
 
   const getCurrentRow = React.useCallback(
@@ -818,8 +1010,22 @@ export const ThreadedVirtualization = (): React.ReactElement => {
   );
 
   const contextValue = React.useMemo(
-    () => ({ openItems, requestOpenChange }),
-    [openItems, requestOpenChange]
+    () => ({
+      focusedHeaderId,
+      focusInput,
+      focusUnread,
+      openItems,
+      requestOpenChange,
+      setFocusedHeaderId,
+    }),
+    [
+      focusedHeaderId,
+      focusInput,
+      focusUnread,
+      openItems,
+      requestOpenChange,
+      setFocusedHeaderId,
+    ]
   );
 
   const levelNavigation = useTreeGridLevelNavigation();
@@ -918,6 +1124,19 @@ export const ThreadedVirtualization = (): React.ReactElement => {
 
   return (
     <div className={styles.story}>
+      <div className={styles.infoBox}>
+        <Caption1 className={styles.infoLabel}>Keyboard:</Caption1>
+        <Caption1 className={styles.keyHint}>↑ ↓ headers</Caption1>
+        <Caption1 className={styles.keyHint}>← → collapse or expand</Caption1>
+        <Caption1 className={styles.keyHint}>Space unread</Caption1>
+        <Caption1 className={styles.keyHint}>⌘R / Ctrl+R reply</Caption1>
+        <Caption1 className={styles.keyHint}>
+          Focused header:{' '}
+          <span className={styles.focusedThreadId}>
+            {focusedHeaderId ?? '(none)'}
+          </span>
+        </Caption1>
+      </div>
       <VirtualizationContext.Provider value={contextValue}>
         <TreeGrid
           aria-label="Threaded TreeGrid with virtualization"
