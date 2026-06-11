@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "Add TreeGrid navigation overrides, level navigation, and virtualization examples",
+  "packageName": "@fluentui-contrib/react-tree-grid",
+  "email": "bsunderhus@microsoft.com",
+  "dependentChangeType": "patch"
+}
