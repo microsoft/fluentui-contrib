@@ -12,6 +12,7 @@ export type TreeGridRowOnOpenChangeData = { open: boolean } & (
 );
 
 export type TreeGridRowProps = ComponentProps<TreeGridRowSlots> & {
+  level?: number;
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: EventHandler<TreeGridRowOnOpenChangeData>;

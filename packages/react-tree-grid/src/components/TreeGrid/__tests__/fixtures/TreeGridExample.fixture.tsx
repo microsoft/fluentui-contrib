@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { TreeGrid } from './TreeGrid';
-import { useTreeGridLevelNavigation } from '../../hooks/useTreeGridLevelNavigation';
-import { TreeGridRow } from '../TreeGridRow/TreeGridRow';
-import { TreeGridCell } from '../TreeGridCell';
+import { TreeGrid } from '../../TreeGrid';
+import { useTreeGridLevelNavigation } from '../../../../hooks/useTreeGridLevelNavigation';
+import { TreeGridRow } from '../../../TreeGridRow/TreeGridRow';
+import { TreeGridCell } from '../../../TreeGridCell';
 import { Button } from '@fluentui/react-components';
 
 type TreeGridVerticalNavigationMode = 'depth-first' | 'breadth-first';
@@ -17,7 +17,7 @@ export const TreeGridExample = ({
   defaultOpen,
   focusableHeaderCell,
   verticalNavigationMode,
-}: TreeGridExampleProps) => {
+}: TreeGridExampleProps): React.ReactElement => {
   const levelNavigation = useTreeGridLevelNavigation();
   return (
     <TreeGrid
