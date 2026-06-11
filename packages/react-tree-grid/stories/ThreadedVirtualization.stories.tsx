@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-  useBreadthFirstTreeGridNavigation,
+  useTreeGridLevelNavigation,
   useMergedTreeGridNavigation,
   useTreeGridNavigationOverride,
   TreeGrid,
@@ -822,7 +822,7 @@ export const ThreadedVirtualization = (): React.ReactElement => {
     [openItems, requestOpenChange]
   );
 
-  const breadthNavigation = useBreadthFirstTreeGridNavigation();
+  const levelNavigation = useTreeGridLevelNavigation();
   const virtualizationNavigation = useTreeGridNavigationOverride({
     focusFirst: {
       shouldOverride: () => {
@@ -913,7 +913,7 @@ export const ThreadedVirtualization = (): React.ReactElement => {
   });
   const treeGridNavigation = useMergedTreeGridNavigation(
     virtualizationNavigation,
-    breadthNavigation
+    levelNavigation
   );
 
   return (

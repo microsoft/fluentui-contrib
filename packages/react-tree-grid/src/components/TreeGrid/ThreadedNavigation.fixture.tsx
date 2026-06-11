@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { TreeGrid } from '../../TreeGrid';
-import { TreeGridCell } from '../../../TreeGridCell';
-import { TreeGridInteraction } from '../../../TreeGridInteraction';
-import { TreeGridRow } from '../../../TreeGridRow/TreeGridRow';
-import { useTreeGridLevelNavigation } from '../../../../hooks/useTreeGridLevelNavigation';
+import { TreeGrid } from './TreeGrid';
+import { TreeGridCell } from '../TreeGridCell';
+import { TreeGridInteraction } from '../TreeGridInteraction';
+import { TreeGridRow } from '../TreeGridRow/TreeGridRow';
+import { useTreeGridLevelNavigation } from '../../hooks/useTreeGridLevelNavigation';
 
 const threadedSeeds = [
   { id: 'thread-401', messages: 2 },

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-  useBreadthFirstTreeGridNavigation,
+  useTreeGridLevelNavigation,
   TreeGrid,
   TreeGridCell,
   TreeGridInteraction,
@@ -768,7 +768,7 @@ export const Threaded = (): React.ReactElement => {
     [scrollAndFocus]
   );
 
-  const treeGridNavigation = useBreadthFirstTreeGridNavigation();
+  const treeGridNavigation = useTreeGridLevelNavigation();
 
   const navigation = React.useMemo(
     () => ({

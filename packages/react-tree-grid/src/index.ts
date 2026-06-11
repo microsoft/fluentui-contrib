@@ -42,4 +42,4 @@ export type {
   TreeGridNavigationOverrideConfig,
   TreeGridNavigationOverrideProps,
 } from './hooks/useTreeGridNavigationOverrides';
-export { useBreadthFirstTreeGridNavigation } from './hooks/useBreadthFirstTreeGridNavigation';
+export { useTreeGridLevelNavigation } from './hooks/useTreeGridLevelNavigation';

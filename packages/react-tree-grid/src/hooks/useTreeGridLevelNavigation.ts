@@ -12,12 +12,11 @@ type AdjacentRowAtLevelResult =
   | { type: 'shallower-boundary' }
   | { type: 'none' };
 
-export const useBreadthFirstTreeGridNavigation =
-  (): TreeGridNavigationOverrideProps =>
-    useTreeGridNavigationOverride({
-      focusPrevious: { shouldOverride, onKeyDown },
-      focusNext: { shouldOverride, onKeyDown },
-    });
+export const useTreeGridLevelNavigation = (): TreeGridNavigationOverrideProps =>
+  useTreeGridNavigationOverride({
+    focusPrevious: { shouldOverride, onKeyDown },
+    focusNext: { shouldOverride, onKeyDown },
+  });
 
 const findAdjacentRowAtLevel = (
   row: HTMLElement,

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { TreeGrid } from '../../TreeGrid';
-import { useBreadthFirstTreeGridNavigation } from '../../../../hooks/useBreadthFirstTreeGridNavigation';
+import { useTreeGridLevelNavigation } from '../../../../hooks/useTreeGridLevelNavigation';
 import { TreeGridRow } from '../../../TreeGridRow/TreeGridRow';
 import { TreeGridCell } from '../../../TreeGridCell';
 import { Button } from '@fluentui/react-components';
@@ -18,12 +18,10 @@ export const TreeGridExample = ({
   focusableHeaderCell,
   verticalNavigationMode,
 }: TreeGridExampleProps) => {
-  const breadthFirstNavigation = useBreadthFirstTreeGridNavigation();
+  const levelNavigation = useTreeGridLevelNavigation();
   return (
     <TreeGrid
-      {...(verticalNavigationMode === 'breadth-first'
-        ? breadthFirstNavigation
-        : {})}
+      {...(verticalNavigationMode === 'breadth-first' ? levelNavigation : {})}
     >
       <TreeGridRow
         defaultOpen={defaultOpen}
