@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {
   makeStyles,
-  mergeClasses,
   tokens,
   useId,
   Label,
@@ -20,19 +19,6 @@ const useStyles = makeStyles({
     gridRowGap: tokens.spacingVerticalXXS,
     marginTop: tokens.spacingVerticalMNudge,
     padding: tokens.spacingHorizontalMNudge,
-  },
-
-  filledLighter: {
-    backgroundColor: tokens.colorNeutralBackgroundInverted,
-    '> label': {
-      color: tokens.colorNeutralForegroundInverted2,
-    },
-  },
-  filledDarker: {
-    backgroundColor: tokens.colorNeutralBackgroundInverted,
-    '> label': {
-      color: tokens.colorNeutralForegroundInverted2,
-    },
   },
 });
 
@@ -56,12 +42,12 @@ export const Appearance = () => {
         <SpinButton appearance="underline" id={underlineId} />
       </div>
 
-      <div className={mergeClasses(styles.field, styles.filledLighter)}>
+      <div className={styles.field}>
         <Label htmlFor={filledLighterId}>Filled Lighter</Label>
         <SpinButton appearance="filled-lighter" id={filledLighterId} />
       </div>
 
-      <div className={mergeClasses(styles.field, styles.filledDarker)}>
+      <div className={styles.field}>
         <Label htmlFor={filledDarkerId}>Filled Darker</Label>
         <SpinButton appearance="filled-darker" id={filledDarkerId} />
       </div>
