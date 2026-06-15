@@ -33,6 +33,7 @@ export const Size = () => {
   const styles = useStyles();
   const smallId = useId('small-id');
   const mediumId = useId('medium-id');
+  const largeId = useId('large-id');
 
   return (
     <div className={styles.base}>
@@ -44,6 +45,11 @@ export const Size = () => {
       <div>
         <Label htmlFor={mediumId}>Medium (default)</Label>
         <SpinButton id={mediumId} />
+      </div>
+
+      <div>
+        <Label htmlFor={largeId}>Large</Label>
+        <SpinButton size={'large' as 'medium'} id={largeId} />
       </div>
     </div>
   );
