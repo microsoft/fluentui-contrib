@@ -32,6 +32,9 @@ import {
 } from '@fluentui/keyboard-keys';
 import { useFindParentRow } from '../../hooks/useFindParentRow';
 
+/**
+ * Root TreeGrid container that wires Tabster-based row and cell navigation.
+ */
 export const TreeGrid = React.forwardRef(
   (props: TreeGridProps, ref: React.ForwardedRef<HTMLDivElement>) => {
     const { className, onKeyDown, onTabsterMoveFocus, ...rest } = props;

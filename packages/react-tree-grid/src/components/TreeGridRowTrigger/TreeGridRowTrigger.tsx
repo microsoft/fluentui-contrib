@@ -9,6 +9,9 @@ import {
 import { useTreeGridRowContext } from '../../contexts/TreeGridRowContext';
 import { useARIAButtonProps } from '@fluentui/react-aria';
 
+/**
+ * Props for TreeGridRowTrigger.
+ */
 export interface TreeGridRowTriggerProps
   extends TriggerProps<TreeGridRowTriggerChildProps> {
   /**

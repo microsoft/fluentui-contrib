@@ -12,10 +12,16 @@ import type {
 } from '../components/TreeGrid';
 import { isHTMLElement, useEventCallback } from '@fluentui/react-utilities';
 
+/**
+ * TreeGrid props returned by a navigation override hook.
+ */
 export type TreeGridNavigationOverrideProps = Required<
   Pick<TreeGridProps, 'onKeyDown' | 'onTabsterMoveFocus'>
 >;
 
+/**
+ * Override callbacks for a single TreeGrid navigation action.
+ */
 export type TreeGridNavigationOverride = {
   shouldOverride?(
     event: CustomEvent<TreeGridTabsterMoveFocusEventDetail>
@@ -23,6 +29,9 @@ export type TreeGridNavigationOverride = {
   onKeyDown?(event: React.KeyboardEvent<HTMLElement>): void;
 };
 
+/**
+ * Per-direction overrides for TreeGrid keyboard navigation.
+ */
 export type TreeGridNavigationOverrideConfig = {
   focusFirst?: TreeGridNavigationOverride;
   focusLast?: TreeGridNavigationOverride;
@@ -50,6 +59,10 @@ const getClosestRow = (target: EventTarget | null): HTMLElement | null => {
 const canFocusParent = (row: HTMLElement | null): row is HTMLElement =>
   !!row && row.getAttribute('aria-expanded') !== 'true';
 
+/**
+ * Creates a TreeGrid navigation layer that can selectively override Tabster
+ * movement for individual directional actions.
+ */
 export const useTreeGridNavigationOverride = ({
   focusFirst,
   focusLast,
@@ -151,6 +164,10 @@ export const useTreeGridNavigationOverride = ({
   );
 };
 
+/**
+ * Composes multiple TreeGrid navigation layers and stops once one of them
+ * handles the current navigation request.
+ */
 export const useMergedTreeGridNavigation = (
   ...navigationOverrides: TreeGridNavigationOverrideProps[]
 ): TreeGridNavigationOverrideProps => {

@@ -12,6 +12,10 @@ type AdjacentRowAtLevelResult =
   | { type: 'shallower-boundary' }
   | { type: 'none' };
 
+/**
+ * Keeps vertical arrow navigation at the current row level until TreeGrid
+ * reaches a shallower boundary, where default TreeGrid navigation resumes.
+ */
 export const useTreeGridLevelNavigation = (): TreeGridNavigationOverrideProps =>
   useTreeGridNavigationOverride({
     focusPrevious: { shouldOverride, onKeyDown },
