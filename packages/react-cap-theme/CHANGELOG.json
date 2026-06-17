@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-cap-theme",
   "entries": [
     {
+      "date": "Wed, 17 Jun 2026 12:26:49 GMT",
+      "tag": "@fluentui-contrib/react-cap-theme_v0.4.3",
+      "version": "0.4.3",
+      "comments": {
+        "patch": [
+          {
+            "author": "egianoglio@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "4d48daa0dd0cb16d4ca2435212d73350fad01525",
+            "comment": "add react-search component"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 03 Jun 2026 12:03:49 GMT",
       "tag": "@fluentui-contrib/react-cap-theme_v0.4.2",
       "version": "0.4.2",

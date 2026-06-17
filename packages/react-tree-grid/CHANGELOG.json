@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-tree-grid",
   "entries": [
     {
+      "date": "Wed, 17 Jun 2026 12:26:49 GMT",
+      "tag": "@fluentui-contrib/react-tree-grid_v0.4.0",
+      "version": "0.4.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "bsunderhus@microsoft.com",
+            "package": "@fluentui-contrib/react-tree-grid",
+            "commit": "2cd7110f42857060f7711930a3904f4cd2e72d73",
+            "comment": "Add TreeGrid navigation overrides, level navigation, and virtualization examples"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 03 Jun 2026 12:03:49 GMT",
       "tag": "@fluentui-contrib/react-tree-grid_v0.3.3",
       "version": "0.3.3",

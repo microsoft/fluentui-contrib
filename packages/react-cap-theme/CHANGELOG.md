@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-cap-theme
 
-This log was last generated on Wed, 03 Jun 2026 12:03:49 GMT and should not be manually modified.
+This log was last generated on Wed, 17 Jun 2026 12:26:49 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.4.3
+
+Wed, 17 Jun 2026 12:26:49 GMT
+
+### Patches
+
+- add react-search component (egianoglio@microsoft.com)
 
 ## 0.4.2
 

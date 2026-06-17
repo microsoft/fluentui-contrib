@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-tree-grid
 
-This log was last generated on Wed, 03 Jun 2026 12:03:49 GMT and should not be manually modified.
+This log was last generated on Wed, 17 Jun 2026 12:26:49 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.4.0
+
+Wed, 17 Jun 2026 12:26:49 GMT
+
+### Minor changes
+
+- Add TreeGrid navigation overrides, level navigation, and virtualization examples (bsunderhus@microsoft.com)
 
 ## 0.3.3
 
