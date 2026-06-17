@@ -21,15 +21,20 @@ import {
 } from '@fluentui/react-tabster';
 import { ArrowLeft, ArrowRight, Enter } from '@fluentui/keyboard-keys';
 import {
+  normalizeTreeGridRowLevel,
   TreeGridRowProvider,
   useTreeGridRowContext,
   useTreeGridRowContextValue,
 } from '../../contexts/TreeGridRowContext';
 
+/**
+ * Focusable TreeGrid row that manages expand/collapse behavior and row-level navigation.
+ */
 export const TreeGridRow = React.forwardRef(
   (props: TreeGridRowProps, ref: React.ForwardedRef<HTMLDivElement>) => {
     const context = useTreeGridRowContextValue(props);
-    const { level } = useTreeGridRowContext();
+    const { level: parentLevel } = useTreeGridRowContext();
+    const currentLevel = normalizeTreeGridRowLevel(props.level ?? parentLevel);
     const { open, requestOpenChange } = context;
     const styles = useTreeGridRowStyles();
     const tabsterAttributes = useMergedTabsterAttributes_unstable(
@@ -85,7 +90,7 @@ export const TreeGridRow = React.forwardRef(
         ref,
         role: 'row',
         tabIndex: 0,
-        'aria-level': level,
+        'aria-level': currentLevel,
         ...props,
         ...tabsterAttributes,
         className: mergeClasses(styles, props.className),
@@ -93,7 +98,7 @@ export const TreeGridRow = React.forwardRef(
           onKeyDown: handleKeyDown,
           onClick: handleClick,
           'aria-expanded': props['aria-expanded'] ?? open,
-          'aria-level': props['aria-level'] ?? level,
+          'aria-level': props['aria-level'] ?? currentLevel,
         }),
       }),
       { elementType: 'div' }

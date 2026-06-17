@@ -10,6 +10,7 @@ import {
   mergeClasses,
   slot,
   useEventCallback,
+  useMergedRefs,
 } from '@fluentui/react-components';
 import { TreeGridProps } from './TreeGrid.types';
 import {
@@ -23,30 +24,38 @@ import {
 } from '@fluentui/react-tabster';
 import { isHTMLElement } from '@fluentui/react-utilities';
 import {
-  ArrowDown,
   ArrowLeft,
   ArrowRight,
   ArrowUp,
+  ArrowDown,
   Enter,
 } from '@fluentui/keyboard-keys';
 import { useFindParentRow } from '../../hooks/useFindParentRow';
 
+/**
+ * Root TreeGrid container that wires Tabster-based row and cell navigation.
+ */
 export const TreeGrid = React.forwardRef(
   (props: TreeGridProps, ref: React.ForwardedRef<HTMLDivElement>) => {
+    const { className, onKeyDown, onTabsterMoveFocus, ...rest } = props;
+    const keyDownHandler = useTreeGridKeyDownHandler(onKeyDown);
+    const tabsterMoveFocusRef =
+      useTreeGridTabsterMoveFocusHandler(onTabsterMoveFocus);
+
     const Root = slot.always(
       getIntrinsicElementProps('div', {
-        ref,
+        ref: useMergedRefs(ref, tabsterMoveFocusRef),
         role: 'treegrid',
-        ...props,
+        ...rest,
         ...useMergedTabsterAttributes_unstable(
           useArrowNavigationGroup({
             axis: 'vertical',
             memorizeCurrent: true,
           }),
-          props as TabsterDOMAttribute
+          rest as TabsterDOMAttribute
         ),
-        onKeyDown: useTreeGridKeyDownHandler(props),
-        className: mergeClasses('fui-TreeGrid', props.className),
+        onKeyDown: keyDownHandler,
+        className: mergeClasses('fui-TreeGrid', className),
       }),
       { elementType: 'div' }
     );
@@ -54,44 +63,10 @@ export const TreeGrid = React.forwardRef(
   }
 );
 
-const useTreeGridKeyDownHandler = (props: Pick<TreeGridProps, 'onKeyDown'>) => {
-  const handleTreeGridRowKeyDown = useTreeGridRowKeyDownHandler();
-  return useEventCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
-    props.onKeyDown?.(event);
-    if (!isHTMLElement(event.target)) {
-      return;
-    }
-    // TreeGridRow
-    if (event.target.role === 'row') {
-      handleTreeGridRowKeyDown(event);
-      return;
-    }
-    const row = event.target.closest<HTMLElement>('[role=row]');
-    if (!row) {
-      return;
-    }
-    // TreeGridInteraction
-    if (event.target.role === 'group') {
-      handleTreeGridInteractionCellKeyDown(event, row);
-      return;
-    }
-    const wrapper = event.target.closest<HTMLDivElement>(
-      '[role=row],[role=group],[role=rowheader],[role=gridcell]'
-    );
-    // if the target is inside a TreeGridInteraction,
-    // keydown should be handled by the interaction cell
-    if (wrapper?.role === 'group') {
-      return;
-    }
-    // TreeGridCell
-    handleTreeGridCellKeyDown(event, row);
-  });
-};
-
 const useTreeGridRowKeyDownHandler = () => {
   const findParentRow = useFindParentRow();
   return React.useCallback(
-    (event: React.KeyboardEvent<HTMLElement>) => {
+    (event: KeyboardEvent) => {
       if (!isHTMLElement(event.target)) {
         return;
       }
@@ -125,13 +100,89 @@ const useTreeGridRowKeyDownHandler = () => {
   );
 };
 
+const useTreeGridKeyDownHandler = (
+  onKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void
+): ((event: React.KeyboardEvent<HTMLDivElement>) => void) => {
+  const handleTreeGridRowKeyDown = useTreeGridRowKeyDownHandler();
+  return useEventCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
+    onKeyDown?.(event);
+    if (event.isDefaultPrevented() || !isHTMLElement(event.target)) {
+      return;
+    }
+
+    if (event.target.role === 'row') {
+      handleTreeGridRowKeyDown(event.nativeEvent);
+      return;
+    }
+
+    const row = event.target.closest<HTMLElement>('[role=row]');
+    if (!row) {
+      return;
+    }
+
+    if (event.target.role === 'group') {
+      handleTreeGridInteractionCellKeyDown(
+        event.target,
+        event.nativeEvent,
+        row
+      );
+      return;
+    }
+
+    const wrapper = event.target.closest<HTMLDivElement>(
+      '[role=row],[role=group],[role=rowheader],[role=gridcell]'
+    );
+    if (wrapper?.role === 'group') {
+      return;
+    }
+
+    handleTreeGridCellKeyDown(event.target, event.nativeEvent, row);
+  });
+};
+
+const noop = () => {
+  /** noop */
+};
+
+const useTreeGridTabsterMoveFocusHandler = (
+  onTabsterMoveFocus?: TreeGridProps['onTabsterMoveFocus']
+): React.RefObject<HTMLDivElement | null> => {
+  const ref = React.useRef<HTMLDivElement | null>(null);
+
+  const moveFocusHandler = useEventCallback(onTabsterMoveFocus ?? noop);
+
+  React.useEffect(() => {
+    const element = ref.current;
+    if (!element) {
+      return;
+    }
+
+    element.addEventListener(
+      'tabster:movefocus',
+      moveFocusHandler as EventListener,
+      true
+    );
+
+    return () => {
+      element.removeEventListener(
+        'tabster:movefocus',
+        moveFocusHandler as EventListener,
+        true
+      );
+    };
+  }, [moveFocusHandler]);
+
+  return ref;
+};
+
 const handleTreeGridInteractionCellKeyDown = (
-  event: React.KeyboardEvent<HTMLElement>,
+  target: HTMLElement,
+  event: KeyboardEvent,
   row: HTMLElement
 ) => {
   switch (event.key) {
     case Enter: {
-      event.target.dispatchEvent(
+      target.dispatchEvent(
         new GroupperMoveFocusEvent({
           action: GroupperMoveFocusActions.Enter,
         })
@@ -140,7 +191,7 @@ const handleTreeGridInteractionCellKeyDown = (
     }
     case ArrowUp:
     case ArrowDown: {
-      event.target.dispatchEvent(
+      target.dispatchEvent(
         new GroupperMoveFocusEvent({
           action: GroupperMoveFocusActions.Escape,
         })
@@ -149,7 +200,7 @@ const handleTreeGridInteractionCellKeyDown = (
       return;
     }
     case ArrowLeft: {
-      event.target.dispatchEvent(
+      target.dispatchEvent(
         new GroupperMoveFocusEvent({
           action: GroupperMoveFocusActions.Escape,
         })
@@ -160,12 +211,13 @@ const handleTreeGridInteractionCellKeyDown = (
 };
 
 const handleTreeGridCellKeyDown = (
-  event: React.KeyboardEvent<HTMLElement>,
+  target: HTMLElement,
+  event: KeyboardEvent,
   row: HTMLElement
 ) => {
   switch (event.key) {
     case ArrowLeft: {
-      event.target.dispatchEvent(
+      target.dispatchEvent(
         new GroupperMoveFocusEvent({
           action: GroupperMoveFocusActions.Escape,
         })
@@ -174,7 +226,7 @@ const handleTreeGridCellKeyDown = (
     }
     case ArrowUp:
     case ArrowDown: {
-      event.target.dispatchEvent(
+      target.dispatchEvent(
         new GroupperMoveFocusEvent({
           action: GroupperMoveFocusActions.Escape,
         })
