@@ -1,0 +1,16 @@
+/* Let the themed FluentProvider fill the docs preview card instead of Storybook's default white frame. */
+#storybook-docs .sbdocs-preview {
+  background: transparent;
+  overflow: hidden;
+}
+
+#storybook-docs .innerZoomElementWrapper {
+  padding: 0;
+}
+
+#storybook-docs .docs-story .fui-FluentProvider {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 30px;
+  border-radius: 9px;
+}
