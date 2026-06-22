@@ -1,0 +1,7 @@
+{
+  "type": "none",
+  "comment": "add storybook theme switcher toolbar",
+  "packageName": "@fluentui-contrib/react-cap-theme",
+  "email": "Oleksandr.Katrukhin@microsoft.com",
+  "dependentChangeType": "none"
+}
