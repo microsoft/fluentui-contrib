@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "Fix TreeGrid level navigation when virtualized rows are wrapped in additional containers",
+  "packageName": "@fluentui-contrib/react-tree-grid",
+  "email": "bsunderhus@microsoft.com",
+  "dependentChangeType": "patch"
+}

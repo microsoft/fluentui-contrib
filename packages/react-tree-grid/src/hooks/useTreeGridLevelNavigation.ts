@@ -31,32 +31,53 @@ const findAdjacentRowAtLevel = (
     return { type: 'none' };
   }
 
-  let sibling: Element | null =
-    direction === ArrowDown
-      ? row.nextElementSibling
-      : row.previousElementSibling;
+  const treeGrid = row.closest<HTMLElement>('[role="treegrid"]');
+  if (!treeGrid) {
+    return { type: 'none' };
+  }
 
-  while (sibling) {
-    if (isHTMLElement(sibling) && sibling.getAttribute('role') === 'row') {
-      const siblingLevel = Number(sibling.getAttribute('aria-level'));
+  const nodeFilter = row.ownerDocument.defaultView?.NodeFilter;
+  if (!nodeFilter) {
+    return { type: 'none' };
+  }
 
-      if (Number.isNaN(siblingLevel)) {
-        return { type: 'none' };
-      }
+  const rowWalker = row.ownerDocument.createTreeWalker(
+    treeGrid,
+    nodeFilter.SHOW_ELEMENT,
+    {
+      acceptNode: (node) =>
+        isHTMLElement(node) && node.getAttribute('role') === 'row'
+          ? nodeFilter.FILTER_ACCEPT
+          : nodeFilter.FILTER_SKIP,
+    }
+  );
 
-      if (siblingLevel < level) {
-        return { type: 'shallower-boundary' };
-      }
+  rowWalker.currentNode = row;
 
-      if (siblingLevel === level) {
-        return { type: 'same-level', row: sibling };
-      }
+  for (
+    let sibling =
+      direction === ArrowDown ? rowWalker.nextNode() : rowWalker.previousNode();
+    sibling;
+    sibling =
+      direction === ArrowDown ? rowWalker.nextNode() : rowWalker.previousNode()
+  ) {
+    if (!isHTMLElement(sibling)) {
+      continue;
     }
 
-    sibling =
-      direction === ArrowDown
-        ? sibling.nextElementSibling
-        : sibling.previousElementSibling;
+    const siblingLevel = Number(sibling.getAttribute('aria-level'));
+
+    if (Number.isNaN(siblingLevel)) {
+      return { type: 'none' };
+    }
+
+    if (siblingLevel < level) {
+      return { type: 'shallower-boundary' };
+    }
+
+    if (siblingLevel === level) {
+      return { type: 'same-level', row: sibling };
+    }
   }
 
   return { type: 'none' };

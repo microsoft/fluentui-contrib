@@ -58,30 +58,34 @@ const VirtualizedMeetingsRow = ({
 
   if (item.type === 'section') {
     return (
-      <TreeGridRow
-        data-item-id={item.value}
-        open={isOpen}
-        style={style}
-        subtree
-      >
-        <TreeGridCell header>{item.value}</TreeGridCell>
-        <TreeGridCell>Section</TreeGridCell>
-      </TreeGridRow>
+      <div>
+        <TreeGridRow
+          data-item-id={item.value}
+          open={isOpen}
+          style={style}
+          subtree
+        >
+          <TreeGridCell header>{item.value}</TreeGridCell>
+          <TreeGridCell>Section</TreeGridCell>
+        </TreeGridRow>
+      </div>
     );
   }
 
   return (
-    <TreeGridRow
-      data-item-id={item.value}
-      data-item-parent-id={item.parentValue}
-      level={2}
-      style={style}
-    >
-      <TreeGridCell header>
-        <Button>{item.value}</Button>
-      </TreeGridCell>
-      <TreeGridCell>Meeting</TreeGridCell>
-    </TreeGridRow>
+    <div>
+      <TreeGridRow
+        data-item-id={item.value}
+        data-item-parent-id={item.parentValue}
+        level={2}
+        style={style}
+      >
+        <TreeGridCell header>
+          <Button>{item.value}</Button>
+        </TreeGridCell>
+        <TreeGridCell>Meeting</TreeGridCell>
+      </TreeGridRow>
+    </div>
   );
 };
 
