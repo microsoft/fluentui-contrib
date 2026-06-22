@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-tree-grid
 
-This log was last generated on Wed, 17 Jun 2026 12:26:49 GMT and should not be manually modified.
+This log was last generated on Mon, 22 Jun 2026 09:18:07 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.4.1
+
+Mon, 22 Jun 2026 09:18:07 GMT
+
+### Patches
+
+- Fix TreeGrid level navigation when virtualized rows are wrapped in additional containers (bsunderhus@microsoft.com)
 
 ## 0.4.0
 

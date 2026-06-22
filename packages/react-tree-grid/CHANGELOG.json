@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-tree-grid",
   "entries": [
     {
+      "date": "Mon, 22 Jun 2026 09:18:07 GMT",
+      "tag": "@fluentui-contrib/react-tree-grid_v0.4.1",
+      "version": "0.4.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "bsunderhus@microsoft.com",
+            "package": "@fluentui-contrib/react-tree-grid",
+            "commit": "aacc870208632293e0490690c860500614ea314c",
+            "comment": "Fix TreeGrid level navigation when virtualized rows are wrapped in additional containers"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 17 Jun 2026 12:26:49 GMT",
       "tag": "@fluentui-contrib/react-tree-grid_v0.4.0",
       "version": "0.4.0",
