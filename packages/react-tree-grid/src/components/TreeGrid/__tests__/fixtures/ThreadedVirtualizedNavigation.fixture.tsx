@@ -63,24 +63,28 @@ const ThreadedVirtualizedRow = ({
 
   if (item.type === 'header') {
     return (
-      <TreeGridRow data-item-id={item.value} open style={style} subtree>
-        <TreeGridCell header>{item.value}</TreeGridCell>
-        <TreeGridCell>Header</TreeGridCell>
-      </TreeGridRow>
+      <div>
+        <TreeGridRow data-item-id={item.value} open style={style} subtree>
+          <TreeGridCell header>{item.value}</TreeGridCell>
+          <TreeGridCell>Header</TreeGridCell>
+        </TreeGridRow>
+      </div>
     );
   }
 
   return (
-    <TreeGridRow
-      data-item-id={item.value}
-      data-item-parent-id={item.parentValue}
-      data-rowtype={item.type}
-      level={2}
-      style={style}
-    >
-      <TreeGridCell header>{item.value}</TreeGridCell>
-      <TreeGridCell>{item.type}</TreeGridCell>
-    </TreeGridRow>
+    <div>
+      <TreeGridRow
+        data-item-id={item.value}
+        data-item-parent-id={item.parentValue}
+        data-rowtype={item.type}
+        level={2}
+        style={style}
+      >
+        <TreeGridCell header>{item.value}</TreeGridCell>
+        <TreeGridCell>{item.type}</TreeGridCell>
+      </TreeGridRow>
+    </div>
   );
 };
 
