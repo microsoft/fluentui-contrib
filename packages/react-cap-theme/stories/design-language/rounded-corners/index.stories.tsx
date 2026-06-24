@@ -1,6 +1,5 @@
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import { Title, Description, Stories } from '@storybook/addon-docs/blocks';
 import {
   Avatar,
   Badge,
@@ -38,7 +37,10 @@ import {
   CalendarFilled,
   bundleIcon,
 } from '@fluentui/react-icons';
-import { CAP_STYLE_HOOKS, CAP_STYLE_HOOKS_BORDERS_ONLY } from '../../src/index';
+import {
+  CAP_STYLE_HOOKS,
+  CAP_STYLE_HOOKS_ROUNDED_CORNERS,
+} from '../../../src/index';
 
 const CalendarIcon = bundleIcon(CalendarFilled, CalendarRegular);
 
@@ -47,7 +49,7 @@ type StyleHooks = NonNullable<FluentProviderProps['customStyleHooks_unstable']>;
 // The global preview decorator wraps every story in a CAP-themed FluentProvider
 // with the full CAP_STYLE_HOOKS, and nested providers *merge* their hooks with
 // the ancestor's. To compare against stock Fluent we neutralize every CAP hook
-// with an identity override; the borders-only column then re-applies only the
+// with an identity override; the rounded column then re-applies only the
 // radius hooks on top of that neutral baseline. (Both columns still inherit the
 // CAP theme tokens, so CAP's larger radii resolve in the right column.)
 const neutralizedCapHooks = Object.fromEntries(
@@ -56,7 +58,7 @@ const neutralizedCapHooks = Object.fromEntries(
 
 const roundedHooks: StyleHooks = {
   ...neutralizedCapHooks,
-  ...CAP_STYLE_HOOKS_BORDERS_ONLY,
+  ...CAP_STYLE_HOOKS_ROUNDED_CORNERS,
 };
 
 const sampleImage =
@@ -93,13 +95,13 @@ const Compare: React.FC<{ render: () => React.ReactNode }> = ({ render }) => {
   return (
     <div className={styles.compare}>
       <div className={styles.cell}>
-        <span className={styles.cellLabel}>Fluent v9 (default)</span>
+        <span className={styles.cellLabel}>Fluent v9</span>
         <FluentProvider customStyleHooks_unstable={neutralizedCapHooks}>
           <div className={styles.row}>{render()}</div>
         </FluentProvider>
       </div>
       <div className={styles.cell}>
-        <span className={styles.cellLabel}>Rounded (borders only)</span>
+        <span className={styles.cellLabel}>Rounded</span>
         <FluentProvider customStyleHooks_unstable={roundedHooks}>
           <div className={styles.row}>{render()}</div>
         </FluentProvider>
@@ -110,7 +112,7 @@ const Compare: React.FC<{ render: () => React.ReactNode }> = ({ render }) => {
 
 type Story = (() => React.ReactElement) & { storyName?: string };
 
-/** Builds a story that compares a single component default-vs-borders-only. */
+/** Builds a story that compares a single component default-vs-rounded. */
 const example =
   (render: () => React.ReactNode): Story =>
   () =>
@@ -272,27 +274,12 @@ ToolbarExample.storyName = 'Toolbar';
 CardExample.storyName = 'Card';
 
 const meta = {
-  title: 'Packages/react-cap-theme/Border Radius Updates',
-  parameters: {
-    docs: {
-      description: {
-        component:
-          'One section per component, each showing default Fluent v9 styling on ' +
-          "the left and CAP's border-radius-only variant " +
-          '(`CAP_STYLE_HOOKS_BORDERS_ONLY`) on the right. Everything except the ' +
-          'corner radii should look identical.',
-      },
-      // Custom docs page: drop the auto-generated Controls/args table and list
-      // every component story (so the "On this page" nav links each one).
-      page: () => (
-        <>
-          <Title />
-          <Description />
-          <Stories includePrimary title="Components" />
-        </>
-      ),
-    },
-  },
+  title: 'Packages/react-cap-theme/Design Language/Rounded Corners',
+  // Hide the per-component stories from the sidebar so this shows up as a
+  // single docs-only nav item (like "Getting Started"). The `!dev` tag removes
+  // them from the sidebar while they keep the inherited `docs` tag, so they
+  // still render in the "Components" section of the docs page.
+  tags: ['!dev'],
 } satisfies Meta;
 
 export default meta;

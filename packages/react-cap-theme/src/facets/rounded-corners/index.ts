@@ -1,19 +1,3 @@
-/**
- * CAP_STYLE_HOOKS_BORDERS_ONLY
- *
- * A `customStyleHooks_unstable` map that applies ONLY the CAP theme's
- * border-radius geometry on top of an otherwise-stock Fluent v9 theme.
- *
- * Fluent calls a `customStyleHooks_unstable` entry AFTER the component's own
- * default style hook, so each hook here only needs to *append* radius overrides
- * via `mergeClasses` — every other style (colors, spacing, typography, layout)
- * stays at the Fluent default.
- *
- * Every radius value the CAP theme uses is collected in `CAP_BORDER_RADII` below
- * so the full set is visible in one place. The per-component hooks mirror the
- * size/shape/appearance conditionals of the real CAP hooks, but their
- * `makeStyles` carry radius declarations only.
- */
 import { FluentProviderProps } from '@fluentui/react-components';
 import { type GriffelStyle, makeStyles, mergeClasses } from '@griffel/react';
 import {
@@ -527,44 +511,90 @@ const useInteractionTagRadiusStyles = (
   return state;
 };
 
-// InteractionTagPrimary: element corners follow the InteractionTag root via
-// `inherit`; only the `::after` focus ring needs an explicit per-size radius.
+// InteractionTagPrimary: round the outer (left) corners to the CAP tag radius.
+// When paired with a secondary (dismiss) action, the inner (right) corners stay
+// flat so the two halves meet flush; standalone, all four corners are rounded.
+// Corners are set as explicit longhands (never the `border-radius` shorthand) so
+// they reliably win over Fluent's own longhand corner styles — Griffel orders
+// shorthands before longhands, so a shorthand here would lose to Fluent's.
 const useInteractionTagPrimaryRadius = makeStyles({
-  base: { borderRadius: 'inherit' },
-  medium: createCustomFocusIndicatorStyle({
-    '::after': { borderRadius: CAP_BORDER_RADII.xxLarge },
-  }) as unknown as GriffelStyle,
-  small: createCustomFocusIndicatorStyle({
-    '::after': { borderRadius: CAP_BORDER_RADII.xLarge },
-  }) as unknown as GriffelStyle,
-  'extra-small': createCustomFocusIndicatorStyle({
-    '::after': { borderRadius: CAP_BORDER_RADII.large },
-  }) as unknown as GriffelStyle,
-  circular: createCustomFocusIndicatorStyle({
-    '::after': { borderRadius: CAP_BORDER_RADII.circular },
-  }) as unknown as GriffelStyle,
+  // Outer (left) corners + focus-ring radius, per size.
+  medium: {
+    borderTopLeftRadius: CAP_BORDER_RADII.xxLarge,
+    borderBottomLeftRadius: CAP_BORDER_RADII.xxLarge,
+    ...createCustomFocusIndicatorStyle({
+      '::after': { borderRadius: CAP_BORDER_RADII.xxLarge },
+    }),
+  },
+  small: {
+    borderTopLeftRadius: CAP_BORDER_RADII.xLarge,
+    borderBottomLeftRadius: CAP_BORDER_RADII.xLarge,
+    ...createCustomFocusIndicatorStyle({
+      '::after': { borderRadius: CAP_BORDER_RADII.xLarge },
+    }),
+  },
+  'extra-small': {
+    borderTopLeftRadius: CAP_BORDER_RADII.large,
+    borderBottomLeftRadius: CAP_BORDER_RADII.large,
+    ...createCustomFocusIndicatorStyle({
+      '::after': { borderRadius: CAP_BORDER_RADII.large },
+    }),
+  },
+  circular: {
+    borderTopLeftRadius: CAP_BORDER_RADII.circular,
+    borderBottomLeftRadius: CAP_BORDER_RADII.circular,
+    ...createCustomFocusIndicatorStyle({
+      '::after': { borderRadius: CAP_BORDER_RADII.circular },
+    }),
+  },
+  // Inner (right) corners — applied only when there is no secondary action.
+  standaloneMedium: {
+    borderTopRightRadius: CAP_BORDER_RADII.xxLarge,
+    borderBottomRightRadius: CAP_BORDER_RADII.xxLarge,
+  },
+  standaloneSmall: {
+    borderTopRightRadius: CAP_BORDER_RADII.xLarge,
+    borderBottomRightRadius: CAP_BORDER_RADII.xLarge,
+  },
+  'standaloneExtra-small': {
+    borderTopRightRadius: CAP_BORDER_RADII.large,
+    borderBottomRightRadius: CAP_BORDER_RADII.large,
+  },
+  standaloneCircular: {
+    borderTopRightRadius: CAP_BORDER_RADII.circular,
+    borderBottomRightRadius: CAP_BORDER_RADII.circular,
+  },
 });
+
+const standalonePrimaryRadiusKey = {
+  medium: 'standaloneMedium',
+  small: 'standaloneSmall',
+  'extra-small': 'standaloneExtra-small',
+} as const;
 
 const useInteractionTagPrimaryRadiusStyles = (
   state: InteractionTagPrimaryState
 ): InteractionTagPrimaryState => {
   const s = useInteractionTagPrimaryRadius();
-  const { shape, size } = state;
+  const { shape, size, hasSecondaryAction } = state;
   state.root.className = mergeClasses(
     state.root.className,
-    s.base,
     s[size],
     shape === 'circular' && s.circular,
+    !hasSecondaryAction &&
+      (shape === 'circular'
+        ? s.standaloneCircular
+        : s[standalonePrimaryRadiusKey[size]]),
     getSlotClassNameProp_unstable(state.root)
   );
   return state;
 };
 
 // InteractionTagSecondary: flat left corners, explicit per-size right corners,
-// and a matching `::after` focus-ring radius.
+// and a matching `::after` focus-ring radius. All corners are set as longhands
+// (no `border-radius` shorthand) so they win over Fluent's longhand styles.
 const useInteractionTagSecondaryRadius = makeStyles({
   base: {
-    borderRadius: 'inherit',
     borderTopLeftRadius: CAP_BORDER_RADII.none,
     borderBottomLeftRadius: CAP_BORDER_RADII.none,
   },
@@ -781,11 +811,11 @@ const useSearchBoxRadiusStyles = (state: SearchBoxState): SearchBoxState => {
 };
 
 /**
- * Border-radius-only variant of {@link CAP_STYLE_HOOKS}. Pass to
+ * Rounded-corners-only variant of {@link CAP_STYLE_HOOKS}. Pass to
  * `FluentProvider`'s `customStyleHooks_unstable` to apply CAP's rounded corners
  * on top of an otherwise-stock Fluent theme.
  */
-export const CAP_STYLE_HOOKS_BORDERS_ONLY: NonNullable<
+export const CAP_STYLE_HOOKS_ROUNDED_CORNERS: NonNullable<
   FluentProviderProps['customStyleHooks_unstable']
 > = {
   useAccordionHeaderStyles_unstable: (state) =>
