@@ -29,43 +29,27 @@ import {
 } from '@fluentui/react-icons';
 
 const useMeetingsSectionStyles = makeStyles({
-  container: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(3, auto)',
-    gridTemplateRows: 'repeat(3, auto)',
-    gridAutoFlow: 'row',
-    gridTemplateAreas: `
-      "icon title tag"
-      "icon location location"
-      "icon description description"
-    `,
-    alignItems: 'center',
-    rowGap: '0.5rem',
-    columnGap: '0.5rem',
-    alignSelf: 'baseline',
-    justifySelf: 'baseline',
-  },
-  title: {
-    alignSelf: 'start',
-    justifySelf: 'start',
-    ...shorthands.gridArea('title'),
-  },
-  icon: {
-    ...shorthands.gridArea('icon'),
-    ...shorthands.margin(0, '1rem', 0, '0.6rem'),
-    alignSelf: 'flex-start',
-  },
+  title: shorthands.gridArea('title'),
+  icon: shorthands.gridArea('icon'),
   tag: shorthands.gridArea('tag'),
   location: shorthands.gridArea('location'),
   description: shorthands.gridArea('description'),
-  sectionItem: {
-    ...shorthands.padding('0.5rem'),
-    alignItems: 'start',
+  tasks: shorthands.gridArea('tasks'),
+  attachments: shorthands.gridArea('attachments'),
+  chat: shorthands.gridArea('chat'),
+  viewRecaps: shorthands.gridArea('view'),
+  treeGridRow: {
+    ...shorthands.padding(tokens.spacingHorizontalM),
     display: 'grid',
-    gridTemplateColumns: '1fr repeat(4, auto)',
-    gridTemplateRows: 'repeat(2, auto)',
-    columnGap: '0.5rem',
-    rowGap: '1rem',
+    gridTemplateColumns: 'auto 1fr repeat(5, auto)',
+    gridTemplateRows: 'repeat(3, auto)',
+    gridTemplateAreas: `
+      "icon title       tag         tasks    attachments chat      view"
+      "icon location    location    location nothing     thumbnail thumbnail"
+      "icon description description description  nothing thumbnail thumbnail"
+    `,
+    columnGap: tokens.spacingHorizontalM,
+    rowGap: tokens.spacingVerticalS,
     ':hover': {
       backgroundColor: tokens.colorNeutralBackground2Hover,
     },
@@ -78,17 +62,10 @@ const useMeetingsSectionStyles = makeStyles({
     backgroundColor: tokens.colorPaletteRedBackground1,
     color: tokens.colorPaletteRedForeground1,
   },
-  image: {
-    ...shorthands.gridArea(2, 1, 3, 5),
-    justifySelf: 'end',
-  },
-  header: {
-    ...shorthands.gridArea(1, 1, 3, 2),
-  },
+  image: {},
   thumbnail: {
-    alignSelf: 'end',
+    ...shorthands.gridArea('thumbnail'),
     justifySelf: 'end',
-    ...shorthands.gridArea(2, 2, 3, 6),
   },
   h2: {
     padding: tokens.spacingVerticalM,
@@ -266,56 +243,46 @@ const MeetingsSectionItem = (props: MeetingsSectionItemProps) => {
       aria-description={`Created by: ${props.owner}. ${
         props.status ? `Meeting status: ${props.status}` : ''
       }`}
-      className={styles.sectionItem}
+      className={styles.treeGridRow}
     >
-      <TreeGridCell
-        aria-label={`${props.header}. ${props.location}`}
-        className={mergeClasses(styles.header, styles.container)}
-        header
-      >
-        <Avatar
-          className={styles.icon}
-          icon={<CalendarRegular />}
-          aria-hidden
-        />
-        <Button
-          appearance="transparent"
-          aria-label="Go to meeting"
-          className={mergeClasses(styles.noPadding, styles.title)}
-        >
+      <TreeGridCell className={styles.icon}>
+        <Avatar icon={<CalendarRegular />} aria-hidden />
+      </TreeGridCell>
+      <TreeGridCell header className={styles.title}>
+        <Button className={styles.noPadding} appearance="transparent">
           <Body1Stronger>{props.header}</Body1Stronger>
         </Button>
-        {props.status === 'missed' && (
-          <Tag
-            className={mergeClasses(styles.missedTag, styles.tag)}
-            size="small"
-            shape="circular"
-          >
-            <Caption1Stronger>Missed</Caption1Stronger>
-          </Tag>
-        )}
-        <Caption1 className={styles.location}>
+      </TreeGridCell>
+      <TreeGridCell className={styles.location}>
+        <Caption1>
           {props.location}, {props.owner}
         </Caption1>
-        {props.description && (
-          <Caption1 className={styles.description}>
-            {props.description}
-          </Caption1>
+      </TreeGridCell>
+      <TreeGridCell className={styles.description}>
+        {props.description && <Caption1>{props.description}</Caption1>}
+      </TreeGridCell>
+      <TreeGridCell className={styles.tag}>
+        {props.status === 'missed' && (
+          <Tag className={styles.missedTag} size="small" shape="circular">
+            <Caption1Stronger aria-label="status: missed">
+              Missed
+            </Caption1Stronger>
+          </Tag>
         )}
       </TreeGridCell>
-      {props.tasks && <TreeGridCell>{props.tasks}</TreeGridCell>}
-      {props.attachments && <TreeGridCell>{props.attachments}</TreeGridCell>}
-      <TreeGridCell>
+      <TreeGridCell className={styles.tasks}>{props.tasks}</TreeGridCell>
+      <TreeGridCell className={styles.attachments}>
+        {props.attachments}
+      </TreeGridCell>
+      <TreeGridCell className={styles.chat}>
         <Button size="small">Chat</Button>
       </TreeGridCell>
-      <TreeGridCell>
+      <TreeGridCell className={styles.viewRecaps}>
         <Button size="small">View recaps</Button>
       </TreeGridCell>
-      {props.thumbnail && (
-        <TreeGridCell className={styles.thumbnail}>
-          {props.thumbnail}
-        </TreeGridCell>
-      )}
+      <TreeGridCell className={styles.thumbnail}>
+        {props.thumbnail}
+      </TreeGridCell>
     </TreeGridRow>
   );
 };
