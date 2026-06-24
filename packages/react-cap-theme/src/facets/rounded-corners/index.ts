@@ -178,15 +178,11 @@ const useSplitButtonRadiusStyles = (
   return state;
 };
 
-// Rounds a field's (Input/Combobox/Dropdown/…) root corners while keeping its
-// `:focus-within` bottom border in sync.
-//
-// That bottom border is drawn by an `::after` pseudo-element whose bottom
-// corners Fluent hard-codes to `borderRadiusMedium`, using the radius as the
-// element's height so the corner curve has room to render before `clipPath`
-// trims it to the bottom 2px. Round only the root and that underline keeps the
-// smaller corners and bleeds past the rounded edges on focus. Always set both
-// through this helper so the two can never drift apart.
+// Rounds a field's corners. A field's focus border is a separate `::after`
+// element, so it has to be rounded to match — otherwise it bleeds past the
+// corners on focus. Always go through this helper so the two stay in sync.
+// (The `height` is Fluent's: it sizes the element to the radius so the corner
+// can render before `clipPath` trims the element to the visible 2px line.)
 const fieldRadius = (radius: string): GriffelStyle => ({
   borderRadius: radius,
   '::after': {
