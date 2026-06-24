@@ -1,8 +1,6 @@
 import { FluentProviderProps } from '@fluentui/react-components';
 
-type StyleHooks = NonNullable<
-  FluentProviderProps['customStyleHooks_unstable']
->;
+type StyleHooks = NonNullable<FluentProviderProps['customStyleHooks_unstable']>;
 
 type StyleHook = (state: unknown) => unknown;
 
@@ -38,9 +36,7 @@ export function mergeStyleHooks(registries: StyleHooks[]): StyleHooks {
     for (const [key, hook] of Object.entries(registry)) {
       const previous = merged[key];
       const next = hook as StyleHook;
-      merged[key] = previous
-        ? (state) => next(previous(state))
-        : next;
+      merged[key] = previous ? (state) => next(previous(state)) : next;
     }
   }
 

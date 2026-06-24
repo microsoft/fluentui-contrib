@@ -1,11 +1,10 @@
 import { Meta, Title } from '@storybook/addon-docs/blocks';
-import * as GettingStartedStories from './index.stories';
 
-<Meta of={GettingStartedStories} />
+<Meta title="Packages/react-cap-theme/Getting Started" />
 
 <Title>react-cap-theme</Title>
 
-`@fluentui-contrib/react-cap-theme` restyles Fluent UI v9 components to match the CAP design language. It's a collection of `customStyleHooks_unstable` that you drop into a `FluentProvider` — every Fluent component rendered inside picks up the CAP look automatically, with no forked or replaced components and no changes to your markup. Apply the entire look at once with `CAP_STYLE_HOOKS`, or opt into individual, composable facets of the design language (such as rounded corners) on their own.
+`@fluentui-contrib/react-cap-theme` restyles Fluent UI v9 components to match the CAP design language. It's a collection of custom style hooks that you drop into a `FluentProvider`. Every Fluent component rendered inside that provider picks up the CAP look automatically, with no changes to your markup. Apply the entire look at once with `CAP_STYLE_HOOKS`, or opt into individual, [composable facets](?path=/docs/packages-react-cap-theme-design-language-overview--docs) of the design language (such as rounded corners) on their own.
 
 ## Usage
 
@@ -15,11 +14,6 @@ Install the package:
 npm install --save @fluentui-contrib/react-cap-theme
 ```
 
-Peer dependencies:
-
-- `@fluentui/react-components` &gt;= 9.70.0
-- `react` / `react-dom` &gt;= 16.8.0
-
 Wrap your app (or any subtree) in a `FluentProvider` and pass `CAP_STYLE_HOOKS` to `customStyleHooks_unstable`. Every Fluent component rendered inside picks up the CAP styling automatically.
 
 ```tsx
@@ -27,7 +21,10 @@ import { FluentProvider, webLightTheme } from '@fluentui/react-components';
 import { CAP_STYLE_HOOKS } from '@fluentui-contrib/react-cap-theme';
 
 export const App = () => (
-  <FluentProvider theme={webLightTheme} customStyleHooks_unstable={CAP_STYLE_HOOKS}>
+  <FluentProvider
+    theme={webLightTheme}
+    customStyleHooks_unstable={CAP_STYLE_HOOKS}
+  >
     {/* the rest of your app */}
   </FluentProvider>
 );
