@@ -13,6 +13,14 @@ export {
   DataGridSelectionCell,
 } from '@fluentui/react-components';
 
+export {
+  ColumnIndexContextProvider,
+  useColumnIndexContext,
+} from './contexts/columnIndexContext';
+export {
+  RowIndexContextProvider,
+  useRowIndexContext,
+} from './contexts/rowIndexContext';
 export type {
   DataGridCellProps,
   DataGridHeaderCellProps,
