@@ -3,7 +3,7 @@ import type { Meta } from '@storybook/react';
 import { Image } from '@fluentui/react-components';
 
 const meta = {
-  title: 'Packages/react-cap-theme/Image',
+  title: 'Packages/react-cap-theme/Components/Image',
   component: Image,
 } satisfies Meta<typeof Image>;
 

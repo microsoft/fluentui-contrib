@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "Introduce CAP_STYLE_HOOKS_ROUNDED_CORNERS",
+  "packageName": "@fluentui-contrib/react-cap-theme",
+  "email": "6439050+davezuko@users.noreply.github.com",
+  "dependentChangeType": "patch"
+}

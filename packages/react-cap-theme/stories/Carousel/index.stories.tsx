@@ -8,7 +8,7 @@ import {
 } from '@fluentui/react-carousel';
 
 const meta = {
-  title: 'Packages/react-cap-theme/Carousel',
+  title: 'Packages/react-cap-theme/Components/Carousel',
   component: Carousel,
 } satisfies Meta<typeof Carousel>;
 

@@ -1,0 +1,11 @@
+/*
+ * Constrain the docs reading column to a comfortable width and center it.
+ * The shared docs CSS sets `.sbdocs-content` to max-width: 1200px; this
+ * package-scoped override narrows it and centers the column. The extra class in
+ * the selector raises specificity so it wins regardless of stylesheet order.
+ */
+#storybook-docs .sbdocs.sbdocs-content {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}

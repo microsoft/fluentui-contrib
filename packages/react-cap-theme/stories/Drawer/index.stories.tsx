@@ -3,7 +3,7 @@ import type { Meta } from '@storybook/react';
 import { DrawerBody } from '@fluentui/react-components';
 
 const meta = {
-  title: 'Packages/react-cap-theme/Drawer',
+  title: 'Packages/react-cap-theme/Components/Drawer',
   component: DrawerBody,
 } satisfies Meta<typeof DrawerBody>;
 

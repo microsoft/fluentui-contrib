@@ -3,7 +3,7 @@ import type { Meta } from '@storybook/react';
 import { Menu } from '@fluentui/react-components';
 
 const meta = {
-  title: 'Packages/react-cap-theme/Menu',
+  title: 'Packages/react-cap-theme/Components/Menu',
   component: Menu,
 } satisfies Meta<typeof Menu>;
 

@@ -3,7 +3,7 @@ import type { Meta } from '@storybook/react';
 import { Accordion } from '@fluentui/react-components';
 
 const meta = {
-  title: 'Packages/react-cap-theme/Accordion',
+  title: 'Packages/react-cap-theme/Components/Accordion',
   component: Accordion,
 } satisfies Meta<typeof Accordion>;
 
