@@ -178,13 +178,31 @@ const useSplitButtonRadiusStyles = (
   return state;
 };
 
+// Rounds a field's (Input/Combobox/Dropdown/…) root corners while keeping its
+// `:focus-within` bottom border in sync.
+//
+// That bottom border is drawn by an `::after` pseudo-element whose bottom
+// corners Fluent hard-codes to `borderRadiusMedium`, using the radius as the
+// element's height so the corner curve has room to render before `clipPath`
+// trims it to the bottom 2px. Round only the root and that underline keeps the
+// smaller corners and bleeds past the rounded edges on focus. Always set both
+// through this helper so the two can never drift apart.
+const fieldRadius = (radius: string): GriffelStyle => ({
+  borderRadius: radius,
+  '::after': {
+    height: `max(2px, ${radius})`,
+    borderBottomLeftRadius: radius,
+    borderBottomRightRadius: radius,
+  },
+});
+
 // Input/Combobox/Dropdown share the same radius behaviour:
 // base 2XLarge, small XLarge, and a flat (none) radius for the underline
 // appearance (both while editable and while disabled).
 const useFieldRadius = makeStyles({
-  base: { borderRadius: CAP_BORDER_RADII.xxLarge },
-  small: { borderRadius: CAP_BORDER_RADII.xLarge },
-  underline: { borderRadius: CAP_BORDER_RADII.none },
+  base: fieldRadius(CAP_BORDER_RADII.xxLarge),
+  small: fieldRadius(CAP_BORDER_RADII.xLarge),
+  underline: fieldRadius(CAP_BORDER_RADII.none),
 });
 
 // The radius is identical (`none`) whether the underline is editable or
