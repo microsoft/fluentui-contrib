@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-cap-theme",
   "entries": [
     {
+      "date": "Wed, 24 Jun 2026 20:25:07 GMT",
+      "tag": "@fluentui-contrib/react-cap-theme_v0.5.0",
+      "version": "0.5.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "6439050+davezuko@users.noreply.github.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "a31a5b62deed6dec78527d1d6c1c68f1787f8d62",
+            "comment": "Introduce CAP_STYLE_HOOKS_ROUNDED_CORNERS"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 17 Jun 2026 12:26:49 GMT",
       "tag": "@fluentui-contrib/react-cap-theme_v0.4.3",
       "version": "0.4.3",
