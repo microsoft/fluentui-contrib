@@ -37,6 +37,20 @@ const preview: Preview = {
       </FluentProvider>
     ),
   ],
+  parameters: {
+    ...rootPreview.parameters,
+    options: {
+      storySort: {
+        order: [
+          'Packages',
+          [
+            'react-cap-theme',
+            ['Getting Started', 'Border Radius Updates', 'Components', '*'],
+          ],
+        ],
+      },
+    },
+  },
   tags: ['autodocs'],
 };
 

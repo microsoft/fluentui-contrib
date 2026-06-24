@@ -3,7 +3,7 @@ import type { Meta } from '@storybook/react';
 import { Badge } from '@fluentui/react-components';
 
 const meta = {
-  title: 'Packages/react-cap-theme/Badge',
+  title: 'Packages/react-cap-theme/Components/Badge',
   component: Badge,
 } satisfies Meta<typeof Badge>;
 

@@ -3,7 +3,7 @@ import type { Meta } from '@storybook/react';
 import { Tooltip } from '@fluentui/react-components';
 
 const meta = {
-  title: 'Packages/react-cap-theme/Tooltip',
+  title: 'Packages/react-cap-theme/Components/Tooltip',
   component: Tooltip,
 } satisfies Meta<typeof Tooltip>;
 

@@ -3,7 +3,7 @@ import type { Meta } from '@storybook/react';
 import { Link } from '@fluentui/react-components';
 
 const meta = {
-  title: 'Packages/react-cap-theme/Link',
+  title: 'Packages/react-cap-theme/Components/Link',
   component: Link,
 } satisfies Meta<typeof Link>;
 

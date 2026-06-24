@@ -1,0 +1,92 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Packages/react-cap-theme/Getting Started" />
+
+# react-cap-theme
+
+Fluent UI v9 custom style hooks that restyle components to the CAP design
+language. Drop them into a `FluentProvider` — no forked components required.
+
+## Installation
+
+```bash
+npm install @fluentui-contrib/react-cap-theme
+```
+
+Peer dependencies:
+
+- `@fluentui/react-components` &gt;= 9.70.0
+- `react` / `react-dom` &gt;= 16.8.0
+
+## Usage
+
+Wrap your app (or any subtree) in a `FluentProvider` and pass `CAP_STYLE_HOOKS`
+to `customStyleHooks_unstable`. Every Fluent component rendered inside picks up
+the CAP styling automatically.
+
+```tsx
+import { FluentProvider, webLightTheme } from '@fluentui/react-components';
+import { CAP_STYLE_HOOKS } from '@fluentui-contrib/react-cap-theme';
+
+// The CAP look-and-feel needs a few extra design tokens on the theme.
+const capTheme = {
+  ...webLightTheme,
+  borderRadius2XLarge: '12px',
+  borderRadius3XLarge: '16px',
+  borderRadius4XLarge: '24px',
+  colorNeutralStroke4: '#ebebeb',
+  colorNeutralStroke4Hover: '#e0e0e0',
+  colorNeutralStroke4Pressed: '#d6d6d6',
+  colorNeutralStroke4Selected: '#ebebeb',
+  colorNeutralForeground5: '#616161',
+  colorNeutralForeground5Hover: '#242424',
+  colorNeutralForeground5Pressed: '#242424',
+};
+
+export const App = () => (
+  <FluentProvider theme={capTheme} customStyleHooks_unstable={CAP_STYLE_HOOKS}>
+    {/* the rest of your app */}
+  </FluentProvider>
+);
+```
+
+## Borders only
+
+Want CAP's rounded corners but otherwise stock Fluent styling? Use
+`CAP_STYLE_HOOKS_BORDERS_ONLY` instead. It only adjusts the border radius of each
+component — colors, spacing, and typography stay at the Fluent defaults — so the
+only theme tokens you need are the three CAP radius tokens.
+
+```tsx
+import { FluentProvider, webLightTheme } from '@fluentui/react-components';
+import { CAP_STYLE_HOOKS_BORDERS_ONLY } from '@fluentui-contrib/react-cap-theme';
+
+const roundedTheme = {
+  ...webLightTheme,
+  borderRadius2XLarge: '12px',
+  borderRadius3XLarge: '16px',
+  borderRadius4XLarge: '24px',
+};
+
+export const App = () => (
+  <FluentProvider
+    theme={roundedTheme}
+    customStyleHooks_unstable={CAP_STYLE_HOOKS_BORDERS_ONLY}
+  >
+    {/* the rest of your app */}
+  </FluentProvider>
+);
+```
+
+Every radius value the theme uses is exported as `CAP_BORDER_RADII` so the full
+set is visible in one place:
+
+```tsx
+import { CAP_BORDER_RADII } from '@fluentui-contrib/react-cap-theme';
+
+CAP_BORDER_RADII.xxLarge; // capTokens.borderRadius2XLarge
+CAP_BORDER_RADII.xxxxLarge; // capTokens.borderRadius4XLarge
+```
+
+See the **Border Radius Updates** page for a per-component, side-by-side
+comparison against default Fluent v9.

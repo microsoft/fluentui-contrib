@@ -3,7 +3,7 @@ import type { Meta } from '@storybook/react';
 import { Dialog } from '@fluentui/react-components';
 
 const meta = {
-  title: 'Packages/react-cap-theme/Dialog',
+  title: 'Packages/react-cap-theme/Components/Dialog',
   component: Dialog,
 } satisfies Meta<typeof Dialog>;
 

@@ -3,7 +3,7 @@ import type { Meta } from '@storybook/react';
 import { Button } from '@fluentui/react-components';
 
 const meta = {
-  title: 'Packages/react-cap-theme/Button',
+  title: 'Packages/react-cap-theme/Components/Button',
   component: Button,
 } satisfies Meta<typeof Button>;
 

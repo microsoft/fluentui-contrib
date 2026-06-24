@@ -38,10 +38,7 @@ import {
   CalendarFilled,
   bundleIcon,
 } from '@fluentui/react-icons';
-import {
-  CAP_STYLE_HOOKS,
-  CAP_STYLE_HOOKS_BORDERS_ONLY,
-} from '../../src/index';
+import { CAP_STYLE_HOOKS, CAP_STYLE_HOOKS_BORDERS_ONLY } from '../../src/index';
 
 const CalendarIcon = bundleIcon(CalendarFilled, CalendarRegular);
 
@@ -275,7 +272,7 @@ ToolbarExample.storyName = 'Toolbar';
 CardExample.storyName = 'Card';
 
 const meta = {
-  title: 'Packages/react-cap-theme/BordersOnly',
+  title: 'Packages/react-cap-theme/Border Radius Updates',
   parameters: {
     docs: {
       description: {

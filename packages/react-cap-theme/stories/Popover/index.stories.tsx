@@ -3,7 +3,7 @@ import type { Meta } from '@storybook/react';
 import { Popover } from '@fluentui/react-components';
 
 const meta = {
-  title: 'Packages/react-cap-theme/Popover',
+  title: 'Packages/react-cap-theme/Components/Popover',
   component: Popover,
 } satisfies Meta<typeof Popover>;
 

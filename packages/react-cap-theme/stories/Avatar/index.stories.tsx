@@ -3,7 +3,7 @@ import type { Meta } from '@storybook/react';
 import { Avatar } from '@fluentui/react-components';
 
 const meta = {
-  title: 'Packages/react-cap-theme/Avatar',
+  title: 'Packages/react-cap-theme/Components/Avatar',
   component: Avatar,
 } satisfies Meta<typeof Avatar>;
 
