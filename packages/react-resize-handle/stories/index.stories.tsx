@@ -1,5 +1,4 @@
 import { Meta } from '@storybook/react';
-import description from '../README.md';
 
 export { Default } from './Default.stories';
 
@@ -8,7 +7,8 @@ const meta: Meta = {
   parameters: {
     docs: {
       description: {
-        component: description,
+        component:
+          'Adds accessible mouse and keyboard resizing for panels and components. It works with CSS variables and grid/flex layouts, and can operate in absolute or relative resize modes.',
       },
     },
     layout: 'fullscreen',
