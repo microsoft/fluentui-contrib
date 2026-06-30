@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "Declare runtime dependencies that were previously only resolved via workspace hoisting (@fluentui/* building-block packages, @griffel/react, @fluentui/tokens) plus the @fluentui/react-icons peer, so the published package resolves correctly under strict installers (e.g. pnpm)",
+  "packageName": "@fluentui-contrib/react-cap-theme",
+  "email": "Oleksandr.Katrukhin@microsoft.com",
+  "dependentChangeType": "patch"
+}
