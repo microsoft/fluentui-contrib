@@ -1,0 +1,24 @@
+/**
+ * Z-Index Scale
+ *
+ * Consistent stacking contexts for all cap-foundations components.
+ * Consume via var(--z-*) in component CSS.
+ *
+ * Usage:
+ *   z-index: var(--z-dropdown);
+ *   z-index: var(--z-modal);
+ */
+
+:root {
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-sidebar: 400;
+  --z-modal-backdrop: 500;
+  --z-modal: 600;
+  --z-popover: 700;
+  --z-tooltip: 800;
+  --z-toast: 900;
+  --z-max: 9999;
+}
