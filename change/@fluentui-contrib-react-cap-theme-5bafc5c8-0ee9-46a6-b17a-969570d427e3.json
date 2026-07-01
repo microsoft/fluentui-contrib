@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "Fix border styles for field :focus states",
-  "packageName": "@fluentui-contrib/react-cap-theme",
-  "email": "6439050+davezuko@users.noreply.github.com",
-  "dependentChangeType": "patch"
-}

@@ -2,6 +2,27 @@
   "name": "@fluentui-contrib/react-cap-theme",
   "entries": [
     {
+      "date": "Wed, 01 Jul 2026 20:08:28 GMT",
+      "tag": "@fluentui-contrib/react-cap-theme_v0.5.1",
+      "version": "0.5.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "6439050+davezuko@users.noreply.github.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "3213aae303695579a5d35e860ba5711b32d7f610",
+            "comment": "Fix border styles for field :focus states"
+          },
+          {
+            "author": "Oleksandr.Katrukhin@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "f56023bd768fc4e509bc8e12d60065e654bec780",
+            "comment": "Declare runtime dependencies that were previously only resolved via workspace hoisting (@fluentui/* building-block packages, @griffel/react, @fluentui/tokens) plus the @fluentui/react-icons peer, so the published package resolves correctly under strict installers (e.g. pnpm)"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 24 Jun 2026 20:25:07 GMT",
       "tag": "@fluentui-contrib/react-cap-theme_v0.5.0",
       "version": "0.5.0",
