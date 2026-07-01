@@ -18,7 +18,8 @@
       "options": {
         "lintFilePatterns": [
           "packages/react-cap-theme/**/*.ts",
-          "packages/react-cap-theme/**/*.tsx"
+          "packages/react-cap-theme/**/*.tsx",
+          "packages/react-cap-theme/package.json"
         ]
       }
     },
