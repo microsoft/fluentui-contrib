@@ -20,6 +20,14 @@ const useStyles = makeStyles({
     marginTop: tokens.spacingVerticalMNudge,
     padding: tokens.spacingHorizontalMNudge,
   },
+  fieldDark: {
+    display: 'grid',
+    gridRowGap: tokens.spacingVerticalXXS,
+    marginTop: tokens.spacingVerticalMNudge,
+    padding: tokens.spacingHorizontalMNudge,
+    backgroundColor: tokens.colorNeutralBackground2,
+    borderRadius: tokens.borderRadiusMedium,
+  },
 });
 
 export const Appearance = () => {
@@ -42,12 +50,12 @@ export const Appearance = () => {
         <SpinButton appearance="underline" id={underlineId} />
       </div>
 
-      <div className={styles.field}>
+      <div className={styles.fieldDark}>
         <Label htmlFor={filledLighterId}>Filled Lighter</Label>
         <SpinButton appearance="filled-lighter" id={filledLighterId} />
       </div>
 
-      <div className={styles.field}>
+      <div className={styles.fieldDark}>
         <Label htmlFor={filledDarkerId}>Filled Darker</Label>
         <SpinButton appearance="filled-darker" id={filledDarkerId} />
       </div>
