@@ -13,7 +13,7 @@ import {
   iconRegularClassName,
 } from '@fluentui/react-icons';
 import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
-import { SpinButtonState } from '@fluentui/react-components';
+import type { SpinButtonState } from './SpinButton.types';
 
 const stepperBoldSwap = {
   [`& .${iconRegularClassName}`]: { display: 'none' },
