@@ -1,6 +1,5 @@
 import { Meta } from '@storybook/react';
 import { DataGrid } from '@fluentui-contrib/react-data-grid-react-window';
-import description from '../../README.md';
 
 export { VirtualizedDataGrid } from './VirtualizedDataGrid.stories';
 export { ReactWindowOverrides } from './ReactWindowOverrides.stories';
@@ -13,7 +12,8 @@ const meta: Meta<typeof DataGrid> = {
   parameters: {
     docs: {
       description: {
-        component: description,
+        component:
+          'A Fluent UI DataGrid variant virtualized with `react-window` for efficient large-list rendering.',
       },
     },
   },

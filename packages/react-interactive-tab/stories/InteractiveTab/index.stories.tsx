@@ -1,6 +1,5 @@
 import type { Meta } from '@storybook/react';
 import { InteractiveTab } from '@fluentui-contrib/react-interactive-tab';
-import description from '../../README.md';
 
 export { Default } from './Default.stories';
 
@@ -10,7 +9,8 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: description,
+        component:
+          'InteractiveTab extends Fluent UI Tab to support interactive content inside a tab, including before and after content slots around the tab button.',
       },
     },
   },

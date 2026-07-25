@@ -1,5 +1,4 @@
 import { Meta } from '@storybook/react';
-import description from '../README.md';
 
 import { AllControls } from './All.stories';
 export { AccordionExample } from './Accordion.stories';
@@ -47,7 +46,8 @@ const meta: Meta<typeof AllControls> = {
   parameters: {
     docs: {
       description: {
-        component: description,
+        component:
+          'Azure Theme package powered by Fluent UI and used in Microsoft Azure. It provides AzureLightTheme and AzureDarkTheme for FluentProvider.',
       },
       hideArgsTable: true,
     },

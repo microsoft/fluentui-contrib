@@ -1,6 +1,5 @@
 import { Meta } from '@storybook/react';
 import { DataGrid } from '@fluentui-contrib/react-data-grid-react-window-grid';
-import description from '../../README.md';
 
 export { VirtualizedDataGrid } from './VirtualizedDataGrid.stories';
 export { DataGridScrollingIndicators } from './DataGridScrollingIndicators.stories';
@@ -11,7 +10,8 @@ const meta: Meta<typeof DataGrid> = {
   parameters: {
     docs: {
       description: {
-        component: description,
+        component:
+          'A Fluent UI DataGrid variant with two-dimensional virtualization (rows and columns) powered by `react-window` grid primitives.',
       },
     },
   },

@@ -7,6 +7,8 @@ const config: StorybookConfig = {
     '@storybook/addon-docs',
     '@nx/react/plugins/storybook',
     '@storybook/addon-webpack5-compiler-babel',
+    '@fluentui/react-storybook-addon',
+    '@fluentui/react-storybook-addon-export-to-sandbox',
   ],
 
   framework: {
