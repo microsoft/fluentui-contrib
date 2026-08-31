@@ -12,6 +12,9 @@ import {
 } from '@fluentui/react-components';
 import { TreeGridCellProps } from './TreeGridCell.types';
 
+/**
+ * Cell renderer used within a TreeGridRow for row headers and regular cells.
+ */
 export const TreeGridCell: ForwardRefComponent<TreeGridCellProps> =
   React.forwardRef((props, ref) => {
     const { header, className, ...rest } = props;

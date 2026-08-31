@@ -1,18 +1,22 @@
-import { toggleButtonClassNames } from '@fluentui/react-button';
+import {
+  buttonClassNames,
+  toggleButtonClassNames,
+} from '@fluentui/react-button';
 import {
   iconFilledClassName,
   iconRegularClassName,
 } from '@fluentui/react-icons';
 import { createCustomFocusIndicatorStyle } from '@fluentui/react-tabster';
-import { tokens } from '../../../tokens';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
+import { tokens } from '@fluentui/tokens';
+import { capTokens } from '../../../tokens';
 import {
   type GriffelStyle,
   makeStyles,
   mergeClasses,
   shorthands,
 } from '@griffel/react';
-import { buttonClassNames, useButtonStyles } from '../../Button';
-import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
+import { useButtonStyles } from '../../Button';
 import type { ToggleButtonState } from './ToggleButton.types';
 
 const highContrastPrimaryStyles: GriffelStyle = {
@@ -67,7 +71,7 @@ const useRootCheckedStyles = makeStyles({
     },
   },
   outline: {
-    ...shorthands.borderColor(tokens.colorNeutralStroke4Selected),
+    ...shorthands.borderColor(capTokens.colorNeutralStroke4Selected),
     color: tokens.colorNeutralForeground1,
     [`& .${buttonClassNames.icon}`]: {
       color: tokens.colorCompoundBrandForeground1Pressed,
@@ -94,7 +98,7 @@ const useRootCheckedStyles = makeStyles({
     ),
   },
   secondary: {
-    ...shorthands.borderColor(tokens.colorNeutralStroke4Selected),
+    ...shorthands.borderColor(capTokens.colorNeutralStroke4Selected),
     color: tokens.colorNeutralForeground1,
     [`& .${buttonClassNames.icon}`]: {
       color: tokens.colorCompoundBrandForeground1Pressed,
@@ -190,6 +194,8 @@ export const useToggleButtonStyles = (
   const { appearance, checked, disabled, disabledFocusable } = state;
   const showAsDisabled = disabled || disabledFocusable;
 
+  useButtonStyles(state);
+
   state.root.className = mergeClasses(
     state.root.className,
     toggleButtonClassNames.root,
@@ -210,8 +216,6 @@ export const useToggleButtonStyles = (
       getSlotClassNameProp_unstable(state.icon)
     );
   }
-
-  useButtonStyles(state);
 
   return state;
 };

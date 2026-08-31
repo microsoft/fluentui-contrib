@@ -1,0 +1,395 @@
+import { FluentProviderProps } from '@fluentui/react-components';
+import type {
+  AccordionHeaderState,
+  AccordionPanelState,
+} from '@fluentui/react-accordion';
+import {
+  useAccordionHeaderStyles,
+  useAccordionPanelStyles,
+} from './components/react-accordion';
+import type {
+  AvatarState,
+  AvatarGroupItemState,
+  AvatarGroupPopoverState,
+} from '@fluentui/react-avatar';
+import {
+  useAvatarStyles,
+  useAvatarGroupItemStyles,
+  useAvatarGroupPopoverStyles,
+} from './components/react-avatar';
+import type { BadgeState } from '@fluentui/react-badge';
+import { useBadgeStyles } from './components/react-badge';
+import {
+  useButtonStyles,
+  useCompoundButtonStyles,
+  useMenuButtonStyles,
+  useSplitButtonStyles,
+  useToggleButtonStyles,
+} from './components/react-button';
+import type {
+  ButtonState,
+  MenuButtonState,
+  SplitButtonState,
+  ToggleButtonState,
+} from './components/react-button';
+import type { CompoundButtonState } from '@fluentui/react-button';
+import {
+  useCardStyles,
+  useCardFooterStyles,
+  useCardHeaderStyles,
+  useCardPreviewStyles,
+} from './components/react-card';
+import type {
+  CardState,
+  CardHeaderState,
+  CardPreviewState,
+} from './components/react-card';
+import type { CardFooterState } from '@fluentui/react-components';
+import {
+  useCarouselStyles,
+  useCarouselAutoplayButtonStyles,
+  useCarouselButtonStyles,
+  useCarouselNavStyles,
+  useCarouselNavButtonStyles,
+  useCarouselNavContainerStyles,
+  useCarouselNavImageButtonStyles,
+} from './components/react-carousel';
+import type {
+  CarouselState,
+  CarouselAutoplayButtonState,
+  CarouselButtonState,
+  CarouselNavState,
+  CarouselNavContainerState,
+} from './components/react-carousel';
+import type {
+  CarouselNavButtonState,
+  CarouselNavImageButtonState,
+} from '@fluentui/react-carousel';
+import { useCheckboxStyles } from './components/react-checkbox';
+import type { CheckboxState } from './components/react-checkbox';
+import {
+  useComboboxStyles,
+  useDropdownStyles,
+} from './components/react-combobox';
+import type { ComboboxState, DropdownState } from './components/react-combobox';
+import {
+  useDialogActionsStyles,
+  useDialogBodyStyles,
+  useDialogSurfaceStyles,
+  useDialogTitleStyles,
+} from './components/react-dialog';
+import type {
+  DialogActionsState,
+  DialogBodyState,
+  DialogSurfaceState,
+  DialogTitleState,
+} from '@fluentui/react-dialog';
+import {
+  useDrawerBodyStyles,
+  useDrawerFooterStyles,
+  useDrawerHeaderStyles,
+  useDrawerHeaderNavigationStyles,
+  useDrawerHeaderTitleStyles,
+  useInlineDrawerStyles,
+  useOverlayDrawerStyles,
+} from './components/react-drawer';
+import type {
+  DrawerBodyState,
+  DrawerFooterState,
+  DrawerHeaderState,
+  DrawerHeaderNavigationState,
+  DrawerHeaderTitleState,
+  OverlayDrawerState,
+} from '@fluentui/react-drawer';
+import type { InlineDrawerState } from './components/react-drawer';
+import { useImageStyles } from './components/react-image';
+import type { ImageState } from '@fluentui/react-image';
+import { useLabelStyles } from './components/react-label';
+import type { LabelState } from './components/react-label';
+import { useInputStyles } from './components/react-input';
+import type { InputState } from './components/react-input';
+import { useLinkStyles } from './components/react-link';
+import type { LinkState } from './components/react-link';
+import {
+  useMenuDividerStyles,
+  useMenuGroupHeaderStyles,
+  useMenuItemStyles,
+  useMenuItemCheckboxStyles,
+  useMenuItemLinkStyles,
+  useMenuItemRadioStyles,
+  useMenuItemSwitchStyles,
+  useMenuPopoverStyles,
+  useMenuSplitGroupStyles,
+} from './components/react-menu';
+import type {
+  MenuDividerState,
+  MenuGroupHeaderState,
+  MenuItemState,
+  MenuItemCheckboxState,
+  MenuItemLinkState,
+  MenuItemRadioState,
+  MenuItemSwitchState,
+  MenuPopoverState,
+  MenuSplitGroupState,
+} from '@fluentui/react-menu';
+import { usePopoverSurfaceStyles } from './components/react-popover';
+import type { PopoverSurfaceState } from '@fluentui/react-popover';
+import { useSearchBoxStyles } from './components/react-search';
+import type { SearchBoxState } from './components/react-search';
+import {
+  useTagStyles,
+  useInteractionTagStyles,
+  useInteractionTagPrimaryStyles,
+  useInteractionTagSecondaryStyles,
+} from './components/react-tags';
+import type {
+  TagState,
+  InteractionTagState,
+  InteractionTagPrimaryState,
+  InteractionTagSecondaryState,
+} from '@fluentui/react-tags';
+import { useTabStyles, useTabListStyles } from './components/react-tabs';
+import type { TabState, TabListState } from '@fluentui/react-tabs';
+import {
+  useToolbarStyles,
+  useToolbarButtonStyles,
+  useToolbarDividerStyles,
+} from './components/react-toolbar';
+import type {
+  ToolbarState,
+  ToolbarButtonState,
+} from './components/react-toolbar';
+import type { ToolbarDividerState } from '@fluentui/react-toolbar';
+import {
+  useTeachingPopoverBodyStyles,
+  useTeachingPopoverCarouselFooterButtonStyles,
+  useTeachingPopoverFooterStyles,
+  useTeachingPopoverHeaderStyles,
+  useTeachingPopoverSurfaceStyles,
+} from './components/react-teaching-popover';
+import type {
+  TeachingPopoverBodyState,
+  TeachingPopoverHeaderState,
+  TeachingPopoverSurfaceState,
+} from '@fluentui/react-teaching-popover';
+import type {
+  TeachingPopoverFooterState,
+  TeachingPopoverCarouselFooterButtonState,
+} from './components/react-teaching-popover';
+import { useTooltipStyles } from './components/react-tooltip';
+import type { TooltipState } from './components/react-tooltip';
+
+export const CAP_STYLE_HOOKS: NonNullable<
+  FluentProviderProps['customStyleHooks_unstable']
+> = {
+  useAccordionHeaderStyles_unstable: (state) => {
+    return useAccordionHeaderStyles(state as AccordionHeaderState);
+  },
+  useAccordionPanelStyles_unstable: (state) => {
+    return useAccordionPanelStyles(state as AccordionPanelState);
+  },
+  useAvatarGroupItemStyles_unstable: (state) => {
+    return useAvatarGroupItemStyles(state as AvatarGroupItemState);
+  },
+  useAvatarGroupPopoverStyles_unstable: (state) => {
+    return useAvatarGroupPopoverStyles(state as AvatarGroupPopoverState);
+  },
+  useAvatarStyles_unstable: (state) => {
+    return useAvatarStyles(state as AvatarState);
+  },
+  useBadgeStyles_unstable: (state) => {
+    return useBadgeStyles(state as BadgeState);
+  },
+  useButtonStyles_unstable: (state) => {
+    return useButtonStyles(state as ButtonState);
+  },
+  useCardStyles_unstable: (state) => {
+    return useCardStyles(state as CardState);
+  },
+  useCardFooterStyles_unstable: (state) => {
+    return useCardFooterStyles(state as CardFooterState);
+  },
+  useCardHeaderStyles_unstable: (state) => {
+    return useCardHeaderStyles(state as CardHeaderState);
+  },
+  useCardPreviewStyles_unstable: (state) => {
+    return useCardPreviewStyles(state as CardPreviewState);
+  },
+  useCarouselAutoplayButtonStyles_unstable: (state) => {
+    return useCarouselAutoplayButtonStyles(
+      state as CarouselAutoplayButtonState
+    );
+  },
+  useCarouselButtonStyles_unstable: (state) => {
+    return useCarouselButtonStyles(state as CarouselButtonState);
+  },
+  useCarouselNavButtonStyles_unstable: (state) => {
+    return useCarouselNavButtonStyles(state as CarouselNavButtonState);
+  },
+  useCarouselNavContainerStyles_unstable: (state) => {
+    return useCarouselNavContainerStyles(state as CarouselNavContainerState);
+  },
+  useCarouselNavImageButtonStyles_unstable: (state) => {
+    return useCarouselNavImageButtonStyles(
+      state as CarouselNavImageButtonState
+    );
+  },
+  useCarouselNavStyles_unstable: (state) => {
+    return useCarouselNavStyles(state as CarouselNavState);
+  },
+  useCarouselStyles_unstable: (state) => {
+    return useCarouselStyles(state as CarouselState);
+  },
+  useCheckboxStyles_unstable: (state) => {
+    return useCheckboxStyles(state as CheckboxState);
+  },
+  useCompoundButtonStyles_unstable: (state) => {
+    return useCompoundButtonStyles(state as CompoundButtonState);
+  },
+  useComboboxStyles_unstable: (state) => {
+    return useComboboxStyles(state as ComboboxState);
+  },
+  useDialogActionsStyles_unstable: (state) => {
+    return useDialogActionsStyles(state as DialogActionsState);
+  },
+  useDialogBodyStyles_unstable: (state) => {
+    return useDialogBodyStyles(state as DialogBodyState);
+  },
+  useDialogSurfaceStyles_unstable: (state) => {
+    return useDialogSurfaceStyles(state as DialogSurfaceState);
+  },
+  useDialogTitleStyles_unstable: (state) => {
+    return useDialogTitleStyles(state as DialogTitleState);
+  },
+  useDrawerBodyStyles_unstable: (state) => {
+    return useDrawerBodyStyles(state as DrawerBodyState);
+  },
+  useDrawerFooterStyles_unstable: (state) => {
+    return useDrawerFooterStyles(state as DrawerFooterState);
+  },
+  useDrawerHeaderNavigationStyles_unstable: (state) => {
+    return useDrawerHeaderNavigationStyles(
+      state as DrawerHeaderNavigationState
+    );
+  },
+  useDrawerHeaderStyles_unstable: (state) => {
+    return useDrawerHeaderStyles(state as DrawerHeaderState);
+  },
+  useDrawerHeaderTitleStyles_unstable: (state) => {
+    return useDrawerHeaderTitleStyles(state as DrawerHeaderTitleState);
+  },
+  useDropdownStyles_unstable: (state) => {
+    return useDropdownStyles(state as DropdownState);
+  },
+  useImageStyles_unstable: (state) => {
+    return useImageStyles(state as ImageState);
+  },
+  useLabelStyles_unstable: (state) => {
+    return useLabelStyles(state as LabelState);
+  },
+  useInputStyles_unstable: (state) => {
+    return useInputStyles(state as InputState);
+  },
+  useInlineDrawerStyles_unstable: (state) => {
+    return useInlineDrawerStyles(state as InlineDrawerState);
+  },
+  useInteractionTagStyles_unstable: (state) => {
+    return useInteractionTagStyles(state as InteractionTagState);
+  },
+  useInteractionTagPrimaryStyles_unstable: (state) => {
+    return useInteractionTagPrimaryStyles(state as InteractionTagPrimaryState);
+  },
+  useInteractionTagSecondaryStyles_unstable: (state) => {
+    return useInteractionTagSecondaryStyles(
+      state as InteractionTagSecondaryState
+    );
+  },
+  useLinkStyles_unstable: (state) => {
+    return useLinkStyles(state as LinkState);
+  },
+  useMenuButtonStyles_unstable: (state) => {
+    return useMenuButtonStyles(state as MenuButtonState);
+  },
+  useOverlayDrawerStyles_unstable: (state) => {
+    return useOverlayDrawerStyles(state as OverlayDrawerState);
+  },
+  usePopoverSurfaceStyles_unstable: (state) => {
+    return usePopoverSurfaceStyles(state as PopoverSurfaceState);
+  },
+  useSearchBoxStyles_unstable: (state) => {
+    return useSearchBoxStyles(state as SearchBoxState);
+  },
+  useSplitButtonStyles_unstable: (state) => {
+    return useSplitButtonStyles(state as SplitButtonState);
+  },
+  useTagStyles_unstable: (state) => {
+    return useTagStyles(state as TagState);
+  },
+  useTabStyles_unstable: (state) => {
+    return useTabStyles(state as TabState);
+  },
+  useTabListStyles_unstable: (state) => {
+    return useTabListStyles(state as TabListState);
+  },
+  useTeachingPopoverBodyStyles_unstable: (state) => {
+    return useTeachingPopoverBodyStyles(state as TeachingPopoverBodyState);
+  },
+  useTeachingPopoverCarouselFooterButtonStyles_unstable: (state) => {
+    return useTeachingPopoverCarouselFooterButtonStyles(
+      state as TeachingPopoverCarouselFooterButtonState
+    );
+  },
+  useTeachingPopoverFooterStyles_unstable: (state) => {
+    return useTeachingPopoverFooterStyles(state as TeachingPopoverFooterState);
+  },
+  useTeachingPopoverHeaderStyles_unstable: (state) => {
+    return useTeachingPopoverHeaderStyles(state as TeachingPopoverHeaderState);
+  },
+  useTeachingPopoverSurfaceStyles_unstable: (state) => {
+    return useTeachingPopoverSurfaceStyles(
+      state as TeachingPopoverSurfaceState
+    );
+  },
+  useToggleButtonStyles_unstable: (state) => {
+    return useToggleButtonStyles(state as ToggleButtonState);
+  },
+  useToolbarStyles_unstable: (state) => {
+    return useToolbarStyles(state as ToolbarState);
+  },
+  useToolbarButtonStyles_unstable: (state) => {
+    return useToolbarButtonStyles(state as ToolbarButtonState);
+  },
+  useToolbarDividerStyles_unstable: (state) => {
+    return useToolbarDividerStyles(state as ToolbarDividerState);
+  },
+  useTooltipStyles_unstable: (state) => {
+    return useTooltipStyles(state as TooltipState);
+  },
+  useMenuDividerStyles_unstable: (state) => {
+    return useMenuDividerStyles(state as MenuDividerState);
+  },
+  useMenuGroupHeaderStyles_unstable: (state) => {
+    return useMenuGroupHeaderStyles(state as MenuGroupHeaderState);
+  },
+  useMenuItemStyles_unstable: (state) => {
+    return useMenuItemStyles(state as MenuItemState);
+  },
+  useMenuItemCheckboxStyles_unstable: (state) => {
+    return useMenuItemCheckboxStyles(state as MenuItemCheckboxState);
+  },
+  useMenuItemLinkStyles_unstable: (state) => {
+    return useMenuItemLinkStyles(state as MenuItemLinkState);
+  },
+  useMenuItemSwitchStyles_unstable: (state) => {
+    return useMenuItemSwitchStyles(state as MenuItemSwitchState);
+  },
+  useMenuItemRadioStyles_unstable: (state) => {
+    return useMenuItemRadioStyles(state as MenuItemRadioState);
+  },
+  useMenuPopoverStyles_unstable: (state) => {
+    return useMenuPopoverStyles(state as MenuPopoverState);
+  },
+  useMenuSplitGroupStyles_unstable: (state) => {
+    return useMenuSplitGroupStyles(state as MenuSplitGroupState);
+  },
+};

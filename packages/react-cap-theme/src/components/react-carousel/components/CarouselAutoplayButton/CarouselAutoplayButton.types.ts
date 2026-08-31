@@ -3,18 +3,18 @@ import type {
   CarouselAutoplayButtonSlots as FluentCarouselAutoplayButtonSlots,
 } from '@fluentui/react-carousel';
 import type { ComponentProps, ComponentState } from '@fluentui/react-utilities';
+import type { ButtonSlots } from '@fluentui/react-button';
 import type {
-  ButtonSlots,
   ToggleButtonProps,
   ToggleButtonState,
-} from '../../../react-button';
+} from '../../../react-button/components/ToggleButton/ToggleButton.types';
 
 export type CarouselAutoplayButtonSlots = ButtonSlots &
-  Pick<FluentCarouselAutoplayButtonSlots, 'root'>;
+  FluentCarouselAutoplayButtonSlots;
 
 export type CarouselAutoplayButtonProps = ToggleButtonProps &
   ComponentProps<CarouselAutoplayButtonSlots> &
-  Pick<FluentCarouselAutoplayButtonProps, 'onCheckedChange'>;
+  Omit<FluentCarouselAutoplayButtonProps, 'appearance'>;
 
 export type CarouselAutoplayButtonState = ToggleButtonState &
   ComponentState<CarouselAutoplayButtonSlots>;

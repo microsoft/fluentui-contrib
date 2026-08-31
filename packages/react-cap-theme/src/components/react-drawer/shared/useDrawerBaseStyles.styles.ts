@@ -1,8 +1,8 @@
-import { tokens } from '../../tokens';
+import { capTokens } from '../../tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 import type { DrawerBaseState } from '../components/Drawer/Drawer.types';
 
-const borderRadius = tokens.borderRadius3XLarge;
+const borderRadius = capTokens.borderRadius3XLarge;
 
 const useDrawerStyles = makeStyles({
   start: { borderRadius: `0 ${borderRadius} ${borderRadius} 0` },

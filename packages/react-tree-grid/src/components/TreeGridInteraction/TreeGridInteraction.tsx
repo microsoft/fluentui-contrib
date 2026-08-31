@@ -15,6 +15,9 @@ import {
   useMergedTabsterAttributes_unstable,
 } from '@fluentui/react-tabster';
 
+/**
+ * Focus trap container for interactive content embedded within a TreeGrid row.
+ */
 export const TreeGridInteraction: ForwardRefComponent<TreeGridInteractionProps> =
   React.forwardRef((props, ref) => {
     const tabsterAttributes = useMergedTabsterAttributes_unstable(

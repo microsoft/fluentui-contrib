@@ -1,8 +1,100 @@
 # Change Log - @fluentui-contrib/react-cap-theme
 
-This log was last generated on Wed, 01 Apr 2026 19:54:07 GMT and should not be manually modified.
+This log was last generated on Wed, 01 Jul 2026 20:08:28 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.5.1
+
+Wed, 01 Jul 2026 20:08:28 GMT
+
+### Patches
+
+- Fix border styles for field :focus states (6439050+davezuko@users.noreply.github.com)
+- Declare runtime dependencies that were previously only resolved via workspace hoisting (@fluentui/* building-block packages, @griffel/react, @fluentui/tokens) plus the @fluentui/react-icons peer, so the published package resolves correctly under strict installers (e.g. pnpm) (Oleksandr.Katrukhin@microsoft.com)
+
+## 0.5.0
+
+Wed, 24 Jun 2026 20:25:07 GMT
+
+### Minor changes
+
+- Introduce CAP_STYLE_HOOKS_ROUNDED_CORNERS (6439050+davezuko@users.noreply.github.com)
+
+## 0.4.3
+
+Wed, 17 Jun 2026 12:26:49 GMT
+
+### Patches
+
+- add react-search component (egianoglio@microsoft.com)
+
+## 0.4.2
+
+Wed, 03 Jun 2026 12:03:49 GMT
+
+### Patches
+
+- add react-toolbar component (egianoglio@microsoft.com)
+- add react-teaching-popover components (egianoglio@microsoft.com)
+
+## 0.4.1
+
+Tue, 19 May 2026 17:02:10 GMT
+
+### Patches
+
+- update react-menu with latest changes (egianoglio@microsoft.com)
+
+## 0.4.0
+
+Mon, 11 May 2026 15:48:33 GMT
+
+### Minor changes
+
+- removed omit & picks for components removing types (miceclavea@microsoft.com)
+
+### Patches
+
+- add react-tags components (egianoglio@microsoft.com)
+- add react-tabs components (egianoglio@microsoft.com)
+- react-menu components refactoring (egianoglio@microsoft.com)
+- add react-card components (egianoglio@microsoft.com)
+- add react-combobox components (egianoglio@microsoft.com)
+- add CompoundButton CAP restyling (egianoglio@microsoft.com)
+
+## 0.3.1
+
+Thu, 23 Apr 2026 17:07:54 GMT
+
+### Patches
+
+- repo recovery for mismatched version (yizhang9@microsoft.com)
+
+## 0.3.0
+
+Thu, 23 Apr 2026 16:23:03 GMT
+
+### Minor changes
+
+- feat(react-cap-theme): add TEAMS_STYLE_HOOKS with button size overrides (yizhang9@microsoft.com)
+
+### Patches
+
+- try to fix the version bump problem by adding some changes (yizhang9@microsoft.com)
+- Fix ToggleButton checked state styling and Checkbox indicator visibility; refactor internal component structure (egianoglio@microsoft.com)
+- Remove unused tokens (dzukowski@microsoft.com)
+- feat(react-cap-theme): add react-label component (dzukowski@microsoft.com)
+- add react-input component (dzukowski@microsoft.com)
+- fix(react-cap-theme): use relative import path for button types in teams/index (yizhang9@microsoft.com)
+
+## 0.2.4
+
+Fri, 10 Apr 2026 16:04:54 GMT
+
+### Patches
+
+- publish component updates (yizhang9@microsoft.com)
 
 ## 0.2.3
 

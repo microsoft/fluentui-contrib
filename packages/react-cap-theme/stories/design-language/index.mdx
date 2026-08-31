@@ -1,0 +1,36 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+
+<Meta title="Packages/react-cap-theme/Design Language/Overview" />
+
+<Title>Design Language</Title>
+
+The CAP design language is broken into **facets** — self-contained slices of the look that each restyle a single aspect of every component, such as their corner radius. Adopt a facet on its own to take part of the CAP look without committing to all of it, and combine the facets you want. Each facet is a `customStyleHooks_unstable` registry exported from the package.
+
+Today the design language ships one facet:
+
+- [**Rounded Corners**](?path=/docs/packages-react-cap-theme-design-language-rounded-corners--docs) (`CAP_STYLE_HOOKS_ROUNDED_CORNERS`) — rounds component corners to the CAP radius.
+
+## Combining facets
+
+Use `mergeStyleHooks` to combine facets — or layer them on top of your own custom hooks — into a single `customStyleHooks_unstable` map:
+
+```tsx
+import { FluentProvider, webLightTheme } from '@fluentui/react-components';
+import {
+  mergeStyleHooks,
+  CAP_STYLE_HOOKS_ROUNDED_CORNERS,
+} from '@fluentui-contrib/react-cap-theme';
+
+const styleHooks = mergeStyleHooks([
+  CAP_STYLE_HOOKS_ROUNDED_CORNERS,
+  // ...other CAP facets, or your own custom style hooks
+]);
+
+export const App = () => (
+  <FluentProvider theme={webLightTheme} customStyleHooks_unstable={styleHooks}>
+    {/* the rest of your app */}
+  </FluentProvider>
+);
+```
+
+Each registry maps a component to a hook that _appends_ its styling. A plain `{ ...rounded, ...colors }` spread (which is also how nesting `FluentProvider`s behaves) is **last-one-wins**: for `Button`, only the colors hook survives and the rounded-corners hook is dropped entirely, so your buttons get the new colors but lose the rounded corners. `mergeStyleHooks` instead **composes** them: the merged `Button` hook runs both in array order, so the button gets both. Where two registries set the same CSS property the later one wins; where they touch different properties, both apply.

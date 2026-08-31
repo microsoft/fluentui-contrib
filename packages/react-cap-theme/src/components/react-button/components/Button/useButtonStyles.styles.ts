@@ -4,15 +4,16 @@ import {
   iconRegularClassName,
 } from '@fluentui/react-icons';
 import { createCustomFocusIndicatorStyle } from '@fluentui/react-tabster';
-import { tokens, typographyStyles } from '../../../tokens';
+import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
+import { tokens } from '@fluentui/tokens';
+import { typographyStyles } from '@fluentui/tokens';
+import { capTokens } from '../../../tokens';
 import {
   type GriffelStyle,
-  makeResetStyles,
   makeStyles,
   mergeClasses,
   shorthands,
 } from '@griffel/react';
-import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
 import type { ButtonState } from './Button.types';
 
 const iconSpacingVar = '--fui-Button__icon--spacing';
@@ -43,76 +44,65 @@ const highContrastPrimaryStyles: GriffelStyle = {
   },
 };
 
-const useRootBaseClassName = makeResetStyles({
-  alignItems: 'center',
-  boxSizing: 'border-box',
-  display: 'inline-flex',
-  justifyContent: 'center',
-  textDecorationLine: 'none',
-  verticalAlign: 'middle',
+const useRootBaseStyles = makeStyles({
+  base: {
+    alignItems: 'center',
+    boxSizing: 'border-box',
+    display: 'inline-flex',
+    justifyContent: 'center',
+    textDecorationLine: 'none',
+    verticalAlign: 'middle',
 
-  margin: 0,
-  overflow: 'hidden',
+    margin: 0,
+    overflow: 'hidden',
 
-  color: tokens.colorNeutralForeground3,
-  border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke4}`,
-  borderRadius: tokens.borderRadius2XLarge,
-  cursor: 'pointer',
+    color: tokens.colorNeutralForeground3,
+    border: `${tokens.strokeWidthThin} solid ${capTokens.colorNeutralStroke4}`,
+    borderRadius: capTokens.borderRadius2XLarge,
+    cursor: 'pointer',
 
-  ':hover': { color: tokens.colorNeutralForeground1Hover },
-  ':hover:active': { color: tokens.colorNeutralForeground1Pressed },
-  ':focus-visible': { outline: 'none', outlineOffset: 0 }, // Remove browser defaults
+    ':hover': { color: tokens.colorNeutralForeground1Hover },
+    ':hover:active': { color: tokens.colorNeutralForeground1Pressed },
+    ':focus-visible': { outline: 'none', outlineOffset: 0 }, // Remove browser defaults
 
-  ...typographyStyles.body1Strong,
+    ...typographyStyles.body1Strong,
 
-  transitionDuration: tokens.durationFaster,
-  transitionProperty: 'background, border, color',
-  transitionTimingFunction: tokens.curveEasyEase,
-  '@media screen and (prefers-reduced-motion: reduce)': {
-    transitionDuration: '0.01ms',
-  },
+    transitionDuration: tokens.durationFaster,
+    transitionProperty: 'background, border, color',
+    transitionTimingFunction: tokens.curveEasyEase,
+    '@media screen and (prefers-reduced-motion: reduce)': {
+      transitionDuration: '0.01ms',
+    },
 
-  ...createCustomFocusIndicatorStyle({
-    borderColor: tokens.colorStrokeFocus2,
-    borderRadius: tokens.borderRadius2XLarge,
-    outline: `${tokens.strokeWidthThick} solid ${tokens.colorStrokeFocus2}`,
-    zIndex: 1,
-    ...innerFocusRing(),
-
-    ':hover': { borderColor: tokens.colorStrokeFocus2 },
     '@media (forced-colors: active)': {
-      outlineColor: 'Highlight',
-      ...innerFocusRing('ButtonFace'),
-      ':focus': { borderColor: 'Highlight' },
-    },
-  }),
-
-  '@media (forced-colors: active)': {
-    ':focus': { borderColor: 'ButtonBorder' },
-    ':hover': {
-      backgroundColor: 'HighlightText',
-      borderColor: 'Highlight',
-      color: 'Highlight',
-      forcedColorAdjust: 'none',
-      [`& .${buttonClassNames.icon}`]: { color: 'inherit' },
-    },
-    ':hover:active': {
-      backgroundColor: 'HighlightText',
-      borderColor: 'Highlight',
-      color: 'Highlight',
-      forcedColorAdjust: 'none',
-      [`& .${buttonClassNames.icon}`]: { color: 'inherit' },
+      ':focus': { ...shorthands.borderColor('ButtonBorder') },
+      ':hover': {
+        backgroundColor: 'HighlightText',
+        ...shorthands.borderColor('Highlight'),
+        color: 'Highlight',
+        forcedColorAdjust: 'none',
+        [`& .${buttonClassNames.icon}`]: { color: 'inherit' },
+      },
+      ':hover:active': {
+        backgroundColor: 'HighlightText',
+        ...shorthands.borderColor('Highlight'),
+        color: 'Highlight',
+        forcedColorAdjust: 'none',
+        [`& .${buttonClassNames.icon}`]: { color: 'inherit' },
+      },
     },
   },
 });
 
-const useIconBaseClassName = makeResetStyles({
-  alignItems: 'center',
-  display: 'inline-flex',
-  justifyContent: 'center',
-  fontSize: tokens.fontSizeBase500,
+const useIconBaseStyles = makeStyles({
+  base: {
+    alignItems: 'center',
+    display: 'inline-flex',
+    justifyContent: 'center',
+    fontSize: tokens.fontSizeBase500,
 
-  [iconSpacingVar]: tokens.spacingHorizontalSNudge,
+    [iconSpacingVar]: tokens.spacingHorizontalSNudge,
+  },
 });
 
 const useRootStyles = makeStyles({
@@ -122,14 +112,19 @@ const useRootStyles = makeStyles({
     [`:hover:active .${iconFilledClassName}`]: { display: 'inline' },
     [`:hover:active .${iconRegularClassName}`]: { display: 'none' },
   },
+  rounded: {
+    /* borderRadius for rounded shape is handled in the size variations */
+  },
+  square: { borderRadius: tokens.borderRadiusNone },
+  circular: { borderRadius: tokens.borderRadiusCircular },
   outline: {
     backgroundColor: tokens.colorTransparentBackground, // Remove browser styling
     ':hover': {
-      ...shorthands.borderColor(tokens.colorNeutralStroke4Hover),
+      ...shorthands.borderColor(capTokens.colorNeutralStroke4Hover),
       backgroundColor: tokens.colorNeutralBackground3Hover,
     },
     ':hover:active': {
-      ...shorthands.borderColor(tokens.colorNeutralStroke4Pressed),
+      ...shorthands.borderColor(capTokens.colorNeutralStroke4Pressed),
       backgroundColor: tokens.colorNeutralBackground3Pressed,
     },
   },
@@ -150,11 +145,11 @@ const useRootStyles = makeStyles({
   secondary: {
     backgroundColor: tokens.colorNeutralBackground3,
     ':hover': {
-      ...shorthands.borderColor(tokens.colorNeutralStroke4Hover),
+      ...shorthands.borderColor(capTokens.colorNeutralStroke4Hover),
       backgroundColor: tokens.colorNeutralBackground3Hover,
     },
     ':hover:active': {
-      ...shorthands.borderColor(tokens.colorNeutralStroke4Pressed),
+      ...shorthands.borderColor(capTokens.colorNeutralStroke4Pressed),
       backgroundColor: tokens.colorNeutralBackground3Pressed,
     },
   },
@@ -196,9 +191,6 @@ const useRootStyles = makeStyles({
     ...typographyStyles.caption1Strong,
     borderRadius: tokens.borderRadiusXLarge,
     padding: `${buttonSpacingVerticalSmall} ${tokens.spacingHorizontalMNudge}`,
-    ...createCustomFocusIndicatorStyle({
-      borderRadius: tokens.borderRadiusXLarge,
-    }),
   },
   medium: {
     padding: `${buttonSpacingVerticalMedium} ${tokens.spacingHorizontalM}`,
@@ -294,6 +286,26 @@ const useRootDisabledStyles = makeStyles({
   },
 });
 
+const useRootBaseFocusIndicatorStyles = makeStyles({
+  base: createCustomFocusIndicatorStyle({
+    borderColor: tokens.colorStrokeFocus2,
+    borderRadius: capTokens.borderRadius2XLarge,
+    outline: `${tokens.strokeWidthThick} solid ${tokens.colorStrokeFocus2}`,
+    zIndex: 1,
+    ...innerFocusRing(),
+
+    ':hover': { borderColor: tokens.colorStrokeFocus2 },
+    '@media (forced-colors: active)': {
+      outlineColor: 'Highlight',
+      ...innerFocusRing('ButtonFace'),
+      ':focus': { borderColor: 'Highlight' },
+    },
+  }) as unknown as GriffelStyle,
+  small: createCustomFocusIndicatorStyle({
+    borderRadius: tokens.borderRadiusXLarge,
+  }) as unknown as GriffelStyle,
+});
+
 const useRootFocusStyles = makeStyles({
   primary: createCustomFocusIndicatorStyle({
     ...innerFocusRing(tokens.colorNeutralStrokeOnBrand),
@@ -302,7 +314,7 @@ const useRootFocusStyles = makeStyles({
       ...innerFocusRing('ButtonFace'),
       ':focus': { ...shorthands.borderColor('ButtonFace') },
     },
-  }),
+  }) as unknown as GriffelStyle,
 });
 
 const useRootIconOnlyStyles = makeStyles({
@@ -354,10 +366,11 @@ const useIconStyles = makeStyles({
 });
 
 export const useButtonStyles = (state: ButtonState): ButtonState => {
-  const rootBaseClassName = useRootBaseClassName();
-  const iconBaseClassName = useIconBaseClassName();
+  const rootBaseStyles = useRootBaseStyles();
+  const iconBaseStyles = useIconBaseStyles();
 
   const rootStyles = useRootStyles();
+  const rootBaseFocusIndicatorStyles = useRootBaseFocusIndicatorStyles();
   const rootDisabledStyles = useRootDisabledStyles();
   const rootFocusStyles = useRootFocusStyles();
   const rootIconOnlyStyles = useRootIconOnlyStyles();
@@ -370,6 +383,7 @@ export const useButtonStyles = (state: ButtonState): ButtonState => {
     disabledFocusable,
     iconOnly,
     iconPosition,
+    shape,
     size,
   } = state;
   const isPrimary = ['primary', 'tint'].includes(appearance);
@@ -378,10 +392,13 @@ export const useButtonStyles = (state: ButtonState): ButtonState => {
   state.root.className = mergeClasses(
     state.root.className,
     buttonClassNames.root,
-    rootBaseClassName,
+    rootBaseStyles.base,
+    rootBaseFocusIndicatorStyles.base,
     rootStyles.root,
     rootStyles[appearance],
     rootStyles[size],
+    rootStyles[shape],
+    size === 'small' && rootBaseFocusIndicatorStyles.small,
 
     (disabled || disabledFocusable) && rootDisabledStyles.base,
     (disabled || disabledFocusable) && rootDisabledStyles[appearance],
@@ -397,7 +414,7 @@ export const useButtonStyles = (state: ButtonState): ButtonState => {
     state.icon.className = mergeClasses(
       state.icon.className,
       buttonClassNames.icon,
-      iconBaseClassName,
+      iconBaseStyles.base,
       !!state.root.children && iconStyles[iconPosition],
       iconStyles[size],
       getSlotClassNameProp_unstable(state.icon)

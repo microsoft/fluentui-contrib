@@ -1,9 +1,6 @@
-import {
-  useAvatarStyles_unstable,
-  type AvatarState,
-} from '@fluentui/react-avatar';
+import { type AvatarState } from '@fluentui/react-avatar';
 import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
-import { tokens } from '../../../tokens';
+import { tokens } from '@fluentui/tokens';
 import { makeStyles, mergeClasses } from '@griffel/react';
 
 const useSquareStyles = makeStyles({
@@ -46,5 +43,5 @@ export const useAvatarStyles = (state: AvatarState): AvatarState => {
     rootSquareStyles,
     getSlotClassNameProp_unstable(state.root)
   );
-  return useAvatarStyles_unstable(state);
+  return state;
 };

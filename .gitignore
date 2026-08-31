@@ -38,6 +38,7 @@ package-lock.json
 /connect.lock
 /coverage
 /libpeerconnection.log
+/codespace-telemetry-debug.log
 npm-debug.log
 yarn-error.log
 testem.log

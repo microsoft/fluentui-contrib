@@ -184,6 +184,10 @@ export const useDraggableDialog = (
     };
   }, [announcements?.start, announcements?.end]);
 
+  const onDragStart = React.useCallback(() => {
+    setInitialDropPosition(position ?? { x: 0, y: 0 });
+  }, [position]);
+
   React.useEffect(
     () => () => cancelOnDragAnimationFrame(),
     [cancelOnDragAnimationFrame]
@@ -215,6 +219,7 @@ export const useDraggableDialog = (
 
   return React.useMemo(
     () => ({
+      onDragStart,
       onDragMove,
       onDragEnd,
       sensors,
@@ -224,6 +229,7 @@ export const useDraggableDialog = (
       contextValue,
     }),
     [
+      onDragStart,
       onDragMove,
       onDragEnd,
       sensors,

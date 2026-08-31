@@ -1,8 +1,7 @@
 import type { DrawerHeaderNavigationState } from '@fluentui/react-drawer';
-import { useDrawerHeaderNavigationStyles_unstable } from '@fluentui/react-drawer';
-import { tokens } from '../../../tokens';
-import { makeStyles, mergeClasses } from '@griffel/react';
 import { getSlotClassNameProp_unstable } from '@fluentui/react-utilities';
+import { tokens } from '@fluentui/tokens';
+import { makeStyles, mergeClasses } from '@griffel/react';
 
 const useStyles = makeStyles({
   root: { margin: `0 ${tokens.spacingHorizontalS}` },
@@ -18,5 +17,5 @@ export const useDrawerHeaderNavigationStyles = (
     styles.root,
     getSlotClassNameProp_unstable(state.root)
   );
-  return useDrawerHeaderNavigationStyles_unstable(state);
+  return state;
 };

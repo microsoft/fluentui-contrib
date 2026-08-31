@@ -1,0 +1,34 @@
+import { Meta, Title, Stories } from '@storybook/addon-docs/blocks';
+import * as RoundedCornersStories from './index.stories';
+
+<Meta of={RoundedCornersStories} />
+
+<Title />
+
+Rounded Corners is a facet of the CAP design language. It softens Fluent UI v9 components by increasing their border radius — buttons, inputs, cards, menus, tags, and more — giving your app CAP's rounder, friendlier silhouette. Only the corner geometry changes: colors, spacing, typography, and layout stay exactly as Fluent ships them, so you can adopt CAP's shape without committing to the rest of the look.
+
+## Usage
+
+Pass `CAP_STYLE_HOOKS_ROUNDED_CORNERS` to your `FluentProvider`'s `customStyleHooks_unstable`. It works on a stock Fluent theme with no extra setup — the corner-radius values it uses fall back to sensible defaults when your theme doesn't define them.
+
+```tsx
+import { FluentProvider, webLightTheme } from '@fluentui/react-components';
+import { CAP_STYLE_HOOKS_ROUNDED_CORNERS } from '@fluentui-contrib/react-cap-theme';
+
+export const App = () => (
+  <FluentProvider
+    theme={webLightTheme}
+    customStyleHooks_unstable={CAP_STYLE_HOOKS_ROUNDED_CORNERS}
+  >
+    {/* the rest of your app */}
+  </FluentProvider>
+);
+```
+
+To combine it with other facets of the CAP design language — or with your own custom style hooks — compose them together with `mergeStyleHooks` (see [Design Language](?path=/docs/packages-react-cap-theme-design-language-overview--docs)).
+
+## Examples
+
+Each component below shows default Fluent v9 styling on the left and the rounded-corners variant on the right. Everything except the corner radii should look identical.
+
+<Stories includePrimary title={null} />

@@ -2,6 +2,229 @@
   "name": "@fluentui-contrib/react-cap-theme",
   "entries": [
     {
+      "date": "Wed, 01 Jul 2026 20:08:28 GMT",
+      "tag": "@fluentui-contrib/react-cap-theme_v0.5.1",
+      "version": "0.5.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "6439050+davezuko@users.noreply.github.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "3213aae303695579a5d35e860ba5711b32d7f610",
+            "comment": "Fix border styles for field :focus states"
+          },
+          {
+            "author": "Oleksandr.Katrukhin@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "f56023bd768fc4e509bc8e12d60065e654bec780",
+            "comment": "Declare runtime dependencies that were previously only resolved via workspace hoisting (@fluentui/* building-block packages, @griffel/react, @fluentui/tokens) plus the @fluentui/react-icons peer, so the published package resolves correctly under strict installers (e.g. pnpm)"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Wed, 24 Jun 2026 20:25:07 GMT",
+      "tag": "@fluentui-contrib/react-cap-theme_v0.5.0",
+      "version": "0.5.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "6439050+davezuko@users.noreply.github.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "a31a5b62deed6dec78527d1d6c1c68f1787f8d62",
+            "comment": "Introduce CAP_STYLE_HOOKS_ROUNDED_CORNERS"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Wed, 17 Jun 2026 12:26:49 GMT",
+      "tag": "@fluentui-contrib/react-cap-theme_v0.4.3",
+      "version": "0.4.3",
+      "comments": {
+        "patch": [
+          {
+            "author": "egianoglio@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "4d48daa0dd0cb16d4ca2435212d73350fad01525",
+            "comment": "add react-search component"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Wed, 03 Jun 2026 12:03:49 GMT",
+      "tag": "@fluentui-contrib/react-cap-theme_v0.4.2",
+      "version": "0.4.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "egianoglio@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "b73b30dcf22d1581a245bfaeaa5d443dc4d54e87",
+            "comment": "add react-toolbar component"
+          },
+          {
+            "author": "egianoglio@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "8076a2e8a6a3782c26f2a672f105949b1981b077",
+            "comment": "add react-teaching-popover components"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Tue, 19 May 2026 17:02:10 GMT",
+      "tag": "@fluentui-contrib/react-cap-theme_v0.4.1",
+      "version": "0.4.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "egianoglio@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "c043c812a523c21b104a92bdc6dbd5e671ef3979",
+            "comment": "update react-menu with latest changes"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Mon, 11 May 2026 15:48:33 GMT",
+      "tag": "@fluentui-contrib/react-cap-theme_v0.4.0",
+      "version": "0.4.0",
+      "comments": {
+        "patch": [
+          {
+            "author": "egianoglio@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "0c8b6a7aa90191910c77772400ef0e6a37c210db",
+            "comment": "add react-tags components"
+          },
+          {
+            "author": "egianoglio@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "ad57c12c09557c2a1811382606e4ccf0113da674",
+            "comment": "add react-tabs components"
+          },
+          {
+            "author": "egianoglio@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "b25c69ca510198543871b60cdb311e2904cb14f0",
+            "comment": "react-menu components refactoring"
+          },
+          {
+            "author": "egianoglio@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "f64215f406bc58424c509bc8229789ab587ce887",
+            "comment": "add react-card components"
+          },
+          {
+            "author": "egianoglio@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "c4d747e4dbb9dcb92e40d4cb604274ef22aa174d",
+            "comment": "add react-combobox components"
+          },
+          {
+            "author": "egianoglio@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "dd8cf5d47b18f2141e4b1468f62a294a20a7a6cf",
+            "comment": "add CompoundButton CAP restyling"
+          }
+        ],
+        "minor": [
+          {
+            "author": "miceclavea@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "8c1c85cb99aa5df6e9b9a876868b74c6529dbb92",
+            "comment": "removed omit & picks for components removing types"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Thu, 23 Apr 2026 17:07:54 GMT",
+      "tag": "@fluentui-contrib/react-cap-theme_v0.3.1",
+      "version": "0.3.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "yizhang9@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "ee9d699fda9865762e20fb355cacf772ae35c092",
+            "comment": "repo recovery for mismatched version"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Thu, 23 Apr 2026 16:23:03 GMT",
+      "tag": "@fluentui-contrib/react-cap-theme_v0.3.0",
+      "version": "0.3.0",
+      "comments": {
+        "patch": [
+          {
+            "author": "yizhang9@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "b195d29ec20b0cf1ff88ce84d7cd31fad1ced32c",
+            "comment": "try to fix the version bump problem by adding some changes"
+          },
+          {
+            "author": "egianoglio@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "51aef7f68d06e0f53fd7fe46489086107dff9670",
+            "comment": "Fix ToggleButton checked state styling and Checkbox indicator visibility; refactor internal component structure"
+          },
+          {
+            "author": "dzukowski@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "de6f1be1a42d4534400eb735e35292387ddbd69a",
+            "comment": "Remove unused tokens"
+          },
+          {
+            "author": "dzukowski@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "30d3a2dcad14f5d170582e7302ff5f4b70c9acc7",
+            "comment": "feat(react-cap-theme): add react-label component"
+          },
+          {
+            "author": "dzukowski@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "b87187e38274af1e283c7d55a686421415be02fe",
+            "comment": "add react-input component"
+          },
+          {
+            "author": "yizhang9@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "515712ffa3e865e17bfa5fb52c3ff7aae4dbc579",
+            "comment": "fix(react-cap-theme): use relative import path for button types in teams/index"
+          }
+        ],
+        "minor": [
+          {
+            "author": "yizhang9@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "d8b52d09918d320167ae7005d36a6f18713b40bd",
+            "comment": "feat(react-cap-theme): add TEAMS_STYLE_HOOKS with button size overrides"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Fri, 10 Apr 2026 16:04:54 GMT",
+      "tag": "@fluentui-contrib/react-cap-theme_v0.2.4",
+      "version": "0.2.4",
+      "comments": {
+        "patch": [
+          {
+            "author": "yizhang9@microsoft.com",
+            "package": "@fluentui-contrib/react-cap-theme",
+            "commit": "aec91aeff840fe47d033b7902f7c7ebcaf0860b4",
+            "comment": "publish component updates"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 01 Apr 2026 19:54:07 GMT",
       "tag": "@fluentui-contrib/react-cap-theme_v0.2.3",
       "version": "0.2.3",

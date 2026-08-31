@@ -1,9 +1,15 @@
 import type { ComponentProps, Slot } from '@fluentui/react-components';
 
+/**
+ * Slots available on TreeGridInteraction.
+ */
 export type TreeGridInteractionSlots = {
   root: Slot<'div'>;
 };
 
+/**
+ * Props for focusable interactive content hosted inside a TreeGrid row.
+ */
 export type TreeGridInteractionProps =
   ComponentProps<TreeGridInteractionSlots> & {
     /**

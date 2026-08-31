@@ -2,7 +2,7 @@ import type { ToggleButtonProps as BaseToggleButtonProps } from '@fluentui/react
 import type { ButtonProps, ButtonState } from '../../Button';
 
 export type ToggleButtonProps = ButtonProps &
-  Pick<BaseToggleButtonProps, 'defaultChecked' | 'checked'>;
+  Omit<BaseToggleButtonProps, 'appearance'>;
 
 export type ToggleButtonState = ButtonState &
   Required<Pick<ToggleButtonProps, 'checked'>>;

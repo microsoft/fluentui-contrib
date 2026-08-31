@@ -2,6 +2,51 @@
   "name": "@fluentui-contrib/react-tree-grid",
   "entries": [
     {
+      "date": "Mon, 22 Jun 2026 09:18:07 GMT",
+      "tag": "@fluentui-contrib/react-tree-grid_v0.4.1",
+      "version": "0.4.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "bsunderhus@microsoft.com",
+            "package": "@fluentui-contrib/react-tree-grid",
+            "commit": "aacc870208632293e0490690c860500614ea314c",
+            "comment": "Fix TreeGrid level navigation when virtualized rows are wrapped in additional containers"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Wed, 17 Jun 2026 12:26:49 GMT",
+      "tag": "@fluentui-contrib/react-tree-grid_v0.4.0",
+      "version": "0.4.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "bsunderhus@microsoft.com",
+            "package": "@fluentui-contrib/react-tree-grid",
+            "commit": "2cd7110f42857060f7711930a3904f4cd2e72d73",
+            "comment": "Add TreeGrid navigation overrides, level navigation, and virtualization examples"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Wed, 03 Jun 2026 12:03:49 GMT",
+      "tag": "@fluentui-contrib/react-tree-grid_v0.3.3",
+      "version": "0.3.3",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "@fluentui-contrib/react-tree-grid",
+            "commit": "b16064b4d937b1d2c89150d6e9e8d28271110ac3",
+            "comment": "chore: use \"^\" for @fluentui/keyboard-keys dependency"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 03 Mar 2026 14:35:51 GMT",
       "tag": "@fluentui-contrib/react-tree-grid_v0.3.2",
       "version": "0.3.2",

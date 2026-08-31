@@ -3,154 +3,70 @@ import {
   TreeGrid,
   TreeGridCell,
   TreeGridRow,
-  TreeGridRowProvider,
   TreeGridRowOnOpenChangeData,
+  useTreeGridNavigationOverride,
 } from '@fluentui-contrib/react-tree-grid';
 import {
+  Avatar,
+  Body1Stronger,
   Button,
-  Menu,
-  MenuItem,
-  MenuList,
-  MenuPopover,
-  MenuTrigger,
-  useEventCallback,
-  HeadlessFlatTreeItemProps,
-  ForwardRefComponent,
+  Caption1,
+  Caption1Stronger,
+  InteractionTag,
+  InteractionTagPrimary,
+  Image,
+  Tag,
+  Tooltip,
   makeStyles,
+  mergeClasses,
   shorthands,
+  tokens,
+  useEventCallback,
   useFluent,
 } from '@fluentui/react-components';
-import { isHTMLElement } from '@fluentui/react-utilities';
-
 import {
-  FixedSizeList,
-  FixedSizeListProps,
-  ListChildComponentProps,
-} from 'react-window';
-import { TreeGridProps } from '../src/components/TreeGrid/TreeGrid.types';
-import { ArrowLeft } from '@fluentui/keyboard-keys';
+  AttachRegular,
+  CalendarRegular,
+  CaretDownFilled,
+  CaretRightFilled,
+  CheckmarkCircleRegular,
+} from '@fluentui/react-icons';
+import { isHTMLElement } from '@fluentui/react-utilities';
+import { ListChildComponentProps, VariableSizeList } from 'react-window';
 
-const useStyles = makeStyles({
-  cell: {
-    ...shorthands.flex(1, 1, '100%'),
-  },
-});
-
-type Item = {
-  children: string;
+type SectionItem = {
+  type: 'section';
+  rowType: 'section';
   value: string;
-  parentValue?: string;
-};
-const defaultItems: Item[] = [
-  {
-    value: 'flatTreeItem_lvl-1_item-1',
-    children: `Level 1, item 1`,
-  },
-  ...Array.from({ length: 300 }, (_, i) => ({
-    value: `flatTreeItem_lvl-1_item-1--child:${i}`,
-    parentValue: 'flatTreeItem_lvl-1_item-1',
-    children: `Item ${i + 1}`,
-  })),
-  {
-    value: 'flatTreeItem_lvl-1_item-2',
-    children: `Level 1, item 2`,
-  },
-  ...Array.from({ length: 300 }, (_, index) => ({
-    value: `flatTreeItem_lvl-1_item-2--child:${index}`,
-    parentValue: 'flatTreeItem_lvl-1_item-2',
-    children: `Item ${index + 1}`,
-  })),
-];
-
-type FixedSizeTreeGridProps = Omit<TreeGridProps, 'children'> & {
-  listProps: FixedSizeListProps & { ref?: React.Ref<FixedSizeList> };
+  header: string;
+  meetingCount: number;
 };
 
-const FixedSizeTreeGrid: ForwardRefComponent<FixedSizeTreeGridProps> =
-  React.forwardRef((props, ref) => {
-    const { listProps, ...rest } = props;
-    const handleRef = React.useCallback((instance: HTMLElement | null) => {
-      if (instance) {
-        // This element stays between the treegrid and row
-        // Due to accessibility issues this element should have role="none"
-        instance.setAttribute('role', 'none');
-      }
-    }, []);
-    return (
-      <TreeGrid {...rest} ref={ref}>
-        <FixedSizeList
-          {...listProps}
-          innerRef={handleRef}
-          outerRef={handleRef}
-        />
-      </TreeGrid>
-    );
-  });
+type MeetingRowType =
+  | 'summary'
+  | 'summaryWithBadges'
+  | 'detail'
+  | 'detailWithBadges'
+  | 'preview'
+  | 'previewWithBadges';
 
-type FixedSizeTreeGridRowProps = ListChildComponentProps<
-  HeadlessFlatTreeItemProps[]
->;
+type MeetingItem = {
+  type: 'meeting';
+  rowType: MeetingRowType;
+  value: string;
+  parentValue: string;
+  header: string;
+  location: string;
+  owner: string;
+  description?: string;
+  status?: 'missed';
+  tasks?: number;
+  attachments?: number;
+  hasThumbnail: boolean;
+  thumbnailLabel: string;
+};
 
-const FixedSizeTreeGridRow = React.memo((props: FixedSizeTreeGridRowProps) => {
-  const styles = useStyles();
-  const item = props.data[props.index];
-  const { openItems, requestOpenChange } = useVirtualizationContext();
-  return item.parentValue === undefined ? (
-    <TreeGridRow
-      data-item-id={item.value}
-      aria-level={1}
-      open={openItems.get(item.value) !== undefined}
-      onOpenChange={(ev, data) =>
-        requestOpenChange({ ...data, index: props.index })
-      }
-      style={props.style}
-      subtree
-    >
-      <TreeGridCell className={styles.cell} header>
-        {item.children}
-      </TreeGridCell>
-      <TreeGridCell className={styles.cell} aria-colspan={3}>
-        <Button>Header action</Button>
-      </TreeGridCell>
-    </TreeGridRow>
-  ) : (
-    <TreeGridRowProvider
-      value={{
-        open: !!openItems.get(item.parentValue),
-        level: 1,
-        requestOpenChange,
-      }}
-    >
-      <TreeGridRow data-item-parent-id={item.parentValue} style={props.style}>
-        <TreeGridCell className={styles.cell} header>
-          {item.children}
-        </TreeGridCell>
-        <TreeGridCell className={styles.cell}>
-          <Button>Chat with participants</Button>
-        </TreeGridCell>
-        <TreeGridCell className={styles.cell}>
-          <Menu>
-            <MenuTrigger disableButtonEnhancement>
-              <Button>Toggle menu</Button>
-            </MenuTrigger>
-
-            <MenuPopover>
-              <MenuList>
-                <MenuItem>New </MenuItem>
-                <MenuItem>New Window</MenuItem>
-                <MenuItem disabled>Open File</MenuItem>
-                <MenuItem>Open Folder</MenuItem>
-              </MenuList>
-            </MenuPopover>
-          </Menu>
-        </TreeGridCell>
-        <TreeGridCell className={styles.cell}>
-          <Button>Agenda and notes</Button>
-        </TreeGridCell>
-      </TreeGridRow>
-    </TreeGridRowProvider>
-  );
-});
+type VirtualizedMeetingsItem = SectionItem | MeetingItem;
 
 type VirtualizationContextValue = {
   openItems: Map<PropertyKey, number>;
@@ -159,11 +75,339 @@ type VirtualizationContextValue = {
   ) => void;
 };
 
+const rowFocusGap = 8;
+
+const dayHeaders = [
+  'Thursday, 1 February',
+  'Wednesday, 31 January',
+  'Tuesday, 30 January',
+  'Monday, 29 January',
+  'Friday, 26 January',
+  'Thursday, 25 January',
+  'Wednesday, 24 January',
+  'Tuesday, 23 January',
+  'Monday, 22 January',
+  'Friday, 19 January',
+  'Thursday, 18 January',
+  'Wednesday, 17 January',
+  'Tuesday, 16 January',
+  'Monday, 15 January',
+  'Friday, 12 January',
+  'Thursday, 11 January',
+  'Wednesday, 10 January',
+  'Tuesday, 9 January',
+];
+
+const meetingTitles = [
+  'All Hands with Sanjay Garg',
+  'Monthly Sync with Fluent Team',
+  'TAX RETURN 2023: How to Prepare | Online Training',
+  'CAP January Top of Mind with Jeff Teper',
+  'Design Review for TreeGrid Virtualization',
+  'Weekly Recap with Product Design',
+  'Partner Readiness Office Hours',
+  'Engineering Health Dashboard Review',
+];
+
+const meetingOwners = [
+  'Lenka Klugarova',
+  'Amit Sehgal',
+  'CZSK Comms',
+  'Collaborative Apps and Platforms Executive Calendar',
+  'Miriam Chen',
+  'Alex Wilber',
+  'Megan Bowen',
+  'Ravi Narayan',
+];
+
+const meetingDescriptions = [
+  'Meeting summary is currently not available for this meeting.',
+  'Recap is processing and should be available shortly after the recording is indexed.',
+  'Shared notes, tasks, and files are attached to help participants catch up quickly.',
+  undefined,
+];
+
+const timeRanges = [
+  '08:30 - 09:00',
+  '09:00 - 09:30',
+  '09:30 - 10:15',
+  '10:30 - 11:00',
+  '11:05 - 12:00',
+  '12:30 - 13:00',
+  '13:00 - 13:45',
+  '14:00 - 14:30',
+  '15:00 - 15:45',
+  '16:00 - 16:30',
+  '16:30 - 17:30',
+  '18:00 - 18:30',
+];
+
+const thumbnailSources = [
+  'https://placehold.co/130x70/E1F0FF/0F6CBD?text=Recap',
+  'https://placehold.co/130x70/FDE7E9/C4314B?text=Recording',
+  'https://placehold.co/130x70/E9F7EF/107C41?text=Notes',
+  'https://placehold.co/130x70/FFF4CE/8A6D1E?text=Slides',
+];
+
+const useStyles = makeStyles({
+  story: {
+    maxWidth: '1200px',
+    width: '100%',
+    overflowX: 'hidden',
+  },
+  treeGrid: {
+    width: '100%',
+    overflowX: 'hidden',
+  },
+  section: {
+    display: 'grid',
+    gridTemplateColumns: 'auto minmax(0, 1fr) auto',
+    alignItems: 'center',
+    minHeight: '48px',
+    backgroundColor: tokens.colorNeutralBackground2,
+    ...shorthands.padding(
+      0,
+      tokens.spacingHorizontalM,
+      0,
+      tokens.spacingHorizontalMNudge
+    ),
+    boxSizing: 'border-box',
+    width: '100%',
+    cursor: 'pointer',
+  },
+  sectionLabel: {
+    display: 'grid',
+    rowGap: tokens.spacingVerticalXXS,
+  },
+  sectionMeta: {
+    color: tokens.colorNeutralForeground3,
+  },
+  sectionChevron: {
+    color: tokens.colorNeutralForeground3,
+    ...shorthands.margin(0, tokens.spacingHorizontalS, 0, 0),
+  },
+  sectionCount: {
+    justifySelf: 'end',
+  },
+  sectionItem: {
+    display: 'grid',
+    gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 220px)',
+    gridTemplateRows: 'repeat(2, auto)',
+    alignItems: 'start',
+    columnGap: '0.5rem',
+    rowGap: '0.75rem',
+    backgroundColor: tokens.colorNeutralBackground1,
+    ...shorthands.padding('0.75rem'),
+    boxSizing: 'border-box',
+    minWidth: 0,
+    width: '100%',
+    ':hover': {
+      backgroundColor: tokens.colorNeutralBackground2Hover,
+    },
+  },
+  container: {
+    display: 'grid',
+    gridTemplateColumns: 'auto minmax(0, 1fr) auto',
+    gridTemplateRows: 'repeat(3, auto)',
+    gridAutoFlow: 'row',
+    gridTemplateAreas: `
+      'icon title tag'
+      'icon location location'
+      'icon description description'
+    `,
+    alignItems: 'center',
+    rowGap: '0.5rem',
+    columnGap: '0.5rem',
+    alignSelf: 'baseline',
+    justifySelf: 'baseline',
+    minWidth: 0,
+  },
+  title: {
+    alignSelf: 'start',
+    justifySelf: 'start',
+    minWidth: 0,
+    ...shorthands.gridArea('title'),
+  },
+  icon: {
+    ...shorthands.gridArea('icon'),
+    ...shorthands.margin(0, '1rem', 0, '0.6rem'),
+    alignSelf: 'flex-start',
+  },
+  tag: shorthands.gridArea('tag'),
+  location: {
+    minWidth: 0,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    ...shorthands.gridArea('location'),
+  },
+  description: {
+    color: tokens.colorNeutralForeground3,
+    minWidth: 0,
+    ...shorthands.gridArea('description'),
+  },
+  header: {
+    ...shorthands.gridArea(1, 1, 3, 2),
+    minWidth: 0,
+  },
+  noPadding: {
+    ...shorthands.padding(0),
+  },
+  titleButton: {
+    justifyContent: 'flex-start',
+    minWidth: 0,
+  },
+  titleText: {
+    display: 'block',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  },
+  missedTag: {
+    ...shorthands.border('1px', 'solid', tokens.colorPaletteRedBorder1),
+    backgroundColor: tokens.colorPaletteRedBackground1,
+    color: tokens.colorPaletteRedForeground1,
+  },
+  actionCell: {
+    display: 'flex',
+    alignItems: 'center',
+    minWidth: 0,
+  },
+  actionPanel: {
+    ...shorthands.gridArea(1, 2, 3, 3),
+    display: 'grid',
+    justifyItems: 'end',
+    alignContent: 'start',
+    rowGap: '0.75rem',
+    minWidth: 0,
+    width: '100%',
+    maxWidth: '220px',
+  },
+  quickActions: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-end',
+    gap: tokens.spacingHorizontalS,
+    minWidth: 0,
+    width: '100%',
+    maxWidth: '220px',
+  },
+  actionButton: {
+    minWidth: 'unset',
+  },
+  previewButton: {
+    justifySelf: 'end',
+    width: '130px',
+    maxWidth: '100%',
+  },
+  previewImage: {
+    display: 'block',
+    width: '100%',
+    maxWidth: '100%',
+    height: '70px',
+    objectFit: 'cover',
+  },
+});
+
+const allItems: VirtualizedMeetingsItem[] = dayHeaders.flatMap(
+  (header, dayIndex) => {
+    const sectionValue = `meeting-day-${dayIndex}`;
+    const meetings = Array.from({ length: 22 }, (_, meetingIndex) => {
+      const titleIndex = (dayIndex * 3 + meetingIndex) % meetingTitles.length;
+      const ownerIndex = (dayIndex + meetingIndex) % meetingOwners.length;
+      const descriptionIndex =
+        (dayIndex * 2 + meetingIndex) % meetingDescriptions.length;
+      const timeIndex = (dayIndex + meetingIndex) % timeRanges.length;
+      const tasks =
+        meetingIndex % 4 === 0
+          ? ((meetingIndex + dayIndex) % 8) + 2
+          : undefined;
+      const attachments =
+        meetingIndex % 3 === 0
+          ? ((meetingIndex + dayIndex) % 4) + 1
+          : undefined;
+      const hasThumbnail = meetingIndex % 2 === 0;
+      const description = meetingDescriptions[descriptionIndex];
+      const hasBadges = Boolean(tasks) && Boolean(attachments);
+
+      let rowType: MeetingRowType;
+      if (hasThumbnail) {
+        rowType = hasBadges ? 'previewWithBadges' : 'preview';
+      } else if (description) {
+        rowType = hasBadges ? 'detailWithBadges' : 'detail';
+      } else {
+        rowType = hasBadges ? 'summaryWithBadges' : 'summary';
+      }
+
+      return {
+        type: 'meeting' as const,
+        rowType,
+        value: `${sectionValue}-meeting-${meetingIndex}`,
+        parentValue: sectionValue,
+        header:
+          meetingIndex % 5 === 0
+            ? `${meetingTitles[titleIndex]} ${meetingIndex + 1}`
+            : meetingTitles[titleIndex],
+        location: `${header} · ${timeRanges[timeIndex]}`,
+        owner: meetingOwners[ownerIndex],
+        description,
+        status:
+          (dayIndex + meetingIndex) % 9 === 0 ? ('missed' as const) : undefined,
+        tasks,
+        attachments,
+        hasThumbnail,
+        thumbnailLabel: ['Recap', 'Recording', 'Notes', 'Slides'][
+          (dayIndex + meetingIndex) % 4
+        ],
+      };
+    });
+
+    return [
+      {
+        type: 'section' as const,
+        rowType: 'section' as const,
+        value: sectionValue,
+        header,
+        meetingCount: meetings.length,
+      },
+      ...meetings,
+    ];
+  }
+);
+
+const defaultOpenItems = new Map<PropertyKey, number>(
+  allItems.flatMap((item, index) => {
+    if (item.type !== 'section' || index > 46) {
+      return [];
+    }
+
+    return [[item.value, index] as const];
+  })
+);
+
+const getItemKey = (
+  index: number,
+  items: VirtualizedMeetingsItem[]
+): React.Key => items[index].value;
+
+const virtualizedMeetingRowIdPrefix = 'virtualized-meetings-row-';
+
+const getRowId = (itemId: string): string =>
+  `${virtualizedMeetingRowIdPrefix}${itemId}`;
+
+const getItemIdFromRowId = (rowId: string): string | null => {
+  if (!rowId.startsWith(virtualizedMeetingRowIdPrefix)) {
+    return null;
+  }
+
+  return rowId.slice(virtualizedMeetingRowIdPrefix.length);
+};
+
 const VirtualizationContext = React.createContext<
   VirtualizationContextValue | undefined
 >(undefined);
 
-const useVirtualizationContext = () => {
+const useVirtualizationContext = (): VirtualizationContextValue => {
   const context = React.useContext(VirtualizationContext);
   if (!context) {
     throw new Error(
@@ -173,87 +417,439 @@ const useVirtualizationContext = () => {
   return context;
 };
 
-export const Virtualization = () => {
+const renderCountTag = (
+  count: number,
+  label: string,
+  icon: React.ReactElement,
+  appearance?: 'brand'
+): React.ReactElement => (
+  <Tooltip content={`${count} ${label}`} relationship="label">
+    <InteractionTag appearance={appearance} shape="circular" size="small">
+      <InteractionTagPrimary aria-label={`${count} ${label}`} icon={icon}>
+        {count}
+      </InteractionTagPrimary>
+    </InteractionTag>
+  </Tooltip>
+);
+
+const getMeetingRowSize = (item: MeetingItem): number => {
+  switch (item.rowType) {
+    case 'previewWithBadges':
+      return 164;
+    case 'preview':
+      return 152;
+    case 'detailWithBadges':
+      return 124;
+    case 'detail':
+      return 112;
+    case 'summaryWithBadges':
+      return 104;
+    case 'summary':
+      return 92;
+  }
+};
+
+const VirtualizedMeetingsRow = React.memo(
+  (
+    props: ListChildComponentProps<VirtualizedMeetingsItem[]>
+  ): React.ReactElement => {
+    const styles = useStyles();
+    const item = props.data[props.index];
+    const { openItems, requestOpenChange } = useVirtualizationContext();
+    const rowStyle: React.CSSProperties = {
+      ...props.style,
+      width: `calc(100% - ${rowFocusGap * 2}px)`,
+      marginInline: `${rowFocusGap}px`,
+    };
+
+    if (item.type === 'section') {
+      const isOpen = openItems.get(item.value) !== undefined;
+
+      return (
+        <TreeGridRow
+          className={styles.section}
+          id={getRowId(item.value)}
+          onOpenChange={(_, data) =>
+            requestOpenChange({ ...data, index: props.index })
+          }
+          open={isOpen}
+          style={rowStyle}
+          subtree
+        >
+          {isOpen ? (
+            <CaretDownFilled className={styles.sectionChevron} aria-hidden />
+          ) : (
+            <CaretRightFilled className={styles.sectionChevron} aria-hidden />
+          )}
+          <TreeGridCell header aria-colspan={5}>
+            <div className={styles.sectionLabel}>
+              <Body1Stronger>{item.header}</Body1Stronger>
+              <Caption1 className={styles.sectionMeta}>
+                {item.meetingCount} meetings in this section
+              </Caption1>
+            </div>
+          </TreeGridCell>
+          <TreeGridCell className={styles.sectionCount}>
+            {renderCountTag(
+              item.meetingCount,
+              'meetings',
+              <CalendarRegular />,
+              'brand'
+            )}
+          </TreeGridCell>
+        </TreeGridRow>
+      );
+    }
+
+    const thumbnailSource =
+      thumbnailSources[props.index % thumbnailSources.length];
+
+    return (
+      <TreeGridRow
+        aria-description={`Created by: ${item.owner}. ${
+          item.status ? `Meeting status: ${item.status}. ` : ''
+        }${
+          item.hasThumbnail ? `${item.thumbnailLabel} preview available.` : ''
+        }`}
+        className={styles.sectionItem}
+        id={getRowId(item.value)}
+        level={2}
+        onOpenChange={(_, data) =>
+          requestOpenChange({ ...data, index: props.index })
+        }
+        open={!!openItems.get(item.parentValue)}
+        style={rowStyle}
+      >
+        <TreeGridCell
+          aria-label={`${item.header}. ${item.location}`}
+          className={mergeClasses(styles.header, styles.container)}
+          header
+        >
+          <Avatar
+            aria-hidden
+            className={styles.icon}
+            icon={<CalendarRegular />}
+          />
+          <Button
+            appearance="transparent"
+            aria-label={`Go to ${item.header}`}
+            className={mergeClasses(
+              styles.noPadding,
+              styles.title,
+              styles.titleButton
+            )}
+          >
+            <Body1Stronger className={styles.titleText}>
+              {item.header}
+            </Body1Stronger>
+          </Button>
+          {item.status === 'missed' ? (
+            <Tag
+              className={mergeClasses(styles.missedTag, styles.tag)}
+              shape="circular"
+              size="small"
+            >
+              <Caption1Stronger>Missed</Caption1Stronger>
+            </Tag>
+          ) : null}
+          <Caption1 className={styles.location}>
+            {item.location}, {item.owner}
+          </Caption1>
+          {item.description ? (
+            <Caption1 className={styles.description}>
+              {item.description}
+            </Caption1>
+          ) : null}
+        </TreeGridCell>
+        <TreeGridCell className={styles.actionPanel}>
+          <div className={styles.quickActions}>
+            {item.tasks
+              ? renderCountTag(
+                  item.tasks,
+                  'tasks for people to follow up on',
+                  <CheckmarkCircleRegular />,
+                  'brand'
+                )
+              : null}
+            {item.attachments
+              ? renderCountTag(item.attachments, 'files', <AttachRegular />)
+              : null}
+            <Button className={styles.actionButton} size="small">
+              Chat
+            </Button>
+            <Button className={styles.actionButton} size="small">
+              View recaps
+            </Button>
+          </div>
+          {item.hasThumbnail ? (
+            <Button
+              appearance="subtle"
+              className={mergeClasses(styles.noPadding, styles.previewButton)}
+            >
+              <Image
+                className={styles.previewImage}
+                src={thumbnailSource}
+                alt={`${item.thumbnailLabel} preview`}
+              />
+            </Button>
+          ) : null}
+        </TreeGridCell>
+      </TreeGridRow>
+    );
+  }
+);
+
+export const Virtualization = (): React.ReactElement => {
+  const styles = useStyles();
   const { targetDocument: doc } = useFluent();
   const win = doc?.defaultView;
+  const listRef = React.useRef<VariableSizeList>(null);
 
   const [openItems, setOpenItems] = React.useState(
-    () => new Map<PropertyKey, number>()
+    () => new Map(defaultOpenItems)
   );
 
   const requestOpenChange = useEventCallback(
     (data: TreeGridRowOnOpenChangeData & { index: number }) => {
       const row = data.event.currentTarget;
-      if (isHTMLElement(row)) {
-        const id = row.dataset.itemId;
-        if (id) {
-          setOpenItems((prev) => {
-            const next = new Map(prev);
-            if (data.open) {
-              next.set(id, data.index);
-            } else {
-              next.delete(id);
-            }
-            return next;
-          });
-        }
+      if (!isHTMLElement(row)) {
+        return;
       }
+
+      const itemId = getItemIdFromRowId(row.id);
+      if (!itemId) {
+        return;
+      }
+
+      setOpenItems((prev) => {
+        const next = new Map(prev);
+        if (data.open) {
+          next.set(itemId, data.index);
+        } else {
+          next.delete(itemId);
+        }
+        return next;
+      });
     }
   );
 
   const visibleItems = React.useMemo(
     () =>
-      defaultItems.filter(
+      allItems.filter(
         (item) =>
-          item.parentValue === undefined ||
+          item.type === 'section' ||
           openItems.get(item.parentValue) !== undefined
       ),
     [openItems]
   );
 
-  const listRef = React.useRef<FixedSizeList>(null);
+  const visibleIndexById = React.useMemo(
+    () =>
+      new Map(visibleItems.map((item, index) => [item.value, index] as const)),
+    [visibleItems]
+  );
 
-  const handleKeyDown = React.useCallback(
-    (event: React.KeyboardEvent<HTMLElement>) => {
-      if (event.key === ArrowLeft && isHTMLElement(event.target)) {
-        const parentId = event.target.dataset.itemParentId;
-        if (!parentId) {
-          return;
-        }
-        const index = openItems.get(parentId);
-        if (index !== undefined && win && doc) {
-          listRef.current?.scrollToItem(index, 'smart');
-          win.requestAnimationFrame(() => {
-            doc
-              .querySelector<HTMLElement>(`[data-item-id="${parentId}"]`)
-              ?.focus();
-          });
-        }
+  const getItemSize = React.useCallback(
+    (index: number): number => {
+      const item = visibleItems[index];
+      if (item.rowType === 'section') {
+        return 48;
+      }
+
+      return getMeetingRowSize(item);
+    },
+    [visibleItems]
+  );
+
+  React.useEffect(() => {
+    listRef.current?.resetAfterIndex(0);
+  }, [visibleItems]);
+
+  const handleListBoundaryRef = React.useCallback(
+    (instance: HTMLElement | null): void => {
+      if (instance) {
+        instance.setAttribute('role', 'none');
       }
     },
-    [openItems]
+    []
+  );
+
+  const focusItemById = React.useCallback(
+    (itemId: string): void => {
+      doc?.getElementById(getRowId(itemId))?.focus();
+    },
+    [doc]
+  );
+
+  const getCurrentRowItem = React.useCallback(
+    (target: EventTarget | null) => {
+      if (!isHTMLElement(target)) {
+        return null;
+      }
+
+      const row =
+        target.role === 'row'
+          ? target
+          : target.closest<HTMLElement>('[role="row"]');
+      if (!row) {
+        return null;
+      }
+
+      const itemId = getItemIdFromRowId(row.id);
+      if (!itemId) {
+        return null;
+      }
+
+      const index = visibleIndexById.get(itemId);
+      if (index === undefined) {
+        return null;
+      }
+
+      const item = visibleItems[index];
+      if (!item) {
+        return null;
+      }
+
+      return { row, item, itemId };
+    },
+    [visibleIndexById, visibleItems]
+  );
+
+  const scrollToItemAndFocus = React.useCallback(
+    (index: number, itemId: string): void => {
+      listRef.current?.scrollToItem(index, 'smart');
+      win?.requestAnimationFrame(() => {
+        focusItemById(itemId);
+      });
+    },
+    [focusItemById, win]
+  );
+
+  const virtualizationNavigation = useTreeGridNavigationOverride({
+    focusFirst: {
+      shouldOverride: () => {
+        const targetItem = visibleItems[0];
+        if (!targetItem || !doc || !win) {
+          return false;
+        }
+
+        const targetRow = doc.getElementById(getRowId(targetItem.value));
+
+        return !targetRow;
+      },
+      onKeyDown: (event) => {
+        const targetItem = visibleItems[0];
+        if (!targetItem || !win) {
+          return;
+        }
+
+        event.preventDefault();
+        scrollToItemAndFocus(0, targetItem.value);
+      },
+    },
+    focusLast: {
+      shouldOverride: () => {
+        const targetItem = visibleItems[visibleItems.length - 1];
+        if (!targetItem || !doc || !win) {
+          return false;
+        }
+
+        const targetRow = doc.getElementById(getRowId(targetItem.value));
+
+        return !targetRow;
+      },
+      onKeyDown: (event) => {
+        const targetItem = visibleItems[visibleItems.length - 1];
+        if (!targetItem || !win) {
+          return;
+        }
+
+        event.preventDefault();
+        scrollToItemAndFocus(visibleItems.length - 1, targetItem.value);
+      },
+    },
+    focusParent: {
+      shouldOverride: (event) => {
+        if (!doc) {
+          return false;
+        }
+
+        const currentRowItem = getCurrentRowItem(
+          event.detail.relatedEvent.target
+        );
+        if (!currentRowItem || currentRowItem.row.role !== 'row') {
+          return false;
+        }
+
+        if (currentRowItem.item.type !== 'meeting') {
+          return false;
+        }
+
+        const parentId = currentRowItem.item.parentValue;
+        if (!visibleIndexById.has(parentId)) {
+          return false;
+        }
+
+        const parentRow = doc.getElementById(getRowId(parentId));
+
+        return !parentRow;
+      },
+      onKeyDown: (event) => {
+        const currentRowItem = getCurrentRowItem(event.target);
+        if (!currentRowItem || currentRowItem.row.role !== 'row') {
+          return;
+        }
+
+        if (currentRowItem.item.type !== 'meeting') {
+          return;
+        }
+
+        const parentId = currentRowItem.item.parentValue;
+
+        const parentIndex = visibleIndexById.get(parentId);
+        if (parentIndex === undefined) {
+          return;
+        }
+
+        const parentRow = doc?.getElementById(getRowId(parentId));
+        if (parentRow) {
+          return;
+        }
+
+        event.preventDefault();
+        scrollToItemAndFocus(parentIndex, parentId);
+      },
+    },
+  });
+
+  const contextValue = React.useMemo(
+    () => ({ openItems, requestOpenChange }),
+    [openItems, requestOpenChange]
   );
 
   return (
-    <VirtualizationContext.Provider
-      value={React.useMemo(
-        () => ({ openItems, requestOpenChange }),
-        [openItems]
-      )}
-    >
-      <FixedSizeTreeGrid
-        onKeyDown={handleKeyDown}
-        aria-label="TreeGrid with virtualization"
-        listProps={{
-          ref: listRef,
-          height: 500,
-          itemCount: visibleItems.length,
-          itemSize: 32,
-          width: '100%',
-          itemData: visibleItems,
-          children: FixedSizeTreeGridRow,
-        }}
-      />
-    </VirtualizationContext.Provider>
+    <div className={styles.story}>
+      <VirtualizationContext.Provider value={contextValue}>
+        <TreeGrid
+          aria-label="Recent meetings with virtualization"
+          className={styles.treeGrid}
+          {...virtualizationNavigation}
+        >
+          <VariableSizeList
+            height={600}
+            innerRef={handleListBoundaryRef}
+            itemCount={visibleItems.length}
+            itemData={visibleItems}
+            itemKey={getItemKey}
+            itemSize={getItemSize}
+            outerRef={handleListBoundaryRef}
+            ref={listRef}
+            width="100%"
+          >
+            {VirtualizedMeetingsRow}
+          </VariableSizeList>
+        </TreeGrid>
+      </VirtualizationContext.Provider>
+    </div>
   );
 };

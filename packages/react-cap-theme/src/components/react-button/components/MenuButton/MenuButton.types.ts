@@ -5,7 +5,10 @@ import type { ButtonProps, ButtonState, ButtonSlots } from '../../Button';
 export type { MenuButtonSlots } from '@fluentui/react-button';
 
 export type MenuButtonProps = ComponentProps<MenuButtonSlots> &
-  Pick<ButtonProps, 'appearance' | 'disabled' | 'disabledFocusable' | 'size'>;
+  Pick<
+    ButtonProps,
+    'appearance' | 'disabled' | 'disabledFocusable' | 'shape' | 'size'
+  >;
 
 export type MenuButtonState = ComponentState<MenuButtonSlots> &
   Omit<ButtonState, keyof ButtonSlots | 'components' | 'iconPosition'>;
