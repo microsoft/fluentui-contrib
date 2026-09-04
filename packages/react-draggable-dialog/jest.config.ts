@@ -1,6 +1,6 @@
 /* eslint-disable */
 const { readFileSync } = require('fs');
-const { Config } = require('jest');
+import type { Config } from 'jest';
 
 // Reading the SWC compilation config and remove the "exclude"
 // for the test files to be compiled by SWC
