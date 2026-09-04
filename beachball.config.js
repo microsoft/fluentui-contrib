@@ -14,6 +14,7 @@ module.exports = {
     '**/*.stories.tsx',
     '**/eslint.config.js',
     '**/jest.config.js',
+    '**/jest.config.ts',
     '**/playwright.config.ts',
     '**/project.json',
     '**/*.md',
