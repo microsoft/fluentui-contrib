@@ -1,8 +1,8 @@
 // @ts-check
 /* eslint-disable */
 
-import { existsSync, readdirSync, readFileSync } from 'node:fs';
-import { resolve, join } from 'node:path';
+const { existsSync, readdirSync, readFileSync } = require('node:fs');
+const { resolve, join } = require('node:path');
 
 // Reading the SWC compilation config and remove the "exclude"
 // for the test files to be compiled by SWC
@@ -27,7 +27,7 @@ const usedNodeModulesPath = existsSync(join(nohoistNodeModulesPath, 'react'))
   ? nohoistNodeModulesPath
   : rootNodeModulesPath;
 
-export default {
+module.exports = {
   displayName: 'react-17-tests',
   preset: '../../jest.preset.js',
   roots: createRoots(),

@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { readFileSync } from 'fs';
-import { Config } from 'jest';
+const { readFileSync } = require('fs');
+import type { Config } from 'jest';
 
 // Reading the SWC compilation config and remove the "exclude"
 // for the test files to be compiled by SWC
@@ -30,4 +30,4 @@ const config: Config = {
   modulePathIgnorePatterns: ['.spec.tsx'],
 };
 
-export default config;
+module.exports = config;

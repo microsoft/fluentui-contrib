@@ -3,8 +3,8 @@
 
 const { readFileSync } = require('node:fs');
 const { join } = require('node:path');
-import { existsSync, readdirSync } from 'node:fs';
-import { resolve } from 'node:path';
+const { existsSync, readdirSync } = require('node:fs');
+const { resolve } = require('node:path');
 
 // Reading the SWC compilation config and remove the "exclude"
 // for the test files to be compiled by SWC
@@ -29,7 +29,7 @@ const usedNodeModulesPath = existsSync(join(nohoistNodeModulesPath, 'react'))
   ? nohoistNodeModulesPath
   : rootNodeModulesPath;
 
-export default {
+module.exports = {
   displayName: 'react-19-tests',
   preset: '../../jest.preset.js',
   roots: createRoots(),
