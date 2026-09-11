@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: allow more pseudo classes",
+  "packageName": "@fluentui-contrib/stylelint-plugin",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "patch"
+}
