@@ -17,14 +17,14 @@ jobs:
       actions: 'read'
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           fetch-depth: 0
 
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@3e9ad7370203c1e93d109be57f3b72eb0eb511b1 # v4.4.0
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
           cache: 'yarn'
           node-version: '20'
@@ -51,7 +51,7 @@ jobs:
       - run: yarn nx format:check --base origin/main
 
       - name: Upload Playwright artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         if: always() && steps.playwright-tests.outcome == 'failure'
         with:
           name: playwright-traces
@@ -76,7 +76,7 @@ jobs:
       actions: 'read'
     name: React ${{ matrix.react }} Integration
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           fetch-depth: 0
 
@@ -85,7 +85,7 @@ jobs:
         with:
           main-branch-name: 'master'
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
           cache: 'yarn'
           node-version: '20'
@@ -128,7 +128,7 @@ jobs:
 
       - name: Upload TSC logs
         if: always() && steps.type-check.outcome == 'failure'
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: typescript-react-${{ matrix.react }}
           path: tsc-logs
