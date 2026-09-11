@@ -136,6 +136,8 @@ import { usePopoverSurfaceStyles } from './components/react-popover';
 import type { PopoverSurfaceState } from '@fluentui/react-popover';
 import { useSearchBoxStyles } from './components/react-search';
 import type { SearchBoxState } from './components/react-search';
+import { useSpinButtonStyles } from './components/react-spinbutton';
+import type { SpinButtonState } from './components/react-spinbutton';
 import {
   useTagStyles,
   useInteractionTagStyles,
@@ -318,6 +320,9 @@ export const CAP_STYLE_HOOKS: NonNullable<
   },
   useSearchBoxStyles_unstable: (state) => {
     return useSearchBoxStyles(state as SearchBoxState);
+  },
+  useSpinButtonStyles_unstable: (state) => {
+    return useSpinButtonStyles(state as SpinButtonState);
   },
   useSplitButtonStyles_unstable: (state) => {
     return useSplitButtonStyles(state as SplitButtonState);
