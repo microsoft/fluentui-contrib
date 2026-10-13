@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix(react-draggable-dialog): preserve uncontrolled positions when dragging starts",
+  "packageName": "@fluentui-contrib/react-draggable-dialog",
+  "email": "223556219+Copilot@users.noreply.github.com",
+  "dependentChangeType": "patch"
+}

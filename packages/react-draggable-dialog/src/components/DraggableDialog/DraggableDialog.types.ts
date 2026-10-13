@@ -102,6 +102,11 @@ export type DraggableDialogState = {
   };
 
   /**
+   * Event triggered when drag movement starts.
+   */
+  onDragStart: () => void;
+
+  /**
    * Event triggered when drag movement finishes.
    */
   onDragEnd: (event: DragEndEvent) => void;

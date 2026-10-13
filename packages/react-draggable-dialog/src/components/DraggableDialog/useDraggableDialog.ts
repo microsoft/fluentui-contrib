@@ -185,8 +185,10 @@ export const useDraggableDialog = (
   }, [announcements?.start, announcements?.end]);
 
   const onDragStart = React.useCallback(() => {
-    setInitialDropPosition(position ?? { x: 0, y: 0 });
-  }, [position]);
+    if (position) {
+      setInitialDropPosition(position);
+    }
+  }, [position, setInitialDropPosition]);
 
   React.useEffect(
     () => () => cancelOnDragAnimationFrame(),
