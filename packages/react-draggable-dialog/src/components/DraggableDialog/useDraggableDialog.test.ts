@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { renderHook, act } from '@testing-library/react';
 import { useAnimationFrame } from '@fluentui/react-components';
+import type { DraggableDialogProps } from './DraggableDialog.types';
 import { useDraggableDialog } from './useDraggableDialog';
 
 jest.mock('@fluentui/react-components', () => ({
@@ -262,6 +263,125 @@ describe('DraggableDialog', () => {
   });
 
   describe('drag event handlers', () => {
+    it('should preserve the initial uncontrolled state on drag start', () => {
+      const { result } = renderHook(() => {
+        return useDraggableDialog({
+          children: dialogChild,
+        });
+      });
+      const initialState = result.current;
+
+      act(() => {
+        result.current.onDragStart();
+      });
+
+      expect(result.current.contextValue.hasBeenDragged).toBe(false);
+      expect(result.current.contextValue.dropPosition).toEqual({ x: 0, y: 0 });
+      expect(result.current).toBe(initialState);
+    });
+
+    it.each<{
+      boundaryName: string;
+      boundary: DraggableDialogProps['boundary'];
+    }>([
+      { boundaryName: 'viewport', boundary: 'viewport' },
+      { boundaryName: 'no boundary', boundary: null },
+      {
+        boundaryName: 'custom boundary',
+        boundary: React.createRef<HTMLDivElement>(),
+      },
+    ])(
+      'should retain an uncontrolled drop position on drag start ($boundaryName)',
+      ({ boundary }) => {
+        const { result } = renderHook(() => {
+          return useDraggableDialog({
+            children: dialogChild,
+            boundary,
+          });
+        });
+        const savedPosition = { x: 150, y: 250 };
+        const dragEndEvent: Parameters<typeof result.current.onDragEnd>[0] = {
+          active: {
+            id: result.current.contextValue.id,
+            data: { current: undefined },
+            rect: {
+              current: {
+                initial: null,
+                translated: {
+                  left: savedPosition.x,
+                  top: savedPosition.y,
+                  right: savedPosition.x + 100,
+                  bottom: savedPosition.y + 100,
+                  width: 100,
+                  height: 100,
+                },
+              },
+            },
+          },
+          activatorEvent: new MouseEvent('mousedown'),
+          collisions: null,
+          delta: savedPosition,
+          over: null,
+        };
+
+        act(() => {
+          if (boundary && boundary !== 'viewport') {
+            result.current.contextValue.setDropPosition?.(savedPosition);
+          } else {
+            result.current.onDragEnd(dragEndEvent);
+          }
+        });
+
+        expect(result.current.contextValue.dropPosition).toEqual(savedPosition);
+        expect(result.current.contextValue.hasBeenDragged).toBe(true);
+        const previousContextValue = result.current.contextValue;
+
+        act(() => {
+          result.current.onDragStart();
+        });
+
+        expect(result.current.contextValue.dropPosition).toEqual(savedPosition);
+        expect(result.current.contextValue.hasBeenDragged).toBe(true);
+        expect(result.current.contextValue).toBe(previousContextValue);
+      }
+    );
+
+    it.each([
+      { x: 300, y: 400 },
+      { x: 0, y: 0 },
+    ])(
+      'should synchronize a rerendered position at drag start ($x, $y)',
+      (position) => {
+        const initialPosition = { x: 100, y: 200 };
+        const { result, rerender } = renderHook(
+          ({ position }) => {
+            return useDraggableDialog({
+              children: dialogChild,
+              position,
+            });
+          },
+          { initialProps: { position: initialPosition } }
+        );
+
+        act(() => {
+          result.current.onDragStart();
+        });
+        expect(result.current.contextValue.dropPosition).toEqual(
+          initialPosition
+        );
+
+        rerender({ position });
+
+        act(() => {
+          result.current.onDragStart();
+        });
+
+        expect(result.current.contextValue.position).toEqual(position);
+        expect(result.current.contextValue.dropPosition).toEqual(position);
+        expect(result.current.contextValue.hasBeenDragged).toBe(true);
+      }
+    );
+
     it('should handle onDragEnd and update state', () => {
       const onPositionChange = jest.fn();
       const { result } = renderHook(() => {
