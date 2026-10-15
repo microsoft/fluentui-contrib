@@ -13,7 +13,6 @@ variables:
   - name: tags
     value: production,externalfacing
   - group: 'Github and NPM secrets'
-  - group: InfoSec-SecurityResults
 
 resources:
   repositories:
