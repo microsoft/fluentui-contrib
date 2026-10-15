@@ -59,6 +59,15 @@ export default async function (tree: Tree, options: LibraryGeneratorSchema) {
 
   generateFiles(tree, path.join(__dirname, 'files'), paths.root, options);
 
+  const readmePath = joinPathFragments(projectRoot, 'README.md');
+  const readme = tree.read(readmePath, 'utf-8');
+  if (readme) {
+    tree.write(
+      readmePath,
+      readme.replace(/^# .+$/m, `# ${npmScope}/${name}`)
+    );
+  }
+
   await formatFiles(tree);
 }
 
