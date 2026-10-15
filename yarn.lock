@@ -2083,6 +2083,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@fluentui-contrib/react-app-launcher@workspace:packages/react-app-launcher":
+  version: 0.0.0-use.local
+  resolution: "@fluentui-contrib/react-app-launcher@workspace:packages/react-app-launcher"
+  dependencies:
+    "@swc/helpers": "npm:~0.5.11"
+  languageName: unknown
+  linkType: soft
+
 "@fluentui-contrib/react-cap-theme@workspace:packages/react-cap-theme":
   version: 0.0.0-use.local
   resolution: "@fluentui-contrib/react-cap-theme@workspace:packages/react-cap-theme"
