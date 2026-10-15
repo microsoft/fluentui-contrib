@@ -1,8 +1,16 @@
 # Change Log - @fluentui-contrib/react-draggable-dialog
 
-This log was last generated on Fri, 10 Apr 2026 16:04:54 GMT and should not be manually modified.
+This log was last generated on Thu, 15 Oct 2026 09:28:59 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.2.6
+
+Thu, 15 Oct 2026 09:28:59 GMT
+
+### Patches
+
+- fix(react-draggable-dialog): preserve uncontrolled positions when dragging starts (223556219+Copilot@users.noreply.github.com)
 
 ## 0.2.5
 
