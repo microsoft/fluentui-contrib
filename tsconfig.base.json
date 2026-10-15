@@ -80,6 +80,9 @@
       ],
       "@fluentui-contrib/cap-foundations": [
         "packages/cap-foundations/src/index.ts"
+      ],
+      "@fluentui-contrib/react-app-launcher": [
+        "packages/react-app-launcher/src/index.ts"
       ]
     }
   },
