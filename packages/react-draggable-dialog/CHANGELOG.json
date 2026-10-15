@@ -2,6 +2,21 @@
   "name": "@fluentui-contrib/react-draggable-dialog",
   "entries": [
     {
+      "date": "Thu, 15 Oct 2026 09:28:59 GMT",
+      "tag": "@fluentui-contrib/react-draggable-dialog_v0.2.6",
+      "version": "0.2.6",
+      "comments": {
+        "patch": [
+          {
+            "author": "223556219+Copilot@users.noreply.github.com",
+            "package": "@fluentui-contrib/react-draggable-dialog",
+            "commit": "709f0c52fe9478cd26521fe6ecb442bf82825473",
+            "comment": "fix(react-draggable-dialog): preserve uncontrolled positions when dragging starts"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 10 Apr 2026 16:04:54 GMT",
       "tag": "@fluentui-contrib/react-draggable-dialog_v0.2.5",
       "version": "0.2.5",
