@@ -7,6 +7,16 @@ describe('Chat', () => {
     render(<Chat />);
   });
 
+  it('should accept a custom chat max width through a CSS variable', () => {
+    const { container } = render(
+      <Chat style={{ '--fui-chat-max-width': '100%' } as React.CSSProperties} />
+    );
+
+    expect(container.firstElementChild).toHaveStyle(
+      '--fui-chat-max-width: 100%'
+    );
+  });
+
   it('should be able to override tabster', () => {
     const { container } = render(<Chat data-tabster="foo" />);
     expect(container.firstElementChild?.getAttribute('data-tabster')).toBe(
