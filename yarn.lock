@@ -2087,7 +2087,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@fluentui-contrib/react-app-launcher@workspace:packages/react-app-launcher"
   dependencies:
+    "@fluentui/react-jsx-runtime": "npm:^9.0.29"
     "@swc/helpers": "npm:~0.5.11"
+  peerDependencies:
+    "@fluentui/react-components": ">=9.70.0 <10.0.0"
+    "@fluentui/react-icons": ">=2.0.204 <3.0.0"
+    "@types/react": ">=16.8.0 <20.0.0"
+    react: ">=16.8.0 <20.0.0"
   languageName: unknown
   linkType: soft
 

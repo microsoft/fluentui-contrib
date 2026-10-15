@@ -4,7 +4,14 @@
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "dependencies": {
+    "@fluentui/react-jsx-runtime": "^9.0.29",
     "@swc/helpers": "~0.5.11"
+  },
+  "peerDependencies": {
+    "@fluentui/react-components": ">=9.70.0 <10.0.0",
+    "@fluentui/react-icons": ">=2.0.204 <3.0.0",
+    "@types/react": ">=16.8.0 <20.0.0",
+    "react": ">=16.8.0 <20.0.0"
   },
   "private": true
 }
