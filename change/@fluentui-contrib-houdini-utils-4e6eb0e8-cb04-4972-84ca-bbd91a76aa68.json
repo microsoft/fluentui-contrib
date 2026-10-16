@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix(houdini-utils): generate non-clashing IDs",
+  "packageName": "@fluentui-contrib/houdini-utils",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "patch"
+}
