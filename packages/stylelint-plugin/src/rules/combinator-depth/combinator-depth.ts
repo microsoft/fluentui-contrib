@@ -4,6 +4,8 @@ import { extractAllSelectors } from '../../postcss-utils';
 import { createRule } from '../../create-rule';
 import { normalizeRuleName } from '../../normalize-rule-name';
 
+const ALLOWED_PSEUDO_CLASSES = [':hover', ':active', ':focus', ':focus-within'];
+
 export const ruleName = normalizeRuleName('combinator-depth');
 
 const messages = stylelint.utils.ruleMessages(ruleName, {
@@ -55,7 +57,7 @@ export default createRule({
       if (
         tokenizedSelector.length > 1 &&
         tokenizedSelector[1].type === 'pseudo-class' &&
-        [':hover', ':active'].includes(tokenizedSelector[1].content) &&
+        ALLOWED_PSEUDO_CLASSES.includes(tokenizedSelector[1].content) &&
         combinatorCount <= allowedDepth + 1
       ) {
         continue;
