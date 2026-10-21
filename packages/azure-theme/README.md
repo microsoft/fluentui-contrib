@@ -4,7 +4,7 @@ Azure Theme package powered by Fluent UI and used in Microsoft Azure.
 
 ## Requirements
 
-For contributing to this package, use Node.js `^22.12.0` and follow the [repository setup instructions](../../CONTRIBUTING.md).
+For contributing to this package, use Node.js `^22.12.0 || ^24.0.0` and follow the [repository setup instructions](../../CONTRIBUTING.md).
 
 ## Try it out
 
