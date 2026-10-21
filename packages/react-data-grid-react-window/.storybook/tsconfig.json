@@ -1,6 +1,8 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": false,
     "emitDecoratorMetadata": true,
     "outDir": ""
   },
@@ -22,6 +24,7 @@
     "../stories/**/*.stories.tsx",
     "../stories/**/*.stories.mdx",
     "*.ts",
+    "*.tsx",
     "*.js"
   ]
 }

@@ -1,13 +1,16 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "../tsconfig.base.json",
   "compilerOptions": {
+    "jsx": "react",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": false,
     "emitDecoratorMetadata": true,
     "outDir": ""
   },
   "files": [
-    "../../../node_modules/@nx/react/typings/styled-jsx.d.ts",
-    "../../../node_modules/@nx/react/typings/cssmodule.d.ts",
-    "../../../node_modules/@nx/react/typings/image.d.ts"
+    "../node_modules/@nx/react/typings/styled-jsx.d.ts",
+    "../node_modules/@nx/react/typings/cssmodule.d.ts",
+    "../node_modules/@nx/react/typings/image.d.ts"
   ],
   "exclude": [
     "../**/*.spec.ts",
@@ -15,13 +18,5 @@
     "../**/*.spec.tsx",
     "../**/*.spec.jsx"
   ],
-  "include": [
-    "../stories/**/*.stories.ts",
-    "../stories/**/*.stories.js",
-    "../stories/**/*.stories.jsx",
-    "../stories/**/*.stories.tsx",
-    "../stories/**/*.stories.mdx",
-    "*.ts",
-    "*.js"
-  ]
+  "include": ["**/*.ts", "**/*.tsx", "*.js"]
 }

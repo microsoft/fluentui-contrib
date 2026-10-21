@@ -145,6 +145,14 @@ Starts storybook for a package
 yarn nx run <name>:storybook
 ```
 
+Storybook 10 uses ESM packages and configuration files. Keep `main.ts` and
+preview files as ES modules, and use `moduleResolution: "bundler"` in
+Storybook and story-integration TypeScript configurations so package exports
+resolve correctly. Set `allowSyntheticDefaultImports: false` alongside it to
+preserve the previous import-checking behavior (the bundler resolver otherwise
+enables synthetic defaults). The Storybook generator includes these settings;
+the shared library and Jest configurations retain their existing module resolution.
+
 ### test
 
 Runs unit tests using [jest](https://jestjs.io/)
