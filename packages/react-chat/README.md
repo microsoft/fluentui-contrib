@@ -24,3 +24,16 @@ export const SampleChat = () => {
   );
 };
 ```
+
+## Customizing chat width
+
+The chat uses a default maximum width of `1056px`. You can override it with
+`--fui-chat-max-width` without replacing the component's styles:
+
+```tsx
+<Chat style={{ '--fui-chat-max-width': '100%' } as React.CSSProperties}>
+  {/* Chat messages */}
+</Chat>
+```
+
+The default width remains unchanged when the custom property is not set.
