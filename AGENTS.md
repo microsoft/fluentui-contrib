@@ -1,7 +1,7 @@
 # AGENTS.md — Coding Agent Guide for fluentui-contrib
 
 Nx monorepo of `@fluentui-contrib/*` packages extending Microsoft's Fluent UI v9 design system.
-Package manager: **Yarn 4** (`yarn@4.12.0`). Build orchestration: **Nx 22**. Node: `^20.19.0 || ^22.12.0`.
+Package manager: **Yarn 4** (`yarn@4.12.0`). Build orchestration: **Nx 22**. Node: `^22.12.0`.
 
 ## Environment Setup
 

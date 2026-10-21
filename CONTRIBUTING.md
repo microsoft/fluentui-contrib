@@ -16,12 +16,12 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additio
 
 ### Prerequisites
 
-Make sure you have Node.js `^20.19.0 || ^22.12.0`:
+Make sure you have Node.js 22.12.0 or newer within Node 22 (`^22.12.0`):
 
 ```sh
 node -v
 
-v20.19.0
+v22.12.0
 ```
 
 This repo uses Yarn v4 via Corepack. Enable Corepack and activate the pinned Yarn version:
