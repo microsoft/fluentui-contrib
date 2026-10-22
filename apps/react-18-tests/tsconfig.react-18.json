@@ -2,7 +2,8 @@
   "compilerOptions": {
     "target": "ES2019",
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": false,
     "lib": ["ES2019", "dom"],
     "sourceMap": true,
     "strict": true,
