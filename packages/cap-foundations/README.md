@@ -1,11 +1,15 @@
 # cap-foundations
 
-This library was generated with [Nx](https://nx.dev).
+Foundational design tokens, theming, and density system for the CAP design system.
+
+## Storybook
+
+Run `yarn nx storybook cap-foundations` to start Storybook locally (port 4400).
 
 ## Building
 
-Run `nx build cap-foundations` to build the library.
+Run `yarn nx build cap-foundations` to build the library.
 
 ## Running unit tests
 
-Run `nx test cap-foundations` to execute the unit tests via [Jest](https://jestjs.io).
+Run `yarn nx test cap-foundations` to execute the unit tests via [Jest](https://jestjs.io).
