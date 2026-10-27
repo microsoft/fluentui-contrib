@@ -26,6 +26,7 @@ packages/react-contextual-pane @microsoft/teams-prg
 packages/react-virtualizer @microsoft/xc-uxe @microsoft/cxe-prg
 packages/react-cap-theme @microsoft/cap-theme
 packages/cap-foundations @microsoft/cap-theme
+packages/react-app-launcher @blendsdk
 # <%= NX-CODEOWNER-PLACEHOLDER %>
 
 #### Build/Infra
