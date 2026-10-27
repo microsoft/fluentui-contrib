@@ -23,7 +23,7 @@ const useStyles = makeStyles({
   },
   comfy: {
     paddingLeft: `16px`,
-    maxWidth: `1056px`,
+    maxWidth: 'var(--fui-chat-max-width, 1056px)',
     ...shorthands.margin('auto'),
   },
 });
