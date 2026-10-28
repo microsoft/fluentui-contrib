@@ -56,6 +56,14 @@ describe('create-package generator', () => {
       `);
     });
 
+    it('should include the package scope in the generated README title', async () => {
+      await generator(tree, options);
+      const config = readProjectConfiguration(tree, 'test');
+      const readme = tree.read(joinPathFragments(config.root, 'README.md'), 'utf-8');
+
+      expect(readme).toMatch(/^# @fluentui-contrib\/test$/m);
+    });
+
     it('should generate jest config', async () => {
       await generator(tree, options);
       const config = readProjectConfiguration(tree, 'test');
