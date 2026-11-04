@@ -12634,7 +12634,7 @@ __metadata:
     react-window: "npm:^1.8.10"
     scheduler: "npm:0.23.0"
     semver: "npm:^7.5.2"
-    storybook: "npm:9.1.16"
+    storybook: "npm:9.1.21"
     stylelint: "npm:^15.10.3"
     syncpack: "npm:^9.8.6"
     ts-node: "npm:10.9.2"
@@ -19735,9 +19735,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"storybook@npm:9.1.16":
-  version: 9.1.16
-  resolution: "storybook@npm:9.1.16"
+"storybook@npm:9.1.21":
+  version: 9.1.21
+  resolution: "storybook@npm:9.1.21"
   dependencies:
     "@storybook/global": "npm:^5.0.0"
     "@testing-library/jest-dom": "npm:^6.6.3"
@@ -19758,7 +19758,7 @@ __metadata:
       optional: true
   bin:
     storybook: ./bin/index.cjs
-  checksum: 10c0/4265c5b764effbda608aaf14ce930cce69f5aca9433e54d785387e8c7ad8f3139fbd91264494e535927b21b065e921ab4a81539df38f222fb8878cb249cf2c26
+  checksum: 10c0/aa898fae4dea384233c09efed12ce60e76fe49edc8721f4cd9a377c7d25437e19bce0d34cbecf2f152dfdb50989f63fb5bee03047b1b33cf9c4a0545cabc9a8f
   languageName: node
   linkType: hard
 
