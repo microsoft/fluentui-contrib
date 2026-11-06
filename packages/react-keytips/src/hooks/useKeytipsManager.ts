@@ -23,6 +23,14 @@ export function useKeytipsManager(): {
       keytips.current[keytip.uniqueId] = keytip;
     });
 
+    subscribe(EVENTS.KEYTIP_UPDATED, (keytip) => {
+      keytips.current[keytip.uniqueId] = keytip;
+    });
+
+    subscribe(EVENTS.KEYTIP_REMOVED, (uniqueId) => {
+      delete keytips.current[uniqueId];
+    });
+
     subscribe(EVENTS.ENTER_KEYTIP_MODE, () => {
       isKeytipModeEnabled.current = true;
     });
