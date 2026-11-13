@@ -1,0 +1,237 @@
+/**
+ * Button styles
+ *
+ * Surfaces: strong (default), primary, danger, base (ghost)
+ * See core/TOKEN_GUIDE.md for token reference
+ */
+
+/* ==============================================
+   Base
+   ============================================== */
+
+.root {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border-radius: var(--button-radius, var(--radius-md));
+  font-family: var(--font-sans);
+  font-weight: var(--weight-medium);
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  transition:
+    background var(--duration-fast) var(--ease-default),
+    border-color var(--duration-fast) var(--ease-default),
+    color var(--duration-fast) var(--ease-default);
+}
+
+/* ==============================================
+   Focus States
+   ============================================== */
+
+.root:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* ==============================================
+   Sizes — MUST match control height standards
+   ============================================== */
+
+.sm {
+  height: var(--control-height-sm, 28px);
+  padding-block: 0;
+  padding-inline: var(--space-3);
+  font-size: var(--text-sm);
+}
+
+.md {
+  height: var(--control-height-md, 36px);
+  padding-block: 0;
+  padding-inline: var(--button-padding-x, var(--space-4));
+  font-size: var(--text-base);
+}
+
+.lg {
+  height: var(--control-height-lg, 44px);
+  padding-block: 0;
+  padding-inline: var(--space-6);
+  font-size: var(--text-lg);
+}
+
+/* ==============================================
+   Variants — default
+   ============================================== */
+
+.default {
+  background: var(--strong-bg);
+  color: var(--strong-fg);
+  border-color: var(--strong-border);
+}
+
+.default:hover:not(.disabled):not(:disabled) {
+  background: var(--strong-bg-hover);
+  border-color: var(--strong-border-hover);
+}
+
+.default:active:not(.disabled):not(:disabled) {
+  background: var(--strong-bg-pressed);
+  border-color: var(--strong-border-pressed);
+}
+
+.default.disabled,
+.default:disabled {
+  background: var(--strong-bg-disabled);
+  color: var(--strong-fg-softer);
+  border-color: var(--strong-border-disabled);
+}
+
+/* ==============================================
+   Variants — primary
+   ============================================== */
+
+.primary {
+  background: var(--primary-bg);
+  color: var(--primary-fg);
+  border-color: var(--primary-border);
+}
+
+.primary:hover:not(.disabled):not(:disabled) {
+  background: var(--primary-bg-hover);
+  border-color: var(--primary-border-hover);
+}
+
+.primary:active:not(.disabled):not(:disabled) {
+  background: var(--primary-bg-pressed);
+  border-color: var(--primary-border-pressed);
+}
+
+.primary.disabled,
+.primary:disabled {
+  background: var(--primary-bg-disabled);
+  color: var(--primary-fg-softer);
+  border-color: var(--primary-border-disabled);
+}
+
+/* ==============================================
+   Variants — danger
+   ============================================== */
+
+.danger {
+  background: var(--danger-bg);
+  color: var(--danger-fg);
+  border-color: var(--danger-border);
+}
+
+.danger:hover:not(.disabled):not(:disabled) {
+  background: var(--danger-bg-hover);
+  border-color: var(--danger-border-hover);
+}
+
+.danger:active:not(.disabled):not(:disabled) {
+  background: var(--danger-bg-pressed);
+  border-color: var(--danger-border-pressed);
+}
+
+.danger.disabled,
+.danger:disabled {
+  background: var(--danger-bg-disabled);
+  color: var(--danger-fg-softer);
+  border-color: var(--danger-border-disabled);
+}
+
+/* ==============================================
+   Variants — ghost (transparent / outline)
+   ============================================== */
+
+.ghost {
+  background: transparent;
+  color: var(--base-fg);
+  border-color: var(--base-border);
+}
+
+.ghost:hover:not(.disabled):not(:disabled) {
+  background: var(--base-bg-hover);
+  border-color: var(--base-border-hover);
+}
+
+.ghost:active:not(.disabled):not(:disabled) {
+  background: var(--base-bg-pressed);
+  border-color: var(--base-border-pressed);
+}
+
+.ghost.disabled,
+.ghost:disabled {
+  background: transparent;
+  color: var(--base-fg-softer);
+  border-color: var(--base-border-disabled);
+}
+
+/* ==============================================
+   Disabled & Loading states
+   ============================================== */
+
+.disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.loading {
+  cursor: wait;
+  pointer-events: none;
+}
+
+/* ==============================================
+   Full width
+   ============================================== */
+
+.fullWidth {
+  width: 100%;
+}
+
+/* ==============================================
+   Icon slots
+   ============================================== */
+
+.iconSlot {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  font-size: 1em;
+  line-height: 1;
+}
+
+/* ==============================================
+   Loading spinner animation
+   ============================================== */
+
+@keyframes cap-button-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  display: inline-block;
+  animation: cap-button-spin var(--duration-slow, 300ms) linear infinite;
+}
+
+/* ==============================================
+   Reduced Motion
+   ============================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    transition: none;
+  }
+
+  .spinner {
+    animation: none;
+  }
+}
