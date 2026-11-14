@@ -2,12 +2,14 @@ import * as React from 'react';
 import {
   getIntrinsicElementProps,
   slot,
+  useEventCallback,
   useFluent,
   useTimeout,
 } from '@fluentui/react-components';
 import type { KeytipsProps, KeytipsState } from './Keytips.types';
 import type { KeytipProps } from '../Keytip';
 import { useHotkeys, parseHotkey } from '../../hooks/useHotkeys';
+import { isKeyMatchingKeyboardEvent } from '../../hooks/useHotkeys/isMatchingKeyboardEvent';
 import { EXIT_KEYS, EVENTS } from '../../constants';
 import type { KeytipWithId } from '../Keytip/internal/Keytip.types';
 import { Keytip } from '../Keytip';
@@ -35,7 +37,13 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
   const isMac = useIsMacOS();
 
   const {
-    content = isMac ? 'Alt Control' : 'Alt Meta',
+    activationModifier,
+    enabled = true,
+    content = activationModifier
+      ? activationModifier[0].toUpperCase() + activationModifier.slice(1)
+      : isMac
+      ? 'Alt Control'
+      : 'Alt Meta',
     startSequence = isMac ? 'alt+control' : 'alt+meta',
     exitSequence = 'alt+escape',
     returnSequence = 'escape',
@@ -47,12 +55,25 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
 
   const tree = useTree();
   const [setShortcutTimeout, clearShortcutTimeout] = useTimeout();
+  const [setInputTimeout, clearInputTimeout] = useTimeout();
   const { subscribe, dispatch: dispatchEvent, reset } = useEventService();
   const [, forceRender] = React.useReducer((x) => x + 1, 0);
 
   const inKeytipMode = React.useRef(false);
   const currentSequence = React.useRef('');
   const keytips = React.useRef<Keytips>({});
+  const gesture = React.useRef({
+    held: false,
+    consumeKeyUp: false,
+    consecutive: false,
+    aliasAllowed: false,
+    aliasKey: '',
+  });
+  const pendingInput = React.useRef<KeyboardEvent>();
+  const startSequences = React.useMemo(
+    () => (Array.isArray(startSequence) ? startSequence : [startSequence]),
+    [startSequence]
+  );
 
   const showKeytips = React.useCallback(
     (ids: string[]) => {
@@ -79,24 +100,13 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     [targetDocument]
   );
 
-  const handleEnterKeytipMode = React.useCallback(
-    (ev: KeyboardEvent) => {
-      if (!inKeytipMode.current) {
-        tree.currentKeytip.current = tree.root;
-        inKeytipMode.current = true;
-        onEnterKeytipsMode?.(ev, { event: ev, type: invokeEvent });
-        showKeytips(tree.getChildren());
-        forceRender();
-      } else {
-        inKeytipMode.current = false;
-        showKeytips([]);
-      }
-    },
-    [onEnterKeytipsMode, showKeytips, invokeEvent]
-  );
-
   const handleExitKeytipMode = React.useCallback(
     (ev: Event) => {
+      gesture.current.consecutive = false;
+      gesture.current.aliasAllowed = false;
+      pendingInput.current = undefined;
+      clearInputTimeout();
+
       if (inKeytipMode.current) {
         tree.currentKeytip.current = undefined;
         currentSequence.current = '';
@@ -109,7 +119,37 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
         showKeytips([]);
       }
     },
-    [onExitKeytipsMode, showKeytips, invokeEvent]
+    [onExitKeytipsMode, showKeytips, invokeEvent, clearInputTimeout]
+  );
+
+  const handleEnterKeytipMode = React.useCallback(
+    (ev: KeyboardEvent) => {
+      if (!enabled) return false;
+
+      if (!inKeytipMode.current) {
+        tree.currentKeytip.current = tree.root;
+        currentSequence.current = '';
+        inKeytipMode.current = true;
+        onEnterKeytipsMode?.(ev, {
+          event: ev,
+          type: activationModifier ? 'keydown' : invokeEvent,
+        });
+        showKeytips(tree.getChildren());
+        forceRender();
+        return true;
+      }
+
+      handleExitKeytipMode(ev);
+      return false;
+    },
+    [
+      enabled,
+      activationModifier,
+      onEnterKeytipsMode,
+      handleExitKeytipMode,
+      showKeytips,
+      invokeEvent,
+    ]
   );
 
   const handleReturnSequence = React.useCallback(
@@ -203,7 +243,9 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
         const ids = matches.map((n) => n?.uniqueId || '');
         showKeytips(ids);
         currentSequence.current = seq;
+        return true;
       }
+      return false;
     },
     [showKeytips]
   );
@@ -239,28 +281,78 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
 
   const handleInvokeEvent = React.useCallback(
     (ev: KeyboardEvent) => {
-      if (!inKeytipMode.current) return;
+      if (pendingInput.current === ev) pendingInput.current = undefined;
+      if (!enabled || !inKeytipMode.current) return;
 
-      ev.stopPropagation();
+      if (activationModifier) {
+        if (
+          ev.defaultPrevented ||
+          ev.isComposing ||
+          ev.altKey ||
+          ev.ctrlKey ||
+          ev.metaKey
+        ) {
+          handleExitKeytipMode(ev);
+          return;
+        }
+
+        if (isKeyMatchingKeyboardEvent(parseHotkey(returnSequence), ev)) {
+          ev.preventDefault();
+          ev.stopPropagation();
+          handleReturnSequence(ev);
+          return;
+        }
+
+        if (
+          [...EXIT_KEYS, exitSequence].some((sequence) =>
+            isKeyMatchingKeyboardEvent(parseHotkey(sequence), ev)
+          )
+        ) {
+          handleExitKeytipMode(ev);
+          return;
+        }
+
+        if (isModifierKey(ev.key)) return;
+      } else {
+        ev.stopPropagation();
+      }
 
       const { key } = parseHotkey(ev.key.toLowerCase());
       const sequence = currentSequence.current + key;
       const node = tree.getMatchingNode(sequence);
 
       if (node) {
+        if (activationModifier) {
+          ev.preventDefault();
+          ev.stopPropagation();
+        }
         if (isTargetVisible(node.target, targetDocument?.defaultView)) {
           handleKeytipExecution(ev, node);
         } else {
           handleShortcutExecution(ev, node);
         }
       } else {
-        handlePartiallyMatchedNodes(sequence);
+        const matched = handlePartiallyMatchedNodes(sequence);
+        if (activationModifier) {
+          if (matched) {
+            ev.preventDefault();
+            ev.stopPropagation();
+          } else {
+            handleExitKeytipMode(ev);
+          }
+        }
       }
     },
     [
       handleKeytipExecution,
       handleShortcutExecution,
       handlePartiallyMatchedNodes,
+      handleExitKeytipMode,
+      handleReturnSequence,
+      activationModifier,
+      enabled,
+      returnSequence,
+      exitSequence,
       targetDocument,
     ]
   );
@@ -268,13 +360,201 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
   React.useEffect(() => {
     if (!targetDocument) return;
 
-    targetDocument.addEventListener(invokeEvent, handleInvokeEvent);
+    const view = targetDocument.defaultView;
+    if (activationModifier) {
+      view?.addEventListener(invokeEvent, handleInvokeEvent);
+    } else {
+      targetDocument.addEventListener(invokeEvent, handleInvokeEvent);
+    }
 
     return () => {
-      targetDocument.removeEventListener(invokeEvent, handleInvokeEvent);
+      if (activationModifier) {
+        view?.removeEventListener(invokeEvent, handleInvokeEvent);
+      } else {
+        targetDocument.removeEventListener(invokeEvent, handleInvokeEvent);
+      }
       clearShortcutTimeout();
     };
-  }, [handleInvokeEvent, invokeEvent, targetDocument]);
+  }, [activationModifier, handleInvokeEvent, invokeEvent, targetDocument]);
+
+  const resetGesture = useEventCallback(() => {
+    clearInputTimeout();
+    gesture.current = {
+      held: false,
+      consumeKeyUp: false,
+      consecutive: false,
+      aliasAllowed: false,
+      aliasKey: '',
+    };
+    pendingInput.current = undefined;
+  });
+
+  const deferUnhandledInput = useEventCallback((ev: KeyboardEvent) => {
+    if (!inKeytipMode.current) return;
+    pendingInput.current = ev;
+    // Native dispatch can run microtasks between listeners; wait for a task
+    // before deciding that an application shortcut stopped propagation.
+    clearInputTimeout();
+    setInputTimeout(() => {
+      if (pendingInput.current === ev) {
+        handleExitKeytipMode(ev);
+      }
+    }, 0);
+  });
+
+  const handleActivationKeyDown = useEventCallback((ev: KeyboardEvent) => {
+    if (!enabled || !activationModifier) return;
+
+    if (
+      ev.isComposing ||
+      ev.key === 'AltGraph' ||
+      ev.code === 'AltRight' ||
+      ev.getModifierState('AltGraph')
+    ) {
+      handleExitKeytipMode(ev);
+      resetGesture();
+      return;
+    }
+
+    const state = gesture.current;
+    const isActivation = isKeyMatchingKeyboardEvent(
+      parseHotkey(activationModifier),
+      ev
+    );
+    const consume = () => {
+      ev.preventDefault();
+      ev.stopPropagation();
+    };
+
+    if (isActivation) {
+      if (ev.repeat) {
+        if (state.consumeKeyUp) consume();
+        return;
+      }
+
+      state.held = true;
+      if (ev.defaultPrevented) {
+        handleExitKeytipMode(ev);
+        return;
+      }
+
+      if (inKeytipMode.current) {
+        const passThrough = state.consecutive;
+        handleExitKeytipMode(ev);
+        state.consumeKeyUp = !passThrough;
+      } else {
+        state.consumeKeyUp = handleEnterKeytipMode(ev);
+        state.consecutive = state.consumeKeyUp;
+        state.aliasAllowed = state.consumeKeyUp;
+      }
+
+      if (state.consumeKeyUp) consume();
+      return;
+    }
+
+    const isModifier = isModifierKey(ev.key);
+    if (!isModifier) state.consecutive = false;
+
+    const isAlias = startSequences.some((sequence) =>
+      isKeyMatchingKeyboardEvent(parseHotkey(sequence), ev)
+    );
+    if (
+      !ev.defaultPrevented &&
+      isAlias &&
+      (!state.held || state.aliasAllowed)
+    ) {
+      if (!state.held) handleEnterKeytipMode(ev);
+      state.aliasAllowed = false;
+      state.aliasKey = ev.key;
+      consume();
+      return;
+    }
+
+    if (isModifier) return;
+    state.aliasAllowed = false;
+
+    // A missing modifier flag recovers from a keyup lost outside the page.
+    if (!ev.getModifierState(activationModifierKey(activationModifier))) {
+      state.held = false;
+      state.consumeKeyUp = false;
+    }
+
+    if (state.held) {
+      handleExitKeytipMode(ev);
+      return;
+    }
+
+    deferUnhandledInput(ev);
+  });
+
+  const handleActivationKeyUp = useEventCallback((ev: KeyboardEvent) => {
+    if (pendingInput.current?.type === 'keydown') {
+      handleExitKeytipMode(pendingInput.current);
+    }
+
+    if (ev.key.toLowerCase() === activationModifier) {
+      if (gesture.current.consumeKeyUp) {
+        ev.preventDefault();
+        ev.stopPropagation();
+      }
+      gesture.current.held = false;
+      gesture.current.consumeKeyUp = false;
+      gesture.current.aliasAllowed = false;
+    } else if (gesture.current.aliasKey === ev.key) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      gesture.current.aliasKey = '';
+    } else if (invokeEvent === 'keyup' && !isModifierKey(ev.key)) {
+      deferUnhandledInput(ev);
+    }
+  });
+
+  const handleInputBubble = useEventCallback((ev: KeyboardEvent) => {
+    if (pendingInput.current === ev) {
+      pendingInput.current = undefined;
+      if (ev.defaultPrevented) handleExitKeytipMode(ev);
+    }
+  });
+
+  const handleBlur = useEventCallback((ev: Event) => {
+    handleExitKeytipMode(ev);
+    resetGesture();
+  });
+
+  React.useEffect(() => {
+    if (!activationModifier || !targetDocument) return;
+    const view = targetDocument.defaultView;
+    targetDocument.addEventListener('keydown', handleActivationKeyDown, true);
+    targetDocument.addEventListener('keyup', handleActivationKeyUp, true);
+    view?.addEventListener('keydown', handleInputBubble);
+    view?.addEventListener('blur', handleBlur);
+    return () => {
+      targetDocument.removeEventListener(
+        'keydown',
+        handleActivationKeyDown,
+        true
+      );
+      targetDocument.removeEventListener('keyup', handleActivationKeyUp, true);
+      view?.removeEventListener('keydown', handleInputBubble);
+      view?.removeEventListener('blur', handleBlur);
+      resetGesture();
+    };
+  }, [
+    activationModifier,
+    targetDocument,
+    handleActivationKeyDown,
+    handleActivationKeyUp,
+    handleInputBubble,
+    handleBlur,
+    resetGesture,
+  ]);
+
+  React.useEffect(() => {
+    if (!enabled) {
+      handleExitKeytipMode(new KeyboardEvent(invokeEvent));
+      resetGesture();
+    }
+  }, [enabled, handleExitKeytipMode, invokeEvent, resetGesture]);
 
   React.useEffect(() => {
     subscribe(EVENTS.KEYTIP_ADDED, handleKeytipAdded);
@@ -312,13 +592,18 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
   }, [targetDocument, handleExitKeytipMode]);
 
   useHotkeys(
-    [
-      [startSequence, handleEnterKeytipMode, { delay: startDelay }],
-      [returnSequence, handleReturnSequence],
-      ...[...EXIT_KEYS, exitSequence].map(
-        (key) => [key, handleExitKeytipMode] as Hotkey
-      ),
-    ],
+    !enabled || activationModifier
+      ? []
+      : [
+          ...startSequences.map(
+            (sequence) =>
+              [sequence, handleEnterKeytipMode, { delay: startDelay }] as Hotkey
+          ),
+          [returnSequence, handleReturnSequence],
+          ...[...EXIT_KEYS, exitSequence].map(
+            (key) => [key, handleExitKeytipMode] as Hotkey
+          ),
+        ],
     { invokeEvent }
   );
 
@@ -329,6 +614,7 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
   return {
     components: { root: 'div' },
     content,
+    activationModifier,
     mountNode: props.mountNode,
     keytips: keytipsToRender,
     root: slot.always(getIntrinsicElementProps('div', { ...props }), {
@@ -336,3 +622,12 @@ export const useKeytips_unstable = (props: KeytipsProps): KeytipsState => {
     }),
   };
 };
+
+const isModifierKey = (key: string): boolean =>
+  ['alt', 'control', 'ctrl', 'meta', 'os', 'shift', 'altgraph'].includes(
+    key.toLowerCase()
+  );
+
+const activationModifierKey = (
+  modifier: NonNullable<KeytipsProps['activationModifier']>
+): string => modifier[0].toUpperCase() + modifier.slice(1);

@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "Add opt-in plain modifier keytip activation with gesture ownership, entry aliases, and an enabled gate. Held modifier input does not execute keytips.",
+  "packageName": "@fluentui-contrib/react-keytips",
+  "email": "makopch@microsoft.com",
+  "dependentChangeType": "patch"
+}

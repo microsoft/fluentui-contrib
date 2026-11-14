@@ -29,6 +29,22 @@ describe('useHotkeys', () => {
     expect(cb).toHaveBeenCalledTimes(0);
   });
 
+  it.each(['alt', 'alt+control', 'alt+meta'])(
+    'matches only modifier events for %s',
+    async (sequence) => {
+      const handler = jest.fn();
+      renderHook(() => useHotkeys([[sequence, handler]]));
+      const keys = sequence
+        .split('+')
+        .map((key) => `{${key}>}`)
+        .join('');
+      await userEvent.keyboard(keys);
+      expect(handler).toHaveBeenCalledTimes(1);
+      await userEvent.keyboard('h');
+      expect(handler).toHaveBeenCalledTimes(1);
+    }
+  );
+
   it('should run handler only if the sequence is hold for certain time', async () => {
     jest.useFakeTimers();
 
