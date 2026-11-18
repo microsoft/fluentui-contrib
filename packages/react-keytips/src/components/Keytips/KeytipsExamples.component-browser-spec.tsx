@@ -99,6 +99,40 @@ export const KeytipsBasicExample = (props: KeytipsProps) => {
   );
 };
 
+export const KeytipsModifierExample = ({
+  appShortcut,
+  ...props
+}: KeytipsProps & {
+  appShortcut?: 'preventDefault' | 'stopPropagation';
+}) => {
+  const [executions, setExecutions] = React.useState(0);
+  const [appExecutions, setAppExecutions] = React.useState(0);
+  const ref = useKeytipRef({
+    keySequences: ['a'],
+    content: 'A',
+    onExecute: () => setExecutions((count) => count + 1),
+  });
+
+  return (
+    <FluentProvider>
+      <Keytips activationModifier="alt" {...props} />
+      <Button
+        ref={ref}
+        onKeyDown={(ev) => {
+          if (appShortcut && ev.key === 'a') {
+            ev[appShortcut]();
+            setAppExecutions((count) => count + 1);
+          }
+        }}
+      >
+        Action
+      </Button>
+      <output aria-label="Execution count">{executions}</output>
+      <output aria-label="Application shortcut count">{appExecutions}</output>
+    </FluentProvider>
+  );
+};
+
 export const KeytipsDisabledTargetExample = (props: KeytipsProps) => {
   const onExecute: ExecuteKeytipEventHandler = (_, { targetElement }) => {
     if (targetElement) targetElement.click();

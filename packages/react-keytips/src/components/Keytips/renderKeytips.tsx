@@ -32,7 +32,9 @@ export const renderKeytips_unstable = (state: KeytipsState): JSXElement => {
         <span
           id={KTP_ROOT_ID}
           style={VISUALLY_HIDDEN_STYLES}
-          data-start-shortcut={state.content}
+          data-start-shortcut={
+            state.activationModifier ? undefined : state.content
+          }
         >
           {state.content}
         </span>

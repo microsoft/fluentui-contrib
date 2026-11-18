@@ -8,9 +8,107 @@ import {
   KeytipsDisabledTargetExample,
   KeytipsDisabledMenuTargetExample,
   KeytipsManualDispatchedEvents,
+  KeytipsModifierExample,
 } from './KeytipsExamples.component-browser-spec';
 
 test.use({ viewport: { width: 500, height: 500 } });
+
+test.describe('plain modifier activation', () => {
+  test('owns the first keydown and keyup, but not a consecutive second gesture', async ({
+    mount,
+    page,
+  }) => {
+    await mount(<KeytipsModifierExample />);
+    await page.evaluate(() => {
+      const events: { type: string; prevented: boolean }[] = [];
+      for (const type of ['keydown', 'keyup']) {
+        globalThis.addEventListener(
+          type,
+          (event) => {
+            globalThis.setTimeout(() => {
+              events.push({ type, prevented: event.defaultPrevented });
+              globalThis.document.body.dataset.keyEvents =
+                JSON.stringify(events);
+            }, 0);
+          },
+          true
+        );
+      }
+    });
+
+    await page.keyboard.down('Alt');
+    await expect(page.getByRole('tooltip')).toBeVisible();
+    await page.keyboard.up('Alt');
+    await page.keyboard.press('Alt');
+    await expect(page.getByRole('tooltip')).toBeHidden();
+    await expect(page.locator('body')).toHaveAttribute(
+      'data-key-events',
+      JSON.stringify([
+        { type: 'keydown', prevented: true },
+        { type: 'keyup', prevented: true },
+        { type: 'keydown', prevented: false },
+        { type: 'keyup', prevented: false },
+      ])
+    );
+  });
+
+  test('keeps repeated Alt active and executes sequential input exactly once', async ({
+    mount,
+    page,
+  }) => {
+    await mount(<KeytipsModifierExample />);
+    await page.keyboard.down('Alt');
+    await page.keyboard.down('Alt');
+    await expect(page.getByRole('tooltip')).toBeVisible();
+    await page.keyboard.up('Alt');
+    await page.keyboard.press('a');
+    await expect(page.getByLabel('Execution count')).toHaveText('1');
+    await expect(page.getByRole('tooltip')).toBeHidden();
+  });
+
+  test('does not execute input while the activation modifier is held', async ({
+    mount,
+    page,
+  }) => {
+    await mount(<KeytipsModifierExample />);
+    await page.keyboard.down('Alt');
+    await expect(page.getByRole('tooltip')).toBeVisible();
+    await page.keyboard.press('a');
+    await page.keyboard.up('Alt');
+    await expect(page.getByRole('tooltip')).toBeHidden();
+    await expect(page.getByLabel('Execution count')).toHaveText('0');
+  });
+
+  for (const appShortcut of ['preventDefault', 'stopPropagation'] as const) {
+    test(`gives an application ${appShortcut} handler priority`, async ({
+      mount,
+      page,
+    }) => {
+      await mount(<KeytipsModifierExample appShortcut={appShortcut} />);
+      await page.getByRole('button', { name: 'Action' }).focus();
+      await page.keyboard.press('Alt');
+      await expect(page.getByRole('tooltip')).toBeVisible();
+      await page.keyboard.press('a');
+      await expect(page.getByRole('tooltip')).toBeHidden();
+      await expect(page.getByLabel('Execution count')).toHaveText('0');
+      await expect(page.getByLabel('Application shortcut count')).toHaveText(
+        '1'
+      );
+    });
+  }
+
+  for (const alias of ['.', 'Meta']) {
+    test(`retains the Alt+${alias} entry alias`, async ({ mount, page }) => {
+      await mount(
+        <KeytipsModifierExample startSequence={['alt+.', 'alt+meta']} />
+      );
+      await page.keyboard.press(`Alt+${alias}`);
+      await expect(page.getByRole('tooltip')).toBeVisible();
+      await page.keyboard.press('a');
+      await expect(page.getByLabel('Execution count')).toHaveText('1');
+    });
+  }
+});
 
 test.describe('enter and exit from keytip mode interactions', () => {
   test('should enter and exit keytip mode', async ({ mount, page }) => {

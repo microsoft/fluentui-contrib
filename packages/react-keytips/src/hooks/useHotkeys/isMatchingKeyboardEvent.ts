@@ -45,6 +45,11 @@ export function isKeyMatchingKeyboardEvent(
     return false;
   }
 
-  // allow only modifiers, e.g. alt+control, alt+meta
-  return true;
+  const modifier = pressedKey.toLowerCase();
+  return (
+    (alt && modifier === 'alt') ||
+    (shift && modifier === 'shift') ||
+    ((ctrl || mod) && (modifier === 'control' || modifier === 'ctrl')) ||
+    ((meta || mod) && (modifier === 'meta' || modifier === 'os'))
+  );
 }
