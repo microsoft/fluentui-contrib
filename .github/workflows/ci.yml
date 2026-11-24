@@ -11,8 +11,7 @@ env:
 
 jobs:
   main:
-    # Playwright 1.56 does not support Ubuntu 26.04.
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     permissions:
       contents: 'read'
       actions: 'read'
@@ -67,7 +66,7 @@ jobs:
 
   react_integration_tests:
     if: ${{ github.repository_owner == 'microsoft' }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         react: [17, 18, 19]
