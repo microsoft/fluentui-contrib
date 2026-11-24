@@ -6,12 +6,13 @@ on:
   pull_request:
 
 env:
-  NX_PARALLEL: 2 # ubuntu-latest = 2-core CPU / 7 GB of RAM
+  NX_PARALLEL: 2 # Limit concurrent memory-intensive tasks.
   NX_VERBOSE_LOGGING: true
 
 jobs:
   main:
-    runs-on: ubuntu-latest
+    # Playwright 1.56 does not support Ubuntu 26.04.
+    runs-on: ubuntu-24.04
     permissions:
       contents: 'read'
       actions: 'read'
@@ -66,7 +67,7 @@ jobs:
 
   react_integration_tests:
     if: ${{ github.repository_owner == 'microsoft' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         react: [17, 18, 19]
