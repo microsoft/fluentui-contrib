@@ -5,7 +5,7 @@
   "dependencies": {
     "@fluentui/react-components": "^9.70.0",
     "@fluentui/react-icons": "^2.0.249",
-    "@playwright/experimental-ct-react": "1.56.1",
+    "@playwright/experimental-ct-react": "1.62.1",
     "@testing-library/dom": "10.4.0",
     "@testing-library/react": "16.3.0",
     "@types/react": "18.3.1",
