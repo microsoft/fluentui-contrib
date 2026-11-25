@@ -122,7 +122,7 @@ test.describe('test keytip navigation', () => {
     // should show first level of keytips
     await component.press('Alt+Meta');
 
-    expect(await page.getByRole('tooltip').count()).toBe(2);
+    await expect(page.getByRole('tooltip')).toHaveCount(2);
     await expect(page.getByRole('tooltip', { name: 'A' })).toBeVisible();
     await expect(page.getByRole('tooltip', { name: 'B' })).toBeVisible();
 
@@ -136,7 +136,7 @@ test.describe('test keytip navigation', () => {
     await component.press('Escape');
     // select second tab
     await component.press('b');
-    expect(await page.getByRole('tooltip').count()).toBe(1);
+    await expect(page.getByRole('tooltip')).toHaveCount(1);
     await expect(page.getByRole('tooltip', { name: 'B1' })).toBeVisible();
   });
 
