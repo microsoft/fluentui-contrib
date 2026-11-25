@@ -351,7 +351,9 @@ export const useResizeHandle = (
     (node) => {
       wrapperRef.current = node;
 
-      if (elementRef.current) {
+      // Handle attributes don't depend on the wrapper. Skipping the update on detach avoids measuring the element
+      // (a forced layout in "relative" mode) and rewriting handle attributes while the elements are being unmounted.
+      if (node && elementRef.current) {
         updateElementsAttrs({
           type: EVENTS.wrapperRef,
           event: new CustomEvent(EVENTS.wrapperRef),

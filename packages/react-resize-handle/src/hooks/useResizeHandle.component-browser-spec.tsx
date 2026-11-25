@@ -510,4 +510,65 @@ test.describe('useResizeHandle', () => {
       });
     });
   });
+
+  test.describe('unmount', () => {
+    type UnmountCounters = {
+      elementMeasurements: number;
+      handleAttributeWrites: number;
+    };
+
+    for (const relative of [false, true]) {
+      test(`does not measure the element or update the handle while unmounting (relative: ${relative})`, async ({
+        mount,
+        page,
+      }) => {
+        const result = await mountTest(mount, { relative });
+
+        await expect(result.dragEl).toHaveAttribute(
+          'aria-orientation',
+          'horizontal'
+        );
+
+        await page.evaluate(() => {
+          const counters: UnmountCounters = {
+            elementMeasurements: 0,
+            handleAttributeWrites: 0,
+          };
+          const originalGetBoundingClientRect =
+            Element.prototype.getBoundingClientRect;
+          const originalSetAttribute = Element.prototype.setAttribute;
+
+          (
+            window as unknown as { __unmountCounters: UnmountCounters }
+          ).__unmountCounters = counters;
+
+          Element.prototype.getBoundingClientRect = function () {
+            if (this.getAttribute('data-testid') === 'resizable') {
+              counters.elementMeasurements++;
+            }
+
+            return originalGetBoundingClientRect.call(this);
+          };
+          Element.prototype.setAttribute = function (name, value) {
+            if (this.getAttribute('role') === 'slider') {
+              counters.handleAttributeWrites++;
+            }
+
+            return originalSetAttribute.call(this, name, value);
+          };
+        });
+
+        await result.component.unmount();
+
+        await expect(result.wrapperEl).toHaveCount(0);
+        expect(
+          await page.evaluate(
+            () =>
+              (window as unknown as { __unmountCounters: UnmountCounters })
+                .__unmountCounters
+          )
+        ).toEqual({ elementMeasurements: 0, handleAttributeWrites: 0 });
+      });
+    }
+  });
 });

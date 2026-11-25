@@ -4,13 +4,17 @@ import * as React from 'react';
 import { useResizeHandle, UseResizeHandleParams } from './useResizeHandle';
 
 const TestComponent = (
-  props: Pick<UseResizeHandleParams, 'onDragStart' | 'onDragEnd' | 'onChange'>
+  props: Pick<
+    UseResizeHandleParams,
+    'onDragStart' | 'onDragEnd' | 'onChange' | 'relative'
+  >
 ) => {
-  const { onChange, onDragStart, onDragEnd } = props;
+  const { onChange, onDragStart, onDragEnd, relative } = props;
 
   const { elementRef, handleRef, wrapperRef } = useResizeHandle({
     growDirection: 'end',
     variableName: '--width',
+    relative,
 
     onChange,
     onDragEnd,
@@ -28,6 +32,77 @@ const TestComponent = (
 jest.useFakeTimers();
 
 describe('useResizeHandle', () => {
+  describe('refs', () => {
+    const RefsTestComponent = (
+      props: Pick<UseResizeHandleParams, 'relative'> & { withWrapper?: boolean }
+    ) => {
+      const { relative, withWrapper = true } = props;
+      const { elementRef, handleRef, wrapperRef } = useResizeHandle({
+        growDirection: 'end',
+        variableName: '--width',
+        relative,
+      });
+
+      return (
+        <>
+          {withWrapper && <div ref={wrapperRef} data-testid="wrapper" />}
+          <div ref={elementRef} data-testid="element" />
+          <div ref={handleRef} data-testid="handle" />
+        </>
+      );
+    };
+
+    it.each([
+      ['relative', true],
+      ['absolute', false],
+    ])(
+      'does not measure the element or update the handle when unmounting (%s mode)',
+      (_, relative) => {
+        const { getByTestId, unmount } = render(
+          <TestComponent relative={relative} />
+        );
+
+        const elementEl = getByTestId('element');
+        const handleEl = getByTestId('handle');
+
+        expect(handleEl.getAttribute('role')).toBe('slider');
+
+        const getBoundingClientRectSpy = jest.spyOn(
+          elementEl,
+          'getBoundingClientRect'
+        );
+        const setAttributeSpy = jest.spyOn(handleEl, 'setAttribute');
+
+        unmount();
+
+        expect(getBoundingClientRectSpy).not.toHaveBeenCalled();
+        expect(setAttributeSpy).not.toHaveBeenCalled();
+      }
+    );
+
+    it('updates handle attributes when the wrapper is attached, but not when it is detached', () => {
+      const { getByTestId, rerender } = render(
+        <RefsTestComponent relative withWrapper={false} />
+      );
+
+      const elementEl = getByTestId('element');
+      const handleEl = getByTestId('handle');
+
+      jest
+        .spyOn(elementEl, 'getBoundingClientRect')
+        .mockReturnValue({ width: 120 } as DOMRect);
+
+      rerender(<RefsTestComponent relative withWrapper />);
+      expect(handleEl.getAttribute('aria-valuetext')).toBe('120px');
+
+      handleEl.removeAttribute('aria-valuetext');
+      rerender(<RefsTestComponent relative withWrapper={false} />);
+
+      expect(elementEl.getBoundingClientRect).toHaveBeenCalledTimes(1);
+      expect(handleEl.hasAttribute('aria-valuetext')).toBe(false);
+    });
+  });
+
   describe('events', () => {
     it('should call events in proper order', () => {
       const onChange = jest.fn();
