@@ -140,7 +140,9 @@ describe('configure-storybook generator', () => {
     ).toMatchInlineSnapshot(`
       {
         "compilerOptions": {
+          "allowSyntheticDefaultImports": false,
           "emitDecoratorMetadata": true,
+          "moduleResolution": "bundler",
           "outDir": "",
         },
         "exclude": [
@@ -162,6 +164,7 @@ describe('configure-storybook generator', () => {
           "../stories/**/*.stories.tsx",
           "../stories/**/*.stories.mdx",
           "*.ts",
+          "*.tsx",
           "*.js",
         ],
       }

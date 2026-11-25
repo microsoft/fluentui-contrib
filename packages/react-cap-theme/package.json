@@ -40,6 +40,6 @@
     "@swc/helpers": "~0.5.11"
   },
   "devDependencies": {
-    "storybook-addon-pseudo-states": "9.1.15"
+    "storybook-addon-pseudo-states": "10.6.3"
   }
 }
