@@ -65,10 +65,13 @@ export const useKeytipRef = <
     if (node) {
       const root = targetDocument?.getElementById(KTP_ROOT_ID);
       const startSequence = root?.getAttribute('data-start-shortcut');
-      node.setAttribute(
-        'aria-keyshortcuts',
-        `${[startSequence, ...keySequences].join('+')}`
-      );
+      // ARIA keyshortcuts cannot describe modifier entry followed by sequential input.
+      if (startSequence) {
+        node.setAttribute(
+          'aria-keyshortcuts',
+          `${[startSequence, ...keySequences].join('+')}`
+        );
+      }
     }
 
     register(ktp);
