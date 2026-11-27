@@ -19,12 +19,12 @@ if (swcJestConfig.swcrc === undefined) {
 // swcJestConfig.module.noInterop = false;
 
 module.exports = {
-  displayName: 'cap-foundations',
-  preset: '../../jest.preset.js',
+  displayName: 'cap-foundations-core',
+  preset: '../../../jest.preset.js',
   transform: {
     '^.+\\.[tj]s$': ['@swc/jest', swcJestConfig],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  testEnvironment: 'jsdom',
-  coverageDirectory: '../../coverage/packages/cap-foundations',
+  testEnvironment: 'node',
+  coverageDirectory: '../../../coverage/packages/cap-foundations/core',
 };

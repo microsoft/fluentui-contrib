@@ -1,0 +1,10 @@
+{
+  "name": "@fluentui-contrib/cap-foundations-core",
+  "version": "0.0.1",
+  "description": "Core tokens, themes and color utilities for Cap design system",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "dependencies": {
+    "@swc/helpers": "~0.5.11"
+  }
+}
